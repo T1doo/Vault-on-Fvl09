@@ -433,3 +433,61 @@ Database validation passed
 - 未写入 API Key。
 - 未切换当前 provider。
 - 未启用 proxy takeover。
+
+## 2026-07-26 19:58 CST：Claude Code 从 stable 切换到 latest 并更新
+
+工作目录：`/bigbig_nfs_share/lijunhui`
+
+更新前版本：
+
+```text
+2.1.212 (Claude Code)
+```
+
+首先通过现有 `activate.sh` 环境运行官方原生更新命令：
+
+```sh
+claude update
+```
+
+官方更新器报告 stable 通道已是最新，版本仍为 `2.1.212`：
+
+```text
+Current version: 2.1.212
+Checking for updates to stable version...
+Claude Code is up to date (2.1.212)
+```
+
+用户要求更新到最新公开版本，因此确认 `claude install --help` 支持 `stable`、`latest` 或指定版本目标后，运行：
+
+```sh
+claude install latest
+```
+
+官方原生安装器成功安装 `2.1.220`，并将 launcher 指向：
+
+```text
+/home/lijunhui/.local/share/claude/versions/2.1.220
+```
+
+验证结果：
+
+```text
+command -v claude
+/home/lijunhui/.local/bin/claude
+
+claude --version
+2.1.220 (Claude Code)
+
+claude doctor
+Running: native (2.1.220)
+Commit: 4073f59596e2
+Platform: linux-x64
+Config install method: native
+Search: OK (bundled)
+Auto-updates: enabled
+Auto-update channel: latest
+No installation issues found.
+```
+
+结论：Claude Code 已从 stable 通道的 `2.1.212` 切换到 latest 通道并更新为 `2.1.220`；仍使用 Anthropic 原生安装和托管 launcher，没有改用 npm、`sudo` 或自定义 wrapper。

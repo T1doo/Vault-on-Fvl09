@@ -6,18 +6,21 @@
 
 ## 当前状态
 
-- 阶段：基础环境基本完成，等待包内补丁确认与系统 GPU/Vulkan 修复
+- 阶段：**基础仿真环境 + 渲染 + 数据采集链路已端到端打通（7 卡方案，排除故障 GPU 2）**
 - 基础环境：已创建，Python 3.10.20
 - 官方代码：已克隆，RoboTwin commit `c3ddfa8b97d5519efa828b075999bd0006778e5e`
 - Python/Conda 依赖：官方 requirements 已安装，`pip check` 通过
 - 本地 CUDA：12.1.1，位于 `tools/cuda-12.1`，未使用共享 CUDA Toolkit
 - CuRobo：v0.7.8 已使用本地 CUDA 编译安装，五个扩展可加载
 - PyTorch3D：0.7.8 已使用本地 CUDA 编译安装，`pytorch3d._C` 可加载
+- SAPIEN/MPLib：官方兼容补丁已应用并验证
 - RoboTwin 资产：三个官方 ZIP 已下载、校验、解压并完成 embodiment 路径生成
-- 仿真验证：纯 PhysX CPU 碰撞场景通过；渲染失败
-- 策略训练环境：尚未规划到具体策略
-- 当前系统阻塞：NVIDIA 驱动/NVML 不可用，Vulkan 只识别 CPU llvmpipe
-- 待确认动作：按官方脚本修改隔离环境内的 SAPIEN 与 MPLib 文件
+- GPU 方案：**物理 GPU 2（UUID `GPU-4329227f-…`）确认故障并永久屏蔽**；激活脚本按 UUID 默认只暴露 7 张健康卡
+- CUDA 验证：屏蔽 GPU 2 后 `torch.cuda.is_available()==True`、`device_count()==7`
+- 渲染验证：官方 `script/test_render.py` 输出 **Render Well**
+- 数据采集验证：`beat_block_hammer` clean demo 冒烟采集 3 episode 成功，HDF5（4 相机 RGB + 关节/末端动作）+ 视频 + 指令产物结构完整
+- 策略训练环境：尚未规划到具体策略（下一阶段按策略分别建独立环境）
+- 系统侧遗留（不阻塞）：GPU 2 硬件需管理员 reset/冷启动，交接单已备；系统 `vulkaninfo` 因全局枚举仍会失败，但不作为渲染判据
 
 ## 目录约定
 
@@ -528,3 +531,120 @@
 - 文档包含：明确结论、设备唯一标识、现场证据、影响范围、管理员处理顺序、风险提示、
   复现命令和恢复后的五项验收标准。
 - 本轮仍未执行 sudo、reset、停止进程、重启或任何系统修改。
+
+### 2026-07-26 19:48 CST：用户确认 GPU 2 不可用，决定改用剩余 7 卡
+
+- 用户已就 GPU 2 问题与师哥/管理员求证：**确认 GPU 2 当前不可用**，短期内不会修复。
+- 用户明确决定：**后续所有实验不使用 GPU 2，只用剩余 7 张卡（物理索引 0、1、3、4、5、6、7）运行。**
+- 用户同时强调操作边界：所有动作只停留在个人工作目录 `/bigbig_nfs_share/lijunhui`，只做只读系统检查，不影响其他同学正在跑的 GPU 作业。
+- 因此本项目的策略从「等待管理员修复 GPU 2」调整为「在环境层面稳定屏蔽 GPU 2、用 7 卡继续推进渲染与仿真验证」。GPU2 交接单继续保留，供将来硬件修复参考。
+
+### 2026-07-26 19:48 CST：本会话（Claude Code）真实 GPU 上下文只读复核
+
+- 本会话运行于宿主机 `fvl09` 的真实 GPU 可见上下文（与此前 Codex 文件沙箱不同），`/dev/nvidia0…7`、`/dev/nvidiactl`、`/dev/nvidia-uvm` 等设备节点齐全，`nvidia-smi` 正常。
+- 复核时刻的现场状态（只读）：
+  - 驱动 535.247.01，8 × RTX 3090。
+  - **GPU 2（PCI `00000000:39:00.0`）风扇与功耗仍显示 `ERR!`**，异常状态与此前记录一致，未恢复。
+  - GPU 0 当时有其他同学的作业在运行（利用率约 52%、约 3.5 GiB 显存占用）；本项目验证刻意避免在他人占用的卡上分配显存或跑重负载。
+- 稳定的 GPU 索引 / PCI / UUID 映射（用于屏蔽 GPU 2 时优先用 UUID，避免重启后索引漂移）：
+  - GPU 0 `00000000:35:00.0` `GPU-1a315960-e3fc-f69d-fa25-8c6210f754ac`
+  - GPU 1 `00000000:36:00.0` `GPU-d8638855-cdda-c2cd-1857-ff509bdb585f`
+  - **GPU 2 `00000000:39:00.0` `GPU-4329227f-0eb2-20ca-97c6-e97253d558cf`（故障，屏蔽）**
+  - GPU 3 `00000000:3D:00.0` `GPU-67e93345-89b9-771f-c340-cdc751a7bee4`
+  - GPU 4 `00000000:9C:00.0` `GPU-be754450-1883-d497-fcfe-29774fb1b09a`
+  - GPU 5 `00000000:9D:00.0` `GPU-0834bd1a-820c-6d59-d755-161b31cea28b`
+  - GPU 6 `00000000:A0:00.0` `GPU-e4ae94ff-288b-6d93-3af6-a0e9c975ce8e`
+  - GPU 7 `00000000:A4:00.0` `GPU-b2b3d6b3-ac20-bb94-2203-06ab2d6abb3a`
+
+### 2026-07-26 19:48 CST：CUDA 侧屏蔽 GPU 2 后 7 卡全部可用（关键突破）
+
+- 在 RoboTwin2 环境中对照测试（均为瞬时只读式 CUDA 初始化，未做重负载分配）：
+  - 8 卡全可见：`torch.cuda.is_available()` = **False**，并伴随 `CUDA driver initialization failed` 警告——异常的 GPU 2 毒化了整个 CUDA 初始化链。
+  - `CUDA_VISIBLE_DEVICES=0,1,3,4,5,6,7`（屏蔽 GPU 2）：`torch.cuda.is_available()` = **True**，`device_count()` = **7**，7 张卡均识别为 NVIDIA GeForce RTX 3090。
+- 结论：只要在环境层稳定屏蔽物理 GPU 2，CUDA 计算侧即完全正常，无需等待硬件修复即可用 7 卡推进。
+- 下一步：验证渲染侧（NVIDIA Vulkan / SAPIEN）是否也能通过屏蔽 GPU 2 绕开异常卡，力争官方 `test_render.py` 输出 `Render Well`。
+
+### 2026-07-26 20:05 CST：定位 Vulkan 全局中毒并找到渲染侧绕过方案（关键突破）
+
+- 先用系统 `vulkaninfo`（仅 NVIDIA ICD）诊断渲染侧：
+  - `vkCreateDevice: Failed to create device chain` / `ERROR_INITIALIZATION_FAILED`，在打印任何物理设备前就失败。
+  - 即便用 Vulkan loader 的设备过滤（`VK_LOADER_DEVICE_SELECT` 指向健康的 GPU 0 UUID）也仍然失败。
+  - 结论：与 CUDA 不同，NVIDIA Vulkan ICD 在 `vkCreateDevice` 阶段会**急切地触碰所有物理 GPU**，只要异常的 GPU 2 还被驱动枚举，Vulkan 设备链创建就**全局失败**，因此 `vulkaninfo` 无法作为本机渲染可用性的判据。
+  - 用非特权 mount namespace 隐藏 `/dev/nvidia2` 的尝试被执行环境的安全分类器拦截（涉及 mount，属系统相邻操作），未采用。
+- 改从 SAPIEN 层面验证，发现 SAPIEN 用 CUDA 可见性来选择渲染设备，可绕过全局枚举：
+  - `sapien.SapienRenderer(device=...)` 接受 `sapien.Device`；`sapien.Device("cuda:0")` 在屏蔽 GPU 2 后成功解析（映射到物理 GPU 3，PCI `0000:3d:00.0`）。
+  - 用 `SapienRenderer(device=sapien.Device("cuda:0"))` 显式指定健康卡后，完整 ray-tracing 初始化路径输出 **Render Well**。
+- 进一步验证**官方未改动的 `script/test_render.py`（默认不传 device）**，只调整 `CUDA_VISIBLE_DEVICES`：
+  - `CUDA_VISIBLE_DEVICES=3`（单张健康空闲卡）：**Render Well** ✅
+  - `CUDA_VISIBLE_DEVICES=3,1,4,5,6,7,0`（全部 7 张健康卡，排除 GPU 2）：**Render Well** ✅
+  - 全 8 卡可见（基线）：**Render Error** ❌
+- **最终结论（渲染侧修复方案，零代码改动）**：
+  - SAPIEN 默认渲染器会依据 CUDA 可见设备来选择 Vulkan 物理设备并只在该卡上创建设备链；只要用 `CUDA_VISIBLE_DEVICES` 把 GPU 2 排除，**CUDA 计算与 SAPIEN 渲染同时恢复正常**，无需修改任何官方源码，也无需等待硬件修复。
+  - 系统 `vulkaninfo` 仍会失败，但这只是它走全局枚举路径所致，不代表 RoboTwin2 渲染不可用；渲染可用性以官方 `test_render.py` 为准。
+- 决策：把「排除 GPU 2」固化进项目激活脚本，作为 7 卡默认环境。所有操作均为只读诊断或用户目录内验证，渲染测试仅短暂使用空闲的健康卡（物理 GPU 3），未干扰他人作业，未做任何系统修改。
+
+### 2026-07-26 20:10 CST：将 GPU 2 屏蔽固化进激活脚本并端到端验证
+
+- 修改 `config/activate_robotwin2.sh`（仅用户目录内文件），新增「屏蔽故障 GPU 2」段：
+  - 定义 `ROBOTWIN_BAD_GPU_UUID`（GPU 2 的 UUID）与 `ROBOTWIN_GOOD_GPUS`（7 张健康卡的 UUID 列表）。
+  - 当用户未显式设置 `CUDA_VISIBLE_DEVICES` 时，默认 `export CUDA_VISIBLE_DEVICES="$ROBOTWIN_GOOD_GPUS"`；若用户已设置则尊重其选择（脚本注释提醒切勿包含 GPU 2）。
+  - 使用稳定 UUID 而非物理索引，避免重启后索引漂移误伤好卡。
+- 端到端验证（source 更新后的激活脚本、未手动设置 CUDA_VISIBLE_DEVICES）：
+  - 激活脚本自动把 `CUDA_VISIBLE_DEVICES` 设为 7 张健康卡 UUID。
+  - `torch.cuda.is_available()` = **True**，`device_count()` = **7**。
+  - 官方未改动的 `python script/test_render.py` 输出 **Render Well**。
+- 里程碑：此前长期阻塞的「渲染不可用」在不修复 GPU 2 硬件、不改官方源码、不做系统修改的前提下已解除；RoboTwin2 现可在 7 张健康卡上进行渲染与 GPU 仿真。
+- 使用约定（供后续训练/采集）：
+  - 每次实验优先挑选空闲的健康卡，避免占用同学正在使用的卡（如复核时 GPU 0 有他人作业）。
+  - 手动指定设备时，用逻辑索引（激活后 cuda:0..6 对应 7 张健康卡）或健康卡 UUID，**绝不使用物理索引 2 或 GPU 2 UUID**。
+- 下一步：跑通一个 clean demo（单任务、少量 episode 数据采集），验证完整仿真+渲染+存储链路。
+
+### 2026-07-26 20:00 CST：clean demo 冒烟采集（进行中）
+
+> 执行上下文：Claude Code，宿主机 fvl09 真实 GPU 上下文。RoboTwin 2 当前由 Claude Code 作为主动执行方推进。
+
+- 目的：在 7 卡（排除 GPU 2）方案下，端到端验证「仿真 + 运动规划 + SAPIEN 渲染 + 存储」链路。
+- 审计 `collect_data.sh`：它内部 `export CUDA_VISIBLE_DEVICES=${gpu_id}`（**用物理索引直接覆盖**激活脚本的 UUID 默认值）；因此手动跑采集时 `gpu_id` 必须传健康卡的物理索引，**绝不能传 2**。其调用的 `./script/.update_path.sh` 实际不存在（被 `2>/dev/null` 静默跳过），无副作用。
+- 只读检查当时 GPU 占用后，选空闲健康卡 **物理 GPU 3** 采集，避开他人作业（GPU 0 当时有他人任务）。
+- 新建冒烟配置 `task_config/demo_clean_smoke.yml`（复制自 `demo_clean.yml`，仅把 `episode_num` 由 50 改为 3、`save_freq` 改为 3），不改动官方 `demo_clean.yml`。
+- 运行：`bash collect_data.sh beat_block_hammer demo_clean_smoke 3`（后台，日志 `Robotwin2/tmp/clean_demo_smoke.log`）。
+- 已观察到的进度：
+  - nvidia-smi 确认采集进程落在 GPU 3（UUID `GPU-67e93345…`），未占用 GPU 0/GPU 2。
+  - 种子搜索完成：episode 0 seed=0 失败→seed=1 成功；episode 1 seed=2 成功；episode 2 seed=3 成功（4 次尝试失败 1 次）。
+  - 已写出 `seed.txt`、`scene_info.json`、`_traj_data/episode0..2.pkl`。
+  - 进入 `[Start Data Collection]`，正在逐帧渲染并保存 episode 0 的相机观测（head/wrist D435，RGB）。
+- 结论待定：等待 3 个 episode 全部渲染保存完成后，再核验产物结构并追加最终结果。
+
+### 2026-07-26 20:04 CST：clean demo 冒烟采集成功（端到端链路打通）
+
+> 执行上下文：Claude Code，宿主机 fvl09 真实 GPU 上下文，采集落在物理 GPU 3。
+
+- 采集全部完成，进程正常退出（期间一次 `pgrep` 显示 running 是与退出清理的瞬时竞态，随后确认进程已结束，GPU 3 上只剩他人作业）。
+- 3 个 episode 全部成功：
+  - 种子：`seed.txt` = `1 2 3`（episode 0 seed=0 失败后用 seed=1）。
+  - 视频：`video/episode0.mp4`(517 帧)、`episode1.mp4`(556 帧)、`episode2.mp4`(508 帧)，均 320×240 @ 30 FPS。
+  - `.cache/episode*` 已按流程自动清理。
+- 产物结构（`data/beat_block_hammer/demo_clean_smoke/`，共约 67 MiB）：
+  - `data/episode0..2.hdf5`（约 27–31 MiB/个）
+  - `instructions/episode0..2.json`（语言指令）
+  - `_traj_data/episode0..2.pkl`、`scene_info.json`、`seed.txt`
+- 用 h5py 核验 `episode0.hdf5`（只读），结构完整且符合预期：
+  - `joint_action/`：`left_arm`(517,6)、`right_arm`(517,6)、左右 gripper、`vector`(517,14)。
+  - `endpose/`：左右 `endpose`(517,7) 与左右 gripper。
+  - `observation/{front,head,left,right}_camera/`：每视角 `rgb`(517, 变长编码字节) + `intrinsic_cv`/`extrinsic_cv`/`cam2world_gl`。共 4 路相机、517 个时间步。
+  - `pointcloud`(517,0)：本配置关闭点云，符合预期。
+- **里程碑结论**：在排除 GPU 2 的 7 卡方案下，RoboTwin 2 的「场景仿真 + CuRobo 运动规划 + SAPIEN 多相机光追渲染 + HDF5/视频/指令存储」完整链路已端到端验证通过，无需修复 GPU 2 硬件、无需改动官方源码、无任何系统级修改。
+- 备注：冒烟数据（约 67 MiB，`data/beat_block_hammer/demo_clean_smoke/`）与冒烟配置 `task_config/demo_clean_smoke.yml` 暂时保留在项目内，是否删除或改跑完整 `demo_clean`（50 episode）等用户决定。
+- 下一步（待用户确认）：1) 视需要跑完整 `demo_clean` 或更多任务的数据采集；2) 再按具体策略（ACT/DP/DP3/RDT/Pi0 等）分别创建互不冲突的独立训练环境。
+
+### 2026-07-26 20:20 CST：编写零基础进度报告并更新长期记忆
+
+- 按用户要求编写面向零基础同学的阶段性进度报告：
+  `Vault-on-Fvl09/Robotwin2环境配置/2026-07-26环境配置进度报告.md`
+  - 内容：RoboTwin 2 是什么、当前进度总览（打勾表）、做过的工作通俗版、坏卡 GPU 2 的坑与解决、
+    手把手使用步骤（激活/自检/采集/数据位置/常见坑）、下一步计划、遵守的纪律。
+- 更新长期项目记忆 `CLAUDE.md` 的 §4.4「当前状态」：
+  - 阶段改为「基础仿真 + 渲染 + 数据采集全链路已端到端打通（7 卡方案）」。
+  - 补充 clean demo 采集已验证、`collect_data.sh` 用物理索引覆盖 CVD 的注意事项、进度报告路径。
+  - 「当前下一步」改为完整 `demo_clean`/多任务采集 与 按策略建独立训练环境。
+- 本轮仅编辑用户目录内的笔记与项目记忆文件，未做 Git 提交，未改动环境或系统。
