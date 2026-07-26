@@ -58,25 +58,22 @@
 
 ## 4. 建议的目录布局
 
-所有可控内容均放在个人工作区中：
+所有可控内容均收纳在个人工作区下的独立根目录 `/bigbig_nfs_share/lijunhui/Robotwin2/` 中，避免散落在工作区顶层：
 
 ```text
 /bigbig_nfs_share/lijunhui/
-├── projects/
-│   └── RoboTwin/                 # 官方代码仓库
-├── envs/
-│   └── robotwin2/                # Python/Conda 环境
-├── caches/
-│   ├── pip/
-│   ├── conda/
-│   ├── torch/
-│   └── huggingface/
-├── datasets/
-│   └── RoboTwin2/                # 大规模采集数据（如需要）
-├── models/
-│   └── RoboTwin2/                # 策略权重（如需要）
-└── tmp/
-    └── robotwin2/                # 编译临时文件
+└── Robotwin2/                    # 本项目的统一工作根目录
+    ├── project/
+    │   └── RoboTwin/             # 官方代码仓库
+    ├── env/                      # Python/Conda 基础环境
+    ├── cache/
+    │   ├── pip/
+    │   ├── conda/
+    │   ├── torch/
+    │   └── huggingface/
+    ├── datasets/                 # 大规模采集数据（如需要）
+    ├── models/                   # 策略权重（如需要）
+    └── tmp/                      # 编译临时文件
 ```
 
 官方资产默认下载到仓库的 `assets/`，建议第一阶段遵循默认结构，减少路径补丁。若资产体积或共享需求要求外置，再使用工作区内的符号链接或配置项；实施前先确认官方脚本是否会安全处理符号链接。
@@ -84,12 +81,13 @@
 建议显式设置以下变量，防止缓存落入系统 Home 或其他目录：
 
 ```bash
-export ROBOTWIN_ROOT=/bigbig_nfs_share/lijunhui/projects/RoboTwin
-export CONDA_PKGS_DIRS=/bigbig_nfs_share/lijunhui/caches/conda/pkgs
-export PIP_CACHE_DIR=/bigbig_nfs_share/lijunhui/caches/pip
-export TORCH_HOME=/bigbig_nfs_share/lijunhui/caches/torch
-export HF_HOME=/bigbig_nfs_share/lijunhui/caches/huggingface
-export TMPDIR=/bigbig_nfs_share/lijunhui/tmp/robotwin2
+export ROBOTWIN_WORKSPACE=/bigbig_nfs_share/lijunhui/Robotwin2
+export ROBOTWIN_ROOT=/bigbig_nfs_share/lijunhui/Robotwin2/project/RoboTwin
+export CONDA_PKGS_DIRS=/bigbig_nfs_share/lijunhui/Robotwin2/cache/conda/pkgs
+export PIP_CACHE_DIR=/bigbig_nfs_share/lijunhui/Robotwin2/cache/pip
+export TORCH_HOME=/bigbig_nfs_share/lijunhui/Robotwin2/cache/torch
+export HF_HOME=/bigbig_nfs_share/lijunhui/Robotwin2/cache/huggingface
+export TMPDIR=/bigbig_nfs_share/lijunhui/Robotwin2/tmp
 ```
 
 注意：环境管理器本身也必须安装或配置到工作区内，不能默认写入工作区外的 `~/.conda`、`~/.cache` 等位置。
@@ -130,7 +128,7 @@ export TMPDIR=/bigbig_nfs_share/lijunhui/tmp/robotwin2
 
 建议：
 
-- 环境位置：`/bigbig_nfs_share/lijunhui/envs/robotwin2`
+- 环境位置：`/bigbig_nfs_share/lijunhui/Robotwin2/env`
 - Python：3.10
 - 不修改系统 Python，不使用系统级 `sudo pip`
 - 先安装基础环境，再按官方顺序安装 CuRobo
@@ -192,7 +190,7 @@ Conda、pip、编译工具和 Hugging Face 默认会使用 Home 下的缓存。�
 
 ### NFS 对编译与仿真性能的影响
 
-NFS 空间充足，但源码编译、Conda 解包、纹理/mesh 小文件访问可能较慢。可将所有临时文件放到工作区的 `tmp/robotwin2`；如果仍然很慢，再在不突破边界的前提下调整缓存布局。
+NFS 空间充足，但源码编译、Conda 解包、纹理/mesh 小文件访问可能较慢。可将所有临时文件放到 `/bigbig_nfs_share/lijunhui/Robotwin2/tmp`；如果仍然很慢，再在不突破边界的前提下调整缓存布局。
 
 ### mplib 手工修改
 
@@ -208,8 +206,8 @@ RDT、OpenVLA-oft、DexVLA、TinyVLA、DP/DP3 等各有独立的 PyTorch、flash
 
 1. 第一阶段目标是否定为“跑通基础仿真 + 一个 clean demo + 少量数据采集”，暂不安装策略训练栈。
 2. 是否允许只读访问工作区外的系统信息，用于执行 `nvidia-smi`、`vulkaninfo`、系统版本及工具链检查；仍然保证所有修改只发生在 `/bigbig_nfs_share/lijunhui/`。
-3. 代码目录是否采用 `/bigbig_nfs_share/lijunhui/projects/RoboTwin`。
-4. 环境是否采用前缀路径 `/bigbig_nfs_share/lijunhui/envs/robotwin2`。
+3. 是否采用统一根目录 `/bigbig_nfs_share/lijunhui/Robotwin2`。
+4. 代码与环境是否分别采用 `/bigbig_nfs_share/lijunhui/Robotwin2/project/RoboTwin` 和 `/bigbig_nfs_share/lijunhui/Robotwin2/env`。
 5. 是否优先使用已有 Conda/Mamba；如果不存在，再选择工作区内安装 Miniforge/Micromamba。
 6. 后续主要目标是哪一种：仿真与数据采集、策略评测，还是某个具体策略训练。该选择会决定额外依赖和模型/数据下载规模。
 
