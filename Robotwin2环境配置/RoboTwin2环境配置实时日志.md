@@ -648,3 +648,181 @@
   - 补充 clean demo 采集已验证、`collect_data.sh` 用物理索引覆盖 CVD 的注意事项、进度报告路径。
   - 「当前下一步」改为完整 `demo_clean`/多任务采集 与 按策略建独立训练环境。
 - 本轮仅编辑用户目录内的笔记与项目记忆文件，未做 Git 提交，未改动环境或系统。
+
+### 2026-08-04：从 fvl09 迁移到 fvl05 后的首轮路径修复与 GPU 盘点
+
+> 执行上下文：Codex，当前服务器 `fvl05`，个人工作区 `/nfs_share/lijunhui`。用户授权修复个人工作区内的迁移配置；未执行系统级修改、GPU 作业、Git commit 或 push。
+
+- 背景：fvl09 故障后，工作区整体迁移到 fvl05。原根路径 `/bigbig_nfs_share/lijunhui` 已失效，当前根路径为 `/nfs_share/lijunhui`。
+- 编辑前重新检查了仓库状态：
+  - `Robotwin2/project/RoboTwin`：`main...origin/main`，工作树干净。
+  - `Vault-on-Fvl09`：存在用户原有的 `Idea/README.md` 修改和一份未跟踪的长动作理解笔记；本轮不覆盖、不暂存这些改动。
+  - `clash-for-linux`：存在大量迁移前已有改动；本轮不吸收或回退它们。
+- 已修复路径：
+  - `Robotwin2/config/activate_robotwin2.sh`、`condarc`、`pip.conf`、`git-system`。
+  - 工作区 `.config/git/config` 的精确 `safe.directory` 与 GitHub CLI credential helper 路径；修复后迁移来的三个仓库均可正常执行 `git status`。
+  - `Robotwin2/tools/miniforge3/_conda` 的旧绝对软链接。
+  - RoboTwin Python 环境中 73 个命令脚本的 shebang/前缀，以及 CuRobo/PyTorch3D editable/direct-url 元数据和 Tcl/Tk 配置内的旧根路径。
+  - `AGENTS.md` 与 `CLAUDE.md` 已改用 fvl05 当前根路径，并把 fvl09 运行结论明确降级为历史记录。
+- 激活与 Python 验证：
+  - 未激活项目时，继承的系统 `/share/apps/cuda/12.2` 动态库会使 PyTorch 导入命中 `libnvJitLink.so.12` I/O error。
+  - 通过唯一入口 `source /nfs_share/lijunhui/Robotwin2/config/activate_robotwin2.sh` 后，`LD_LIBRARY_PATH` 被清理，Python 前缀为迁移后的 `Robotwin2/env`，PyTorch `2.4.1+cu121` 可正常导入。
+- fvl05 GPU/驱动只读盘点：
+  - PCI 枚举到 8 张 NVIDIA RTX A6000，bus ID 为 `01:00.0`、`23:00.0`、`41:00.0`、`61:00.0`、`81:00.0`、`a1:00.0`、`c1:00.0`、`e1:00.0`。
+  - NVIDIA 内核模块已加载，版本 `535.274.02`；但当前执行上下文不存在 `/dev/nvidia*` 设备节点，`nvidia-smi` 报无法与驱动通信。
+  - 项目激活后 PyTorch 报 `torch.cuda.is_available() == False`、`device_count() == 0`，并警告无法初始化 NVML。
+  - 因此目前只能确认 PCI 硬件与内核模块存在，不能确认 GPU UUID、健康、占用、CUDA 或 Vulkan 可用性，也不能判定为某一张物理卡故障。
+- 安全修正：已从项目激活脚本移除 fvl09 的坏 GPU 2 UUID 与七卡白名单。fvl05 不再继承旧索引/UUID 假设，且在完成新服务器 GPU 验收前不运行渲染、采集或训练。
+- 当前阻塞与下一步：需要在能够映射 `/dev/nvidia*` 的宿主机/会话上下文中重新运行 `nvidia-smi`，确认八卡 UUID、健康与占用；随后依次验证 PyTorch CUDA、官方 `script/test_render.py`，最后才考虑受控 smoke collection。
+
+### 2026-08-04：fvl05 宿主机 GPU 与官方渲染复核通过（对前条沙箱观察的补充更正）
+
+- 进入获批的宿主机只读设备上下文后，`nvidia-smi` 正常；前条 `/dev/nvidia*` 缺失和 CUDA 不可用仅发生在 Codex 默认文件沙箱中，不代表宿主机驱动故障。
+- fvl05 有 8 张 NVIDIA RTX A6000（每张 49140 MiB），驱动 535.274.02。索引与 UUID：
+  - 0 `GPU-2c620e6c-9639-2022-b573-9847dfa33769`
+  - 1 `GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b`
+  - 2 `GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e`
+  - 3 `GPU-d5b84492-c467-0080-206f-2456cef0c338`
+  - 4 `GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7`
+  - 5 `GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2`
+  - 6 `GPU-8678470b-2ef8-1672-7c4c-8b55d183216d`
+  - 7 `GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead`
+- 查询时 GPU 1 与 GPU 3 有大显存任务，GPU 0 有约 1.2 GiB 任务，GPU 4–7 各有约 266 MiB Ray worker；没有停止或干扰任何进程。GPU 2 当时仅 14 MiB、0% 利用率，因此被选作最小验证卡。
+- 在激活项目环境并把 `CUDA_VISIBLE_DEVICES` 设为 GPU 2 UUID 后：
+  - PyTorch `2.4.1+cu121` / CUDA 12.1 识别 1 张 RTX A6000；成功在 CUDA 上创建并读取单元素 tensor。
+  - 官方未修改的 `python script/test_render.py` 输出 **`Render Well`**。
+- 结论：fvl05 上迁移后的 RoboTwin 基础 Python、PyTorch CUDA 和 SAPIEN 官方渲染链已通过最小验收。尚未在 fvl05 重跑数据采集 smoke test，因此不把完整采集链标记为新服务器已验证。
+
+### 2026-08-04：迁移配置收尾验证
+
+- 补充迁移了 `env/conda-meta`、`tools/cuda-12.1/conda-meta` 与 `tools/miniforge3/conda-meta` 中的旧安装前缀；运行相关配置、命令 shebang 和 Conda 元数据中已无 `/bigbig_nfs_share/lijunhui` 引用。
+- `micromamba --version` = 2.6.0；`env/bin/pip` shebang 指向新的 `/nfs_share/lijunhui/Robotwin2/env/bin/python3.10`；`tools/miniforge3/_conda` 指向新的工作区内目标。
+- 项目激活脚本通过 `sh -n`；激活环境后 `pip check` 输出 `No broken requirements found.`。
+- RoboTwin 官方仓库仍为 `main...origin/main` 且工作树干净；本次运行配置修改位于仓库外的 `Robotwin2/config` 和迁移环境中。未 commit、未 push。
+
+### 2026-08-09 23:46 CST：启动 fvl05 迁移环境完整复核与可重建修正
+
+- 用户要求对从 fvl09 直接迁移来的 RoboTwin 2 环境进行完整检查，并明确授权：若有问题或可靠性不足，可删除并重建个人目录内现有 RoboTwin 环境、项目专用 CUDA 等可再生成组件，不影响服务器系统环境和其他用户。
+- 新建专项实时记录：`Robotwin2环境配置/环境重新修正检查.md`。本日志同步记录关键里程碑，详细命令、证据与逐步结果写入专项文档。
+- 开始前复核：官方 `RoboTwin` 仓库为 `main...origin/main` 且工作树干净；Vault 仓库有本轮之外的既存修改，全部保留，不暂存、不提交、不覆盖。
+- 本轮先审计再决定精确重建范围；保留源码、数据集、模型、已有 smoke 配置和产物。所有写入/删除限定在 `/nfs_share/lijunhui`，不使用 `sudo`，不修改系统驱动或共享 CUDA。
+
+### 2026-08-09 23:52 CST：发现大量旧前缀残留，决定干净重建
+
+- fvl05 GPU 与 fvl09 不同；本轮明确不继承 fvl09 的索引、UUID、坏卡或 Vulkan 结论，将按 fvl05 RTX A6000、实时占用和实际运行重新验证。
+- 虽然当前 `pip check`、本地 CUDA 12.1 `nvcc` 以及两个环境内补丁表面正常，但精确审计发现：迁移后的 `env`/Miniforge 中至少 1,361 个文件仍嵌有旧根路径，且 6 份实际 embodiment CuRobo 配置全部仍指向 `/bigbig_nfs_share/lijunhui`。
+- 结论：手工迁移修补不足以保证 Conda 前缀和完整采集链可靠，采用干净重建，不再继续逐文件打补丁。
+- 保留官方 assets、源码、数据、模型和既有 smoke 产物；删除范围将在专项文档中逐项核验并限定为可再生成环境、项目工具链、依赖构建产物与缓存。
+
+### 2026-08-09 23:59 CST：完成删除前保护核验并冻结重建范围
+
+- fvl05 实时盘点仍为 8×RTX A6000 48 GiB、驱动 535.274.02；当时 GPU 0/1 空闲，GPU 2–7 满载。GPU 复测必须临运行前再次检查，无空闲卡就暂停，不影响其他项目。
+- 三个保留的官方资产 ZIP 字节数匹配历史记录且均通过完整 CRC；既有 3-episode smoke 全部产物仍在。
+- 官方在线 `main` 已于 2026-08 引入 XPolicyLab 和新数据布局。本轮为保护既有代码、配置与数据兼容性，固定本地已验证 commit `c3ddfa8...`，不把环境重建扩大为源码/数据格式升级。
+- 已校验保留的 Miniforge 安装器 SHA-256，个人 NFS 空间充足，且用户本人没有活动进程占用目标环境。
+- 冻结删除范围：`env`、`tools/miniforge3`、`tools/cuda-12.1`、`cache` 以及 CuRobo 仓库内已预览的编译/字节码产物；源码、assets、数据、模型、配置、日志与校验安装器全部保留。
+
+### 2026-08-10 00:04 CST：旧迁移环境与项目工具链精确删除完成
+
+- 顺序删除 `env`、`tools/miniforge3`、`tools/cuda-12.1`、`cache`，并在干净的 CuRobo 固定源码仓库内仅清理 5 个旧扩展及 `__pycache__`。
+- 所有删除正常完成；源码、assets、数据、模型、配置、日志、Miniforge 校验安装器及既有 smoke 产物均保留，主仓库仍干净。
+- 下一阶段从零安装，不再复用任何迁移来的 Conda/Python/CUDA 前缀或包缓存。
+
+### 2026-08-10 00:12 CST：Miniforge 合规断点续装成功
+
+- 官方自解压安装器硬编码忽略 `CONDARC`、创建 `~/.conda` 并强制登记环境；两次均在该边界处停止，没有写入 home 或系统。
+- 未改动已校验安装器/payload；从准确断点以 `CONDA_REGISTER_ENVS=false` 执行同一固定 base transaction。沙箱代理失败后在获准联网上下文重试，89 个包链接成功；随后完成 post-install 解包与中间文件清理，未运行 `conda init`。
+- 验证：Conda 26.3.2、Mamba 2.6.0、base Python 3.13.13；前缀均在 `Robotwin2/tools/miniforge3`；无 fvl09 旧根路径，且 `/home/lijunhui/.conda` 不存在。
+- `config/condarc` 新增 `register_envs: false`，后续 Conda 环境也不登记到 home。
+
+### 2026-08-10 00:17 CST：Python 3.10 基础前缀创建成功
+
+- 在 `Robotwin2/env` 从零安装 165 个 conda-forge 包；Python 3.10.20、pip 26.2.1、CMake 4.4.2、Ninja 1.13.2、ffmpeg 8.1.2、UnZip 6.00 均验证可执行，且无 fvl09 旧根路径。
+- Mamba 2.6.0 忽略 `register_envs: false`，新建了只含本轮前缀的 `/home/lijunhui/.conda/environments.txt`；已精确删除该本轮残留。后续 CUDA 前缀改用 Conda CLI 创建。
+
+### 2026-08-10 00:26 CST：个人 CUDA 12.1.1 工具链重建成功
+
+- 从 NVIDIA 固定 `cuda-12.1.1` channel 在 `Robotwin2/tools/cuda-12.1` 从零安装 64 个用户态 Toolkit 包；未安装驱动，未改系统或共享 CUDA。
+- 验证 `nvcc` 为 CUDA 12.1 / V12.1.105，编译头和主要开发库齐全；激活脚本将 Python、pip、CUDA、缓存与临时目录全部指向 `Robotwin2`，目标架构为 RTX A6000 对应的 `8.6`。
+- 新 CUDA 元数据无 fvl09 旧根路径。Conda 生成的空 `~/.conda/environments.txt` 已在确认无既有状态后精确清理，最终 `~/.conda` 不存在。
+- 下一阶段安装 Python 依赖并从固定源码重编译 CuRobo 与 PyTorch3D。
+
+### 2026-08-10 00:45 CST：基础 Python requirements 安装完成，首轮导入发现兼容项
+
+- `script/requirements.txt` 全部安装完成；核心版本为 torch 2.4.1、torchvision 0.19.1、SAPIEN 3.0.0b1、MPLib 0.2.1、NumPy 1.26.4、SciPy 1.10.1、Open3D 0.18.0、Zarr 2.18.3，且 `pip check` 无依赖冲突。
+- 首轮导入 `sapien` 失败于缺少 `pkg_resources`，定位为 Setuptools 84.0.0 与旧版 SAPIEN 的兼容问题；仓库官方安装脚本已明确要求 Setuptools 69.5.1，下一步按该固定版本修复后复测。
+- 已核对 SAPIEN 与 MPLib 待应用补丁的原始代码上下文均与上游说明一致，尚未提前修改。
+
+### 2026-08-10 00:54 CST：核心导入与两处环境内补丁验证通过
+
+- 默认沙箱内固定 Setuptools 的首次联网命令被本机代理隔离拦截，无变更；在已授权项目联网范围重试后，Setuptools 84.0.0 成功替换为上游固定的 69.5.1。
+- `pip check` 无冲突，torch 2.4.1+cu121、torchvision 0.19.1+cu121、SAPIEN、MPLib、Open3D 等完整核心导入通过。沙箱中的 CUDA false 仅反映设备未直通，不作为宿主 GPU 结论。
+- 已用 `apply_patch` 修改隔离环境：SAPIEN 的 URDF/SRDF 读取增加 UTF-8，MPLib screw plan 删除 `or collide`；`py_compile`、导入与源码上下文复核均通过。
+- 核对确认原有 `urdf_file[:-4] + "srdf"` 已生成正确的单点 `.srdf` 路径，官方实际命令不修改它；未照搬脚本注释中会导致双点路径的错误写法。
+- 组合验证命令最后的只读 `rg` 因 shell 尾部引号错误未执行；Python 验证已完成，剩余上下文检查随后独立重跑通过，无状态损坏。
+
+### 2026-08-10 00:58 CST：CuRobo 依赖完成，首次构建停在 NFS Git 安全边界
+
+- 安装并固定 warp-lang 1.12.0、scikit-image 0.21.0、SciPy 1.10.1、Setuptools 69.5.1 及其余 CuRobo 依赖；预检确认个人 CUDA 12.1.105、sm_86 与 GCC 11.4.0 组合。
+- 从干净 `envs/curobo` editable 构建时，Setuptools-SCM 子进程触发 NFS `dubious ownership`，在元数据阶段退出，未进入 CUDA 编译；源码和环境未损坏。
+- CuRobo 仍为干净 commit `d64c4b005459db10c5dd867d8b30a87d5bda9bdb` / v0.7.8。不会放宽 Git 安全检查；改从该 commit 导出无 `.git` 快照，构建固定版本 wheel 后安装。
+
+### 2026-08-10 01:06 CST：CuRobo v0.7.8 / sm_86 编译安装成功
+
+- 从固定 commit 的无 Git 快照使用个人 CUDA 12.1、sm_86、最多 8 个并行任务构建并安装 53,854,123-byte wheel；构建 SHA-256 `113c2e702b6d2b457496c4656d187526bf1c3fee3c8188b850052260aadf82ed`。
+- 五个 CUDA 扩展全部存在，`cuobjdump` 明确显示代表性扩展包含 sm_86 cubin。
+- 直接先加载底层扩展曾报 `libc10.so` 未预载；按实际顺序先导入 torch 后，五个扩展全部加载成功，说明构建和链接有效。`pip check` 无冲突，两个源码仓库仍干净。
+
+### 2026-08-10 01:13 CST：PyTorch3D 0.7.8 / sm_86 重编译验证成功
+
+- 安装固定 iopath 0.1.10 / portalocker 3.2.0；从 commit `75ebeeaea0908c5527e7b1e305fbc7681382db47` 新导出无 Git 快照，不复用迁移构建物。
+- 通过个人 CUDA 12.1、CUB、sm_86 和 8 路并行构建安装 3,950,721-byte wheel；构建 SHA-256 `2526219d67c066ec72da6a078f4e07c3fcc64bee6f22400966ad0bd749b6e793`，`cuobjdump` 确认 `_C` 含 sm_86 cubin。
+- 从源码目录做首次导入时被当前目录同名源码遮蔽，未加载到环境 `_C`；切到 RoboTwin 实际工作目录后，`pytorch3d._C`、CPU KNN 数值测试和 Meshes 结构测试全部通过。`pip check` 无冲突，源码仓库干净。
+
+### 2026-08-10 01:14 CST：embodiment 生成配置完成 fvl05 路径迁移
+
+- 审计后运行官方路径生成脚本，ARX-X5、aloha 左/右、franka、piper、ur5-wsg 共六份配置全部重新生成。
+- 独立比对确认生成内容等于模板替换结果，12 个绝对资源路径全部存在，旧 `/bigbig_nfs_share/lijunhui` 引用清零；主仓库仍干净。
+
+### 2026-08-10 01:18 CST：新环境路径纯净性全扫描通过
+
+- 对约 9 GB 的 Python、Miniforge、个人 CUDA、配置与 embodiment 文件做二进制文本扫描，旧 fvl09 根路径命中为 0；运行前缀无坏软链接、旧目标或错误 shebang。
+- Miniforge 下载包缓存内有 4 个包自身的相对链接未闭合，但不在运行前缀、无旧根且不影响命令；未误改缓存内容。
+- 激活后 Python/pip/nvcc、CUDA_HOME、sm_86、临时目录与各缓存全部定位在 `Robotwin2`，共享 CUDA PATH 被排除，LD_LIBRARY_PATH unset，`~/.conda` 不存在。
+- `/home/conda/feedstock_root` 只出现在 conda-forge 构建 provenance，不是本机路径；两个新编译 wheel 的 provenance 位于本项目 tmp 快照。
+
+### 2026-08-10 01:38 CST：fvl05 宿主 CUDA、任务导入与官方渲染通过
+
+- 685 个第一方 Python 文件语法编译通过；DexVLA 可选代码有一处非阻断 SyntaxWarning。7 份 task YAML、5 个 embodiment registry 目标和三棵资产树检查通过。
+- 文件沙箱中的任务导入因 CuRobo 模块定义阶段需要 CUDA 而失败，符合设备不直通边界；移到宿主 GPU 验证，不误记为环境失败。
+- 23:59 时 GPU 2–7 满载，未触碰；01:37:30 重新检查时 8 张卡均为 12–15 MiB 基线、0%（GPU 0 瞬时 1%）、P8，compute-app 列表为空。使用当时空闲的 fvl05 GPU 2 UUID `GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e`。
+- torch 2.4.1+cu121 成功识别 RTX A6000 并完成 CUDA tensor 求和 1024.0；CuroboPlanner 与 50 个 task 模块全部导入/构造成功。
+- 每一步退出后都复核 GPU 2 回到 14 MiB、0%、P8、无 compute process。官方 `script/test_render.py` 在约 6 秒内输出 `Render Well`；只有 SAPIEN 弃用警告。
+- 驱动、PyTorch、CuRobo、task import 和 SAPIEN 光追渲染链已在 fvl05 实机通过；下一步为独立一集数据采集 smoke。
+
+### 2026-08-10 01:45 CST：独立 fvl05 一集端到端采集 smoke 通过
+
+- 新建忽略型 `demo_clean_fvl05_recheck.yml`，1 集 clean aloha 配置，输出到全新 `data/beat_block_hammer/demo_clean_fvl05_recheck/`，未覆盖历史 smoke。指令生成链审计确认只用本地文件，不访问云端。
+- 长测试使用从早期到运行前都保持空闲的 GPU 1 UUID `GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b`；运行期间该卡唯一 PID 为本次 collect_data。后来出现在 GPU 3 的其他任务完全未触碰。
+- seed 0 规划失败一次、seed 1 成功，属于正常随机重试；随后完整采集 1510 帧并正常退出，生成 HDF5、H.264 MP4、左右轨迹、scene info、seed 和 seen/unseen 各 100 条指令。GPU 1 退出后回到 14 MiB、0%、P8。
+- 未激活 shell 的 ffprobe 曾命中共享 CUDA 12.2 坏 libOpenCL；激活项目后视频验证为 320×240、30 FPS、1510 帧、50.33 秒。说明运行入口必须是项目激活脚本。
+- 内容验收确认 4 路相机首尾 JPEG 可解码、相机矩阵有限、14 维动作拼接精确、左右 7 维 endpose 有效、轨迹/scene/seed/指令完整。首版验收脚本因 h5py None indexing 写法失败，改为 NumPy 扩维后全套通过，产物无误。
+- SHA-256：HDF5 `c91b1983...cf192`；MP4 `4e073466...b4b2`；PKL `4f14f304...2b08`；instructions `fa50d97a...9775`。
+- fvl05 从零重建环境的规划、仿真、渲染、采样与存储完整 pipeline 已实机验证成功。
+
+### 2026-08-10 01:49 CST：最终复核完成，fvl05 基础环境正式验收通过
+
+- 激活路径、个人 CUDA 12.1、sm_86、缓存/临时目录、核心包版本、动态扩展加载及 `pip check` 最终复核均通过；三个固定源码仓库保持干净，历史 3 集 smoke 与本轮 1 集 fvl05 recheck 产物均完整保留。
+- GPU 状态按时间点记录：23:59 GPU 2–7 忙；01:37:30 八卡曾全部回到基线，因而只在即时复核空闲的 GPU 2/1 上完成短测和长测；01:48:45 GPU 3 又出现 PID `3861183`、约 7.5 GiB 占用，说明 GPU 空闲不能跨时间推断。本轮没有停止、占用或影响该任务，GPU 1 已回到 14 MiB/P8 基线。
+- 长期 workspace memory 已补充本轮固定版本、源码 commit、安装陷阱、fvl05 smoke 路径和“基础 simulator 已端到端可用”的验证边界。
+- 最终结论：RoboTwin 2 基础环境已在 fvl05 完成干净重建和实际端到端验收，可通过唯一入口 `. /nfs_share/lijunhui/Robotwin2/config/activate_robotwin2.sh` 使用。上游 XPolicyLab 迁移、大规模采集、训练和 policy 专用环境均为后续独立工作；本轮未执行 Git commit 或 push。
+
+### 2026-08-10 01:50 CST：GPU 快照时效性补充
+
+- 01:49:48 再查时，前一分钟占用 GPU 3 的 PID `3861183` 已结束；八卡均为 14–15 MiB、0%、无 compute process，GPU 3–7 的 P-state 暂未从 P0 回落。这不是长期空闲承诺，只证明该查询瞬间没有计算进程；后续仍必须临启动前复查。
+
+### 2026-08-10 01:54 CST：fvl05 环境操作手册与长期记忆完成
+
+- 新建 `Robotwin2环境配置/RoboTwin2环境操作手册.md`，系统记录当前验收边界、目录与固定版本、唯一激活方式、无 GPU 健康检查、实时 GPU 选择、CUDA/官方渲染验证、独立配置与数据采集、续跑语义、HDF5/视频/轨迹/指令结构、结果检查、常见故障和维护规则。
+- 手册明确保护 `demo_clean_smoke` 与 `demo_clean_fvl05_recheck`，要求不同实验使用独立配置名和输出目录，并记录当前 `collect_data.sh` 静默调用缺失 `.update_path.sh` 的源码细节及经过实测的直接 Python 入口。
+- `/nfs_share/lijunhui/AGENTS.md` 已同步手册的规范路径、维护要求和上述固定 commit 入口细节。此次只编写文档和长期记忆，没有再次启动 GPU、修改基础环境、执行 Git commit 或 push。
