@@ -491,3 +491,44 @@ No installation issues found.
 ```
 
 结论：Claude Code 已从 stable 通道的 `2.1.212` 切换到 latest 通道并更新为 `2.1.220`；仍使用 Anthropic 原生安装和托管 launcher，没有改用 npm、`sudo` 或自定义 wrapper。
+
+## 2026-08-20 13:41 CST：fvl05 CC-Switch CLI 迁移路径修复与固定版本重装
+
+用户要求检查并重装从旧服务器直接迁移来的 CC-Switch。只读检查确认：配置目录权限仍为 `700`、数据库为 `600`，固定二进制可直接报告 `cc-switch 5.7.0`，但个人 wrapper 仍硬编码旧路径 `/bigbig_nfs_share/lijunhui/...`，因此正常的 `cc-switch` 入口报 `not found`。
+
+本次采用“重装工具、保留配置”的范围：
+
+- 仅删除并重建 `/nfs_share/lijunhui/.tools/cc-switch-cli`。
+- 保留 `/nfs_share/lijunhui/.config/cc-switch-cli`，未切换 provider、未写入凭据、未启用 proxy takeover、未启动 daemon。
+- 重装前将旧工具和配置复制到私有恢复目录 `/nfs_share/lijunhui/tmp/cc-switch-reinstall-20260820.KyjKYX/`；目录权限为 `700`。
+- 重用此前已经审计并保留在工作区的固定发布包 `tmp/cc-switch-cli-review/cc-switch-cli-v5.7.0-linux-x64-musl.tar.gz`，没有联网下载，也没有调用一键安装器或内置 updater。
+- 发布包 SHA-256 重新验证为 `2131c2e49896f97872bbada056f9546d291a6a3c57733689ee40e5738d2df413`，归档仍仅包含单个 `cc-switch` 二进制，无路径穿越条目。
+
+重装后布局：
+
+```text
+/nfs_share/lijunhui/.tools/cc-switch-cli/bin/cc-switch
+/nfs_share/lijunhui/.tools/cc-switch-cli/bin/cc-switch-real
+/nfs_share/lijunhui/.config/cc-switch-cli/cc-switch.db
+```
+
+wrapper 现在显式设置：
+
+```text
+CC_SWITCH_CONFIG_DIR=/nfs_share/lijunhui/.config/cc-switch-cli
+exec /nfs_share/lijunhui/.tools/cc-switch-cli/bin/cc-switch-real
+```
+
+验证结果：
+
+- `/home/lijunhui/activate.sh` 已把新的 CC-Switch bin 目录加入 `PATH`；在干净 shell 中 `command -v cc-switch` 返回新的 wrapper 路径。
+- `cc-switch --version` 返回 `cc-switch 5.7.0`。
+- `cc-switch env check --app codex` 通过，无环境变量冲突。
+- Codex 当前 provider 仍为 `default`；本地代理未运行，Claude/Codex/Gemini 路由和自动故障转移均关闭。
+- 主机上下文的 `cc-switch daemon status` 返回 daemon socket 不存在，确认未启动 daemon。
+- 工具目录和 bin 目录为 `755`，wrapper 与固定二进制为 `755`，配置目录为 `700`，数据库为 `600`。
+- 固定二进制 SHA-256：`b2acd8ff6551e07a5b2bbb2e3483e1634e0501ab3152e7ab45bbacda1877b2e7`。
+- wrapper SHA-256：`305458f6427b1af72d4b051229635095bcf94c8026b00d452873571b66cd1670`。
+- 配置数据库重装前后 SHA-256 均为 `fb54c235032d7b03b72027dcb8dd73e2f283d957b75ac24222a338c237767c65`，配置内容未被重装改写。
+
+结论：CC-Switch CLI 的 fvl09 旧绝对路径问题已修复，固定 v5.7.0 工具入口在 fvl05 正常可用；代理、daemon 和 provider 切换仍保持未启用状态。
