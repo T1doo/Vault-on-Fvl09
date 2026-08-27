@@ -16,7 +16,8 @@ import yaml
 
 from envs._GLOBAL_CONFIGS import CONFIGS_PATH
 from envs._base_task import Base_Task
-from envs.utils import create_actor, create_box, create_visual_box
+from envs.utils import create_actor, create_box, create_visual_box, rand_create_sapien_urdf_obj
+from .lifecycle import cleanup_status, initialize_cleanup_fields, managed_scene
 
 
 def _embodiment_config(robot_file):
@@ -108,6 +109,32 @@ class F2Scene(AuditScene):
         self.role_actors = {"main_can": self.can, "box": self.box, "scale": self.scale, "stand": self.stand}
 
 
+class F2PotScene(AuditScene):
+    family_id = "F2"
+
+    def load_actors(self):
+        q = [0.5, 0.5, 0.5, 0.5]
+        self.can = create_actor(self, sapien.Pose([-0.24, 0.03, 0.79], q), "071_can", convex=True, model_id=1)
+        self.can.set_name("f2_main_can")
+        self.can.set_mass(0.05)
+        self.box = create_actor(self, sapien.Pose([-0.17, -0.17, 0.78], q), "062_plasticbox", convex=True, is_static=True, model_id=3)
+        self.box.set_name("f2_plasticbox")
+        self.scale = create_actor(self, sapien.Pose([0.00, -0.17, 0.77], q), "072_electronicscale", convex=True, is_static=True, model_id=0)
+        self.scale.set_name("f2_scale")
+        self.pot = rand_create_sapien_urdf_obj(
+            scene=self,
+            modelname="060_kitchenpot",
+            modelid=0,
+            xlim=[0.18, 0.18],
+            ylim=[0.02, 0.02],
+            qpos=[0, 0, 0, 1],
+            rotate_rand=False,
+            fix_root_link=True,
+        )
+        self.pot.set_name("f2_reference_kitchenpot")
+        self.role_actors = {"main_can": self.can, "box": self.box, "scale": self.scale, "pot": self.pot}
+
+
 class F3Scene(AuditScene):
     family_id = "F3"
 
@@ -136,48 +163,43 @@ class F4Scene(AuditScene):
         self.role_actors = {"common_x": self.common_x, "A": self.a, "B": self.b, "C": self.c, "common_tray": self.tray, "slot_A": self.slot_a, "slot_B": self.slot_b, "slot_C": self.slot_c}
 
 
-SCENES = {"F1": F1Scene, "F2": F2Scene, "F3": F3Scene, "F4": F4Scene}
+SCENES = {"F1": F1Scene, "F2": F2Scene, "F2_POT": F2PotScene, "F3": F3Scene, "F4": F4Scene}
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--family", choices=tuple(SCENES), required=True)
-    parser.add_argument("--physical-index", type=int, choices=(4, 5, 6, 7), required=True)
+    parser.add_argument("--physical-index", type=int, choices=tuple(range(8)), required=True)
     parser.add_argument("--expected-uuid", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     started = time.time()
-    receipt = {"schema_version": "cmf_scene_inspection_v1", "purpose": "implementation_audit", "formal_data": False, "stage0_data": False, "attempt_limit": 1, "timeout_seconds": 600, "family": args.family, "physical_gpu_index": args.physical_index, "expected_gpu_uuid": args.expected_uuid, "pid": os.getpid(), "status": "running"}
-    scene = None
+    receipt = {"schema_version": "cmf_scene_inspection_v2", "purpose": "implementation_audit", "formal_data": False, "stage0_data": False, "attempt_limit": 1, "timeout_seconds": 600, "family": args.family, "physical_gpu_index": args.physical_index, "expected_gpu_uuid": args.expected_uuid, "pid": os.getpid(), "status": "running"}
+    initialize_cleanup_fields(receipt)
     try:
         if os.environ.get("CUDA_VISIBLE_DEVICES") != args.expected_uuid:
             raise RuntimeError("CUDA_VISIBLE_DEVICES does not match expected UUID")
         args.output.mkdir(parents=True, exist_ok=False)
-        scene = SCENES[args.family]()
-        scene.setup_demo(**_args(args.family, args.output))
-        scene._update_render()
-        scene.cameras.update_picture()
-        rgb = scene.cameras.get_rgb()
-        image_files = {}
-        for camera_name, camera_data in rgb.items():
-            if camera_name in ("head_camera", "front_camera"):
-                path = args.output / f"{camera_name}.png"
-                Image.fromarray(camera_data["rgb"]).save(path)
-                image_files[camera_name] = str(path)
-        receipt.update({"status": "passed_nonformal_scene_inspection", "images": image_files, "runtime_actor_info": scene.runtime_actor_info(), "camera_names": sorted(rgb), "scene_timestep": 1 / 250})
+        with managed_scene(SCENES[args.family], _args(args.family, args.output), receipt, args.family) as scene:
+            scene._update_render()
+            scene.cameras.update_picture()
+            rgb = scene.cameras.get_rgb()
+            image_files = {}
+            for camera_name, camera_data in rgb.items():
+                if camera_name in ("head_camera", "front_camera"):
+                    path = args.output / f"{camera_name}.png"
+                    Image.fromarray(camera_data["rgb"]).save(path)
+                    image_files[camera_name] = str(path)
+            receipt.update({"status": "passed_nonformal_scene_inspection", "images": image_files, "runtime_actor_info": scene.runtime_actor_info(), "camera_names": sorted(rgb), "scene_timestep": 1 / 250, "partial_output_status": "images_and_runtime_actor_info_complete"})
         code = 0
     except BaseException as exc:
         receipt.update({"status": "failed_nonformal_scene_inspection", "error_type": type(exc).__name__, "error": str(exc), "traceback": traceback.format_exc()})
         code = 1
     finally:
+        receipt["status"] = cleanup_status(receipt, receipt["status"])
         receipt["elapsed_seconds"] = time.time() - started
         args.output.mkdir(parents=True, exist_ok=True)
         (args.output / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        if scene is not None:
-            try:
-                scene.close_env(clear_cache=True)
-            except BaseException:
-                pass
     return code
 
 

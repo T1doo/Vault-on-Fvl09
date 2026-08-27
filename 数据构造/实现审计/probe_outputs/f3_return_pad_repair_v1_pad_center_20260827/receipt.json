@@ -1,0 +1,51 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 0,
+    "feasibility_query_count": 1,
+    "planner_query_count": 0,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "elapsed_seconds": 50.82674813270569,
+  "error": "'TraceF3' object has no attribute '_gripper_command'",
+  "error_type": "AttributeError",
+  "expected_gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+  "family": "F3",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T22:48:39.300234+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 15,
+    "physical_index": 3,
+    "pstate": "P5",
+    "utilization_percent": 0,
+    "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f3_return_pad_repair_v1_pad_center_20260827_gpu3_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "none",
+  "physical_gpu_index": 3,
+  "pid": 1568641,
+  "purpose": "nonformal_feasibility",
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F3-pad_center",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": false
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "stage0_data": false,
+  "status": "failed_execution",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 1800,
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 449, in main\n    result = RUNNERS[args.family](args.output, args.variant, receipt)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 261, in run_f3\n    with managed_scene(scenes[\"F3\"], scene_args(\"F3\", output), receipt, f\"F3-{variant}\") as scene:\n  File \"/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/contextlib.py\", line 135, in __enter__\n    return next(self.gen)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/lifecycle.py\", line 38, in managed_scene\n    scene.setup_demo(**setup_kwargs)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/scene_inspection.py\", line 59, in setup_demo\n    super()._init_task_env_(**kwargs)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/_base_task.py\", line 127, in _init_task_env_\n    self.together_open_gripper(save_freq=None)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/_base_task.py\", line 726, in together_open_gripper\n    self.take_dense_action(control_seq, save_freq=save_freq)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/runtime_trace.py\", line 174, in take_dense_action\n    self._gripper_command[0] = float(left_gripper[\"result\"][index])\nAttributeError: 'TraceF3' object has no attribute '_gripper_command'\n",
+  "variant": "pad_center"
+}

@@ -13,19 +13,42 @@
   ],
   "probe_budget": {
     "attempt_limit_per_named_probe": 1,
-    "planner_query_limit_per_candidate": 2,
-    "probe_timeout_seconds": {"F1": 900, "F2_each_relation": 900, "F3_each_motion": 600, "F3_VH": 900, "F4_neutral_block": 1200},
+    "planner_query_limit_per_repair_place_or_return_segment": 2,
+    "probe_timeout_seconds": {"F1_each_repair_variant": 900, "F2_each_repair_sector": 900, "F3_each_return_variant": 1800, "F4_each_natural_program": 2700},
     "stop_on_timeout_or_unexplained_physics_failure": true
   },
+  "count_semantics": {
+    "feasibility_query_count": "one evaluation of one frozen candidate against task and physical feasibility; all results, including failures, count",
+    "planner_query_count": "one actual motion-planner invocation for one motion segment; internal segment calls count separately",
+    "execution_attempt_count": "one rollout that begins applying realized robot control after the required plans exist",
+    "recovery_attempt_count": "one explicitly allowed post-failure recovery action; ordinary retreat inside a successful rollout is not recovery",
+    "max_total_attempts_per_root_definition": "sum of execution_attempt_count plus recovery_attempt_count across that root; feasibility_query_count and planner_query_count are excluded from this sum because they have independent caps"
+  },
   "pilot_budget": {
-    "max_scene_build_attempts_per_slot": 1,
+    "max_slot_spec_generation_attempts": 1,
+    "fresh_scene_reconstruction_required_per_attempt": true,
     "max_feasibility_queries_per_candidate": 2,
-    "per_candidate_planning_attempt_limit": 2,
+    "max_planner_retries_per_frozen_planning_site": 1,
     "per_trajectory_execution_attempt_limit": 1,
     "max_recovery_attempts_per_trajectory": 1,
     "max_total_attempts_per_pilot_root": 12,
-    "per_root_wallclock_limit_seconds": {"F1": 7200, "F2": 9000, "F3": 7200, "F4": 14400},
-    "max_wall_time_per_trajectory_seconds": {"F1": 1800, "F2": 2400, "F3": 1800, "F4": 3600}
+    "per_root_wallclock_limit_seconds": null,
+    "max_wall_time_per_trajectory_seconds": null,
+    "wallclock_status": "withheld_pending_repair_and_full_F4_program_measurements"
+  },
+  "stage0_max_root_budget": {
+    "trajectory_count": 3,
+    "max_execution_attempt_count": 3,
+    "max_recovery_attempt_count": 3,
+    "max_total_attempts_per_root": 6,
+    "planner_query_cap": "proposal_pending_full_program_measurements"
+  },
+  "stage1_max_root_budget": {
+    "trajectory_count_per_root_after_stage1_completion": 6,
+    "max_execution_attempt_count": 6,
+    "max_recovery_attempt_count": 6,
+    "max_total_attempts_per_root": 12,
+    "planner_query_cap": "proposal_pending_stage0_measurements"
   },
   "family_specific_overrides": {
     "F1": "stop the root if any active block is not independently graspable or a non-target block exceeds the proposed audit displacement bound",
@@ -39,7 +62,15 @@
     "F1_action_probe": 32.52,
     "F2_three_relation_action_probe": 88.87,
     "F3_action_probe": 39.71,
-    "F4_action_probe": 34.15
+    "F4_action_probe": 34.15,
+    "F1_fp1_repair": 45.54,
+    "F1_interior_repair": 43.43,
+    "F2_stand_sector1_repair": 45.28,
+    "F2_stand_sector2_repair": 43.24,
+    "F2_pot_left_fallback": 42.58,
+    "F3_pad_center_return": 44.45,
+    "F3_bottle_fp_return": 49.18,
+    "F4_common_X": 38.60
   },
   "retryable_failures": ["planner_no_path_before_execution", "transient scene initialization failure with complete cleanup", "bounded recovery explicitly listed by family"],
   "non_retryable_failures": ["wrong asset or candidate semantics", "current/anchor mismatch", "verifier signal unavailable", "grasp continuity loss during F3 event", "F4 slot not model-visible", "GPU ownership or cleanup uncertainty", "attempt budget exhaustion"],
@@ -48,7 +79,7 @@
     "No retry may change asset ID, candidate program, arm, scene seed, verifier semantics, or threshold.",
     "Timeout, unexplained state drift, or orphan process is terminal for the current probe/run and requires review."
   ],
-  "estimated_stage0_cost": {"gpu_hours_range": [4, 10], "confidence": "low_pending_runtime_probes", "trajectory_count": 12},
-  "estimated_stage1_cost": {"gpu_hours_range": [18, 45], "confidence": "low_pending_stage0_measurements", "cumulative_trajectory_count": 48},
-  "review_requirement": "Replace low-confidence wall-time ranges with measured probe/Stage0 evidence before approval; this proposal does not authorize Stage 0."
+  "estimated_stage0_cost": {"gpu_hours_range": null, "status": "not_approved_pending_repair_and_full_F4_program_measurements", "trajectory_count": 12},
+  "estimated_stage1_cost": {"gpu_hours_range": null, "status": "not_approved_pending_stage0_measurements", "cumulative_trajectory_count": 48},
+  "review_requirement": "Bounded repairs ended in family blockers before full F4 natural programs. Keep this proposal unapproved; perform impact review and approve a new implementation version before changing budgets or running more probes. This file does not authorize Stage 0."
 }

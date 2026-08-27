@@ -14,10 +14,14 @@
 
 - `controlled_multi_future/base.py`：统一 fail-closed lifecycle interface；
 - `schemas.py`：最小 schema/contract checks；
+- `candidate_freezer.py`、`current_hasher.py`、`anchor.py`：candidate/current/anchor freeze 与 equivalence；
+- `probe_contracts.py`：无 RoboTwin runtime 依赖的 variant 与 semantic-result contracts；
+- `raw_writer.py`、`receipts.py`、`attempt_state_machine.py`、`finalizer.py`：250 Hz 26-D N+1 raw-first attempt pipeline；
+- `pilot_pipeline.py`：正式采集关闭状态下的 Stage-0-shaped nonformal integration orchestrator；
 - `families/`：F1–F4 frozen program skeletons；
 - `signals.py` 与 `verifiers/`：pure signal/verifier adapters；
-- `probes/`：GPU environment、scene inspection 与 finite action probes；
-- `tests/controlled_multi_future/`：CPU static contract tests。
+- `probes/`：cleanup-safe GPU environment、scene inspection、versioned finite action repairs、F2 pot fallback、atomic GPU guard 与 synthetic pipeline dry-run；
+- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 20 tests）。
 
 在 Vault 根目录复核快照测试时，需要把本目录加入 import path：
 
@@ -29,4 +33,4 @@ PYTHONPATH='数据构造/实现审计/代码审阅快照' \
   -p 'test_*.py'
 ```
 
-运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。完整结论与 blockers 见 `../implementation_audit_report.md` 和 `../stage0_readiness_report.md`。
+运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。最新 bounded 结论见 `../bounded_repair_execution_report_20260827.md` 与 `../stage0_readiness_report.md`。

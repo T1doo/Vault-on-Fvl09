@@ -1,0 +1,96 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 4,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "arm": "left",
+    "facility_xy_clearance_m": {
+      "box": 0.2549509826406964,
+      "pot": 0.18,
+      "scale": 0.19000000134110465
+    },
+    "main_object": "071_can/base1",
+    "pot_fixed_root_project_wrapper": true,
+    "repair_version": "f2_beside_reference_pot_audit_v2",
+    "selected_model_directory": "100015",
+    "selected_reference": "060_kitchenpot/base0",
+    "target_xyz": [
+      7.152557379708213e-09,
+      0.019999999552965164,
+      0.79
+    ]
+  },
+  "elapsed_seconds": 42.580458641052246,
+  "error": "planner/execution failed at beside_pot_left",
+  "error_type": "PlannerFailure",
+  "expected_gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+  "family": "F2",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T23:10:45.067752+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 5,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f2_beside_reference_pot_audit_v2_pot_left_20260827_gpu5_run1_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_partial_after_failure",
+  "physical_gpu_index": 5,
+  "pid": 1735734,
+  "purpose": "nonformal_feasibility",
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F2-pot_left",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 900,
+  "trace": {
+    "fields": [
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "gripper_aperture",
+      "gripper_command",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_linear_velocity",
+      "object_pose",
+      "planner_target",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f2_beside_reference_pot_audit_v2_pot_left_20260827_gpu5_run1/trace.npz",
+    "sample_count": 1232
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 503, in main\n    result = RUNNERS[args.family](args.output, args.variant, receipt)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 200, in run_f2\n    _must_move(scene, scene.place_actor(scene.can, arm_tag=arm, target_pose=target, constrain=\"free\", pre_dis=0.08, dis=0.01), f\"beside_{variant}\")\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 46, in _must_move\n    raise PlannerFailure(f\"planner/execution failed at {label}\")\nPlannerFailure: planner/execution failed at beside_pot_left\n",
+  "variant": "pot_left"
+}

@@ -1,0 +1,181 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 7,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "block_current_grasp_orientation": [
+      1.0,
+      -9.675848559709266e-06,
+      -4.47153479399276e-06,
+      9.818520538829034e-07
+    ],
+    "block_half_size_m": [
+      0.022,
+      0.022,
+      0.022
+    ],
+    "box_local_center_m": [
+      8.53964166277295e-06,
+      0.035749231095755736,
+      -5.4424589780143776e-05
+    ],
+    "box_local_functional_points": [
+      [
+        -0.07999999821186066,
+        -0.12706199586391448,
+        0.7799999713897705,
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ],
+      [
+        -0.07999999821186066,
+        -0.19128599762916565,
+        0.7799999713897705,
+        0.7071067811865475,
+        0.0,
+        0.0,
+        0.7071067811865475
+      ]
+    ],
+    "box_model_id": 3,
+    "box_outer_extents_m": [
+      0.19129906760725307,
+      0.07499974075243221,
+      0.15508153443120248
+    ],
+    "collision_clearance_m": 0.01,
+    "computed_final_place_pose": [
+      -0.07999999821186066,
+      -0.15917399674654006,
+      0.7799999713897705,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "computed_pre_place_pose": [
+      -0.07999999821186066,
+      -0.15917399674654006,
+      0.7799999713897705,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "repair_version": "f1_block_inside_box_repair_v1",
+    "variant": "interior"
+  },
+  "elapsed_seconds": 43.42828321456909,
+  "expected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+  "family": "F1",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T22:54:36.263987+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 1,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_block_inside_box_repair_v1_interior_20260827_gpu1_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_complete",
+  "physical_gpu_index": 1,
+  "pid": 1582071,
+  "purpose": "nonformal_feasibility",
+  "repair_planner_query_count": 2,
+  "result": {
+    "inside_verifier": {
+      "local_corner_max": [
+        0.03228999109566211,
+        0.06685079479217526,
+        0.02829391825199127
+      ],
+      "local_corner_min": [
+        -0.020371744349598875,
+        0.021622167587280305,
+        -0.0242197321653366
+      ],
+      "outer_lower": [
+        -0.09164099416196377,
+        0.002249360719539635,
+        -0.07359519180538138
+      ],
+      "outer_upper": [
+        0.0916580734452893,
+        0.06924910147197183,
+        0.0734863426258211
+      ],
+      "pass_provisional_outer_obb": true
+    },
+    "left_gripper_open": true,
+    "markers": {
+      "place_start": 1170,
+      "trace_start": 0
+    },
+    "non_target_displacement_m": {
+      "blue": 0.019670194014906883,
+      "green": 0.0563284195959568
+    },
+    "plan_success": true,
+    "planner_query_count": 7,
+    "repair_version": "f1_block_inside_box_repair_v1",
+    "trace_steps": 3566,
+    "variant": "interior"
+  },
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F1-interior",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "semantic_probe_pass": false,
+  "stage0_data": false,
+  "status": "failed_nonformal_action_probe",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 900,
+  "trace": {
+    "fields": [
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "gripper_aperture",
+      "gripper_command",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_linear_velocity",
+      "object_pose",
+      "planner_target",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_block_inside_box_repair_v1_interior_20260827/trace.npz",
+    "sample_count": 3566
+  },
+  "variant": "interior"
+}

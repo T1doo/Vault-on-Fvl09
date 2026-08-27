@@ -3,7 +3,7 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F4SubtaskOrder(ControlledMultiFutureSceneBase):
     family_id = "F4"
-    audit_status = "unresolved_pending_neutral_block_gpu0_probe"
+    audit_status = "single_A_supported_full_program_probe_pending"
 
     def build_provisional_programs(self):
         def place(role):

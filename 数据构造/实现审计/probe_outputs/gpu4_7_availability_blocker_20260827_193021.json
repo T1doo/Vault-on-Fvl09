@@ -1,0 +1,18 @@
+{
+  "schema_version": "cmf_gpu_availability_blocker_v1",
+  "timestamp": "2026-08-27T19:30:21+08:00",
+  "host": "fvl05",
+  "purpose": "final_repair_probe_fresh_idle_recheck",
+  "formal_data": false,
+  "stage0_data": false,
+  "eligible_physical_indices": [4, 5, 6, 7],
+  "decision": "no_gpu_safely_idle",
+  "task_owned_gpu_processes_started": 0,
+  "gpus": {
+    "4": {"uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7", "memory_used_mib": 28873, "utilization_percent": 65, "pstate": "P2", "external_compute_process_count": 1},
+    "5": {"uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2", "memory_used_mib": 29627, "utilization_percent": 75, "pstate": "P2", "external_compute_process_count": 1},
+    "6": {"uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d", "memory_used_mib": 32140, "utilization_percent": 94, "pstate": "P2", "external_compute_process_count": 2},
+    "7": {"uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead", "memory_used_mib": 39440, "utilization_percent": 100, "pstate": "P2", "external_compute_process_count": 2}
+  },
+  "action": "did_not_launch_and_did_not_interfere"
+}

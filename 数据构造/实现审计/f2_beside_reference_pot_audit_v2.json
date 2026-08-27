@@ -1,0 +1,56 @@
+{
+  "schema_version": "f2_beside_reference_pot_audit_v2",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "stage0_data": false,
+  "status": "cpu_audit_passed_gpu_probe_pending",
+  "trigger": "both display-stand sectors failed place planning",
+  "fixed_contract": {
+    "main_object": "071_can/base1",
+    "arm": "left",
+    "relation": "beside",
+    "inside_target": "062_plasticbox/base3",
+    "on_target": "072_electronicscale/base0"
+  },
+  "official_source": {
+    "task": "move_can_pot",
+    "env_file": "envs/move_can_pot.py",
+    "env_file_sha256": "ea838bb2502199610eea6cc058a4ba5fc7abb01c3d8ee0705c44854ddca20186",
+    "class": "move_can_pot",
+    "reference_asset": "060_kitchenpot",
+    "available_model_ids": [0, 1, 2, 3, 4, 5, 6],
+    "selected_model_id": 0,
+    "selected_model_directory": "100015",
+    "official_main_object_is_different": "105_sauce-can",
+    "official_left_target_rule": "pot_x - 0.18, pot_y, table_z",
+    "official_reference_is_dynamic": true
+  },
+  "selected_asset_evidence": {
+    "model_data_sha256": "3da4990883dc8b0ed28059450424079058aa3e6dbf43658d7e941bb4a65af36c",
+    "bounding_box_sha256": "9c74f2eebac741cd861c18eafc4c3a16450416088710e5837e0ff2a9070436c6",
+    "mobility_urdf_sha256": "5e0ca1386e8314571f4596f10bebc38e777e3072d5d4fe74312f6028ce6282f2",
+    "scale": 0.12,
+    "scaled_outer_extents_m": [0.21709896, 0.10005888, 0.1459926],
+    "functional_points": [],
+    "contact_points": 2
+  },
+  "project_joint_scene_wrapper": {
+    "pot_root_pose_xy": [0.18, 0.02],
+    "pot_fixed_root": true,
+    "fixed_root_reason": "beside reference must not drift while the same can is tested against all three relations",
+    "target_can_center_xyz": [0.0, 0.02, 0.79],
+    "target_clearance_m": {
+      "plastic_box_center_xy": 0.25495097567963926,
+      "electronic_scale_center_xy": 0.19,
+      "kitchenpot_center_xy": 0.18
+    },
+    "reuse_status": "project_wrapper_over_official_asset_and_official_left-side_target_rule"
+  },
+  "predicate": {
+    "radial_range_m_provisional": [0.12, 0.23],
+    "table_height_required": true,
+    "must_not_be_inside_or_on": true,
+    "thresholds_frozen": false
+  },
+  "next_action": "run one finite pot_left nonformal action probe after a GPU0-7 card passes the immediate fresh-idle gate"
+}

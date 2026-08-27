@@ -17,7 +17,7 @@
 | Python/env | `/nfs_share/lijunhui/Robotwin2/env/bin/python`；Python 3.10.20 |
 | CUDA | project CUDA 12.1.105；torch 2.4.1+cu121；sm_86 |
 | SAPIEN/CuRobo | CPU import passed；SAPIEN 3.0.0b1、CuRobo 0.7.8 |
-| GPU | 最新授权为物理 GPU4–7；四卡 environment certification passed，所有 jobs 后均释放至 12–14 MiB/0%/P8/no process |
+| GPU | 最新规则允许物理 GPU0–7 中任意 independently fresh-idle 卡；已运行的 GPU4–7 environment certifications 均 passed，所有 jobs 后均释放 |
 
 完整 source lock：`environment_and_source_lock.{md,json}`。
 
@@ -96,7 +96,7 @@ BLOCKED_WITH_REASONS
 
 ## 9. 下一序列
 
-首轮具名 probes 已结束，不原地重试。下一步先做 CPU-only versioned repair design，然后才可在 GPU4–7 fresh idle Gate 下运行新的 targeted probes：
+首轮具名 probes 已结束，不原地重试。新的 targeted probes 可在 GPU0–7 任意 independently fresh-idle Gate 下运行：
 
 1. F1 block→box place planner failure diagnosis/repair design；
 2. F2 same-can beside target/reachability repair design；

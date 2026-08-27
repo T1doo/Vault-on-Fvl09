@@ -20,7 +20,7 @@ class ControlledMultiFutureSceneBase(ABC):
     """
 
     design_version = "controlled_multi_future_f1_f4_v1_2"
-    implementation_status = "skeleton_runtime_not_implemented"
+    implementation_status = "stage0_pipeline_preparation"
     stage0_authorized = False
 
     @property
@@ -41,7 +41,7 @@ class ControlledMultiFutureSceneBase(ABC):
         return programs
 
     def audit_task_and_physical_feasibility(self, program: Mapping[str, Any]) -> Any:
-        raise ImplementationAuditError(f"{self.family_id}: feasibility audit pending GPU0 probe")
+        raise ImplementationAuditError(f"{self.family_id}: feasibility audit pending versioned fresh-idle GPU0-7 repair probe")
 
     def freeze_candidate_universe_and_task_tree(self) -> Any:
         raise ImplementationAuditError(f"{self.family_id}: candidate freeze unavailable in skeleton")
@@ -56,7 +56,7 @@ class ControlledMultiFutureSceneBase(ABC):
         raise ImplementationAuditError(f"{self.family_id}: rollout is not authorized or implemented")
 
     def extract_realized_events(self) -> Any:
-        raise ImplementationAuditError(f"{self.family_id}: realized-event adapter pending GPU0 probe")
+        raise ImplementationAuditError(f"{self.family_id}: realized-event adapter pending completed repair verification")
 
     def verify_family_semantics(self) -> Any:
         raise ImplementationAuditError(f"{self.family_id}: family verifier pending audited signals")

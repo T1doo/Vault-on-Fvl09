@@ -1,0 +1,112 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 11,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "bottle_center_offset_m": 0.041509270668029785,
+    "pad_local_target": [
+      -0.22751136124134064,
+      -0.05630267783999443,
+      0.7865092754364014
+    ],
+    "pre_place_eef_pose": [
+      -0.07899091525748449,
+      0.022625994436001096,
+      0.9262421981375911,
+      0.5326931485021215,
+      -0.3025115960786425,
+      0.7563107759516071,
+      -0.22960564879011008
+    ],
+    "release_eef_pose": [
+      -0.07899093149235181,
+      0.02262599374820933,
+      0.8342421981375926,
+      0.5326931485021215,
+      -0.3025115960786425,
+      0.7563107759516071,
+      -0.22960564879011008
+    ],
+    "release_orientation": [
+      0.5610624551773071,
+      0.005029431078583002,
+      0.8264091610908508,
+      -0.04724067822098732
+    ],
+    "repair_version": "f3_return_pad_repair_v1",
+    "variant": "pad_center"
+  },
+  "elapsed_seconds": 44.453556537628174,
+  "error": "left-arm planner query failed",
+  "error_type": "PlannerFailure",
+  "expected_gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+  "family": "F3",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T22:54:40.056863+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 15,
+    "physical_index": 3,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f3_return_pad_repair_v1_1_pad_center_central_restore_20260827_gpu3_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_partial_after_failure",
+  "physical_gpu_index": 3,
+  "pid": 1582286,
+  "purpose": "nonformal_feasibility",
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F3-pad_center",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 1800,
+  "trace": {
+    "fields": [
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "gripper_aperture",
+      "gripper_command",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_linear_velocity",
+      "object_pose",
+      "planner_target",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f3_return_pad_repair_v1_1_pad_center_central_restore_20260827/trace.npz",
+    "sample_count": 2582
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 481, in main\n    result = RUNNERS[args.family](args.output, args.variant, receipt)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 295, in run_f3\n    _execute_left_control(scene, control_pre)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 252, in _execute_left_control\n    raise PlannerFailure(\"left-arm planner query failed\")\nPlannerFailure: left-arm planner query failed\n",
+  "variant": "pad_center"
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "bounded_repair_execution_report_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "generated_at": "2026-08-27",
+  "decision": "BLOCKED_WITH_REASONS",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "gpu_rule": "any physical GPU0-7 only when independently fresh-idle immediately before launch",
+  "families": {
+    "F1": {
+      "status": "unresolved_bounded_variants_exhausted",
+      "fp1": {
+        "plan_success": true,
+        "repair_planner_queries": 2,
+        "trace_samples": 4040,
+        "inside": false,
+        "non_target_displacement_m": {"green": 5.284794042381691e-07, "blue": 0.0},
+        "receipt": "probe_outputs/f1_block_inside_box_repair_v1_fp1_20260827_attempt2_tracefix/receipt.json"
+      },
+      "interior": {
+        "plan_success": true,
+        "repair_planner_queries": 2,
+        "trace_samples": 3566,
+        "inside": true,
+        "non_target_displacement_m": {"green": 0.0563284195959568, "blue": 0.019670194014906883},
+        "receipt": "probe_outputs/f1_block_inside_box_repair_v1_interior_20260827/receipt.json"
+      },
+      "terminal_reason": "neither bounded variant satisfied inside plus non-target stability"
+    },
+    "F2": {
+      "status": "unresolved_all_bounded_references_exhausted",
+      "fixed_identity": {"modelname": "071_can", "model_id": 1, "arm": "left"},
+      "inside_previous": "passed",
+      "on_previous": "passed",
+      "beside_attempts": [
+        {"reference": "074_displaystand/base3", "variant": "sector1", "status": "failed_planner", "trace_samples": 1234, "receipt": "probe_outputs/f2_beside_clearance_repair_v1_sector1_20260827_attempt2_tracefix/receipt.json"},
+        {"reference": "074_displaystand/base3", "variant": "sector2", "status": "failed_planner", "trace_samples": 1240, "receipt": "probe_outputs/f2_beside_clearance_repair_v1_sector2_20260827/receipt.json"},
+        {"reference": "060_kitchenpot/base0", "variant": "pot_left", "status": "failed_planner", "trace_samples": 1232, "receipt": "probe_outputs/f2_beside_reference_pot_audit_v2_pot_left_20260827_gpu5_run1/receipt.json"}
+      ],
+      "terminal_reason": "all authorized stand and pot reference variants failed place planning"
+    },
+    "F3": {
+      "status": "unresolved_both_return_variants_exhausted",
+      "motion_core": "V/H realized motion retained; bottle_fp V/H selected-gripper contact fraction 1.0 and zero breaks",
+      "pad_center": {
+        "status": "failed_planner_return_pre_place",
+        "trace_samples": 2582,
+        "receipt": "probe_outputs/f3_return_pad_repair_v1_1_pad_center_central_restore_20260827/receipt.json"
+      },
+      "bottle_fp": {
+        "plan_success": true,
+        "semantic_probe_pass": false,
+        "trace_samples": 4221,
+        "bottle_return_position_error_m": 0.2515220046043396,
+        "bottle_return_orientation_error": 0.9968863383401185,
+        "rest_return_error_m": 0.3862114657005134,
+        "bottle_stable_linear_speed_mps": 0.06391991572846963,
+        "receipt": "probe_outputs/f3_return_pad_repair_v1_bottle_fp_20260827_gpu5_run1/receipt.json"
+      },
+      "terminal_reason": "pad_center planning failed and bottle_fp final bottle/rest equivalence failed"
+    },
+    "F4": {
+      "status": "blocked_at_first_ordered_gate",
+      "common_X": {
+        "status": "failed_planner_place_common_X",
+        "trace_samples": 1647,
+        "receipt": "probe_outputs/f4_full_program_probe_v1_common_20260827_gpu5_run1/receipt.json"
+      },
+      "not_run_by_gate": ["B-only", "C-only", "common-X+AB", "ABC", "ACB", "BAC", "strict_block_reorder"],
+      "terminal_reason": "F4-01 common-X failed, so ordered probe sequence stopped"
+    }
+  },
+  "runtime_safety": {
+    "task_owned_gpu_children_started": 12,
+    "timeouts": 0,
+    "scene_cleanup_failures": 0,
+    "task_owned_orphans": 0,
+    "last_selected_gpu_postcheck": {"physical_index": 5, "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}
+  },
+  "cpu_validation": {"tests_passed": 20, "python_files_compiled": 34, "git_diff_check": "passed"},
+  "next_safe_action": "stop probing; perform family-level impact review and approve a new implementation version before any additional GPU attempt"
+}

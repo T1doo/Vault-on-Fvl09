@@ -1,0 +1,78 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 5,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "elapsed_seconds": 38.60256361961365,
+  "error": "planner/execution failed at place_common_X",
+  "error_type": "PlannerFailure",
+  "expected_gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+  "family": "F4",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T23:09:32.955700+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 5,
+    "pstate": "P5",
+    "utilization_percent": 0,
+    "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f4_full_program_probe_v1_common_20260827_gpu5_run1_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_partial_after_failure",
+  "physical_gpu_index": 5,
+  "pid": 1733117,
+  "purpose": "nonformal_feasibility",
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F4-common",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 2700,
+  "trace": {
+    "fields": [
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "gripper_aperture",
+      "gripper_command",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_linear_velocity",
+      "object_pose",
+      "planner_target",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f4_full_program_probe_v1_common_20260827_gpu5_run1/trace.npz",
+    "sample_count": 1647
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 503, in main\n    result = RUNNERS[args.family](args.output, args.variant, receipt)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 430, in run_f4\n    common_result = _f4_common(scene, neutral, neutral_realized)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 407, in _f4_common\n    _must_move(scene, scene.place_actor(scene.common_x, arm_tag=arm, target_pose=target, constrain=\"free\", pre_dis=0.10, dis=0.02), \"place_common_X\")\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility.py\", line 46, in _must_move\n    raise PlannerFailure(f\"planner/execution failed at {label}\")\nPlannerFailure: planner/execution failed at place_common_X\n",
+  "variant": "common"
+}

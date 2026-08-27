@@ -3,7 +3,7 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F1ObjectSelection(ControlledMultiFutureSceneBase):
     family_id = "F1"
-    audit_status = "supported_with_official_rgb_blocks_runtime_pending"
+    audit_status = "repair_v1_pending_block_inside_box"
 
     def build_provisional_programs(self):
         return [

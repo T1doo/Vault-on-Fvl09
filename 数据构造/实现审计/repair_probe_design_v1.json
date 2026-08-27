@@ -1,0 +1,50 @@
+{
+  "schema_version": "cmf_repair_probe_design_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "stage0_data": false,
+  "status": "cpu_design_complete_gpu_execution_pending",
+  "F1": {
+    "namespace": "f1_block_inside_box_repair_v1",
+    "fixed": {"object": "red procedural block", "arm": "left", "container": "062_plasticbox/base3", "scene_seed": 20260827},
+    "box_outer_extents_m": [0.19129906760725305, 0.07499974075243222, 0.1550815344312025],
+    "block_half_size_m": [0.022, 0.022, 0.022],
+    "functional_points_world": {
+      "fp0": [-0.08, -0.12706199944019317, 0.78, 0.7071067811865475, 0.0, 0.0, 0.7071067811865475],
+      "fp1": [-0.08, -0.19128600120544434, 0.78, 0.7071067811865475, 0.0, 0.0, 0.7071067811865475]
+    },
+    "variants": ["fp1", "interior"],
+    "variant_order": "fp1 then interior only if fp1 fails",
+    "max_execution_attempts_per_variant": 1,
+    "max_place_planner_queries_per_variant": 2
+  },
+  "F2": {
+    "namespace": "f2_beside_clearance_repair_v1",
+    "fixed": {"object": "071_can/base1", "arm": "left", "reference": "074_displaystand/base3"},
+    "stand_center_world": [0.17, -0.17, 0.77],
+    "candidate_sectors": {
+      "sector1": [0.17, -0.020000000000000018, 0.79],
+      "sector2": [0.28, -0.06000000000000001, 0.79]
+    },
+    "variant_order": "sector1 then sector2 only if sector1 fails",
+    "max_execution_attempts_per_variant": 1,
+    "max_place_planner_queries_per_variant": 2,
+    "fallback_pot_audit": "only after both stand sectors fail; still same can and left arm"
+  },
+  "F3": {
+    "namespace": "f3_return_pad_repair_v1",
+    "fixed": {"object": "001_bottle/base13", "arm": "left", "V": "table-z", "H": "table-x", "target": "original pad"},
+    "bottle_outer_extents_m": [0.06866002157240101, 0.24794078313736328, 0.06762551792915597],
+    "variants": ["pad_center", "bottle_fp"],
+    "variant_order": "pad_center then bottle_fp only if pad_center fails",
+    "return_sequence": ["central/rest", "pre-place above pad", "frozen release orientation", "world-z descent", "release", "75 stability steps", "reverse descent", "reverse approach to central/rest"],
+    "max_execution_attempts_per_variant": 1,
+    "max_return_planner_queries_per_variant": 2
+  },
+  "F4": {
+    "namespace": "f4_full_program_probe_v1",
+    "ordered_variants": ["common", "A", "B", "C", "common_ab", "ABC", "ACB", "BAC"],
+    "stop_on_first_failure": true,
+    "strict_block_reorder": "not_executed_unless_all_natural_programs_pass"
+  }
+}

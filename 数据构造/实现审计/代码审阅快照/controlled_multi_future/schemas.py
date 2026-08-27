@@ -8,6 +8,18 @@ from typing import Any, Mapping, Sequence
 
 VALID_FAMILIES = frozenset({"F1", "F2", "F3", "F4"})
 VALID_PROBE_PURPOSES = frozenset({"implementation_audit", "nonformal_feasibility"})
+TERMINAL_ATTEMPT_STATUSES = frozenset({
+    "accepted",
+    "failed_planner",
+    "failed_execution",
+    "failed_verifier",
+    "failed_current_hash",
+    "failed_anchor_equivalence",
+    "failed_cleanup",
+    "failed_cleanup_uncertain",
+    "timeout",
+    "aborted_with_reason",
+})
 
 
 def validate_exactly_three_programs(programs: Sequence[Mapping[str, Any]]) -> None:
@@ -42,3 +54,29 @@ def validate_probe_receipt(receipt: Mapping[str, Any], output_root: Path) -> Non
     declared = Path(receipt.get("output_root", "")).resolve()
     if declared != output_root.resolve():
         raise ValueError("probe output must use the audited probe_outputs root")
+
+
+def validate_attempt_counts(counts: Mapping[str, Any]) -> None:
+    required = (
+        "feasibility_query_count",
+        "planner_query_count",
+        "execution_attempt_count",
+        "recovery_attempt_count",
+    )
+    for key in required:
+        value = counts.get(key)
+        if not isinstance(value, int) or value < 0:
+            raise ValueError(f"{key} must be a non-negative integer")
+
+
+def validate_primary_stream(actions, states, *, frequency_hz=250, action_dim=26) -> None:
+    import numpy as np
+
+    action_array = np.asarray(actions)
+    state_array = np.asarray(states)
+    if frequency_hz != 250 or action_dim != 26:
+        raise ValueError("primary stream contract is fixed at 250 Hz and 26 dimensions")
+    if action_array.ndim != 2 or action_array.shape[1] != action_dim:
+        raise ValueError("primary actions must have shape [N, 26]")
+    if state_array.ndim < 2 or state_array.shape[0] != action_array.shape[0] + 1:
+        raise ValueError("primary stream requires N actions and N+1 states")

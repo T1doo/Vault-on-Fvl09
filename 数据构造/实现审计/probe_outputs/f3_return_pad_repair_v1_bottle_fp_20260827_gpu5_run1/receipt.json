@@ -1,0 +1,163 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 12,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "bottle_center_offset_m": 0.041509270668029785,
+    "pad_local_target": [
+      -0.22751136124134064,
+      -0.05630267783999443,
+      0.7865092754364014
+    ],
+    "pre_place_eef_pose": [
+      -0.2881177759442383,
+      -0.13713088290604958,
+      0.9097339735484484,
+      0.3256723281945921,
+      -0.5073203851885407,
+      -0.19089434116046666,
+      0.774676004490507
+    ],
+    "release_eef_pose": [
+      -0.2028467539257867,
+      -0.14483348093304718,
+      0.8760661433902212,
+      0.3256723281945921,
+      -0.5073203851885407,
+      -0.19089434116046666,
+      0.774676004490507
+    ],
+    "release_orientation": [
+      0.5610624551773071,
+      0.005029431078583002,
+      0.8264091610908508,
+      -0.04724067822098732
+    ],
+    "repair_version": "f3_return_pad_repair_v1",
+    "variant": "bottle_fp"
+  },
+  "elapsed_seconds": 49.18112874031067,
+  "expected_gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+  "family": "F3",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-27T23:08:27.646424+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 5,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f3_return_pad_repair_v1_bottle_fp_20260827_gpu5_run1_guard.json",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_complete",
+  "physical_gpu_index": 5,
+  "pid": 1665843,
+  "purpose": "nonformal_feasibility",
+  "repair_planner_query_count": 2,
+  "result": {
+    "bottle_return_orientation_error": 0.9968863383401185,
+    "bottle_return_position_error_m": 0.2515220046043396,
+    "bottle_stable_linear_speed_mps": 0.06391991572846963,
+    "left_gripper_open": true,
+    "markers": {
+      "repair_H_end": 2494,
+      "repair_H_start": 2078,
+      "repair_V_end": 2078,
+      "repair_V_start": 1617,
+      "return_pre_place_start": 2494,
+      "trace_start": 0
+    },
+    "metrics": {
+      "repair_H": {
+        "axis": "H",
+        "bottle_max_off_axis": 0.00738315452753537,
+        "bottle_negative_amplitude": 0.052215371280908585,
+        "bottle_orientation_drift": 9.498987118039537e-05,
+        "bottle_positive_amplitude": 0.04779171012341976,
+        "bottle_return_error": 0.003643527979619989,
+        "contact_break_count": 0,
+        "eef_max_off_axis": 0.006970705703498278,
+        "eef_negative_amplitude": 0.05011951923370361,
+        "eef_positive_amplitude": 0.04810264706611633,
+        "eef_return_error": 0.0030853590276331607,
+        "event_duration": 1.668,
+        "selected_gripper_contact_fraction": 1.0
+      },
+      "repair_V": {
+        "axis": "V",
+        "bottle_max_off_axis": 0.008330892889282763,
+        "bottle_negative_amplitude": 0.05083358287811279,
+        "bottle_orientation_drift": 0.00010476621330501867,
+        "bottle_positive_amplitude": 0.04799461364746094,
+        "bottle_return_error": 0.0025423233020229396,
+        "contact_break_count": 0,
+        "eef_max_off_axis": 0.005546332520231295,
+        "eef_negative_amplitude": 0.05057573318481445,
+        "eef_positive_amplitude": 0.04780203104019165,
+        "eef_return_error": 0.0026689878061818316,
+        "event_duration": 1.848,
+        "selected_gripper_contact_fraction": 1.0
+      }
+    },
+    "plan_success": true,
+    "planner_query_count": 12,
+    "repair_version": "f3_return_pad_repair_v1",
+    "rest_return_error_m": 0.3862114657005134,
+    "trace_steps": 4221,
+    "variant": "bottle_fp"
+  },
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F3-bottle_fp",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_v2",
+  "semantic_probe_pass": false,
+  "stage0_data": false,
+  "status": "failed_nonformal_action_probe",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 1800,
+  "trace": {
+    "fields": [
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "gripper_aperture",
+      "gripper_command",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_linear_velocity",
+      "object_pose",
+      "planner_target",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f3_return_pad_repair_v1_bottle_fp_20260827_gpu5_run1/trace.npz",
+    "sample_count": 4221
+  },
+  "variant": "bottle_fp"
+}

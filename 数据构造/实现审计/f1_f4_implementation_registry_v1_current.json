@@ -1,0 +1,123 @@
+{
+  "schema_version": "f1_f4_implementation_registry_v1_current",
+  "generated_at": "2026-08-27",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "status": "bounded_repair_execution_complete_with_hard_blockers",
+  "formal_data": false,
+  "stage0_data": false,
+  "historical_registry": "f1_f4_implementation_registry.json",
+  "historical_registry_policy": "preserved; this file supersedes status fields only and does not erase evidence",
+  "current_runtime_scope": {
+    "host": "fvl05",
+    "physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+    "parallel_independent_jobs_allowed": true,
+    "fresh_idle_check_required_per_job": true,
+    "explicit_uuid_binding_required": true,
+    "physical_gpu_0_to_3_out_of_scope": false,
+    "runtime_probe_run": true
+  },
+  "current_family_status": {
+    "F1": {
+      "status": "unresolved_after_bounded_repair_v1",
+      "mapping": "procedural RGB blocks -> 062_plasticbox/base3",
+      "passed": ["RGB scene visibility", "red block grasp/lift", "fp1 planner completed with non-target stability", "interior target achieved provisional OBB inside"],
+      "blocker": "fp1 failed inside; interior moved green/blue by 0.05633/0.01967 m; both bounded variants exhausted",
+      "repair_namespace": "f1_block_inside_box_repair_v1"
+    },
+    "F2": {
+      "status": "unresolved_after_stand_and_pot_bounded_repair",
+      "mapping": "071_can/base1, left arm, inside/on/beside",
+      "passed": ["same can/arm inside", "same can/arm on", "official 060_kitchenpot/base0 fallback and joint-scene clearance CPU audit"],
+      "blocker": "display-stand sector1/sector2 and kitchen-pot pot_left all failed place planning; bounded references exhausted",
+      "repair_namespace": "f2_beside_reference_pot_audit_v2"
+    },
+    "F3": {
+      "status": "unresolved_after_both_return_variants",
+      "mapping": "001_bottle/base13, left arm, V=table-z, H=table-x, original pad",
+      "passed": ["single V", "single H", "V-to-H", "selected-gripper contact continuity", "bottle_fp completed all planning and release"],
+      "blocker": "pad_center pre-place planning failed; bottle_fp ended with 0.25152 m position, 0.99689 orientation and 0.38621 m rest-return errors",
+      "repair_namespace": "f3_return_pad_repair_v1"
+    },
+    "F4": {
+      "status": "blocked_at_common_X_first_gate",
+      "mapping": "yellow common X -> 008_tray/base0; RGB A/B/C -> visible project slot regions",
+      "passed": ["yellow common-X visibility", "single A neutral-to-neutral block"],
+      "blocker": "common-X to tray place planning failed; ordered Gate stopped B/C, common-X+AB, ABC/ACB/BAC and noninterference",
+      "repair_namespace": "f4_full_program_probe_v1"
+    }
+  },
+  "current_code_status": {
+    "active_source": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future",
+    "official_tracked_baseline_modified": false,
+    "cleanup_finally": "implemented",
+    "dense_trace_v2": "implemented",
+    "candidate_freezer": "implemented_cpu_tested",
+    "current_hasher": "implemented_cpu_tested",
+    "anchor_equivalence": "implemented_cpu_tested",
+    "raw_writer_26d_250hz_n_plus_one": "implemented_cpu_tested",
+    "attempt_state_machine": "implemented_cpu_tested",
+    "receipt": "implemented_cpu_tested",
+    "finalizer": "implemented_cpu_tested",
+    "gpu_guard": "implemented_and_runtime_verified_precheck_timeout_postcheck_orphan_receipt",
+    "cpu_test_count": 20,
+    "runtime_pipeline_integration": "synthetic_cpu_integration_passed; real SAPIEN fresh-scene integration pending"
+  },
+  "trace_contract": {
+    "frequency_hz": 250,
+    "primary_action_stream": "controller_effective_setpoint_v1",
+    "action_dimensions": 26,
+    "fields": [
+      "timestamp",
+      "step_index",
+      "controller_effective_setpoint",
+      "requested_command",
+      "planner_target",
+      "joint_qpos",
+      "joint_qvel",
+      "eef_pose",
+      "eef_linear_velocity",
+      "eef_angular_velocity",
+      "object_pose",
+      "object_linear_velocity",
+      "object_angular_velocity",
+      "gripper_command",
+      "gripper_aperture",
+      "selected_gripper_links",
+      "contact_pairs",
+      "contact_count",
+      "contact_impulse_when_available",
+      "event_markers"
+    ]
+  },
+  "superseded_evidence": [
+    {"old_status": "pending_gpu0", "replacement": "GPU4-7 runtime probes completed; versioned repair probes pending"},
+    {"old_status": "GPU0-only and later fixed subsets", "replacement": "any physical GPU0-7 only when independently fresh-idle"},
+    {"old_status": "runtime probe not run", "replacement": "environment, scene and first action probes run"},
+    {"old_status": "white common X current", "replacement": "white-X failure retained; yellow-X v2 is current"}
+  ],
+  "latest_receipts": {
+    "F1_fp1": "probe_outputs/f1_block_inside_box_repair_v1_fp1_20260827_attempt2_tracefix/receipt.json",
+    "F1_interior": "probe_outputs/f1_block_inside_box_repair_v1_interior_20260827/receipt.json",
+    "F2_sector1": "probe_outputs/f2_beside_clearance_repair_v1_sector1_20260827_attempt2_tracefix/receipt.json",
+    "F2_sector2": "probe_outputs/f2_beside_clearance_repair_v1_sector2_20260827/receipt.json",
+    "F2_pot_cpu_audit": "f2_beside_reference_pot_audit_v2.json",
+    "F2_pot_left": "probe_outputs/f2_beside_reference_pot_audit_v2_pot_left_20260827_gpu5_run1/receipt.json",
+    "F3_pad_center": "probe_outputs/f3_return_pad_repair_v1_1_pad_center_central_restore_20260827/receipt.json",
+    "F3_bottle_fp": "probe_outputs/f3_return_pad_repair_v1_bottle_fp_20260827_gpu5_run1/receipt.json",
+    "F4_common": "probe_outputs/f4_full_program_probe_v1_common_20260827_gpu5_run1/receipt.json",
+    "F4_current_scene": "probe_outputs/f4_scene_inspection_v2_20260827/receipt.json",
+    "pipeline_synthetic": "probe_outputs/nonformal_pipeline_dry_run_v1_20260827/receipt.json",
+    "gpu_blocker_first": "probe_outputs/gpu4_7_availability_blocker_20260827_192744.json",
+    "gpu_blocker_latest": "probe_outputs/gpu4_7_availability_blocker_20260827_193021.json"
+  },
+  "current_blockers": [
+    "F1 two bounded variants exhausted without satisfying all strict predicates",
+    "F2 stand and pot bounded beside references all failed place planning",
+    "F3 both return variants failed final return semantics",
+    "F4 common-X place planning failed at first ordered Gate; later programs intentionally not run",
+    "synthetic fresh-scene pipeline passed, but real SAPIEN fresh-scene integration not yet run",
+    "all authorized family repairs reached terminal bounded failures; no further GPU probe is permitted without impact review and a new implementation plan",
+    "pilot_attempt_budget_v0 remains proposed, not approved or frozen"
+  ]
+}
