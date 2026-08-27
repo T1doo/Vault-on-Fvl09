@@ -5,7 +5,7 @@ repository: https://github.com/T1doo/Vault-on-Fvl09
 branch: main
 design_version: controlled_multi_future_f1_f4_v1_2
 document_structure_revision: merged_master_v1
-publication_content_commit: CONTENT_COMMIT_TO_BE_FILLED_AFTER_COMMIT
+publication_content_commit: 3340882145cc86911c974757cae8458f02f70242
 current_decision: BLOCKED_WITH_REASONS
 stage0_authorized: false
 formal_data_generated: false
