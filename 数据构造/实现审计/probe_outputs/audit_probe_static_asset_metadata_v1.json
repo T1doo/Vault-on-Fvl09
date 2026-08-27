@@ -1,0 +1,48 @@
+{
+  "schema_version": "audit_probe_static_asset_metadata_v1",
+  "purpose": "implementation_audit",
+  "formal_data": false,
+  "stage0_data": false,
+  "execution_mode": "cpu_only_static_files",
+  "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "status": "passed_static_metadata_only",
+  "limitations": [
+    "No SAPIEN scene was created.",
+    "No image was rendered.",
+    "No planner, grasp, placement, contact, or realized motion was tested because physical GPU 0 was busy.",
+    "Texture RGB means are not semantic color labels and do not replace rendered current-view review."
+  ],
+  "f1_can_texture_rgb_means": {
+    "asset_modelname": "071_can",
+    "model_ids": [0, 1, 2, 3, 5, 6],
+    "rgb_means": {
+      "0": [220.0, 203.9, 181.9],
+      "1": [212.1, 151.6, 135.9],
+      "2": [213.9, 199.8, 167.8],
+      "3": [217.5, 152.2, 149.0],
+      "5": [180.4, 158.4, 140.3],
+      "6": [220.5, 148.5, 147.0]
+    },
+    "finding": "The official can variants are not machine-supported as a red/green/blue triplet. Use the official procedural RGB blocks as the F1 primary candidate and keep rendered review pending."
+  },
+  "selected_asset_geometry_m": [
+    {"modelname": "062_plasticbox", "model_id": 3, "extents_m": [0.191299, 0.075, 0.155082], "functional_points": 2, "stable_metadata": true},
+    {"modelname": "062_plasticbox", "model_id": 5, "extents_m": [0.193603, 0.075742, 0.139405], "functional_points": 2, "stable_metadata": true},
+    {"modelname": "071_can", "model_id": 1, "extents_m": [0.065084, 0.09657, 0.065279], "contact_points": 16, "stable_metadata": true},
+    {"modelname": "071_can", "model_id": 6, "extents_m": [0.064257, 0.096718, 0.064317], "contact_points": 16, "stable_metadata": true},
+    {"modelname": "072_electronicscale", "model_id": 0, "extents_m": [0.117039, 0.040631, 0.156064], "functional_points": 1, "stable_metadata": true},
+    {"modelname": "074_displaystand", "model_id": 3, "extents_m": [0.193338, 0.044842, 0.062315], "functional_points": 1, "stable_metadata": true},
+    {"modelname": "001_bottle", "model_id": 13, "extents_m": [0.06866, 0.247941, 0.067626], "contact_points": 8, "functional_points": 1, "stable_metadata": true},
+    {"modelname": "008_tray", "model_id": 0, "extents_m": [0.307024, 0.03124, 0.186996], "functional_points": 2, "stable_metadata": true}
+  ],
+  "official_procedural_rgb_blocks": {
+    "source": "envs/blocks_ranking_rgb.py::blocks_ranking_rgb.load_actors",
+    "constructor": "envs/utils/create_actor.py::create_box",
+    "colors_rgb": [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+    "same_half_size_within_scene": true,
+    "half_size_range_m": [0.015, 0.025],
+    "model_ids": null,
+    "mass_in_official_task": "not_explicitly_set"
+  },
+  "license_note": "RoboTwin repository and assets/objects/README.md state MIT License; individual upstream model provenance is not enumerated per model and remains a registry limitation."
+}

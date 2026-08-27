@@ -1,0 +1,41 @@
+{
+  "schema_version": "cmf_scene_visual_review_v1",
+  "purpose": "implementation_audit",
+  "formal_data": false,
+  "stage0_data": false,
+  "reviewed_cameras": ["head_camera", "front_camera"],
+  "findings": {
+    "F1": {
+      "head_current_roles_visible": true,
+      "front_camera_all_roles_visible": false,
+      "decision": "pass_primary_head_current_with_secondary_front_occlusion",
+      "notes": "Head view clearly distinguishes equal-size red/green/blue blocks and the plastic box. The front view is strongly occluded by the box and is audit-only for this layout."
+    },
+    "F2": {
+      "head_current_roles_visible": true,
+      "front_camera_all_roles_visible": false,
+      "decision": "pass_primary_head_current_with_secondary_front_occlusion",
+      "notes": "Head view shows the exact can, box, scale, and stand; the stand is partially clipped and front view omits the can/stand. Joint-scene action feasibility remains untested."
+    },
+    "F3": {
+      "head_current_roles_visible": true,
+      "front_camera_all_roles_visible": false,
+      "decision": "pass_primary_head_current_with_secondary_front_occlusion",
+      "notes": "Head view shows bottle, original pad, and central marker. Front view clips the marker/bottle and is not the primary model-visible view."
+    },
+    "F4": {
+      "head_current_roles_visible": false,
+      "front_camera_all_roles_visible": false,
+      "decision": "hard_fail_common_x_low_contrast_revise_without_overwrite",
+      "notes": "White common X is nearly invisible against the clean white table. Preserve v1 evidence and rerun a versioned scene with a high-contrast yellow common X. RGB A/B/C, tray, and three visible slots are otherwise visible."
+    }
+  },
+  "F4_v2_followup": {
+    "status": "passed_primary_head_current_visibility",
+    "change": "common X color only: white to high-contrast yellow project scaffold",
+    "old_evidence_preserved": true,
+    "head_current_roles_visible": true,
+    "front_current_roles_visible": true,
+    "receipt": "f4_scene_inspection_v2_20260827/receipt.json"
+  }
+}

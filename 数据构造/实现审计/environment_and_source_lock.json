@@ -1,0 +1,109 @@
+{
+  "schema_version": "environment_and_source_lock_v1",
+  "generated_at": "2026-08-27T11:26:06+08:00",
+  "purpose": "implementation_audit",
+  "formal_data": false,
+  "stage0_data": false,
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "document_structure_revision": "merged_master_v1",
+  "documents": {
+    "idea": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/Idea/项目核心Idea.md",
+      "sha256": "1214c97c234d0e990137d9761b6c9ec088b1ecade73210cd0e6a49375ac3eb18"
+    },
+    "data_protocol": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/数据构造方案.md",
+      "sha256": "b59e469e9a7975eef24d0d4b50127ecdb66f3e6578effdedd4269ff41476d0d6"
+    }
+  },
+  "repository": {
+    "path": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin",
+    "remote_name": "origin",
+    "remote_url": "https://github.com/RoboTwin-Platform/RoboTwin.git",
+    "branch": "main",
+    "expected_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "actual_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "git_tree": "9999c16155e733b62e85c105e4bc3b00c8510af6",
+    "source_lock_match": true,
+    "worktree_clean": true,
+    "dirty_entry_count": 0,
+    "tracked_file_sha256": {
+      "script/requirements.txt": "6067cd88e56d302ec2811924efab48a7c5d7d66cf17d5a91cb22d88a86edb05d",
+      "script/test_render.py": "4426c0e313e51995d28858bc2c264ba01ce28fcc56275a56e9efff682f2f84f8",
+      "script/collect_data.py": "e51d8dca1afd843206187a72537dc467d1db07bd1c860055ad59e47b181c81ab",
+      "envs/_base_task.py": "448f7152b65cb9102217cf5463aa821d72810ca56f63d5a797ec7bd43e23e101",
+      "envs/utils/create_actor.py": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d"
+    }
+  },
+  "host": {
+    "hostname": "fvl05",
+    "kernel": "Linux 5.15.0-43-generic x86_64",
+    "nvidia_driver": "535.274.02",
+    "gpu_model": "NVIDIA RTX A6000",
+    "gpu_count": 8
+  },
+  "environment": {
+    "activation_entry": ". /nfs_share/lijunhui/Robotwin2/config/activate_robotwin2.sh",
+    "python_executable": "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "sys_prefix": "/nfs_share/lijunhui/Robotwin2/env",
+    "conda_prefix": null,
+    "virtual_env": null,
+    "python_version": "3.10.20",
+    "torch_version": "2.4.1+cu121",
+    "torch_cuda_build": "12.1",
+    "torchvision_version": "0.19.1+cu121",
+    "cuda_toolkit_version": "12.1.105",
+    "cuda_home": "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1",
+    "torch_cuda_arch_list": "8.6",
+    "ld_library_path_after_activation": null,
+    "sapien_version": "3.0.0b1",
+    "mplib_version": "0.2.1",
+    "curobo_version": "0.7.8",
+    "pytorch3d_version": "0.7.8",
+    "numpy_version": "1.26.4",
+    "scipy_version": "1.10.1",
+    "h5py_version": "3.16.0",
+    "pip_check": "passed",
+    "cpu_import_check": "passed",
+    "reinstall_required": false,
+    "activation_sha256": "3a70daeafb49f161d1ad571e5de6d4455060ab56fdc1838ff2c540cff9b0feea"
+  },
+  "dependency_source_locks": {
+    "curobo_commit": "d64c4b005459db10c5dd867d8b30a87d5bda9bdb",
+    "curobo_worktree_clean": true,
+    "pytorch3d_commit": "75ebeeaea0908c5527e7b1e305fbc7681382db47",
+    "pytorch3d_worktree_clean": true
+  },
+  "gpu0_snapshot": {
+    "physical_index": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "memory_used_mib": 45696,
+    "memory_total_mib": 49140,
+    "utilization_percent": 100,
+    "pstate": "P2",
+    "external_compute_process_count": 2,
+    "idle": false,
+    "gpu_runtime_probe_status": "not_run_gpu0_busy",
+    "decision": "no_gpu_probe_launched"
+  },
+  "paths": {
+    "official_env_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs",
+    "official_task_config_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/task_config",
+    "assets_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets",
+    "objects_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects",
+    "embodiments_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments",
+    "background_texture_root": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/background_texture",
+    "mouse_archive": "/nfs_share/lijunhui/Robotwin2/archive/mouse_three_destination_mvp_20260810_20260820"
+  },
+  "checks": {
+    "torch_cpu_import": "passed",
+    "sapien_cpu_import": "passed",
+    "mplib_cpu_import": "passed",
+    "curobo_cpu_import": "passed",
+    "robotwin_gpu_task_construction": "not_run_gpu0_busy",
+    "cuda_tensor": "not_run_gpu0_busy",
+    "sapien_render": "not_run_gpu0_busy",
+    "curobo_planner": "not_run_gpu0_busy"
+  },
+  "stage0_readiness": "blocked_pending_code_asset_mapping_and_pilot_budget"
+}

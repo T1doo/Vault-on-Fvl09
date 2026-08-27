@@ -1,0 +1,34 @@
+{
+  "schema_version": "stage0_readiness_report_v1",
+  "generated_at": "2026-08-27",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "decision": "BLOCKED_WITH_REASONS",
+  "stage0_authorized": false,
+  "completed": [
+    "canonical documents read and hashed",
+    "RoboTwin source/environment lock matched",
+    "official task/API static audit",
+    "asset metadata and geometry static audit",
+    "F1 red-green-blue can assumption rejected; official RGB blocks selected",
+    "F3 official horizontal task non-equivalence established from code",
+    "machine-readable implementation registry generated",
+    "additive fail-closed skeleton and static tests implemented",
+    "pilot_attempt_budget_v0 proposal generated",
+    "GPU4-7 environment certification and release passed",
+    "F1-F4 deterministic scene rendering/runtime physical-property inspection completed",
+    "F2 same-object/same-left-arm inside and on probes passed",
+    "F3 V/H/V-to-H realized motion and contact continuity passed",
+    "F4 visible-slot scene v2 and one neutral-to-neutral block passed"
+  ],
+  "blockers": [
+    "F1 block-to-box placement planning failed after successful grasp/lift",
+    "F2 same-object/same-arm beside placement planning failed",
+    "F2 mutually exclusive predicate thresholds remain provisional",
+    "F3 return-to-original-pad placement planning failed after successful V/H/V-to-H motion",
+    "F4 common-X and full ABC/ACB/BAC sequences, multi-block noninterference, and strict reorder are not tested",
+    "formal action-step/wall-time ranges remain unsealed despite probe measurements",
+    "pilot budget remains proposed, not approved/frozen"
+  ],
+  "next_safe_action": "Perform CPU-only versioned repair design for the three retained planning failures; do not retry the completed named probes in place. Then review before any new targeted probe.",
+  "formal_collection_started": false
+}

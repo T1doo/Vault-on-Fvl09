@@ -826,3 +826,9 @@
 - 新建 `Robotwin2环境配置/RoboTwin2环境操作手册.md`，系统记录当前验收边界、目录与固定版本、唯一激活方式、无 GPU 健康检查、实时 GPU 选择、CUDA/官方渲染验证、独立配置与数据采集、续跑语义、HDF5/视频/轨迹/指令结构、结果检查、常见故障和维护规则。
 - 手册明确保护 `demo_clean_smoke` 与 `demo_clean_fvl05_recheck`，要求不同实验使用独立配置名和输出目录，并记录当前 `collect_data.sh` 静默调用缺失 `.update_path.sh` 的源码细节及经过实测的直接 Python 入口。
 - `/nfs_share/lijunhui/AGENTS.md` 已同步手册的规范路径、维护要求和上述固定 commit 入口细节。此次只编写文档和长期记忆，没有再次启动 GPU、修改基础环境、执行 Git commit 或 push。
+
+### 2026-08-27 CST：Vault 环境配置目录统一归位
+
+- 按用户要求，仅调整 Vault 文档目录：`Robotwin2环境配置/` 整体迁移到 `环境配置/Robotwin2环境配置/`，与 Claude Code 配置记录统一收纳在 `环境配置/` 下。
+- 所有原有文件由 Git 识别为重命名；没有修改 `/nfs_share/lijunhui/Robotwin2` 环境、源码、数据、模型、缓存或运行进程，也没有启动 GPU。
+- `/nfs_share/lijunhui/AGENTS.md` 中研究草案、实时日志、重建检查、操作手册和历史报告的规范路径已同步到新位置。本次未执行 Git commit 或 push。

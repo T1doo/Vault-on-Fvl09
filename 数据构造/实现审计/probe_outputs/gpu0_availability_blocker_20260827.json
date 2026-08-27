@@ -1,0 +1,21 @@
+{
+  "schema_version": "audit_probe_gpu_availability_v1",
+  "purpose": "implementation_audit",
+  "formal_data": false,
+  "stage0_data": false,
+  "host": "fvl05",
+  "allowed_physical_gpu": 0,
+  "attempt_limit": 1,
+  "timeout_seconds": 10,
+  "status": "blocked_gpu0_busy_no_child_launched",
+  "snapshots": [
+    {"memory_used_mib": 45696, "memory_total_mib": 49140, "utilization_percent": 100, "pstate": "P2", "external_compute_process_count": 2},
+    {"memory_used_mib": 42166, "memory_total_mib": 49140, "utilization_percent": 100, "pstate": "P2", "external_compute_process_count": 2},
+    {"memory_used_mib": 33637, "memory_total_mib": 49140, "utilization_percent": 76, "pstate": "P2", "external_compute_process_count": 1},
+    {"observed_at": "2026-08-27T17:38:44+08:00", "memory_used_mib": 45949, "memory_total_mib": 49140, "utilization_percent": 60, "pstate": "P2", "external_compute_process_count": 1}
+  ],
+  "task_owned_pids": [],
+  "gpu_child_launched": false,
+  "used_alternate_gpu": false,
+  "decision": "continue_cpu_only_and_wait_for_fresh_gpu0_idle_gate"
+}

@@ -532,3 +532,9 @@ exec /nfs_share/lijunhui/.tools/cc-switch-cli/bin/cc-switch-real
 - 配置数据库重装前后 SHA-256 均为 `fb54c235032d7b03b72027dcb8dd73e2f283d957b75ac24222a338c237767c65`，配置内容未被重装改写。
 
 结论：CC-Switch CLI 的 fvl09 旧绝对路径问题已修复，固定 v5.7.0 工具入口在 fvl05 正常可用；代理、daemon 和 provider 切换仍保持未启用状态。
+
+### 2026-08-27 CST：Vault 环境配置目录统一归位
+
+- 按用户要求，仅调整 Vault 文档目录：`claudecode安装配置/` 整体迁移到 `环境配置/claudecode安装配置/`，与 RoboTwin 2 环境配置记录统一收纳。
+- 本次没有安装 Claude Code、修改 CC-Switch 数据库、切换 provider、启用代理或 daemon，也没有读取或记录任何凭据。
+- `/nfs_share/lijunhui/AGENTS.md` 中 Claude Code 历史日志和使用说明路径已同步到新位置。本次未执行 Git commit 或 push。
