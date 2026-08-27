@@ -6,6 +6,7 @@ branch: main
 design_version: controlled_multi_future_f1_f4_v1_2
 document_structure_revision: merged_master_v1
 publication_content_commit: 3340882145cc86911c974757cae8458f02f70242
+publication_handoff_commit: ae354ed9fc459e604bfd9fcd73c308eeab76a464
 current_decision: BLOCKED_WITH_REASONS
 stage0_authorized: false
 formal_data_generated: false
