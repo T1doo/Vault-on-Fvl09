@@ -1,0 +1,71 @@
+{
+  "schema_version": "cmf_runtime_v3_1_implementation_proposal_v1",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "root_orchestrator_version": "real_sapien_pilot_root_orchestrator_v1_1",
+  "current_hash_version": "current_context_hash_v2",
+  "physical_anchor_version": "physical_anchor_v2",
+  "raw_schema_version": "cmf_raw_attempt_v2_1_1",
+  "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
+  "status": "cpu_static_implemented_pending_gpt_review",
+  "approved": false,
+  "frozen": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "scientific_design_changed": false,
+  "root_p0_repairs": {
+    "task_physical_separate_from_planner": true,
+    "cleanup_uncertain_stops_root": true,
+    "scene_bound_unique_cleanup_receipt": true,
+    "planned_spec_program_variant_immutable": true,
+    "provisional_artifacts_before_feasibility": true,
+    "branch_current_and_anchor_rechecked_by_finalizer": true,
+    "raw_manifest_retained_before_verifier": true,
+    "actual_executed_prefix_rechecked": true
+  },
+  "raw_repairs": {
+    "real_scene_timestep_required": true,
+    "required_simulator_timestep_seconds": 0.004,
+    "required_control_steps_per_action": 1,
+    "planner_query_id_active_interval_source": true,
+    "raw_streams_npz_sha256": true,
+    "manifest_file_sha256_sidecar": true,
+    "trace_source_sha256": true,
+    "self_hash_note": "manifest file digest is stored in manifest.sha256.json because an in-file self-hash is self-referential"
+  },
+  "current_anchor_repairs": {
+    "actual_camera_configuration_hashed": true,
+    "physical_entity_schema_required": true,
+    "model_visible_and_hidden_physical_hashes_separate": true,
+    "hidden_physical_allowed_as_model_input": false,
+    "quaternion_sign_invariant": true,
+    "actor_velocity_and_sleep_state_required": true
+  },
+  "real_adapter": {
+    "class": "RoboTwinRealSapienPilotRootAdapterV1_1",
+    "status": "concrete_static_implemented_not_run",
+    "lazy_sapien_import": true,
+    "a0_entry_point": "controlled_multi_future/probes/a0_real_sapien_adapter_smoke.py",
+    "f1_root_entry_point": "controlled_multi_future/probes/runtime_v3_1_root_runner.py",
+    "f2_f3_f4_repair_entry_point": "controlled_multi_future/probes/runtime_v3_1_family_repair_runner.py",
+    "authorization_receipt_required": "cmf_runtime_v3_1_gpu_authorization_v1"
+  },
+  "family_scope": {
+    "F1": {"version": "f1_three_branch_coverage_v3_1", "current_scope": "full red/green/blue r_pc repair root", "full_program_complete": "static_only_not_run"},
+    "F2": {"version": "f2_workspace_reachability_v4_1", "current_scope": "same-can left-arm beside repair with six fresh planner variants", "full_program_complete": "static_only_not_run"},
+    "F3": {"version": "f3_release_dynamics_diagnosis_v3_1", "current_scope": "V-to-H return diagnosis", "full_program_complete": false, "fail_closed_reason": "VVHH/VHVH/VHHV not executed by repair runner"},
+    "F4": {"version": "f4_segmented_common_carry_v3_1", "current_scope": "common-X Route1/Route2 repair", "full_program_complete": false, "fail_closed_reason": "A/B/C and ABC/ACB/BAC not executed by repair runner"}
+  },
+  "cpu_validation": {
+    "active_tests": "70/70 passed",
+    "vault_snapshot_tests": "70/70 passed",
+    "python_files_compiled": 57,
+    "active_snapshot_byte_equal": true,
+    "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu4",
+    "synthetic_only": true
+  },
+  "next_decision": "GPT review of runtime-v3_1 CPU/code; no GPU authorization is implied"
+}

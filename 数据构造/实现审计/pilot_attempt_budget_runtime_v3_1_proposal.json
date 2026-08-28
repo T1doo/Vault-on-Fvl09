@@ -1,0 +1,20 @@
+{
+  "schema_version": "cmf_runtime_v3_1_probe_budget_proposal_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "status": "proposed_for_user_review",
+  "approved": false,
+  "frozen": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "device_scope_if_later_approved": "one independently fresh-idle physical fvl05 GPU0-7 per sequential job",
+  "A0": {"scene_count": 4, "scene_pattern": "one_pristine_plus_three_fresh", "planner_query_limit": 0, "action_execution_limit": 0, "timeout_seconds": 600, "stop_on_any_failure": true},
+  "F1": {"branch_order": ["red", "green", "blue"], "execution_limit_per_branch": 1, "planner_query_limit_per_branch": 12, "timeout_seconds_per_branch": 1200, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "three of three required"},
+  "F2": {"scope": "F2-beside repair only", "fresh_planner_scene_per_candidate": true, "pose_candidate_limit": 6, "planner_query_limit_total": 16, "execution_limit": 1, "timeout_seconds": 1200, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "six failures enter f2_stand_layout_impact_review_v5"},
+  "F3": {"scope": "V-to-H release diagnosis only", "diagnostic_execution_limit": 1, "conditional_correction_execution_limit": 1, "planner_query_limit_per_run": 16, "timeout_seconds_per_run": 1800, "recovery_attempts": 0, "automatic_retry": false, "correction_gate": "stable grasp transform plus normal EEF tracking plus systematic pre-release offset", "stop_condition": "grasp slip or post-release physics forbids correction"},
+  "F4": {"scope": "common-X repair only", "route_order": ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"], "fresh_scene_per_route": true, "planner_query_limit_per_route": 16, "execution_limit_per_route": 1, "timeout_seconds_per_route": 1800, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "Route1 cleanup uncertainty forbids Route2; two terminal non-cleanup failures enter layout review"},
+  "full_f3_f4_program_budget": "unresolved_and_unapproved_after_repair_gates",
+  "authorization_mechanism": "future content-hashed cmf_runtime_v3_1_gpu_authorization_v1 receipt"
+}

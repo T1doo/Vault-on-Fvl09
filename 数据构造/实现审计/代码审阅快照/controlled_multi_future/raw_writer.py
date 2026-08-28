@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any, Mapping
@@ -16,6 +17,7 @@ PRIMARY_STREAM_NAME = "controller_effective_setpoint_v1"
 PRIMARY_FREQUENCY_HZ = 250
 PRIMARY_ACTION_DIM = 26
 ACTION_LAYOUT_VERSION = "controller_effective_setpoint_v1_layout_v2_1"
+RAW_SCHEMA_VERSION = "cmf_raw_attempt_v2_1_1"
 ACTION_LAYOUT_DIMENSIONS = tuple(
     [f"left_joint_{index}_position_target" for index in range(6)]
     + [f"right_joint_{index}_position_target" for index in range(6)]
@@ -24,6 +26,14 @@ ACTION_LAYOUT_DIMENSIONS = tuple(
     + ["left_gripper_normalized_target", "right_gripper_normalized_target"]
 )
 STREAM_SOURCE_STATUSES = frozenset({"measured", "commanded", "derived", "mixed", "unavailable"})
+PLANNER_AUDIT_FIELDS = (
+    "planner_goal_available",
+    "planner_query_id",
+    "planner_goal_active",
+    "planner_goal_source",
+    "planner_goal_start_step",
+    "planner_goal_end_step",
+)
 REQUIRED_STREAM_METADATA = (
     "controller_effective_setpoint",
     "requested_command",
@@ -80,6 +90,10 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
         values = np.asarray(arrays.get(field))
         if values.ndim != 2 or values.shape[0] != action_count + 1 or values.shape[1] < 1:
             raise ValueError(f"audit {field} must have shape [N+1,D] with D>=1")
+    for field in PLANNER_AUDIT_FIELDS:
+        values = np.asarray(arrays.get(field))
+        if values.shape != (action_count, 2):
+            raise ValueError(f"audit {field} must have shape [N,2]")
     for field, values in arrays.items():
         if values.ndim == 0 or values.shape[0] not in (action_count, action_count + 1):
             raise ValueError(f"audit field {field} must have N or N+1 rows")
@@ -89,6 +103,117 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
         source = item.get("source")
         if not isinstance(source, str) or not source or "placeholder" in source.lower():
             raise ValueError(f"audit field {field} must name a non-placeholder source")
+
+
+def _require_sha256(value: Any, label: str) -> str:
+    if not isinstance(value, str) or len(value) != 64:
+        raise ValueError(f"{label} must be a lowercase SHA-256 hex digest")
+    try:
+        int(value, 16)
+    except ValueError as exc:
+        raise ValueError(f"{label} must be a lowercase SHA-256 hex digest") from exc
+    if value.lower() != value:
+        raise ValueError(f"{label} must be lowercase")
+    return value
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def validate_simulator_timing(provenance: Mapping[str, Any]) -> dict:
+    timing = provenance.get("simulator_timing")
+    if not isinstance(timing, Mapping):
+        raise ValueError("provenance must include simulator_timing")
+    required = (
+        "simulator_timestep_seconds",
+        "control_steps_per_action",
+        "effective_action_interval_seconds",
+        "scene_timestep_source",
+    )
+    missing = [key for key in required if key not in timing]
+    if missing:
+        raise ValueError(f"simulator_timing missing {missing}")
+    timestep = float(timing["simulator_timestep_seconds"])
+    control_steps = timing["control_steps_per_action"]
+    effective = float(timing["effective_action_interval_seconds"])
+    source = timing["scene_timestep_source"]
+    if not isinstance(control_steps, int) or control_steps <= 0:
+        raise ValueError("control_steps_per_action must be a positive integer")
+    if not isinstance(source, str) or not source:
+        raise ValueError("scene_timestep_source must be non-empty")
+    if not np.isclose(effective, timestep * control_steps, rtol=0.0, atol=1e-12):
+        raise ValueError("effective action interval must equal simulator timestep times control steps")
+    if not np.isclose(effective, 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-12):
+        raise ValueError("effective action interval must match the frozen 250 Hz stream")
+    if not np.isclose(timestep, 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-12) or control_steps != 1:
+        raise ValueError("current raw-v2_1_1 requires a real 0.004 s scene timestep and one scene.step per action")
+    return {
+        "simulator_timestep_seconds": timestep,
+        "control_steps_per_action": control_steps,
+        "effective_action_interval_seconds": effective,
+        "scene_timestep_source": source,
+    }
+
+
+def validate_planner_goal_audit(streams: Mapping[str, Any], audit_streams: Mapping[str, Any], provenance: Mapping[str, Any]) -> None:
+    goals = np.asarray(streams["planner_goal_eef_pose"], dtype=np.float64)
+    n = goals.shape[0]
+    available = np.asarray(audit_streams["planner_goal_available"], dtype=bool)
+    active = np.asarray(audit_streams["planner_goal_active"], dtype=bool)
+    query_ids = np.asarray(audit_streams["planner_query_id"], dtype=np.int64)
+    sources = np.asarray(audit_streams["planner_goal_source"]).astype(str)
+    starts = np.asarray(audit_streams["planner_goal_start_step"], dtype=np.int64)
+    ends = np.asarray(audit_streams["planner_goal_end_step"], dtype=np.int64)
+    if not np.array_equal(available, active):
+        raise ValueError("planner_goal_available must mean active on the current action interval")
+    table = provenance.get("planner_queries")
+    if not isinstance(table, list):
+        raise ValueError("provenance must include planner_queries list")
+    indexed = {}
+    for item in table:
+        if not isinstance(item, Mapping):
+            raise ValueError("planner query table entries must be mappings")
+        query_id = item.get("query_id")
+        arm = item.get("arm")
+        if not isinstance(query_id, int) or query_id <= 0 or arm not in ("left", "right"):
+            raise ValueError("planner query table requires positive query_id and left/right arm")
+        key = (query_id, arm)
+        if key in indexed:
+            raise ValueError("planner query IDs must be unique per arm")
+        indexed[key] = item
+    for step in range(n):
+        for arm_index, arm in enumerate(("left", "right")):
+            goal = goals[step, arm_index * 7:(arm_index + 1) * 7]
+            if not active[step, arm_index]:
+                if not np.all(np.isnan(goal)):
+                    raise ValueError("inactive planner goal must be encoded as NaN")
+                if query_ids[step, arm_index] != -1 or starts[step, arm_index] != -1 or ends[step, arm_index] != -1:
+                    raise ValueError("inactive planner audit IDs/intervals must be -1")
+                if sources[step, arm_index] != "":
+                    raise ValueError("inactive planner goal source must be empty")
+                continue
+            if not np.all(np.isfinite(goal)):
+                raise ValueError("active planner goal must be finite")
+            query_id = int(query_ids[step, arm_index])
+            key = (query_id, arm)
+            if key not in indexed:
+                raise ValueError("active planner goal has no matching query-table entry")
+            item = indexed[key]
+            start = int(starts[step, arm_index])
+            end = int(ends[step, arm_index])
+            if not (0 <= start <= step < end <= n):
+                raise ValueError("planner goal active step lies outside its valid interval")
+            if item.get("start_step") != start or item.get("end_step") != end:
+                raise ValueError("planner goal interval disagrees with query table")
+            if item.get("source") != sources[step, arm_index]:
+                raise ValueError("planner goal source disagrees with query table")
+            if not np.allclose(goal, np.asarray(item.get("goal_eef_pose"), dtype=np.float64).reshape(7), rtol=0.0, atol=0.0):
+                raise ValueError("planner goal pose disagrees with query table")
 
 
 def validate_raw_streams(streams: Mapping[str, Any]) -> None:
@@ -147,16 +272,35 @@ def validate_raw_streams(streams: Mapping[str, Any]) -> None:
                 raise ValueError(f"unavailable field {field} must be encoded as NaN")
 
 
+def verify_raw_artifact_integrity(output_dir: Path) -> dict:
+    manifest_path = output_dir / "manifest.json"
+    raw_path = output_dir / "raw_streams.npz"
+    sidecar_path = output_dir / "manifest.sha256.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+    checks = {
+        "raw_streams_npz_sha256": _sha256_file(raw_path) == manifest.get("raw_streams_npz_sha256"),
+        "manifest_file_sha256": _sha256_file(manifest_path) == sidecar.get("manifest_file_sha256"),
+        "manifest_payload_sha256": manifest.get("manifest_payload_sha256") == sidecar.get("manifest_payload_sha256"),
+    }
+    return {"pass": all(checks.values()), "checks": checks, "manifest": manifest, "integrity_sidecar": sidecar}
+
+
 def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_streams: Mapping[str, Any], provenance: Mapping[str, Any]) -> dict:
     validate_raw_streams(streams)
     action_count = int(np.asarray(streams["controller_effective_setpoint"]).shape[0])
     validate_audit_streams(audit_streams, action_count)
+    timing = validate_simulator_timing(provenance)
+    validate_planner_goal_audit(streams, audit_streams, provenance)
+    trace_source_sha256 = _require_sha256(provenance.get("trace_source_sha256"), "trace_source_sha256")
     output_dir.mkdir(parents=True, exist_ok=False)
     arrays = {f"stream__{key}": np.asarray(value) for key, value in streams.items() if key != "field_metadata"}
     arrays.update({f"audit__{key}": np.asarray(value) for key, value in audit_streams.items() if key != "field_metadata"})
-    np.savez_compressed(output_dir / "raw_streams.npz", **arrays)
+    raw_path = output_dir / "raw_streams.npz"
+    np.savez_compressed(raw_path, **arrays)
+    raw_streams_npz_sha256 = _sha256_file(raw_path)
     manifest = {
-        "schema_version": "cmf_raw_attempt_v2_1",
+        "schema_version": RAW_SCHEMA_VERSION,
         "formal_data": False,
         "stage0_data": False,
         "primary_action_stream": PRIMARY_STREAM_NAME,
@@ -169,8 +313,36 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
         "audit_field_metadata": dict(audit_streams["field_metadata"]),
         "action_count": int(np.asarray(streams["controller_effective_setpoint"]).shape[0]),
         "state_count": int(np.asarray(streams["realized_qpos"]).shape[0]),
+        "simulator_timing": timing,
+        "raw_streams_npz_sha256": raw_streams_npz_sha256,
+        "trace_source_sha256": trace_source_sha256,
         "provenance": dict(provenance),
     }
-    manifest["manifest_sha256"] = hash_json(manifest)
-    (output_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    return manifest
+    manifest["manifest_payload_sha256"] = hash_json(manifest)
+    manifest["manifest_sha256"] = manifest["manifest_payload_sha256"]
+    manifest_path = output_dir / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # A file cannot contain its own final hash without a self-reference paradox.
+    # Store the actual manifest-file digest in a sidecar and copy it into the
+    # returned receipt descriptor.
+    manifest_file_sha256 = _sha256_file(manifest_path)
+    sidecar = {
+        "schema_version": "cmf_raw_manifest_integrity_v1",
+        "manifest_file": "manifest.json",
+        "manifest_file_sha256": manifest_file_sha256,
+        "manifest_payload_sha256": manifest["manifest_payload_sha256"],
+        "raw_streams_file": "raw_streams.npz",
+        "raw_streams_npz_sha256": raw_streams_npz_sha256,
+        "trace_source_sha256": trace_source_sha256,
+    }
+    (output_dir / "manifest.sha256.json").write_text(
+        json.dumps(sidecar, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    result = dict(manifest)
+    result["manifest_file_sha256"] = manifest_file_sha256
+    result["manifest_integrity_sidecar"] = "manifest.sha256.json"
+    integrity = verify_raw_artifact_integrity(output_dir)
+    if not integrity["pass"]:
+        raise RuntimeError(f"raw artifact integrity self-check failed: {integrity['checks']}")
+    return result

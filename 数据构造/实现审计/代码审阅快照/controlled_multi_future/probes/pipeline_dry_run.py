@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from contextlib import contextmanager
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -102,15 +103,44 @@ class SyntheticAdapter(PilotPipelineAdapter):
             "gripper_drive_target_readback": np.ones((n + 1, 2)),
             "realized_left_gripper_joint_qpos": np.zeros((n + 1, 2)),
             "realized_right_gripper_joint_qpos": np.zeros((n + 1, 2)),
+            "planner_goal_available": np.zeros((n, 2), dtype=bool),
+            "planner_query_id": np.full((n, 2), -1, dtype=np.int64),
+            "planner_goal_active": np.zeros((n, 2), dtype=bool),
+            "planner_goal_source": np.full((n, 2), "", dtype="U64"),
+            "planner_goal_start_step": np.full((n, 2), -1, dtype=np.int64),
+            "planner_goal_end_step": np.full((n, 2), -1, dtype=np.int64),
             "field_metadata": {
                 "object_pose": {"status": "measured", "source": "synthetic deterministic adapter object state"},
                 "contact_count": {"status": "measured", "source": "synthetic deterministic adapter contact state"},
                 "gripper_drive_target_readback": {"status": "measured", "source": "synthetic deterministic adapter drive target"},
                 "realized_left_gripper_joint_qpos": {"status": "measured", "source": "synthetic deterministic adapter left gripper state"},
                 "realized_right_gripper_joint_qpos": {"status": "measured", "source": "synthetic deterministic adapter right gripper state"},
+                "planner_goal_available": {"status": "derived", "source": "synthetic action intervals have no active planner goal"},
+                "planner_query_id": {"status": "derived", "source": "synthetic action intervals have no planner query ID"},
+                "planner_goal_active": {"status": "derived", "source": "synthetic action intervals have no active planner control"},
+                "planner_goal_source": {"status": "derived", "source": "synthetic action intervals have no planner source"},
+                "planner_goal_start_step": {"status": "derived", "source": "synthetic action intervals have no planner interval"},
+                "planner_goal_end_step": {"status": "derived", "source": "synthetic action intervals have no planner interval"},
             },
         }
-        return {"streams": streams, "audit_streams": audit_streams, "provenance": {"synthetic": True, "program_id": program["program_id"]}}
+        return {
+            "streams": streams,
+            "audit_streams": audit_streams,
+            "provenance": {
+                "synthetic": True,
+                "program_id": program["program_id"],
+                "simulator_timing": {
+                    "simulator_timestep_seconds": 0.004,
+                    "control_steps_per_action": 1,
+                    "effective_action_interval_seconds": 0.004,
+                    "scene_timestep_source": "synthetic deterministic 250 Hz contract",
+                },
+                "planner_queries": [],
+                "trace_source_sha256": hashlib.sha256(
+                    f"synthetic:{program['program_id']}:raw-v2_1_1".encode("utf-8")
+                ).hexdigest(),
+            },
+        }
 
     def verify(self, scene, program, rollout_result):
         return {"pass": True, "synthetic_only": True}

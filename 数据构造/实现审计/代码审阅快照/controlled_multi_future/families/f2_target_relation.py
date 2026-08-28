@@ -3,8 +3,8 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F2TargetRelation(ControlledMultiFutureSceneBase):
     family_id = "F2"
-    family_implementation_version = "f2_actor_to_eef_beside_mapping_v3"
-    audit_status = "runtime_v2_bounded_probe_authorized_not_run"
+    family_implementation_version = "f2_workspace_reachability_v4_1"
+    audit_status = "runtime_v3_1_cpu_static_gpu_unauthorized"
 
     main_object = {"modelname": "071_can", "model_id": 1, "arm": "left"}
 

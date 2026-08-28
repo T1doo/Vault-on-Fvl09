@@ -1,0 +1,44 @@
+{
+  "schema_version": "cmf_runtime_v3_1_cpu_static_audit_v1",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "status": "cpu_static_passed_real_gpu_unverified",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_used": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "validation": {
+    "active_tests": "70/70 passed",
+    "vault_snapshot_tests": "70/70 passed",
+    "python_files_compiled": 57,
+    "active_snapshot_byte_equal": true,
+    "git_diff_check": "passed",
+    "first_suite_result": "58/61 passed; three stale runtime-v2 test expectations fixed",
+    "planner_goal_test_failures": [
+      "metadata remained unavailable after fixture goal became active",
+      "U1 planner_goal_source truncated left_move_to_pose"
+    ],
+    "current_suite_result": "70/70 passed"
+  },
+  "synthetic_evidence": {
+    "current_namespace": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu4",
+    "cpu1_status": "superseded_after_additional_immutability_hardening",
+    "cpu2_status": "superseded_after_F2_total_query_budget_hardening",
+    "cpu3_status": "superseded_after_planner_count_semantics_split",
+    "cpu4_root_receipt_sha256": "8286b87be8e6b4116abc0517e60cbc01d5651fcf63071dd8396f632ce766a3e9",
+    "cpu4_status": "accepted",
+    "freeze_call_count": 1,
+    "task_physical_receipts": 3,
+    "planner_solvability_receipts": 3,
+    "branch_receipts": 3,
+    "cleanup_records": 10,
+    "cleanup_all_pass": true,
+    "raw_integrity_all_pass": true,
+    "actual_prefix_finalizer_pass": true,
+    "synthetic_only": true
+  },
+  "authorization": {"budget_status": "proposed_for_user_review", "approved": false, "frozen": false, "authorization_receipt_exists": false},
+  "readiness": "BLOCKED_WITH_REASONS"
+}

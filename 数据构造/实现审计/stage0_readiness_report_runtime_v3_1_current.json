@@ -1,0 +1,42 @@
+{
+  "schema_version": "cmf_stage0_readiness_runtime_v3_1_v1",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "decision": "BLOCKED_WITH_REASONS",
+  "stage0_readiness": "blocked_with_reasons",
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data_generated": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null,
+  "compression_run": false,
+  "policy_transfer_run": false,
+  "pi05_run": false,
+  "scientific_invariants_unchanged": true,
+  "cpu_status": {
+    "root_p0_repairs": "implemented_and_tested",
+    "raw_v2_1_1": "implemented_and_synthetic_tested",
+    "current_context_hash_v2": "implemented_and_synthetic_tested",
+    "physical_anchor_v2": "implemented_and_synthetic_tested",
+    "real_sapien_adapter": "concrete_static_implemented_not_run",
+    "family_runners": "concrete_static_implemented_not_run",
+    "active_tests": "70/70 passed",
+    "vault_snapshot_tests": "70/70 passed",
+    "root_cpu4": "accepted_synthetic_only"
+  },
+  "hard_blockers": [
+    "A0 zero-action real SAPIEN smoke missing",
+    "no runtime-v3_1 GPU evidence",
+    "F1 real three-branch actual-prefix evidence missing",
+    "F2 real fresh-candidate chained beside evidence missing",
+    "F3 real release diagnosis missing and full programs incomplete",
+    "F4 real common-X route evidence missing and full programs incomplete",
+    "runtime-v3_1 budget unapproved/unfrozen",
+    "no cmf_runtime_v3_1_gpu_authorization_v1 receipt"
+  ],
+  "next_gate": "GPT CPU/code review; only after a separate user approval may A0 be authorized",
+  "does_not_authorize": ["A0", "family GPU probes", "Stage 0", "Stage 1", "formal collection", "training", "compression", "pi0.5"]
+}

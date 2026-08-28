@@ -3,11 +3,19 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F1ObjectSelection(ControlledMultiFutureSceneBase):
     family_id = "F1"
-    family_implementation_version = "f1_transport_and_true_inside_v2"
-    audit_status = "runtime_v2_bounded_probe_authorized_not_run"
+    family_implementation_version = "f1_three_branch_coverage_v3_1"
+    audit_status = "runtime_v3_1_cpu_static_gpu_unauthorized"
 
     def build_provisional_programs(self):
         return [
-            {"program_id": f"F1-{role}", "steps": [{"op": "pick", "object": role}, {"op": "place", "object": role, "relation": "inside", "reference": "common_box"}]}
-            for role in ("red_block", "green_block", "blue_block")
+            {
+                "program_id": f"F1-{role}",
+                "target_role": role,
+                "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+                "steps": [
+                    {"op": "pick", "object": role},
+                    {"op": "place", "object": role, "relation": "inside", "reference": "common_box"},
+                ],
+            }
+            for role in ("red", "green", "blue")
         ]
