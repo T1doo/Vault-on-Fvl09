@@ -3,7 +3,8 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F3MotionOrder(ControlledMultiFutureSceneBase):
     family_id = "F3"
-    audit_status = "motion_supported_return_pad_repair_v1_pending"
+    family_implementation_version = "f3_return_equivalence_v2"
+    audit_status = "runtime_v2_bounded_probe_authorized_not_run"
 
     def build_provisional_programs(self):
         return [

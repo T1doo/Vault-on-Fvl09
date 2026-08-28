@@ -1,16 +1,21 @@
 """Dependency-free variant and semantic result contracts for audit probes."""
 
-FAMILY_VARIANTS = {
+from .runtime_v2_contracts import RUNTIME_V2_PROBE_VARIANTS
+
+HISTORICAL_FAMILY_VARIANTS = {
     "F1": ("fp1", "interior"),
     "F2": ("sector1", "sector2", "pot_left"),
     "F3": ("pad_center", "bottle_fp"),
     "F4": ("common", "A", "B", "C", "common_ab", "ABC", "ACB", "BAC"),
 }
+FAMILY_VARIANTS = RUNTIME_V2_PROBE_VARIANTS
 
 
 def result_passed(family, result):
     if not result.get("plan_success"):
         return False
+    if "semantic_verifier" in result:
+        return result.get("semantic_verifier", {}).get("pass") is True
     if family == "F1":
         displacements = result.get("non_target_displacement_m", {})
         return (
@@ -24,6 +29,8 @@ def result_passed(family, result):
     if family == "F3":
         return (
             result.get("bottle_return_position_error_m", float("inf")) <= 0.05
+            and result.get("bottle_return_orientation_error", float("inf")) <= 0.02
+            and result.get("rest_return_error_m", float("inf")) <= 0.05
             and result.get("bottle_stable_linear_speed_mps", float("inf")) <= 0.05
             and bool(result.get("left_gripper_open"))
         )

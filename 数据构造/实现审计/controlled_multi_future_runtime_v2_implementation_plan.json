@@ -1,0 +1,116 @@
+{
+  "schema_version": "cmf_runtime_v2_implementation_plan_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "document_structure_revision": "merged_master_v1",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "status": "bounded_probe_round_complete_with_blockers",
+  "approved": true,
+  "gpu_probe_authorized": true,
+  "stage0_authorized": false,
+  "formal_collection_authorized": false,
+  "scientific_design_changed": false,
+  "frozen_invariants": {
+    "families": 4,
+    "accepted_roots": 40,
+    "formal_trajectories": 360,
+    "intents_per_root": 3,
+    "realizations_per_intent": 3,
+    "split_per_family": "5/2/3",
+    "f3_programs": ["VVHH", "VHVH", "VHHV"],
+    "f4_programs": ["common-X+ABC", "common-X+ACB", "common-X+BAC"]
+  },
+  "cpu_static_status": {
+    "implementation": "completed",
+    "active_tests": "32/32 passed",
+    "vault_snapshot_tests": "32/32 passed after byte-equal post-probe resync",
+    "real_sapien_runtime": "bounded_family_probes_complete",
+    "gpu_used": true
+  },
+  "family_repairs": {
+    "F1": {
+      "version": "f1_transport_and_true_inside_v2",
+      "assets_unchanged": ["RGB blocks", "062_plasticbox/base3"],
+      "implementation": ["settle before baseline", "high world-z transport waypoint", "actor-to-EEF target mapping", "semantic cavity with separate collision-free core and box-support contact", "per-stage non-target displacement", "post-rest final stability and full rest pose"],
+      "probe_variant": "transport_true_inside",
+      "execution_attempt_limit": 1,
+      "planner_query_limit": 12,
+      "timeout_seconds": 1200
+    },
+    "F2": {
+      "version": "f2_actor_to_eef_beside_mapping_v3",
+      "main_object": "071_can/base1",
+      "arm": "left",
+      "reference": "074_displaystand/base3",
+      "implementation": ["freeze T_eef_object after grasp", "three preregistered upright yaws", "world-z pre-place", "swept collision envelope", "real nonexecuting planner preflight", "exclusive beside/support/post-rest stability and full rest-pose gate"],
+      "probe_variant": "actor_to_eef_stand",
+      "execution_attempt_limit": 1,
+      "planner_query_limit": 12,
+      "timeout_seconds": 1200
+    },
+    "F3": {
+      "version": "f3_return_equivalence_v2",
+      "asset_arm_axes_unchanged": "001_bottle/base13 + left arm + table-z V + table-x H",
+      "implementation": ["target exact original actor pose", "no actor-center/functional-point mixing", "world-z pre-place and retreat", "direct plan to left_original_pose", "realized EEF+bottle V/H gate", "post-rest orientation/stability/pad-support/full-rest semantic gate"],
+      "probe_variant": "return_equivalence",
+      "execution_attempt_limit": 1,
+      "planner_query_limit": 18,
+      "timeout_seconds": 1800
+    },
+    "F4": {
+      "version": "f4_common_prefix_mapping_v2",
+      "assets_layout_unchanged": "yellow common X + 008_tray/base0 + RGB A/B/C + visible slots",
+      "implementation": ["common-X actor-to-EEF mapping", "high world-z transport waypoint", "tray footprint plus post-neutral support/stability gate", "per-stage A/B/C displacement", "full neutral pose/velocity/gripper boundary receipt"],
+      "probe_variant": "common_prefix_mapping",
+      "ordered_gate_scope": "common-X only; A/B/C and ABC/ACB/BAC remain blocked until this passes",
+      "execution_attempt_limit": 1,
+      "planner_query_limit": 12,
+      "timeout_seconds": 1800
+    }
+  },
+  "gpu_execution_proposal": {
+    "physical_gpu_scope": [0, 1, 2, 3, 4, 5, 6, 7],
+    "parallelism": 1,
+    "immediate_fresh_idle_check_required": true,
+    "uuid_binding_required": true,
+    "one_job_per_card": true,
+    "new_immutable_namespace_required": true,
+    "stop_if_cleanup_or_orphan_uncertain": true,
+    "precheck_and_postcheck_snapshot_failure_fail_closed": true,
+    "postcheck_must_return_memory_utilization_and_processes_to_baseline": true,
+    "stop_if_child_receipt_missing": true,
+    "retry_policy": "no automatic retry; one probe per family implementation version"
+  },
+  "current_execution_state": {
+    "status": "complete",
+    "selected_gpu": 1,
+    "family_results": {"F1": "pass_red_branch_only", "F2": "planner_preflight_exhausted", "F3": "realized_motion_pass_return_fail", "F4": "safe_horizontal_planner_fail"},
+    "actual_family_execution_attempts": 4,
+    "timeouts": 0,
+    "cleanup_failures": 0,
+    "orphans": 0,
+    "next_action": "stop GPU probing and request a new impact review before any retry or branch expansion"
+  },
+  "raw_trace_repairs": {
+    "action_layout_version": "controller_effective_setpoint_v1_layout_v2",
+    "layout": "left position 0-5; right position 6-11; left velocity 12-17; right velocity 18-23; left/right gripper 24-25",
+    "effective_source": "joint drive targets plus normalized gripper drive targets",
+    "requested_source": "take_dense_action control_seq",
+    "planner_target_source": "direct move_to_pose API pose arguments",
+    "realized_state": "complete dual-arm articulation qpos/qvel and dual EEF",
+    "eef_angular_velocity": "derived from quaternion differences",
+    "raw_conversion": "trace row zero is state zero; rows 1..N are N actions and resulting N states",
+    "audit_contract": "object_pose/contact_count are mandatory N+1 streams; every audit array has source/status metadata; timestamps must be exact 250 Hz cadence"
+  },
+  "evidence": {
+    "authorization_receipt": "runtime_v2_probe_authorization_receipt_20260828.json",
+    "authorization_scope_update": "runtime_v2_probe_authorization_scope_update_20260828.json",
+    "cpu_static_audit": "runtime_v2_cpu_static_audit_20260828_v5_any_gpu.json",
+    "completion_audit": "runtime_v2_completion_audit_20260828.json",
+    "synthetic_pipeline_receipt": "probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2/receipt.json",
+    "f1_semantic_adjudication": "probe_outputs/f1_block_inside_box_repair_v1_fp1_20260827_attempt2_tracefix/semantic_adjudication_receipt.json",
+    "f2_pot_supersession": "f2_beside_reference_pot_audit_v2_supersession_receipt.json",
+    "code_snapshot": "代码审阅快照/"
+    ,"bounded_probe_execution_report": "runtime_v2_bounded_probe_execution_report_20260828.json"
+  },
+  "user_decision_requested": "Review terminal F1-F4 evidence and decide whether to authorize a new implementation version; current version has no retry budget."
+}

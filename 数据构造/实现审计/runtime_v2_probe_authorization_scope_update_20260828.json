@@ -1,0 +1,15 @@
+{
+  "schema_version": "cmf_runtime_v2_probe_authorization_scope_update_v1",
+  "recorded_at": "2026-08-28",
+  "supersedes_device_scope_only_of": "runtime_v2_probe_authorization_receipt_20260828.json",
+  "status": "approved",
+  "authorization_source": "user direct correction in the active conversation",
+  "previous_physical_gpu_indices": [0],
+  "current_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "selection_rule": "choose any one card that independently passes the immediate fresh-idle guard; no preferred index and no sharing",
+  "parallelism": 1,
+  "family_variants_attempt_limits_timeouts_unchanged": true,
+  "formal_data": false,
+  "stage0_data": false,
+  "not_authorized": ["Stage 0", "Stage 1", "formal collection", "training", "compression"]
+}

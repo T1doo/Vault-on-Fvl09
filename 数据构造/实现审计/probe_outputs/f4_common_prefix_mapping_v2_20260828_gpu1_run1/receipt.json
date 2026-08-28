@@ -1,0 +1,175 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 6,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "implementation_version": "f4_common_prefix_mapping_v2",
+    "pre_place_eef_pose": [
+      0.15738299555739232,
+      0.02596914060945806,
+      1.0235203779860556,
+      0.5077107235546243,
+      -0.49191611555115866,
+      0.49506294653897615,
+      0.5051346705709736
+    ],
+    "release_eef_pose": [
+      0.15738299555739232,
+      0.02596914060945806,
+      0.9235203779860556,
+      0.5077107235546243,
+      -0.49191611555115866,
+      0.49506294653897615,
+      0.5051346705709736
+    ],
+    "safe_waypoint_eef_pose": [
+      -0.2494056075811386,
+      0.06036452203989029,
+      1.03,
+      0.5077107235546241,
+      -0.49191611555115844,
+      0.49506294653897576,
+      0.5051346705709732
+    ],
+    "scope": "common-X only; ordered Gate stops before A/B/C programs",
+    "swept_path": {
+      "collisions": [],
+      "pass": true,
+      "segment_count": 3
+    },
+    "target_actor_pose": [
+      0.15575514800509282,
+      0.02614029162164029,
+      0.7900041259451925,
+      0.9999555945396423,
+      0.0009504433837719262,
+      0.0028763809241354465,
+      -0.008922122418880463
+    ],
+    "tray_support_region": {
+      "collision_mesh_sha256": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+      "coordinate_frame": "008_tray/base0 actor-local xyz",
+      "derivation_status": "conservative_support_region_pending_runtime_contact_validation",
+      "horizontal_axes": [
+        0,
+        2
+      ],
+      "lower_m": [
+        -0.12,
+        0.006,
+        -0.07
+      ],
+      "model_data_sha256": "d5ed105c12c12f7e2be3b2be2305c21badbd11da3a10f4f00dac0bf7d44b469f",
+      "target_center_local_m": [
+        -0.0745,
+        0.03,
+        0.0
+      ],
+      "upper_m": [
+        0.12,
+        0.029,
+        0.07
+      ]
+    }
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 39.590372800827026,
+  "error": "left-arm planner query failed at safe_horizontal_waypoint",
+  "error_type": "PlannerFailure",
+  "expected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+  "family": "F4",
+  "family_implementation_version": "f4_common_prefix_mapping_v2",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-28T12:38:40.773618+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 1,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f4_common_prefix_mapping_v2_20260828_gpu1_run1_guard.json",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_partial_after_failure",
+  "physical_gpu_index": 1,
+  "pid": 2713586,
+  "planner_query_limit": 12,
+  "purpose": "nonformal_feasibility",
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F4-runtime-v2",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_runtime_v2",
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 1800,
+  "trace": {
+    "fields": [
+      "action_layout_dimensions_json",
+      "action_layout_version",
+      "component_masks",
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "dual_eef_pose",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "field_sources_json",
+      "gripper_aperture",
+      "gripper_command",
+      "initial_state",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_angular_velocity_measured",
+      "object_linear_velocity",
+      "object_linear_velocity_measured",
+      "object_pose",
+      "planner_queries_json",
+      "planner_target",
+      "planner_target_available",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f4_common_prefix_mapping_v2_20260828_gpu1_run1/trace.npz",
+    "sample_count": 1887
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility_v2.py\", line 731, in main\n    result = RUNNERS[args.family](args.output, receipt)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility_v2.py\", line 612, in run_f4\n    _move_left_pose(scene, above_eef, \"safe_horizontal_waypoint\")\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility_v2.py\", line 124, in _move_left_pose\n    _execute_left_control(scene, control, label)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/action_feasibility_v2.py\", line 118, in _execute_left_control\n    raise PlannerFailure(f\"left-arm planner query failed at {label}\")\nPlannerFailure: left-arm planner query failed at safe_horizontal_waypoint\n",
+  "variant": "common_prefix_mapping"
+}

@@ -3,6 +3,7 @@ from pathlib import Path
 
 from controlled_multi_future.base import ImplementationAuditError
 from controlled_multi_future.families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
+from controlled_multi_future.runtime_v2_contracts import FAMILY_IMPLEMENTATION_VERSIONS, IMPLEMENTATION_VERSION, RUNTIME_V2_AUTHORIZATION
 from controlled_multi_future.schemas import validate_probe_receipt
 from controlled_multi_future.signals import beside_annulus, inside_volume, top_surface_region
 from controlled_multi_future.verifiers import classify_exclusive_relation, completion_frame, verify_motion_event
@@ -12,6 +13,17 @@ class StaticContractsTest(unittest.TestCase):
     def test_each_family_has_exactly_three_frozen_programs(self):
         for cls in (F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder):
             self.assertEqual(len(cls().checked_provisional_programs()), 3)
+
+    def test_runtime_v2_is_implementation_only_and_fail_closed(self):
+        self.assertEqual(IMPLEMENTATION_VERSION, "controlled_multi_future_runtime_v2")
+        for cls in (F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder):
+            instance = cls()
+            self.assertEqual(instance.design_version, "controlled_multi_future_f1_f4_v1_2")
+            self.assertEqual(instance.family_implementation_version, FAMILY_IMPLEMENTATION_VERSIONS[instance.family_id])
+            self.assertTrue(instance.gpu_probe_authorized)
+            self.assertFalse(instance.stage0_authorized)
+        self.assertTrue(RUNTIME_V2_AUTHORIZATION["gpu_probe_authorized"])
+        self.assertFalse(RUNTIME_V2_AUTHORIZATION["stage0_authorized"])
 
     def test_f3_programs_and_shared_first_v(self):
         programs = F3MotionOrder().checked_provisional_programs()

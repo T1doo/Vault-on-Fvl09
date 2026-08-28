@@ -1,0 +1,143 @@
+{
+  "action_contract": {
+    "dimension": 26,
+    "dimensions": [
+      "left_joint_0_position_target",
+      "left_joint_1_position_target",
+      "left_joint_2_position_target",
+      "left_joint_3_position_target",
+      "left_joint_4_position_target",
+      "left_joint_5_position_target",
+      "right_joint_0_position_target",
+      "right_joint_1_position_target",
+      "right_joint_2_position_target",
+      "right_joint_3_position_target",
+      "right_joint_4_position_target",
+      "right_joint_5_position_target",
+      "left_joint_0_velocity_target",
+      "left_joint_1_velocity_target",
+      "left_joint_2_velocity_target",
+      "left_joint_3_velocity_target",
+      "left_joint_4_velocity_target",
+      "left_joint_5_velocity_target",
+      "right_joint_0_velocity_target",
+      "right_joint_1_velocity_target",
+      "right_joint_2_velocity_target",
+      "right_joint_3_velocity_target",
+      "right_joint_4_velocity_target",
+      "right_joint_5_velocity_target",
+      "left_gripper_normalized_target",
+      "right_gripper_normalized_target"
+    ],
+    "frequency_hz": 250,
+    "layout_version": "controller_effective_setpoint_v1_layout_v2",
+    "stream": "controller_effective_setpoint_v1"
+  },
+  "authorization": {
+    "cpu_static_repairs_authorized": true,
+    "formal_collection_authorized": false,
+    "gpu_probe_authorized": false,
+    "stage0_authorized": false
+  },
+  "conclusion": "cpu_static_contracts_passed_gpu_runtime_unverified",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "f1_plasticbox_true_cavity": {
+    "collision_path": "assets/objects/062_plasticbox/collision/base3.glb",
+    "collision_sha256_recomputed": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+    "contract": {
+      "collision_mesh_sha256": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+      "coordinate_frame": "062_plasticbox/base3 actor-local xyz",
+      "derivation_status": "conservative_collision_mesh_region_pending_runtime_contact_validation",
+      "lower_m": [
+        -0.05,
+        0.024,
+        -0.04
+      ],
+      "model_data_sha256": "a42959362e9a0c94e8aa1ad36e75c866455e951fb6ee90da706fe203b7620ad0",
+      "target_center_local_m": [
+        0.0,
+        0.047,
+        0.0
+      ],
+      "upper_m": [
+        0.05,
+        0.07,
+        0.04
+      ]
+    },
+    "grid_audit": {
+      "combined_collision_lower_m": [
+        -0.09563545584678651,
+        -0.0017330462113022806,
+        -0.07758783102035523
+      ],
+      "combined_collision_upper_m": [
+        0.09564749598503114,
+        0.07322683334350587,
+        0.0774812936782837
+      ],
+      "convex_piece_count": 34,
+      "limitation": "finite CPU sampling is implementation evidence, not a substitute for runtime contact and realized-pose verification",
+      "method": "uniform grid tested against scipy ConvexHull half-spaces for every official convex collision piece",
+      "sample_count": 15625,
+      "sampled_collision_free": true,
+      "sampled_points_inside_collision_piece": 0,
+      "samples_per_axis": 25
+    },
+    "runtime_contact_validation_required": true
+  },
+  "f4_tray_support_region": {
+    "collision_path": "assets/objects/008_tray/collision/base0.glb",
+    "collision_sha256_recomputed": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+    "combined_collision_lower_m": [
+      -0.1534341812133789,
+      -0.0027209553122520447,
+      -0.0934298038482666
+    ],
+    "combined_collision_upper_m": [
+      0.1534559154510498,
+      0.028494901657104492,
+      0.09338334083557129
+    ],
+    "contract": {
+      "collision_mesh_sha256": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+      "coordinate_frame": "008_tray/base0 actor-local xyz",
+      "derivation_status": "conservative_support_region_pending_runtime_contact_validation",
+      "horizontal_axes": [
+        0,
+        2
+      ],
+      "lower_m": [
+        -0.12,
+        0.006,
+        -0.07
+      ],
+      "model_data_sha256": "d5ed105c12c12f7e2be3b2be2305c21badbd11da3a10f4f00dac0bf7d44b469f",
+      "target_center_local_m": [
+        -0.0745,
+        0.03,
+        0.0
+      ],
+      "upper_m": [
+        0.12,
+        0.029,
+        0.07
+      ]
+    },
+    "convex_piece_count": 16,
+    "predicate_scope": "horizontal footprint inside region plus runtime support contact/stability; not full-height containment",
+    "runtime_contact_validation_required": true
+  },
+  "family_implementation_versions": {
+    "F1": "f1_transport_and_true_inside_v2",
+    "F2": "f2_actor_to_eef_beside_mapping_v3",
+    "F3": "f3_return_equivalence_v2",
+    "F4": "f4_common_prefix_mapping_v2"
+  },
+  "formal_data": false,
+  "gpu_used": false,
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "schema_version": "cmf_runtime_v2_cpu_static_audit_v1",
+  "stage0_data": false,
+  "stage0_readiness_effect": "none; BLOCKED_WITH_REASONS remains"
+}

@@ -16,7 +16,7 @@ from envs.utils.action import ArmTag
 from .lifecycle import cleanup_status, initialize_cleanup_fields, managed_scene
 from .runtime_trace import DenseTraceMixin
 from ..signals import closed_loop_event_metrics, first_stable_true_frame
-from ..probe_contracts import FAMILY_VARIANTS as VARIANTS, result_passed
+from ..probe_contracts import HISTORICAL_FAMILY_VARIANTS as VARIANTS, result_passed
 
 
 class PlannerFailure(RuntimeError):
@@ -455,6 +455,7 @@ def main():
     parser.add_argument("--expected-uuid", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    parser.error("bounded repair v1 is terminal and preserved for evidence only; use action_feasibility_v2 after a new explicit probe authorization")
     if args.variant not in VARIANTS[args.family]:
         parser.error(f"variant for {args.family} must be one of {VARIANTS[args.family]}")
     started = time.time()

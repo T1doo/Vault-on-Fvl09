@@ -20,7 +20,9 @@ class ControlledMultiFutureSceneBase(ABC):
     """
 
     design_version = "controlled_multi_future_f1_f4_v1_2"
-    implementation_status = "stage0_pipeline_preparation"
+    implementation_version = "controlled_multi_future_runtime_v2"
+    implementation_status = "runtime_v2_bounded_nonformal_probes_authorized"
+    gpu_probe_authorized = True
     stage0_authorized = False
 
     @property
@@ -41,7 +43,7 @@ class ControlledMultiFutureSceneBase(ABC):
         return programs
 
     def audit_task_and_physical_feasibility(self, program: Mapping[str, Any]) -> Any:
-        raise ImplementationAuditError(f"{self.family_id}: feasibility audit pending versioned fresh-idle GPU0-7 repair probe")
+        raise ImplementationAuditError(f"{self.family_id}: feasibility audit pending an authorized independently fresh-idle physical GPU0-7 probe")
 
     def freeze_candidate_universe_and_task_tree(self) -> Any:
         raise ImplementationAuditError(f"{self.family_id}: candidate freeze unavailable in skeleton")

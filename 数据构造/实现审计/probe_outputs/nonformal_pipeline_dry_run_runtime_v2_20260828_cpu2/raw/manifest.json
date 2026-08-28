@@ -1,0 +1,92 @@
+{
+  "action_count": 4,
+  "action_dim": 26,
+  "action_layout_dimensions": [
+    "left_joint_0_position_target",
+    "left_joint_1_position_target",
+    "left_joint_2_position_target",
+    "left_joint_3_position_target",
+    "left_joint_4_position_target",
+    "left_joint_5_position_target",
+    "right_joint_0_position_target",
+    "right_joint_1_position_target",
+    "right_joint_2_position_target",
+    "right_joint_3_position_target",
+    "right_joint_4_position_target",
+    "right_joint_5_position_target",
+    "left_joint_0_velocity_target",
+    "left_joint_1_velocity_target",
+    "left_joint_2_velocity_target",
+    "left_joint_3_velocity_target",
+    "left_joint_4_velocity_target",
+    "left_joint_5_velocity_target",
+    "right_joint_0_velocity_target",
+    "right_joint_1_velocity_target",
+    "right_joint_2_velocity_target",
+    "right_joint_3_velocity_target",
+    "right_joint_4_velocity_target",
+    "right_joint_5_velocity_target",
+    "left_gripper_normalized_target",
+    "right_gripper_normalized_target"
+  ],
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2",
+  "audit_field_metadata": {
+    "contact_count": {
+      "source": "synthetic deterministic adapter contact state",
+      "status": "measured"
+    },
+    "object_pose": {
+      "source": "synthetic deterministic adapter object state",
+      "status": "measured"
+    }
+  },
+  "formal_data": false,
+  "frequency_hz": 250,
+  "manifest_sha256": "d956efa40bcbc296b7ca467943f774012b93a1e1e454cd07f6ab0f6e2df039e7",
+  "primary_action_stream": "controller_effective_setpoint_v1",
+  "provenance": {
+    "program_id": "F1-red_block",
+    "synthetic": true
+  },
+  "schema_version": "cmf_raw_attempt_v2",
+  "stage0_data": false,
+  "state_count": 5,
+  "stream_field_metadata": {
+    "component_masks": {
+      "source": "synthetic component availability",
+      "status": "derived"
+    },
+    "controller_effective_setpoint": {
+      "source": "synthetic dry-run effective setpoint generator",
+      "status": "commanded"
+    },
+    "gripper_command": {
+      "source": "synthetic deterministic adapter command",
+      "status": "commanded"
+    },
+    "planner_target": {
+      "source": "synthetic dry-run has no planner",
+      "status": "unavailable"
+    },
+    "realized_eef": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "realized_qpos": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "realized_qvel": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "requested_command": {
+      "source": "synthetic dry-run requested command generator",
+      "status": "commanded"
+    },
+    "timestamps": {
+      "source": "synthetic 250 Hz step index",
+      "status": "derived"
+    }
+  }
+}

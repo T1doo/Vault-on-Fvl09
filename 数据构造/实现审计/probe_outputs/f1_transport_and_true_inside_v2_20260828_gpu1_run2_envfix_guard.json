@@ -1,0 +1,79 @@
+{
+  "child_environment_contract": {
+    "cuda_home": "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1",
+    "ld_library_path": "unset",
+    "path_prefix": [
+      "/nfs_share/lijunhui/Robotwin2/env/bin",
+      "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1/bin",
+      "/nfs_share/lijunhui/Robotwin2/tools/miniforge3/bin"
+    ],
+    "version": "robotwin_workspace_cuda12_1_v1"
+  },
+  "child_exit_code": 0,
+  "child_launch_error": null,
+  "child_pgid": 2706829,
+  "child_pid": 2706829,
+  "child_receipt_update_error": null,
+  "child_receipt_updated": true,
+  "command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.action_feasibility_v2",
+    "--family",
+    "F1",
+    "--variant",
+    "transport_true_inside",
+    "--physical-index",
+    "1",
+    "--expected-uuid",
+    "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+    "--output",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu1_run2_envfix",
+    "--approved-runtime-v2-probe"
+  ],
+  "elapsed_seconds": 55.4448037147522,
+  "expected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+  "formal_data": false,
+  "orphan_process_count": 0,
+  "physical_gpu_index": 1,
+  "postcheck": {
+    "captured_at": "2026-08-28T12:34:16.016580+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 1,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+  },
+  "postcheck_error": null,
+  "postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "precheck": {
+    "captured_at": "2026-08-28T12:33:20.748143+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 1,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+  },
+  "purpose": "nonformal_feasibility",
+  "schema_version": "cmf_gpu_guard_v2",
+  "stage0_data": false,
+  "status": "completed",
+  "stderr": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu1_run2_envfix_guard.stderr.log",
+  "stdout": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu1_run2_envfix_guard.stdout.log",
+  "task_owned_orphan_pids": [],
+  "timed_out": false,
+  "timeout_seconds": 1200
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": "cmf_runtime_v2_completion_audit_v1",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "cpu_preprobe_completion": "PASS",
+  "overall_stage0_readiness": "BLOCKED_WITH_REASONS",
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "second_pass_findings_resolved": [
+    "final object stability/support windows now occur after arm retreat and rest/neutral",
+    "F3 final semantic pass now requires realized EEF and bottle V/H amplitudes, off-axis limits, central return, orientation drift and selected-gripper continuity",
+    "F1 semantic containment now includes the box-bottom support boundary while collision-free descent sampling uses a separate free core",
+    "F1/F2/F3 rest and F4 neutral now verify position, orientation and final EEF linear/angular stationarity",
+    "F4 common receipt now records start/end EEF pose/velocity/gripper plus target and non-target initial/final poses",
+    "GPU guard v2 now writes a precheck failure receipt, treats postcheck snapshot failure as uncertain, and requires memory/utilization/process release back to baseline without killing ownership-uncertain processes",
+    "raw writer now requires 250 Hz timestamps, boolean component masks, finite primary streams, N+1 object pose/contact count audit streams and source/status metadata for every audit field"
+  ],
+  "requirements": [
+    {
+      "id": "cleanup_and_orphan_fail_closed",
+      "status": "implemented_and_cpu_tested_runtime_v2_not_executed",
+      "evidence": ["probes/lifecycle.py", "probes/gpu_guard.py", "test_scene_cleanup_occurs_on_mid_probe_exception", "test_gpu_guard_is_gpu0_only_and_missing_child_receipt_fails"],
+      "remaining": "one real runtime-v2 guard/scene lifecycle receipt"
+    },
+    {
+      "id": "trace_real_sources",
+      "status": "implemented_and_cpu_tested_runtime_v2_not_executed",
+      "evidence": ["probes/runtime_trace.py", "raw_writer.py", "test_runtime_trace_converts_to_n_actions_n_plus_one_states", "test_primary_stream_26d_250hz_n_plus_one"],
+      "remaining": "real SAPIEN trace demonstrating non-placeholder planner/requested/effective and complete dual-arm state"
+    },
+    {
+      "id": "f1_transport_true_inside_non_target",
+      "status": "cpu_static_implemented",
+      "evidence": ["f1_transport_and_true_inside_v2", "runtime_v2_cpu_static_audit_20260828_v3.json", "test_true_cavity_and_staged_non_target_verifiers"],
+      "remaining": "one authorized SAPIEN probe proving true containment, box support, final stability/rest and all non-target stages"
+    },
+    {
+      "id": "f2_same_can_actor_to_eef_beside",
+      "status": "cpu_static_implemented",
+      "evidence": ["f2_actor_to_eef_beside_mapping_v3", "test_actor_to_eef_mapping_preserves_frozen_grasp_transform", "test_swept_path_and_real_planner_selection_contract", "test_f2_beside_gate_requires_rest_pose_and_stationarity"],
+      "remaining": "one authorized SAPIEN probe in which a preregistered pose passes real planner preflight and final exclusive beside/support/rest Gate"
+    },
+    {
+      "id": "f3_realized_motion_and_return_equivalence",
+      "status": "cpu_static_implemented",
+      "evidence": ["f3_return_equivalence_v2", "test_quaternion_angular_velocity_and_f3_return_gate", "test_selected_arm_contact_and_f3_consistency"],
+      "remaining": "one authorized SAPIEN V-to-H plus exact actor return/rest probe"
+    },
+    {
+      "id": "f4_common_prefix_mapping",
+      "status": "cpu_static_implemented_common_gate_only",
+      "evidence": ["f4_common_prefix_mapping_v2", "test_f4_tray_footprint_and_runtime_probe_scope", "test_f4_non_target_and_slot_preservation"],
+      "remaining": "one authorized common-X SAPIEN probe; only after it passes may B/C and ABC/ACB/BAC be considered"
+    },
+    {
+      "id": "raw_stage0_shaped_pipeline",
+      "status": "synthetic_cpu_pass_real_sapien_missing",
+      "evidence": ["probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2/receipt.json", "probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2/raw/manifest.json"],
+      "remaining": "real fresh-scene current/anchor/raw/verifier/finalizer integration"
+    },
+    {
+      "id": "budget_and_authorization",
+      "status": "proposal_only",
+      "evidence": ["pilot_attempt_budget_v0_runtime_v2_addendum.json", "controlled_multi_future_runtime_v2_implementation_plan.json"],
+      "remaining": "explicit user approval for bounded nonformal probes; Stage 0 remains separately unauthorized"
+    }
+  ],
+  "code_hashes": {
+    "geometry.py": "1ee45e0392090b0f02248a65b22c6c1ade4a4424c51672bd6e0a111a18f7bec7",
+    "runtime_v2_contracts.py": "6dfeff44f8098b39fbef2487b47d7ef259b06f2d643811402906934fd7ae35e1",
+    "probes/action_feasibility_v2.py": "519b5811ac0b7d8a3393bb99cf10c312b935801adb91555ec222a9e8a13181a6",
+    "probes/runtime_trace.py": "ed324989fd7b706432aa2b8f068293e4d51ac8e9b2c0cba68e61e568ebf6a04a",
+    "raw_writer.py": "92ba70c3817c2defeb8dfe5d6dbaa4a1e0e32713e9bb3da2f12f7f260ccf7b3d",
+    "probes/gpu_guard.py": "dad4b7fcc4325a6bd6af7606cbeb020bf650b43f6ee5cec56791838814c4519a",
+    "probes/runtime_v2_static_audit.py": "b60a8f30355f461d2eec9e25c45de9322a73be16fe19c473ae67666519798370",
+    "tests/test_pipeline_contracts.py": "d754be3594621591a36359d4cd4613418cfa17eda9c2d7df055788675a2fffe2",
+    "tests/test_static_contracts.py": "bd789f3611e749283e805aecd5df2082b84bf714007bd99aae6f495e5a1ee277"
+  },
+  "validation": {
+    "active_cpu_tests": "31/31 passed",
+    "vault_snapshot_cpu_tests": "31/31 passed",
+    "python_files_compiled": 38,
+    "active_snapshot_byte_equal": true,
+    "current_static_audit": {
+      "path": "runtime_v2_cpu_static_audit_20260828_v3.json",
+      "sha256": "a1a9da3cdda843e487e8f661c542edd81224e4a25e288fdd95aaefbdcfc92942"
+    },
+    "current_synthetic_pipeline": {
+      "path": "probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2",
+      "receipt_sha256": "dd7ed40edec1680532c50afb7b382f9438cc91864028986c162790d7be0b7c95",
+      "manifest_sha256_file": "91bec6b61206d5f299c6e4017e6249e2a0c283a253dfe91edeb9c532be494aa9",
+      "raw_sha256": "ad0c1587cfe2090752a61a6196d53341cd8216f7946f4c032fac2b7e3d91a7f0"
+    }
+  },
+  "remaining_blockers_all_require_new_authority_or_gpu_evidence": true,
+  "next_user_decision": "approve or reject the four bounded runtime-v2 nonformal probes on physical GPU0 only"
+}

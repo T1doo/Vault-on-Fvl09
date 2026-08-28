@@ -8,12 +8,32 @@ from controlled_multi_future.candidate_freezer import freeze_candidate_universe
 from controlled_multi_future.current_hasher import build_current_hashes, require_same_current
 from controlled_multi_future.families import F1ObjectSelection, F2TargetRelation
 from controlled_multi_future.finalizer import finalize_nonformal_integration
+from controlled_multi_future.geometry import (
+    actor_target_to_eef_pose,
+    footprint_inside_local_region,
+    quaternion_angular_velocity,
+    relative_pose,
+    select_first_verified_pose,
+    swept_path_collisions,
+)
 from controlled_multi_future.model_view import build_model_view
-from controlled_multi_future.probe_contracts import FAMILY_VARIANTS as VARIANTS, result_passed
+from controlled_multi_future.probe_contracts import FAMILY_VARIANTS as VARIANTS, HISTORICAL_FAMILY_VARIANTS, result_passed
+from controlled_multi_future.probes.gpu_guard import ALLOWED_PHYSICAL_GPU_INDICES, build_child_environment, classify_terminal_status, verify_post_release
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
-from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, is_selected_gripper_contact
-from controlled_multi_future.raw_writer import pack_effective_setpoint, validate_raw_streams
-from controlled_multi_future.verifiers import verify_completed_slots_preserved, verify_eef_bottle_axis_consistency, verify_non_target_displacement
+from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, is_selected_gripper_contact, trace_rows_to_raw_streams
+from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint, validate_audit_streams, validate_raw_streams
+from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
+from controlled_multi_future.verifiers import (
+    verify_completed_slots_preserved,
+    verify_beside_final_state,
+    verify_common_prefix,
+    verify_eef_bottle_axis_consistency,
+    verify_non_target_displacement,
+    verify_realized_motion_metrics,
+    verify_return_equivalence,
+    verify_staged_non_target_displacement,
+    verify_true_cavity_obb,
+)
 
 
 class DummyScene:
@@ -41,11 +61,34 @@ class PreTraceProbe(DenseTraceMixin, PreTraceBase):
     pass
 
 
+def field_metadata(planner_status="unavailable"):
+    values = {
+        "controller_effective_setpoint": ("measured", "test effective drive targets"),
+        "requested_command": ("commanded", "test requested control sequence"),
+        "planner_target": (planner_status, "test planner API" if planner_status != "unavailable" else "test has no planner"),
+        "realized_qpos": ("measured", "test dual-arm qpos"),
+        "realized_qvel": ("measured", "test dual-arm qvel"),
+        "realized_eef": ("measured", "test dual-arm eef"),
+        "gripper_command": ("commanded", "test gripper command"),
+        "timestamps": ("derived", "test 250 Hz index"),
+        "component_masks": ("derived", "test component mask"),
+    }
+    return {key: {"status": status, "source": source} for key, (status, source) in values.items()}
+
+
 class PipelineContractsTest(unittest.TestCase):
     def test_dense_trace_delegates_during_base_scene_setup(self):
         result = PreTraceProbe().take_dense_action({"setup": True}, save_freq=None)
         self.assertTrue(result["delegated"])
         self.assertEqual(result["control_seq"], {"setup": True})
+
+    def test_planner_query_limit_is_fail_closed(self):
+        probe = PreTraceProbe()
+        probe.planner_query_count = 0
+        probe.planner_query_limit = 1
+        self.assertEqual(probe._reserve_planner_query(), 1)
+        with self.assertRaises(PlannerQueryLimitExceeded):
+            probe._reserve_planner_query()
 
     def test_action_probe_requires_semantic_verifier_not_only_plan_success(self):
         result = {
@@ -59,7 +102,8 @@ class PipelineContractsTest(unittest.TestCase):
         self.assertTrue(result_passed("F1", result))
 
     def test_f2_pot_fallback_is_versioned_without_changing_main_object_contract(self):
-        self.assertEqual(VARIANTS["F2"], ("sector1", "sector2", "pot_left"))
+        self.assertEqual(HISTORICAL_FAMILY_VARIANTS["F2"], ("sector1", "sector2", "pot_left"))
+        self.assertEqual(VARIANTS["F2"], ("actor_to_eef_stand",))
         self.assertEqual(F2TargetRelation.main_object, {"modelname": "071_can", "model_id": 1, "arm": "left"})
 
     def test_scene_cleanup_occurs_on_mid_probe_exception(self):
@@ -112,22 +156,257 @@ class PipelineContractsTest(unittest.TestCase):
             F2TargetRelation().validate_shared_execution_identity(branches)
 
     def test_primary_stream_26d_250hz_n_plus_one(self):
-        action = pack_effective_setpoint(np.zeros(6), np.zeros(6), 1, np.zeros(6), np.zeros(6), 1)
+        action = pack_effective_setpoint(np.arange(6), np.arange(20, 26), 60, np.arange(10, 16), np.arange(30, 36), 70)
+        np.testing.assert_array_equal(action, np.concatenate((np.arange(6), np.arange(10, 16), np.arange(20, 26), np.arange(30, 36), [60, 70])))
+        self.assertEqual(ACTION_LAYOUT_VERSION, "controller_effective_setpoint_v1_layout_v2")
+        self.assertEqual(len(ACTION_LAYOUT_DIMENSIONS), 26)
+        self.assertEqual(ACTION_LAYOUT_DIMENSIONS[0], "left_joint_0_position_target")
+        self.assertEqual(ACTION_LAYOUT_DIMENSIONS[6], "right_joint_0_position_target")
+        self.assertEqual(ACTION_LAYOUT_DIMENSIONS[12], "left_joint_0_velocity_target")
+        self.assertEqual(ACTION_LAYOUT_DIMENSIONS[24:], ("left_gripper_normalized_target", "right_gripper_normalized_target"))
         streams = {
             "controller_effective_setpoint": np.stack([action, action]),
-            "requested_command": np.zeros((2, 26)),
-            "planner_target": np.zeros((2, 26)),
+            "requested_command": np.stack([action.copy(), action.copy()]),
+            "planner_target": np.full((2, 14), np.nan),
             "gripper_command": np.zeros((2, 2)),
             "timestamps": np.arange(2) / 250,
-            "component_masks": np.ones((2, 26)),
+            "component_masks": np.ones((2, 26), dtype=bool),
             "realized_qpos": np.zeros((3, 14)),
             "realized_qvel": np.zeros((3, 14)),
             "realized_eef": np.zeros((3, 14)),
+            "field_metadata": field_metadata(),
         }
         validate_raw_streams(streams)
         streams["realized_qpos"] = np.zeros((2, 14))
         with self.assertRaises(ValueError):
             validate_raw_streams(streams)
+        streams["realized_qpos"] = np.zeros((3, 14))
+        streams["timestamps"] = np.asarray([0.0, 0.01])
+        with self.assertRaisesRegex(ValueError, "250 Hz cadence"):
+            validate_raw_streams(streams)
+
+    def test_raw_streams_reject_alias_and_placeholder_sources(self):
+        actions = np.zeros((2, 26))
+        streams = {
+            "controller_effective_setpoint": actions,
+            "requested_command": actions,
+            "planner_target": np.full((2, 14), np.nan),
+            "gripper_command": np.zeros((2, 2)),
+            "timestamps": np.arange(2) / 250,
+            "component_masks": np.ones((2, 26), dtype=bool),
+            "realized_qpos": np.zeros((3, 14)),
+            "realized_qvel": np.zeros((3, 14)),
+            "realized_eef": np.zeros((3, 14)),
+            "field_metadata": field_metadata(),
+        }
+        with self.assertRaisesRegex(ValueError, "must not alias"):
+            validate_raw_streams(streams)
+        streams["requested_command"] = actions.copy()
+        streams["field_metadata"]["requested_command"]["source"] = "placeholder copy"
+        with self.assertRaisesRegex(ValueError, "non-placeholder"):
+            validate_raw_streams(streams)
+
+    def test_runtime_trace_converts_to_n_actions_n_plus_one_states(self):
+        rows = []
+        for index in range(3):
+            action = np.arange(26, dtype=float) + index
+            rows.append({
+                "initial_state": index == 0,
+                "effective_setpoint": action,
+                "requested_command": action.copy(),
+                "planner_target": np.arange(14, dtype=float),
+                "planner_target_available": np.asarray([True, True]),
+                "component_mask": np.ones(26, dtype=bool),
+                "joint_qpos": np.zeros(14) + index,
+                "joint_qvel": np.zeros(14),
+                "dual_eef": np.zeros(14),
+                "gripper_command": np.ones(2),
+                "timestamp": index / 250,
+                "actor_pose": np.zeros(7),
+                "actor_linear_velocity": np.zeros(3),
+                "actor_angular_velocity": np.zeros(3),
+                "eef_linear_velocity": np.zeros(3),
+                "eef_angular_velocity": np.zeros(3),
+                "gripper_aperture": np.ones(2),
+                "selected_gripper_contact": True,
+                "selected_gripper_contact_count": 1,
+                "selected_gripper_contact_impulse": 0.1,
+                "contact_pairs": [],
+            })
+        streams, audit = trace_rows_to_raw_streams(rows)
+        validate_raw_streams(streams)
+        validate_audit_streams(audit, 2)
+        self.assertEqual(streams["controller_effective_setpoint"].shape, (2, 26))
+        self.assertEqual(streams["realized_qpos"].shape, (3, 14))
+        self.assertEqual(audit["object_pose"].shape, (3, 7))
+        self.assertFalse(np.shares_memory(streams["controller_effective_setpoint"], streams["requested_command"]))
+
+    def test_actor_to_eef_mapping_preserves_frozen_grasp_transform(self):
+        current_eef = [0.0, 0.0, 1.0, 1, 0, 0, 0]
+        current_actor = [0.1, 0.0, 0.9, 1, 0, 0, 0]
+        target_actor = [0.3, -0.2, 0.8, 1, 0, 0, 0]
+        target_eef = actor_target_to_eef_pose(current_eef, current_actor, target_actor)
+        np.testing.assert_allclose(relative_pose(current_eef, current_actor), relative_pose(target_eef, target_actor), atol=1e-9)
+        np.testing.assert_allclose(target_eef[:3], [0.2, -0.2, 0.9], atol=1e-9)
+
+    def test_true_cavity_and_staged_non_target_verifiers(self):
+        container = [0, 0, 0, 1, 0, 0, 0]
+        actor = [0, 0.047, 0, 1, 0, 0, 0]
+        inside = verify_true_cavity_obb(actor, [0.022] * 3, container, PLASTICBOX_BASE3_CAVITY)
+        self.assertTrue(inside["pass_true_cavity_obb"])
+        actor[1] = 0.020
+        self.assertFalse(verify_true_cavity_obb(actor, [0.022] * 3, container, PLASTICBOX_BASE3_CAVITY)["pass_true_cavity_obb"])
+        staged = verify_staged_non_target_displacement(
+            {"green": [0, 0, 0]},
+            {"after_grasp": {"green": [0.001, 0, 0]}, "after_transport": {"green": [0.02, 0, 0]}},
+            0.01,
+        )
+        self.assertFalse(staged["pass"])
+        self.assertEqual(staged["first_violation"]["stage"], "after_transport")
+
+    def test_swept_path_and_real_planner_selection_contract(self):
+        obstacles = {"neighbor": {"lower": [-0.03, -0.03, 0.77], "upper": [0.03, 0.03, 0.83]}}
+        direct = swept_path_collisions([[-0.2, 0, 0.8], [0.2, 0, 0.8]], [0.01] * 3, obstacles)
+        high = swept_path_collisions([[-0.2, 0, 0.8], [-0.2, 0, 1.0], [0.2, 0, 1.0], [0.2, 0, 0.8]], [0.01] * 3, obstacles)
+        self.assertFalse(direct["pass"])
+        self.assertTrue(high["pass"])
+        decision = select_first_verified_pose([
+            {"candidate_id": "hardcoded_only", "workspace_pass": True, "swept_collision_free": True, "left_arm_reach_provisional": True, "planner_status": "not_run"},
+            {"candidate_id": "planner_verified", "workspace_pass": True, "swept_collision_free": True, "planner_status": "Success"},
+        ])
+        self.assertEqual(decision["selected"]["candidate_id"], "planner_verified")
+
+    def test_quaternion_angular_velocity_and_f3_return_gate(self):
+        velocity = quaternion_angular_velocity([1, 0, 0, 0], [np.sqrt(0.5), 0, 0, np.sqrt(0.5)], 1.0)
+        np.testing.assert_allclose(velocity, [0, 0, np.pi / 2], atol=1e-9)
+        required = PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"]
+        gate = verify_return_equivalence(
+            position_error=0.001,
+            orientation_error=0.001,
+            rest_position_error=0.001,
+            rest_orientation_error=0.001,
+            stable_speed_samples=[0.0] * required,
+            support_contact_samples=[True] * required,
+            gripper_open=True,
+            thresholds=PROVISIONAL_RUNTIME_THRESHOLDS,
+            eef_linear_speed=0.0,
+            eef_angular_speed=0.0,
+        )
+        self.assertTrue(gate["pass"])
+        failed = verify_return_equivalence(
+            position_error=0.001,
+            orientation_error=1.0,
+            rest_position_error=0.001,
+            rest_orientation_error=0.001,
+            stable_speed_samples=[0.0] * required,
+            support_contact_samples=[True] * required,
+            gripper_open=True,
+            thresholds=PROVISIONAL_RUNTIME_THRESHOLDS,
+            eef_linear_speed=0.0,
+            eef_angular_speed=0.0,
+        )
+        self.assertFalse(failed["pass"])
+        event = {
+            "eef_positive_amplitude": 0.05,
+            "eef_negative_amplitude": 0.05,
+            "bottle_positive_amplitude": 0.05,
+            "bottle_negative_amplitude": 0.05,
+            "eef_max_off_axis": 0.005,
+            "bottle_max_off_axis": 0.005,
+            "eef_return_error": 0.005,
+            "bottle_return_error": 0.005,
+            "bottle_orientation_drift": 0.01,
+            "selected_gripper_contact_fraction": 1.0,
+            "contact_break_count": 0,
+        }
+        self.assertTrue(verify_realized_motion_metrics({"V": event, "H": event}, PROVISIONAL_RUNTIME_THRESHOLDS)["pass"])
+        event["contact_break_count"] = 1
+        self.assertFalse(verify_realized_motion_metrics({"V": event}, PROVISIONAL_RUNTIME_THRESHOLDS)["pass"])
+
+    def test_f4_tray_footprint_and_runtime_probe_scope(self):
+        footprint = footprint_inside_local_region(
+            [-0.0745, 0.030, 0.0, 1, 0, 0, 0],
+            [0.022] * 3,
+            [0, 0, 0, 1, 0, 0, 0],
+            TRAY_BASE0_SUPPORT_REGION["lower_m"],
+            TRAY_BASE0_SUPPORT_REGION["upper_m"],
+            TRAY_BASE0_SUPPORT_REGION["horizontal_axes"],
+        )
+        self.assertTrue(footprint["pass_support_footprint"])
+        self.assertEqual(RUNTIME_V2_PROBE_VARIANTS["F4"], ("common_prefix_mapping",))
+        required = PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"]
+        common = verify_common_prefix(
+            footprint_result=footprint,
+            support_contact_samples=[True] * required,
+            stable_speed_samples=[0.0] * required,
+            neutral_return_error=0.0,
+            neutral_orientation_error=0.0,
+            non_target_result={"pass": True},
+            gripper_open=True,
+            thresholds=PROVISIONAL_RUNTIME_THRESHOLDS,
+            eef_linear_speed=0.0,
+            eef_angular_speed=0.0,
+        )
+        self.assertTrue(common["pass"])
+
+    def test_f2_beside_gate_requires_rest_pose_and_stationarity(self):
+        gate = verify_beside_final_state(
+            inside=False,
+            on=False,
+            beside=True,
+            support_contact=True,
+            stable_speed_window=True,
+            gripper_open=True,
+            rest_position_error=0.0,
+            rest_orientation_error=0.0,
+            eef_linear_speed=0.0,
+            eef_angular_speed=0.0,
+            thresholds=PROVISIONAL_RUNTIME_THRESHOLDS,
+        )
+        self.assertTrue(gate["pass"])
+        gate = verify_beside_final_state(
+            inside=False,
+            on=False,
+            beside=True,
+            support_contact=True,
+            stable_speed_window=True,
+            gripper_open=True,
+            rest_position_error=0.0,
+            rest_orientation_error=1.0,
+            eef_linear_speed=0.0,
+            eef_angular_speed=0.0,
+            thresholds=PROVISIONAL_RUNTIME_THRESHOLDS,
+        )
+        self.assertFalse(gate["pass"])
+
+    def test_gpu_guard_scope_and_missing_child_receipt_fail_closed(self):
+        self.assertEqual(ALLOWED_PHYSICAL_GPU_INDICES, tuple(range(8)))
+        status, code = classify_terminal_status(
+            child_started=True,
+            receipt_updated=False,
+            receipt_update_error=None,
+            cleanup_uncertain=False,
+            timed_out=False,
+            child_exit=0,
+        )
+        self.assertEqual((status, code), ("failed_missing_child_receipt", 91))
+        pre = {"memory_used_mib": 14, "compute_processes": []}
+        released = verify_post_release(pre, {"memory_used_mib": 14, "utilization_percent": 0, "pstate": "P0", "compute_processes": []})
+        self.assertTrue(released["verified"])
+        claimed = verify_post_release(pre, {"memory_used_mib": 4000, "utilization_percent": 90, "pstate": "P2", "compute_processes": [{"pid": 99}]})
+        self.assertFalse(claimed["verified"])
+        self.assertEqual(claimed["new_compute_processes"][0]["pid"], 99)
+
+    def test_gpu_guard_child_environment_rejects_host_cuda_12_2(self):
+        environment = build_child_environment(
+            {"PATH": "/share/apps/cuda/12.2/bin:/usr/bin", "LD_LIBRARY_PATH": "/share/apps/cuda/12.2/lib64"},
+            "GPU-test",
+            workspace="/nfs_share/lijunhui/Robotwin2",
+        )
+        self.assertNotIn("LD_LIBRARY_PATH", environment)
+        self.assertNotIn("/share/apps/cuda", environment["PATH"])
+        self.assertEqual(environment["CUDA_HOME"], "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1")
+        self.assertEqual(environment["CUDA_VISIBLE_DEVICES"], "GPU-test")
 
     def test_selected_arm_contact_and_f3_consistency(self):
         self.assertTrue(is_selected_gripper_contact("bottle", {"left_finger"}, ("bottle", "left_finger")))

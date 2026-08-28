@@ -1,0 +1,376 @@
+{
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 1,
+    "planner_query_count": 9,
+    "recovery_attempt_count": 0
+  },
+  "attempt_limit": 1,
+  "cleanup_error": null,
+  "cpu_precheck": {
+    "all_scene_blocks": [
+      "blue",
+      "green",
+      "red"
+    ],
+    "cavity": {
+      "collision_free_core_lower_m": [
+        -0.05,
+        0.024,
+        -0.04
+      ],
+      "collision_mesh_sha256": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+      "coordinate_frame": "062_plasticbox/base3 actor-local xyz",
+      "derivation_status": "containment_includes_support_boundary; collision-free core excludes bottom; pending runtime contact validation",
+      "lower_m": [
+        -0.05,
+        0.018,
+        -0.04
+      ],
+      "model_data_sha256": "a42959362e9a0c94e8aa1ad36e75c866455e951fb6ee90da706fe203b7620ad0",
+      "support_surface_band_local_y_m": [
+        0.018,
+        0.026
+      ],
+      "target_center_local_m": [
+        0.0,
+        0.047,
+        0.0
+      ],
+      "upper_m": [
+        0.05,
+        0.07,
+        0.04
+      ]
+    },
+    "implementation_version": "f1_transport_and_true_inside_v2",
+    "pre_place_eef_pose": [
+      -0.07822515070438385,
+      -0.15924662165343761,
+      1.0606272072792053,
+      0.5064974186463401,
+      -0.4929327618653057,
+      0.49425393829723147,
+      0.5061528441707233
+    ],
+    "release_eef_pose": [
+      -0.07822515070438385,
+      -0.15924662165343761,
+      0.9606272072792054,
+      0.5064974186463401,
+      -0.4929327618653057,
+      0.49425393829723147,
+      0.5061528441707233
+    ],
+    "safe_waypoint_eef_pose": [
+      -0.20185652375221252,
+      0.021225079894065857,
+      1.02,
+      0.50649741864634,
+      -0.49293276186530566,
+      0.4942539382972313,
+      0.5061528441707231
+    ],
+    "swept_path": {
+      "collisions": [],
+      "pass": true,
+      "segment_count": 3
+    },
+    "target_actor_pose": [
+      -0.07999999821186066,
+      -0.1599999964237213,
+      0.8269999713897705,
+      0.9999984502792358,
+      -0.0009536963189020753,
+      0.0009324555285274982,
+      -0.0011784709058701992
+    ]
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 46.80680298805237,
+  "expected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+  "family": "F1",
+  "family_implementation_version": "f1_transport_and_true_inside_v2",
+  "formal_data": false,
+  "gpu_postcheck": {
+    "captured_at": "2026-08-28T12:34:16.016580+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 1,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu1_run2_envfix_guard.json",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "orphan_process_count": 0,
+  "partial_output_status": "trace_complete",
+  "physical_gpu_index": 1,
+  "pid": 2706829,
+  "planner_query_limit": 12,
+  "purpose": "nonformal_feasibility",
+  "result": {
+    "final_eef_angular_speed_rps": 0.004783056943318569,
+    "final_eef_linear_speed_mps": 0.00081919125192758,
+    "implementation_version": "f1_transport_and_true_inside_v2",
+    "left_gripper_open": true,
+    "markers": {
+      "safe_transport_start": 1197,
+      "trace_start": 0
+    },
+    "non_target_verifier": {
+      "first_violation": null,
+      "pass": true,
+      "per_stage_displacement_m": {
+        "after_final_stability_window": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_grasp": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_lift": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_release": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_rest": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_retreat": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "after_transport": {
+          "blue": 0.0,
+          "green": 4.218017295443133e-07
+        },
+        "settled_baseline": {
+          "blue": 0.0,
+          "green": 0.0
+        }
+      }
+    },
+    "plan_success": true,
+    "planner_query_count": 9,
+    "rest_return_error_m": 0.0003762582611123092,
+    "rest_return_orientation_error": 2.9242237042925723e-07,
+    "semantic_verifier": {
+      "checks": {
+        "eef_angular_stationary": true,
+        "eef_linear_stationary": true,
+        "gripper_open": true,
+        "non_target_stability": true,
+        "rest_orientation": true,
+        "rest_position": true,
+        "stable_window": true,
+        "support_contact_window": true,
+        "true_inside": true
+      },
+      "pass": true
+    },
+    "stable_speed_window_mps": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "support_contact_window": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "true_inside_verifier": {
+      "cavity_lower": [
+        -0.05,
+        0.018,
+        -0.04
+      ],
+      "cavity_upper": [
+        0.05,
+        0.07,
+        0.04
+      ],
+      "local_corner_max": [
+        0.022188893253433206,
+        0.06671561223992672,
+        0.023806124609307228
+      ],
+      "local_corner_min": [
+        -0.02247100203715513,
+        0.021617160015017123,
+        -0.020809456389740882
+      ],
+      "pass_true_cavity_obb": true
+    },
+    "variant": "transport_true_inside"
+  },
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_records": [
+    {
+      "cleanup_error": null,
+      "label": "F1-runtime-v2",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_setup_succeeded": true
+    }
+  ],
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_action_feasibility_runtime_v2",
+  "semantic_probe_pass": true,
+  "stage0_data": false,
+  "status": "passed_nonformal_action_probe",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 1200,
+  "trace": {
+    "fields": [
+      "action_layout_dimensions_json",
+      "action_layout_version",
+      "component_masks",
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "dual_eef_pose",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "field_sources_json",
+      "gripper_aperture",
+      "gripper_command",
+      "initial_state",
+      "joint_qpos",
+      "joint_qvel",
+      "object_angular_velocity",
+      "object_angular_velocity_measured",
+      "object_linear_velocity",
+      "object_linear_velocity_measured",
+      "object_pose",
+      "planner_queries_json",
+      "planner_target",
+      "planner_target_available",
+      "requested_command",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu1_run2_envfix/trace.npz",
+    "sample_count": 3013
+  },
+  "variant": "transport_true_inside"
+}

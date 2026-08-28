@@ -1,0 +1,33 @@
+{
+  "schema_version": "cmf_runtime_v2_probe_authorization_v1",
+  "recorded_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "status": "approved",
+  "authorization_source": "user direct approval in the active conversation",
+  "formal_data": false,
+  "stage0_data": false,
+  "physical_gpu_indices": [0],
+  "parallelism": 1,
+  "authorized_probes": {
+    "F1": {"variant": "transport_true_inside", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1200},
+    "F2": {"variant": "actor_to_eef_stand", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1200, "pose_candidate_limit": 3},
+    "F3": {"variant": "return_equivalence", "execution_attempt_limit": 1, "planner_query_limit": 18, "timeout_seconds": 1800},
+    "F4": {"variant": "common_prefix_mapping", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1800, "ordered_gate": "common-X only"}
+  },
+  "required_controls": [
+    "fresh GPU0 snapshot and UUID binding immediately before every child",
+    "one job at a time",
+    "new immutable namespace",
+    "no automatic retry or recovery",
+    "stop all later GPU0 work if cleanup, orphan or post-release state is uncertain"
+  ],
+  "not_authorized": [
+    "Stage 0",
+    "Stage 1",
+    "360 formal trajectories",
+    "F4 blocks after common-X unless a later gate explicitly permits them",
+    "mechanism/VLA/pi0.5 training",
+    "compression"
+  ]
+}

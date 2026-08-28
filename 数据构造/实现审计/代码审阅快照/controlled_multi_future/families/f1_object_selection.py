@@ -3,7 +3,8 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F1ObjectSelection(ControlledMultiFutureSceneBase):
     family_id = "F1"
-    audit_status = "repair_v1_pending_block_inside_box"
+    family_implementation_version = "f1_transport_and_true_inside_v2"
+    audit_status = "runtime_v2_bounded_probe_authorized_not_run"
 
     def build_provisional_programs(self):
         return [

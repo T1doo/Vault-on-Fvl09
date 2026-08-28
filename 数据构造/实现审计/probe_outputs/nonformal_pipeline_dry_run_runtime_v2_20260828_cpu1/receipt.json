@@ -1,0 +1,167 @@
+{
+  "anchor_equivalence": {
+    "candidate_sha256": "8844273639259d2d6ab8598917cdc93dc08220897591925180c9fb640076c683",
+    "equivalent": true,
+    "failures": [],
+    "reference_sha256": "8844273639259d2d6ab8598917cdc93dc08220897591925180c9fb640076c683"
+  },
+  "attempt_counts": {
+    "execution_attempt_count": 1,
+    "feasibility_query_count": 3,
+    "planner_query_count": 0,
+    "recovery_attempt_count": 0
+  },
+  "candidate_universe_sha256": "9e95bd0e1196d414d8f952b3faf99994b92a8fd669ce1b1185c8d4eeda68356c",
+  "cleanup_error": null,
+  "current_hashes": {
+    "fresh": {
+      "aggregate_sha256": "a0b4ca4614b4764a86c921cca4ff08c1552eca47186a2f8c2ac2397f1bf065d5",
+      "components": {
+        "head_rgb_sha256": "708f2fbec0c012130eca27878ace09b342f884e23791506bc3f323f9b7c94d96",
+        "object_role_layout_sha256": "89bd19f6b52b2be065f8a62f403a3fd71df4a3a2a69a3ada16613145d6583caa",
+        "robot_state_sha256": "2b6ce60772fa9f89ef478934387235caecde71b718a2ac803f7284c76e7d8afc",
+        "scene_spec_sha256": "6b6afb97243b5a608e96ff928eb5146e519ac3425ac65b0daf62fabc57b0183f",
+        "wrist_rgb_sha256": {
+          "left": "4721e88cb662de3bfd738b32f6bed17db25e89f67eb9f95bf9eba7de85e19c68",
+          "right": "4721e88cb662de3bfd738b32f6bed17db25e89f67eb9f95bf9eba7de85e19c68"
+        }
+      }
+    },
+    "reference": {
+      "aggregate_sha256": "a0b4ca4614b4764a86c921cca4ff08c1552eca47186a2f8c2ac2397f1bf065d5",
+      "components": {
+        "head_rgb_sha256": "708f2fbec0c012130eca27878ace09b342f884e23791506bc3f323f9b7c94d96",
+        "object_role_layout_sha256": "89bd19f6b52b2be065f8a62f403a3fd71df4a3a2a69a3ada16613145d6583caa",
+        "robot_state_sha256": "2b6ce60772fa9f89ef478934387235caecde71b718a2ac803f7284c76e7d8afc",
+        "scene_spec_sha256": "6b6afb97243b5a608e96ff928eb5146e519ac3425ac65b0daf62fabc57b0183f",
+        "wrist_rgb_sha256": {
+          "left": "4721e88cb662de3bfd738b32f6bed17db25e89f67eb9f95bf9eba7de85e19c68",
+          "right": "4721e88cb662de3bfd738b32f6bed17db25e89f67eb9f95bf9eba7de85e19c68"
+        }
+      }
+    }
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 0.012768030166625977,
+  "family": "F1",
+  "finalization": {
+    "accepted": true,
+    "failed_checks": [],
+    "formal_data": false,
+    "missing_checks": [],
+    "stage0_data": false
+  },
+  "formal_data": false,
+  "gpu_postcheck": "not_applicable_cpu_dry_run",
+  "namespace": "nonformal_pipeline_dry_run_runtime_v2_20260828_cpu1",
+  "orphan_process_count": 0,
+  "partial_output_status": "raw_and_verifier_complete",
+  "planned_root_slot_spec": {
+    "family": "F1",
+    "generator": "synthetic_pipeline_dry_run_v2",
+    "origin": "nonformal_integration",
+    "rank": 0,
+    "seed": 20260828,
+    "slot_id": "synthetic_f1_runtime_v2",
+    "stop_condition": "one_attempt"
+  },
+  "prefix_sha256": "4cd41f86a2e0eb07266ce6110dc291679659b18d490bdd8b933cc2a065a4d38f",
+  "program_id": "F1-red_block",
+  "purpose": "implementation_audit",
+  "raw_manifest": {
+    "action_count": 4,
+    "action_dim": 26,
+    "action_layout_dimensions": [
+      "left_joint_0_position_target",
+      "left_joint_1_position_target",
+      "left_joint_2_position_target",
+      "left_joint_3_position_target",
+      "left_joint_4_position_target",
+      "left_joint_5_position_target",
+      "right_joint_0_position_target",
+      "right_joint_1_position_target",
+      "right_joint_2_position_target",
+      "right_joint_3_position_target",
+      "right_joint_4_position_target",
+      "right_joint_5_position_target",
+      "left_joint_0_velocity_target",
+      "left_joint_1_velocity_target",
+      "left_joint_2_velocity_target",
+      "left_joint_3_velocity_target",
+      "left_joint_4_velocity_target",
+      "left_joint_5_velocity_target",
+      "right_joint_0_velocity_target",
+      "right_joint_1_velocity_target",
+      "right_joint_2_velocity_target",
+      "right_joint_3_velocity_target",
+      "right_joint_4_velocity_target",
+      "right_joint_5_velocity_target",
+      "left_gripper_normalized_target",
+      "right_gripper_normalized_target"
+    ],
+    "action_layout_version": "controller_effective_setpoint_v1_layout_v2",
+    "formal_data": false,
+    "frequency_hz": 250,
+    "manifest_sha256": "6800920a30bf09d87eec7b6ce3c104ba0c8df24178002ec0b3c6192a1d2b9bee",
+    "primary_action_stream": "controller_effective_setpoint_v1",
+    "provenance": {
+      "program_id": "F1-red_block",
+      "synthetic": true
+    },
+    "schema_version": "cmf_raw_attempt_v2",
+    "stage0_data": false,
+    "state_count": 5,
+    "stream_field_metadata": {
+      "component_masks": {
+        "source": "synthetic component availability",
+        "status": "derived"
+      },
+      "controller_effective_setpoint": {
+        "source": "synthetic dry-run effective setpoint generator",
+        "status": "commanded"
+      },
+      "gripper_command": {
+        "source": "synthetic deterministic adapter command",
+        "status": "commanded"
+      },
+      "planner_target": {
+        "source": "synthetic dry-run has no planner",
+        "status": "unavailable"
+      },
+      "realized_eef": {
+        "source": "synthetic deterministic adapter state",
+        "status": "measured"
+      },
+      "realized_qpos": {
+        "source": "synthetic deterministic adapter state",
+        "status": "measured"
+      },
+      "realized_qvel": {
+        "source": "synthetic deterministic adapter state",
+        "status": "measured"
+      },
+      "requested_command": {
+        "source": "synthetic dry-run requested command generator",
+        "status": "commanded"
+      },
+      "timestamps": {
+        "source": "synthetic 250 Hz step index",
+        "status": "derived"
+      }
+    }
+  },
+  "realization_spec": {
+    "realization": "r_pc",
+    "synthetic": true
+  },
+  "scene_cleanup_attempted": true,
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_attempt_receipt_v2",
+  "stage0_data": false,
+  "status": "accepted",
+  "verifier": {
+    "pass": true,
+    "synthetic_only": true
+  }
+}

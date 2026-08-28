@@ -1,0 +1,45 @@
+{
+  "schema_version": "pilot_attempt_budget_v0_runtime_v2_addendum_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "status": "executed_and_exhausted",
+  "approved": true,
+  "frozen": true,
+  "base_proposal": {
+    "path": "pilot_attempt_budget_v0_proposal.json",
+    "sha256": "39c495d5199b5771f773300d89163969566df55aedd7ff6856cde4574a381c82",
+    "stage0_stage1_values_changed": false
+  },
+  "scope": "pre-Stage0 nonformal runtime-v2 implementation probes only",
+  "physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "parallelism": 1,
+  "family_probe_budget": {
+    "F1": {"variant": "transport_true_inside", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1200},
+    "F2": {"variant": "actor_to_eef_stand", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1200, "pose_candidate_limit": 3},
+    "F3": {"variant": "return_equivalence", "execution_attempt_limit": 1, "planner_query_limit": 18, "timeout_seconds": 1800},
+    "F4": {"variant": "common_prefix_mapping", "execution_attempt_limit": 1, "planner_query_limit": 12, "timeout_seconds": 1800, "ordered_gate": "do not run A/B/C or natural programs unless common-X passes"}
+  },
+  "count_semantics": {
+    "feasibility_query_count": "one family-level static/geometry audit entry plus explicit planner preflights",
+    "planner_query_count": "every left/right move_to_pose query and every nonexecuting planner preflight",
+    "execution_attempt_count": "one scene rollout that begins physical family actions",
+    "recovery_attempt_count": "zero; no automated recovery in this proposal"
+  },
+  "terminal_rules": [
+    "no automatic retry",
+    "planner limit exhaustion -> aborted_with_reason",
+    "missing child receipt -> failed_missing_child_receipt",
+    "GPU precheck snapshot failure -> failed_gpu_precheck without child launch",
+    "postcheck snapshot failure or memory/utilization/processes not returning to baseline -> failed_cleanup_uncertain and stop GPU0",
+    "cleanup uncertainty or orphan -> failed_cleanup_uncertain and stop GPU0",
+    "F4 common failure -> ordered stop before later blocks"
+  ],
+  "wallclock_and_gpu_hour_estimate": "bounded probes completed; see runtime_v2_bounded_probe_execution_report_20260828.json",
+  "stage0_max_root_budget": "unchanged_in_base_proposal_and_not_approved",
+  "stage1_max_root_budget": "unchanged_in_base_proposal_and_not_approved",
+  "budget_consumption": {"F1": "1/1 execution, 9/12 planner", "F2": "1/1 execution, 7/12 planner", "F3": "1/1 execution, 14/18 planner", "F4": "1/1 execution, 6/12 planner"},
+  "additional_retry_authorized": false,
+  "user_decision_required": true,
+  "authorization_receipt": "runtime_v2_probe_authorization_receipt_20260828.json",
+  "authorization_scope_update": "runtime_v2_probe_authorization_scope_update_20260828.json"
+}

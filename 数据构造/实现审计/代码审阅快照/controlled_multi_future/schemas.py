@@ -17,6 +17,9 @@ TERMINAL_ATTEMPT_STATUSES = frozenset({
     "failed_anchor_equivalence",
     "failed_cleanup",
     "failed_cleanup_uncertain",
+    "failed_missing_child_receipt",
+    "failed_invalid_child_receipt",
+    "failed_child_launch",
     "timeout",
     "aborted_with_reason",
 })

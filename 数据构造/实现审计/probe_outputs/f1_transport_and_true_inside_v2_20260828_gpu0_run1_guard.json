@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.action_feasibility_v2",
+    "--family",
+    "F1",
+    "--variant",
+    "transport_true_inside",
+    "--physical-index",
+    "0",
+    "--expected-uuid",
+    "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "--output",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu0_run1",
+    "--approved-runtime-v2-probe"
+  ],
+  "elapsed_seconds": 0.1901867389678955,
+  "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "formal_data": false,
+  "physical_gpu_index": 0,
+  "precheck": {
+    "captured_at": "2026-08-28T01:34:17.211324+08:00",
+    "compute_processes": [
+      {
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "pid": 3760440,
+        "used_memory_mib": 36692
+      }
+    ],
+    "memory_used_mib": 36709,
+    "physical_index": 0,
+    "pstate": "P2",
+    "utilization_percent": 100,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "purpose": "nonformal_feasibility",
+  "schema_version": "cmf_gpu_guard_v2",
+  "stage0_data": false,
+  "status": "blocked_precheck_not_idle",
+  "timeout_seconds": 1200
+}

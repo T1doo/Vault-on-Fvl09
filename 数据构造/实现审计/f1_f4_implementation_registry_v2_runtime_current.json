@@ -1,0 +1,147 @@
+{
+  "schema_version": "f1_f4_implementation_registry_v2_runtime_current",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "status": "bounded_probe_round_complete_f1_pass_f2_f3_f4_blocked",
+  "formal_data": false,
+  "stage0_data": false,
+  "inherits_verified_asset_registry": {
+    "path": "f1_f4_implementation_registry_v1_current.json",
+    "sha256": "a350e7ad63f48a7054f38f7b00bb728b1c22b4293b69ab432b21bf49a60915d3",
+    "policy": "official asset/source/physical mapping is inherited; this registry supersedes current runtime status and implementation mappings only"
+  },
+  "current_runtime_scope": {
+    "host": "fvl05",
+    "physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+    "parallel_independent_jobs_allowed": false,
+    "fresh_idle_check_required_per_job": true,
+    "explicit_uuid_binding_required": true,
+    "gpu_probe_authorized": true,
+    "runtime_v2_probe_run": true,
+    "stage0_authorized": false
+  },
+  "code_registry": {
+    "active_source": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future",
+    "vault_snapshot": "代码审阅快照/controlled_multi_future",
+    "official_tracked_baseline_modified": false,
+    "files": {
+      "geometry.py": "1ee45e0392090b0f02248a65b22c6c1ade4a4424c51672bd6e0a111a18f7bec7",
+      "runtime_v2_contracts.py": "71ac011ac9b3e57ead9836cf8fdb9c855b0832dd1952a88104d16c6f9ccc5692",
+      "probes/action_feasibility_v2.py": "47afc6d28691afd5e8d4903da84c71e5c80ecbb1177fa499b6757e63137e624a",
+      "probes/runtime_trace.py": "ed324989fd7b706432aa2b8f068293e4d51ac8e9b2c0cba68e61e568ebf6a04a",
+      "raw_writer.py": "92ba70c3817c2defeb8dfe5d6dbaa4a1e0e32713e9bb3da2f12f7f260ccf7b3d",
+      "probes/gpu_guard.py": "2bb7fb3d4ad12393a01c19666ffe4210ce22f09fc5d21dc5796b5d3da9d03117",
+      "probes/runtime_v2_static_audit.py": "b60a8f30355f461d2eec9e25c45de9322a73be16fe19c473ae67666519798370",
+      "tests/test_pipeline_contracts.py": "1d9d03a43d559b4d2056087d2c670ad4127b368c71e442e9673a2e6a38a626fa",
+      "tests/test_static_contracts.py": "9ef581b3571d30b6c5c43ff4535d95c46aeecd8520f94bd4620b3892282d8682"
+    },
+    "active_cpu_tests": "32/32 passed",
+    "vault_snapshot_cpu_tests": "32/32 passed after byte-equal post-probe resync",
+    "python_compile_check": "38 files passed"
+  },
+  "trace_contract": {
+    "frequency_hz": 250,
+    "primary_action_stream": "controller_effective_setpoint_v1",
+    "action_dimensions": 26,
+    "action_layout_version": "controller_effective_setpoint_v1_layout_v2",
+    "action_layout": {
+      "0_5": "left arm position targets",
+      "6_11": "right arm position targets",
+      "12_17": "left arm velocity targets",
+      "18_23": "right arm velocity targets",
+      "24": "left normalized gripper target",
+      "25": "right normalized gripper target"
+    },
+    "separated_sources": {
+      "controller_effective_setpoint": "measured joint drive targets plus normalized gripper drive targets",
+      "requested_command": "commanded take_dense_action control_seq",
+      "planner_target": "commanded direct move_to_pose API pose arguments",
+      "joint_qpos_qvel": "measured complete dual-arm articulation",
+      "dual_eef": "measured left and right EEF APIs",
+      "eef_angular_velocity": "derived quaternion difference",
+      "object_velocity": "measured rigid component with per-row derived fallback mask",
+      "contacts": "measured SAPIEN body pairs and selected-arm gripper link restriction"
+    },
+    "raw_conversion": "one initial realized state plus N post-action realized states -> N actions and N+1 states",
+    "audit_contract": "object pose and all-contact count required at N+1; every audit array has source/status metadata; timestamps validated at 250 Hz"
+  },
+  "current_family_status": {
+    "F1": {
+      "status": "red_branch_passed_green_blue_not_run",
+      "implementation": "f1_transport_and_true_inside_v2",
+      "scene_roles": "procedural official-pattern RGB blocks -> 062_plasticbox/base3",
+      "official_sources_inherited": ["envs/blocks_ranking_rgb.py", "envs/place_cans_plasticbox.py"],
+      "new_components": ["settled baseline", "high world-z waypoint", "actor-to-EEF mapping", "support-boundary semantic cavity plus collision-free core", "phase displacement verifier", "post-rest support/stability/full-pose Gate"],
+      "asset_evidence": {
+        "plasticbox_collision_sha256": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+        "cavity_local_lower_m": [-0.05, 0.018, -0.04],
+        "collision_free_core_lower_m": [-0.05, 0.024, -0.04],
+        "cavity_local_upper_m": [0.05, 0.07, 0.04],
+        "cpu_grid_samples": 15625,
+        "samples_inside_collision_piece": 0
+      },
+      "current_blocker": "only red target branch passed; green and blue target branches were not run"
+    },
+    "F2": {
+      "status": "terminal_planner_preflight_failure",
+      "implementation": "f2_actor_to_eef_beside_mapping_v3",
+      "main_object": "071_can/base1",
+      "arm": "left",
+      "target_facilities": ["062_plasticbox/base3", "072_electronicscale/base0", "074_displaystand/base3"],
+      "official_sources_inherited": ["envs/place_cans_plasticbox.py", "envs/place_object_scale.py", "envs/place_object_stand.py"],
+      "new_components": ["freeze T_eef_object", "three preregistered upright yaws", "world-z approach", "swept envelope", "real planner preflight", "exclusive beside/support/post-rest stability/full-rest gate"],
+      "hardcoded_reach_removed": true,
+      "pot_audit_current_status": "superseded_after_runtime_probe_failed_planner",
+      "current_blocker": "all three preregistered actor-to-EEF candidates failed real planner preflight"
+    },
+    "F3": {
+      "status": "realized_motion_pass_return_equivalence_fail",
+      "implementation": "f3_return_equivalence_v2",
+      "asset_arm_axes": "001_bottle/base13 + left arm + V=table-z + H=table-x + original pad",
+      "official_sources_inherited": ["envs/shake_bottle.py", "envs/shake_bottle_horizontally.py", "envs/adjust_bottle.py"],
+      "new_components": ["exact original actor-pose target", "frozen T_eef_object", "world-z return", "direct actual-rest plan", "realized EEF+bottle motion Gate", "post-rest orientation/stable-window/pad-contact/full-rest Gate"],
+      "functional_point_actor_center_mixing_removed": true,
+      "reverse_old_control_for_rest_removed": true,
+      "current_blocker": "bottle final position/orientation errors 0.04096 m/0.15587 exceeded provisional Gate"
+    },
+    "F4": {
+      "status": "terminal_safe_horizontal_planner_failure",
+      "implementation": "f4_common_prefix_mapping_v2",
+      "scene_roles": "yellow common X -> 008_tray/base0; RGB A/B/C -> visible project slot regions",
+      "official_sources_inherited": ["envs/place_burger_fries.py", "envs/blocks_ranking_rgb.py", "envs/stack_blocks_three.py"],
+      "new_components": ["common-X actor-to-EEF mapping", "high world-z waypoint", "tray footprint/support/post-neutral stability Gate", "phase A/B/C displacement", "full neutral pose/velocity/gripper boundary receipt"],
+      "tray_layout_changed": false,
+      "ordered_gate": "only common-X may run; later A/B/C and ABC/ACB/BAC remain stopped",
+      "current_blocker": "safe-horizontal planner failed before common-X placement; later programs remain untested"
+    }
+  },
+  "current_evidence": {
+    "cpu_static_audit": {
+      "path": "runtime_v2_cpu_static_audit_20260828_v5_any_gpu.json",
+      "sha256": "3d613488f88e0da4f78cd9ef40c3a49aa56e28d10e3ff9db48f33cb190abba74"
+    },
+    "synthetic_pipeline": {
+      "receipt": "probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2/receipt.json",
+      "receipt_sha256": "dd7ed40edec1680532c50afb7b382f9438cc91864028986c162790d7be0b7c95",
+      "raw_sha256": "ad0c1587cfe2090752a61a6196d53341cd8216f7946f4c032fac2b7e3d91a7f0",
+      "scope": "synthetic CPU only"
+    },
+    "f1_status_adjudication": "probe_outputs/f1_block_inside_box_repair_v1_fp1_20260827_attempt2_tracefix/semantic_adjudication_receipt.json",
+    "f2_pot_supersession": "f2_beside_reference_pot_audit_v2_supersession_receipt.json",
+    "completion_audit": "runtime_v2_completion_audit_20260828.json"
+    ,"probe_authorization": "runtime_v2_probe_authorization_receipt_20260828.json"
+    ,"probe_authorization_scope_update": "runtime_v2_probe_authorization_scope_update_20260828.json"
+    ,"F1_gpu0_blocked_precheck": "probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu0_run1_guard.json"
+    ,"bounded_probe_execution_report": "runtime_v2_bounded_probe_execution_report_20260828.json"
+  },
+  "current_blockers": [
+    "F1 has only one red-branch pass; green/blue target branches remain untested",
+    "F2/F3/F4 reached terminal blockers and have no retry budget in runtime-v2",
+    "F4 natural ABC/ACB/BAC programs remain behind the common-X ordered Gate",
+    "real SAPIEN fresh-scene current/anchor/raw integration remains unverified",
+    "pilot_attempt_budget_v0 remains proposed, not approved or frozen"
+  ],
+  "readiness": "BLOCKED_WITH_REASONS"
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "cmf_stage0_readiness_runtime_v2_v1",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v2",
+  "decision": "BLOCKED_WITH_REASONS",
+  "stage0_readiness": "blocked_with_reasons",
+  "stage0_authorized": false,
+  "formal_data_generated": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "model_training_run": false,
+  "compression_run": false,
+  "pi05_run": false,
+  "supersedes_current_status_of": {
+    "path": "stage0_readiness_report.json",
+    "sha256": "8060f6487c2952c23936c9030086b4af5099ec19a0d5127d12457068da384bfa",
+    "historical_evidence_preserved": true
+  },
+  "current_gpu_policy": {
+    "physical_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+    "fresh_idle_required": true,
+    "gpu_probe_authorized": true
+  },
+  "completed_cpu_static_work": [
+    "actor-to-EEF transform and frozen grasp-transform contract",
+    "F1 support-boundary semantic cavity, collision-free descent core, support/final-rest and phase non-target verifier",
+    "F2 real-planner preflight selection contract with no hard-coded reach plus post-rest full-pose/stationarity gate",
+    "F3 exact actor-pose return, realized EEF+bottle V/H and post-rest full-pose/support/stationarity gate",
+    "F4 common-X footprint/support/noninterference and full neutral boundary gate",
+    "separated requested/effective/planner trace sources",
+    "complete dual-arm realized state and quaternion angular velocity",
+    "explicit 26-D layout with nonzero sentinel test",
+    "trace-to-raw N/N+1 adapter",
+    "missing child receipt plus pre/post snapshot and baseline-release fail-closed GPU guard v2",
+    "mandatory N+1 object/contact audit streams with source/status and exact 250 Hz cadence",
+    "32/32 active and Vault snapshot CPU tests",
+    "synthetic raw-v2 cpu2 pipeline dry run"
+  ],
+  "family_status": {
+    "F1": {
+      "cpu_static": "implemented",
+      "runtime_v2_probe": "red_branch_passed_green_blue_not_run",
+      "complete_three_branch_support": false,
+      "blocker": "only red branch passed; green and blue target branches were not run"
+    },
+    "F2": {
+      "cpu_static": "implemented",
+      "runtime_v2_probe": "terminal_planner_preflight_failure",
+      "complete_three_branch_support": false,
+      "blocker": "all three preregistered same-can/left-arm actor-to-EEF candidates failed real planner preflight"
+    },
+    "F3": {
+      "cpu_static": "implemented",
+      "runtime_v2_probe": "realized_motion_pass_return_equivalence_fail",
+      "complete_three_branch_support": false,
+      "blocker": "V/H passed, but bottle final position/orientation equivalence failed"
+    },
+    "F4": {
+      "cpu_static": "common gate implemented",
+      "runtime_v2_probe": "terminal_safe_horizontal_planner_failure",
+      "complete_three_branch_support": false,
+      "blocker": "safe-horizontal planner failed before common-X placement; A/B/C and ABC/ACB/BAC remain intentionally not run"
+    }
+  },
+  "pipeline_status": {
+    "candidate_freezer": "implemented_cpu_tested",
+    "current_hash": "implemented_cpu_tested",
+    "anchor": "implemented_cpu_tested",
+    "fresh_scene_reconstruction": "synthetic_only",
+    "raw_writer": "v2_implemented_cpu_tested_with_N_plus_1_object_contact_audit_and_250hz_cadence",
+    "controller_effective_setpoint_26d_250hz_n_plus_one": "cpu_tested_synthetic_only",
+    "receipt": "implemented_cpu_tested",
+    "verifier": "runtime_v2 family probes executed; F1 pass, F2/F3/F4 terminal failures",
+    "finalizer": "implemented_cpu_tested",
+    "cleanup_orphan_audit": "all actual runtime-v2 family guards post-release verified; cleanup failures=0, orphans=0",
+    "real_sapien_integration": "not_run"
+  },
+  "hard_blockers": [
+    "F1 has only a red-branch pass, not all three RGB target branches",
+    "F2/F3/F4 reached terminal runtime-v2 blockers with no retry budget",
+    "F4 complete natural programs remain behind the common-X ordered Gate",
+    "real SAPIEN fresh-scene current/anchor/raw/verifier integration is missing",
+    "Stage-0 pilot_attempt_budget_v0 remains unapproved; runtime-v2 probe addendum is executed/exhausted"
+  ],
+  "next_gate": {
+    "required_user_decision": "review terminal evidence and decide whether to authorize a new implementation version; no current retry budget",
+    "proposal": "controlled_multi_future_runtime_v2_implementation_plan.json",
+    "completed_scope": "one nonformal probe per family on physical GPU1; all guards cleanup-safe",
+    "does_not_authorize": ["Stage 0", "Stage 1", "360 formal trajectories", "training", "compression", "pi0.5"]
+  },
+  "evidence": {
+    "registry": "f1_f4_implementation_registry_v2_runtime_current.json",
+    "authorization_receipt": "runtime_v2_probe_authorization_receipt_20260828.json",
+    "authorization_scope_update": "runtime_v2_probe_authorization_scope_update_20260828.json",
+    "F1_blocked_precheck_guard": "probe_outputs/f1_transport_and_true_inside_v2_20260828_gpu0_run1_guard.json",
+    "cpu_static_audit": "runtime_v2_cpu_static_audit_20260828_v5_any_gpu.json",
+    "completion_audit": "runtime_v2_completion_audit_20260828.json",
+    "implementation_plan": "controlled_multi_future_runtime_v2_implementation_plan.json",
+    "synthetic_receipt": "probe_outputs/nonformal_pipeline_dry_run_runtime_v2_20260828_cpu2/receipt.json",
+    "code_snapshot": "代码审阅快照/",
+    "bounded_probe_execution_report": "runtime_v2_bounded_probe_execution_report_20260828.json"
+  }
+}
