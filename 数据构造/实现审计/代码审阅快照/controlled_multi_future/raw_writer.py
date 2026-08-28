@@ -15,7 +15,7 @@ from .schemas import validate_primary_stream
 PRIMARY_STREAM_NAME = "controller_effective_setpoint_v1"
 PRIMARY_FREQUENCY_HZ = 250
 PRIMARY_ACTION_DIM = 26
-ACTION_LAYOUT_VERSION = "controller_effective_setpoint_v1_layout_v2"
+ACTION_LAYOUT_VERSION = "controller_effective_setpoint_v1_layout_v2_1"
 ACTION_LAYOUT_DIMENSIONS = tuple(
     [f"left_joint_{index}_position_target" for index in range(6)]
     + [f"right_joint_{index}_position_target" for index in range(6)]
@@ -27,12 +27,14 @@ STREAM_SOURCE_STATUSES = frozenset({"measured", "commanded", "derived", "mixed",
 REQUIRED_STREAM_METADATA = (
     "controller_effective_setpoint",
     "requested_command",
-    "planner_target",
+    "planner_goal_eef_pose",
     "realized_qpos",
     "realized_qvel",
     "realized_eef",
     "gripper_command",
-    "timestamps",
+    "action_interval_start_timestamps",
+    "action_interval_end_timestamps",
+    "state_timestamps",
     "component_masks",
 )
 
@@ -74,6 +76,10 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
         raise ValueError("audit object_pose must have shape [N+1,7]")
     if np.asarray(arrays.get("contact_count")).shape != (action_count + 1,):
         raise ValueError("audit contact_count must have shape [N+1]")
+    for field in ("realized_left_gripper_joint_qpos", "realized_right_gripper_joint_qpos", "gripper_drive_target_readback"):
+        values = np.asarray(arrays.get(field))
+        if values.ndim != 2 or values.shape[0] != action_count + 1 or values.shape[1] < 1:
+            raise ValueError(f"audit {field} must have shape [N+1,D] with D>=1")
     for field, values in arrays.items():
         if values.ndim == 0 or values.shape[0] not in (action_count, action_count + 1):
             raise ValueError(f"audit field {field} must have N or N+1 rows")
@@ -90,7 +96,10 @@ def validate_raw_streams(streams: Mapping[str, Any]) -> None:
     states = np.asarray(streams["realized_qpos"])
     validate_primary_stream(actions, states, frequency_hz=PRIMARY_FREQUENCY_HZ, action_dim=PRIMARY_ACTION_DIM)
     n = actions.shape[0]
-    for key in ("requested_command", "planner_target", "gripper_command", "timestamps", "component_masks"):
+    for key in (
+        "requested_command", "planner_goal_eef_pose", "gripper_command",
+        "action_interval_start_timestamps", "action_interval_end_timestamps", "component_masks",
+    ):
         if np.asarray(streams[key]).shape[0] != n:
             raise ValueError(f"{key} must have N rows")
     for key in ("realized_qvel", "realized_eef"):
@@ -98,19 +107,27 @@ def validate_raw_streams(streams: Mapping[str, Any]) -> None:
             raise ValueError(f"{key} must have N+1 rows")
     if np.asarray(streams["requested_command"]).shape != (n, PRIMARY_ACTION_DIM):
         raise ValueError("requested_command must have shape [N,26]")
-    if np.asarray(streams["planner_target"]).shape != (n, 14):
-        raise ValueError("planner_target must have shape [N,14] for dual-arm EEF targets")
+    if np.asarray(streams["planner_goal_eef_pose"]).shape != (n, 14):
+        raise ValueError("planner_goal_eef_pose must have shape [N,14] for dual-arm EEF goals")
     if np.asarray(streams["gripper_command"]).shape != (n, 2):
         raise ValueError("gripper_command must have shape [N,2]")
     if np.asarray(streams["component_masks"]).shape != (n, PRIMARY_ACTION_DIM):
         raise ValueError("component_masks must have shape [N,26]")
-    if np.asarray(streams["timestamps"]).shape != (n,):
-        raise ValueError("timestamps must have shape [N]")
-    timestamps = np.asarray(streams["timestamps"], dtype=np.float64)
-    if not np.all(np.isfinite(timestamps)):
-        raise ValueError("timestamps must be finite")
-    if n > 1 and not np.allclose(np.diff(timestamps), 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-9):
-        raise ValueError("timestamps must follow the frozen 250 Hz cadence")
+    state_timestamps = np.asarray(streams["state_timestamps"], dtype=np.float64)
+    action_starts = np.asarray(streams["action_interval_start_timestamps"], dtype=np.float64)
+    action_ends = np.asarray(streams["action_interval_end_timestamps"], dtype=np.float64)
+    if state_timestamps.shape != (n + 1,):
+        raise ValueError("state_timestamps must have shape [N+1]")
+    if action_starts.shape != (n,) or action_ends.shape != (n,):
+        raise ValueError("action interval timestamps must each have shape [N]")
+    if not all(np.all(np.isfinite(values)) for values in (state_timestamps, action_starts, action_ends)):
+        raise ValueError("state/action timestamps must be finite")
+    if n and not np.allclose(np.diff(state_timestamps), 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-9):
+        raise ValueError("state_timestamps must follow the frozen 250 Hz cadence")
+    if not np.allclose(action_starts, state_timestamps[:-1], rtol=0.0, atol=1e-12):
+        raise ValueError("action starts must equal state_timestamps[:-1]")
+    if not np.allclose(action_ends, state_timestamps[1:], rtol=0.0, atol=1e-12):
+        raise ValueError("action ends must equal state_timestamps[1:]")
     if np.asarray(streams["component_masks"]).dtype != np.dtype(bool):
         raise ValueError("component_masks must be boolean")
     for field in ("controller_effective_setpoint", "requested_command", "realized_qpos", "realized_qvel", "realized_eef", "gripper_command"):
@@ -139,7 +156,7 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
     arrays.update({f"audit__{key}": np.asarray(value) for key, value in audit_streams.items() if key != "field_metadata"})
     np.savez_compressed(output_dir / "raw_streams.npz", **arrays)
     manifest = {
-        "schema_version": "cmf_raw_attempt_v2",
+        "schema_version": "cmf_raw_attempt_v2_1",
         "formal_data": False,
         "stage0_data": False,
         "primary_action_stream": PRIMARY_STREAM_NAME,
@@ -147,6 +164,7 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
         "action_dim": PRIMARY_ACTION_DIM,
         "action_layout_version": ACTION_LAYOUT_VERSION,
         "action_layout_dimensions": list(ACTION_LAYOUT_DIMENSIONS),
+        "timestamp_semantics": "state[k] -- action[k] on [start,end) --> state[k+1]",
         "stream_field_metadata": dict(streams["field_metadata"]),
         "audit_field_metadata": dict(audit_streams["field_metadata"]),
         "action_count": int(np.asarray(streams["controller_effective_setpoint"]).shape[0]),

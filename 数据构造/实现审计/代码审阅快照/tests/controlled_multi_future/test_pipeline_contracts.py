@@ -20,7 +20,7 @@ from controlled_multi_future.model_view import build_model_view
 from controlled_multi_future.probe_contracts import FAMILY_VARIANTS as VARIANTS, HISTORICAL_FAMILY_VARIANTS, result_passed
 from controlled_multi_future.probes.gpu_guard import ALLOWED_PHYSICAL_GPU_INDICES, build_child_environment, classify_terminal_status, verify_post_release
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
-from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, is_selected_gripper_contact, trace_rows_to_raw_streams
+from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
 from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint, validate_audit_streams, validate_raw_streams
 from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
 from controlled_multi_future.verifiers import (
@@ -61,16 +61,38 @@ class PreTraceProbe(DenseTraceMixin, PreTraceBase):
     pass
 
 
+class DummyJoint:
+    def __init__(self, name):
+        self.name = name
+
+    def get_name(self):
+        return self.name
+
+
+class DummyEntity:
+    def __init__(self, joints, qpos):
+        self.joints = joints
+        self.qpos = np.asarray(qpos, dtype=float)
+
+    def get_active_joints(self):
+        return self.joints
+
+    def get_qpos(self):
+        return self.qpos
+
+
 def field_metadata(planner_status="unavailable"):
     values = {
         "controller_effective_setpoint": ("measured", "test effective drive targets"),
         "requested_command": ("commanded", "test requested control sequence"),
-        "planner_target": (planner_status, "test planner API" if planner_status != "unavailable" else "test has no planner"),
+        "planner_goal_eef_pose": (planner_status, "test planner API" if planner_status != "unavailable" else "test has no planner"),
         "realized_qpos": ("measured", "test dual-arm qpos"),
         "realized_qvel": ("measured", "test dual-arm qvel"),
         "realized_eef": ("measured", "test dual-arm eef"),
         "gripper_command": ("commanded", "test gripper command"),
-        "timestamps": ("derived", "test 250 Hz index"),
+        "action_interval_start_timestamps": ("derived", "test action start index"),
+        "action_interval_end_timestamps": ("derived", "test action end index"),
+        "state_timestamps": ("derived", "test 250 Hz state index"),
         "component_masks": ("derived", "test component mask"),
     }
     return {key: {"status": status, "source": source} for key, (status, source) in values.items()}
@@ -126,9 +148,11 @@ class PipelineContractsTest(unittest.TestCase):
     def test_current_hash_is_deterministic_and_detects_change(self):
         kwargs = dict(
             head_rgb=np.zeros((2, 2, 3), dtype=np.uint8),
-            wrist_rgb={"left": np.ones((1, 1, 3), dtype=np.uint8)},
+            wrist_rgb={"left": np.ones((1, 1, 3), dtype=np.uint8), "right": np.ones((1, 1, 3), dtype=np.uint8)},
             robot_state=np.arange(4, dtype=np.float64),
+            gripper_actual_state=np.arange(4, dtype=np.float64),
             object_role_layout={"red": [0, 1, 2]},
+            camera_config_version="test_camera_v1",
             scene_seed=7,
             generator_version="test_v1",
         )
@@ -138,6 +162,18 @@ class PipelineContractsTest(unittest.TestCase):
         kwargs["robot_state"] = np.arange(4, dtype=np.float64) + 1
         with self.assertRaises(ValueError):
             require_same_current(first, build_current_hashes(**kwargs))
+        kwargs["robot_state"] = np.arange(4, dtype=np.float64)
+        kwargs["gripper_actual_state"] = np.arange(4, dtype=np.float64) + 1
+        with self.assertRaises(ValueError):
+            require_same_current(first, build_current_hashes(**kwargs))
+        kwargs["gripper_actual_state"] = np.arange(4, dtype=np.float64)
+        kwargs["camera_config_version"] = "test_camera_v2"
+        with self.assertRaises(ValueError):
+            require_same_current(first, build_current_hashes(**kwargs))
+        kwargs["camera_config_version"] = "test_camera_v1"
+        kwargs["wrist_rgb"] = {"left": np.ones((1, 1, 3), dtype=np.uint8)}
+        with self.assertRaises(ValueError):
+            build_current_hashes(**kwargs)
 
     def test_anchor_equivalence(self):
         args = dict(robot_qpos=[0, 1], robot_qvel=[0, 0], actor_poses={"A": [0, 0, 0, 1, 0, 0, 0]}, gripper_state=[1, 1], metadata={"seed": 1})
@@ -158,7 +194,7 @@ class PipelineContractsTest(unittest.TestCase):
     def test_primary_stream_26d_250hz_n_plus_one(self):
         action = pack_effective_setpoint(np.arange(6), np.arange(20, 26), 60, np.arange(10, 16), np.arange(30, 36), 70)
         np.testing.assert_array_equal(action, np.concatenate((np.arange(6), np.arange(10, 16), np.arange(20, 26), np.arange(30, 36), [60, 70])))
-        self.assertEqual(ACTION_LAYOUT_VERSION, "controller_effective_setpoint_v1_layout_v2")
+        self.assertEqual(ACTION_LAYOUT_VERSION, "controller_effective_setpoint_v1_layout_v2_1")
         self.assertEqual(len(ACTION_LAYOUT_DIMENSIONS), 26)
         self.assertEqual(ACTION_LAYOUT_DIMENSIONS[0], "left_joint_0_position_target")
         self.assertEqual(ACTION_LAYOUT_DIMENSIONS[6], "right_joint_0_position_target")
@@ -167,9 +203,11 @@ class PipelineContractsTest(unittest.TestCase):
         streams = {
             "controller_effective_setpoint": np.stack([action, action]),
             "requested_command": np.stack([action.copy(), action.copy()]),
-            "planner_target": np.full((2, 14), np.nan),
+            "planner_goal_eef_pose": np.full((2, 14), np.nan),
             "gripper_command": np.zeros((2, 2)),
-            "timestamps": np.arange(2) / 250,
+            "action_interval_start_timestamps": np.asarray([0.0, 0.004]),
+            "action_interval_end_timestamps": np.asarray([0.004, 0.008]),
+            "state_timestamps": np.asarray([0.0, 0.004, 0.008]),
             "component_masks": np.ones((2, 26), dtype=bool),
             "realized_qpos": np.zeros((3, 14)),
             "realized_qvel": np.zeros((3, 14)),
@@ -181,8 +219,8 @@ class PipelineContractsTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_raw_streams(streams)
         streams["realized_qpos"] = np.zeros((3, 14))
-        streams["timestamps"] = np.asarray([0.0, 0.01])
-        with self.assertRaisesRegex(ValueError, "250 Hz cadence"):
+        streams["action_interval_end_timestamps"] = np.asarray([0.004, 0.010])
+        with self.assertRaisesRegex(ValueError, "action ends"):
             validate_raw_streams(streams)
 
     def test_raw_streams_reject_alias_and_placeholder_sources(self):
@@ -190,9 +228,11 @@ class PipelineContractsTest(unittest.TestCase):
         streams = {
             "controller_effective_setpoint": actions,
             "requested_command": actions,
-            "planner_target": np.full((2, 14), np.nan),
+            "planner_goal_eef_pose": np.full((2, 14), np.nan),
             "gripper_command": np.zeros((2, 2)),
-            "timestamps": np.arange(2) / 250,
+            "action_interval_start_timestamps": np.asarray([0.0, 0.004]),
+            "action_interval_end_timestamps": np.asarray([0.004, 0.008]),
+            "state_timestamps": np.asarray([0.0, 0.004, 0.008]),
             "component_masks": np.ones((2, 26), dtype=bool),
             "realized_qpos": np.zeros((3, 14)),
             "realized_qvel": np.zeros((3, 14)),
@@ -214,8 +254,8 @@ class PipelineContractsTest(unittest.TestCase):
                 "initial_state": index == 0,
                 "effective_setpoint": action,
                 "requested_command": action.copy(),
-                "planner_target": np.arange(14, dtype=float),
-                "planner_target_available": np.asarray([True, True]),
+                "planner_goal_eef_pose": np.arange(14, dtype=float),
+                "planner_goal_available": np.asarray([True, True]),
                 "component_mask": np.ones(26, dtype=bool),
                 "joint_qpos": np.zeros(14) + index,
                 "joint_qvel": np.zeros(14),
@@ -227,7 +267,9 @@ class PipelineContractsTest(unittest.TestCase):
                 "actor_angular_velocity": np.zeros(3),
                 "eef_linear_velocity": np.zeros(3),
                 "eef_angular_velocity": np.zeros(3),
-                "gripper_aperture": np.ones(2),
+                "gripper_drive_target_readback": np.ones(2),
+                "realized_left_gripper_joint_qpos": np.zeros(2) + index,
+                "realized_right_gripper_joint_qpos": np.zeros(2) + index,
                 "selected_gripper_contact": True,
                 "selected_gripper_contact_count": 1,
                 "selected_gripper_contact_impulse": 0.1,
@@ -238,8 +280,23 @@ class PipelineContractsTest(unittest.TestCase):
         validate_audit_streams(audit, 2)
         self.assertEqual(streams["controller_effective_setpoint"].shape, (2, 26))
         self.assertEqual(streams["realized_qpos"].shape, (3, 14))
+        np.testing.assert_allclose(streams["action_interval_start_timestamps"], [0.0, 0.004])
+        np.testing.assert_allclose(streams["action_interval_end_timestamps"], [0.004, 0.008])
+        np.testing.assert_allclose(streams["state_timestamps"], [0.0, 0.004, 0.008])
         self.assertEqual(audit["object_pose"].shape, (3, 7))
+        self.assertEqual(audit["realized_left_gripper_joint_qpos"].shape, (3, 2))
         self.assertFalse(np.shares_memory(streams["controller_effective_setpoint"], streams["requested_command"]))
+
+    def test_realized_gripper_qpos_comes_from_articulation_state(self):
+        left_joints = [DummyJoint("left_arm"), DummyJoint("left_finger_a"), DummyJoint("left_finger_b")]
+        right_joints = [DummyJoint("right_arm"), DummyJoint("right_finger_a"), DummyJoint("right_finger_b")]
+        robot = type("Robot", (), {})()
+        robot.left_entity = DummyEntity(left_joints, [0.1, 0.21, 0.22])
+        robot.right_entity = DummyEntity(right_joints, [0.2, 0.31, 0.32])
+        robot.left_gripper = [(left_joints[1], 1, 0), (left_joints[2], 1, 0)]
+        robot.right_gripper = [(right_joints[1], 1, 0), (right_joints[2], 1, 0)]
+        np.testing.assert_allclose(_gripper_joint_qpos(robot, "left"), [0.21, 0.22])
+        np.testing.assert_allclose(_gripper_joint_qpos(robot, "right"), [0.31, 0.32])
 
     def test_actor_to_eef_mapping_preserves_frozen_grasp_transform(self):
         current_eef = [0.0, 0.0, 1.0, 1, 0, 0, 0]

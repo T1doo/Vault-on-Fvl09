@@ -50,6 +50,23 @@ def _dual_entity_values(robot, getter):
     return np.concatenate((left, right))
 
 
+def _gripper_joint_qpos(robot, arm):
+    entity = robot.left_entity if arm == "left" else robot.right_entity
+    gripper = robot.left_gripper if arm == "left" else robot.right_gripper
+    qpos = np.asarray(entity.get_qpos(), dtype=np.float64).reshape(-1)
+    active_joints = list(entity.get_active_joints())
+    index_by_name = {joint.get_name(): index for index, joint in enumerate(active_joints)}
+    values = []
+    for joint_spec in gripper:
+        name = joint_spec[0].get_name()
+        if name not in index_by_name:
+            raise ValueError(f"gripper joint {name!r} is absent from active articulation qpos")
+        values.append(qpos[index_by_name[name]])
+    if not values:
+        raise ValueError(f"{arm} gripper has no auditable active joints")
+    return np.asarray(values, dtype=np.float64)
+
+
 def _pose_array(value):
     if value is None:
         return np.full(7, np.nan, dtype=np.float64)
@@ -76,12 +93,15 @@ def trace_rows_to_raw_streams(rows):
     if any(row.get("initial_state") for row in rows[1:]):
         raise ValueError("only trace row zero may be an initial state")
     actions = rows[1:]
+    state_timestamps = np.asarray([row["timestamp"] for row in rows], dtype=np.float64)
     streams = {
         "controller_effective_setpoint": np.asarray([row["effective_setpoint"] for row in actions], dtype=np.float64),
         "requested_command": np.asarray([row["requested_command"] for row in actions], dtype=np.float64).copy(),
-        "planner_target": np.asarray([row["planner_target"] for row in actions], dtype=np.float64),
+        "planner_goal_eef_pose": np.asarray([row["planner_goal_eef_pose"] for row in actions], dtype=np.float64),
         "gripper_command": np.asarray([row["gripper_command"] for row in actions], dtype=np.float64),
-        "timestamps": np.asarray([row["timestamp"] for row in actions], dtype=np.float64),
+        "action_interval_start_timestamps": state_timestamps[:-1],
+        "action_interval_end_timestamps": state_timestamps[1:],
+        "state_timestamps": state_timestamps,
         "component_masks": np.asarray([row["component_mask"] for row in actions], dtype=bool),
         "realized_qpos": np.asarray([row["joint_qpos"] for row in rows], dtype=np.float64),
         "realized_qvel": np.asarray([row["joint_qvel"] for row in rows], dtype=np.float64),
@@ -89,12 +109,14 @@ def trace_rows_to_raw_streams(rows):
         "field_metadata": {
             "controller_effective_setpoint": {"status": "measured", "source": "runtime joint drive targets plus normalized gripper drive targets"},
             "requested_command": {"status": "commanded", "source": "runtime Base_Task.take_dense_action control_seq"},
-            "planner_target": {"status": "commanded", "source": "runtime left/right move_to_pose direct API arguments"},
+            "planner_goal_eef_pose": {"status": "commanded", "source": "runtime left/right move_to_pose direct EEF goal arguments"},
             "realized_qpos": {"status": "measured", "source": "runtime complete dual-arm articulation get_qpos"},
             "realized_qvel": {"status": "measured", "source": "runtime complete dual-arm articulation get_qvel"},
             "realized_eef": {"status": "measured", "source": "runtime dual-arm EEF pose API"},
             "gripper_command": {"status": "commanded", "source": "runtime normalized gripper command"},
-            "timestamps": {"status": "derived", "source": "runtime 250 Hz step index"},
+            "action_interval_start_timestamps": {"status": "derived", "source": "runtime state_timestamps[:-1]"},
+            "action_interval_end_timestamps": {"status": "derived", "source": "runtime state_timestamps[1:]"},
+            "state_timestamps": {"status": "derived", "source": "runtime 250 Hz state step index"},
             "component_masks": {"status": "derived", "source": "runtime commanded component availability"},
         },
     }
@@ -106,12 +128,14 @@ def trace_rows_to_raw_streams(rows):
         "object_angular_velocity_measured": np.asarray([row.get("actor_angular_velocity_measured", False) for row in rows], dtype=bool),
         "eef_linear_velocity": np.asarray([row["eef_linear_velocity"] for row in rows], dtype=np.float64),
         "eef_angular_velocity": np.asarray([row["eef_angular_velocity"] for row in rows], dtype=np.float64),
-        "gripper_aperture": np.asarray([row["gripper_aperture"] for row in rows], dtype=np.float64),
+        "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
+        "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
+        "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
         "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
         "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
         "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
         "contact_count": np.asarray([len(row["contact_pairs"]) for row in rows], dtype=np.int64),
-        "planner_target_available": np.asarray([row["planner_target_available"] for row in actions], dtype=bool),
+        "planner_goal_available": np.asarray([row["planner_goal_available"] for row in actions], dtype=bool),
         "contact_pairs_json": np.asarray([json.dumps(row["contact_pairs"], sort_keys=True) for row in rows]),
         "field_metadata": {
             "object_pose": {"status": "measured", "source": "runtime SAPIEN actor pose API"},
@@ -121,12 +145,14 @@ def trace_rows_to_raw_streams(rows):
             "object_angular_velocity_measured": {"status": "derived", "source": "runtime rigid-component availability mask"},
             "eef_linear_velocity": {"status": "derived", "source": "runtime 250 Hz EEF position difference"},
             "eef_angular_velocity": {"status": "derived", "source": "runtime 250 Hz EEF quaternion difference"},
-            "gripper_aperture": {"status": "measured", "source": "runtime normalized gripper joint drive targets"},
+            "gripper_drive_target_readback": {"status": "measured", "source": "runtime normalized gripper joint drive targets; not physical aperture"},
+            "realized_left_gripper_joint_qpos": {"status": "measured", "source": "runtime left articulation active-joint qpos"},
+            "realized_right_gripper_joint_qpos": {"status": "measured", "source": "runtime right articulation active-joint qpos"},
             "selected_gripper_contact": {"status": "measured", "source": "runtime SAPIEN contact restricted to selected arm gripper links"},
             "selected_gripper_contact_count": {"status": "measured", "source": "runtime selected-arm SAPIEN contact-pair count"},
             "selected_gripper_contact_impulse": {"status": "measured", "source": "runtime selected-arm SAPIEN contact point impulse sum"},
             "contact_count": {"status": "measured", "source": "runtime all SAPIEN scene contact-pair count"},
-            "planner_target_available": {"status": "derived", "source": "runtime per-arm direct planner-target presence"},
+            "planner_goal_available": {"status": "derived", "source": "runtime per-arm direct planner-goal presence"},
             "contact_pairs_json": {"status": "measured", "source": "runtime all SAPIEN scene contact body pairs"},
         },
     }
@@ -165,8 +191,8 @@ class DenseTraceMixin:
         self._requested_position = {key: value.copy() for key, value in self._effective_position.items()}
         self._requested_velocity = {key: value.copy() for key, value in self._effective_velocity.items()}
         self._requested_gripper = list(self.robot.get_normal_real_gripper_val())
-        self._planner_target = {"left": np.full(7, np.nan), "right": np.full(7, np.nan)}
-        self._planner_target_available = {"left": False, "right": False}
+        self._planner_goal = {"left": np.full(7, np.nan), "right": np.full(7, np.nan)}
+        self._planner_goal_available = {"left": False, "right": False}
         self._component_mask = np.zeros(26, dtype=bool)
         self.mark("trace_start")
         self._record(initial_state=True)
@@ -253,8 +279,8 @@ class DenseTraceMixin:
             "timestamp": self._step_index / self.trace_frequency_hz,
             "effective_setpoint": effective,
             "requested_command": requested,
-            "planner_target": np.concatenate((self._planner_target["left"], self._planner_target["right"])),
-            "planner_target_available": np.asarray((self._planner_target_available["left"], self._planner_target_available["right"]), dtype=bool),
+            "planner_goal_eef_pose": np.concatenate((self._planner_goal["left"], self._planner_goal["right"])),
+            "planner_goal_available": np.asarray((self._planner_goal_available["left"], self._planner_goal_available["right"]), dtype=bool),
             "component_mask": self._component_mask.copy(),
             "joint_qpos": qpos,
             "joint_qvel": qvel,
@@ -268,7 +294,9 @@ class DenseTraceMixin:
             "actor_angular_velocity": actor_angular,
             "actor_angular_velocity_measured": actor_angular_measured,
             "gripper_command": np.asarray(self._requested_gripper, dtype=np.float64),
-            "gripper_aperture": np.asarray(effective_gripper, dtype=np.float64),
+            "gripper_drive_target_readback": np.asarray(effective_gripper, dtype=np.float64),
+            "realized_left_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "left"),
+            "realized_right_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "right"),
             "selected_gripper_links": self.selected_gripper_links(),
             "selected_gripper_contact": selected_contact_count > 0,
             "selected_gripper_contact_count": selected_contact_count,
@@ -281,36 +309,36 @@ class DenseTraceMixin:
     def left_move_to_pose(self, *args, **kwargs):
         self._reserve_planner_query()
         pose = kwargs.get("pose", args[0] if args else None)
-        self._planner_target["left"] = _pose_array(pose)
-        self._planner_target_available["left"] = pose is not None
+        self._planner_goal["left"] = _pose_array(pose)
+        self._planner_goal_available["left"] = pose is not None
         result = super().left_move_to_pose(*args, **kwargs)
         status = result.get("status") if isinstance(result, dict) else "Failed"
-        self.planner_queries.append({"query_index": self.planner_query_count, "arm": "left", "target_pose": self._planner_target["left"].tolist(), "status": status})
+        self.planner_queries.append({"query_index": self.planner_query_count, "arm": "left", "goal_eef_pose": self._planner_goal["left"].tolist(), "status": status})
         return result
 
     def right_move_to_pose(self, *args, **kwargs):
         self._reserve_planner_query()
         pose = kwargs.get("pose", args[0] if args else None)
-        self._planner_target["right"] = _pose_array(pose)
-        self._planner_target_available["right"] = pose is not None
+        self._planner_goal["right"] = _pose_array(pose)
+        self._planner_goal_available["right"] = pose is not None
         result = super().right_move_to_pose(*args, **kwargs)
         status = result.get("status") if isinstance(result, dict) else "Failed"
-        self.planner_queries.append({"query_index": self.planner_query_count, "arm": "right", "target_pose": self._planner_target["right"].tolist(), "status": status})
+        self.planner_queries.append({"query_index": self.planner_query_count, "arm": "right", "goal_eef_pose": self._planner_goal["right"].tolist(), "status": status})
         return result
 
     def preflight_left_pose(self, pose):
         """Run a bounded planner query without mutating Base_Task.plan_success."""
 
         self._reserve_planner_query()
-        self._planner_target["left"] = _pose_array(pose)
-        self._planner_target_available["left"] = pose is not None
-        result = self.robot.left_plan_path(self._planner_target["left"].tolist()) if pose is not None else None
+        self._planner_goal["left"] = _pose_array(pose)
+        self._planner_goal_available["left"] = pose is not None
+        result = self.robot.left_plan_path(self._planner_goal["left"].tolist()) if pose is not None else None
         status = result.get("status") if isinstance(result, dict) else "Failed"
         self.planner_queries.append({
             "query_index": self.planner_query_count,
             "arm": "left",
             "query_type": "nonexecuting_preflight",
-            "target_pose": self._planner_target["left"].tolist(),
+            "goal_eef_pose": self._planner_goal["left"].tolist(),
             "status": status,
         })
         return result
@@ -364,8 +392,8 @@ class DenseTraceMixin:
             "timestamp": np.asarray([row["timestamp"] for row in rows], dtype=np.float64),
             "controller_effective_setpoint": np.asarray([row["effective_setpoint"] for row in rows], dtype=np.float64),
             "requested_command": np.asarray([row["requested_command"] for row in rows], dtype=np.float64),
-            "planner_target": np.asarray([row["planner_target"] for row in rows], dtype=np.float64),
-            "planner_target_available": np.asarray([row["planner_target_available"] for row in rows], dtype=bool),
+            "planner_goal_eef_pose": np.asarray([row["planner_goal_eef_pose"] for row in rows], dtype=np.float64),
+            "planner_goal_available": np.asarray([row["planner_goal_available"] for row in rows], dtype=bool),
             "component_masks": np.asarray([row["component_mask"] for row in rows], dtype=bool),
             "joint_qpos": np.asarray([row["joint_qpos"] for row in rows], dtype=np.float64),
             "joint_qvel": np.asarray([row["joint_qvel"] for row in rows], dtype=np.float64),
@@ -379,7 +407,9 @@ class DenseTraceMixin:
             "object_angular_velocity": np.asarray([row["actor_angular_velocity"] for row in rows], dtype=np.float64),
             "object_angular_velocity_measured": np.asarray([row["actor_angular_velocity_measured"] for row in rows], dtype=bool),
             "gripper_command": np.asarray([row["gripper_command"] for row in rows], dtype=np.float64),
-            "gripper_aperture": np.asarray([row["gripper_aperture"] for row in rows], dtype=np.float64),
+            "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
+            "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
+            "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
             "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
             "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
             "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
@@ -395,8 +425,8 @@ class DenseTraceMixin:
                 "timestamp": {"status": "derived", "source": "step_index divided by 250 Hz"},
                 "controller_effective_setpoint": {"status": "measured", "source": "joint drive targets plus normalized gripper drive targets"},
                 "requested_command": {"status": "commanded", "source": "Base_Task.take_dense_action control_seq"},
-                "planner_target": {"status": "commanded", "source": "left_move_to_pose/right_move_to_pose pose argument"},
-                "planner_target_available": {"status": "derived", "source": "per-arm direct planner target presence"},
+                "planner_goal_eef_pose": {"status": "commanded", "source": "left_move_to_pose/right_move_to_pose direct EEF goal argument"},
+                "planner_goal_available": {"status": "derived", "source": "per-arm direct planner goal presence"},
                 "component_masks": {"status": "derived", "source": "per-step commanded component presence"},
                 "joint_qpos": {"status": "measured", "source": "complete dual-arm articulation get_qpos"},
                 "joint_qvel": {"status": "measured", "source": "complete dual-arm articulation get_qvel"},
@@ -408,7 +438,9 @@ class DenseTraceMixin:
                 "object_linear_velocity": {"status": "measured_or_derived", "source": "rigid component when available, otherwise 250 Hz position difference; per-row mask saved"},
                 "object_angular_velocity": {"status": "measured_or_derived", "source": "rigid component when available, otherwise 250 Hz quaternion difference; per-row mask saved"},
                 "gripper_command": {"status": "commanded", "source": "normalized take_dense_action gripper request"},
-                "gripper_aperture": {"status": "measured", "source": "normalized gripper joint drive targets"},
+                "gripper_drive_target_readback": {"status": "measured", "source": "normalized gripper joint drive targets; not physical aperture"},
+                "realized_left_gripper_joint_qpos": {"status": "measured", "source": "left articulation active-joint qpos"},
+                "realized_right_gripper_joint_qpos": {"status": "measured", "source": "right articulation active-joint qpos"},
                 "selected_gripper_contact": {"status": "measured", "source": "SAPIEN body-pair contacts restricted to selected arm links"},
                 "selected_gripper_contact_count": {"status": "measured", "source": "SAPIEN contact pair count for selected arm"},
                 "selected_gripper_contact_impulse": {"status": "measured", "source": "SAPIEN contact point impulses when available"},

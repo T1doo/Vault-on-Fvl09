@@ -1,0 +1,93 @@
+{
+  "schema_version": "cmf_runtime_v3_implementation_proposal_v1",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3",
+  "raw_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "status": "cpu_static_implemented_proposed_for_user_review",
+  "approved": false,
+  "frozen": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "scientific_design_changed": false,
+  "frozen_invariants": {
+    "families": 4,
+    "accepted_roots": 40,
+    "formal_trajectories": 360,
+    "intents_per_root": 3,
+    "realizations_per_intent": 3,
+    "split_per_family": "5/2/3",
+    "f3_programs": ["VVHH", "VHVH", "VHHV"],
+    "f4_programs": ["common-X+ABC", "common-X+ACB", "common-X+BAC"]
+  },
+  "family_versions": {
+    "F1": {
+      "version": "f1_three_branch_coverage_v3",
+      "target_order": ["red", "green", "blue"],
+      "fresh_scene_per_branch": true,
+      "common_prefix": "f1_cluster_common_pregrasp_v1",
+      "acceptance": "3/3 semantic branches with one scene/current/prefix hash"
+    },
+    "F2": {
+      "version": "f2_workspace_reachability_v4",
+      "identity": "071_can/base1 + left arm + 074_displaystand/base3",
+      "fixed_pose_candidates": 6,
+      "checks": ["upright axis", "release planner", "preplace planner", "joint-limit margin", "carried swept geometry", "facility distance"],
+      "terminal_after_exhaustion": "f2_stand_layout_impact_review_v5"
+    },
+    "F3": {
+      "version": "f3_release_dynamics_diagnosis_v3",
+      "sample_points": ["before_release", "after_release_1", "after_release_5", "after_release_10", "after_release_25", "after_release_50", "after_release_125", "after_release_250", "after_rest"],
+      "conditional_gate": "one actor-to-EEF correction only if pre-release offset is proven; post-release drift enters physics impact review",
+      "verifier_relaxation_allowed": false
+    },
+    "F4": {
+      "version": "f4_segmented_common_carry_v3",
+      "route_order": ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"],
+      "safe_height_rule": "max obstacle top + common-X half-height + frozen clearance",
+      "tray_pose_change_allowed": false,
+      "terminal_after_exhaustion": "f4_tray_layout_impact_review_v4"
+    }
+  },
+  "pipeline": {
+    "version": "real_sapien_pilot_root_orchestrator_v1",
+    "status": "interface_and_cpu_synthetic_integration_implemented",
+    "order": ["capture pristine current/anchor", "three disposable feasibility scenes", "freeze candidate/task-tree/prefix once", "three fresh rollout scenes", "three-of-three root finalizer"],
+    "real_sapien_adapter": "unimplemented",
+    "gpu_runtime": "not_run"
+  },
+  "raw": {
+    "primary_stream": "controller_effective_setpoint_v1",
+    "frequency_hz": 250,
+    "action_dim": 26,
+    "state_timestamps": "N+1",
+    "action_interval_start_timestamps": "N and equal to state_timestamps[:-1]",
+    "action_interval_end_timestamps": "N and equal to state_timestamps[1:]",
+    "planner_goal_field": "planner_goal_eef_pose",
+    "gripper_drive_field": "gripper_drive_target_readback",
+    "actual_gripper_fields": ["realized_left_gripper_joint_qpos", "realized_right_gripper_joint_qpos"]
+  },
+  "current_hash": {
+    "required_components": ["head RGB", "left/right wrist RGB", "robot state", "actual gripper state", "object role/layout", "camera config version", "scene seed", "generator version"]
+  },
+  "cpu_validation": {
+    "active_tests": "45/45 passed",
+    "vault_snapshot_tests": "45/45 passed after byte-equal sync",
+    "single_branch_raw_dry_run": "probe_outputs/nonformal_pipeline_dry_run_runtime_v3_raw_v2_1_20260828_cpu5",
+    "root_dry_run": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_20260828_cpu2",
+    "root_freeze_call_count": 1,
+    "root_feasibility_scenes": 3,
+    "root_rollout_scenes": 3,
+    "root_finalizer": "3/3 accepted synthetic only"
+  },
+  "unresolved_before_any_gpu": [
+    "real SAPIEN adapter",
+    "asset-derived numeric F2 pose-grid transforms and height margins",
+    "runtime F3 contact normal/impulse and pad footprint adapters",
+    "runtime F4 obstacle-top and segmented planner adapters",
+    "new user approval and frozen runtime-v3 finite budget"
+  ],
+  "next_user_decision": "review and approve/reject the runtime-v3 implementation proposal and finite budget; approval would still not authorize Stage 0"
+}

@@ -1,0 +1,83 @@
+{
+  "candidate_universe_sha256": "9e95bd0e1196d414d8f952b3faf99994b92a8fd669ce1b1185c8d4eeda68356c",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "frozen_spec_sha256": "6d63db248b60e9969ad4cf380f927a598cf892980d9b16e0328c64634684c8c5",
+  "implementation_version": "controlled_multi_future_runtime_v3",
+  "observable_task_tree": {
+    "root": {
+      "compatible": [
+        "F1-red_block",
+        "F1-green_block",
+        "F1-blue_block"
+      ]
+    }
+  },
+  "observable_task_tree_sha256": "7cceafb8f89a5162c594ab25da07caf3a00a47102ce95ec4dfda1a9b6b179cf8",
+  "oracle_task_tree": {
+    "root": {
+      "compatible": [
+        "F1-red_block",
+        "F1-green_block",
+        "F1-blue_block"
+      ]
+    }
+  },
+  "oracle_task_tree_sha256": "7cceafb8f89a5162c594ab25da07caf3a00a47102ce95ec4dfda1a9b6b179cf8",
+  "planned_root_slot_spec": {
+    "family": "F1",
+    "generator": "synthetic_root_pipeline_dry_run_v1",
+    "origin": "nonformal_cpu_integration",
+    "rank": 0,
+    "seed": 20260828,
+    "slot_id": "synthetic_runtime_v3_root",
+    "stop_condition": "one_root"
+  },
+  "programs": [
+    {
+      "program_id": "F1-red_block",
+      "steps": [
+        {
+          "object": "red_block",
+          "op": "pick"
+        },
+        {
+          "object": "red_block",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ]
+    },
+    {
+      "program_id": "F1-green_block",
+      "steps": [
+        {
+          "object": "green_block",
+          "op": "pick"
+        },
+        {
+          "object": "green_block",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ]
+    },
+    {
+      "program_id": "F1-blue_block",
+      "steps": [
+        {
+          "object": "blue_block",
+          "op": "pick"
+        },
+        {
+          "object": "blue_block",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ]
+    }
+  ],
+  "schema_version": "candidate_frozen_root_spec_v1"
+}

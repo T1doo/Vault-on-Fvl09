@@ -1,7 +1,8 @@
 """Finite nonformal runtime-v2 probes for the reviewed F1--F4 repairs.
 
 This module does not authorize a run.  It requires an explicit CLI approval
-flag, is restricted to physical GPU0 by the workspace policy, and always emits
+flag, may use only an independently fresh-idle physical GPU0--7 selected by the
+workspace guard, and always emits
 ``formal_data=false``/``stage0_data=false`` receipts.
 """
 

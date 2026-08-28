@@ -1,0 +1,66 @@
+{
+  "schema_version": "cmf_stage0_readiness_runtime_v3_v1",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3",
+  "raw_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "decision": "BLOCKED_WITH_REASONS",
+  "stage0_readiness": "blocked_with_reasons",
+  "stage0_authorized": false,
+  "gpu_probe_authorized": false,
+  "formal_data_generated": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null,
+  "compression_run": false,
+  "policy_transfer_run": false,
+  "pi05_run": false,
+  "scientific_invariants_unchanged": true,
+  "runtime_v2_evidence": {
+    "F1": "red branch pass only",
+    "F2": "terminal planner-preflight failure",
+    "F3": "realized V/H pass; return-equivalence fail",
+    "F4": "common safe-horizontal planner fail"
+  },
+  "runtime_v3_cpu_status": {
+    "F1": "three-branch/prefix contract implemented, not run",
+    "F2": "six-candidate workspace contract implemented, not run",
+    "F3": "release-dynamics diagnostic contract implemented, not run",
+    "F4": "segmented-route contract implemented, not run",
+    "raw_v2_1": "implemented and synthetic cpu5 passed",
+    "root_orchestrator": "implemented and synthetic root-cpu2 passed",
+    "real_sapien_adapter": "unimplemented",
+    "active_tests": "45/45 passed",
+    "vault_snapshot_tests": "45/45 passed after byte-equal sync"
+  },
+  "review_corrections_applied": [
+    "current GPU policy consistently says any independently fresh-idle GPU0-7",
+    "current readiness says probes ran but complete family success remains missing",
+    "action runner docstring no longer says GPU0-only",
+    "F1 claim narrowed to continuous box body-pair contact without support-normal proof",
+    "planner target renamed planner_goal_eef_pose",
+    "gripper aperture renamed drive-target readback and actual gripper qpos added",
+    "action/state timestamp semantics made explicit"
+  ],
+  "hard_blockers": [
+    "F1 runtime-v3 red/green/blue 3/3 evidence missing",
+    "F2 runtime-v3 workspace candidate evidence missing",
+    "F3 release-cause diagnosis missing",
+    "F4 segmented carry evidence missing",
+    "real SAPIEN root-level integration missing",
+    "runtime-v3 finite budget unapproved and no GPU execution authorized"
+  ],
+  "next_gate": {
+    "required_user_decision": "review runtime-v3 proposal and budget; approve/reject a new bounded nonformal GPU phase",
+    "does_not_authorize": ["Stage 0", "Stage 1", "formal collection", "training", "compression", "pi0.5"]
+  },
+  "evidence": {
+    "proposal": "controlled_multi_future_runtime_v3_implementation_proposal.json",
+    "budget": "pilot_attempt_budget_runtime_v3_proposal.json",
+    "registry": "f1_f4_implementation_registry_v3_cpu_current.json",
+    "raw_cpu5": "probe_outputs/nonformal_pipeline_dry_run_runtime_v3_raw_v2_1_20260828_cpu5/receipt.json",
+    "root_cpu2": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_20260828_cpu2/root_receipt.json",
+    "code_snapshot": "代码审阅快照/"
+  }
+}

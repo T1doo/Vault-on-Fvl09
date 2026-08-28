@@ -6,7 +6,7 @@
 
 | Family | 结果 | 关键结论 |
 | --- | --- | --- |
-| F1 | PASS | 红方块 true-inside、连续 box support、绿/蓝全阶段稳定、rest/stationarity 全通过；但只证明红分支 |
+| F1 | PASS | 红方块 true-inside、stable、连续 box body-pair contact、绿/蓝全阶段稳定、rest/stationarity 全通过；未验证接触法向，仅证明红分支 |
 | F2 | FAIL | 同一 `071_can/base1 + left arm + stand` 的三个预注册 yaw 均通过几何检查，但真实 planner preflight 全部失败 |
 | F3 | FAIL | V/H realized motion 与抓取连续性全部通过；最终瓶子位置误差 4.10 cm、姿态误差 0.156，return-equivalence 失败 |
 | F4 | FAIL | swept geometry 通过，但 safe-horizontal waypoint planner 失败；按 ordered Gate 未运行任何后续 block/program |

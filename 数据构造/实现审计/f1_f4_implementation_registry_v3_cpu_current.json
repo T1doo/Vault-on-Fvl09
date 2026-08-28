@@ -1,0 +1,127 @@
+{
+  "schema_version": "f1_f4_implementation_registry_v3_cpu_current",
+  "generated_at": "2026-08-28",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3",
+  "raw_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "status": "cpu_static_implemented_proposed_for_user_review",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "inherits_runtime_v2_evidence": {
+    "registry": "f1_f4_implementation_registry_v2_runtime_current.json",
+    "registry_sha256": "1ccd5f5ecbc0b46631777216b5ae3b0f304bacf25734dafd461fc067e5ebded2",
+    "execution_report": "runtime_v2_bounded_probe_execution_report_20260828.json",
+    "execution_report_sha256": "7d97077555c00e0b16f30374128231705db1e0449ec20c1790b0754932ebcd12",
+    "policy": "runtime-v2 receipts/traces remain immutable; runtime-v3 adds implementation contracts only"
+  },
+  "code_registry": {
+    "active_source": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future",
+    "files": {
+      "current_hasher.py": "ac553961a33f0f2cf8a43002c2efc9e4b76fc771aef800793e6c32056e8f28d1",
+      "raw_writer.py": "3c2f977f0799df020daff15655cbdf4cd8a8c9af344c4d01a2a6ddf465ef4a62",
+      "probes/runtime_trace.py": "a8bc2f88c1d794640ce894fb60e61bf02cda1a4ccb2d5e4a2c9ad48d0b6676e9",
+      "runtime_v3_contracts.py": "73890cdd86aeaa00df1c1948916f1572e0f0d9639ca0ab7bc224d738bf5c580a",
+      "root_orchestrator.py": "f1b272dec5ee3e5145e4b1ccfd2914a9de5b2257b0ca0eba046d612af98b89eb",
+      "probes/pipeline_dry_run.py": "1281827b5267258b5139205ee7113619b08b5bf362154ad764f5e7ab5396e6a0",
+      "probes/root_pipeline_dry_run.py": "e72e5ef1cc70c80f49655d032dbd6a4261e1a573df399e91073819e1dfaf8cd3",
+      "tests/test_pipeline_contracts.py": "9b287ab1f6373cff1543ff4122c65e606091b755f7b1b9f6d82a11f1bbaaa1c7",
+      "tests/test_runtime_v3_contracts.py": "ce4d5b38e970b66a295540617eda7fec796fab03737cffa854896e314c6689af",
+      "tests/test_root_orchestrator.py": "c97fb81f286812ff5e46c3a3a0f3d3478e53d7d7a65a315f511a95fa4c6f5e49"
+    },
+    "active_cpu_tests": "45/45 passed",
+    "vault_snapshot_cpu_tests": "45/45 passed after byte-equal sync",
+    "python_compile_files": 43,
+    "official_tracked_baseline_modified": false
+  },
+  "family_contracts": {
+    "F1": {
+      "version": "f1_three_branch_coverage_v3",
+      "target_roles": ["red", "green", "blue"],
+      "fixed_order": true,
+      "fresh_scene_per_branch": true,
+      "common_prefix_target_neutral": true,
+      "same_scene_current_prefix_hash_required": true,
+      "acceptance": "3/3 only"
+    },
+    "F2": {
+      "version": "f2_workspace_reachability_v4",
+      "pose_candidates": 6,
+      "fixed_order": true,
+      "same_planner_seed_and_start_state": true,
+      "preplace_and_release_planner_required": true,
+      "fallbacks_forbidden": ["right arm", "different can", "unbounded yaw"],
+      "exhaustion_gate": "f2_stand_layout_impact_review_v5"
+    },
+    "F3": {
+      "version": "f3_release_dynamics_diagnosis_v3",
+      "before_release_sample_required": true,
+      "post_release_sample_steps": [1, 5, 10, 25, 50, 125, 250],
+      "required_signals": ["pose error", "EEF tracking", "linear/angular speed", "pad footprint", "pad contact normal/impulse", "selected gripper contact", "actual gripper qpos"],
+      "conditional_correction_only": true,
+      "verifier_relaxation_allowed": false
+    },
+    "F4": {
+      "version": "f4_segmented_common_carry_v3",
+      "safe_height_asset_derived": true,
+      "routes": ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"],
+      "segment_endpoint_preflight_required": true,
+      "tray_pose_change_allowed": false,
+      "exhaustion_gate": "f4_tray_layout_impact_review_v4"
+    }
+  },
+  "raw_contract": {
+    "primary_stream": "controller_effective_setpoint_v1",
+    "frequency_hz": 250,
+    "action_dim": 26,
+    "state_timestamps": "N+1",
+    "action_interval_start_timestamps": "N",
+    "action_interval_end_timestamps": "N",
+    "planner_goal_eef_pose": "N x 14 audit-only goal",
+    "gripper_drive_target_readback": "N+1 x 2, not physical aperture",
+    "realized_gripper_joint_qpos": "explicit left/right N+1 streams"
+  },
+  "current_hash_contract": {
+    "head_rgb": true,
+    "left_right_wrist_rgb": true,
+    "robot_state": true,
+    "actual_gripper_state": true,
+    "object_instance_pose_role": true,
+    "camera_config_version": true,
+    "scene_seed_generator_version": true
+  },
+  "root_pipeline": {
+    "version": "real_sapien_pilot_root_orchestrator_v1",
+    "pristine_capture_before_feasibility": true,
+    "disposable_feasibility_scenes": 3,
+    "freeze_call_count": 1,
+    "fresh_rollout_scenes": 3,
+    "root_finalizer_requires_three_of_three": true,
+    "real_sapien_adapter": "unimplemented",
+    "runtime_status": "not_run"
+  },
+  "current_evidence": {
+    "raw_cpu5_receipt": {
+      "path": "probe_outputs/nonformal_pipeline_dry_run_runtime_v3_raw_v2_1_20260828_cpu5/receipt.json",
+      "sha256": "d1018661f1503c653c64bace7edd11772e85df6455ec02d50320d9107a7c6ba7"
+    },
+    "raw_cpu5_manifest": {
+      "path": "probe_outputs/nonformal_pipeline_dry_run_runtime_v3_raw_v2_1_20260828_cpu5/raw/manifest.json",
+      "sha256": "acada9425cd877295d5113221cd9eb6d186d53fe5f6c69fd1ed1d74d73404b13"
+    },
+    "root_cpu2_receipt": {
+      "path": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_20260828_cpu2/root_receipt.json",
+      "sha256": "ff9645657f271bb4683c04ea15cc50cc173e5b5528db45e4273ba0df9a7e432e"
+    }
+  },
+  "current_blockers": [
+    "runtime-v3 real SAPIEN adapter is not implemented",
+    "runtime-v3 numeric scene/pose/route adapters are not runtime-validated",
+    "runtime-v3 probe budget is proposed, not approved or frozen",
+    "no runtime-v3 GPU execution is authorized",
+    "Stage 0 remains prohibited"
+  ],
+  "readiness": "BLOCKED_WITH_REASONS"
+}

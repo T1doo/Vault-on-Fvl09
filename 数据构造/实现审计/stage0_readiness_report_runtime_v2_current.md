@@ -15,9 +15,9 @@
 
 仍然缺少两类决定性证据：
 
-1. 四个 runtime-v2 family probes 的真实 SAPIEN 结果；
+1. F1 三分支和 F2/F3/F4 的完整成功可行性证据；
 2. 一个真实 SAPIEN fresh-scene current/anchor/raw/verifier integration。
 
-Stage 0 的 `pilot_attempt_budget_v0` 继续保持未批准；仅 runtime-v2 nonformal probe addendum 已获批准并冻结。当前只允许 physical GPU0。
+Stage 0 的 `pilot_attempt_budget_v0` 继续保持未批准；runtime-v2 nonformal probe addendum 已执行并耗尽。当前 GPU policy 是 GPU0–7 中任一 independently fresh-idle card，实际 runtime-v2 probes 使用 GPU1。
 
 四条授权 probes 已结束，不能在当前版本内继续重试。下一步需要新的 impact review 和 implementation version；该轮从未授权 Stage 0、Stage 1、360 条正式数据或任何训练。

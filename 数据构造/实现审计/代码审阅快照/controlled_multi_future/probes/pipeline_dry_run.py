@@ -13,7 +13,7 @@ from ..current_hasher import build_current_hashes
 from ..families import F1ObjectSelection
 from ..pilot_pipeline import PilotAttemptPipeline, PilotPipelineAdapter
 from ..raw_writer import pack_effective_setpoint
-from ..runtime_v2_contracts import IMPLEMENTATION_VERSION
+from ..runtime_v3_contracts import IMPLEMENTATION_VERSION
 
 
 class SyntheticScene:
@@ -46,16 +46,18 @@ class SyntheticAdapter(PilotPipelineAdapter):
             head_rgb=np.zeros((2, 2, 3), dtype=np.uint8),
             wrist_rgb={"left": np.zeros((1, 1, 3), dtype=np.uint8), "right": np.zeros((1, 1, 3), dtype=np.uint8)},
             robot_state=np.zeros(14, dtype=np.float64),
+            gripper_actual_state=np.zeros(4, dtype=np.float64),
             object_role_layout={"red_block": [-0.2, 0.02, 0.762], "green_block": [-0.11, 0.02, 0.762], "blue_block": [-0.02, 0.02, 0.762]},
+            camera_config_version="synthetic_head_left_right_v1",
             scene_seed=20260827,
-            generator_version="synthetic_pipeline_dry_run_v2",
+            generator_version="synthetic_pipeline_dry_run_v3_raw_v2_1",
         )
 
     def capture_anchor(self, scene):
         return capture_anchor(
             robot_qpos=np.zeros(14), robot_qvel=np.zeros(14),
             actor_poses={"red_block": [-0.2, 0.02, 0.762, 1, 0, 0, 0]},
-            gripper_state=[1, 1], metadata={"scene_seed": 20260827, "generator_version": "synthetic_pipeline_dry_run_v2"},
+            gripper_state=[1, 1], metadata={"scene_seed": 20260828, "generator_version": "synthetic_pipeline_dry_run_v3_raw_v2_1"},
         )
 
     def task_trees(self, programs):
@@ -71,9 +73,11 @@ class SyntheticAdapter(PilotPipelineAdapter):
         streams = {
             "controller_effective_setpoint": np.repeat(action[None, :], n, axis=0),
             "requested_command": np.repeat(action.copy()[None, :], n, axis=0),
-            "planner_target": np.full((n, 14), np.nan),
+            "planner_goal_eef_pose": np.full((n, 14), np.nan),
             "gripper_command": np.ones((n, 2)),
-            "timestamps": np.arange(n) / 250.0,
+            "action_interval_start_timestamps": np.arange(n) / 250.0,
+            "action_interval_end_timestamps": np.arange(1, n + 1) / 250.0,
+            "state_timestamps": np.arange(n + 1) / 250.0,
             "component_masks": np.ones((n, 26), dtype=bool),
             "realized_qpos": np.zeros((n + 1, 14)),
             "realized_qvel": np.zeros((n + 1, 14)),
@@ -81,21 +85,29 @@ class SyntheticAdapter(PilotPipelineAdapter):
             "field_metadata": {
                 "controller_effective_setpoint": {"status": "commanded", "source": "synthetic dry-run effective setpoint generator"},
                 "requested_command": {"status": "commanded", "source": "synthetic dry-run requested command generator"},
-                "planner_target": {"status": "unavailable", "source": "synthetic dry-run has no planner"},
+                "planner_goal_eef_pose": {"status": "unavailable", "source": "synthetic dry-run has no planner"},
                 "realized_qpos": {"status": "measured", "source": "synthetic deterministic adapter state"},
                 "realized_qvel": {"status": "measured", "source": "synthetic deterministic adapter state"},
                 "realized_eef": {"status": "measured", "source": "synthetic deterministic adapter state"},
                 "gripper_command": {"status": "commanded", "source": "synthetic deterministic adapter command"},
-                "timestamps": {"status": "derived", "source": "synthetic 250 Hz step index"},
+                "action_interval_start_timestamps": {"status": "derived", "source": "synthetic state_timestamps[:-1]"},
+                "action_interval_end_timestamps": {"status": "derived", "source": "synthetic state_timestamps[1:]"},
+                "state_timestamps": {"status": "derived", "source": "synthetic 250 Hz state index"},
                 "component_masks": {"status": "derived", "source": "synthetic component availability"},
             },
         }
         audit_streams = {
             "object_pose": np.zeros((n + 1, 7)),
             "contact_count": np.zeros(n + 1, dtype=np.int64),
+            "gripper_drive_target_readback": np.ones((n + 1, 2)),
+            "realized_left_gripper_joint_qpos": np.zeros((n + 1, 2)),
+            "realized_right_gripper_joint_qpos": np.zeros((n + 1, 2)),
             "field_metadata": {
                 "object_pose": {"status": "measured", "source": "synthetic deterministic adapter object state"},
                 "contact_count": {"status": "measured", "source": "synthetic deterministic adapter contact state"},
+                "gripper_drive_target_readback": {"status": "measured", "source": "synthetic deterministic adapter drive target"},
+                "realized_left_gripper_joint_qpos": {"status": "measured", "source": "synthetic deterministic adapter left gripper state"},
+                "realized_right_gripper_joint_qpos": {"status": "measured", "source": "synthetic deterministic adapter right gripper state"},
             },
         }
         return {"streams": streams, "audit_streams": audit_streams, "provenance": {"synthetic": True, "program_id": program["program_id"]}}
@@ -115,7 +127,7 @@ def main():
     pipeline = PilotAttemptPipeline(adapter, IMPLEMENTATION_VERSION)
     receipt = pipeline.run_nonformal_attempt(
         output_dir=args.output,
-        planned_root_slot_spec={"slot_id": "synthetic_f1_runtime_v2", "family": "F1", "seed": 20260828, "generator": "synthetic_pipeline_dry_run_v2", "origin": "nonformal_integration", "rank": 0, "stop_condition": "one_attempt"},
+        planned_root_slot_spec={"slot_id": "synthetic_f1_runtime_v3_raw_v2_1", "family": "F1", "seed": 20260828, "generator": "synthetic_pipeline_dry_run_v3_raw_v2_1", "origin": "nonformal_integration", "rank": 0, "stop_condition": "one_attempt"},
         program_id="F1-red_block",
         realization_spec={"realization": "r_pc", "synthetic": True},
     )

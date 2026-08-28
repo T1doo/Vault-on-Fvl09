@@ -49,7 +49,7 @@
 
 | Family | 终态 | 机器结论 |
 | --- | --- | --- |
-| F1 | `passed_nonformal_action_probe` | 红方块 true-inside、连续 box support、绿/蓝全阶段稳定、gripper/rest/stationarity 全通过；只证明红分支，绿/蓝目标分支未运行 |
+| F1 | `passed_nonformal_action_probe` | 红方块 true-inside、stable、连续 box body-pair contact、绿/蓝全阶段稳定、gripper/rest/stationarity 全通过；未验证接触法向，不将其升级为严格盒底支撑；只证明红分支 |
 | F2 | `aborted_with_reason` | 同一 `071_can/base1 + left arm + 074_displaystand/base3`；三个预注册 yaw 都通过 geometry，但真实 planner preflight 全部 `Fail` |
 | F3 | `failed_nonformal_action_probe` | realized V/H 全通过，contact fraction=1.0、break=0；最终 bottle position/orientation errors=`0.04096 m/0.15587`，return-equivalence 失败 |
 | F4 | `failed_planner` | swept geometry 通过，但 `safe_horizontal_waypoint` planner 失败；按 ordered Gate 未运行 A/B/C、ABC/ACB/BAC |

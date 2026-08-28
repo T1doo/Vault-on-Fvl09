@@ -31,15 +31,23 @@ def build_current_hashes(
     head_rgb,
     wrist_rgb: Mapping[str, Any],
     robot_state,
+    gripper_actual_state,
     object_role_layout: Mapping[str, Any],
+    camera_config_version: str,
     scene_seed: int,
     generator_version: str,
 ) -> dict:
+    if set(wrist_rgb) != {"left", "right"}:
+        raise ValueError("same-current hashing requires both left and right wrist RGB")
+    if not isinstance(camera_config_version, str) or not camera_config_version:
+        raise ValueError("camera_config_version must be a non-empty string")
     components = {
         "head_rgb_sha256": hash_array(head_rgb),
         "wrist_rgb_sha256": {name: hash_array(wrist_rgb[name]) for name in sorted(wrist_rgb)},
         "robot_state_sha256": hash_array(robot_state),
+        "gripper_actual_state_sha256": hash_array(gripper_actual_state),
         "object_role_layout_sha256": hash_json(object_role_layout),
+        "camera_config_version_sha256": hash_json(camera_config_version),
         "scene_spec_sha256": hash_json({"scene_seed": int(scene_seed), "generator_version": generator_version}),
     }
     return {"components": components, "aggregate_sha256": hash_json(components)}

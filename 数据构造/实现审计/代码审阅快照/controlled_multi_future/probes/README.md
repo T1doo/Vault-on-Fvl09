@@ -14,8 +14,10 @@ must not be rerun. `action_feasibility_v2.py` is the reviewed
 `controlled_multi_future_runtime_v2` implementation. It may use any physical
 GPU0--7 that independently passes the immediate fresh-idle guard, requires the
 explicit approval flag, uses one card at a time, and uses one immutable attempt
-namespace. The user has authorized exactly one bounded nonformal probe
-for each F1--F4 runtime-v2 family; this does not authorize retries, Stage 0, or
-formal collection. CPU/static tests
-and the synthetic pipeline may run without that GPU authorization, but their
-outputs do not establish SAPIEN feasibility or Stage-0 readiness.
+namespace. The runtime-v2 budget has been executed and exhausted; it does not
+authorize retries, Stage 0, or formal collection.
+
+Runtime-v3 currently has CPU/static contracts only. `pipeline_dry_run.py` and
+`root_pipeline_dry_run.py` produce synthetic nonformal evidence for raw-v2_1
+and root-level freeze-once/fresh-branch orchestration. Neither script proves
+real SAPIEN feasibility, and no runtime-v3 GPU probe is authorized.

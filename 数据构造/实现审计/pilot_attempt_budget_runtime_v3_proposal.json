@@ -1,0 +1,56 @@
+{
+  "schema_version": "cmf_runtime_v3_probe_budget_proposal_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3",
+  "status": "proposed_for_user_review",
+  "approved": false,
+  "frozen": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "device_scope_if_later_approved": "one independently fresh-idle physical GPU0-7 per sequential job",
+  "F1": {
+    "execution_limit": 3,
+    "fixed_order": ["red", "green", "blue"],
+    "planner_query_limit_per_branch": 12,
+    "timeout_seconds_per_branch": 1200,
+    "recovery_attempts": 0,
+    "automatic_retry": false,
+    "stop_condition": "run all preregistered branches unless cleanup safety fails; fewer than 3/3 pass leaves F1 incomplete"
+  },
+  "F2": {
+    "pose_candidate_limit": 6,
+    "execution_limit": 1,
+    "planner_query_limit_total": 16,
+    "timeout_seconds": 1200,
+    "recovery_attempts": 0,
+    "automatic_retry": false,
+    "stop_condition": "six failures -> f2_stand_layout_impact_review_v5"
+  },
+  "F3": {
+    "diagnostic_execution_limit": 1,
+    "conditional_correction_execution_limit": 1,
+    "planner_query_limit_per_run": 16,
+    "timeout_seconds_per_run": 1800,
+    "recovery_attempts": 0,
+    "automatic_retry": false,
+    "stop_condition": "post-release dynamics -> stop; pre-release offset alone may unlock one deterministic correction"
+  },
+  "F4": {
+    "route_limit": 2,
+    "fixed_order": ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"],
+    "execution_limit_per_route": 1,
+    "planner_query_limit_per_route": 16,
+    "timeout_seconds_per_route": 1800,
+    "recovery_attempts": 0,
+    "automatic_retry": false,
+    "stop_condition": "two route failures -> f4_tray_layout_impact_review_v4"
+  },
+  "root_pipeline_integration": {
+    "execution_limit": 1,
+    "scope": "one nonformal real SAPIEN root integration after all four family repair Gates pass",
+    "budget": "unresolved_pending_family_results",
+    "authorized": false
+  }
+}
