@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 
 from ..family_repair_orchestrator_v1_1 import FamilyRepairOrchestratorV1_1
+from ..f3_conditional_repair_orchestrator_v1_1 import F3ConditionalRepairOrchestratorV1_1
 from ..families import F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_1 import RoboTwinRealSapienPilotRootAdapterV1_1
 from .runtime_v3_1_authorization import load_runtime_v3_1_authorization, require_atomic_gpu_guard
@@ -44,11 +45,18 @@ def main():
     }
     args.output.mkdir(parents=True, exist_ok=False)
     adapter = RoboTwinRealSapienPilotRootAdapterV1_1(family=args.family, output_root=args.output / "scene_work")
-    receipt = FamilyRepairOrchestratorV1_1(adapter).run(
-        output_dir=args.output / "repair",
-        planned_root_slot_spec=planned,
-        program=program,
-    )
+    if args.family == "F3":
+        receipt = F3ConditionalRepairOrchestratorV1_1(adapter).run(
+            output_dir=args.output / "repair",
+            planned_root_slot_spec=planned,
+            program=program,
+        )
+    else:
+        receipt = FamilyRepairOrchestratorV1_1(adapter).run(
+            output_dir=args.output / "repair",
+            planned_root_slot_spec=planned,
+            program=program,
+        )
     cleanup_records = receipt.get("cleanup_records", [])
     launcher = {
         "schema_version": "cmf_runtime_v3_1_family_repair_launcher_v1",

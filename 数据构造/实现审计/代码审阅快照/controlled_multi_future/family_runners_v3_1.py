@@ -820,8 +820,13 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
                 ]
             )
         actor_at_central = compose_pose(central, relative_pose(grasp, start_actor))
-        release = actor_target_to_eef_pose(central, actor_at_central, start_actor)
-        preplace = world_axis_offset_pose(release, 0.10)
+        correction_spec = planner_variant.get("correction_spec")
+        if correction_spec is None:
+            release = actor_target_to_eef_pose(central, actor_at_central, start_actor)
+            preplace = world_axis_offset_pose(release, 0.10)
+        else:
+            release = np.asarray(correction_spec["corrected_release_eef_pose"], dtype=np.float64).reshape(7)
+            preplace = np.asarray(correction_spec["corrected_preplace_eef_pose"], dtype=np.float64).reshape(7)
         rest = np.asarray(scene.robot.left_original_pose, dtype=np.float64)
         targets.extend(
             [
@@ -831,7 +836,13 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
                 {"segment_id": "rest", "pose": rest},
             ]
         )
-        return targets, {"execution_scope": "f3_release_diagnosis_VH_only", "event_order": axes, "target_actor_pose": start_actor.tolist(), "full_program_id": program["program_id"]}
+        return targets, {
+            "execution_scope": "f3_release_diagnosis_VH_only" if correction_spec is None else "f3_single_deterministic_correction_VH_only",
+            "event_order": axes,
+            "target_actor_pose": start_actor.tolist(),
+            "full_program_id": program["program_id"],
+            "correction_spec": correction_spec,
+        }
 
     @staticmethod
     def _execute_event(scene, axis, event_index, metrics):
@@ -904,6 +915,10 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             "bottle_orientation_error_rad": quaternion_angular_error(pose[3:], target_pose[3:]),
             "eef_tracking_error_m": eef_tracking_error,
             "eef_tracking_applicable": eef_tracking_applicable,
+            "eef_pose": np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64).tolist(),
+            "bottle_pose": pose.tolist(),
+            "target_bottle_pose": np.asarray(target_pose, dtype=np.float64).tolist(),
+            "commanded_release_eef_pose": None if eef_target is None else np.asarray(eef_target, dtype=np.float64).tolist(),
             "bottle_linear_speed_mps": float(np.linalg.norm(row["actor_linear_velocity"])),
             "bottle_angular_speed_rps": float(np.linalg.norm(row["actor_angular_velocity"])),
             "bottle_footprint_inside_pad": bool(footprint),

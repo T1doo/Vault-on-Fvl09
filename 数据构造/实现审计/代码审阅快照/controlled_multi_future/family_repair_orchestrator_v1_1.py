@@ -68,7 +68,15 @@ class FamilyRepairOrchestratorV1_1:
             raise body_error
         return result
 
-    def run(self, *, output_dir: Path, planned_root_slot_spec: Mapping[str, Any], program: Mapping[str, Any]) -> dict:
+    def run(
+        self,
+        *,
+        output_dir: Path,
+        planned_root_slot_spec: Mapping[str, Any],
+        program: Mapping[str, Any],
+        repair_mode: str = "diagnosis",
+        correction_spec: Mapping[str, Any] | None = None,
+    ) -> dict:
         output_dir.mkdir(parents=True, exist_ok=False)
         started = time.time()
         planned = _copy(planned_root_slot_spec)
@@ -79,6 +87,8 @@ class FamilyRepairOrchestratorV1_1:
             "implementation_version": "controlled_multi_future_runtime_v3_1",
             "family": self.adapter.family,
             "program_id": program["program_id"],
+            "repair_mode": repair_mode,
+            "correction_spec": _copy(correction_spec) if correction_spec is not None else None,
             "formal_data": False,
             "stage0_data": False,
             "stage0_authorized": False,
@@ -95,11 +105,29 @@ class FamilyRepairOrchestratorV1_1:
         _write(output_dir / "planned_root_slot_spec.json", planned)
         variants_input = _copy(program)
         variants = _copy(self.adapter.planner_audit_variants(variants_input))
+        preflight_error = None
+        if correction_spec is not None:
+            try:
+                if self.adapter.family != "F3" or repair_mode != "deterministic_correction":
+                    raise ValueError("correction_spec is allowed only for F3 deterministic correction")
+                correction_payload = _copy(correction_spec)
+                sealed = dict(correction_payload)
+                expected_hash = sealed.pop("correction_spec_sha256", None)
+                if expected_hash != hash_json(sealed):
+                    raise ValueError("F3 correction spec hash mismatch")
+                if correction_payload.get("maximum_correction_attempt_count") != 1:
+                    raise ValueError("F3 correction spec must enforce one attempt")
+                for variant in variants:
+                    variant["correction_spec"] = _copy(correction_payload)
+            except BaseException as exc:
+                preflight_error = exc
         variants_input_mutated = hash_json(variants_input) != hash_json(program)
         _write(output_dir / "provisional_program.json", {"program": program, "program_sha256": hash_json(program)})
         _write(output_dir / "provisional_planner_variants.json", {"variants": variants, "variants_sha256": hash_json(variants)})
         terminal = "failed_execution"
         try:
+            if preflight_error is not None:
+                raise preflight_error
             if variants_input_mutated:
                 raise RuntimeError("failed_candidate_mutation")
             reference_current, reference_anchor = self._run_scene(
@@ -112,6 +140,8 @@ class FamilyRepairOrchestratorV1_1:
             )
             _write(output_dir / "reference_current.json", reference_current)
             _write(output_dir / "reference_anchor.json", reference_anchor)
+            receipt["reference_current_sha256"] = reference_current.get("aggregate_sha256")
+            receipt["reference_anchor_sha256"] = reference_anchor.get("anchor_sha256")
 
             def task_callback(scene, candidate):
                 require_same_current(reference_current, self.adapter.capture_current(scene))
@@ -191,6 +221,7 @@ class FamilyRepairOrchestratorV1_1:
                         candidate,
                         {
                             "realization": "repair_probe",
+                            "repair_mode": repair_mode,
                             "formal_data": False,
                             "stage0_data": False,
                             "planner_execution_spec": _copy(selected["execution_spec"]),

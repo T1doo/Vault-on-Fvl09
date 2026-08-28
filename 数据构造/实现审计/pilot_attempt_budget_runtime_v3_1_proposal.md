@@ -19,3 +19,5 @@ stage0_authorized: false
 F3/F4 repair success仍不授权完整 program 或 Stage 0；完整 VVHH/VHVH/VHHV、A/B/C、ABC/ACB/BAC 需要后续新证据与预算。
 
 所有未来 GPU job 还必须满足：由 `gpu_guard.py` 原子启动；precheck≤60秒、guard PID/UUID/index 绑定；child 顶层 `receipt.json`；scene cleanup 与外层 process-group orphan 分开审计并合计；post-release 未回 baseline 即停止该卡。
+
+F3 的 conditional correction 已有代码级硬 Gate：diagnosis execution=1；只有 `pre_release_systematic_offset` 且 grasp transform stable、EEF tracking正常时生成唯一 correction spec；correction使用 fresh scene并重查同一 current/anchor；correction execution≤1。其他分类 correction=0。

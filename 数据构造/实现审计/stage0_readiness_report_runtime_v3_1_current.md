@@ -2,7 +2,7 @@
 
 ## BLOCKED_WITH_REASONS
 
-Runtime-v3_1 已完成第二轮 GPU 前 CPU/code 加固，并实现 concrete lazy-import RoboTwin adapter/runner。79/79 tests 与 root-cpu6 synthetic evidence 通过。F1 prefix/suffix 分叉、family verifier、same-current/anchor 分层、trace integrity 与 atomic guard 均得到更强的 CPU 证据。
+Runtime-v3_1 已完成第三轮 GPU 前 CPU/code 加固，并实现 concrete lazy-import RoboTwin adapter/runner。83/83 tests 与 root-cpu7 synthetic evidence 通过。F1 prefix/suffix 分叉、family verifier、same-current/anchor 分层、trace integrity、atomic guard 与 F3 单次 conditional correction 均得到更强的 CPU 证据。
 
 但以下事实仍阻止 GPU budget 和 Stage 0：
 

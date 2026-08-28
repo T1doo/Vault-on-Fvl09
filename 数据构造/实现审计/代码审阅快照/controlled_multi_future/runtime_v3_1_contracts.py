@@ -12,6 +12,8 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from .anchor import compare_anchors
+from .current_hasher import hash_json
+from .geometry import actor_target_to_eef_pose, world_axis_offset_pose
 
 
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
@@ -170,6 +172,7 @@ def select_first_f2_chained_candidate(results: Sequence[Mapping[str, Any]]) -> d
 
 
 F3_IMPLEMENTATION_VERSION = "f3_release_dynamics_diagnosis_v3_1"
+F3_CORRECTION_VERSION = "f3_deterministic_actor_to_eef_correction_v1"
 F3_RELEASE_SAMPLE_POINTS = (
     "before_release",
     "after_release_1",
@@ -187,6 +190,10 @@ F3_REQUIRED_SAMPLE_FIELDS_V3_1 = (
     "bottle_orientation_error_rad",
     "eef_tracking_error_m",
     "eef_tracking_applicable",
+    "eef_pose",
+    "bottle_pose",
+    "target_bottle_pose",
+    "commanded_release_eef_pose",
     "bottle_linear_speed_mps",
     "bottle_angular_speed_rps",
     "bottle_footprint_inside_pad",
@@ -282,6 +289,55 @@ def classify_f3_release_dynamics_v3_1(
         "transient_tolerance_exceeded": transient_exceeded,
         "final_return_equivalence": final_equivalent,
     }
+
+
+def build_f3_deterministic_correction_spec(
+    diagnosis: Mapping[str, Any],
+    before_release_sample: Mapping[str, Any],
+    *,
+    prior_correction_attempt_count: int,
+    preplace_height_m: float = 0.10,
+) -> dict:
+    """Freeze the only permitted correction from measured pre-release poses."""
+
+    if prior_correction_attempt_count != 0:
+        raise ValueError("F3 deterministic correction may be created exactly once")
+    if (
+        diagnosis.get("classification") != "pre_release_systematic_offset"
+        or diagnosis.get("actor_to_eef_correction_allowed") is not True
+        or diagnosis.get("grasp_transform_stable") is not True
+        or diagnosis.get("eef_tracking_ok") is not True
+    ):
+        raise ValueError("F3 correction Gate is not satisfied")
+    required = ("eef_pose", "bottle_pose", "target_bottle_pose", "commanded_release_eef_pose")
+    missing = [field for field in required if field not in before_release_sample]
+    if missing:
+        raise ValueError(f"F3 correction sample missing {missing}")
+    eef_pose = np.asarray(before_release_sample["eef_pose"], dtype=np.float64).reshape(7)
+    bottle_pose = np.asarray(before_release_sample["bottle_pose"], dtype=np.float64).reshape(7)
+    target_bottle_pose = np.asarray(before_release_sample["target_bottle_pose"], dtype=np.float64).reshape(7)
+    original_release = np.asarray(before_release_sample["commanded_release_eef_pose"], dtype=np.float64).reshape(7)
+    corrected_release = actor_target_to_eef_pose(eef_pose, bottle_pose, target_bottle_pose)
+    corrected_preplace = world_axis_offset_pose(corrected_release, float(preplace_height_m))
+    payload = {
+        "schema_version": "cmf_f3_deterministic_correction_spec_v1",
+        "correction_version": F3_CORRECTION_VERSION,
+        "prior_correction_attempt_count": 0,
+        "maximum_correction_attempt_count": 1,
+        "source_classification": diagnosis["classification"],
+        "source_before_release_sample_step": before_release_sample.get("sample_step"),
+        "measured_eef_pose": eef_pose.tolist(),
+        "measured_bottle_pose": bottle_pose.tolist(),
+        "target_bottle_pose": target_bottle_pose.tolist(),
+        "original_release_eef_pose": original_release.tolist(),
+        "corrected_release_eef_pose": corrected_release.tolist(),
+        "corrected_preplace_eef_pose": corrected_preplace.tolist(),
+        "translation_correction_m": (corrected_release[:3] - original_release[:3]).tolist(),
+        "formula": "T_world_eef_corrected = T_world_actor_target @ inverse(T_eef_actor_measured_before_release)",
+        "verifier_thresholds_may_be_relaxed": False,
+    }
+    payload["correction_spec_sha256"] = hash_json(payload)
+    return payload
 
 
 F4_IMPLEMENTATION_VERSION = "f4_segmented_common_carry_v3_1"

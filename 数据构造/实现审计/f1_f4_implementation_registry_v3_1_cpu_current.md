@@ -1,6 +1,6 @@
 # F1–F4 implementation registry — runtime-v3_1 CPU current
 
-当前状态：`cpu_static_hardened_v2_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
+当前状态：`cpu_static_hardened_v3_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
 
 | Component | Current version | CPU status | Real GPU status |
 | --- | --- | --- | --- |

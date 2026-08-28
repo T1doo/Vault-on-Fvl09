@@ -6,7 +6,7 @@
 - 测试来源：`/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/`
 - official baseline：RoboTwin `c3ddfa8b97d5519efa828b075999bd0006778e5e`
 - 当前快照日期：2026-08-28
-- 当前 GPU-preflight CPU/static 实现版本：`controlled_multi_future_runtime_v3_1`，current revision=`runtime_v3_1_cpu_hardening_v2`；科学设计版本仍为 `controlled_multi_future_f1_f4_v1_2`。
+- 当前 GPU-preflight CPU/static 实现版本：`controlled_multi_future_runtime_v3_1`，current revision=`runtime_v3_1_cpu_hardening_v3`；科学设计版本仍为 `controlled_multi_future_f1_f4_v1_2`。
 - Git 状态：active additive source 仍是 RoboTwin 工作树中的 untracked directories；官方 tracked baseline 零修改。
 
 本快照不是 active source，不应直接用于运行、Stage 0 或 formal collection。审阅意见应先应用到 active RoboTwin source，重新测试并生成新快照；不要在 Vault 副本中独立演化实现。
@@ -25,12 +25,13 @@
 - `root_orchestrator.py`：保留的 runtime-v3 历史 synthetic root contract；其中 real adapter 未实现，不能作为 current v3_1 入口；
 - `root_orchestrator_v1_1.py`：task/physical 与 planner 分账、唯一 scene cleanup receipt、immutable program/spec、provisional artifacts、actual-prefix 与独立 root finalizer；
 - `real_sapien_adapter_v1_1.py`、`family_runners_v3_1.py`、`family_repair_orchestrator_v1_1.py`：延迟导入的真实 RoboTwin adapter、F1 root runner 和 F2/F3/F4 repair runner；尚未获得 GPU runtime evidence；
+- `f3_conditional_repair_orchestrator_v1_1.py`：一次 diagnosis 后仅在严格分类允许时生成哈希 correction spec，并以 fresh current/anchor 最多执行一次 deterministic correction；
 - `families/`：F1–F4 frozen program skeletons；
 - `signals.py` 与 `verifiers/`：pure signal/verifier adapters；
 - `probes/action_feasibility.py`：旧 bounded repair v1，只保留历史实现，CLI 已 fail-closed 禁止重跑；
 - `probes/action_feasibility_v2.py`：runtime-v2 的 F1/F2/F3/F4 单 gate runner；runtime-v2 budget 已在 GPU1 执行并耗尽，不得重跑；
 - `probes/` 其他模块：cleanup-safe lifecycle、scene inspection、真实 trace/raw adapter、atomic GPU guard 与 synthetic pipeline dry-run；
-- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 79 tests）。
+- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 83 tests）。
 
 在 Vault 根目录复核快照测试时，需要把本目录加入 import path：
 
@@ -42,4 +43,4 @@ PYTHONPATH='数据构造/实现审计/代码审阅快照' \
   -p 'test_*.py'
 ```
 
-运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。Runtime-v2 实际结果见 `../runtime_v2_bounded_probe_execution_report_20260828.md/json`；runtime-v3_1 current synthetic evidence 为 `../probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu6/`。真实 A0／family GPU evidence 仍为 0，Stage 0 仍为 `BLOCKED_WITH_REASONS`。
+运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。Runtime-v2 实际结果见 `../runtime_v2_bounded_probe_execution_report_20260828.md/json`；runtime-v3_1 current synthetic evidence 为 `../probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu7/`。真实 A0／family GPU evidence 仍为 0，Stage 0 仍为 `BLOCKED_WITH_REASONS`。

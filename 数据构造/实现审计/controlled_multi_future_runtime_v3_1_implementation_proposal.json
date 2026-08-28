@@ -8,8 +8,8 @@
   "physical_anchor_version": "physical_anchor_v2",
   "raw_schema_version": "cmf_raw_attempt_v2_1_1",
   "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
-  "status": "cpu_static_hardened_v2_pending_gpt_review",
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v2",
+  "status": "cpu_static_hardened_v3_pending_gpt_review",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v3",
   "approved": false,
   "frozen": false,
   "gpu_probe_authorized": false,
@@ -54,7 +54,7 @@
     "f2_f3_f4_repair_entry_point": "controlled_multi_future/probes/runtime_v3_1_family_repair_runner.py",
     "authorization_receipt_required": "cmf_runtime_v3_1_gpu_authorization_v1"
   },
-  "hardening_v2": {
+  "hardening_v3": {
     "F1_target_role_read_after_prefix_boundary": true,
     "root_recomputes_prefix_and_suffix_hashes_from_raw": true,
     "root_computes_first_post_prefix_divergence": true,
@@ -68,7 +68,10 @@
     "manifest_payload_recomputed": true,
     "atomic_guard_parent_and_60_second_freshness_required": true,
     "top_level_child_receipt_required": true,
-    "scene_and_guard_orphans_accumulated": true
+    "scene_and_guard_orphans_accumulated": true,
+    "F3_diagnosis_then_at_most_one_deterministic_correction": true,
+    "F3_correction_spec_content_hashed": true,
+    "F3_diagnosis_correction_current_anchor_rechecked": true
   },
   "family_scope": {
     "F1": {"version": "f1_three_branch_coverage_v3_1", "current_scope": "full red/green/blue r_pc repair root", "full_program_complete": "static_only_not_run"},
@@ -77,11 +80,11 @@
     "F4": {"version": "f4_segmented_common_carry_v3_1", "current_scope": "common-X Route1/Route2 repair", "full_program_complete": false, "fail_closed_reason": "A/B/C and ABC/ACB/BAC not executed by repair runner"}
   },
   "cpu_validation": {
-    "active_tests": "79/79 passed",
-    "vault_snapshot_tests": "79/79 passed",
-    "python_files_compiled": 57,
+    "active_tests": "83/83 passed",
+    "vault_snapshot_tests": "83/83 passed",
+    "python_files_compiled": 59,
     "active_snapshot_byte_equal": true,
-    "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu6",
+    "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu7",
     "synthetic_only": true
   },
   "next_decision": "GPT review of runtime-v3_1 CPU/code; no GPU authorization is implied"

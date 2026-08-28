@@ -1,0 +1,53 @@
+{
+  "schema_version": "cmf_runtime_v3_1_cpu_static_audit_v3",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v3",
+  "status": "cpu_static_hardening_v3_passed_real_gpu_unverified",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_used": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "validation": {
+    "active_tests": "83/83 passed",
+    "vault_snapshot_tests": "83/83 passed",
+    "python_files_compiled": 59,
+    "active_snapshot_byte_equal": true,
+    "registry_code_hashes": "22/22 active_and_snapshot_matched",
+    "git_diff_check": "passed"
+  },
+  "new_since_hardening_v2": {
+    "F3_deterministic_correction_formula": true,
+    "F3_correction_spec_content_hash": true,
+    "F3_diagnosis_execution_limit": 1,
+    "F3_correction_execution_limit": 1,
+    "F3_grasp_slip_forbids_correction": true,
+    "F3_diagnosis_correction_fresh_current_anchor_equivalence": true,
+    "F3_correction_current_mismatch_fails": true,
+    "family_repair_receipt_exposes_reference_hashes": true
+  },
+  "current_synthetic_evidence": {
+    "namespace": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu7",
+    "root_receipt_sha256": "91396a9b07af1c98d2bc566a56aa8af0a6141278c6d04bca987986cc2d383657",
+    "status": "accepted_synthetic_only",
+    "freeze_call_count": 1,
+    "task_physical_receipts": 3,
+    "planner_solvability_receipts": 3,
+    "branch_receipts": 3,
+    "cleanup_records": 10,
+    "raw_integrity_three_of_three": true,
+    "prefix_action_hash_count": 1,
+    "first_suffix_action_hash_count": 3,
+    "computed_first_post_prefix_divergence_step": 2
+  },
+  "supersedes_for_current_cpu_evidence": "runtime_v3_1_cpu_static_audit_v2_20260829.json",
+  "authorization": {
+    "budget_status": "proposed_for_user_review",
+    "approved": false,
+    "frozen": false,
+    "authorization_receipt_exists": false
+  },
+  "readiness": "BLOCKED_WITH_REASONS"
+}

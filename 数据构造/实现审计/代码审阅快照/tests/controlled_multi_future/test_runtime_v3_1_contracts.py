@@ -22,6 +22,7 @@ from controlled_multi_future.runtime_v3_1_contracts import (
     RUNTIME_V3_1_BUDGET_PROPOSAL,
     STAGE0_AUTHORIZED,
     classify_f3_release_dynamics_v3_1,
+    build_f3_deterministic_correction_spec,
     minimum_f4_safe_carry_height,
     select_first_f2_chained_candidate,
     validate_f1_executed_prefixes,
@@ -170,6 +171,10 @@ def f3_samples(*, before=0.0, intermediate=0.0, final=0.0, final_pass=True):
             "bottle_orientation_error_rad": 0.0,
             "eef_tracking_error_m": 0.0,
             "eef_tracking_applicable": index == 0,
+            "eef_pose": [0, 0, 0, 1, 0, 0, 0],
+            "bottle_pose": [value, 0, 0, 1, 0, 0, 0],
+            "target_bottle_pose": [0, 0, 0, 1, 0, 0, 0],
+            "commanded_release_eef_pose": [0, 0, 0, 1, 0, 0, 0] if index == 0 else None,
             "bottle_linear_speed_mps": 0.0,
             "bottle_angular_speed_rps": 0.0,
             "bottle_footprint_inside_pad": final_pass,
@@ -420,6 +425,32 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
         del incomplete["after_release_5"]["bottle_pad_contact_normals"]
         with self.assertRaisesRegex(ValueError, "bottle_pad_contact_normals"):
             classify_f3_release_dynamics_v3_1(incomplete, grasp_transform(), **common)
+
+    def test_f3_correction_is_deterministic_and_allowed_once(self):
+        samples = f3_samples(before=0.04, intermediate=0.04, final=0.04, final_pass=False)
+        diagnosis = classify_f3_release_dynamics_v3_1(
+            samples,
+            grasp_transform(),
+            position_tolerance_m=0.03,
+            orientation_tolerance_rad=0.1,
+            eef_tracking_tolerance_m=0.01,
+            grasp_translation_drift_tolerance_m=0.005,
+            grasp_orientation_drift_tolerance_rad=0.05,
+        )
+        spec = build_f3_deterministic_correction_spec(
+            diagnosis,
+            samples["before_release"],
+            prior_correction_attempt_count=0,
+        )
+        self.assertEqual(spec["maximum_correction_attempt_count"], 1)
+        self.assertEqual(len(spec["correction_spec_sha256"]), 64)
+        self.assertLess(spec["corrected_release_eef_pose"][0], 0.0)
+        with self.assertRaisesRegex(ValueError, "exactly once"):
+            build_f3_deterministic_correction_spec(
+                diagnosis,
+                samples["before_release"],
+                prior_correction_attempt_count=1,
+            )
 
     def test_f4_routes_are_fresh_chained_and_cleanup_gated(self):
         height = minimum_f4_safe_carry_height(

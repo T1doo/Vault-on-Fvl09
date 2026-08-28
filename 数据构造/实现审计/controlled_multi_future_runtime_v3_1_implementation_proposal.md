@@ -1,6 +1,6 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`cpu_static_hardened_v2_pending_gpt_review`。
+状态：`cpu_static_hardened_v3_pending_gpt_review`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
@@ -38,7 +38,7 @@ stage0_data: false
 | F3 | V→H realized diagnosis、grasp-transform drift、release samples、return | 完整 VVHH/VHVH/VHHV 明确未运行，root verifier fail-closed |
 | F4 | common-X Route1/Route2 fresh-scene repair、combined object/gripper carry envelope | A/B/C 与 ABC/ACB/BAC 明确未运行，root verifier fail-closed |
 
-## GPU-preflight hardening v2
+## GPU-preflight hardening v3
 
 - F1 actual prefix 在边界前不读取 target role 或 target-specific execution spec；root 从 raw actions 独立重算 prefix hash、逐步 suffix hashes 与首次分叉点；
 - F1/F2/F3/F4 repair verifier 补齐 staged noninterference、support/stability、release/rest/gripper/EEF stationarity；
@@ -48,7 +48,8 @@ stage0_data: false
 - F4 gripper envelope 从真实 selected-link poses 推导，不再硬编码；
 - real trace source 单独落盘并绑定 SHA；manifest payload 会重新计算验证；
 - GPU child 必须由当前 guard PID 在 60 秒内 fresh-idle precheck 后启动，且 top-level receipt 可被 guard 原子 postcheck；scene/outer orphan 分开记录并合计。
+- F3 conditional correction 已实现为独立状态机：1 次 diagnosis；仅 stable grasp + normal EEF tracking + systematic pre-release offset 可生成内容哈希 correction spec；diagnosis/correction fresh current 与 anchor再次等价后最多执行 1 次；grasp slip、post-release physics、cleanup/current mismatch 均禁止或终止 correction。
 
-CPU current：active/snapshot 79/79 tests passed，57 Python files compile passed；root-cpu6 synthetic dry-run accepted。它们不证明真实 SAPIEN。
+CPU current：active/snapshot 83/83 tests passed，59 Python files compile passed；root-cpu7 synthetic dry-run accepted。它们不证明真实 SAPIEN。
 
 任何 GPU 运行仍必须先经 GPT/user 审阅并生成独立、内容哈希的授权 receipt。Stage 0 明确禁止。
