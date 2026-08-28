@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+import hashlib
 
 import numpy as np
 
@@ -164,10 +165,19 @@ def f3_samples(*, before=0.0, intermediate=0.0, final=0.0, final_pass=True):
     for index, name in enumerate(names):
         value = before if index == 0 else final if index == len(names) - 1 else intermediate
         result[name] = {
+            "sample_step": index,
             "bottle_position_error_m": value,
             "bottle_orientation_error_rad": 0.0,
             "eef_tracking_error_m": 0.0,
+            "eef_tracking_applicable": index == 0,
+            "bottle_linear_speed_mps": 0.0,
+            "bottle_angular_speed_rps": 0.0,
             "bottle_footprint_inside_pad": final_pass,
+            "bottle_pad_contact_count": 1 if final_pass else 0,
+            "bottle_pad_contact_normals": [[0, 0, 1]] if final_pass else [],
+            "bottle_pad_contact_impulse": 0.1 if final_pass else 0.0,
+            "selected_gripper_contact": index == 0,
+            "actual_gripper_joint_qpos": [0.0, 0.0],
             "stable_window_pass": final_pass,
             "support_pass": final_pass,
         }
@@ -237,11 +247,29 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
             self.assertEqual(manifest["schema_version"], "cmf_raw_attempt_v2_1_1")
             self.assertEqual(len(manifest["raw_streams_npz_sha256"]), 64)
             self.assertEqual(len(manifest["manifest_file_sha256"]), 64)
+            self.assertEqual(len(manifest["manifest_integrity_sidecar_sha256"]), 64)
             self.assertEqual(len(manifest["trace_source_sha256"]), 64)
             self.assertTrue(verify_raw_artifact_integrity(output)["pass"])
             with (output / "raw_streams.npz").open("ab") as handle:
                 handle.write(b"tamper")
             self.assertFalse(verify_raw_artifact_integrity(output)["pass"])
+
+    def test_real_trace_source_path_is_rehashed(self):
+        adapter = SyntheticAdapter()
+        program = F1ObjectSelection().checked_provisional_programs()[0]
+        rollout = adapter.rollout(None, program, {"realization": "r_pc"})
+        with tempfile.TemporaryDirectory() as directory:
+            attempt = Path(directory) / "attempt"
+            attempt.mkdir()
+            trace = attempt / "trace_source.npz"
+            trace.write_bytes(b"independent dense trace source")
+            rollout["provenance"]["trace_source_sha256"] = hashlib.sha256(trace.read_bytes()).hexdigest()
+            rollout["provenance"]["trace_source_relative_path"] = "../trace_source.npz"
+            raw_dir = attempt / "raw"
+            write_raw_attempt(raw_dir, rollout["streams"], rollout["audit_streams"], rollout["provenance"])
+            self.assertTrue(verify_raw_artifact_integrity(raw_dir)["pass"])
+            trace.write_bytes(b"tampered trace source")
+            self.assertFalse(verify_raw_artifact_integrity(raw_dir)["pass"])
 
     def test_planner_goal_is_bound_to_query_id_and_active_interval(self):
         adapter = SyntheticAdapter()
@@ -317,8 +345,9 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
         )
         self.assertEqual(reference["model_visible_aggregate_sha256"], changed["model_visible_aggregate_sha256"])
         self.assertNotEqual(reference["hidden_physical_aggregate_sha256"], changed["hidden_physical_aggregate_sha256"])
-        with self.assertRaises(ValueError):
-            require_same_current(reference, changed)
+        require_same_current(reference, changed)
+        self.assertEqual(reference["aggregate_sha256"], changed["aggregate_sha256"])
+        self.assertNotEqual(reference["audit_full_aggregate_sha256"], changed["audit_full_aggregate_sha256"])
 
     def test_anchor_quaternion_sign_and_actor_velocity(self):
         reference = physical_anchor(quaternion=(1, 0, 0, 0))
@@ -328,6 +357,27 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
         comparison = compare_anchors(reference, moving)
         self.assertFalse(comparison["equivalent"])
         self.assertIn("actor_linear_velocity:red", comparison["failures"])
+        physics_changed = dict(reference)
+        physics_changed["physics_config"] = {**reference["physics_config"], "solver": "different"}
+        self.assertFalse(compare_anchors(reference, physics_changed)["equivalent"])
+
+    def test_reconstruction_spec_change_fails_same_current(self):
+        reference = current_v2()
+        changed = build_current_hashes_v2(
+            head_rgb=np.zeros((2, 2, 3), dtype=np.uint8),
+            wrist_rgb={"left": np.zeros((1, 1, 3), dtype=np.uint8), "right": np.zeros((1, 1, 3), dtype=np.uint8)},
+            model_visible_robot_state=np.zeros(14),
+            gripper_actual_state=np.zeros(4),
+            visible_object_roles={"red": {"visible_name": "red block"}},
+            camera_configuration=camera_configuration(),
+            physical_entities=physical_entities(),
+            scene_seed=1,
+            generator_version="test-v3_1",
+            simulation_configuration={"timestep": 0.004, "solver": "changed"},
+            source_commit="c3ddfa8b97d5519efa828b075999bd0006778e5e",
+        )
+        with self.assertRaisesRegex(ValueError, "reconstruction_spec"):
+            require_same_current(reference, changed)
 
     def test_f1_requires_actual_equal_prefix_and_minimum_hold(self):
         branches = [
@@ -366,6 +416,10 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
         transient = classify_f3_release_dynamics_v3_1(f3_samples(intermediate=0.04, final=0.0, final_pass=True), grasp_transform(), **common)
         self.assertEqual(transient["classification"], "transient_release_dynamics_final_equivalent")
         self.assertTrue(transient["final_return_equivalence"])
+        incomplete = f3_samples()
+        del incomplete["after_release_5"]["bottle_pad_contact_normals"]
+        with self.assertRaisesRegex(ValueError, "bottle_pad_contact_normals"):
+            classify_f3_release_dynamics_v3_1(incomplete, grasp_transform(), **common)
 
     def test_f4_routes_are_fresh_chained_and_cleanup_gated(self):
         height = minimum_f4_safe_carry_height(

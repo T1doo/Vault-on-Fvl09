@@ -10,7 +10,7 @@ from pathlib import Path
 from ..family_repair_orchestrator_v1_1 import FamilyRepairOrchestratorV1_1
 from ..families import F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_1 import RoboTwinRealSapienPilotRootAdapterV1_1
-from .runtime_v3_1_authorization import load_runtime_v3_1_authorization
+from .runtime_v3_1_authorization import load_runtime_v3_1_authorization, require_atomic_gpu_guard
 
 
 PROGRAMS = {
@@ -32,6 +32,7 @@ def main():
     authorization = load_runtime_v3_1_authorization(args.authorization_receipt, requested_scope=scope)
     if os.environ.get("CUDA_VISIBLE_DEVICES") != args.expected_uuid:
         raise RuntimeError("CUDA_VISIBLE_DEVICES must equal the freshly guarded UUID")
+    guard = require_atomic_gpu_guard(expected_uuid=args.expected_uuid, physical_index=args.physical_index)
     family_cls, program_id = PROGRAMS[args.family]
     program = next(item for item in family_cls().checked_provisional_programs() if item["program_id"] == program_id)
     planned = {
@@ -48,8 +49,22 @@ def main():
         planned_root_slot_spec=planned,
         program=program,
     )
-    (args.output / "launcher_receipt.json").write_text(
-        json.dumps({"authorization_receipt_sha256": authorization["receipt_sha256"], "repair_status": receipt["status"], "formal_data": False, "stage0_data": False}, indent=2, sort_keys=True) + "\n",
+    cleanup_records = receipt.get("cleanup_records", [])
+    launcher = {
+        "schema_version": "cmf_runtime_v3_1_family_repair_launcher_v1",
+        "authorization_receipt_sha256": authorization["receipt_sha256"],
+        "guard_precheck": guard,
+        "repair_status": receipt["status"],
+        "repair_receipt": "repair/receipt.json",
+        "formal_data": False,
+        "stage0_data": False,
+        "scene_created": any(item.get("scene_created") is True for item in cleanup_records),
+        "scene_cleanup_succeeded": bool(cleanup_records) and all(item.get("cleanup_safety_pass") is True for item in cleanup_records),
+        "orphan_process_count": sum(int(item.get("orphan_process_count") or 0) for item in cleanup_records),
+        "status": receipt["status"],
+    }
+    (args.output / "receipt.json").write_text(
+        json.dumps(launcher, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     return 0 if receipt.get("repair_probe_pass") is True else 1

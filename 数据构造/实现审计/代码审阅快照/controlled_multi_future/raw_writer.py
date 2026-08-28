@@ -278,11 +278,19 @@ def verify_raw_artifact_integrity(output_dir: Path) -> dict:
     sidecar_path = output_dir / "manifest.sha256.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+    manifest_payload = dict(manifest)
+    manifest_payload.pop("manifest_payload_sha256", None)
+    manifest_payload.pop("manifest_sha256", None)
     checks = {
         "raw_streams_npz_sha256": _sha256_file(raw_path) == manifest.get("raw_streams_npz_sha256"),
         "manifest_file_sha256": _sha256_file(manifest_path) == sidecar.get("manifest_file_sha256"),
         "manifest_payload_sha256": manifest.get("manifest_payload_sha256") == sidecar.get("manifest_payload_sha256"),
+        "manifest_payload_recomputed": hash_json(manifest_payload) == manifest.get("manifest_payload_sha256"),
     }
+    trace_relative = manifest.get("provenance", {}).get("trace_source_relative_path")
+    if trace_relative is not None:
+        trace_path = output_dir / trace_relative
+        checks["trace_source_sha256"] = trace_path.is_file() and _sha256_file(trace_path) == manifest.get("trace_source_sha256")
     return {"pass": all(checks.values()), "checks": checks, "manifest": manifest, "integrity_sidecar": sidecar}
 
 
@@ -335,13 +343,15 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
         "raw_streams_npz_sha256": raw_streams_npz_sha256,
         "trace_source_sha256": trace_source_sha256,
     }
-    (output_dir / "manifest.sha256.json").write_text(
+    sidecar_path = output_dir / "manifest.sha256.json"
+    sidecar_path.write_text(
         json.dumps(sidecar, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     result = dict(manifest)
     result["manifest_file_sha256"] = manifest_file_sha256
     result["manifest_integrity_sidecar"] = "manifest.sha256.json"
+    result["manifest_integrity_sidecar_sha256"] = _sha256_file(sidecar_path)
     integrity = verify_raw_artifact_integrity(output_dir)
     if not integrity["pass"]:
         raise RuntimeError(f"raw artifact integrity self-check failed: {integrity['checks']}")

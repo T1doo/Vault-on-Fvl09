@@ -74,6 +74,18 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def implementation_source_sha256() -> str:
+    digest = hashlib.sha256()
+    source_root = Path(__file__).resolve().parent
+    for path in sorted(source_root.rglob("*.py")):
+        relative = path.relative_to(source_root).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def _asset_hash(modelname: str, model_id: Any, kind: str) -> str:
     if modelname.startswith("project_"):
         return hash_json({"source": "RoboTwin create_box/create_visual_box", "modelname": modelname, "model_id": model_id, "kind": kind})
@@ -327,6 +339,7 @@ class RoboTwinRealSapienPilotRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
             for role, item in physical_entities.items()
         }
         timestep = float(scene.scene.get_timestep())
+        implementation_hash = implementation_source_sha256()
         return build_current_hashes_v2(
             head_rgb=rgb["head_camera"]["rgb"],
             wrist_rgb={"left": rgb["left_camera"]["rgb"], "right": rgb["right_camera"]["rgb"]},
@@ -345,6 +358,7 @@ class RoboTwinRealSapienPilotRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
                 "default_static_friction": float(scene._cmf_setup_kwargs.get("static_friction", 0.5)),
                 "default_dynamic_friction": float(scene._cmf_setup_kwargs.get("dynamic_friction", 0.5)),
                 "default_restitution": float(scene._cmf_setup_kwargs.get("restitution", 0.0)),
+                "implementation_source_sha256": implementation_hash,
             },
             source_commit=SOURCE_COMMIT,
         )
@@ -372,6 +386,26 @@ class RoboTwinRealSapienPilotRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
         ))
         gripper_qpos = np.concatenate((_gripper_joint_qpos(scene.robot, "left"), _gripper_joint_qpos(scene.robot, "right")))
         timestep = float(scene.scene.get_timestep())
+        implementation_hash = implementation_source_sha256()
+        entity_physics_registry = {
+            role: {
+                key: item[key]
+                for key in (
+                    "role",
+                    "actor_name",
+                    "modelname",
+                    "model_id",
+                    "visual_asset_hash",
+                    "collision_asset_hash",
+                    "scale",
+                    "static_or_dynamic",
+                    "mass",
+                    "friction",
+                    "collision_mode",
+                )
+            }
+            for role, item in entities.items()
+        }
         return capture_physical_anchor_v2(
             robot_qpos=_dual_entity_values(scene.robot, "get_qpos"),
             robot_qvel=_dual_entity_values(scene.robot, "get_qvel"),
@@ -385,6 +419,8 @@ class RoboTwinRealSapienPilotRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
                 "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
                 "canonical_settle_steps": int(scene._cmf_canonical_settle_steps),
                 "default_material": {"static_friction": 0.5, "dynamic_friction": 0.5, "restitution": 0.0},
+                "entity_physics_registry": entity_physics_registry,
+                "implementation_source_sha256": implementation_hash,
             },
             source_commit=SOURCE_COMMIT,
             metadata={

@@ -1,0 +1,61 @@
+{
+  "schema_version": "cmf_runtime_v3_1_cpu_static_audit_v2",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v2",
+  "status": "cpu_static_hardening_v2_passed_real_gpu_unverified",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_used": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "validation": {
+    "active_tests": "79/79 passed",
+    "vault_snapshot_tests": "79/79 passed",
+    "python_files_compiled": 57,
+    "active_snapshot_byte_equal": true,
+    "registry_code_hashes": "20/20 active_and_snapshot_matched",
+    "git_diff_check": "passed"
+  },
+  "hardening": {
+    "F1_prefix_target_neutral_until_boundary": true,
+    "prefix_hash_recomputed_from_raw": true,
+    "suffix_step_hashes_recomputed_from_raw": true,
+    "first_post_prefix_divergence_computed": true,
+    "never_diverging_suffix_rejected": true,
+    "family_semantic_verifiers_strengthened": true,
+    "F3_full_release_signal_schema": true,
+    "same_current_and_hidden_anchor_roles_separated": true,
+    "entity_physics_registry_in_anchor": true,
+    "full_articulation_qpos_chaining": true,
+    "runtime_gripper_envelope": true,
+    "trace_source_file_hash_supported": true,
+    "manifest_payload_recomputed": true,
+    "atomic_guard_parent_and_freshness_bound": true,
+    "top_level_child_receipt": true,
+    "orphan_counts_accumulated": true
+  },
+  "current_synthetic_evidence": {
+    "namespace": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu6",
+    "root_receipt_sha256": "6aca38c2f49f8fad59834e45c6aad47dc3da7db0535b63af2d321d520dea8bcb",
+    "status": "accepted_synthetic_only",
+    "freeze_call_count": 1,
+    "task_physical_receipts": 3,
+    "planner_solvability_receipts": 3,
+    "branch_receipts": 3,
+    "cleanup_records": 10,
+    "raw_integrity_three_of_three": true,
+    "prefix_action_hash_count": 1,
+    "first_suffix_action_hash_count": 3,
+    "computed_first_post_prefix_divergence_step": 2
+  },
+  "supersedes_for_current_cpu_evidence": "runtime_v3_1_cpu_static_audit_20260829.json",
+  "authorization": {
+    "budget_status": "proposed_for_user_review",
+    "approved": false,
+    "frozen": false,
+    "authorization_receipt_exists": false
+  },
+  "readiness": "BLOCKED_WITH_REASONS"
+}

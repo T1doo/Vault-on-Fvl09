@@ -1,4 +1,5 @@
 import contextlib
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -79,6 +80,7 @@ class SyntheticRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
         mutate_planned_phase=None,
         current_mismatch_program=None,
         prefix_mismatch_program=None,
+        no_suffix_divergence=False,
     ):
         self.task_failure = task_failure
         self.planner_failure = planner_failure
@@ -89,6 +91,7 @@ class SyntheticRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
         self.mutate_planned_phase = mutate_planned_phase
         self.current_mismatch_program = current_mismatch_program
         self.prefix_mismatch_program = prefix_mismatch_program
+        self.no_suffix_divergence = no_suffix_divergence
         self.scene_counter = 0
         self.events = []
         self.raw_adapter = RawSyntheticAdapter()
@@ -177,6 +180,15 @@ class SyntheticRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
     def rollout(self, fresh_scene, frozen_program, realization_spec):
         self._maybe_mutate(fresh_scene, frozen_program)
         raw = self.raw_adapter.rollout(None, frozen_program, realization_spec)
+        role_index = 1.0 if self.no_suffix_divergence else {"F1-red": 1.0, "F1-green": 2.0, "F1-blue": 3.0}[frozen_program["program_id"]]
+        raw["streams"]["controller_effective_setpoint"][2:, 0] = role_index
+        raw["streams"]["requested_command"][2:, 0] = role_index
+        if frozen_program["program_id"] == self.prefix_mismatch_program:
+            raw["streams"]["controller_effective_setpoint"][0, 0] = 9.0
+            raw["streams"]["requested_command"][0, 0] = 9.0
+        raw["provenance"]["trace_source_sha256"] = hashlib.sha256(
+            f"root-v1_1:{frozen_program['program_id']}".encode("utf-8")
+        ).hexdigest()
         raw["executed_prefix"] = self._prefix(frozen_program["program_id"])
         return raw
 
@@ -258,6 +270,12 @@ class RootOrchestratorV1_1Test(unittest.TestCase):
         receipt, _ = self.run_root(SyntheticRootAdapterV1_1(prefix_mismatch_program=program))
         self.assertEqual(receipt["status"], "failed_verifier")
         self.assertFalse(receipt["root_finalization"]["checks"]["one_executed_prefix_action_hash"])
+
+    def test_suffix_that_never_diverges_fails_finalizer(self):
+        receipt, _ = self.run_root(SyntheticRootAdapterV1_1(no_suffix_divergence=True))
+        self.assertEqual(receipt["status"], "failed_verifier")
+        self.assertFalse(receipt["root_finalization"]["checks"]["executed_prefix_schema"])
+        self.assertIn("never diverge", receipt["root_finalization"]["executed_prefix_error"])
 
 
 if __name__ == "__main__":

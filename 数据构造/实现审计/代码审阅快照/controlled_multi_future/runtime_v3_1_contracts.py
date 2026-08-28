@@ -181,6 +181,23 @@ F3_RELEASE_SAMPLE_POINTS = (
     "after_release_250",
     "after_rest",
 )
+F3_REQUIRED_SAMPLE_FIELDS_V3_1 = (
+    "sample_step",
+    "bottle_position_error_m",
+    "bottle_orientation_error_rad",
+    "eef_tracking_error_m",
+    "eef_tracking_applicable",
+    "bottle_linear_speed_mps",
+    "bottle_angular_speed_rps",
+    "bottle_footprint_inside_pad",
+    "bottle_pad_contact_count",
+    "bottle_pad_contact_normals",
+    "bottle_pad_contact_impulse",
+    "selected_gripper_contact",
+    "actual_gripper_joint_qpos",
+    "stable_window_pass",
+    "support_pass",
+)
 
 
 def classify_f3_release_dynamics_v3_1(
@@ -195,6 +212,10 @@ def classify_f3_release_dynamics_v3_1(
 ) -> dict:
     if tuple(samples) != F3_RELEASE_SAMPLE_POINTS:
         raise ValueError("F3 v3_1 sample points must use the preregistered order")
+    for name, sample in samples.items():
+        missing_sample_fields = [field for field in F3_REQUIRED_SAMPLE_FIELDS_V3_1 if field not in sample]
+        if missing_sample_fields:
+            raise ValueError(f"F3 sample {name} missing {missing_sample_fields}")
     required_grasp = (
         "initial_T_eef_actor",
         "before_release_T_eef_actor",

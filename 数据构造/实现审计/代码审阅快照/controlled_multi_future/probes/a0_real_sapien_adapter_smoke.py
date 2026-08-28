@@ -13,7 +13,7 @@ from ..anchor import compare_anchors
 from ..current_hasher import require_same_current
 from ..real_sapien_adapter_v1_1 import RoboTwinRealSapienPilotRootAdapterV1_1
 from ..root_orchestrator_v1_1 import SceneHandleV1_1
-from .runtime_v3_1_authorization import authorization_summary, load_runtime_v3_1_authorization
+from .runtime_v3_1_authorization import authorization_summary, load_runtime_v3_1_authorization, require_atomic_gpu_guard
 
 
 def _write(path: Path, value):
@@ -32,6 +32,7 @@ def main():
     authorization = load_runtime_v3_1_authorization(args.authorization_receipt, requested_scope="A0_current_anchor_smoke")
     if os.environ.get("CUDA_VISIBLE_DEVICES") != args.expected_uuid:
         raise RuntimeError("CUDA_VISIBLE_DEVICES must equal the freshly guarded UUID")
+    guard = require_atomic_gpu_guard(expected_uuid=args.expected_uuid, physical_index=args.physical_index)
     args.output.mkdir(parents=True, exist_ok=False)
     receipt = {
         "schema_version": "cmf_runtime_v3_1_a0_smoke_v1",
@@ -46,6 +47,7 @@ def main():
         "physical_gpu_index": args.physical_index,
         "expected_gpu_uuid": args.expected_uuid,
         **authorization_summary(authorization),
+        "guard_precheck": guard,
         "status": "running",
         "scenes": [],
     }
@@ -99,6 +101,9 @@ def main():
         receipt.update({"status": "failed_A0", "error_type": type(exc).__name__, "error": str(exc), "traceback": traceback.format_exc()})
         code = 1
     receipt["elapsed_seconds"] = time.time() - started
+    receipt["scene_created"] = any(item.get("cleanup", {}).get("scene_created") is True for item in receipt["scenes"])
+    receipt["scene_cleanup_succeeded"] = bool(receipt["scenes"]) and all(item.get("cleanup", {}).get("cleanup_safety_pass") is True for item in receipt["scenes"])
+    receipt["orphan_process_count"] = sum(int(item.get("cleanup", {}).get("orphan_process_count") or 0) for item in receipt["scenes"])
     _write(args.output / "receipt.json", receipt)
     return code
 

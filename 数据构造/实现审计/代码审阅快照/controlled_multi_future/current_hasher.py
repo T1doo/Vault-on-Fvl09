@@ -174,7 +174,9 @@ def build_current_hashes_v2(
         "camera_configuration_sha256": hash_json(camera),
     }
     hidden_physical_components = {
-        "physical_entities_sha256": hash_json(entities),
+        "physical_entities_state_sha256": hash_json(entities),
+    }
+    reconstruction_spec_components = {
         "simulation_configuration_sha256": hash_json(_jsonable(simulation_configuration)),
         "scene_spec_sha256": hash_json(
             {
@@ -190,12 +192,20 @@ def build_current_hashes_v2(
         "model_visible_aggregate_sha256": hash_json(model_visible_components),
         "hidden_physical_components": hidden_physical_components,
         "hidden_physical_aggregate_sha256": hash_json(hidden_physical_components),
+        "reconstruction_spec_components": reconstruction_spec_components,
+        "reconstruction_spec_aggregate_sha256": hash_json(reconstruction_spec_components),
         "model_input_allows_hidden_physical_components": False,
     }
     result["aggregate_sha256"] = hash_json(
         {
             "model_visible": result["model_visible_aggregate_sha256"],
-            "hidden_physical": result["hidden_physical_aggregate_sha256"],
+            "reconstruction_spec": result["reconstruction_spec_aggregate_sha256"],
+        }
+    )
+    result["audit_full_aggregate_sha256"] = hash_json(
+        {
+            "same_current": result["aggregate_sha256"],
+            "hidden_physical_state": result["hidden_physical_aggregate_sha256"],
         }
     )
     return result
@@ -229,5 +239,12 @@ def build_current_hashes(
 
 
 def require_same_current(reference: Mapping[str, Any], candidate: Mapping[str, Any]) -> None:
+    if reference.get("schema_version") == CURRENT_CONTEXT_SCHEMA_VERSION or candidate.get("schema_version") == CURRENT_CONTEXT_SCHEMA_VERSION:
+        if reference.get("schema_version") != candidate.get("schema_version"):
+            raise ValueError("fresh reconstruction changed current hash schema")
+        for key in ("model_visible_aggregate_sha256", "reconstruction_spec_aggregate_sha256"):
+            if reference.get(key) != candidate.get(key):
+                raise ValueError(f"fresh reconstruction failed same-current {key}")
+        return
     if reference.get("aggregate_sha256") != candidate.get("aggregate_sha256"):
         raise ValueError("fresh reconstruction failed same-current aggregate hash")

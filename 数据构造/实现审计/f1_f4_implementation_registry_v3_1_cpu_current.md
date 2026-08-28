@@ -1,12 +1,12 @@
 # F1–F4 implementation registry — runtime-v3_1 CPU current
 
-当前状态：`cpu_static_implemented_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
+当前状态：`cpu_static_hardened_v2_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
 
 | Component | Current version | CPU status | Real GPU status |
 | --- | --- | --- | --- |
-| Root | `real_sapien_pilot_root_orchestrator_v1_1` | 4 P0 repairs + tests passed | not run |
+| Root | `real_sapien_pilot_root_orchestrator_v1_1` | 4 P0 repairs + raw-derived prefix/suffix/divergence tests passed | not run |
 | Raw | `cmf_raw_attempt_v2_1_1` / action layout v2_1 | integrity/timing/planner audit passed synthetic | not run |
-| Current | `current_context_hash_v2` | structured camera/entity split-hash tests passed | not run |
+| Current | `current_context_hash_v2` | model-visible/reconstruction exact + hidden-anchor semantic split tests passed | not run |
 | Anchor | `physical_anchor_v2` | quaternion/velocity/sleep contracts passed | not run |
 | Adapter | `RoboTwinRealSapienPilotRootAdapterV1_1` | concrete lazy-import implementation | not run |
 | F1 | `f1_three_branch_coverage_v3_1` | actual-prefix/root contracts passed synthetic | not run |

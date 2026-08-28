@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import time
@@ -171,6 +172,10 @@ class FamilyRepairOrchestratorV1_1:
                     break
             if selected is None:
                 terminal = "failed_planner"
+                if self.adapter.family == "F2":
+                    receipt["next_gate"] = "f2_stand_layout_impact_review_v5"
+                elif self.adapter.family == "F4":
+                    receipt["next_gate"] = "f4_tray_layout_impact_review_v4"
                 raise RuntimeError("all preregistered repair planner variants failed")
             _write(output_dir / "selected_execution_spec.json", selected["execution_spec"])
 
@@ -192,6 +197,13 @@ class FamilyRepairOrchestratorV1_1:
                         },
                     )
                 )
+                if hasattr(scene, "save_trace"):
+                    trace_path = output_dir / "trace_source.npz"
+                    trace_info = dict(scene.save_trace(trace_path))
+                    trace_sha256 = hashlib.sha256(trace_path.read_bytes()).hexdigest()
+                    rollout.setdefault("provenance", {})["trace_source_sha256"] = trace_sha256
+                    rollout["provenance"]["trace_source_relative_path"] = "../trace_source.npz"
+                    receipt["trace_source"] = {**trace_info, "sha256": trace_sha256}
                 raw_manifest = write_raw_attempt(output_dir / "raw", rollout["streams"], rollout["audit_streams"], rollout["provenance"])
                 receipt["raw_manifest"] = raw_manifest
                 receipt["rollout_planner_query_count"] = len(raw_manifest.get("provenance", {}).get("planner_queries", []))

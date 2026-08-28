@@ -1,16 +1,31 @@
 import hashlib
 import inspect
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+from datetime import datetime, timezone
 
 import numpy as np
 
-from controlled_multi_future.family_runners_v3_1 import F2RunnerV3_1, get_family_runner
+from controlled_multi_future.family_runners_v3_1 import (
+    F1RunnerV3_1,
+    F2RunnerV3_1,
+    _left_gripper_below_eef_envelope,
+    _merge_left_arm_terminal_qpos,
+    get_family_runner,
+)
 from controlled_multi_future.families import F2TargetRelation, F4SubtaskOrder
-from controlled_multi_future.probes.runtime_v3_1_authorization import load_runtime_v3_1_authorization
-from controlled_multi_future.real_sapien_adapter_v1_1 import RoboTwinRealSapienPilotRootAdapterV1_1
+from controlled_multi_future.probes.runtime_v3_1_authorization import (
+    load_runtime_v3_1_authorization,
+    require_atomic_gpu_guard,
+)
+from controlled_multi_future.real_sapien_adapter_v1_1 import (
+    RoboTwinRealSapienPilotRootAdapterV1_1,
+    implementation_source_sha256,
+)
 from controlled_multi_future.root_orchestrator_v1_1 import RealSapienPilotRootAdapterV1_1
 
 
@@ -22,6 +37,9 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
             adapter = RoboTwinRealSapienPilotRootAdapterV1_1(family=family, output_root=Path("/nfs_share/lijunhui/Robotwin2/tmp/static-only"))
             self.assertEqual(adapter.family, family)
             self.assertIs(adapter.runner, get_family_runner(family))
+        first = implementation_source_sha256()
+        self.assertEqual(first, implementation_source_sha256())
+        self.assertEqual(len(first), 64)
 
     def test_f2_and_f4_planner_variants_are_preregistered(self):
         f2 = get_family_runner("F2")
@@ -34,6 +52,15 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
             [item["variant_id"] for item in f4.planner_audit_variants(program)],
             ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"],
         )
+
+    def test_f1_rollout_reads_target_only_after_actual_prefix_boundary(self):
+        source = inspect.getsource(F1RunnerV3_1.rollout)
+        boundary = source.index("prefix_end = anchor_capture(scene)")
+        target_read = source.index('role = program["target_role"]')
+        self.assertGreater(target_read, boundary)
+        self.assertIn("scene.initialize_trace(scene.red", source[:boundary])
+        self.assertNotIn('program["target_role"]', source[:boundary])
+        self.assertNotIn("realization_spec[", source[:boundary])
 
     def test_f2_candidate_audit_uses_exactly_two_chained_queries(self):
         class MotionGen:
@@ -79,6 +106,56 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
         self.assertEqual(result["planner_query_count"], 2)
         self.assertTrue(result["execution_spec"]["chain_continuity_pass"])
 
+    def test_arm_terminal_qpos_is_merged_into_full_articulation_state(self):
+        class Joint:
+            def __init__(self, name):
+                self.name = name
+
+            def get_name(self):
+                return self.name
+
+        arm = [Joint("a0"), Joint("a1")]
+        gripper = Joint("finger")
+        entity = type("Entity", (), {"get_active_joints": lambda self: [arm[0], gripper, arm[1]]})()
+        robot = type("Robot", (), {"left_entity": entity, "left_arm_joints": arm})()
+        scene = type("Scene", (), {"robot": robot})()
+        merged = _merge_left_arm_terminal_qpos(scene, [0.0, 0.7, 0.0], [1.0, 2.0])
+        np.testing.assert_allclose(merged, [1.0, 0.7, 2.0])
+
+    def test_f4_gripper_envelope_comes_from_selected_runtime_links(self):
+        class Pose:
+            def __init__(self, z):
+                self.p = np.asarray([0.0, 0.0, z])
+
+        class Link:
+            def __init__(self, name, z):
+                self.name, self.pose = name, Pose(z)
+
+            def get_name(self):
+                return self.name
+
+            def get_pose(self):
+                return self.pose
+
+        fixed = Link("left_fixed_finger", 0.92)
+        moving = Link("left_moving_finger", 0.90)
+        joint = type("Joint", (), {"child_link": moving})()
+        entity = type("Entity", (), {"get_links": lambda self: [fixed, moving]})()
+        robot = type(
+            "Robot",
+            (),
+            {
+                "left_fix_gripper_name": ["left_fixed_finger"],
+                "left_gripper": [(joint, 1, 0)],
+                "left_entity": entity,
+                "get_left_ee_pose": lambda self: [0, 0, 1.0, 1, 0, 0, 0],
+            },
+        )()
+        scene = type("Scene", (), {"robot": robot})()
+        evidence = _left_gripper_below_eef_envelope(scene, conservative_link_margin_m=0.03)
+        self.assertAlmostEqual(evidence["gripper_below_eef_envelope_m"], 0.13)
+        self.assertEqual(evidence["selected_gripper_links"], ["left_fixed_finger", "left_moving_finger"])
+
     def test_gpu_authorization_receipt_is_required_and_content_hashed(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "authorization.json"
@@ -102,6 +179,48 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
             path.write_text(json.dumps(payload), encoding="utf-8")
             with self.assertRaisesRegex(PermissionError, "SHA-256"):
                 load_runtime_v3_1_authorization(path, requested_scope="A0_current_anchor_smoke")
+
+    def test_atomic_guard_receipt_is_required_and_must_be_fresh_idle(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "guard.json"
+            receipt = {
+                "schema_version": "cmf_gpu_guard_v2",
+                "status": "precheck_passed",
+                "physical_gpu_index": 4,
+                "expected_gpu_uuid": "GPU-test",
+                "guard_pid": os.getppid(),
+                "precheck": {
+                    "physical_index": 4,
+                    "uuid": "GPU-test",
+                    "memory_used_mib": 14,
+                    "utilization_percent": 0,
+                    "pstate": "P8",
+                    "compute_processes": [],
+                    "captured_at": datetime.now(timezone.utc).isoformat(),
+                },
+            }
+            path.write_text(json.dumps(receipt), encoding="utf-8")
+            environment = {
+                "CMF_GPU_GUARD_RECEIPT": str(path),
+                "CMF_GPU_GUARD_PHYSICAL_INDEX": "4",
+            }
+            with patch.dict(os.environ, environment, clear=False):
+                self.assertEqual(
+                    require_atomic_gpu_guard(expected_uuid="GPU-test", physical_index=4)["precheck"]["memory_used_mib"],
+                    14,
+                )
+                receipt["precheck"]["compute_processes"] = [{"pid": 7}]
+                path.write_text(json.dumps(receipt), encoding="utf-8")
+                with self.assertRaisesRegex(PermissionError, "fresh-idle"):
+                    require_atomic_gpu_guard(expected_uuid="GPU-test", physical_index=4)
+                receipt["precheck"]["compute_processes"] = []
+                receipt["precheck"]["captured_at"] = "2000-01-01T00:00:00+00:00"
+                path.write_text(json.dumps(receipt), encoding="utf-8")
+                with self.assertRaisesRegex(PermissionError, "fresh-idle"):
+                    require_atomic_gpu_guard(expected_uuid="GPU-test", physical_index=4)
+            with patch.dict(os.environ, {}, clear=True):
+                with self.assertRaisesRegex(PermissionError, "atomic GPU guard"):
+                    require_atomic_gpu_guard(expected_uuid="GPU-test", physical_index=4)
 
     def test_f3_and_f4_full_root_claims_fail_closed(self):
         f3_source = inspect.getsource(type(get_family_runner("F3")).rollout)

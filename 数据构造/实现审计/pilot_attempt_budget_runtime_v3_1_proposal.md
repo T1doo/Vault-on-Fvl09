@@ -17,3 +17,5 @@ stage0_authorized: false
 | F4 | common-X Route1；terminal non-cleanup failure may open fresh-scene Route2 | 16/route | 1/route | 1800 s/route | two fail → tray layout impact review |
 
 F3/F4 repair success仍不授权完整 program 或 Stage 0；完整 VVHH/VHVH/VHHV、A/B/C、ABC/ACB/BAC 需要后续新证据与预算。
+
+所有未来 GPU job 还必须满足：由 `gpu_guard.py` 原子启动；precheck≤60秒、guard PID/UUID/index 绑定；child 顶层 `receipt.json`；scene cleanup 与外层 process-group orphan 分开审计并合计；post-release 未回 baseline 即停止该卡。

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -46,3 +48,38 @@ def authorization_summary(value: Mapping[str, Any]) -> dict:
         "formal_data": False,
         "stage0_data": False,
     }
+
+
+def require_atomic_gpu_guard(*, expected_uuid: str, physical_index: int) -> dict:
+    path_value = os.environ.get("CMF_GPU_GUARD_RECEIPT")
+    index_value = os.environ.get("CMF_GPU_GUARD_PHYSICAL_INDEX")
+    if not path_value or index_value != str(physical_index):
+        raise PermissionError("runtime-v3_1 child must be launched by the atomic GPU guard")
+    path = Path(path_value)
+    if not path.is_file():
+        raise PermissionError("atomic GPU guard precheck receipt is missing")
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    precheck = receipt.get("precheck")
+    try:
+        captured_at = datetime.fromisoformat(precheck.get("captured_at")) if isinstance(precheck, Mapping) else None
+        if captured_at is None or captured_at.tzinfo is None:
+            raise ValueError
+        age_seconds = (datetime.now(timezone.utc) - captured_at.astimezone(timezone.utc)).total_seconds()
+    except (TypeError, ValueError):
+        age_seconds = float("inf")
+    if (
+        receipt.get("schema_version") != "cmf_gpu_guard_v2"
+        or receipt.get("status") != "precheck_passed"
+        or receipt.get("physical_gpu_index") != physical_index
+        or receipt.get("expected_gpu_uuid") != expected_uuid
+        or receipt.get("guard_pid") != os.getppid()
+        or not isinstance(precheck, Mapping)
+        or precheck.get("uuid") != expected_uuid
+        or precheck.get("memory_used_mib", 10**9) > 100
+        or precheck.get("utilization_percent", 100) > 1
+        or precheck.get("pstate") != "P8"
+        or precheck.get("compute_processes")
+        or not (0.0 <= age_seconds <= 60.0)
+    ):
+        raise PermissionError("atomic GPU guard receipt does not prove a fresh-idle matching device")
+    return {"path": str(path), "guard_pid": receipt["guard_pid"], "precheck_age_seconds": age_seconds, "precheck": dict(precheck)}

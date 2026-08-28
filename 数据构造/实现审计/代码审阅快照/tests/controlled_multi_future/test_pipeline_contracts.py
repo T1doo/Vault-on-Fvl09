@@ -18,7 +18,13 @@ from controlled_multi_future.geometry import (
 )
 from controlled_multi_future.model_view import build_model_view
 from controlled_multi_future.probe_contracts import FAMILY_VARIANTS as VARIANTS, HISTORICAL_FAMILY_VARIANTS, result_passed
-from controlled_multi_future.probes.gpu_guard import ALLOWED_PHYSICAL_GPU_INDICES, build_child_environment, classify_terminal_status, verify_post_release
+from controlled_multi_future.probes.gpu_guard import (
+    ALLOWED_PHYSICAL_GPU_INDICES,
+    build_child_environment,
+    classify_terminal_status,
+    update_child_receipt,
+    verify_post_release,
+)
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
 from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
 from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint, validate_audit_streams, validate_raw_streams
@@ -467,6 +473,45 @@ class PipelineContractsTest(unittest.TestCase):
         self.assertNotIn("/share/apps/cuda", environment["PATH"])
         self.assertEqual(environment["CUDA_HOME"], "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1")
         self.assertEqual(environment["CUDA_VISIBLE_DEVICES"], "GPU-test")
+
+    def test_gpu_guard_updates_top_level_v3_1_child_receipt(self):
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "child"
+            output.mkdir()
+            receipt_path = output / "receipt.json"
+            receipt_path.write_text(
+                '{"status":"accepted","scene_created":true,"scene_cleanup_succeeded":true}\n',
+                encoding="utf-8",
+            )
+            updated = update_child_receipt(
+                output,
+                Path(directory) / "guard.json",
+                {"memory_used_mib": 14, "compute_processes": []},
+                [],
+                {"verified": True, "checks": {}},
+            )
+            self.assertTrue(updated)
+            payload = __import__("json").loads(receipt_path.read_text())
+            self.assertEqual(payload["orphan_process_count"], 0)
+            self.assertTrue(payload["gpu_postcheck_release"]["verified"])
+            receipt_path.write_text(
+                '{"status":"accepted","scene_created":true,"scene_cleanup_succeeded":true,"orphan_process_count":2}\n',
+                encoding="utf-8",
+            )
+            update_child_receipt(
+                output,
+                Path(directory) / "guard.json",
+                {"memory_used_mib": 14, "compute_processes": []},
+                [],
+                {"verified": True, "checks": {}},
+            )
+            payload = __import__("json").loads(receipt_path.read_text())
+            self.assertEqual(payload["scene_orphan_process_count"], 2)
+            self.assertEqual(payload["orphan_process_count"], 2)
+            self.assertEqual(payload["status"], "failed_cleanup_uncertain")
 
     def test_selected_arm_contact_and_f3_consistency(self):
         self.assertTrue(is_selected_gripper_contact("bottle", {"left_finger"}, ("bottle", "left_finger")))

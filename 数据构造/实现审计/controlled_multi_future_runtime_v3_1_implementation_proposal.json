@@ -8,7 +8,8 @@
   "physical_anchor_version": "physical_anchor_v2",
   "raw_schema_version": "cmf_raw_attempt_v2_1_1",
   "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
-  "status": "cpu_static_implemented_pending_gpt_review",
+  "status": "cpu_static_hardened_v2_pending_gpt_review",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v2",
   "approved": false,
   "frozen": false,
   "gpu_probe_authorized": false,
@@ -53,6 +54,22 @@
     "f2_f3_f4_repair_entry_point": "controlled_multi_future/probes/runtime_v3_1_family_repair_runner.py",
     "authorization_receipt_required": "cmf_runtime_v3_1_gpu_authorization_v1"
   },
+  "hardening_v2": {
+    "F1_target_role_read_after_prefix_boundary": true,
+    "root_recomputes_prefix_and_suffix_hashes_from_raw": true,
+    "root_computes_first_post_prefix_divergence": true,
+    "family_verifiers_include_support_stability_rest_and_noninterference": true,
+    "F3_release_samples_include_contact_normal_impulse_and_gripper_qpos": true,
+    "same_current_exact_scope": "model_visible_plus_reconstruction_spec",
+    "hidden_physical_state_compared_by_anchor": true,
+    "full_articulation_qpos_chain": true,
+    "F4_gripper_envelope_runtime_derived": true,
+    "real_trace_source_file_bound": true,
+    "manifest_payload_recomputed": true,
+    "atomic_guard_parent_and_60_second_freshness_required": true,
+    "top_level_child_receipt_required": true,
+    "scene_and_guard_orphans_accumulated": true
+  },
   "family_scope": {
     "F1": {"version": "f1_three_branch_coverage_v3_1", "current_scope": "full red/green/blue r_pc repair root", "full_program_complete": "static_only_not_run"},
     "F2": {"version": "f2_workspace_reachability_v4_1", "current_scope": "same-can left-arm beside repair with six fresh planner variants", "full_program_complete": "static_only_not_run"},
@@ -60,11 +77,11 @@
     "F4": {"version": "f4_segmented_common_carry_v3_1", "current_scope": "common-X Route1/Route2 repair", "full_program_complete": false, "fail_closed_reason": "A/B/C and ABC/ACB/BAC not executed by repair runner"}
   },
   "cpu_validation": {
-    "active_tests": "70/70 passed",
-    "vault_snapshot_tests": "70/70 passed",
+    "active_tests": "79/79 passed",
+    "vault_snapshot_tests": "79/79 passed",
     "python_files_compiled": 57,
     "active_snapshot_byte_equal": true,
-    "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu4",
+    "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu6",
     "synthetic_only": true
   },
   "next_decision": "GPT review of runtime-v3_1 CPU/code; no GPU authorization is implied"

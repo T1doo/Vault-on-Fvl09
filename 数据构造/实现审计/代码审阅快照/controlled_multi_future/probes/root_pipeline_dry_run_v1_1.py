@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -99,6 +100,12 @@ class DurableSyntheticAdapterV1_1(RealSapienPilotRootAdapterV1_1):
 
     def rollout(self, fresh_scene, frozen_program, realization_spec):
         result = self.raw.rollout(None, frozen_program, realization_spec)
+        role_index = {"F1-red": 1.0, "F1-green": 2.0, "F1-blue": 3.0}[frozen_program["program_id"]]
+        result["streams"]["controller_effective_setpoint"][2:, 0] = role_index
+        result["streams"]["requested_command"][2:, 0] = role_index
+        result["provenance"]["trace_source_sha256"] = hashlib.sha256(
+            f"durable-root-v1_1:{frozen_program['program_id']}".encode("utf-8")
+        ).hexdigest()
         anchor = self.capture_anchor(fresh_scene)
         result["executed_prefix"] = {
             "target_role": frozen_program["target_role"],

@@ -11,11 +11,14 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import time
 import traceback
 from typing import Any, Callable, Mapping, MutableMapping, Sequence
+
+import numpy as np
 
 from .anchor import compare_anchors
 from .candidate_freezer import freeze_candidate_universe
@@ -205,6 +208,7 @@ def validate_executed_prefix_evidence(value: Mapping[str, Any]) -> dict:
         "first_post_prefix_divergence_step",
         "neutral_confirmation_step_count",
         "neutral_confirmation_minimum_required_steps",
+        "post_prefix_action_step_sha256",
     )
     missing = [key for key in required if key not in receipt]
     if missing:
@@ -222,7 +226,36 @@ def validate_executed_prefix_evidence(value: Mapping[str, Any]) -> dict:
     minimum_steps = receipt["neutral_confirmation_minimum_required_steps"]
     if neutral_steps != minimum_steps:
         raise ValueError("extra branch-neutral hold frames may not extend formal P")
+    step_hashes = receipt["post_prefix_action_step_sha256"]
+    if not isinstance(step_hashes, list) or not all(isinstance(value, str) and len(value) == 64 for value in step_hashes):
+        raise ValueError("post-prefix action evidence must be a list of SHA-256 digests")
     return receipt
+
+
+def resolve_first_post_prefix_divergence(branch_receipts: Sequence[Mapping[str, Any]]) -> int:
+    if len(branch_receipts) != 3:
+        raise ValueError("first divergence requires three branch receipts")
+    prefixes = [item.get("executed_prefix", {}) for item in branch_receipts]
+    boundaries = {item.get("canonical_prefix_end_step") for item in prefixes}
+    if None in boundaries or len(boundaries) != 1:
+        raise ValueError("branches do not share one canonical prefix boundary")
+    boundary = int(next(iter(boundaries)))
+    suffix_hashes = [item.get("post_prefix_action_step_sha256") for item in prefixes]
+    if not all(isinstance(values, list) for values in suffix_hashes):
+        raise ValueError("branches lack post-prefix action hashes")
+    divergence = None
+    for relative_index in range(max(len(values) for values in suffix_hashes)):
+        values = [items[relative_index] if relative_index < len(items) else "<trajectory-ended>" for items in suffix_hashes]
+        if len(set(values)) > 1:
+            divergence = boundary + relative_index
+            break
+    if divergence is None:
+        raise ValueError("three branch action streams never diverge after the prefix")
+    for branch in branch_receipts:
+        if not isinstance(branch, MutableMapping) or not isinstance(branch.get("executed_prefix"), MutableMapping):
+            raise TypeError("branch receipt must be mutable while finalizing divergence")
+        branch["executed_prefix"]["first_post_prefix_divergence_step"] = divergence
+    return divergence
 
 
 def finalize_three_branch_root_v1_1(
@@ -240,9 +273,11 @@ def finalize_three_branch_root_v1_1(
     prefix_items = []
     prefix_error = None
     try:
+        computed_divergence = resolve_first_post_prefix_divergence(branch_receipts)
         prefix_items = [validate_executed_prefix_evidence(item.get("executed_prefix", {})) for item in branch_receipts]
     except BaseException as exc:
         prefix_error = str(exc)
+        computed_divergence = None
     action_hashes = {item.get("executed_prefix_action_sha256") for item in prefix_items}
     step_counts = {item.get("executed_prefix_step_count") for item in prefix_items}
     start_hashes = {item.get("executed_prefix_start_state_sha256") for item in prefix_items}
@@ -280,7 +315,13 @@ def finalize_three_branch_root_v1_1(
         "prefix_end_state_equivalent": prefix_error is None and all(item["end"]["equivalent"] for item in prefix_anchor_checks),
         "root_cleanup": bool(root_cleanup_pass),
     }
-    result = {"accepted": all(checks.values()), "checks": checks, "program_ids": program_ids, "prefix_anchor_checks": prefix_anchor_checks}
+    result = {
+        "accepted": all(checks.values()),
+        "checks": checks,
+        "program_ids": program_ids,
+        "prefix_anchor_checks": prefix_anchor_checks,
+        "computed_first_post_prefix_divergence_step": computed_divergence,
+    }
     if prefix_error is not None:
         result["executed_prefix_error"] = prefix_error
     return result
@@ -627,7 +668,34 @@ class RealSapienPilotRootOrchestratorV1_1:
                             realization_spec,
                         )
                     )
-                    executed_prefix = validate_executed_prefix_evidence(rollout_result.get("executed_prefix", {}))
+                    if hasattr(scene, "save_trace"):
+                        trace_path = branch_dir / "trace_source.npz"
+                        trace_info = dict(scene.save_trace(trace_path))
+                        trace_sha256 = hashlib.sha256(trace_path.read_bytes()).hexdigest()
+                        rollout_result.setdefault("provenance", {})["trace_source_sha256"] = trace_sha256
+                        rollout_result["provenance"]["trace_source_relative_path"] = "../trace_source.npz"
+                        branch["trace_source"] = {**trace_info, "sha256": trace_sha256}
+                    executed_prefix = dict(rollout_result.get("executed_prefix", {}))
+                    boundary = executed_prefix.get("canonical_prefix_end_step")
+                    actions = np.asarray(
+                        rollout_result.get("streams", {}).get("controller_effective_setpoint"),
+                        dtype=np.float64,
+                    )
+                    if not isinstance(boundary, int) or boundary < 0 or actions.ndim != 2 or boundary > len(actions):
+                        raise ValueError("executed prefix boundary cannot be resolved against raw actions")
+                    prefix_actions = np.ascontiguousarray(actions[:boundary])
+                    digest = hashlib.sha256()
+                    digest.update(str(prefix_actions.dtype).encode("ascii"))
+                    digest.update(str(prefix_actions.shape).encode("ascii"))
+                    digest.update(prefix_actions.tobytes(order="C"))
+                    executed_prefix["executed_prefix_action_sha256"] = digest.hexdigest()
+                    executed_prefix["executed_prefix_step_count"] = boundary
+                    executed_prefix["post_prefix_action_step_sha256"] = [
+                        hashlib.sha256(np.ascontiguousarray(row).tobytes(order="C")).hexdigest()
+                        for row in actions[boundary:]
+                    ]
+                    executed_prefix = validate_executed_prefix_evidence(executed_prefix)
+                    rollout_result["executed_prefix"] = executed_prefix
                     raw_manifest = write_raw_attempt(
                         branch_dir / "raw",
                         rollout_result["streams"],
@@ -712,6 +780,8 @@ class RealSapienPilotRootOrchestratorV1_1:
                 root_cleanup_pass=root_cleanup_pass,
             )
             receipt["root_finalization"] = finalization
+            for branch in receipt["branch_receipts"]:
+                _write_json(output_dir / "branches" / branch["program_id"] / "receipt.json", branch)
             terminal = "accepted" if finalization["accepted"] else "failed_verifier"
         except CleanupUncertain as exc:
             terminal = "failed_cleanup_uncertain"

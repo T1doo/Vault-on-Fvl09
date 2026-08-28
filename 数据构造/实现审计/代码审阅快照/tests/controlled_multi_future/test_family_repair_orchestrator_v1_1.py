@@ -47,8 +47,9 @@ class RepairContext:
 class SyntheticF4RepairAdapter:
     family = "F4"
 
-    def __init__(self, cleanup_uncertain_phase=None):
+    def __init__(self, cleanup_uncertain_phase=None, all_planner_fail=False):
         self.cleanup_uncertain_phase = cleanup_uncertain_phase
+        self.all_planner_fail = all_planner_fail
         self.counter = 0
         self.events = []
         self.raw = RawSyntheticAdapter()
@@ -82,7 +83,7 @@ class SyntheticF4RepairAdapter:
         return {"task_feasible": True, "physical_feasible": True, "planner_solvable": None, "failure_type": None, "evidence": {"synthetic": True}}
 
     def audit_planner_solvability(self, scene, program, variant):
-        passed = variant["variant_id"] == "route2_carry_neutral_fallback"
+        passed = not self.all_planner_fail and variant["variant_id"] == "route2_carry_neutral_fallback"
         return {
             "planner_solvable": passed,
             "failure_type": None if passed else "failed_planner",
@@ -139,6 +140,11 @@ class FamilyRepairOrchestratorV1_1Test(unittest.TestCase):
         receipt = self.run_repair(adapter)
         self.assertEqual(receipt["status"], "failed_cleanup_uncertain")
         self.assertFalse(any(item[0] == "open" and item[1] == "repair_planner:route2_carry_neutral_fallback" for item in adapter.events))
+
+    def test_two_route_failures_enter_tray_layout_review(self):
+        receipt = self.run_repair(SyntheticF4RepairAdapter(all_planner_fail=True))
+        self.assertEqual(receipt["status"], "failed_planner")
+        self.assertEqual(receipt["next_gate"], "f4_tray_layout_impact_review_v4")
 
 
 if __name__ == "__main__":

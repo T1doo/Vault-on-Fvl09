@@ -230,6 +230,7 @@ class DenseTraceMixin:
 
     def initialize_trace(self, actor, arm="left", role_actors=None):
         self.trace_actor = actor
+        self.trace_contact_actor = actor
         if arm not in ("left", "right"):
             raise ValueError("trace arm must be left or right")
         self.trace_arm = arm
@@ -279,7 +280,7 @@ class DenseTraceMixin:
         return sorted(set(list(fixed) + [joint[0].child_link.get_name() for joint in joints]))
 
     def _contacts(self):
-        actor_name = _entity(self.trace_actor).get_name()
+        actor_name = _entity(self.trace_contact_actor).get_name()
         selected = set(self.selected_gripper_links())
         pairs = []
         selected_count = 0
@@ -311,6 +312,11 @@ class DenseTraceMixin:
                 selected_count += 1
                 selected_impulse += point_impulse
         return pairs, selected_count, selected_impulse
+
+    def set_trace_contact_actor(self, actor):
+        """Switch contact subject without changing the object_pose stream identity."""
+
+        self.trace_contact_actor = actor
 
     def _record(self, initial_state=False):
         if not hasattr(self, "trace_actor"):

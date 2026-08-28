@@ -152,10 +152,13 @@ def update_child_receipt(output_dir, guard_path, post, orphan_pids, post_release
     payload["gpu_postcheck"] = post
     payload["gpu_postcheck_error"] = post_error
     payload["gpu_postcheck_release"] = post_release
-    payload["orphan_process_count"] = len(orphan_pids)
+    scene_orphan_count = int(payload.get("orphan_process_count") or 0)
+    payload["scene_orphan_process_count"] = scene_orphan_count
+    payload["guard_process_group_orphan_count"] = len(orphan_pids)
+    payload["orphan_process_count"] = scene_orphan_count + len(orphan_pids)
     payload["task_owned_orphan_pids"] = orphan_pids
     payload["guard_receipt"] = str(guard_path)
-    if orphan_pids or post_error is not None or post_release.get("verified") is not True or (payload.get("scene_created") and not payload.get("scene_cleanup_succeeded")):
+    if payload["orphan_process_count"] or post_error is not None or post_release.get("verified") is not True or (payload.get("scene_created") and not payload.get("scene_cleanup_succeeded")):
         payload["status"] = "failed_cleanup_uncertain"
     write_json(child_path, payload)
     return True
@@ -202,6 +205,7 @@ def main():
         "stage0_data": False,
         "physical_gpu_index": args.physical_index,
         "expected_gpu_uuid": args.expected_uuid,
+        "guard_pid": os.getpid(),
         "timeout_seconds": args.timeout_seconds,
         "command": command,
         "status": "starting",
@@ -227,9 +231,14 @@ def main():
         write_json(args.guard_receipt, guard)
         return 42
 
+    guard["status"] = "precheck_passed"
+    write_json(args.guard_receipt, guard)
+
     stdout_path = args.guard_receipt.with_suffix(".stdout.log")
     stderr_path = args.guard_receipt.with_suffix(".stderr.log")
     environment = build_child_environment(os.environ, args.expected_uuid)
+    environment["CMF_GPU_GUARD_RECEIPT"] = str(args.guard_receipt.resolve())
+    environment["CMF_GPU_GUARD_PHYSICAL_INDEX"] = str(args.physical_index)
     guard["child_environment_contract"] = {
         "version": CHILD_ENVIRONMENT_VERSION,
         "ld_library_path": "unset",
