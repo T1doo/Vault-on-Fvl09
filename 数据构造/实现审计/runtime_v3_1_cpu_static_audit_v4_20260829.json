@@ -1,0 +1,57 @@
+{
+  "schema_version": "cmf_runtime_v3_1_cpu_static_audit_v4",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v4",
+  "status": "cpu_static_hardening_v4_passed_real_gpu_unverified",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_used": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "validation": {
+    "active_tests": "88/88 passed",
+    "vault_snapshot_tests": "88/88 passed",
+    "python_files_compiled": 61,
+    "active_snapshot_byte_equal": true,
+    "registry_code_hashes": "24/24 active_and_snapshot_matched",
+    "git_diff_check": "passed"
+  },
+  "new_since_hardening_v3": {
+    "A0_adapter_agnostic_orchestrator": "A0CurrentAnchorOrchestratorV1_1",
+    "A0_four_unique_scene_pattern": ["A0_pristine", "A0_fresh_1", "A0_fresh_2", "A0_fresh_3"],
+    "A0_current_mismatch_terminal": true,
+    "A0_anchor_mismatch_terminal": true,
+    "A0_cleanup_uncertainty_terminal": true,
+    "A0_planned_spec_mutation_terminal": true,
+    "A0_zero_planner_count_required": true,
+    "A0_zero_action_count_required": true,
+    "A0_setup_settle_separate_from_control_action": true,
+    "A0_real_cli_reduced_to_authorization_guard_and_adapter_wiring": true,
+    "A0_cpu_tests": "5/5 passed",
+    "A0_real_sapien_executed": false
+  },
+  "current_synthetic_evidence": {
+    "namespace": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu8",
+    "root_receipt_sha256": "465f7af2467d28f1d6348a802422f1b155aa1e6888b744bc78225399eb207829",
+    "status": "accepted_synthetic_only",
+    "freeze_call_count": 1,
+    "task_physical_receipts": 3,
+    "planner_solvability_receipts": 3,
+    "branch_receipts": 3,
+    "cleanup_records": 10,
+    "raw_integrity_three_of_three": true,
+    "prefix_action_hash_count": 1,
+    "first_suffix_action_hash_count": 3,
+    "computed_first_post_prefix_divergence_step": 2
+  },
+  "supersedes_for_current_cpu_evidence": "runtime_v3_1_cpu_static_audit_v3_20260829.json",
+  "authorization": {
+    "budget_status": "proposed_for_user_review",
+    "approved": false,
+    "frozen": false,
+    "authorization_receipt_exists": false
+  },
+  "readiness": "BLOCKED_WITH_REASONS"
+}

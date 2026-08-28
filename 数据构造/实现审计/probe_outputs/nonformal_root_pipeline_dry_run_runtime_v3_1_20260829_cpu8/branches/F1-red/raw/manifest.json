@@ -1,0 +1,154 @@
+{
+  "action_count": 4,
+  "action_dim": 26,
+  "action_layout_dimensions": [
+    "left_joint_0_position_target",
+    "left_joint_1_position_target",
+    "left_joint_2_position_target",
+    "left_joint_3_position_target",
+    "left_joint_4_position_target",
+    "left_joint_5_position_target",
+    "right_joint_0_position_target",
+    "right_joint_1_position_target",
+    "right_joint_2_position_target",
+    "right_joint_3_position_target",
+    "right_joint_4_position_target",
+    "right_joint_5_position_target",
+    "left_joint_0_velocity_target",
+    "left_joint_1_velocity_target",
+    "left_joint_2_velocity_target",
+    "left_joint_3_velocity_target",
+    "left_joint_4_velocity_target",
+    "left_joint_5_velocity_target",
+    "right_joint_0_velocity_target",
+    "right_joint_1_velocity_target",
+    "right_joint_2_velocity_target",
+    "right_joint_3_velocity_target",
+    "right_joint_4_velocity_target",
+    "right_joint_5_velocity_target",
+    "left_gripper_normalized_target",
+    "right_gripper_normalized_target"
+  ],
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "audit_field_metadata": {
+    "contact_count": {
+      "source": "synthetic deterministic adapter contact state",
+      "status": "measured"
+    },
+    "gripper_drive_target_readback": {
+      "source": "synthetic deterministic adapter drive target",
+      "status": "measured"
+    },
+    "object_pose": {
+      "source": "synthetic deterministic adapter object state",
+      "status": "measured"
+    },
+    "planner_goal_active": {
+      "source": "synthetic action intervals have no active planner control",
+      "status": "derived"
+    },
+    "planner_goal_available": {
+      "source": "synthetic action intervals have no active planner goal",
+      "status": "derived"
+    },
+    "planner_goal_end_step": {
+      "source": "synthetic action intervals have no planner interval",
+      "status": "derived"
+    },
+    "planner_goal_source": {
+      "source": "synthetic action intervals have no planner source",
+      "status": "derived"
+    },
+    "planner_goal_start_step": {
+      "source": "synthetic action intervals have no planner interval",
+      "status": "derived"
+    },
+    "planner_query_id": {
+      "source": "synthetic action intervals have no planner query ID",
+      "status": "derived"
+    },
+    "realized_left_gripper_joint_qpos": {
+      "source": "synthetic deterministic adapter left gripper state",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qpos": {
+      "source": "synthetic deterministic adapter right gripper state",
+      "status": "measured"
+    }
+  },
+  "formal_data": false,
+  "frequency_hz": 250,
+  "manifest_payload_sha256": "ffd465b71f525848adaf777ae0c59e55eef3c68bcc1e95f5564698a3d63aa85a",
+  "manifest_sha256": "ffd465b71f525848adaf777ae0c59e55eef3c68bcc1e95f5564698a3d63aa85a",
+  "primary_action_stream": "controller_effective_setpoint_v1",
+  "provenance": {
+    "planner_queries": [],
+    "program_id": "F1-red",
+    "simulator_timing": {
+      "control_steps_per_action": 1,
+      "effective_action_interval_seconds": 0.004,
+      "scene_timestep_source": "synthetic deterministic 250 Hz contract",
+      "simulator_timestep_seconds": 0.004
+    },
+    "synthetic": true,
+    "trace_source_sha256": "2ea2e1dd2a62a33ead7c1ad70d2b902b1bfba822f53e26eb90837c3a0e667c87"
+  },
+  "raw_streams_npz_sha256": "0d9b58bb168f80242c5f010e9eba28e57670e83bcd65b14338be8274477e2c69",
+  "schema_version": "cmf_raw_attempt_v2_1_1",
+  "simulator_timing": {
+    "control_steps_per_action": 1,
+    "effective_action_interval_seconds": 0.004,
+    "scene_timestep_source": "synthetic deterministic 250 Hz contract",
+    "simulator_timestep_seconds": 0.004
+  },
+  "stage0_data": false,
+  "state_count": 5,
+  "stream_field_metadata": {
+    "action_interval_end_timestamps": {
+      "source": "synthetic state_timestamps[1:]",
+      "status": "derived"
+    },
+    "action_interval_start_timestamps": {
+      "source": "synthetic state_timestamps[:-1]",
+      "status": "derived"
+    },
+    "component_masks": {
+      "source": "synthetic component availability",
+      "status": "derived"
+    },
+    "controller_effective_setpoint": {
+      "source": "synthetic dry-run effective setpoint generator",
+      "status": "commanded"
+    },
+    "gripper_command": {
+      "source": "synthetic deterministic adapter command",
+      "status": "commanded"
+    },
+    "planner_goal_eef_pose": {
+      "source": "synthetic dry-run has no planner",
+      "status": "unavailable"
+    },
+    "realized_eef": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "realized_qpos": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "realized_qvel": {
+      "source": "synthetic deterministic adapter state",
+      "status": "measured"
+    },
+    "requested_command": {
+      "source": "synthetic dry-run requested command generator",
+      "status": "commanded"
+    },
+    "state_timestamps": {
+      "source": "synthetic 250 Hz state index",
+      "status": "derived"
+    }
+  },
+  "timestamp_semantics": "state[k] -- action[k] on [start,end) --> state[k+1]",
+  "trace_source_sha256": "2ea2e1dd2a62a33ead7c1ad70d2b902b1bfba822f53e26eb90837c3a0e667c87"
+}

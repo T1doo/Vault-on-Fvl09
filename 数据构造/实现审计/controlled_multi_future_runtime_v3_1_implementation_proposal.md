@@ -1,6 +1,6 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`cpu_static_hardened_v3_pending_gpt_review`。
+状态：`cpu_static_hardened_v4_pending_gpt_review`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
@@ -50,6 +50,14 @@ stage0_data: false
 - GPU child 必须由当前 guard PID 在 60 秒内 fresh-idle precheck 后启动，且 top-level receipt 可被 guard 原子 postcheck；scene/outer orphan 分开记录并合计。
 - F3 conditional correction 已实现为独立状态机：1 次 diagnosis；仅 stable grasp + normal EEF tracking + systematic pre-release offset 可生成内容哈希 correction spec；diagnosis/correction fresh current 与 anchor再次等价后最多执行 1 次；grasp slip、post-release physics、cleanup/current mismatch 均禁止或终止 correction。
 
-CPU current：active/snapshot 83/83 tests passed，59 Python files compile passed；root-cpu7 synthetic dry-run accepted。它们不证明真实 SAPIEN。
+## GPU-preflight hardening v4
+
+- A0 从 GPU CLI 中抽离为 adapter-agnostic `A0CurrentAnchorOrchestratorV1_1`；CLI 只负责内容哈希授权、atomic GPU guard 与真实 adapter 装配；
+- A0 固定构造 `A0_pristine + A0_fresh_1/2/3` 四个唯一 scene，逐场保存 current、anchor、activity audit 与 scene-bound cleanup receipt；
+- fresh current mismatch、physical anchor mismatch、planned spec mutation、cleanup uncertainty 均立即终止，不会继续后续 scene；
+- 每场必须显式证明 `planner_query_count=0`、`planner_query_record_count=0`、`action_execution_count=0`，并把 canonical setup settle 与 controlled action 分开；
+- 新增五项 A0 synthetic tests，分别覆盖四场景通过、current mismatch、anchor mismatch、cleanup uncertainty 与 planner activity violation。
+
+CPU current：active/snapshot 88/88 tests passed，61 Python files compile passed；root-cpu8 synthetic dry-run accepted。它们不证明真实 SAPIEN，也不表示 A0 已运行。
 
 任何 GPU 运行仍必须先经 GPT/user 审阅并生成独立、内容哈希的授权 receipt。Stage 0 明确禁止。

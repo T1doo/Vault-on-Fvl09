@@ -1,0 +1,63 @@
+{
+  "planned_root_slot_spec_sha256": "bc531727df35318930819fd99d7fc1aa05d2d7a0ff6711bf0c50409baaa5d27f",
+  "program_sha256": {
+    "F1-blue": "cd4515a382c9fe3d88fab602cc20230bb752fc12ed62f514bed96f1960149f22",
+    "F1-green": "0d6bc3926217719cef1af033f2e0bc90359faf1e90ea2ad08c3f366682b72a5b",
+    "F1-red": "1098a196a8723e4245157204df772361ebfa5c8d34965cdd9bc5d53228d9a3b3"
+  },
+  "programs": [
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-red",
+      "steps": [
+        {
+          "object": "red",
+          "op": "pick"
+        },
+        {
+          "object": "red",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "red"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-green",
+      "steps": [
+        {
+          "object": "green",
+          "op": "pick"
+        },
+        {
+          "object": "green",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "green"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-blue",
+      "steps": [
+        {
+          "object": "blue",
+          "op": "pick"
+        },
+        {
+          "object": "blue",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "blue"
+    }
+  ],
+  "provisional_programs_sha256": "7711266ce82173322521690594d5ccc262e87a55c4170c3440cb66e87c353768",
+  "schema_version": "cmf_provisional_programs_v1_1"
+}

@@ -1,6 +1,6 @@
 # F1–F4 implementation registry — runtime-v3_1 CPU current
 
-当前状态：`cpu_static_hardened_v3_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
+当前状态：`cpu_static_hardened_v4_real_gpu_unverified`；readiness=`BLOCKED_WITH_REASONS`。
 
 | Component | Current version | CPU status | Real GPU status |
 | --- | --- | --- | --- |
@@ -9,9 +9,10 @@
 | Current | `current_context_hash_v2` | model-visible/reconstruction exact + hidden-anchor semantic split tests passed | not run |
 | Anchor | `physical_anchor_v2` | quaternion/velocity/sleep contracts passed | not run |
 | Adapter | `RoboTwinRealSapienPilotRootAdapterV1_1` | concrete lazy-import implementation | not run |
+| A0 | `A0CurrentAnchorOrchestratorV1_1` | 1 pristine + 3 fresh、zero planner/action、mismatch/cleanup terminal 的 5 项测试通过 | real SAPIEN not run |
 | F1 | `f1_three_branch_coverage_v3_1` | actual-prefix/root contracts passed synthetic | not run |
 | F2 | `f2_workspace_reachability_v4_1` | fresh candidates + chained qpos contracts passed | not run |
 | F3 | `f3_release_dynamics_diagnosis_v3_1` | slip/transient/final contracts passed | not run; full programs incomplete |
 | F4 | `f4_segmented_common_carry_v3_1` | fresh route/cleanup/carry envelope contracts passed | not run; full programs incomplete |
 
-代码、证据和 hashes 见同名 JSON。GPU/Stage 0 均未授权。
+代码、证据和 hashes 见同名 JSON。Active/snapshot 88/88 tests，current synthetic root 为 cpu8。GPU/A0/Stage 0 均未授权。

@@ -21,3 +21,5 @@ F3/F4 repair success仍不授权完整 program 或 Stage 0；完整 VVHH/VHVH/VH
 所有未来 GPU job 还必须满足：由 `gpu_guard.py` 原子启动；precheck≤60秒、guard PID/UUID/index 绑定；child 顶层 `receipt.json`；scene cleanup 与外层 process-group orphan 分开审计并合计；post-release 未回 baseline 即停止该卡。
 
 F3 的 conditional correction 已有代码级硬 Gate：diagnosis execution=1；只有 `pre_release_systematic_offset` 且 grasp transform stable、EEF tracking正常时生成唯一 correction spec；correction使用 fresh scene并重查同一 current/anchor；correction execution≤1。其他分类 correction=0。
+
+A0 budget 现在也有独立代码级硬 Gate：`A0CurrentAnchorOrchestratorV1_1` 固定只开 1 pristine + 3 fresh scenes；逐场 activity audit 必须为 planner=0/action=0；current、anchor 或 cleanup 任一异常立即停止。该实现和 5 项 CPU tests 不构成预算批准，`approved=false / frozen=false / gpu_probe_authorized=false` 保持不变。

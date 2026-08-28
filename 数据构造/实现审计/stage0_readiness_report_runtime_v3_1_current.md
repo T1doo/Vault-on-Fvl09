@@ -2,11 +2,11 @@
 
 ## BLOCKED_WITH_REASONS
 
-Runtime-v3_1 已完成第三轮 GPU 前 CPU/code 加固，并实现 concrete lazy-import RoboTwin adapter/runner。83/83 tests 与 root-cpu7 synthetic evidence 通过。F1 prefix/suffix 分叉、family verifier、same-current/anchor 分层、trace integrity、atomic guard 与 F3 单次 conditional correction 均得到更强的 CPU 证据。
+Runtime-v3_1 已完成第四轮 GPU 前 CPU/code 加固，并实现 concrete lazy-import RoboTwin adapter/runner。88/88 tests 与 root-cpu8 synthetic evidence 通过。A0 现在有独立 adapter-agnostic orchestrator：固定 1 pristine + 3 fresh scenes，强制 zero planner/action，并对 current、anchor、cleanup 做 terminal Gate。F1 prefix/suffix 分叉、family verifier、same-current/anchor 分层、trace integrity、atomic guard 与 F3 单次 conditional correction 也继续通过。
 
 但以下事实仍阻止 GPU budget 和 Stage 0：
 
-1. A0 zero-action real SAPIEN current/anchor smoke 未运行；
+1. A0 的 CPU 合同已测试，但 zero-action real SAPIEN current/anchor smoke 未运行；
 2. concrete adapter/runner 尚无真实 SAPIEN/GPU evidence；
 3. F1 真实 actual-prefix red/green/blue 3/3 未运行；
 4. F2 six fresh planner variants/chained beside 未运行；

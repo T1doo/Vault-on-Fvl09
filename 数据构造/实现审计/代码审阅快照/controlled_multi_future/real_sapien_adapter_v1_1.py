@@ -430,6 +430,33 @@ class RoboTwinRealSapienPilotRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
             },
         )
 
+    @staticmethod
+    def capture_a0_activity_audit(scene):
+        """Prove that A0 performed setup settling only, not planning/actions."""
+
+        planner_queries = getattr(scene, "planner_queries", [])
+        trace = getattr(scene, "trace", [])
+        if planner_queries is None:
+            planner_queries = []
+        if trace is None:
+            trace = []
+        planner_query_count = int(getattr(scene, "planner_query_count", 0))
+        planner_query_record_count = len(planner_queries)
+        trace_row_count = len(trace)
+        trace_was_initialized = hasattr(scene, "trace")
+        action_execution_count = max(0, trace_row_count - 1) if trace_was_initialized else 0
+        return {
+            "schema_version": "cmf_a0_activity_audit_v1",
+            "planner_query_count": planner_query_count,
+            "planner_query_record_count": planner_query_record_count,
+            "action_execution_count": action_execution_count,
+            "trace_row_count": trace_row_count,
+            "trace_was_initialized": trace_was_initialized,
+            "canonical_settle_steps": int(getattr(scene, "_cmf_canonical_settle_steps", 0)),
+            "canonical_settle_is_control_action": False,
+            "canonical_settle_source": "RoboTwinSceneContextV1_1 scene.step before current/anchor capture",
+        }
+
     def build_programs(self, pristine_scene):
         return FAMILY_CLASSES[self.family]().checked_provisional_programs()
 
