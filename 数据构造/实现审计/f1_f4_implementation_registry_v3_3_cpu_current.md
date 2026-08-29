@@ -20,4 +20,4 @@
 - GPU Guard v2_4 source-lock 后二次 fresh snapshot；
 - raw 26-D/250 Hz/N+1、actual per-role pose/velocity/contact、失败与cleanup receipts。
 
-Active与byte-equal snapshot各`245/245 tests passed`。真实canonical-prefix smoke已通过；F4共同right-workspace layout修复已通过CPU geometry、等待real IK；accepted roots仍为0，Stage 0未授权。
+Active与byte-equal snapshot各`247/247 tests passed`。真实canonical-prefix smoke已通过；F4最终共同x/y workspace layout修复已通过CPU geometry、等待最后real IK；accepted roots仍为0，Stage 0未授权。

@@ -7,9 +7,9 @@
     "total": 0
   },
   "cpu_baseline": {
-    "active_tests": "245/245 passed",
+    "active_tests": "247/247 passed",
     "active_vault_snapshot_byte_equal": true,
-    "snapshot_tests": "245/245 passed",
+    "snapshot_tests": "247/247 passed",
     "status": "passed"
   },
   "decision": "BLOCKED_WITH_REASONS",
@@ -20,15 +20,15 @@
     "f1_accepted_root": "pending",
     "f2_accepted_root": "pending",
     "f3_accepted_root": "pending",
-    "f4_cube_ik_and_staged_blocks": "layout_v3_no_action_ik_failed_all_pregrasp_final_uniform_repair_pending",
+    "f4_cube_ik_and_staged_blocks": "final_layout_v4_cpu_pass_last_no_action_ik_pending",
     "f4_accepted_root": "pending"
   },
   "gpu_parent_scope_authorized": true,
   "goal_execution_status": "active_after_gpu0_recovered",
-  "implementation_source_sha256": "b539e81b5377ad28d06a5081e277f2f3d9420f32b928703a37b5547001e25beb",
+  "implementation_source_sha256": "fd26a46fbb631e060b3ccb19359c4cfb11fdbd1d04425c0af452db08610ebe0c",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "new_gpu_launch_authorized": false,
-  "reason": "Real canonical-prefix smoke passed. F4 no-action IK failed A/B/C at pregrasp in both original and right-x layout-v3; one final uniform y-band repair remains before F4 terminates. All complete family roots remain pending.",
+  "reason": "Real canonical-prefix smoke passed. F4 no-action IK failed original and layout-v3; the final uniform x/y workspace layout passes CPU geometry and awaits its last real IK. Failure will terminate F4. All complete family roots remain pending.",
   "runtime_v3_3_gpu_scope_count": 3,
   "superseded_unconsumed_authorization_count": 2,
   "valid_unconsumed_authorization_count": 0,

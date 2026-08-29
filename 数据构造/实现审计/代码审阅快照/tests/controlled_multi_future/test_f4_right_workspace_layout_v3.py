@@ -9,9 +9,6 @@ from controlled_multi_future.f4_right_workspace_layout_v3 import (
     build_impact_review,
     write_review,
 )
-from controlled_multi_future.runtime_v3_3_scope_specs_v1 import (
-    planned_scope_spec,
-)
 
 
 class F4RightWorkspaceLayoutV3Test(unittest.TestCase):
@@ -28,9 +25,7 @@ class F4RightWorkspaceLayoutV3Test(unittest.TestCase):
         )
         self.assertEqual(review["layout"]["tray"]["model_id"], 0)
 
-    def test_scope_spec_uses_exact_layout_and_serializes(self):
-        spec = planned_scope_spec("F4_cube_grasp_no_action_ik")
-        self.assertEqual(spec["scene_layout"], LAYOUT)
+    def test_historical_repair_review_serializes(self):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         path = Path(directory.name) / "review.json"

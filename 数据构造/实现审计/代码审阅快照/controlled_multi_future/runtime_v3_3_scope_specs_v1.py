@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 
 from .f2_mutually_exclusive_region_layout_v2 import LAYOUT as F2_LAYOUT
-from .f4_right_workspace_layout_v3 import LAYOUT as F4_LAYOUT
+from .f4_right_workspace_layout_v4 import LAYOUT as F4_LAYOUT
 from .runtime_v3_3_budget_v1 import ROOT_SCOPES, SCOPE_FAMILIES, scope_budget
 
 

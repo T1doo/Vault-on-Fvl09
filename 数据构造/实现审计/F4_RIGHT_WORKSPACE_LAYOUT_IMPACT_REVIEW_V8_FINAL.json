@@ -1,0 +1,140 @@
+{
+  "checks": {
+    "all_dynamic_inside_table": true,
+    "all_slots_inside_table": true,
+    "branch_neutral_orientation_is_right_arm_realized_grasp": true,
+    "branch_neutral_orientation_is_unit_quaternion": true,
+    "candidate_label_not_encoded_by_layout": true,
+    "common_and_tray_unchanged": true,
+    "common_clear_of_objects": true,
+    "common_clear_of_slots": true,
+    "final_repair_changes_layout_only": true,
+    "objects_pairwise_separated": true,
+    "objects_share_one_right_x_band_rule": true,
+    "objects_share_one_y_band": true,
+    "right_arm_selected": true,
+    "single_arm_for_all_programs": true,
+    "slots_pairwise_separated": true,
+    "smallest_official_tray_selected": true,
+    "tray_clear_of_objects": true,
+    "tray_clear_of_slots": true,
+    "tray_inside_table": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "failure_rule": "if A/B/C no-action IK is not 3/3, mark F4 terminal and do not run staged/full programs",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "layout": {
+    "branch_neutral_pose": [
+      0.15,
+      -0.02,
+      0.95,
+      0.5243570072481656,
+      -0.47439082845243685,
+      0.4743935067167858,
+      0.5243604405510669
+    ],
+    "common_x_pose": [
+      0.28,
+      0.1,
+      0.762,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "layout_version": "f4_right_arm_workspace_base0_v4_final",
+    "object_poses": {
+      "A": [
+        0.16,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        0.28,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        0.4,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "slot_poses": {
+      "A": [
+        0.15,
+        0.16,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        0.3,
+        0.16,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        0.41,
+        0.16,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "tray": {
+      "model_id": 0,
+      "modelname": "008_tray",
+      "pose": [
+        0.28,
+        -0.12,
+        0.76,
+        0.706527,
+        0.706483,
+        -0.0291356,
+        -0.0291767
+      ]
+    }
+  },
+  "layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85",
+  "object_pairwise_minimum_m": 0.12,
+  "pass": true,
+  "schema_version": "cmf_f4_right_workspace_layout_impact_review_v8",
+  "slot_pairwise_minimum_m": 0.10999999999999999,
+  "source_failure": "x-band repair passed CPU geometry but y=0.175 row still failed A/B/C pregrasp",
+  "source_failure_namespace": "nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_geometry_pass_final_real_ik_pending",
+  "tray_world_aabb_xy": {
+    "lower": [
+      0.11930534920005867,
+      -0.22582967214506589
+    ],
+    "upper": [
+      0.4406946507999414,
+      -0.014170327854934106
+    ]
+  },
+  "uniform_final_repair": "preserve x-band and move the complete object row to y=0.02; move all slots to y=0.16"
+}
