@@ -22,11 +22,11 @@ from ..runtime_v3_3_budget_v1 import (
 )
 
 
-AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_2"
-CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_2"
+AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_3"
+CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_3"
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
-IMPLEMENTATION_REVISION = "runtime_v3_3_revision3_impact_addendum_v1"
+IMPLEMENTATION_REVISION = "runtime_v3_3_revision4_impact_addendum_v1"
 ALLOWED_UUID_POLICY = "fresh_idle_exact_uuid_selected_by_atomic_guard"
 MAX_AUTHORIZATION_VALIDITY_SECONDS = 3600
 CANONICAL_CONSUMPTION_LEDGER_DIRECTORY = (
@@ -108,9 +108,14 @@ def current_source_bindings_v3_3() -> dict:
         "frozen_suffix_artifact_sha256": root / "frozen_suffix_artifact_v1.py",
         "family_runners_sha256": root / "family_runners_v3_3.py",
         "f2_suffix_routes_sha256": root / "f2_suffix_routes_v3.py",
+        "f2_historical_safe_route_sha256": root
+        / "f2_beside_historical_safe_route_v4.py",
         "f3_clearance_route_sha256": root / "f3_clearance_route_v3.py",
+        "f3_pre_v_evidence_sha256": root / "f3_pre_v_evidence_v4.py",
         "f4_uniform_block_carry_sha256": root
         / "f4_uniform_block_carry_midpoint_v3.py",
+        "f4_uniform_tilted_grasp_sha256": root
+        / "f4_uniform_tilted_grasp_v4.py",
         "project_cube_grasp_pose_sha256": root / "project_cube_grasp_pose_v1.py",
         "canonical_prefix_smoke_sha256": root / "canonical_prefix_smoke_v1.py",
         "f4_cube_grasp_ik_audit_sha256": root / "f4_cube_grasp_ik_audit_v1.py",
@@ -317,8 +322,8 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("authorization family/seed differ from planned spec")
     if requested_scope in ROOT_SCOPES:
         revision_index = receipt.get("family_revision_index")
-        if revision_index not in (1, 2, 3):
-            raise AuthorizationBindingError("root authorization revision index must be 1, 2, or 3")
+        if revision_index not in (1, 2, 3, 4):
+            raise AuthorizationBindingError("root authorization revision index must be 1, 2, 3, or 4")
         if planned.get("implementation_revision_index") != revision_index:
             raise AuthorizationBindingError("root authorization/planned revision mismatch")
         revision_label = planned.get("implementation_revision")
@@ -333,7 +338,7 @@ def validate_authorization_v3_3(
             raise AuthorizationBindingError("root authorization revision ledger is invalid")
         if revision_directory != CANONICAL_REVISION_LEDGER_DIRECTORY:
             raise AuthorizationBindingError("root authorization revision ledger is not canonical")
-        if receipt.get("maximum_new_implementation_revisions_per_family") != 3:
+        if receipt.get("maximum_new_implementation_revisions_per_family") != 4:
             raise AuthorizationBindingError("root authorization revision limit mismatch")
         if receipt.get("maximum_full_root_execution_per_revision") != 1:
             raise AuthorizationBindingError("root authorization root-per-revision limit mismatch")

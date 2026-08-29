@@ -126,7 +126,7 @@ class F2SuffixRoutesV3Test(unittest.TestCase):
         clean_rows = [self.held_row() for _ in range(4)]
         clean = audit_f2_held_transport_contacts(
             clean_rows,
-            relation="beside",
+            relation="inside",
             can_actor_name="can",
             selected_gripper_body_names=["left_finger"],
             named_facility_body_names=["box", "scale", "stand"],
@@ -142,7 +142,7 @@ class F2SuffixRoutesV3Test(unittest.TestCase):
                 )
                 result = audit_f2_held_transport_contacts(
                     rows,
-                    relation="beside",
+                    relation="inside",
                     can_actor_name="can",
                     selected_gripper_body_names=["left_finger"],
                     named_facility_body_names=["box", "scale", "stand"],
@@ -200,6 +200,47 @@ class F2SuffixRoutesV3Test(unittest.TestCase):
             support_contact_start_relative_row=2,
         )
         self.assertTrue(allowed["pass"])
+
+        beside_rows = [self.held_row() for _ in range(4)]
+        beside_rows[1] = self.held_row(
+            extra_pair={"body_a": "can", "body_b": "table"}
+        )
+        self.assertFalse(
+            audit_f2_held_transport_contacts(
+                beside_rows,
+                relation="beside",
+                can_actor_name="can",
+                selected_gripper_body_names=["left_finger"],
+                named_facility_body_names=["box", "scale", "stand"],
+                relation_support_body_names=["table"],
+                support_contact_start_relative_row=2,
+            )["pass"]
+        )
+        beside_rows[1] = self.held_row()
+        beside_rows[2] = self.held_row(
+            extra_pair={"body_a": "can", "body_b": "table"}
+        )
+        self.assertTrue(
+            audit_f2_held_transport_contacts(
+                beside_rows,
+                relation="beside",
+                can_actor_name="can",
+                selected_gripper_body_names=["left_finger"],
+                named_facility_body_names=["box", "scale", "stand"],
+                relation_support_body_names=["table"],
+                support_contact_start_relative_row=2,
+            )["pass"]
+        )
+        with self.assertRaisesRegex(ValueError, "only the table"):
+            audit_f2_held_transport_contacts(
+                beside_rows,
+                relation="beside",
+                can_actor_name="can",
+                selected_gripper_body_names=["left_finger"],
+                named_facility_body_names=["box", "scale", "stand"],
+                relation_support_body_names=["stand"],
+                support_contact_start_relative_row=2,
+            )
 
     def test_inside_gravity_drop_route_is_rim_clear_and_strict(self):
         route = build_inside_gravity_drop_route(

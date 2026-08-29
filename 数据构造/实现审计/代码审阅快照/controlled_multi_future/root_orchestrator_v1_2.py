@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import time
 import traceback
@@ -52,6 +53,76 @@ class PrefixArtifactError(RuntimeError):
 
 class SuffixPlannerError(RuntimeError):
     pass
+
+
+def _write_json_atomic(path: Path, value: Mapping[str, Any]) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = (
+        json.dumps(dict(value), ensure_ascii=False, indent=2, sort_keys=True)
+        + "\n"
+    ).encode("utf-8")
+    temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
+    fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    try:
+        offset = 0
+        while offset < len(data):
+            written = os.write(fd, data[offset:])
+            if written <= 0:
+                raise OSError("short write while sealing JSON receipt")
+            offset += written
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+    os.replace(temporary, path)
+
+
+def _persist_prefix_gate_failure(
+    scene,
+    *,
+    receipt_path: Path,
+    trace_path: Path,
+    phase: str,
+    error_type: str,
+    error: str,
+    replay: Mapping[str, Any] | None,
+    replay_physical: Mapping[str, Any] | None,
+) -> dict:
+    failure = {
+        "schema_version": "cmf_prefix_replay_failure_receipt_v1",
+        "status": "failed_prefix_replay_gate",
+        "phase": phase,
+        "error_type": error_type,
+        "error": error,
+        "prefix_end_equivalent": None
+        if replay is None
+        else replay.get("prefix_end_equivalent"),
+        "actual_prefix_end_qpos_sha256": None
+        if replay is None
+        else replay.get("actual_prefix_end_qpos_sha256"),
+        "reference_event_boundaries": None
+        if replay is None
+        else replay.get("reference_event_boundaries"),
+        "replayed_prefix_physical_acceptance": None
+        if replay_physical is None
+        else dict(replay_physical),
+        "formal_data": False,
+        "stage0_data": False,
+        "stage0_authorized": False,
+    }
+    if hasattr(scene, "save_trace"):
+        try:
+            trace = dict(scene.save_trace(trace_path))
+            trace["sha256"] = hashlib.sha256(trace_path.read_bytes()).hexdigest()
+            failure["partial_trace_source"] = trace
+        except BaseException as trace_exc:
+            failure["partial_trace_save_error"] = {
+                "type": type(trace_exc).__name__,
+                "message": str(trace_exc),
+            }
+    failure["failure_receipt_sha256"] = hash_json(failure)
+    _write_json_atomic(receipt_path, failure)
+    return failure
 
 
 def _step_hashes(actions: np.ndarray) -> list[str]:
@@ -301,11 +372,55 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 prefix_call = _immutable_copy(prefix_contract)
                 prefix_call_hash = hash_json(prefix_call)
                 try:
-                    result = _validate_prefix_reference_result(
-                        self.adapter.plan_and_execute_canonical_prefix(
-                            scene, prefix_call
+                    try:
+                        result = _validate_prefix_reference_result(
+                            self.adapter.plan_and_execute_canonical_prefix(
+                                scene, prefix_call
+                            )
                         )
-                    )
+                    except BaseException as exc:
+                        failure = {
+                            "schema_version": "cmf_canonical_prefix_failure_receipt_v1",
+                            "status": "failed_canonical_prefix_reference",
+                            "family": getattr(
+                                self.adapter, "family", planned_spec["family"]
+                            ),
+                            "error_type": type(exc).__name__,
+                            "error": str(exc),
+                            "planner_query_count": int(
+                                getattr(scene, "planner_query_count", 0)
+                            )
+                            - planner_before,
+                            "structured_gate_evidence": getattr(
+                                scene, "_cmf_prefix_failure_receipt", None
+                            ),
+                            "formal_data": False,
+                            "stage0_data": False,
+                            "stage0_authorized": False,
+                        }
+                        if hasattr(scene, "save_trace"):
+                            partial_path = (
+                                output_dir
+                                / "canonical_prefix_reference_partial_trace.npz"
+                            )
+                            try:
+                                partial = dict(scene.save_trace(partial_path))
+                                partial["sha256"] = hashlib.sha256(
+                                    partial_path.read_bytes()
+                                ).hexdigest()
+                                failure["partial_trace_source"] = partial
+                            except BaseException as trace_exc:
+                                failure["partial_trace_save_error"] = {
+                                    "type": type(trace_exc).__name__,
+                                    "message": str(trace_exc),
+                                }
+                        failure["failure_receipt_sha256"] = hash_json(failure)
+                        _write_json_atomic(
+                            output_dir / "canonical_prefix_failure_receipt.json",
+                            failure,
+                        )
+                        receipt["canonical_prefix_failure_receipt"] = failure
+                        raise
                 finally:
                     _require_unchanged(
                         prefix_call,
@@ -431,7 +546,10 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 preflight_dir = output_dir / "suffix_preflight" / program_id
                 preflight_dir.mkdir(parents=True, exist_ok=False)
 
-                suffix_runtime = {"planner_query_count": 0}
+                suffix_runtime = {
+                    "planner_query_count": 0,
+                    "prefix_replay_failure": None,
+                }
 
                 def suffix_preflight_callback(scene, candidate):
                     preflight_current = dict(self.adapter.capture_current(scene))
@@ -455,6 +573,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         capture_anchor=self.adapter.capture_anchor,
                     )
                     if replay["prefix_end_equivalent"] is not True:
+                        suffix_runtime["prefix_replay_failure"] = _persist_prefix_gate_failure(
+                            scene,
+                            receipt_path=preflight_dir
+                            / "prefix_replay_failure_receipt.json",
+                            trace_path=preflight_dir
+                            / "prefix_replay_failure_trace.npz",
+                            phase=f"suffix_preflight:{program_id}",
+                            error_type="PrefixArtifactError",
+                            error="suffix preflight prefix-end state is not equivalent",
+                            replay=replay,
+                            replay_physical=None,
+                        )
                         raise PrefixArtifactError(
                             "suffix preflight prefix-end state is not equivalent"
                         )
@@ -465,6 +595,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     )
                     replay["replayed_prefix_physical_acceptance"] = replay_physical
                     if replay_physical.get("pass") is not True:
+                        suffix_runtime["prefix_replay_failure"] = _persist_prefix_gate_failure(
+                            scene,
+                            receipt_path=preflight_dir
+                            / "prefix_replay_failure_receipt.json",
+                            trace_path=preflight_dir
+                            / "prefix_replay_failure_trace.npz",
+                            phase=f"suffix_preflight:{program_id}",
+                            error_type="PrefixArtifactError",
+                            error="suffix preflight replayed prefix physical Gate failed",
+                            replay=replay,
+                            replay_physical=replay_physical,
+                        )
                         raise PrefixArtifactError(
                             "suffix preflight replayed prefix physical Gate failed"
                         )
@@ -553,7 +695,15 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             suffix_runtime["planner_query_count"]
                         ),
                         "failure_type": type(exc).__name__,
-                        "evidence": {"error": str(exc)},
+                        "failure_stage": "prefix_replay_gate"
+                        if suffix_runtime["prefix_replay_failure"] is not None
+                        else "suffix_planner_or_preflight",
+                        "evidence": {
+                            "error": str(exc),
+                            "prefix_replay_failure": suffix_runtime[
+                                "prefix_replay_failure"
+                            ],
+                        },
                         "actual_prefix_end_qpos_sha256": None,
                     }
                     _write_json(preflight_dir / "receipt.json", suffix_public)
@@ -583,7 +733,14 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             receipt["family_suffix_gate"] = family_suffix_gate
             _write_json(output_dir / "family_suffix_gate.json", family_suffix_gate)
             if not suffix_all_pass:
-                terminal = "failed_planner"
+                terminal = (
+                    "failed_prefix_replay_gate"
+                    if any(
+                        item.get("failure_stage") == "prefix_replay_gate"
+                        for item in receipt["suffix_planner_receipts"]
+                    )
+                    else "failed_planner"
+                )
                 raise SuffixPlannerError(
                     "not all three suffix planners passed from actual replay-end qpos"
                 )
@@ -644,6 +801,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         capture_anchor=self.adapter.capture_anchor,
                     )
                     if replay["prefix_end_equivalent"] is not True:
+                        branch["prefix_replay_failure"] = _persist_prefix_gate_failure(
+                            scene,
+                            receipt_path=branch_dir
+                            / "prefix_replay_failure_receipt.json",
+                            trace_path=branch_dir
+                            / "prefix_replay_failure_trace.npz",
+                            phase=f"strict_prefix_branch:{program_id}",
+                            error_type="PrefixArtifactError",
+                            error="branch prefix-end state is not equivalent",
+                            replay=replay,
+                            replay_physical=None,
+                        )
                         raise PrefixArtifactError(
                             "branch prefix-end state is not equivalent"
                         )
@@ -654,6 +823,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     )
                     replay["replayed_prefix_physical_acceptance"] = replay_physical
                     if replay_physical.get("pass") is not True:
+                        branch["prefix_replay_failure"] = _persist_prefix_gate_failure(
+                            scene,
+                            receipt_path=branch_dir
+                            / "prefix_replay_failure_receipt.json",
+                            trace_path=branch_dir
+                            / "prefix_replay_failure_trace.npz",
+                            phase=f"strict_prefix_branch:{program_id}",
+                            error_type="PrefixArtifactError",
+                            error="branch replayed prefix physical Gate failed",
+                            replay=replay,
+                            replay_physical=replay_physical,
+                        )
                         raise PrefixArtifactError(
                             "branch replayed prefix physical Gate failed"
                         )

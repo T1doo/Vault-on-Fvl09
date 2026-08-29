@@ -12,9 +12,16 @@ from .anchor import quaternion_angular_error
 from .current_hasher import hash_array, hash_json
 from .families import F4SubtaskOrder
 from .f2_mutually_exclusive_region_layout_v2 import (
+    BESIDE_INNER_M,
+    BESIDE_OUTER_M,
     BESIDE_SECTORS_RELATIVE_XY_M,
+    BOX_INSIDE_CENTER_OFFSET_WORLD_M,
+    BOX_INSIDE_HALF_XY_M,
     LAYOUT as F2_LAYOUT_V2,
     LAYOUT_VERSION as F2_LAYOUT_VERSION_V2,
+    SCALE_TOP_CENTER_OFFSET_WORLD_M,
+    SCALE_TOP_HALF_XY_M,
+    TABLE_BOUNDS_XY as F2_TABLE_BOUNDS_XY,
 )
 from .f2_suffix_routes_v3 import (
     BESIDE_CANDIDATES as F2_BESIDE_CANDIDATES_V3,
@@ -23,6 +30,12 @@ from .f2_suffix_routes_v3 import (
     audit_f2_held_transport_contacts,
     build_beside_route,
     build_inside_gravity_drop_route,
+)
+from .f2_beside_historical_safe_route_v4 import (
+    HISTORICAL_SAFE_STAND_RELATIVE_XY_M,
+    actor_origin_z_for_table_support,
+    build_historical_safe_beside_route,
+    target_facility_clearance_audit,
 )
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
@@ -63,6 +76,11 @@ from .f3_clearance_route_v3 import (
     frozen_f3_grasp_contract,
     time_dilate_f3_carry_control_2x,
 )
+from .f3_pre_v_evidence_v4 import (
+    F3PreVBoundaryGateFailure,
+    build_f3_pre_v_evidence_v4,
+    require_f3_pre_v_gate,
+)
 from .geometry import (
     actor_target_to_eef_pose,
     compose_pose,
@@ -85,6 +103,11 @@ from .f4_uniform_block_carry_midpoint_v3 import (
     F4_UNIFORM_BLOCK_CARRY_VERSION,
     expand_uniform_f4_block_carry_targets,
     validate_uniform_f4_block_carry_targets,
+)
+from .f4_uniform_tilted_grasp_v4 import (
+    ROUTE_VERSION as F4_TILTED_ROUTE_VERSION,
+    audit_uniform_tilted_f4_geometry,
+    build_uniform_tilted_f4_block_groups,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -140,11 +163,20 @@ def planner_source_hash_v3_3() -> str:
             "f2_suffix_routes_v3.py": _sha256_file(
                 Path(__file__).with_name("f2_suffix_routes_v3.py")
             ),
+            "f2_beside_historical_safe_route_v4.py": _sha256_file(
+                Path(__file__).with_name("f2_beside_historical_safe_route_v4.py")
+            ),
             "f3_clearance_route_v3.py": _sha256_file(
                 Path(__file__).with_name("f3_clearance_route_v3.py")
             ),
+            "f3_pre_v_evidence_v4.py": _sha256_file(
+                Path(__file__).with_name("f3_pre_v_evidence_v4.py")
+            ),
             "f4_uniform_block_carry_midpoint_v3.py": _sha256_file(
                 Path(__file__).with_name("f4_uniform_block_carry_midpoint_v3.py")
+            ),
+            "f4_uniform_tilted_grasp_v4.py": _sha256_file(
+                Path(__file__).with_name("f4_uniform_tilted_grasp_v4.py")
             ),
             "project_cube_grasp_pose_v1.py": _sha256_file(
                 Path(__file__).with_name("project_cube_grasp_pose_v1.py")
@@ -518,6 +550,12 @@ def _cache_preplanned_suffix_controls(
             | (terminal_qpos <= joint_limits[:, 1])
         )
     )
+    planner_query_receipts = [
+        dict(item)
+        for item in getattr(scene, "planner_queries", [])[-int(planner_query_count):]
+    ] if int(planner_query_count) else []
+    if len(planner_query_receipts) != int(planner_query_count):
+        raise RuntimeError("suffix planner query table is shorter than live query delta")
     spec = {
         "schema_version": "cmf_frozen_suffix_execution_spec_v1",
         "program_id": program_id,
@@ -537,6 +575,7 @@ def _cache_preplanned_suffix_controls(
         ],
         "segment_receipts": planned["segment_receipts"],
         "planner_reset_receipt": reset,
+        "planner_query_receipts": planner_query_receipts,
         "terminal_qpos": terminal_qpos.tolist(),
         "terminal_qpos_sha256": hash_array(terminal_qpos),
         "terminal_joint_limit_margin_rad": serialized_joint_margins,
@@ -560,6 +599,7 @@ def _cache_preplanned_suffix_controls(
         "failure_type": None if planned["pass"] else "chained_suffix_planner_failure",
         "evidence": {
             "planner_reset_receipt": reset,
+            "planner_query_receipts": planner_query_receipts,
             "segment_receipts": planned["segment_receipts"],
             "terminal_qpos": terminal_qpos.tolist(),
             "terminal_qpos_sha256": hash_array(terminal_qpos),
@@ -1727,18 +1767,68 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 scene.robot.left_original_pose, dtype=np.float64
             ),
         )
-        beside_routes = [
-            build_beside_route(
-                candidate.candidate_id,
-                current_eef_pose=_arm_eef_pose(scene, "left"),
-                current_actor_pose=_pose(scene.can),
-                stand_pose=_pose(scene.stand),
-                rest_eef_pose=np.asarray(
-                    scene.robot.left_original_pose, dtype=np.float64
-                ),
-            )
-            for candidate in F2_BESIDE_CANDIDATES_V3
-        ]
+        support_z = actor_origin_z_for_table_support(
+            table_plane_z_m=0.74 + float(scene.table_z_bias),
+            actor_quaternion_wxyz=[0.5, 0.5, 0.5, 0.5],
+            can_local_geometry_center_m=can_local_center,
+            can_half_extents_m=can_half,
+        )
+        stand_pose = _pose(scene.stand)
+        beside_target = np.asarray(
+            [
+                stand_pose[0] + HISTORICAL_SAFE_STAND_RELATIVE_XY_M[0],
+                stand_pose[1] + HISTORICAL_SAFE_STAND_RELATIVE_XY_M[1],
+                support_z,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+            ],
+            dtype=np.float64,
+        )
+        beside_clearance = target_facility_clearance_audit(
+            target_actor_pose=beside_target,
+            can_local_geometry_center_m=can_local_center,
+            can_half_extents_m=can_half,
+            facility_aabbs=self._facility_world_aabbs(scene),
+        )
+        beside_xy = beside_target[:2]
+        inside_center = (
+            np.asarray(F2_LAYOUT_V2["box_xyz"][:2], dtype=np.float64)
+            + BOX_INSIDE_CENTER_OFFSET_WORLD_M[:2]
+        )
+        scale_center = (
+            np.asarray(F2_LAYOUT_V2["scale_xyz"][:2], dtype=np.float64)
+            + SCALE_TOP_CENTER_OFFSET_WORLD_M[:2]
+        )
+        beside_radial = float(np.linalg.norm(beside_xy - stand_pose[:2]))
+        beside_predicate_audit = {
+            "radial_distance_m": beside_radial,
+            "inside": bool(
+                np.all(
+                    np.abs(beside_xy - inside_center)
+                    <= BOX_INSIDE_HALF_XY_M
+                )
+            ),
+            "on": bool(
+                np.all(
+                    np.abs(beside_xy - scale_center) <= SCALE_TOP_HALF_XY_M
+                )
+            ),
+            "within_table": bool(
+                F2_TABLE_BOUNDS_XY[0, 0]
+                <= beside_xy[0]
+                <= F2_TABLE_BOUNDS_XY[1, 0]
+                and F2_TABLE_BOUNDS_XY[0, 1]
+                <= beside_xy[1]
+                <= F2_TABLE_BOUNDS_XY[1, 1]
+            ),
+        }
+        beside_predicate_audit["beside"] = bool(
+            BESIDE_INNER_M <= beside_radial <= BESIDE_OUTER_M
+            and not beside_predicate_audit["inside"]
+            and not beside_predicate_audit["on"]
+        )
         scale_point = scene.scale.get_functional_point(0)
         checks = {
             "roles": roles_ok,
@@ -1753,8 +1843,17 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             "inside_route_geometry_audit": inside_route["audit"]["pass"],
             "scale_functional_point_exists": scale_point is not None
             and np.all(np.isfinite(np.asarray(scale_point, dtype=np.float64))),
-            "six_beside_routes_geometry_pass": len(beside_routes) == 6
-            and all(item["audit"]["pass"] for item in beside_routes),
+            "historical_safe_beside_target_predicate": beside_predicate_audit[
+                "beside"
+            ]
+            and beside_predicate_audit["within_table"],
+            "historical_safe_beside_target_clearance": beside_clearance[
+                "pass"
+            ],
+            "center_aware_beside_support_z": abs(
+                support_z - layout["post_settle_can_pose"][2]
+            )
+            <= 0.005,
         }
         passed = all(checks.values())
         return {
@@ -1768,14 +1867,9 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 "can_local_geometry_center_m": can_local_center.tolist(),
                 "can_half_extents_m": can_half.tolist(),
                 "inside_route_geometry": inside_route,
-                "beside_route_geometry": [
-                    {
-                        "candidate": item["candidate"],
-                        "target_actor_pose": item["target_actor_pose"],
-                        "audit": item["audit"],
-                    }
-                    for item in beside_routes
-                ],
+                "historical_safe_beside_target_actor_pose": beside_target.tolist(),
+                "historical_safe_beside_predicate_audit": beside_predicate_audit,
+                "historical_safe_beside_clearance_audit": beside_clearance,
             },
         }
 
@@ -1904,6 +1998,24 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         )
 
     @staticmethod
+    def _facility_world_aabbs(scene):
+        facilities = {
+            "box": scene.box,
+            "scale": scene.scale,
+            "stand": scene.stand,
+        }
+        result = {}
+        for role, actor in facilities.items():
+            corners = obb_corners(
+                _actor_geometry_center_pose(actor), _actor_half_extents(actor)
+            )
+            result[role] = {
+                "lower": np.min(corners, axis=0).tolist(),
+                "upper": np.max(corners, axis=0).tolist(),
+            }
+        return result
+
+    @staticmethod
     def _carried_can_waypoint_envelope_audit(scene, route):
         """Necessary waypoint envelope; not a claim about curved joint-space motion."""
 
@@ -1926,20 +2038,15 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             for actor_pose in actor_origin_waypoints
         ]
         can_orientation_invariant_radius = float(np.linalg.norm(can_half))
-        facilities = {
-            "box": scene.box,
-            "scale": scene.scale,
-            "stand": scene.stand,
-        }
-        facility_aabbs = {}
-        for role, actor in facilities.items():
-            corners = obb_corners(
-                _actor_geometry_center_pose(actor), _actor_half_extents(actor)
-            )
-            facility_aabbs[role] = {
-                "lower": np.min(corners, axis=0),
-                "upper": np.max(corners, axis=0),
+        facility_aabbs = {
+            role: {
+                "lower": np.asarray(bounds["lower"], dtype=np.float64),
+                "upper": np.asarray(bounds["upper"], dtype=np.float64),
             }
+            for role, bounds in F2ControllerV3_3._facility_world_aabbs(
+                scene
+            ).items()
+        }
         margin = 0.005
         segments = []
         collisions = []
@@ -2188,7 +2295,38 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 },
             )
         if relation == "beside":
-            return self._plan_fixed_beside_candidates(scene, program)
+            can_local_center, can_half_extents = _actor_local_geometry_bounds(
+                scene.can
+            )
+            route = build_historical_safe_beside_route(
+                current_eef_pose=current_eef,
+                current_actor_pose=current_actor,
+                stand_pose=_pose(scene.stand),
+                rest_eef_pose=rest,
+                can_local_geometry_center_m=can_local_center,
+                can_half_extents_m=can_half_extents,
+                facility_aabbs=self._facility_world_aabbs(scene),
+                table_plane_z_m=0.74 + float(scene.table_z_bias),
+            )
+            if route["audit"]["pass"] is not True:
+                raise ValueError("F2 historical-safe beside route CPU audit failed")
+            return _cache_suffix_controls(
+                scene,
+                program_id=program["program_id"],
+                arm="left",
+                targets=route["targets"],
+                query_limit=24,
+                extra={
+                    "relation": "beside",
+                    "variant_id": "beside_historical_safe_support_route_v4",
+                    "target_actor_pose": route["target_actor_pose"],
+                    "release_target_index": route["release_target_index"],
+                    "layout_version": F2_LAYOUT_VERSION_V2,
+                    "historical_safe_beside_route": route,
+                    "candidate_search_enabled": False,
+                    "inside_full_obb_verifier_relaxed": False,
+                },
+            )
         if relation == "on":
             target_actor = current_actor.copy()
             target_actor[:3] = np.asarray(
@@ -2422,6 +2560,8 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         relation_support_bodies = (
             {_entity(scene.scale).get_name()}
             if spec["relation"] == "on"
+            else {"table"}
+            if spec["relation"] == "beside"
             else set()
         )
         support_contact_start_relative_row = (
@@ -2973,88 +3113,53 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "post_center_high": post_center_transform,
             "pre_shared_V": pre_shared_v_transform,
         }
-        pre_v_translation_drifts = {
-            name: float(
-                np.linalg.norm(value[:3] - post_close_transform[:3])
-            )
-            for name, value in pre_v_transforms.items()
-        }
-        pre_v_orientation_drifts = {
-            name: quaternion_angular_error(
-                value[3:], post_close_transform[3:]
-            )
-            for name, value in pre_v_transforms.items()
-        }
-        pre_v_gate = {
-            "schema_version": "cmf_f3_pre_shared_v_boundary_gate_v1",
-            "hold_step_count": F3_CENTRAL_HOLD_STEPS,
-            "maximum_eef_linear_speed_mps": max(
-                float(np.linalg.norm(row["eef_linear_velocity"]))
-                for row in pre_v_rows
-            ),
-            "maximum_eef_angular_speed_rps": max(
-                float(np.linalg.norm(row["eef_angular_velocity"]))
-                for row in pre_v_rows
-            ),
-            "maximum_bottle_linear_speed_mps": max(
-                float(np.linalg.norm(row["actor_linear_velocity"]))
-                for row in pre_v_rows
-            ),
-            "maximum_bottle_angular_speed_rps": max(
-                float(np.linalg.norm(row["actor_angular_velocity"]))
-                for row in pre_v_rows
-            ),
-            "maximum_grasp_translation_drift_m": max(
-                pre_v_translation_drifts.values()
-            ),
-            "maximum_grasp_orientation_drift_rad": max(
-                pre_v_orientation_drifts.values()
-            ),
-            "checks": {},
-        }
-        pre_v_gate["checks"] = {
-            "eef_linear_stationary": pre_v_gate[
-                "maximum_eef_linear_speed_mps"
-            ]
-            <= PROVISIONAL_RUNTIME_THRESHOLDS[
-                "eef_stationary_linear_speed_mps"
+        pre_v_gate = build_f3_pre_v_evidence_v4(
+            hold_rows=pre_v_rows,
+            boundary_transforms=pre_v_transforms,
+            thresholds={
+                "eef_linear_speed_mps": PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "eef_stationary_linear_speed_mps"
+                ],
+                "eef_angular_speed_rps": PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "eef_stationary_angular_speed_rps"
+                ],
+                "bottle_linear_speed_mps": PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "stable_linear_speed_mps"
+                ],
+                "bottle_angular_speed_rps": PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "eef_stationary_angular_speed_rps"
+                ],
+                "grasp_translation_drift_m": 0.005,
+                "grasp_orientation_drift_rad": 0.05,
+            },
+            expected_actor_name=_entity(scene.bottle).get_name(),
+            selected_gripper_link_names=gripper_evidence[
+                "selected_gripper_links"
             ],
-            "eef_angular_stationary": pre_v_gate[
-                "maximum_eef_angular_speed_rps"
-            ]
-            <= PROVISIONAL_RUNTIME_THRESHOLDS[
-                "eef_stationary_angular_speed_rps"
-            ],
-            "bottle_linear_stationary": pre_v_gate[
-                "maximum_bottle_linear_speed_mps"
-            ]
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
-            "bottle_angular_stationary": pre_v_gate[
-                "maximum_bottle_angular_speed_rps"
-            ]
-            <= PROVISIONAL_RUNTIME_THRESHOLDS[
-                "eef_stationary_angular_speed_rps"
-            ],
-            "grasp_translation_stable": pre_v_gate[
-                "maximum_grasp_translation_drift_m"
-            ]
-            <= 0.005,
-            "grasp_orientation_stable": pre_v_gate[
-                "maximum_grasp_orientation_drift_rad"
-            ]
-            <= 0.05,
-            "selected_gripper_contact_continuous": all(
-                bool(row["selected_gripper_contact"]) for row in pre_v_rows
-            ),
-            "selected_contact_actor_identity": all(
-                str(row["selected_contact_actor_name"])
-                == _entity(scene.bottle).get_name()
-                for row in pre_v_rows
-            ),
-        }
-        pre_v_gate["pass"] = all(pre_v_gate["checks"].values())
-        if pre_v_gate["pass"] is not True:
-            raise RuntimeError("F3 pre-shared-V stationary/grasp boundary Gate failed")
+            support_actor_names=("table", _entity(scene.pad).get_name()),
+            planner_metadata={
+                "planner_query_count_at_pre_v": int(
+                    getattr(scene, "planner_query_count", 0)
+                ),
+                "target_construction_planner_audit": target_construction_audit,
+                "prefix_planner_reset_receipt": prefix_planner_reset,
+                "clearance_carry_segment_receipts": carry_planned[
+                    "segment_receipts"
+                ],
+            },
+            route_metadata={
+                "clearance_height_audit": clearance_audit,
+                "clearance_carry_route": carry_route,
+                "center_carry_time_dilation": dilated_center_control[
+                    "_cmf_time_dilation"
+                ],
+            },
+        )
+        try:
+            pre_v_gate = require_f3_pre_v_gate(pre_v_gate)
+        except F3PreVBoundaryGateFailure as exc:
+            scene._cmf_prefix_failure_receipt = exc.to_receipt()
+            raise
         central = np.asarray(carry_route["segments"][1]["pose"], dtype=np.float64)
         v_start = len(scene.trace) - 1 - start
         shared_v_targets = _time_dilated_closed_loop_event_targets(
@@ -3672,6 +3777,79 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         return targets, extra
 
+    def _tilted_full_targets(self, scene, program):
+        legacy_targets, extra = self.legacy.build_targets(
+            scene,
+            program,
+            {
+                "variant_id": "route1_minimum_height_segmented",
+                "common_grasp_mode": "project_cube_grasp_v1",
+            },
+        )
+        self._validate_f4_target_structure(
+            legacy_targets[:9],
+            {**extra, "object_target_groups": []},
+            require_three_groups=False,
+        )
+        order = [step["object"] for step in program["steps"][1:]]
+        if order != list(extra["object_order"]):
+            raise ValueError("F4 tilted route program order differs from legacy common build")
+        planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
+        layout = planned.get("scene_layout", {}) if isinstance(planned, Mapping) else {}
+        neutral = np.asarray(layout.get("branch_neutral_pose"), dtype=np.float64)
+        if neutral.shape != (7,):
+            raise ValueError("F4 tilted route requires the frozen branch-neutral pose")
+        object_poses = {
+            role: _pose(getattr(scene, role.lower())).tolist()
+            for role in ("A", "B", "C")
+        }
+        target_actor_poses = {}
+        for role in ("A", "B", "C"):
+            target = _pose(getattr(scene, role.lower()))
+            target[:3] = np.asarray(
+                getattr(scene, f"slot_{role.lower()}").get_pose().p,
+                dtype=np.float64,
+            ) + np.asarray([0.0, 0.0, BLOCK_HALF_EXTENTS[2]])
+            target_actor_poses[role] = target.tolist()
+        tilted = build_uniform_tilted_f4_block_groups(
+            object_poses=object_poses,
+            target_actor_poses=target_actor_poses,
+            neutral_pose=neutral,
+            object_order=order,
+            arm="right",
+        )
+        geometry = audit_uniform_tilted_f4_geometry(
+            object_poses=object_poses,
+            target_actor_poses=target_actor_poses,
+            neutral_pose=neutral,
+            object_order=order,
+            table_top_z_m=0.74 + float(scene.table_z_bias),
+        )
+        if geometry["pass"] is not True:
+            raise ValueError("F4 uniform tilted route geometry audit failed")
+        revised_extra = dict(extra)
+        revised_extra.update(
+            {
+                "object_order": order,
+                "object_target_groups": tilted["object_target_groups"],
+                "block_carry_route_version": F4_TILTED_ROUTE_VERSION,
+                "block_carry_route_audit": {
+                    "group_set": tilted["audit"],
+                    "geometry": geometry,
+                },
+                "uniform_tilted_grasp_contract": tilted["grasp_contract"],
+                "scene_layout_changed": False,
+                "tray_pose_changed": False,
+                "program_changed": False,
+                "verifier_changed": False,
+            }
+        )
+        all_targets = list(legacy_targets[:9]) + list(tilted["flattened_targets"])
+        self._validate_f4_target_structure(
+            all_targets, revised_extra, require_three_groups=True
+        )
+        return all_targets, revised_extra
+
     def plan_and_execute_canonical_prefix(
         self, scene, prefix_contract, *, capture_anchor
     ):
@@ -3762,21 +3940,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-        all_targets, extra = self.legacy.build_targets(
-            scene,
-            program,
-            {
-                "variant_id": "route1_minimum_height_segmented",
-                "common_grasp_mode": "project_cube_grasp_v1",
-            },
-        )
-        all_targets, extra = expand_uniform_f4_block_carry_targets(
-            all_targets, extra
-        )
-        validate_uniform_f4_block_carry_targets(all_targets, extra)
-        self._validate_f4_target_structure(
-            all_targets, extra, require_three_groups=True
-        )
+        all_targets, extra = self._tilted_full_targets(scene, program)
         targets = all_targets[9:]
         result = _cache_suffix_controls(
             scene,
@@ -3807,21 +3971,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if len(set(roles)) != len(roles):
             raise ValueError("F4 diagnostic block roles must be unique")
         base_program = F4SubtaskOrder().checked_provisional_programs()[0]
-        all_targets, extra = self.legacy.build_targets(
-            scene,
-            base_program,
-            {
-                "variant_id": "route1_minimum_height_segmented",
-                "common_grasp_mode": "project_cube_grasp_v1",
-            },
-        )
-        all_targets, extra = expand_uniform_f4_block_carry_targets(
-            all_targets, extra
-        )
-        validate_uniform_f4_block_carry_targets(all_targets, extra)
-        self._validate_f4_target_structure(
-            all_targets, extra, require_three_groups=True
-        )
+        all_targets, extra = self._tilted_full_targets(scene, base_program)
         suffix_targets = all_targets[9:]
         group_by_role = {
             group["role"]: group for group in extra["object_target_groups"]

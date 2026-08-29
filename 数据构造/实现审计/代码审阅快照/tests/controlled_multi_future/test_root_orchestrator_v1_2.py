@@ -9,7 +9,7 @@ import numpy as np
 
 from controlled_multi_future.anchor import capture_anchor
 from controlled_multi_future.canonical_prefix_artifact_v1 import load_canonical_prefix_artifact
-from controlled_multi_future.current_hasher import build_current_hashes, hash_array
+from controlled_multi_future.current_hasher import build_current_hashes, hash_array, hash_json
 from controlled_multi_future.families import F1ObjectSelection
 from controlled_multi_future.probes.pipeline_dry_run import SyntheticAdapter as RawSyntheticAdapter
 from controlled_multi_future.root_orchestrator_v1_1 import SceneHandleV1_1
@@ -379,6 +379,98 @@ class RootOrchestratorV1_2Test(unittest.TestCase):
             },
         )
         return receipt, output
+
+    def test_prefix_exception_preserves_partial_trace_and_structured_gate(self):
+        class PrefixFailAdapter(StrictPrefixSyntheticAdapter):
+            def plan_and_execute_canonical_prefix(self, scene, prefix_contract):
+                self.prefix_generation_count += 1
+                scene.reset_trace()
+                scene.planner_query_count = 2
+                scene._cmf_prefix_failure_receipt = {
+                    "schema_version": "synthetic-prefix-gate-v1",
+                    "checks": {"stationary": False},
+                    "pass": False,
+                }
+                raise RuntimeError("synthetic pre-prefix Gate failed")
+
+        receipt, output = self.run_root(PrefixFailAdapter())
+        self.assertNotEqual(receipt["status"], "accepted")
+        failure_path = output / "canonical_prefix_failure_receipt.json"
+        trace_path = output / "canonical_prefix_reference_partial_trace.npz"
+        self.assertTrue(failure_path.is_file())
+        self.assertTrue(trace_path.is_file())
+        failure = json.loads(failure_path.read_text(encoding="utf-8"))
+        self.assertEqual(failure["error_type"], "RuntimeError")
+        self.assertEqual(failure["planner_query_count"], 2)
+        self.assertFalse(failure["structured_gate_evidence"]["pass"])
+        self.assertEqual(
+            failure["partial_trace_source"]["sha256"],
+            hashlib.sha256(trace_path.read_bytes()).hexdigest(),
+        )
+        self.assertEqual(
+            receipt["canonical_prefix_failure_receipt"]["error"],
+            "synthetic pre-prefix Gate failed",
+        )
+        digest = failure.pop("failure_receipt_sha256")
+        self.assertEqual(digest, hash_json(failure))
+
+    def test_suffix_replay_gate_failure_saves_structured_receipt_and_trace(self):
+        class SuffixReplayFailAdapter(StrictPrefixSyntheticAdapter):
+            def validate_replayed_prefix_physical(self, scene, replay):
+                return {"pass": False, "failed_gate": "synthetic-suffix"}
+
+        receipt, output = self.run_root(SuffixReplayFailAdapter())
+        self.assertEqual(receipt["status"], "failed_prefix_replay_gate")
+        failure_path = (
+            output
+            / "suffix_preflight/F1-red/prefix_replay_failure_receipt.json"
+        )
+        trace_path = (
+            output / "suffix_preflight/F1-red/prefix_replay_failure_trace.npz"
+        )
+        self.assertTrue(failure_path.is_file())
+        self.assertTrue(trace_path.is_file())
+        failure = json.loads(failure_path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            failure["replayed_prefix_physical_acceptance"]["failed_gate"],
+            "synthetic-suffix",
+        )
+        digest = failure.pop("failure_receipt_sha256")
+        self.assertEqual(digest, hash_json(failure))
+        linked = receipt["suffix_planner_receipts"][0]["evidence"][
+            "prefix_replay_failure"
+        ]
+        self.assertEqual(linked["failure_receipt_sha256"], digest)
+        self.assertEqual(
+            receipt["suffix_planner_receipts"][0]["failure_stage"],
+            "prefix_replay_gate",
+        )
+
+    def test_branch_replay_gate_failure_saves_structured_receipt_and_trace(self):
+        class BranchReplayFailAdapter(StrictPrefixSyntheticAdapter):
+            def __init__(self):
+                super().__init__()
+                self.physical_calls = 0
+
+            def validate_replayed_prefix_physical(self, scene, replay):
+                self.physical_calls += 1
+                return {
+                    "pass": self.physical_calls <= 3,
+                    "call_index": self.physical_calls,
+                }
+
+        receipt, output = self.run_root(BranchReplayFailAdapter())
+        self.assertNotEqual(receipt["status"], "accepted")
+        failure_path = output / "branches/F1-red/prefix_replay_failure_receipt.json"
+        trace_path = output / "branches/F1-red/prefix_replay_failure_trace.npz"
+        self.assertTrue(failure_path.is_file())
+        self.assertTrue(trace_path.is_file())
+        failure = json.loads(failure_path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            failure["replayed_prefix_physical_acceptance"]["call_index"], 4
+        )
+        digest = failure.pop("failure_receipt_sha256")
+        self.assertEqual(digest, hash_json(failure))
 
     def test_prefix_generated_once_and_replayed_exactly_three_times(self):
         adapter = StrictPrefixSyntheticAdapter()

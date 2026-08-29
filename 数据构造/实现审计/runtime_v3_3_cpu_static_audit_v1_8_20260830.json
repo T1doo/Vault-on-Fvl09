@@ -1,0 +1,20 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v1_8",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
+  "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+  "budget_receipt_sha256": "8d82460bdf943a7a797399ac8c9788c7f30cede522f9c3f65f38cdc2aafc2c4f",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {"active": {"passed": 309, "failed": 0}, "snapshot": {"passed": 309, "failed": 0}, "byte_equal": true, "py_compile_pass": true},
+  "source_bound_envelopes": {
+    "F2": {"planner_query_count": 32, "execution_attempt_count": 3, "recovery_attempt_count": 0},
+    "F3": {"planner_query_count": 96, "branch_execution_attempt_count": 3, "canonical_reference_execution_count": 1, "recovery_attempt_count": 0},
+    "F4": {"planner_query_count": 116, "execution_attempt_count": 7, "recovery_attempt_count": 0}
+  },
+  "p0_audit": {"F2": "pass", "F3": "pass", "F4": "pass", "cross_family": "pass"},
+  "revision4_gpu_run_performed": false,
+  "decision": "CPU_BASELINE_PASS_READY_FOR_PUBLICATION_AND_R4_ONE_SHOT_BUNDLES"
+}

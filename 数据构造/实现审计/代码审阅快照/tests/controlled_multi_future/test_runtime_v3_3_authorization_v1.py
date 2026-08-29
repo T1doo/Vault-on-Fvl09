@@ -27,7 +27,7 @@ from controlled_multi_future.runtime_source_lock_v1 import (
 
 PARENT = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_CONTINUED_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION4_REPAIRS_GPU0_7_20260830.json"
 )
 TMP_ROOT = Path("/nfs_share/lijunhui/Robotwin2/tmp")
 
@@ -140,7 +140,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     reviewed_publication=reviewed_publication(),
                 )
 
-    def test_canonical_one_shot_and_three_revision_ledger_are_fail_closed(self):
+    def test_canonical_one_shot_and_four_revision_ledger_are_fail_closed(self):
         TMP_ROOT.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=TMP_ROOT) as directory:
             directory = Path(directory)
@@ -196,6 +196,17 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 )
                 self.assertTrue(
                     Path(third_receipt["revision_consumption_path"]).is_file()
+                )
+
+                fourth = root_authorization(
+                    auth_id="auth-r4", source_hash="4" * 64, revision=4
+                )
+                fourth["revision_ledger_directory"] = str(revision_ledger)
+                fourth_receipt = consume_authorization_once(
+                    fourth, ledger_directory=auth_ledger
+                )
+                self.assertTrue(
+                    Path(fourth_receipt["revision_consumption_path"]).is_file()
                 )
 
     def test_noncanonical_ledger_is_rejected_before_write(self):

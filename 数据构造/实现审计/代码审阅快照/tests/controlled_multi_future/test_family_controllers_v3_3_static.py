@@ -36,9 +36,9 @@ class FamilyControllersV3_3StaticTest(unittest.TestCase):
         f4 = inspect.getsource(CONTROLLERS["F4"].plan_suffix_from_actual_prefix_end_state)
         self.assertIn("v3_3_uniform_8cm_lift", f1)
         self.assertIn("build_inside_gravity_drop_route", f2)
-        self.assertIn("_plan_fixed_beside_candidates", f2)
+        self.assertIn("build_historical_safe_beside_route", f2)
         self.assertIn("shared_V", f3)
-        self.assertIn("expand_uniform_f4_block_carry_targets", f4)
+        self.assertIn("_tilted_full_targets", f4)
         self.assertIn("object_target_groups", f4)
 
 

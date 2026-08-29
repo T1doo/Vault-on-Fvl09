@@ -207,12 +207,139 @@ def _ensure_planner_trace_fields(scene, limit):
     scene.planner_query_limit = int(limit)
 
 
+def _motiongen_audit_value(value):
+    if value is None or isinstance(value, (str, bool, int)):
+        return value
+    if isinstance(value, float):
+        if np.isfinite(value):
+            return value
+        return {
+            "kind": "nonfinite",
+            "value": "nan"
+            if np.isnan(value)
+            else "+inf"
+            if value > 0
+            else "-inf",
+        }
+    if isinstance(value, Mapping):
+        return {
+            str(key): _motiongen_audit_value(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, (list, tuple)):
+        return [_motiongen_audit_value(item) for item in value]
+    current = value
+    for method in ("detach", "cpu"):
+        callback = getattr(current, method, None)
+        if callable(callback):
+            current = callback()
+    item = getattr(current, "item", None)
+    if callable(item):
+        try:
+            return _motiongen_audit_value(item())
+        except (ValueError, RuntimeError):
+            pass
+    tolist = getattr(current, "tolist", None)
+    if callable(tolist):
+        try:
+            return _motiongen_audit_value(tolist())
+        except (ValueError, RuntimeError):
+            pass
+    return str(current)
+
+
+def _motiongen_result_audit(result):
+    fields = (
+        "success",
+        "status",
+        "valid_query",
+        "attempts",
+        "used_graph",
+        "position_error",
+        "rotation_error",
+        "solve_time",
+        "total_time",
+    )
+    return {
+        "schema_version": "cmf_motiongen_result_side_channel_v1",
+        "fields": {
+            field: _motiongen_audit_value(getattr(result, field, None))
+            for field in fields
+        },
+        "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single",
+    }
+
+
 def _plan_arm(scene, pose, *, last_qpos, source, arm="left"):
     _ensure_planner_trace_fields(scene, getattr(scene, "planner_query_limit", 16))
     query_id = scene._reserve_planner_query()
     pose = planner_array(pose, shape=(7,), label=f"{source} goal pose")
     planner_qpos = planner_array(last_qpos, label=f"{source} start qpos").reshape(-1)
-    result = getattr(scene.robot, f"{arm}_plan_path")(pose, last_qpos=planner_qpos)
+    planner = getattr(scene.robot, f"{arm}_planner", None)
+    motion_gen = getattr(planner, "motion_gen", None)
+    original_plan_single = getattr(motion_gen, "plan_single", None)
+    motiongen_audits = []
+    wrapper_installed = callable(original_plan_single)
+    motiongen_wrapper_installation_error = None
+    had_instance_override = bool(
+        motion_gen is not None
+        and hasattr(motion_gen, "__dict__")
+        and "plan_single" in vars(motion_gen)
+    )
+    prior_instance_value = (
+        vars(motion_gen).get("plan_single") if had_instance_override else None
+    )
+    motiongen_wrapper_restoration_succeeded = not wrapper_installed
+    if wrapper_installed:
+        def audited_plan_single(*args, **kwargs):
+            result_value = original_plan_single(*args, **kwargs)
+            motiongen_audits.append(_motiongen_result_audit(result_value))
+            return result_value
+
+        try:
+            setattr(motion_gen, "plan_single", audited_plan_single)
+        except BaseException as exc:
+            wrapper_installed = False
+            motiongen_wrapper_installation_error = (
+                f"{type(exc).__name__}: {exc}"
+            )
+    body_error = None
+    result = None
+    try:
+        result = getattr(scene.robot, f"{arm}_plan_path")(
+            pose, last_qpos=planner_qpos
+        )
+    except BaseException as exc:
+        body_error = exc
+    finally:
+        restoration_error = None
+        if wrapper_installed:
+            try:
+                if had_instance_override:
+                    setattr(motion_gen, "plan_single", prior_instance_value)
+                else:
+                    delattr(motion_gen, "plan_single")
+                current_has_override = bool(
+                    hasattr(motion_gen, "__dict__")
+                    and "plan_single" in vars(motion_gen)
+                )
+                topology_restored = (
+                    current_has_override == had_instance_override
+                )
+                callable_restored = callable(getattr(motion_gen, "plan_single", None))
+                if not topology_restored or not callable_restored:
+                    raise RuntimeError(
+                        "MotionGen wrapper restoration topology mismatch"
+                    )
+                motiongen_wrapper_restoration_succeeded = True
+            except BaseException as exc:
+                restoration_error = exc
+        if restoration_error is not None:
+            raise PlannerChainFailure(
+                "MotionGen side-channel wrapper restoration failed"
+            ) from body_error
+    if body_error is not None:
+        raise body_error
     if isinstance(result, Mapping):
         result = normalize_planner_control(result)
     status = result.get("status") if isinstance(result, Mapping) else "Fail"
@@ -228,6 +355,14 @@ def _plan_arm(scene, pose, *, last_qpos, source, arm="left"):
             qpos=planner_qpos,
             goal_pose=pose,
             control=result if isinstance(result, Mapping) else None,
+        ),
+        "motiongen_result_side_channel": motiongen_audits,
+        "motiongen_side_channel_available": wrapper_installed,
+        "motiongen_side_channel_call_count": len(motiongen_audits),
+        "motiongen_wrapper_installation_error": motiongen_wrapper_installation_error,
+        "motiongen_wrapper_had_instance_override": had_instance_override,
+        "motiongen_wrapper_restoration_succeeded": (
+            motiongen_wrapper_restoration_succeeded
         ),
     }
     scene.planner_queries.append(item)
@@ -296,6 +431,10 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
                 "planner_status": status,
                 "executed": False,
                 "goal_eef_pose": np.asarray(target["pose"], dtype=np.float64).tolist(),
+                "planner_query_receipt": dict(control["_cmf_planner_query"])
+                if isinstance(control, Mapping)
+                and isinstance(control.get("_cmf_planner_query"), Mapping)
+                else None,
             }
         )
         controls.append(control)

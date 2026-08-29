@@ -1,0 +1,25 @@
+{
+  "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "approved": true,
+  "automatic_retry": false,
+  "budget_receipt_sha256": "8d82460bdf943a7a797399ac8c9788c7f30cede522f9c3f65f38cdc2aafc2c4f",
+  "formal_data": false,
+  "frozen": true,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "maximum_full_root_execution_per_revision": 1,
+  "maximum_new_implementation_revisions_per_family": 4,
+  "recovery_attempts": 0,
+  "schema_version": "cmf_runtime_v3_3_scope_budget_v1_3",
+  "scopes": {
+    "F1_planner_root_per_revision": {"execution_limit": 3, "planner_query_limit": 64, "timeout_seconds": 5400},
+    "F2_diagnosis_root_per_revision": {"execution_limit": 4, "planner_query_limit": 96, "timeout_seconds": 7200},
+    "F3_prefix_root_per_revision": {"execution_limit": 4, "planner_query_limit": 160, "timeout_seconds": 10800},
+    "F4_block_root_per_revision": {"execution_limit": 10, "planner_query_limit": 256, "timeout_seconds": 20400},
+    "F4_cube_grasp_no_action_ik": {"execution_limit": 0, "planner_query_limit": 24, "timeout_seconds": 1800},
+    "canonical_prefix_real_smoke": {"execution_limit": 1, "planner_query_limit": 16, "timeout_seconds": 1800}
+  },
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "user_authorized_pre_stage0_nonformal_v3_3_revision4_impact_addendum"
+}
+

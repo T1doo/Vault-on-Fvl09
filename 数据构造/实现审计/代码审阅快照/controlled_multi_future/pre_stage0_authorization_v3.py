@@ -30,8 +30,8 @@ from .runtime_v3_3_budget_v1 import (
 )
 
 
-PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1_2"
-SCOPE_REQUEST_SCHEMA_VERSION = "cmf_pre_stage0_gpu_scope_request_v3_2"
+PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1_3"
+SCOPE_REQUEST_SCHEMA_VERSION = "cmf_pre_stage0_gpu_scope_request_v3_3"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE_PREFIX = "/nfs_share/lijunhui/"
 
@@ -63,7 +63,7 @@ def validate_parent_user_authorization(value: Mapping[str, Any]) -> dict:
         "stage0_data": False,
         "automatic_retry": False,
         "recovery_attempts": 0,
-        "maximum_new_implementation_revisions_per_family": 3,
+        "maximum_new_implementation_revisions_per_family": 4,
         "maximum_full_root_execution_per_revision": 1,
         "allowed_physical_gpu_indices": list(range(8)),
         "parallel_independent_jobs": True,
@@ -138,8 +138,8 @@ def build_scope_request(
     if consumption_ledger_directory != CANONICAL_CONSUMPTION_LEDGER_DIRECTORY:
         raise ValueError("scope request consumption ledger is not canonical")
     if scope in ROOT_SCOPES:
-        if family_revision_index not in (1, 2, 3):
-            raise ValueError("root scope family_revision_index must be 1, 2, or 3")
+        if family_revision_index not in (1, 2, 3, 4):
+            raise ValueError("root scope family_revision_index must be 1, 2, 3, or 4")
         if not isinstance(revision_ledger_directory, str):
             raise ValueError("root scope requires revision_ledger_directory")
         _workspace_path(revision_ledger_directory, "revision_ledger_directory")
@@ -254,7 +254,7 @@ def validate_scope_request(value: Mapping[str, Any], parent: Mapping[str, Any]) 
         raise ValueError("scope request job cache root is not canonical")
     scope = value.get("scope")
     if scope in ROOT_SCOPES:
-        if value.get("family_revision_index") not in (1, 2, 3):
+        if value.get("family_revision_index") not in (1, 2, 3, 4):
             raise ValueError("root scope request revision index is invalid")
         revision_dir = value.get("revision_ledger_directory")
         if not isinstance(revision_dir, str):
@@ -316,7 +316,7 @@ def issue_authorization_from_scope_request(
         "expires_at": expires.isoformat(),
         "design_version": "controlled_multi_future_f1_f4_v1_2",
         "implementation_version": "controlled_multi_future_runtime_v3_3",
-        "implementation_revision": "runtime_v3_3_revision3_impact_addendum_v1",
+        "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
         "reviewed_content_commit": request["reviewed_content_commit"],
         "reviewed_publication": request.get("reviewed_publication"),
         **request["source_bindings"],

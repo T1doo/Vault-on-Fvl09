@@ -7,7 +7,7 @@ import json
 from typing import Any, Mapping
 
 
-BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1_2"
+BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1_3"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
 SUPPORTED_SCOPES = (
     "canonical_prefix_real_smoke",
@@ -87,7 +87,7 @@ STATIC_SCOPE_ACTIVITY_ENVELOPES = {
         "execution_attempt_count": 3,
     },
     "F2_diagnosis_root_per_revision": {
-        "planner_query_count": 68,
+        "planner_query_count": 32,
         "execution_attempt_count": 3,
     },
     "F3_prefix_root_per_revision": {
@@ -113,7 +113,7 @@ def budget_artifact() -> dict:
     payload = {
         "schema_version": BUDGET_SCHEMA_VERSION,
         "implementation_version": IMPLEMENTATION_VERSION,
-        "status": "user_authorized_pre_stage0_nonformal_v3_3_revision3_impact_addendum",
+        "status": "user_authorized_pre_stage0_nonformal_v3_3_revision4_impact_addendum",
         "approved": True,
         "frozen": True,
         "stage0_authorized": False,
@@ -122,7 +122,7 @@ def budget_artifact() -> dict:
         "allowed_physical_gpu_indices": list(range(8)),
         "automatic_retry": False,
         "recovery_attempts": 0,
-        "maximum_new_implementation_revisions_per_family": 3,
+        "maximum_new_implementation_revisions_per_family": 4,
         "maximum_full_root_execution_per_revision": 1,
         "scopes": SCOPE_BUDGETS,
     }

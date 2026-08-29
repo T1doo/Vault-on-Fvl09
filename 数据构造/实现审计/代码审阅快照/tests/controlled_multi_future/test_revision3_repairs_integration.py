@@ -31,27 +31,23 @@ from controlled_multi_future.runtime_v3_3_scope_specs_v1 import (
 
 PARENT = (
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_CONTINUED_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION4_REPAIRS_GPU0_7_20260830.json"
 )
 
 
 class Revision3RepairsIntegrationTest(unittest.TestCase):
-    def test_f2_uses_drop_route_and_fixed_six_candidate_beside(self):
+    def test_f2_uses_drop_route_and_single_historical_safe_beside(self):
         source = inspect.getsource(
             F2ControllerV3_3.plan_suffix_from_actual_prefix_end_state
-        )
-        candidate_source = inspect.getsource(
-            F2ControllerV3_3._plan_fixed_beside_candidates
         )
         execution_source = inspect.getsource(
             F2ControllerV3_3.execute_frozen_suffix_spec
         )
         self.assertIn("build_inside_gravity_drop_route", source)
         self.assertIn("inside_gravity_drop_10cm_v3", source)
-        self.assertIn("_plan_fixed_beside_candidates", source)
-        self.assertIn("F2_BESIDE_CANDIDATES_V3", candidate_source)
-        self.assertIn("audit_beside_candidate_receipts", candidate_source)
-        self.assertNotIn("BESIDE_SECTORS_RELATIVE_XY_M[-1]", candidate_source)
+        self.assertIn("build_historical_safe_beside_route", source)
+        self.assertIn("candidate_search_enabled", source)
+        self.assertNotIn("_plan_fixed_beside_candidates", source)
         self.assertIn("inside_drop_opening_projection_inside", execution_source)
         self.assertIn("inside_drop_rim_clearance_pass", execution_source)
         self.assertIn("verify_true_cavity_obb", execution_source)
@@ -95,9 +91,8 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
                 "neutral",
             ),
         )
-        self.assertIn("expand_uniform_f4_block_carry_targets", suffix)
-        self.assertIn("validate_uniform_f4_block_carry_targets", suffix)
-        self.assertIn("expand_uniform_f4_block_carry_targets", diagnostic)
+        self.assertIn("_tilted_full_targets", suffix)
+        self.assertIn("_tilted_full_targets", diagnostic)
         self.assertIn("target_start_index", diagnostic)
         self.assertIn("cursor + 6", execution)
         self.assertIn("cursor += len(F4_SEGMENTED_BLOCK_SUFFIXES)", execution)
@@ -118,14 +113,14 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
 
     def test_revision3_budget_parent_and_source_bindings_are_closed(self):
         budget = budget_artifact()
-        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 3)
+        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 4)
         self.assertFalse(budget["automatic_retry"])
         self.assertFalse(budget["stage0_authorized"])
         self.assertEqual(
             validate_static_scope_activity_envelope(
                 "F2_diagnosis_root_per_revision"
             )["source_bound_static_envelope"]["planner_query_count"],
-            68,
+            32,
         )
         self.assertEqual(
             validate_static_scope_activity_envelope(
@@ -144,12 +139,12 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             ("F3", "F3_prefix_root_per_revision"),
             ("F4", "F4_block_root_per_revision"),
         ):
-            spec = planned_scope_spec(scope, revision_index=3)
+            spec = planned_scope_spec(scope, revision_index=4)
             self.assertEqual(spec["family"], family)
-            self.assertEqual(spec["implementation_revision_index"], 3)
+            self.assertEqual(spec["implementation_revision_index"], 4)
             self.assertEqual(spec["maximum_full_root_execution_per_revision"], 1)
         parent = load_parent_user_authorization(PARENT)
-        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 3)
+        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 4)
         self.assertEqual(parent["allowed_physical_gpu_indices"], list(range(8)))
         self.assertFalse(parent["formal_stage0_authorized"])
         bindings = current_source_bindings_v3_3()
@@ -157,6 +152,9 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             "f2_suffix_routes_sha256",
             "f3_clearance_route_sha256",
             "f4_uniform_block_carry_sha256",
+            "f2_historical_safe_route_sha256",
+            "f3_pre_v_evidence_sha256",
+            "f4_uniform_tilted_grasp_sha256",
         ):
             self.assertEqual(len(bindings[key]), 64)
 

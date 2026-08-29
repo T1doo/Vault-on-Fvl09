@@ -14,7 +14,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
 
 VAULT_BUDGET = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_2.json"
+    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_3.json"
 )
 
 
@@ -64,7 +64,7 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
     def test_per_scene_caps_close_under_total_budget(self):
         expected_static_planner = {
             "F1_planner_root_per_revision": 46,
-            "F2_diagnosis_root_per_revision": 68,
+            "F2_diagnosis_root_per_revision": 32,
             "F3_prefix_root_per_revision": 96,
             "F4_block_root_per_revision": 116,
         }

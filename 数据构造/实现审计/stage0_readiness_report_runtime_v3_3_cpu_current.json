@@ -1,30 +1,24 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision3_cpu_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision4_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision3_impact_addendum_v1",
-  "implementation_source_sha256": "adc93d707fb2e2fde01b2915f160d769746ea148465f6772b7f4143a02453cb9",
+  "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
+  "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
   "gpu_parent_scope_authorized": true,
-  "gpu_execution_policy": "physical_GPU0_7_fresh_idle_parallel_independent_namespaces",
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "cpu_baseline": {
-    "active_tests": "287/287 passed",
-    "snapshot_tests": "287/287 passed",
-    "active_vault_snapshot_byte_equal": true,
-    "status": "revision3_cpu_pass_publication_pending"
-  },
+  "cpu_baseline": {"active_tests": "309/309 passed", "snapshot_tests": "309/309 passed", "active_vault_snapshot_byte_equal": true, "status": "revision4_cpu_pass_publication_pending"},
   "gates": {
     "F1": "accepted_nonformal_revision2_three_of_three",
-    "F2": "revision2_failed_revision3_cpu_ready_not_run",
-    "F3": "revision2_failed_revision3_cpu_ready_not_run",
-    "F4": "revision2_common_prefix_passed_A_failed_revision3_cpu_ready_not_run"
+    "F2": "revision3_failed_revision4_cpu_ready_not_run",
+    "F3": "revision3_failed_evidence_gap_revision4_diagnosis_cpu_ready_not_run",
+    "F4": "revision3_common_prefix_passed_A_mid_failed_revision4_tilted_cpu_ready_not_run"
   },
-  "reason": "F1 is accepted, but F2/F3/F4 revision3 have not yet produced real accepted roots and a final real-SAPIEN pipeline audit is still pending.",
+  "reason": "F2/F3/F4 revision4 have not yet produced real accepted roots and final real-SAPIEN pipeline audit is pending.",
   "stage0_execution_manifest_status": "not_created_four_root_gate_pending",
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
@@ -33,11 +27,5 @@
   "training_started": false,
   "compression_started": false,
   "pi0_5_started": false,
-  "next_safe_sequence": [
-    "publish revision3 byte-equal CPU baseline and revision2 terminal evidence",
-    "issue three revision3 single-use scopes from clean published HEAD",
-    "run F2/F3/F4 revision3 on separate fresh-idle GPUs",
-    "audit real receipts/traces/verifiers/cleanup and update readiness",
-    "only after four accepted roots and real pipeline audit: prepare approved=false Stage0 review package"
-  ]
+  "next_safe_sequence": ["publish revision4 byte-equal CPU baseline", "issue three revision4 one-shot scopes", "run on separate fresh-idle GPUs", "audit and update readiness"]
 }

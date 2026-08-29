@@ -309,10 +309,15 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         f2_r3 = planned_scope_spec(
             "F2_diagnosis_root_per_revision", revision_index=3
         )
+        f2_r4 = planned_scope_spec(
+            "F2_diagnosis_root_per_revision", revision_index=4
+        )
         self.assertEqual(f2_r1["slot_id"], f2_r2["slot_id"])
         self.assertEqual(f2_r1["seed"], f2_r2["seed"])
         self.assertEqual(f2_r1["slot_id"], f2_r3["slot_id"])
         self.assertEqual(f2_r1["seed"], f2_r3["seed"])
+        self.assertEqual(f2_r1["slot_id"], f2_r4["slot_id"])
+        self.assertEqual(f2_r1["seed"], f2_r4["seed"])
         self.assertEqual(f2_r1["scene_layout"], LAYOUT)
         f4 = planned_scope_spec(
             "F4_block_root_per_revision", revision_index=1

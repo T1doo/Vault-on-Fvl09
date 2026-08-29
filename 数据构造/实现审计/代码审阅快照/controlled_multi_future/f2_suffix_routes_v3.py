@@ -751,13 +751,28 @@ def audit_f2_held_transport_contacts(
     supports = {str(name) for name in relation_support_body_names}
     if not can_name or not grippers:
         raise ValueError("F2 held transport roles must be nonempty")
-    if relation == "on":
+    if relation in ("on", "beside"):
         if not supports or not isinstance(support_contact_start_relative_row, int):
-            raise ValueError("F2 on transport requires a support-contact boundary")
+            raise ValueError(
+                "F2 on/beside transport requires a support-contact boundary"
+            )
         if not 0 <= support_contact_start_relative_row < len(rows):
-            raise ValueError("F2 on support-contact boundary is outside trace rows")
+            raise ValueError(
+                "F2 on/beside support-contact boundary is outside trace rows"
+            )
+        if relation == "on" and (
+            not supports.issubset(facilities)
+            or not any("scale" in name.lower() for name in supports)
+        ):
+            raise ValueError("F2 on may whitelist only the scale support")
+        if relation == "beside" and (
+            len(supports) != 1
+            or not all("table" in name.lower() for name in supports)
+            or not supports.isdisjoint(facilities)
+        ):
+            raise ValueError("F2 beside may whitelist only the table support")
     elif supports or support_contact_start_relative_row is not None:
-        raise ValueError("F2 inside/beside may not allow a held support contact")
+        raise ValueError("F2 inside may not allow a held support contact")
 
     unintended = []
     for row_index, row in enumerate(rows):

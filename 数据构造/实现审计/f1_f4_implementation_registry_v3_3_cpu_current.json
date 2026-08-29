@@ -1,74 +1,47 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision3_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision4_cpu_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision3_impact_addendum_v1",
+  "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
   "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
-  "implementation_source_sha256": "adc93d707fb2e2fde01b2915f160d769746ea148465f6772b7f4143a02453cb9",
-  "budget_receipt_sha256": "7039690e7ceeaf5edbf9c66f853bb116a8757218dd0039795eb8dc12e1f2f8f3",
+  "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+  "budget_receipt_sha256": "8d82460bdf943a7a797399ac8c9788c7f30cede522f9c3f65f38cdc2aafc2c4f",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "accepted_real_roots": 1,
-  "status": "f1_accepted_f2_f3_f4_revision3_byte_equal_cpu_ready_publication_pending",
-  "cpu_tests": {
-    "active": "287/287 passed",
-    "snapshot": "287/287 passed",
-    "source_and_tests_byte_equal": true
-  },
-  "common_runtime": {
-    "adapter": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
-    "root_orchestrator": "cmf_real_sapien_strict_prefix_root_orchestrator_v1_2",
-    "canonical_prefix_artifact": "cmf_canonical_prefix_artifact_v1",
-    "canonical_prefix_replay": "cmf_canonical_prefix_replay_v1",
-    "frozen_suffix_artifact": "cmf_frozen_suffix_artifact_v1",
-    "gpu_guard": "cmf_gpu_guard_v2_4_1",
-    "gpu_policy": "physical_GPU0_7_each_fresh_idle_parallel_independent_namespaces",
-    "trace_schema": "cmf_runtime_trace_pose_consistent_velocity_v2",
-    "asset_geometry": "center_aware_scaled_local_AABB_v1",
-    "automatic_retry": false,
-    "recovery_attempts": 0
-  },
+  "status": "f1_accepted_f2_f3_f4_revision4_byte_equal_cpu_ready_publication_pending",
+  "cpu_tests": {"active": "309/309 passed", "snapshot": "309/309 passed", "source_and_tests_byte_equal": true},
   "current_family_status": {
-    "F1": {
-      "accepted_root": true,
-      "arm": "left",
-      "programs": ["F1-red", "F1-green", "F1-blue"],
-      "latest_runtime_namespace": "nonformal_runtime_v3_3_f1_strict_prefix_root_seed20260829_revision2_run1_gpu3",
-      "runtime_status": "accepted_planner46_execution3_recovery0_three_of_three",
-      "current_change": "no physical repair; structured callback audit compatibility retained"
-    },
+    "F1": {"accepted_root": true, "arm": "left", "programs": ["F1-red", "F1-green", "F1-blue"], "runtime_status": "accepted_revision2_three_of_three"},
     "F2": {
       "accepted_root": false,
       "arm": "left",
-      "assets": ["071_can/base1", "062_plasticbox/base2", "072_electronicscale/base0", "074_displaystand/base3"],
       "programs": ["inside(plastic_box)", "on(electronic_scale)", "beside(display_stand)"],
-      "revision2_runtime_status": "failed_suffix_planner_inside_second_descent_and_beside_preplace_on_passed",
-      "revision3_repair": "center-aware inside gravity drop plus six fixed beside routes and actual held contact gate",
-      "source_bound_envelope": {"planner_query_count": 68, "execution_attempt_count": 3, "recovery_attempt_count": 0},
-      "revision3_gpu_status": "not_run"
+      "revision3_status": "inside_on_planner_pass_beside_six_candidates_exhausted_execution_zero",
+      "revision4": "single_historical_safe_sector_center_aware_support_z_no_stand_move",
+      "source_bound_envelope": {"planner_query_count": 32, "execution_attempt_count": 3, "recovery_attempt_count": 0},
+      "revision4_gpu_status": "not_run"
     },
     "F3": {
       "accepted_root": false,
       "arm": "left",
-      "assets": ["001_bottle/base13", "project original pad"],
       "programs": ["VVHH", "VHVH", "VHHV"],
-      "revision2_runtime_status": "failed_shared_V_negative_amplitude_and_grasp_relative_orientation",
-      "revision3_repair": "callback-bound frozen grasp plus center-aware held clearance raise slow carry pre-V and every-event support-contact gates",
+      "revision3_status": "failed_pre_shared_V_gate_exact_predicate_unresolved_due_missing_partial_receipt",
+      "revision4": "same_physical_actions_evidence_complete_pre_V_diagnosis_and_replay_failure_persistence",
       "source_bound_envelope": {"planner_query_count": 96, "branch_execution_attempt_count": 3, "canonical_reference_execution_count": 1, "recovery_attempt_count": 0},
-      "revision3_gpu_status": "not_run"
+      "revision4_gpu_status": "not_run"
     },
     "F4": {
       "accepted_root": false,
       "arm": "right",
-      "assets": ["project common-X and A/B/C cubes", "008_tray/base0", "project slots A/B/C"],
       "programs": ["common-X+ABC", "common-X+ACB", "common-X+BAC"],
       "layout_version": "f4_right_arm_workspace_base0_v4_final",
-      "revision2_runtime_status": "common_prefix_passed_gate_A_failed_lift_to_preplace",
-      "revision3_repair": "uniform seven-segment block routes with carry midpoint and full post-interference slot state receipts",
+      "revision3_status": "common_prefix_passed_A_carry_mid_failed_execution_zero",
+      "revision4": "uniform_60_degree_inward_tilted_block_transform_with_motiongen_side_channel",
       "source_bound_envelope": {"planner_query_count": 116, "execution_attempt_count": 7, "recovery_attempt_count": 0},
-      "revision3_gpu_status": "not_run"
+      "revision4_gpu_status": "not_run"
     }
   },
-  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION2_TERMINAL_AUDIT_AND_R3_IMPACT_REVIEW_20260830.json"
+  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION3_TERMINAL_AUDIT_AND_R4_IMPACT_REVIEW_20260830.json"
 }
