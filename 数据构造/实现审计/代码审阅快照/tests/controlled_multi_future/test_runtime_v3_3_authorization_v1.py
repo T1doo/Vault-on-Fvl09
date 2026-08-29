@@ -27,7 +27,7 @@ from controlled_multi_future.runtime_source_lock_v1 import (
 
 PARENT = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_PRE_STAGE0_WORK_GPU0_7_20260829.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_CONTINUED_REPAIRS_GPU0_7_20260830.json"
 )
 TMP_ROOT = Path("/nfs_share/lijunhui/Robotwin2/tmp")
 
@@ -140,7 +140,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     reviewed_publication=reviewed_publication(),
                 )
 
-    def test_canonical_one_shot_and_two_revision_ledger_are_fail_closed(self):
+    def test_canonical_one_shot_and_three_revision_ledger_are_fail_closed(self):
         TMP_ROOT.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=TMP_ROOT) as directory:
             directory = Path(directory)
@@ -155,7 +155,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 )
                 first["revision_ledger_directory"] = str(revision_ledger)
                 consume_authorization_once(first, ledger_directory=auth_ledger)
-                with self.assertRaisesRegex(Exception, "already been consumed"):
+                with self.assertRaisesRegex(Exception, "already.*consumed"):
                     consume_authorization_once(first, ledger_directory=auth_ledger)
 
                 same_source = root_authorization(
@@ -166,6 +166,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     AuthorizationBindingError, "different implementation source"
                 ):
                     consume_authorization_once(same_source, ledger_directory=auth_ledger)
+                self.assertFalse((auth_ledger / "auth-r2-same.json").exists())
 
                 changed_seed = root_authorization(
                     auth_id="auth-r2-seed", source_hash="2" * 64, seed=18, revision=2
@@ -175,6 +176,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     AuthorizationBindingError, "frozen root identity"
                 ):
                     consume_authorization_once(changed_seed, ledger_directory=auth_ledger)
+                self.assertFalse((auth_ledger / "auth-r2-seed.json").exists())
 
                 second = root_authorization(
                     auth_id="auth-r2", source_hash="2" * 64, revision=2
@@ -184,6 +186,17 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     second, ledger_directory=auth_ledger
                 )
                 self.assertTrue(Path(receipt["revision_consumption_path"]).is_file())
+
+                third = root_authorization(
+                    auth_id="auth-r3", source_hash="3" * 64, revision=3
+                )
+                third["revision_ledger_directory"] = str(revision_ledger)
+                third_receipt = consume_authorization_once(
+                    third, ledger_directory=auth_ledger
+                )
+                self.assertTrue(
+                    Path(third_receipt["revision_consumption_path"]).is_file()
+                )
 
     def test_noncanonical_ledger_is_rejected_before_write(self):
         value = root_authorization(

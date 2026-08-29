@@ -5,7 +5,12 @@ from unittest import mock
 import numpy as np
 
 from controlled_multi_future.families import F1ObjectSelection, F3MotionOrder, F4SubtaskOrder
-from controlled_multi_future.family_runners_v3_1 import _actor_half_extents, get_family_runner
+from controlled_multi_future.family_runners_v3_1 import (
+    _actor_geometry_center_pose,
+    _actor_half_extents,
+    _actor_local_geometry_bounds,
+    get_family_runner,
+)
 from controlled_multi_future.root_orchestrator_v1_1 import compare_three_branch_final_state_payloads
 
 
@@ -73,6 +78,27 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
         actor._cmf_half_extents = np.asarray([0.022, 0.022, 0.022])
         actor._cmf_geometry_source = "AuditScene._box create_box half_size argument"
         np.testing.assert_allclose(_actor_half_extents(actor), [0.022, 0.022, 0.022])
+
+    def test_asset_local_aabb_center_is_scaled_and_composed_with_actor_pose(self):
+        actor = Actor([1.0, 2.0, 3.0])
+        actor.config = {
+            "center": [-8.985256604840808e-05, 0.9513497755527056, -0.0011933646434538318],
+            "extents": [1.3016794444495572, 1.9314033284100605, 1.3055743868648846],
+            "scale": [0.05, 0.05, 0.05],
+        }
+        center, half = _actor_local_geometry_bounds(actor)
+        np.testing.assert_allclose(
+            center,
+            np.asarray(actor.config["center"]) * np.asarray(actor.config["scale"]),
+        )
+        np.testing.assert_allclose(
+            half,
+            np.asarray(actor.config["extents"])
+            * np.asarray(actor.config["scale"])
+            / 2.0,
+        )
+        geometry_pose = _actor_geometry_center_pose(actor)
+        np.testing.assert_allclose(geometry_pose[:3], actor.pose.p + center)
 
     def test_f3_builds_frozen_full_orders_and_separate_diagnosis(self):
         scene = Scene()

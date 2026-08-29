@@ -22,11 +22,11 @@ from ..runtime_v3_3_budget_v1 import (
 )
 
 
-AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_1"
-CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_1"
+AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_2"
+CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_2"
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
-IMPLEMENTATION_REVISION = "runtime_v3_3_strict_prefix_common_v1"
+IMPLEMENTATION_REVISION = "runtime_v3_3_revision3_impact_addendum_v1"
 ALLOWED_UUID_POLICY = "fresh_idle_exact_uuid_selected_by_atomic_guard"
 MAX_AUTHORIZATION_VALIDITY_SECONDS = 3600
 CANONICAL_CONSUMPTION_LEDGER_DIRECTORY = (
@@ -107,6 +107,10 @@ def current_source_bindings_v3_3() -> dict:
         "canonical_prefix_replay_sha256": root / "canonical_prefix_replay_v1.py",
         "frozen_suffix_artifact_sha256": root / "frozen_suffix_artifact_v1.py",
         "family_runners_sha256": root / "family_runners_v3_3.py",
+        "f2_suffix_routes_sha256": root / "f2_suffix_routes_v3.py",
+        "f3_clearance_route_sha256": root / "f3_clearance_route_v3.py",
+        "f4_uniform_block_carry_sha256": root
+        / "f4_uniform_block_carry_midpoint_v3.py",
         "project_cube_grasp_pose_sha256": root / "project_cube_grasp_pose_v1.py",
         "canonical_prefix_smoke_sha256": root / "canonical_prefix_smoke_v1.py",
         "f4_cube_grasp_ik_audit_sha256": root / "f4_cube_grasp_ik_audit_v1.py",
@@ -313,8 +317,8 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("authorization family/seed differ from planned spec")
     if requested_scope in ROOT_SCOPES:
         revision_index = receipt.get("family_revision_index")
-        if revision_index not in (1, 2):
-            raise AuthorizationBindingError("root authorization revision index must be 1 or 2")
+        if revision_index not in (1, 2, 3):
+            raise AuthorizationBindingError("root authorization revision index must be 1, 2, or 3")
         if planned.get("implementation_revision_index") != revision_index:
             raise AuthorizationBindingError("root authorization/planned revision mismatch")
         revision_label = planned.get("implementation_revision")
@@ -329,7 +333,7 @@ def validate_authorization_v3_3(
             raise AuthorizationBindingError("root authorization revision ledger is invalid")
         if revision_directory != CANONICAL_REVISION_LEDGER_DIRECTORY:
             raise AuthorizationBindingError("root authorization revision ledger is not canonical")
-        if receipt.get("maximum_new_implementation_revisions_per_family") != 2:
+        if receipt.get("maximum_new_implementation_revisions_per_family") != 3:
             raise AuthorizationBindingError("root authorization revision limit mismatch")
         if receipt.get("maximum_full_root_execution_per_revision") != 1:
             raise AuthorizationBindingError("root authorization root-per-revision limit mismatch")
@@ -469,6 +473,60 @@ def consume_authorization_once(
         revision_payload["revision_consumption_receipt_sha256"] = canonical_sha256(
             revision_payload
         )
+        if revision_path.exists():
+            raise AuthorizationReplayError(
+                "family revision already consumed its one full-root slot"
+            )
+        if value["family_revision_index"] > 1:
+            current_revision = int(value["family_revision_index"])
+            previous_revision = current_revision - 1
+            previous_path = revision_directory / (
+                f"{value['family']}-revision-{previous_revision}.json"
+            )
+            if not previous_path.is_file():
+                raise AuthorizationBindingError(
+                    f"family revision {current_revision} requires a consumed "
+                    f"revision {previous_revision}"
+                )
+            try:
+                previous = json.loads(previous_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise AuthorizationBindingError(
+                    f"family revision {previous_revision} receipt is unreadable"
+                ) from exc
+            previous_hash = previous.pop(
+                "revision_consumption_receipt_sha256", None
+            )
+            if (
+                not isinstance(previous_hash, str)
+                or canonical_sha256(previous) != previous_hash
+            ):
+                raise AuthorizationBindingError(
+                    f"family revision {previous_revision} receipt hash mismatch"
+                )
+            for key in (
+                "family",
+                "root_slot_id",
+                "scene_seed",
+                "root_identity_sha256",
+            ):
+                if previous.get(key) != revision_payload[key]:
+                    raise AuthorizationBindingError(
+                        f"family revision {current_revision} changed frozen root identity: {key}"
+                    )
+            if (
+                previous.get("implementation_source_sha256")
+                == revision_payload["implementation_source_sha256"]
+            ):
+                raise AuthorizationBindingError(
+                    f"family revision {current_revision} must bind a different implementation source hash"
+                )
+            if previous.get("implementation_revision") == revision_payload[
+                "implementation_revision"
+            ]:
+                raise AuthorizationBindingError(
+                    f"family revision {current_revision} must use a new implementation revision label"
+                )
     payload = {
         "schema_version": CONSUMPTION_SCHEMA_VERSION,
         "authorization_id": authorization_id,
@@ -504,48 +562,6 @@ def consume_authorization_once(
         os.close(fd)
     payload["path"] = str(path)
     if revision_payload is not None:
-        if value["family_revision_index"] == 2:
-            previous_path = Path(value["revision_ledger_directory"]) / (
-                f"{value['family']}-revision-1.json"
-            )
-            if not previous_path.is_file():
-                raise AuthorizationBindingError(
-                    "family revision 2 requires a consumed revision 1"
-                )
-            try:
-                previous = json.loads(previous_path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError) as exc:
-                raise AuthorizationBindingError(
-                    "family revision 1 receipt is unreadable"
-                ) from exc
-            previous_hash = previous.pop(
-                "revision_consumption_receipt_sha256", None
-            )
-            if (
-                not isinstance(previous_hash, str)
-                or canonical_sha256(previous) != previous_hash
-            ):
-                raise AuthorizationBindingError(
-                    "family revision 1 receipt hash mismatch"
-                )
-            for key in ("family", "root_slot_id", "scene_seed", "root_identity_sha256"):
-                if previous.get(key) != revision_payload[key]:
-                    raise AuthorizationBindingError(
-                        f"family revision 2 changed frozen root identity: {key}"
-                    )
-            if (
-                previous.get("implementation_source_sha256")
-                == revision_payload["implementation_source_sha256"]
-            ):
-                raise AuthorizationBindingError(
-                    "family revision 2 must bind a different implementation source hash"
-                )
-            if previous.get("implementation_revision") == revision_payload[
-                "implementation_revision"
-            ]:
-                raise AuthorizationBindingError(
-                    "family revision 2 must use a new implementation revision label"
-                )
         revision_data = (
             json.dumps(revision_payload, ensure_ascii=False, indent=2, sort_keys=True)
             + "\n"

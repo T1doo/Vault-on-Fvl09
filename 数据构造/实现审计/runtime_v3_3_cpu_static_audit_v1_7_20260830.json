@@ -1,0 +1,32 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v1_7",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision3_impact_addendum_v1",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "implementation_source_sha256": "adc93d707fb2e2fde01b2915f160d769746ea148465f6772b7f4143a02453cb9",
+  "budget_receipt_sha256": "7039690e7ceeaf5edbf9c66f853bb116a8757218dd0039795eb8dc12e1f2f8f3",
+  "tests": {
+    "active": {"passed": 287, "failed": 0},
+    "vault_snapshot": {"passed": 287, "failed": 0},
+    "source_diff_qr_zero": true,
+    "tests_diff_qr_zero": true,
+    "py_compile_pass": true
+  },
+  "source_bound_activity_envelopes": {
+    "F2": {"planner_query_count": 68, "execution_attempt_count": 3, "recovery_attempt_count": 0},
+    "F3": {"planner_query_count": 96, "branch_execution_attempt_count": 3, "canonical_reference_execution_count": 1, "recovery_attempt_count": 0},
+    "F4": {"planner_query_count": 116, "execution_attempt_count": 7, "recovery_attempt_count": 0}
+  },
+  "p0_audits": {
+    "F2": "no_reproducible_pre_gpu_p0_after_center_aware_geometry_and_trace_contact_gates",
+    "F3": "no_reproducible_pre_gpu_p0_after_callback_pose_clearance_and_every_event_gates",
+    "F4": "no_reproducible_pre_gpu_p0_after_uniform_midpoint_and_full_slot_state_gates",
+    "cross_family": "no_reproducible_pre_gpu_p0"
+  },
+  "gpu_execution_performed": false,
+  "revision3_gpu_status": "not_run_publication_pending",
+  "decision": "CPU_BASELINE_PASS_READY_FOR_CLEAN_PUBLICATION_AND_ONE_SHOT_R3_BUNDLES"
+}

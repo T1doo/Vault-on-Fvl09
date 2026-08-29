@@ -402,17 +402,44 @@ def _raw_result(
     return result
 
 
-def _actor_half_extents(actor, fallback=BLOCK_HALF_EXTENTS):
+def _actor_local_geometry_bounds(actor, fallback=BLOCK_HALF_EXTENTS):
+    """Return asset-local AABB center and half extents in scaled metres."""
+
     declared = getattr(actor, "_cmf_half_extents", None)
     if declared is not None:
         value = np.asarray(declared, dtype=np.float64).reshape(3)
         if np.all(np.isfinite(value)) and np.all(value > 0):
-            return value.copy()
+            center = np.asarray(
+                getattr(actor, "_cmf_local_geometry_center", np.zeros(3)),
+                dtype=np.float64,
+            ).reshape(3)
+            if not np.all(np.isfinite(center)):
+                raise ValueError("project procedural actor has invalid local geometry center")
+            return center.copy(), value.copy()
         raise ValueError("project procedural actor has invalid declared half extents")
     config = getattr(actor, "config", None) or {}
     if "extents" in config and "scale" in config:
-        return np.asarray(config["extents"], dtype=np.float64) * np.asarray(config["scale"], dtype=np.float64) / 2.0
-    return np.asarray(fallback, dtype=np.float64)
+        scale = np.asarray(config["scale"], dtype=np.float64).reshape(3)
+        half = np.asarray(config["extents"], dtype=np.float64).reshape(3) * scale / 2.0
+        center = np.asarray(config.get("center", np.zeros(3)), dtype=np.float64).reshape(3) * scale
+        if (
+            not np.all(np.isfinite(center))
+            or not np.all(np.isfinite(half))
+            or not np.all(half > 0)
+        ):
+            raise ValueError("asset actor has invalid scaled local AABB bounds")
+        return center, half
+    return np.zeros(3, dtype=np.float64), np.asarray(fallback, dtype=np.float64)
+
+
+def _actor_half_extents(actor, fallback=BLOCK_HALF_EXTENTS):
+    return _actor_local_geometry_bounds(actor, fallback=fallback)[1]
+
+
+def _actor_geometry_center_pose(actor, *, actor_pose=None, fallback=BLOCK_HALF_EXTENTS):
+    center, _ = _actor_local_geometry_bounds(actor, fallback=fallback)
+    pose = _pose(actor) if actor_pose is None else np.asarray(actor_pose, dtype=np.float64).reshape(7)
+    return compose_pose(pose, [*center, 1.0, 0.0, 0.0, 0.0])
 
 
 def _gripper_below_eef_envelope(scene, *, arm="left", conservative_link_margin_m=0.03):

@@ -127,6 +127,7 @@ class Revision2RepairsF2F3F4Test(unittest.TestCase):
                     "pregrasp",
                     "grasp",
                     "lift",
+                    "carry_mid",
                     "preplace",
                     "release",
                     "neutral",

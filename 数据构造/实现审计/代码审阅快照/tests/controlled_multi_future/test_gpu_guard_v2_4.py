@@ -29,6 +29,7 @@ from controlled_multi_future.probes.runtime_v3_3_authorization_v1 import (
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
     CANONICAL_GPU_LEASE_DIRECTORY,
     CANONICAL_JOB_CACHE_DIRECTORY,
+    CONSUMPTION_SCHEMA_VERSION,
     canonical_sha256,
 )
 
@@ -68,7 +69,7 @@ def authorization():
 
 def consumption():
     value = {
-        "schema_version": "cmf_runtime_v3_3_authorization_consumption_v1_1",
+        "schema_version": CONSUMPTION_SCHEMA_VERSION,
         "authorization_id": "auth",
         "authorization_receipt_sha256": "1" * 64,
         "authorized_run_id": "run",

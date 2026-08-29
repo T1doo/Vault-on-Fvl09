@@ -8,6 +8,7 @@ from controlled_multi_future.canonical_prefix_artifact_v1 import (
 )
 from controlled_multi_future.current_hasher import hash_array
 from controlled_multi_future.f2_mutually_exclusive_region_layout_v2 import LAYOUT
+from controlled_multi_future.f2_suffix_routes_v3 import build_beside_actor_target
 from controlled_multi_future.f4_staged_block_gate_v1 import (
     F4StagedBlockExecutionGateV1,
     GATE_SEQUENCE,
@@ -19,6 +20,7 @@ from controlled_multi_future.family_runners_v3_3 import (
     F3ControllerV3_3,
     F4ControllerV3_3,
     _first_stable_slot_completion,
+    _cache_preplanned_suffix_controls,
     _raw_result,
     install_frozen_suffix_controls,
 )
@@ -134,9 +136,10 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         scene.stand = Actor(
             "stand", [*LAYOUT["stand_xyz"], *LAYOUT["stand_q_wxyz"]]
         )
-        program = {"steps": [{"operation": "move"}, {"relation": "beside"}]}
-        relation, target, _ = F2ControllerV3_3()._target_actor(scene, program)
-        self.assertEqual(relation, "beside")
+        target = build_beside_actor_target(
+            "p0_y0_h0",
+            stand_pose=[*LAYOUT["stand_xyz"], *LAYOUT["stand_q_wxyz"]],
+        )
         self.assertAlmostEqual(target[2], LAYOUT["can_xyz"][2])
         self.assertNotAlmostEqual(target[2], scene.can.get_pose().p[2])
         execution_source = inspect.getsource(
@@ -251,12 +254,7 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         actual = np.asarray([0.1, 0.2], dtype=np.float64)
         planner = actual.astype(np.float32)
         self.assertNotEqual(hash_array(actual), hash_array(planner))
-        source = inspect.getsource(
-            __import__(
-                "controlled_multi_future.family_runners_v3_3",
-                fromlist=["_cache_suffix_controls"],
-            )._cache_suffix_controls
-        )
+        source = inspect.getsource(_cache_preplanned_suffix_controls)
         self.assertIn("raw_actual_qpos", source)
         self.assertIn("planner_input_prefix_end_qpos_sha256", source)
 
@@ -308,8 +306,13 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         f2_r2 = planned_scope_spec(
             "F2_diagnosis_root_per_revision", revision_index=2
         )
+        f2_r3 = planned_scope_spec(
+            "F2_diagnosis_root_per_revision", revision_index=3
+        )
         self.assertEqual(f2_r1["slot_id"], f2_r2["slot_id"])
         self.assertEqual(f2_r1["seed"], f2_r2["seed"])
+        self.assertEqual(f2_r1["slot_id"], f2_r3["slot_id"])
+        self.assertEqual(f2_r1["seed"], f2_r3["seed"])
         self.assertEqual(f2_r1["scene_layout"], LAYOUT)
         f4 = planned_scope_spec(
             "F4_block_root_per_revision", revision_index=1

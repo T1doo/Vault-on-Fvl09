@@ -1,0 +1,59 @@
+{
+  "schema_version": "cmf_runtime_v3_3_r2_terminal_audit_r3_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "user_authorized_continued_versioned_repairs": true,
+  "automatic_retry": false,
+  "families": {
+    "F2": {
+      "status": "revision2_terminal_failed_planner",
+      "task_physical_pass_count": 3,
+      "canonical_prefix_pass": true,
+      "suffix": {
+        "inside": ["inside_descend_10cm:Success", "inside_descend_06cm:Fail"],
+        "on": ["on_preplace:Success", "on_release:Success", "on_retreat:Success", "f2_rest:Success"],
+        "beside": ["beside_preplace:Fail"]
+      },
+      "budget_counts": {"planner_query_count": 26, "execution_attempt_count": 0, "recovery_attempt_count": 0},
+      "cleanup_scene_count": 8,
+      "cleanup_safe": true,
+      "orphan_process_count": 0,
+      "r3_repair": "inside_gravity_drop_plus_fixed_six_candidate_beside_routes"
+    },
+    "F3": {
+      "status": "revision2_terminal_failed_prefix_physical_gate",
+      "failed_metrics": {
+        "eef_negative_amplitude_m": 0.039618194,
+        "eef_negative_threshold_m": 0.04,
+        "grasp_transform_orientation_drift_rad": 0.052449613,
+        "grasp_transform_orientation_threshold_rad": 0.05
+      },
+      "selected_gripper_contact_fraction": 1.0,
+      "contact_break_count": 0,
+      "budget_counts": {"planner_query_count": 20, "branch_execution_attempt_count": 0, "canonical_reference_execution_count": 1, "recovery_attempt_count": 0},
+      "cleanup_scene_count": 5,
+      "cleanup_safe": true,
+      "orphan_process_count": 0,
+      "r3_repair": "held_envelope_clearance_raise_same_height_carry_frozen_grasp"
+    },
+    "F4": {
+      "status": "revision2_terminal_failed_f4_staged_block_gate",
+      "common_prefix_pass": true,
+      "gate_A": ["A_pregrasp:Success", "A_grasp:Success", "A_lift:Success", "A_preplace:Fail"],
+      "failed_translation_m": 0.140370549,
+      "budget_counts": {"planner_query_count": 13, "suffix_execution_attempt_count": 0, "recovery_attempt_count": 0},
+      "cleanup_scene_count": 3,
+      "cleanup_safe": true,
+      "orphan_process_count": 0,
+      "r3_repair": "uniform_per_block_lift_to_preplace_midpoint"
+    }
+  },
+  "evidence": {
+    "F2": {"file_count": 23, "tree_sha256": "8e735bb894c1da4a2825933097a60350c603962bdd27b8e24a6223bae900203e", "guard_sha256": "4395def1668369b00e52b50c59bc012dfdfbe47aa0fc3c43008777bd06ff2d28"},
+    "F3": {"file_count": 11, "tree_sha256": "9d6e711f5f02fe9372cfb4d14e495bff74d20e6d38bff3b51643d9fdbb74dced", "trace_sha256": "d22503548a5329bf915293de64e0ff6cab5c2ffdbaf7056b6d7b7430088ff6a7", "guard_sha256": "4f5df4f0a44b76b061e51cd84ec4ada3c357f621afe8a7b0ff79c3d3584e94e0"},
+    "F4": {"file_count": 11, "tree_sha256": "effc52ce16925787710652b77a54ee7671718b7df6bb4db6078614cc92230ebf", "gate_A_receipt_sha256": "32c6ae16cf3853570d51df109bbacc1a13087a2e8dbc40e28f78136bcc575314", "guard_sha256": "bea17f06ccc44ea66b793b4ee01ae266d73b6be2246f12f0f462ce1c7370b527"}
+  }
+}

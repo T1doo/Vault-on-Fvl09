@@ -16,18 +16,29 @@ from .f2_mutually_exclusive_region_layout_v2 import (
     LAYOUT as F2_LAYOUT_V2,
     LAYOUT_VERSION as F2_LAYOUT_VERSION_V2,
 )
+from .f2_suffix_routes_v3 import (
+    BESIDE_CANDIDATES as F2_BESIDE_CANDIDATES_V3,
+    BESIDE_PLANNER_SEED as F2_BESIDE_PLANNER_SEED_V3,
+    audit_beside_candidate_receipts,
+    audit_f2_held_transport_contacts,
+    build_beside_route,
+    build_inside_gravity_drop_route,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
     F3_V_NOMINAL_AMPLITUDE_M_V3_3,
     MINIMUM_NEUTRAL_CONFIRMATION_STEPS,
     _actor_half_extents,
+    _actor_geometry_center_pose,
+    _actor_local_geometry_bounds,
     _arm_eef_pose,
     _arm_gripper_open,
     _arm_tag,
     _arm_tag_left,
     _entity,
     _execute_control,
+    _gripper_below_eef_envelope,
     _move_arm,
     _move_left,
     _must_action,
@@ -41,11 +52,23 @@ from .family_runners_v3_1 import (
     _wait_and_record,
     get_family_runner,
 )
+from .f3_clearance_route_v3 import (
+    F3_CENTRAL_HOLD_STEPS,
+    F3_GRASP_BOUNDARIES,
+    F3_PAD_HALF_EXTENTS_M,
+    audit_f3_free_space_event_contacts,
+    audit_f3_grasp_boundary_stability,
+    build_f3_clearance_height_audit,
+    build_f3_clearance_route_targets,
+    frozen_f3_grasp_contract,
+    time_dilate_f3_carry_control_2x,
+)
 from .geometry import (
     actor_target_to_eef_pose,
     compose_pose,
     footprint_inside_local_region,
     obb_corners,
+    pose_matrix,
     quaternion_orientation_error,
     quaternion_angular_velocity,
     relative_pose,
@@ -56,6 +79,12 @@ from .f1_uniform_carry_hub_v2 import (
     F1_CARRY_HUB_VERSION,
     REVISION2_SEGMENT_ORDER as F1_REVISION2_SEGMENT_ORDER,
     build_uniform_carry_hub_targets,
+)
+from .f4_uniform_block_carry_midpoint_v3 import (
+    F4_SEGMENTED_BLOCK_SUFFIXES,
+    F4_UNIFORM_BLOCK_CARRY_VERSION,
+    expand_uniform_f4_block_carry_targets,
+    validate_uniform_f4_block_carry_targets,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -107,6 +136,15 @@ def planner_source_hash_v3_3() -> str:
             ),
             "f1_uniform_carry_hub_v2.py": _sha256_file(
                 Path(__file__).with_name("f1_uniform_carry_hub_v2.py")
+            ),
+            "f2_suffix_routes_v3.py": _sha256_file(
+                Path(__file__).with_name("f2_suffix_routes_v3.py")
+            ),
+            "f3_clearance_route_v3.py": _sha256_file(
+                Path(__file__).with_name("f3_clearance_route_v3.py")
+            ),
+            "f4_uniform_block_carry_midpoint_v3.py": _sha256_file(
+                Path(__file__).with_name("f4_uniform_block_carry_midpoint_v3.py")
             ),
             "project_cube_grasp_pose_v1.py": _sha256_file(
                 Path(__file__).with_name("project_cube_grasp_pose_v1.py")
@@ -172,6 +210,7 @@ def _audited_planner_assisted_target_construction(
             "batch_call_index": call_index,
             "batch_size": len(candidate_poses),
             "ordered_goal_pose_sha256": hash_json(candidate_poses),
+            "ordered_goal_poses": candidate_poses,
             "start_qpos_sha256": hash_array(start_qpos),
             "start_step": None,
             "end_step": None,
@@ -252,6 +291,42 @@ def _audited_planner_assisted_target_construction(
         )
     if any(item["batch_size"] != 10 for item in batch_receipts):
         raise RuntimeError("runtime-v3_3 requires frozen ROTATE_NUM=10 batch size")
+    callback_pregrasp = None
+    callback_matches = []
+    if (
+        isinstance(value, (list, tuple))
+        and len(value) == 2
+        and value[0] is not None
+    ):
+        candidate_value = np.asarray(value[0])
+        if candidate_value.size == 7:
+            try:
+                callback_pregrasp = np.asarray(
+                    candidate_value, dtype=np.float64
+                ).reshape(7)
+            except (TypeError, ValueError):
+                callback_pregrasp = None
+        if callback_pregrasp is not None:
+            for batch in batch_receipts:
+                for candidate_index, candidate_pose in enumerate(
+                    batch["ordered_goal_poses"]
+                ):
+                    if np.allclose(
+                        callback_pregrasp,
+                        np.asarray(candidate_pose, dtype=np.float64),
+                        rtol=0.0,
+                        atol=1e-9,
+                    ):
+                        callback_matches.append(
+                            {
+                                "contact_point_id": batch["contact_point_id"],
+                                "batch_call_index": batch["batch_call_index"],
+                                "candidate_index_within_batch": candidate_index,
+                                "candidate_planner_status": batch[
+                                    "candidate_statuses"
+                                ][candidate_index],
+                            }
+                        )
     return value, {
         "schema_version": "cmf_planner_assisted_target_construction_audit_v1",
         "variant_id": variant_id,
@@ -265,6 +340,29 @@ def _audited_planner_assisted_target_construction(
         ),
         "planner_counting_unit": "one official batch planner API call",
         "batch_receipts": batch_receipts,
+        "callback_selected_pregrasp_pose": None
+        if callback_pregrasp is None
+        else callback_pregrasp.tolist(),
+        "callback_selected_pregrasp_pose_sha256": None
+        if callback_pregrasp is None
+        else hash_array(callback_pregrasp),
+        "callback_selected_pose_matches": callback_matches,
+        "callback_selected_pose_match_count": len(callback_matches),
+        "callback_selected_contact_point_id": callback_matches[0][
+            "contact_point_id"
+        ]
+        if len(callback_matches) == 1
+        else None,
+        "callback_selected_candidate_index_within_batch": callback_matches[0][
+            "candidate_index_within_batch"
+        ]
+        if len(callback_matches) == 1
+        else None,
+        "callback_selected_candidate_planner_status": callback_matches[0][
+            "candidate_planner_status"
+        ]
+        if len(callback_matches) == 1
+        else None,
         "wrapper_restoration_succeeded": True,
     }
 
@@ -368,33 +466,28 @@ def _prefix_reference_result(
     return result
 
 
-def _cache_suffix_controls(
+def _cache_preplanned_suffix_controls(
     scene,
     *,
     program_id: str,
     arm: str,
     targets: Sequence[Mapping[str, Any]],
-    query_limit: int,
+    raw_actual_qpos: np.ndarray,
+    planner_input_qpos: np.ndarray,
+    reset: Mapping[str, Any],
+    planned: Mapping[str, Any],
+    planner_query_count: int,
     extra: Mapping[str, Any] | None = None,
 ) -> dict:
+    """Seal one already-planned chain without issuing another planner query."""
+
     raw_actual_qpos = np.ascontiguousarray(
-        np.asarray(
-            getattr(scene.robot, f"{arm}_entity").get_qpos(),
-            dtype=np.float64,
-        ).reshape(-1)
+        np.asarray(raw_actual_qpos, dtype=np.float64).reshape(-1)
     )
-    planner_input_qpos = planner_array(
-        raw_actual_qpos,
-        label=f"{program_id} planner-input prefix-end qpos",
-    ).reshape(-1)
+    planner_input_qpos = np.ascontiguousarray(
+        np.asarray(planner_input_qpos).reshape(-1)
+    )
     start_hash = hash_array(raw_actual_qpos)
-    reset = _planner_reset(
-        scene,
-        planner_seed=PLANNER_SEED,
-        variant_id=f"v3_3_suffix:{program_id}",
-        arm=arm,
-    )
-    planned = _plan_chain(scene, targets, query_limit=query_limit, arm=arm)
     terminal_qpos = np.asarray(planned["terminal_qpos"], dtype=np.float64)
     active_joints = list(getattr(scene.robot, f"{arm}_entity").get_active_joints())
     if len(active_joints) != len(terminal_qpos):
@@ -463,7 +556,7 @@ def _cache_suffix_controls(
     cache[cache_key] = planned["controls"]
     return {
         "planner_solvable": bool(planned["pass"]),
-        "planner_query_count": int(planned["planner_query_count"]),
+        "planner_query_count": int(planner_query_count),
         "failure_type": None if planned["pass"] else "chained_suffix_planner_failure",
         "evidence": {
             "planner_reset_receipt": reset,
@@ -482,6 +575,50 @@ def _cache_suffix_controls(
         "_execution_controls": planned["controls"] if planned["pass"] else None,
         "_actual_prefix_end_qpos": raw_actual_qpos if planned["pass"] else None,
     }
+
+
+def _cache_suffix_controls(
+    scene,
+    *,
+    program_id: str,
+    arm: str,
+    targets: Sequence[Mapping[str, Any]],
+    query_limit: int,
+    extra: Mapping[str, Any] | None = None,
+) -> dict:
+    raw_actual_qpos = np.ascontiguousarray(
+        np.asarray(
+            getattr(scene.robot, f"{arm}_entity").get_qpos(),
+            dtype=np.float64,
+        ).reshape(-1)
+    )
+    planner_input_qpos = planner_array(
+        raw_actual_qpos,
+        label=f"{program_id} planner-input prefix-end qpos",
+    ).reshape(-1)
+    reset = _planner_reset(
+        scene,
+        planner_seed=PLANNER_SEED,
+        variant_id=f"v3_3_suffix:{program_id}",
+        arm=arm,
+    )
+    before = int(getattr(scene, "planner_query_count", 0))
+    planned = _plan_chain(scene, targets, query_limit=query_limit, arm=arm)
+    planner_query_count = int(getattr(scene, "planner_query_count", 0)) - before
+    if planner_query_count != len(planned["segment_receipts"]):
+        raise RuntimeError("suffix live planner delta differs from segment receipts")
+    return _cache_preplanned_suffix_controls(
+        scene,
+        program_id=program_id,
+        arm=arm,
+        targets=targets,
+        raw_actual_qpos=raw_actual_qpos,
+        planner_input_qpos=planner_input_qpos,
+        reset=reset,
+        planned=planned,
+        planner_query_count=planner_query_count,
+        extra=extra,
+    )
 
 
 def _cached_controls(scene, spec: Mapping[str, Any]) -> list[Mapping[str, Any]]:
@@ -1556,23 +1693,91 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         }
 
     def audit_task_physical_feasibility(self, scene, program):
-        receipt = dict(super().audit_task_physical_feasibility(scene, program))
         try:
             layout = self._require_layout_v2(
                 scene, require_dynamic_stability=True
             )
         except BaseException as exc:
-            receipt.update(
-                {
-                    "task_feasible": False,
-                    "physical_feasible": False,
-                    "failure_type": "f2_frozen_layout_mismatch",
-                    "evidence": {"error": str(exc)},
-                }
+            return {
+                "task_feasible": False,
+                "physical_feasible": False,
+                "planner_solvable": None,
+                "failure_type": "f2_frozen_layout_mismatch",
+                "evidence": {"error": str(exc)},
+            }
+        roles_ok = set(getattr(scene, "role_actors", {})) == {
+            "main_can",
+            "box",
+            "scale",
+            "stand",
+        }
+        poses_finite = roles_ok and all(
+            np.all(np.isfinite(_pose(actor)))
+            for actor in scene.role_actors.values()
+        )
+        program_family = str(program.get("program_id", "")).startswith("F2-")
+        can_local_center, can_half = _actor_local_geometry_bounds(scene.can)
+        inside_route = build_inside_gravity_drop_route(
+            current_eef_pose=_arm_eef_pose(scene, "left"),
+            current_actor_pose=_pose(scene.can),
+            box_pose=_pose(scene.box),
+            can_half_extents_m=can_half,
+            can_local_geometry_center_m=can_local_center,
+            rest_eef_pose=np.asarray(
+                scene.robot.left_original_pose, dtype=np.float64
+            ),
+        )
+        beside_routes = [
+            build_beside_route(
+                candidate.candidate_id,
+                current_eef_pose=_arm_eef_pose(scene, "left"),
+                current_actor_pose=_pose(scene.can),
+                stand_pose=_pose(scene.stand),
+                rest_eef_pose=np.asarray(
+                    scene.robot.left_original_pose, dtype=np.float64
+                ),
             )
-            return receipt
-        receipt.setdefault("evidence", {})["frozen_layout"] = layout
-        return receipt
+            for candidate in F2_BESIDE_CANDIDATES_V3
+        ]
+        scale_point = scene.scale.get_functional_point(0)
+        checks = {
+            "roles": roles_ok,
+            "poses_finite": poses_finite,
+            "program_family": program_family,
+            "same_object": program["steps"][0].get("object") == "main_object",
+            "left_arm_fixed": True,
+            "relation": program["steps"][1].get("relation")
+            in ("inside", "on", "beside"),
+            "center_aware_can_fits_box_cavity": inside_route["gates"]
+            ["final_target_full_obb_inside"],
+            "inside_route_geometry_audit": inside_route["audit"]["pass"],
+            "scale_functional_point_exists": scale_point is not None
+            and np.all(np.isfinite(np.asarray(scale_point, dtype=np.float64))),
+            "six_beside_routes_geometry_pass": len(beside_routes) == 6
+            and all(item["audit"]["pass"] for item in beside_routes),
+        }
+        passed = all(checks.values())
+        return {
+            "task_feasible": passed,
+            "physical_feasible": passed,
+            "planner_solvable": None,
+            "failure_type": None if passed else "f2_task_physical_contract_v3",
+            "evidence": {
+                **checks,
+                "frozen_layout": layout,
+                "can_local_geometry_center_m": can_local_center.tolist(),
+                "can_half_extents_m": can_half.tolist(),
+                "inside_route_geometry": inside_route,
+                "beside_route_geometry": [
+                    {
+                        "candidate": item["candidate"],
+                        "target_actor_pose": item["target_actor_pose"],
+                        "audit": item["audit"],
+                    }
+                    for item in beside_routes
+                ],
+            },
+        }
 
     def canonical_prefix_contract(self, programs):
         return {
@@ -1680,72 +1885,318 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             },
         )
 
-    def _target_actor(self, scene, program):
-        relation = program["steps"][1]["relation"]
-        current = _pose(scene.can)
-        target = current.copy()
-        variant_id = "default"
-        if relation == "inside":
-            target = compose_pose(
-                _pose(scene.box),
-                [
-                    *F2_PLASTICBOX_BASE2_CAVITY["target_center_local_m"],
-                    *F2_INSIDE_LOCAL_QUATERNION_WXYZ,
-                ],
+    @staticmethod
+    def _terminal_qpos_within_limits(scene, terminal_qpos, *, arm="left"):
+        terminal = np.asarray(terminal_qpos, dtype=np.float64).reshape(-1)
+        joints = list(getattr(scene.robot, f"{arm}_entity").get_active_joints())
+        if len(joints) != len(terminal):
+            return False
+        limits = np.asarray(
+            [
+                np.asarray(joint.get_limits(), dtype=np.float64).reshape(-1, 2)[0]
+                for joint in joints
+            ],
+            dtype=np.float64,
+        )
+        return bool(
+            np.all((~np.isfinite(limits[:, 0])) | (terminal >= limits[:, 0]))
+            and np.all((~np.isfinite(limits[:, 1])) | (terminal <= limits[:, 1]))
+        )
+
+    @staticmethod
+    def _carried_can_waypoint_envelope_audit(scene, route):
+        """Necessary waypoint envelope; not a claim about curved joint-space motion."""
+
+        current_eef = _arm_eef_pose(scene, "left")
+        current_actor = _pose(scene.can)
+        eef_to_actor = relative_pose(current_eef, current_actor)
+        held_eef_waypoints = [current_eef] + [
+            np.asarray(item["pose"], dtype=np.float64)
+            for item in route["targets"][:4]
+        ]
+        actor_origin_waypoints = [
+            compose_pose(eef_pose, eef_to_actor) for eef_pose in held_eef_waypoints
+        ]
+        can_local_center, can_half = _actor_local_geometry_bounds(scene.can)
+        local_center_pose = np.asarray(
+            [*can_local_center, 1.0, 0.0, 0.0, 0.0], dtype=np.float64
+        )
+        actor_waypoints = [
+            compose_pose(actor_pose, local_center_pose)
+            for actor_pose in actor_origin_waypoints
+        ]
+        can_orientation_invariant_radius = float(np.linalg.norm(can_half))
+        facilities = {
+            "box": scene.box,
+            "scale": scene.scale,
+            "stand": scene.stand,
+        }
+        facility_aabbs = {}
+        for role, actor in facilities.items():
+            corners = obb_corners(
+                _actor_geometry_center_pose(actor), _actor_half_extents(actor)
             )
-            variant_id = "inside_staged_world_z_v1"
-        elif relation == "on":
-            target[:3] = np.asarray(
-                scene.scale.get_functional_point(0), dtype=np.float64
-            )[:3]
-            variant_id = "on_scale_frozen_target_v1"
-        elif relation == "beside":
-            target = np.asarray(
-                [
-                    *(
-                        np.asarray(F2_LAYOUT_V2["stand_xyz"][:2], dtype=np.float64)
-                        + np.asarray(BESIDE_SECTORS_RELATIVE_XY_M[-1], dtype=np.float64)
+            facility_aabbs[role] = {
+                "lower": np.min(corners, axis=0),
+                "upper": np.max(corners, axis=0),
+            }
+        margin = 0.005
+        segments = []
+        collisions = []
+        for index, (start_actor, end_actor) in enumerate(
+            zip(actor_waypoints, actor_waypoints[1:])
+        ):
+            start_corners = obb_corners(start_actor, can_half)
+            end_corners = obb_corners(end_actor, can_half)
+            endpoint_obb_lower = np.minimum(
+                np.min(start_corners, axis=0), np.min(end_corners, axis=0)
+            )
+            endpoint_obb_upper = np.maximum(
+                np.max(start_corners, axis=0), np.max(end_corners, axis=0)
+            )
+            swept_lower = (
+                np.minimum(start_actor[:3], end_actor[:3])
+                - can_orientation_invariant_radius
+            )
+            swept_upper = (
+                np.maximum(start_actor[:3], end_actor[:3])
+                + can_orientation_invariant_radius
+            )
+            segment_collisions = []
+            for role, bounds in facility_aabbs.items():
+                overlap = bool(
+                    np.all(swept_upper >= bounds["lower"] - margin)
+                    and np.all(swept_lower <= bounds["upper"] + margin)
+                )
+                if overlap:
+                    segment_collisions.append(role)
+                    collisions.append(
+                        {"segment_index": index, "facility_role": role}
+                    )
+            segments.append(
+                {
+                    "segment_index": index,
+                    "eef_segment_id": route["targets"][index]["segment_id"],
+                    "swept_actor_aabb_lower": swept_lower.tolist(),
+                    "swept_actor_aabb_upper": swept_upper.tolist(),
+                    "endpoint_obb_union_lower_audit_only": endpoint_obb_lower.tolist(),
+                    "endpoint_obb_union_upper_audit_only": endpoint_obb_upper.tolist(),
+                    "facility_collisions": segment_collisions,
+                }
+            )
+        return {
+            "schema_version": "cmf_f2_carried_can_waypoint_envelope_audit_v1",
+            "method": (
+                "actor-center segment expanded on every axis by the can's "
+                "orientation-invariant half-diagonal bounding-sphere radius, "
+                "tested against frozen facility world AABBs with 5mm margin"
+            ),
+            "can_half_extents_m": can_half.tolist(),
+            "can_local_geometry_center_m": can_local_center.tolist(),
+            "can_orientation_invariant_bounding_sphere_radius_m": (
+                can_orientation_invariant_radius
+            ),
+            "facility_aabbs": {
+                role: {
+                    "lower": bounds["lower"].tolist(),
+                    "upper": bounds["upper"].tolist(),
+                }
+                for role, bounds in facility_aabbs.items()
+            },
+            "margin_m": margin,
+            "segments": segments,
+            "collisions": collisions,
+            "official_curobo_whole_robot_collision_still_required": True,
+            "curved_planned_path_covered": False,
+            "actual_execution_contact_gate_required": True,
+            "pass": not collisions,
+        }
+
+    def _plan_fixed_beside_candidates(self, scene, program):
+        raw_actual_qpos = np.ascontiguousarray(
+            np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float64).reshape(-1)
+        )
+        planner_input_qpos = planner_array(
+            raw_actual_qpos,
+            label=f"{program['program_id']} beside planner-input prefix-end qpos",
+        ).reshape(-1)
+        start_hash = hash_array(raw_actual_qpos)
+        planner_input_start_hash = hash_array(planner_input_qpos)
+        rest = np.asarray(scene.robot.left_original_pose, dtype=np.float64)
+        candidate_receipts = []
+        selected = None
+        selected_route = None
+        selected_reset = None
+        selected_planned = None
+        total_queries = 0
+        for candidate in F2_BESIDE_CANDIDATES_V3:
+            route = build_beside_route(
+                candidate.candidate_id,
+                current_eef_pose=_arm_eef_pose(scene, "left"),
+                current_actor_pose=_pose(scene.can),
+                stand_pose=_pose(scene.stand),
+                rest_eef_pose=rest,
+            )
+            if route["audit"]["pass"] is not True:
+                raise ValueError(
+                    f"F2 beside candidate {candidate.candidate_id} failed CPU route audit"
+                )
+            waypoint_audit = self._carried_can_waypoint_envelope_audit(
+                scene, route
+            )
+            reset = _planner_reset(
+                scene,
+                planner_seed=F2_BESIDE_PLANNER_SEED_V3,
+                variant_id=f"f2_beside_fixed_candidate:{candidate.candidate_id}",
+                arm="left",
+            )
+            before = int(getattr(scene, "planner_query_count", 0))
+            planned = _plan_chain(
+                scene, route["targets"], query_limit=96, arm="left"
+            )
+            query_delta = int(getattr(scene, "planner_query_count", 0)) - before
+            if query_delta != len(planned["segment_receipts"]):
+                raise RuntimeError(
+                    "F2 beside candidate live planner delta differs from segment receipts"
+                )
+            total_queries += query_delta
+            within_limits = self._terminal_qpos_within_limits(
+                scene, planned["terminal_qpos"], arm="left"
+            )
+            receipt = {
+                "candidate_id": candidate.candidate_id,
+                "main_object": "071_can/base1",
+                "arm": "left",
+                "reference": "074_displaystand/base3",
+                "planner_seed": F2_BESIDE_PLANNER_SEED_V3,
+                "planner_start_state_sha256": start_hash,
+                "rng_state_after_reset_sha256": reset[
+                    "rng_state_after_reset_sha256"
+                ],
+                "planner_reset_performed": reset["reset_performed"] is True,
+                "planner_reset_receipt": reset,
+                "planner_instance_id": reset["planner_instance_id"],
+                "route": route,
+                "route_audit_pass": route["audit"]["pass"] is True,
+                "upright_axis_audited": True,
+                "terminal_qpos_within_joint_limits": within_limits,
+                "waypoint_envelope_pass": waypoint_audit["pass"] is True,
+                "waypoint_envelope_audit": waypoint_audit,
+                "actual_held_transport_contact_gate_required": True,
+                "facility_distance_pass": all(
+                    route["audit"]["checks"][key]
+                    for key in (
+                        "target_inside_table",
+                        "target_in_beside_annulus",
+                        "target_excludes_inside_on",
+                    )
+                ),
+                "planner_query_count": query_delta,
+                "segment_receipts": planned["segment_receipts"],
+                "planner_input_prefix_end_qpos_sha256": planner_input_start_hash,
+                "first_segment_start_matches_planner_input_prefix_end": bool(
+                    planned["segment_receipts"]
+                    and planned["segment_receipts"][0]["start_qpos_sha256"]
+                    == planner_input_start_hash
+                ),
+            }
+            candidate_receipts.append(receipt)
+            decision = audit_beside_candidate_receipts(candidate_receipts)
+            if decision["pass"]:
+                selected = candidate.candidate_id
+                selected_route = route
+                selected_reset = reset
+                selected_planned = planned
+                break
+        decision = audit_beside_candidate_receipts(candidate_receipts)
+        if selected is None:
+            return {
+                "planner_solvable": False,
+                "planner_query_count": int(total_queries),
+                "failure_type": decision["terminal_if_exhausted"]
+                or "f2_beside_fixed_candidate_prefix_failed",
+                "evidence": {
+                    "candidate_decision": decision,
+                    "candidate_receipts": candidate_receipts,
+                    "planner_collision_check_source": (
+                        "official CuRobo planner success/failure per frozen segment"
                     ),
-                    float(F2_LAYOUT_V2["can_xyz"][2]),
-                    0.5,
-                    0.5,
-                    0.5,
-                    0.5,
-                ],
-                dtype=np.float64,
-            )
-            variant_id = "beside_sector_2_yaw_0_v2"
-        else:
-            raise ValueError("unknown F2 relation")
-        return relation, target, variant_id
+                    "quantitative_collision_clearance_available": False,
+                },
+                "actual_prefix_end_qpos_sha256": start_hash,
+                "execution_spec": None,
+                "_execution_controls": None,
+                "_actual_prefix_end_qpos": None,
+            }
+        return _cache_preplanned_suffix_controls(
+            scene,
+            program_id=program["program_id"],
+            arm="left",
+            targets=selected_route["targets"],
+            raw_actual_qpos=raw_actual_qpos,
+            planner_input_qpos=planner_input_qpos,
+            reset=selected_reset,
+            planned=selected_planned,
+            planner_query_count=total_queries,
+            extra={
+                "relation": "beside",
+                "variant_id": "beside_fixed_six_candidate_routes_v3",
+                "target_actor_pose": selected_route["target_actor_pose"],
+                "release_target_index": selected_route["release_target_index"],
+                "layout_version": F2_LAYOUT_VERSION_V2,
+                "selected_beside_candidate_id": selected,
+                "beside_candidate_decision": decision,
+                "beside_candidate_receipts": candidate_receipts,
+                "inside_full_obb_verifier_relaxed": False,
+            },
+        )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
         self._require_layout_v2(scene)
-        relation, target_actor, variant_id = self._target_actor(scene, program)
+        relation = program["steps"][1]["relation"]
         current_eef = _arm_eef_pose(scene, "left")
         current_actor = _pose(scene.can)
-        release = actor_target_to_eef_pose(
-            current_eef, current_actor, target_actor
-        )
         rest = np.asarray(scene.robot.left_original_pose, dtype=np.float64)
         if relation == "inside":
-            offsets = (0.10, 0.06, 0.03, 0.0)
-            targets = [
-                {
-                    "segment_id": f"inside_descend_{int(offset * 100):02d}cm",
-                    "pose": world_axis_offset_pose(release, offset),
-                }
-                for offset in offsets
-            ]
-            release_index = len(targets) - 1
-            targets.extend(
-                {
-                    "segment_id": f"inside_retreat_{int(offset * 100):02d}cm",
-                    "pose": world_axis_offset_pose(release, offset),
-                }
-                for offset in (0.03, 0.06, 0.10)
+            can_local_center, can_half_extents = _actor_local_geometry_bounds(
+                scene.can
             )
-        else:
+            route = build_inside_gravity_drop_route(
+                current_eef_pose=current_eef,
+                current_actor_pose=current_actor,
+                box_pose=_pose(scene.box),
+                can_half_extents_m=can_half_extents,
+                can_local_geometry_center_m=can_local_center,
+                rest_eef_pose=rest,
+            )
+            if route["audit"]["pass"] is not True:
+                raise ValueError("F2 inside gravity-drop CPU route audit failed")
+            return _cache_suffix_controls(
+                scene,
+                program_id=program["program_id"],
+                arm="left",
+                targets=route["targets"],
+                query_limit=24,
+                extra={
+                    "relation": relation,
+                    "variant_id": "inside_gravity_drop_10cm_v3",
+                    "target_actor_pose": route["target_actor_pose"],
+                    "release_target_index": route["release_target_index"],
+                    "layout_version": F2_LAYOUT_VERSION_V2,
+                    "inside_gravity_drop_route": route,
+                    "inside_full_obb_verifier_relaxed": False,
+                },
+            )
+        if relation == "beside":
+            return self._plan_fixed_beside_candidates(scene, program)
+        if relation == "on":
+            target_actor = current_actor.copy()
+            target_actor[:3] = np.asarray(
+                scene.scale.get_functional_point(0), dtype=np.float64
+            )[:3]
+            release = actor_target_to_eef_pose(
+                current_eef, current_actor, target_actor
+            )
             preplace = world_axis_offset_pose(release, 0.10)
             targets = [
                 {"segment_id": f"{relation}_preplace", "pose": preplace},
@@ -1753,22 +2204,23 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 {"segment_id": f"{relation}_retreat", "pose": preplace},
             ]
             release_index = 1
-        targets.append({"segment_id": "f2_rest", "pose": rest})
-        return _cache_suffix_controls(
-            scene,
-            program_id=program["program_id"],
-            arm="left",
-            targets=targets,
-            query_limit=24,
-            extra={
-                "relation": relation,
-                "variant_id": variant_id,
-                "target_actor_pose": target_actor.tolist(),
-                "release_target_index": release_index,
-                "layout_version": F2_LAYOUT_VERSION_V2,
-                "inside_full_obb_verifier_relaxed": False,
-            },
-        )
+            targets.append({"segment_id": "f2_rest", "pose": rest})
+            return _cache_suffix_controls(
+                scene,
+                program_id=program["program_id"],
+                arm="left",
+                targets=targets,
+                query_limit=24,
+                extra={
+                    "relation": relation,
+                    "variant_id": "on_scale_frozen_target_v1",
+                    "target_actor_pose": target_actor.tolist(),
+                    "release_target_index": release_index,
+                    "layout_version": F2_LAYOUT_VERSION_V2,
+                    "inside_full_obb_verifier_relaxed": False,
+                },
+            )
+        raise ValueError("unknown F2 relation")
 
     def execute_frozen_suffix_spec(
         self, scene, program, spec, replay, realization_spec
@@ -1776,6 +2228,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         def release_sample(label):
             row = scene.trace[-1]
             can_pose_value = _pose(scene.can)
+            can_geometry_pose_value = _actor_geometry_center_pose(scene.can)
             actor_name = _entity(scene.can).get_name()
             box_name = _entity(scene.box).get_name()
             can_box_contacts = [
@@ -1794,6 +2247,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 "label": label,
                 "trace_row": len(scene.trace) - 1,
                 "can_pose": can_pose_value.tolist(),
+                "can_geometry_center_pose": can_geometry_pose_value.tolist(),
                 "can_linear_velocity": np.asarray(
                     row["actor_linear_velocity"], dtype=np.float64
                 ).tolist(),
@@ -1801,7 +2255,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     row["actor_angular_velocity"], dtype=np.float64
                 ).tolist(),
                 "full_obb_inside": verify_true_cavity_obb(
-                    can_pose_value,
+                    can_geometry_pose_value,
                     _actor_half_extents(scene.can),
                     _pose(scene.box),
                     F2_PLASTICBOX_BASE2_CAVITY,
@@ -1827,12 +2281,70 @@ class F2ControllerV3_3(FamilyControllerV3_3):
 
         controls = _cached_controls(scene, spec)
         release_index = int(spec["release_target_index"])
+
+        def current_inside_drop_opening_gate():
+            can_geometry_pose = _actor_geometry_center_pose(scene.can)
+            can_corners_world = obb_corners(
+                can_geometry_pose, _actor_half_extents(scene.can)
+            )
+            homogeneous = np.concatenate(
+                (
+                    can_corners_world,
+                    np.ones((len(can_corners_world), 1), dtype=np.float64),
+                ),
+                axis=1,
+            )
+            local = (
+                np.linalg.inv(pose_matrix(_pose(scene.box))) @ homogeneous.T
+            ).T[:, :3]
+            lower = np.asarray(
+                F2_PLASTICBOX_BASE2_CAVITY["lower_m"], dtype=np.float64
+            )
+            upper = np.asarray(
+                F2_PLASTICBOX_BASE2_CAVITY["upper_m"], dtype=np.float64
+            )
+            opening_axes = (0, 2)
+            rim_clearance = float(np.min(local[:, 1]) - upper[1])
+            projection_inside = bool(
+                np.all(
+                    np.min(local[:, opening_axes], axis=0)
+                    >= lower[list(opening_axes)]
+                )
+                and np.all(
+                    np.max(local[:, opening_axes], axis=0)
+                    <= upper[list(opening_axes)]
+                )
+            )
+            return {
+                "opening_projection_inside": projection_inside,
+                "rim_clearance_m": rim_clearance,
+                "rim_clearance_pass": rim_clearance >= 0.02,
+                "can_geometry_center_pose": can_geometry_pose.tolist(),
+            }
+
         execution_receipts = []
         staged_inside_gates = []
         inside_release_samples = {}
+        inside_drop_route = spec.get("inside_gravity_drop_route")
+        held_transport_start_row = len(scene.trace) - 1
+        held_segment_trace_windows = []
         for index in range(release_index + 1):
-            execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, index)
+            segment_start_row = len(scene.trace) - 1
+            execution_receipt = _execute_cached_segment(
+                scene, spec, controls, index
+            )
+            segment_end_row = len(scene.trace) - 1
+            execution_receipts.append(execution_receipt)
+            held_segment_trace_windows.append(
+                {
+                    "segment_id": spec["targets"][index]["segment_id"],
+                    "start_trace_row": segment_start_row,
+                    "end_trace_row": segment_end_row,
+                    "start_relative_to_held_transport": segment_start_row
+                    - held_transport_start_row,
+                    "end_relative_to_held_transport": segment_end_row
+                    - held_transport_start_row,
+                }
             )
             if spec["relation"] == "inside":
                 row = scene.trace[-1]
@@ -1846,22 +2358,161 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                             np.linalg.norm(row["actor_linear_velocity"])
                         ),
                         "full_obb_inside": verify_true_cavity_obb(
-                            _pose(scene.can),
+                            _actor_geometry_center_pose(scene.can),
                             _actor_half_extents(scene.can),
                             _pose(scene.box),
                             F2_PLASTICBOX_BASE2_CAVITY,
                         )["pass_true_cavity_obb"],
                     }
+                if inside_drop_route is not None:
+                    opening_gate = current_inside_drop_opening_gate()
+                    gate.update(
+                        {
+                            "inside_drop_opening_projection_inside": opening_gate[
+                                "opening_projection_inside"
+                            ],
+                            "inside_drop_rim_clearance_m": opening_gate[
+                                "rim_clearance_m"
+                            ],
+                            "inside_drop_rim_clearance_pass": opening_gate[
+                                "rim_clearance_pass"
+                            ],
+                            "inside_drop_geometry_center_pose": opening_gate[
+                                "can_geometry_center_pose"
+                            ],
+                            "inside_drop_route_audit_pass": inside_drop_route[
+                                "audit"
+                            ]["pass"]
+                            is True,
+                        }
+                    )
                 staged_inside_gates.append(gate)
                 if gate["selected_gripper_contact"] is not True:
                     raise RuntimeError(
                         f"F2 inside staged descent lost selected-gripper contact at {gate['segment_id']}"
                     )
-                if index == release_index and gate["full_obb_inside"] is not True:
-                    raise RuntimeError(
-                        "F2 inside staged descent reached release without full OBB inside cavity"
-                    )
+                if index == release_index:
+                    if inside_drop_route is None and gate["full_obb_inside"] is not True:
+                        raise RuntimeError(
+                            "F2 inside staged descent reached release without full OBB inside cavity"
+                        )
+                    if inside_drop_route is not None and not all(
+                        gate[key]
+                        for key in (
+                            "inside_drop_opening_projection_inside",
+                            "inside_drop_rim_clearance_pass",
+                            "inside_drop_route_audit_pass",
+                        )
+                    ):
+                        raise RuntimeError(
+                            "F2 inside gravity-drop pre-release opening/rim Gate failed"
+                        )
+        held_transport_rows = scene.trace[held_transport_start_row:]
+        can_name = _entity(scene.can).get_name()
+        facility_names = {
+            _entity(scene.box).get_name(),
+            _entity(scene.scale).get_name(),
+            _entity(scene.stand).get_name(),
+        }
+        selected_gripper_bodies = set(
+            _gripper_below_eef_envelope(scene, arm="left")[
+                "selected_gripper_links"
+            ]
+        )
+        relation_support_bodies = (
+            {_entity(scene.scale).get_name()}
+            if spec["relation"] == "on"
+            else set()
+        )
+        support_contact_start_relative_row = (
+            held_segment_trace_windows[release_index][
+                "start_relative_to_held_transport"
+            ]
+            if relation_support_bodies
+            else None
+        )
+        transport_contact_gate = audit_f2_held_transport_contacts(
+            held_transport_rows,
+            relation=spec["relation"],
+            can_actor_name=can_name,
+            selected_gripper_body_names=selected_gripper_bodies,
+            named_facility_body_names=facility_names,
+            relation_support_body_names=relation_support_bodies,
+            support_contact_start_relative_row=support_contact_start_relative_row,
+            held_segment_trace_windows=held_segment_trace_windows,
+        )
+        if transport_contact_gate["pass"] is not True:
+            raise RuntimeError("F2 held transport contact/identity Gate failed")
         if spec["relation"] == "inside":
+            if inside_drop_route is not None:
+                _wait_and_record(scene, 50)
+                hold_rows = scene.trace[-50:]
+                hold_linear = [
+                    float(np.linalg.norm(row["actor_linear_velocity"]))
+                    for row in hold_rows
+                ]
+                hold_angular = [
+                    float(np.linalg.norm(row["actor_angular_velocity"]))
+                    for row in hold_rows
+                ]
+                hold_contacts = [
+                    bool(row["selected_gripper_contact"]) for row in hold_rows
+                ]
+                hold_actor_names = [
+                    str(row["selected_contact_actor_name"]) for row in hold_rows
+                ]
+                release_geometry_gate = current_inside_drop_opening_gate()
+                pre_release_hold = {
+                    "schema_version": "cmf_f2_inside_pre_release_hold_gate_v1",
+                    "step_count": 50,
+                    "maximum_linear_speed_mps": max(hold_linear),
+                    "maximum_angular_speed_rps": max(hold_angular),
+                    "selected_gripper_contact_fraction": float(
+                        np.mean(hold_contacts)
+                    ),
+                    "selected_contact_actor_names": hold_actor_names,
+                    "release_frame_geometry_gate": release_geometry_gate,
+                    "checks": {
+                        "linear_stationary": max(hold_linear)
+                        <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                            "stable_linear_speed_mps"
+                        ],
+                        "angular_stationary": max(hold_angular)
+                        <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                            "eef_stationary_angular_speed_rps"
+                        ],
+                        "selected_gripper_contact_continuous": all(
+                            hold_contacts
+                        ),
+                        "selected_contact_actor_identity": all(
+                            name == _entity(scene.can).get_name()
+                            for name in hold_actor_names
+                        ),
+                        "release_frame_opening_projection_inside": (
+                            release_geometry_gate["opening_projection_inside"]
+                        ),
+                        "release_frame_rim_clearance": release_geometry_gate[
+                            "rim_clearance_pass"
+                        ],
+                    },
+                }
+                pre_release_hold["pass"] = all(
+                    pre_release_hold["checks"].values()
+                )
+                staged_inside_gates.append(
+                    {
+                        "segment_id": "inside_drop_pre_release_hold_50",
+                        "pre_release_hold_gate": pre_release_hold,
+                        "pass": pre_release_hold["pass"],
+                    }
+                )
+                inside_release_samples[
+                    "pre_release_hold_gate"
+                ] = pre_release_hold
+                if pre_release_hold["pass"] is not True:
+                    raise RuntimeError(
+                        "F2 inside gravity-drop pre-release stability/contact Gate failed"
+                    )
             inside_release_samples["before_release"] = release_sample(
                 "before_release"
             )
@@ -1871,10 +2522,19 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             f"f2_{spec['relation']}_release",
         )
         if spec["relation"] == "inside":
-            sample_steps = {1, 5, 10, 25, 50, 125}
-            for step in range(1, 126):
+            configured_steps = (
+                set(inside_drop_route["sample_steps"])
+                if inside_drop_route is not None
+                else {1, 5, 10, 25, 50, 125}
+            )
+            settle_steps = (
+                int(inside_drop_route["settle_steps"])
+                if inside_drop_route is not None
+                else 125
+            )
+            for step in range(1, settle_steps + 1):
                 _wait_and_record(scene, 1)
-                if step in sample_steps:
+                if step in configured_steps:
                     inside_release_samples[f"after_release_{step}"] = release_sample(
                         f"after_release_{step}"
                     )
@@ -1897,9 +2557,10 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         if spec["relation"] == "inside":
             inside_release_samples["after_rest"] = release_sample("after_rest")
         can_pose = _pose(scene.can)
+        can_geometry_pose = _actor_geometry_center_pose(scene.can)
         can_half = _actor_half_extents(scene.can)
         inside = verify_true_cavity_obb(
-            can_pose,
+            can_geometry_pose,
             can_half,
             _pose(scene.box),
             F2_PLASTICBOX_BASE2_CAVITY,
@@ -1907,18 +2568,22 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         scale_target = np.asarray(
             scene.scale.get_functional_point(0), dtype=np.float64
         )
-        can_corners = obb_corners(can_pose, can_half)
+        can_corners = obb_corners(can_geometry_pose, can_half)
         on_footprint = bool(
             np.all(
                 np.abs(can_corners[:, :2] - scale_target[None, :2])
                 <= np.asarray([0.07, 0.07], dtype=np.float64)[None, :]
             )
         )
-        on_height = bool(abs(can_pose[2] - scale_target[2]) <= 0.06)
+        on_bottom_height_error = float(
+            abs(np.min(can_corners[:, 2]) - scale_target[2])
+        )
+        on_height = bool(on_bottom_height_error <= 0.02)
         on = bool(on_footprint and on_height)
+        stand_geometry_pose = _actor_geometry_center_pose(scene.stand)
         radial = float(
             np.linalg.norm(
-                can_pose[:2] - np.asarray(scene.stand.get_pose().p[:2])
+                can_geometry_pose[:2] - stand_geometry_pose[:2]
             )
         )
         beside = bool(
@@ -1967,6 +2632,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 scene.trace[-1]["eef_angular_velocity"]
             )
             <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"],
+            "held_transport_contact_gate": transport_contact_gate["pass"],
         }
         semantic = {
             "pass": all(checks.values()),
@@ -1974,12 +2640,16 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             "exclusive_relations": exclusive,
             "on_scale_full_obb_footprint": on_footprint,
             "on_scale_center_height": on_height,
+            "on_scale_bottom_height_error_m": on_bottom_height_error,
             "target_relation": relation,
             "staged_inside_gates": staged_inside_gates,
             "suffix_segment_execution_receipts": execution_receipts,
             "preflight_rollout_same_control_cache": True,
             "inside_full_obb_verifier_relaxed": False,
             "inside_release_dynamics_samples": inside_release_samples,
+            "held_transport_contact_gate": transport_contact_gate,
+            "final_can_actor_origin_pose": can_pose.tolist(),
+            "final_can_geometry_center_pose": can_geometry_pose.tolist(),
         }
         return _raw_result(
             scene,
@@ -2009,27 +2679,103 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         )
         transforms = {
             name: _replay_boundary_transform(scene, replay, name)
-            for name in (
-                "post_close",
-                "post_lift",
-                "post_central",
-                "post_shared_V",
-            )
+            for name in F3_GRASP_BOUNDARIES
+            if name != "acceptance_end"
         }
         transforms["acceptance_end"] = relative_pose(
             _arm_eef_pose(scene, "left"), _pose(scene.bottle)
         )
-        base_transform = transforms["post_close"]
-        translation_drifts = {
-            name: float(np.linalg.norm(value[:3] - base_transform[:3]))
-            for name, value in transforms.items()
+        boundary_audit = audit_f3_grasp_boundary_stability(transforms)
+        event_rows = scene.trace[
+            max(start_row, start_row + v_start - 1) : start_row + v_end
+        ]
+        gripper_evidence = _gripper_below_eef_envelope(scene, arm="left")
+        contact_audit = audit_f3_free_space_event_contacts(
+            [row["contact_pairs"] for row in event_rows],
+            bottle_actor_name=_entity(scene.bottle).get_name(),
+            selected_gripper_link_names=gripper_evidence[
+                "selected_gripper_links"
+            ],
+            support_actor_names=("table", _entity(scene.pad).get_name()),
+        )
+        pre_v_boundary = int(
+            replay["reference_event_boundaries"]["pre_shared_V"]
+        )
+        pre_v_end_row_exclusive = start_row + pre_v_boundary
+        pre_v_rows = scene.trace[
+            pre_v_end_row_exclusive
+            - F3_CENTRAL_HOLD_STEPS : pre_v_end_row_exclusive
+        ]
+        if len(pre_v_rows) != F3_CENTRAL_HOLD_STEPS:
+            raise RuntimeError("F3 replay pre-V hold window length changed")
+        pre_v_contact_audit = audit_f3_free_space_event_contacts(
+            [row["contact_pairs"] for row in pre_v_rows],
+            bottle_actor_name=_entity(scene.bottle).get_name(),
+            selected_gripper_link_names=gripper_evidence[
+                "selected_gripper_links"
+            ],
+            support_actor_names=("table", _entity(scene.pad).get_name()),
+        )
+        pre_v_replay_gate = {
+            "schema_version": "cmf_f3_replay_pre_shared_v_gate_v1",
+            "hold_step_count": len(pre_v_rows),
+            "maximum_eef_linear_speed_mps": max(
+                float(np.linalg.norm(row["eef_linear_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_eef_angular_speed_rps": max(
+                float(np.linalg.norm(row["eef_angular_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_bottle_linear_speed_mps": max(
+                float(np.linalg.norm(row["actor_linear_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_bottle_angular_speed_rps": max(
+                float(np.linalg.norm(row["actor_angular_velocity"]))
+                for row in pre_v_rows
+            ),
+            "free_space_contact_audit": pre_v_contact_audit,
+            "checks": {},
         }
-        orientation_drifts = {
-            name: quaternion_angular_error(value[3:], base_transform[3:])
-            for name, value in transforms.items()
+        pre_v_replay_gate["checks"] = {
+            "eef_linear_stationary": pre_v_replay_gate[
+                "maximum_eef_linear_speed_mps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_linear_speed_mps"
+            ],
+            "eef_angular_stationary": pre_v_replay_gate[
+                "maximum_eef_angular_speed_rps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
+            "bottle_linear_stationary": pre_v_replay_gate[
+                "maximum_bottle_linear_speed_mps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            "bottle_angular_stationary": pre_v_replay_gate[
+                "maximum_bottle_angular_speed_rps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
+            "selected_gripper_contact_continuous": all(
+                bool(row["selected_gripper_contact"]) for row in pre_v_rows
+            ),
+            "selected_contact_actor_identity": all(
+                str(row["selected_contact_actor_name"])
+                == _entity(scene.bottle).get_name()
+                for row in pre_v_rows
+            ),
+            "free_space_support_contact": pre_v_contact_audit["pass"],
         }
-        translation_drift = max(translation_drifts.values())
-        orientation_drift = max(orientation_drifts.values())
+        pre_v_replay_gate["pass"] = all(
+            pre_v_replay_gate["checks"].values()
+        )
+        translation_drift = boundary_audit["maximum_translation_drift_m"]
+        orientation_drift = boundary_audit["maximum_orientation_drift_rad"]
         result = _prefix_physical_acceptance(
             scene,
             roles=("bottle",),
@@ -2038,8 +2784,12 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             extra_checks={
                 "prefix_end_equivalent": replay["prefix_end_equivalent"],
                 "shared_first_v_realized_motion": motion["pass"],
-                "grasp_transform_translation_stable": translation_drift <= 0.005,
-                "grasp_transform_orientation_stable": orientation_drift <= 0.05,
+                "grasp_transform_translation_stable": boundary_audit["checks"]
+                ["all_translation_boundaries_stable"],
+                "grasp_transform_orientation_stable": boundary_audit["checks"]
+                ["all_orientation_boundaries_stable"],
+                "shared_v_free_space_support_contact": contact_audit["pass"],
+                "pre_shared_v_replay_gate": pre_v_replay_gate["pass"],
             },
         )
         result.update(
@@ -2048,18 +2798,20 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "shared_first_v_gate": motion,
                 "grasp_transform_translation_drift_m": translation_drift,
                 "grasp_transform_orientation_drift_rad": orientation_drift,
+                "grasp_boundary_stability_audit": boundary_audit,
+                "shared_v_free_space_contact_audit": contact_audit,
+                "pre_shared_v_replay_gate": pre_v_replay_gate,
                 "boundary_grasp_transforms": {
                     name: value.tolist() for name, value in transforms.items()
                 },
-                "boundary_translation_drift_m": translation_drifts,
-                "boundary_orientation_drift_rad": orientation_drifts,
+                "selected_gripper_envelope_evidence": gripper_evidence,
             }
         )
         return result
 
     def canonical_prefix_contract(self, programs):
         return {
-            "prefix_id": "f3_grasp_lift_central_shared_first_v_v3_3",
+            "prefix_id": "f3_grasp_lift_clearance_carry_shared_first_v_v3_3_r3",
             "family": "F3",
             "arm": "left",
             "ops": [
@@ -2068,7 +2820,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "close",
                 "lift_4cm",
                 "lift_8cm",
-                "central",
+                "clearance_raise",
+                "same_height_center_carry_2x",
+                "central_hold_50",
                 "shared_first_V_time_dilated_endpoint_holds",
             ],
             "shared_v_nominal_amplitude_m": F3_V_NOMINAL_AMPLITUDE_M_V3_3,
@@ -2101,6 +2855,29 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             )
         )
         pregrasp, grasp = selected
+        frozen_grasp = frozen_f3_grasp_contract()
+        if (
+            target_construction_audit["callback_selected_pose_match_count"] != 1
+            or target_construction_audit["callback_selected_contact_point_id"]
+            != frozen_grasp["contact_point_id"]
+            or target_construction_audit[
+                "callback_selected_candidate_index_within_batch"
+            ]
+            != frozen_grasp["rotation_candidate_index"]
+            or target_construction_audit[
+                "callback_selected_candidate_planner_status"
+            ]
+            != "Success"
+        ):
+            raise RuntimeError(
+                "F3 official chooser no longer selects frozen contact3/candidate0"
+            )
+        target_construction_audit["frozen_grasp_contract"] = frozen_grasp
+        target_construction_audit["frozen_selection_verified"] = True
+        target_construction_audit["query_mode"] = (
+            "audit every official contact-point batch; use chooser result only if "
+            "the callback-selected pregrasp uniquely matches frozen contact3/candidate0"
+        )
         prefix_planner_reset = _planner_reset(
             scene,
             planner_seed=PLANNER_SEED,
@@ -2129,14 +2906,156 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         post_lift_transform = relative_pose(
             _arm_eef_pose(scene, "left"), _pose(scene.bottle)
         )
-        central = np.concatenate(
-            ([-0.08, -0.05, 0.95], np.asarray(grasp, dtype=np.float64)[3:])
+        post_lift_eef = _arm_eef_pose(scene, "left")
+        bottle_corners = obb_corners(
+            _actor_geometry_center_pose(scene.bottle),
+            _actor_half_extents(scene.bottle),
         )
-        _move_left(scene, central, "f3_prefix_central")
-        post_central = len(scene.trace) - 1 - start
-        post_central_transform = relative_pose(
+        gripper_evidence = _gripper_below_eef_envelope(scene, arm="left")
+        clearance_audit = build_f3_clearance_height_audit(
+            table_top_z_m=0.74 + float(scene.table_z_bias),
+            pad_top_z_m=float(
+                _pose(scene.pad)[2] + F3_PAD_HALF_EXTENTS_M[2]
+            ),
+            post_lift_eef_z_m=float(post_lift_eef[2]),
+            bottle_below_eef_m=float(
+                post_lift_eef[2] - np.min(bottle_corners[:, 2])
+            ),
+            gripper_below_eef_m=gripper_evidence[
+                "gripper_below_eef_envelope_m"
+            ],
+        )
+        if clearance_audit["pass"] is not True:
+            raise RuntimeError("F3 held-envelope clearance audit failed")
+        carry_route = build_f3_clearance_route_targets(
+            post_lift_eef, clearance_audit
+        )
+        if carry_route["pass"] is not True:
+            raise RuntimeError("F3 clearance carry route audit failed")
+        carry_planned = _plan_chain(
+            scene, carry_route["segments"], query_limit=32, arm="left"
+        )
+        if carry_planned["pass"] is not True or len(carry_planned["controls"]) != 2:
+            raise RuntimeError("F3 clearance carry planner failed")
+        _execute_control(
+            scene,
+            carry_planned["controls"][0],
+            carry_route["segments"][0]["segment_id"],
+            arm="left",
+        )
+        post_clearance_raise = len(scene.trace) - 1 - start
+        post_clearance_transform = relative_pose(
             _arm_eef_pose(scene, "left"), _pose(scene.bottle)
         )
+        dilated_center_control = time_dilate_f3_carry_control_2x(
+            carry_planned["controls"][1]
+        )
+        _execute_control(
+            scene,
+            dilated_center_control,
+            carry_route["segments"][1]["segment_id"],
+            arm="left",
+        )
+        post_center_high = len(scene.trace) - 1 - start
+        post_center_transform = relative_pose(
+            _arm_eef_pose(scene, "left"), _pose(scene.bottle)
+        )
+        _wait_and_record(scene, F3_CENTRAL_HOLD_STEPS)
+        pre_shared_v = len(scene.trace) - 1 - start
+        pre_shared_v_transform = relative_pose(
+            _arm_eef_pose(scene, "left"), _pose(scene.bottle)
+        )
+        pre_v_rows = scene.trace[-F3_CENTRAL_HOLD_STEPS:]
+        pre_v_transforms = {
+            "post_close": post_close_transform,
+            "post_lift": post_lift_transform,
+            "post_clearance_raise": post_clearance_transform,
+            "post_center_high": post_center_transform,
+            "pre_shared_V": pre_shared_v_transform,
+        }
+        pre_v_translation_drifts = {
+            name: float(
+                np.linalg.norm(value[:3] - post_close_transform[:3])
+            )
+            for name, value in pre_v_transforms.items()
+        }
+        pre_v_orientation_drifts = {
+            name: quaternion_angular_error(
+                value[3:], post_close_transform[3:]
+            )
+            for name, value in pre_v_transforms.items()
+        }
+        pre_v_gate = {
+            "schema_version": "cmf_f3_pre_shared_v_boundary_gate_v1",
+            "hold_step_count": F3_CENTRAL_HOLD_STEPS,
+            "maximum_eef_linear_speed_mps": max(
+                float(np.linalg.norm(row["eef_linear_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_eef_angular_speed_rps": max(
+                float(np.linalg.norm(row["eef_angular_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_bottle_linear_speed_mps": max(
+                float(np.linalg.norm(row["actor_linear_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_bottle_angular_speed_rps": max(
+                float(np.linalg.norm(row["actor_angular_velocity"]))
+                for row in pre_v_rows
+            ),
+            "maximum_grasp_translation_drift_m": max(
+                pre_v_translation_drifts.values()
+            ),
+            "maximum_grasp_orientation_drift_rad": max(
+                pre_v_orientation_drifts.values()
+            ),
+            "checks": {},
+        }
+        pre_v_gate["checks"] = {
+            "eef_linear_stationary": pre_v_gate[
+                "maximum_eef_linear_speed_mps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_linear_speed_mps"
+            ],
+            "eef_angular_stationary": pre_v_gate[
+                "maximum_eef_angular_speed_rps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
+            "bottle_linear_stationary": pre_v_gate[
+                "maximum_bottle_linear_speed_mps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            "bottle_angular_stationary": pre_v_gate[
+                "maximum_bottle_angular_speed_rps"
+            ]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
+            "grasp_translation_stable": pre_v_gate[
+                "maximum_grasp_translation_drift_m"
+            ]
+            <= 0.005,
+            "grasp_orientation_stable": pre_v_gate[
+                "maximum_grasp_orientation_drift_rad"
+            ]
+            <= 0.05,
+            "selected_gripper_contact_continuous": all(
+                bool(row["selected_gripper_contact"]) for row in pre_v_rows
+            ),
+            "selected_contact_actor_identity": all(
+                str(row["selected_contact_actor_name"])
+                == _entity(scene.bottle).get_name()
+                for row in pre_v_rows
+            ),
+        }
+        pre_v_gate["pass"] = all(pre_v_gate["checks"].values())
+        if pre_v_gate["pass"] is not True:
+            raise RuntimeError("F3 pre-shared-V stationary/grasp boundary Gate failed")
+        central = np.asarray(carry_route["segments"][1]["pose"], dtype=np.float64)
         v_start = len(scene.trace) - 1 - start
         shared_v_targets = _time_dilated_closed_loop_event_targets(
             central,
@@ -2169,26 +3088,27 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         boundary_transforms = {
             "post_close": post_close_transform,
             "post_lift": post_lift_transform,
-            "post_central": post_central_transform,
+            "post_clearance_raise": post_clearance_transform,
+            "post_center_high": post_center_transform,
+            "pre_shared_V": pre_shared_v_transform,
             "post_shared_V": post_shared_transform,
             "acceptance_end": acceptance_transform,
         }
-        boundary_translation_drifts = {
-            name: float(
-                np.linalg.norm(value[:3] - post_close_transform[:3])
-            )
-            for name, value in boundary_transforms.items()
-        }
-        boundary_orientation_drifts = {
-            name: quaternion_angular_error(
-                value[3:], post_close_transform[3:]
-            )
-            for name, value in boundary_transforms.items()
-        }
-        grasp_translation_drift = max(boundary_translation_drifts.values())
-        grasp_orientation_drift = max(boundary_orientation_drifts.values())
+        boundary_audit = audit_f3_grasp_boundary_stability(boundary_transforms)
+        grasp_translation_drift = boundary_audit["maximum_translation_drift_m"]
+        grasp_orientation_drift = boundary_audit[
+            "maximum_orientation_drift_rad"
+        ]
         shared_v_gate = verify_realized_motion_metrics(
             {"event_0_V": first_v_metrics}, PROVISIONAL_RUNTIME_THRESHOLDS
+        )
+        shared_v_contact_audit = audit_f3_free_space_event_contacts(
+            [row["contact_pairs"] for row in event_rows],
+            bottle_actor_name=_entity(scene.bottle).get_name(),
+            selected_gripper_link_names=gripper_evidence[
+                "selected_gripper_links"
+            ],
+            support_actor_names=("table", _entity(scene.pad).get_name()),
         )
         prefix_acceptance = _prefix_physical_acceptance(
             scene,
@@ -2197,10 +3117,14 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             expected_contact_actor_name=_entity(scene.bottle).get_name(),
             extra_checks={
                 "shared_first_v_realized_motion": shared_v_gate["pass"],
-                "grasp_transform_translation_stable": grasp_translation_drift
-                <= 0.005,
-                "grasp_transform_orientation_stable": grasp_orientation_drift
-                <= 0.05,
+                "grasp_transform_translation_stable": boundary_audit["checks"]
+                ["all_translation_boundaries_stable"],
+                "grasp_transform_orientation_stable": boundary_audit["checks"]
+                ["all_orientation_boundaries_stable"],
+                "shared_v_free_space_support_contact": shared_v_contact_audit[
+                    "pass"
+                ],
+                "pre_shared_v_boundary_gate": pre_v_gate["pass"],
             },
         )
         prefix_acceptance.update(
@@ -2209,12 +3133,16 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "shared_first_v_gate": shared_v_gate,
                 "grasp_transform_translation_drift_m": grasp_translation_drift,
                 "grasp_transform_orientation_drift_rad": grasp_orientation_drift,
+                "grasp_boundary_stability_audit": boundary_audit,
+                "shared_v_free_space_contact_audit": shared_v_contact_audit,
+                "clearance_height_audit": clearance_audit,
+                "clearance_carry_route": carry_route,
+                "pre_shared_v_boundary_gate": pre_v_gate,
+                "selected_gripper_envelope_evidence": gripper_evidence,
                 "boundary_grasp_transforms": {
                     name: value.tolist()
                     for name, value in boundary_transforms.items()
                 },
-                "boundary_translation_drift_m": boundary_translation_drifts,
-                "boundary_orientation_drift_rad": boundary_orientation_drifts,
             }
         )
         return _prefix_reference_result(
@@ -2228,7 +3156,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "reference_event_boundaries": {
                     "post_close": post_close,
                     "post_lift": post_lift,
-                    "post_central": post_central,
+                    "post_clearance_raise": post_clearance_raise,
+                    "post_center_high": post_center_high,
+                    "pre_shared_V": pre_shared_v,
                     "shared_first_v_start": v_start,
                     "shared_first_v_end": v_end,
                     "post_shared_V": post_shared,
@@ -2236,6 +3166,16 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "reference_shared_first_v_metrics": first_v_metrics,
                 "closed_loop_primitive_version": F3_CLOSED_LOOP_PRIMITIVE_VERSION,
                 "event_endpoint_hold_steps": F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2,
+                "central_hold_steps": F3_CENTRAL_HOLD_STEPS,
+                "clearance_height_audit": clearance_audit,
+                "clearance_carry_route": carry_route,
+                "pre_shared_v_boundary_gate": pre_v_gate,
+                "clearance_carry_segment_receipts": carry_planned[
+                    "segment_receipts"
+                ],
+                "center_carry_time_dilation": dilated_center_control[
+                    "_cmf_time_dilation"
+                ],
                 "shared_v_target_count": len(shared_v_targets),
                 "target_construction_planner_audit": target_construction_audit,
                 "prefix_planner_reset_receipt": prefix_planner_reset,
@@ -2327,6 +3267,24 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             ],
             axis="V",
         )
+        gripper_evidence = _gripper_below_eef_envelope(scene, arm="left")
+        support_names = ("table", _entity(scene.pad).get_name())
+        event_contact_audits = {
+            "event_0_V": audit_f3_free_space_event_contacts(
+                [
+                    row["contact_pairs"]
+                    for row in scene.trace[
+                        max(start_row, start_row + v_start - 1) : start_row
+                        + v_end
+                    ]
+                ],
+                bottle_actor_name=_entity(scene.bottle).get_name(),
+                selected_gripper_link_names=gripper_evidence[
+                    "selected_gripper_links"
+                ],
+                support_actor_names=support_names,
+            )
+        }
         execution_receipts = []
         for group in spec["event_groups"]:
             index = int(group["target_start_index"])
@@ -2348,8 +3306,18 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 )
                 _wait_and_record(scene, hold_steps)
             scene.mark(f"event_{event_index}_{axis}_end")
-            metrics[f"event_{event_index}_{axis}"] = _realized_event_metrics(
-                scene.trace[event_center_row:], axis=axis
+            event_key = f"event_{event_index}_{axis}"
+            event_rows = scene.trace[event_center_row:]
+            metrics[event_key] = _realized_event_metrics(
+                event_rows, axis=axis
+            )
+            event_contact_audits[event_key] = audit_f3_free_space_event_contacts(
+                [row["contact_pairs"] for row in event_rows],
+                bottle_actor_name=_entity(scene.bottle).get_name(),
+                selected_gripper_link_names=gripper_evidence[
+                    "selected_gripper_links"
+                ],
+                support_actor_names=support_names,
             )
         return_start = int(spec["return_start_index"])
         execution_receipts.append(
@@ -2421,7 +3389,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             for name in (
                 "post_close",
                 "post_lift",
-                "post_central",
+                "post_clearance_raise",
+                "post_center_high",
+                "pre_shared_V",
                 "post_shared_V",
             )
         }
@@ -2480,6 +3450,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             == "".join(step["axis"] for step in program["steps"]),
             "return_equivalence": diagnosis["final_return_equivalence"],
             "realized_motion": motion["pass"],
+            "all_events_free_of_pad_table_contact": all(
+                item["pass"] for item in event_contact_audits.values()
+            ),
             "grasp_transform_stable": grasp["grasp_transform_stable"],
             "gripper_open": _arm_gripper_open(scene, "left"),
             "rest_position": np.linalg.norm(
@@ -2511,6 +3484,8 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "samples": samples,
             "realized_motion": motion,
             "event_metrics": metrics,
+            "event_free_space_contact_audits": event_contact_audits,
+            "selected_gripper_envelope_evidence": gripper_evidence,
             "final_checks": final_checks,
             "suffix_segment_execution_receipts": execution_receipts,
             "preflight_rollout_same_control_cache": True,
@@ -2548,6 +3523,51 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         "common_neutral",
     )
 
+    @staticmethod
+    def _slot_state_receipt(scene, *, role, actor, slot):
+        footprint = footprint_inside_local_region(
+            _pose(actor),
+            BLOCK_HALF_EXTENTS,
+            _pose(slot),
+            [-0.035, -0.035, -0.01],
+            [0.035, 0.035, 0.03],
+            (0, 1),
+        )["pass_support_footprint"]
+        rows, linear_speeds, support_contacts = _stable_and_support(
+            scene, actor, "table"
+        )
+        angular_speeds = [
+            float(np.linalg.norm(row["role_actor_angular_velocities"][role]))
+            for row in rows
+        ]
+        checks = {
+            "slot_footprint": bool(footprint),
+            "linear_stable": bool(linear_speeds)
+            and max(linear_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            "angular_stable": bool(angular_speeds)
+            and max(angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
+            "continuous_table_support": bool(support_contacts)
+            and all(support_contacts),
+        }
+        return {
+            "role": role,
+            "checks": checks,
+            "maximum_linear_speed_mps": max(linear_speeds)
+            if linear_speeds
+            else None,
+            "maximum_angular_speed_rps": max(angular_speeds)
+            if angular_speeds
+            else None,
+            "support_contact_fraction": float(np.mean(support_contacts))
+            if support_contacts
+            else 0.0,
+            "pass": all(checks.values()),
+        }
+
     @classmethod
     def _validate_f4_target_structure(
         cls, targets, extra, *, require_three_groups: bool
@@ -2579,24 +3599,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             group_targets = group.get("targets")
             expected = tuple(
                 f"{role}_{suffix}"
-                for suffix in (
-                    "pregrasp",
-                    "grasp",
-                    "lift",
-                    "preplace",
-                    "release",
-                    "neutral",
-                )
+                for suffix in F4_SEGMENTED_BLOCK_SUFFIXES
             )
             if (
                 not isinstance(group_targets, list)
-                or len(group_targets) != 6
+                or len(group_targets) != len(F4_SEGMENTED_BLOCK_SUFFIXES)
                 or tuple(item.get("segment_id") for item in group_targets)
                 != expected
             ):
                 raise ValueError(f"F4 {role} target group structure changed")
             flattened.extend(expected)
-        if len(targets) != 27 or ids[9:] != tuple(flattened):
+        if len(targets) != 9 + 3 * len(F4_SEGMENTED_BLOCK_SUFFIXES) or ids[9:] != tuple(flattened):
             raise ValueError("F4 flattened target sequence differs from grouped targets")
 
     def validate_replayed_prefix_physical(self, scene, replay):
@@ -2757,6 +3770,10 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_grasp_mode": "project_cube_grasp_v1",
             },
         )
+        all_targets, extra = expand_uniform_f4_block_carry_targets(
+            all_targets, extra
+        )
+        validate_uniform_f4_block_carry_targets(all_targets, extra)
         self._validate_f4_target_structure(
             all_targets, extra, require_three_groups=True
         )
@@ -2770,6 +3787,12 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             extra={
                 "object_order": extra["object_order"],
                 "object_target_groups": extra["object_target_groups"],
+                "block_carry_route_version": extra[
+                    "block_carry_route_version"
+                ],
+                "block_carry_route_audit": extra[
+                    "block_carry_route_audit"
+                ],
                 "common_prefix_artifact_required": True,
             },
         )
@@ -2792,21 +3815,25 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_grasp_mode": "project_cube_grasp_v1",
             },
         )
+        all_targets, extra = expand_uniform_f4_block_carry_targets(
+            all_targets, extra
+        )
+        validate_uniform_f4_block_carry_targets(all_targets, extra)
         self._validate_f4_target_structure(
             all_targets, extra, require_three_groups=True
         )
         suffix_targets = all_targets[9:]
         group_by_role = {
-            group["role"]: (index, group)
-            for index, group in enumerate(extra["object_target_groups"])
+            group["role"]: group for group in extra["object_target_groups"]
         }
         targets = []
         groups = []
         for role in roles:
-            source_index, source_group = group_by_role[role]
-            start = source_index * 6
-            targets.extend(suffix_targets[start : start + 6])
-            groups.append({**source_group, "target_start_index": len(targets) - 6})
+            source_group = group_by_role[role]
+            start = int(source_group["target_start_index"])
+            width = len(F4_SEGMENTED_BLOCK_SUFFIXES)
+            targets.extend(suffix_targets[start : start + width])
+            groups.append({**source_group, "target_start_index": len(targets) - width})
         result = _cache_suffix_controls(
             scene,
             program_id="F4-DIAG-" + "".join(roles),
@@ -2816,6 +3843,12 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             extra={
                 "object_order": roles,
                 "object_target_groups": groups,
+                "block_carry_route_version": extra[
+                    "block_carry_route_version"
+                ],
+                "block_carry_route_audit": extra[
+                    "block_carry_route_audit"
+                ],
                 "common_prefix_artifact_required": True,
                 "diagnostic_block_gate": True,
             },
@@ -2904,6 +3937,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             execution_receipts.append(
                 _execute_cached_segment(scene, spec, controls, cursor + 4)
             )
+            execution_receipts.append(
+                _execute_cached_segment(scene, spec, controls, cursor + 5)
+            )
             grasp_contact_rows = scene.trace[grasp_contact_start_row:]
             grasp_contact_flags = [
                 bool(row["selected_gripper_contact"])
@@ -2950,7 +3986,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             )["pass_support_footprint"]
             completion_steps.append(completion["completion_trace_row"])
             execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 5)
+                _execute_cached_segment(scene, spec, controls, cursor + 6)
             )
             _wait_and_record(scene, MINIMUM_NEUTRAL_CONFIRMATION_STEPS)
             other_after = _position_map(others)
@@ -2959,17 +3995,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 for key in others
             }
             prior = {}
+            prior_details = {}
             for previous in completed:
                 prior_actor = getattr(scene, previous.lower())
                 prior_slot = getattr(scene, f"slot_{previous.lower()}")
-                prior[previous] = footprint_inside_local_region(
-                    _pose(prior_actor),
-                    BLOCK_HALF_EXTENTS,
-                    _pose(prior_slot),
-                    [-0.035, -0.035, -0.01],
-                    [0.035, 0.035, 0.03],
-                    (0, 1),
-                )["pass_support_footprint"]
+                prior_details[previous] = self._slot_state_receipt(
+                    scene,
+                    role=previous,
+                    actor=prior_actor,
+                    slot=prior_slot,
+                )
+                prior[previous] = prior_details[previous]["pass"]
             end_eef = _arm_eef_pose(scene, "right")
             _, block_speeds, block_support = _stable_and_support(
                 scene, actor, "table"
@@ -3020,12 +4056,12 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "gripper_open_after": _arm_gripper_open(scene, "right"),
                 "neutral_position": np.linalg.norm(
                     end_eef[:3]
-                    - np.asarray(spec["targets"][cursor + 5]["pose"][:3])
+                    - np.asarray(spec["targets"][cursor + 6]["pose"][:3])
                 )
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["neutral_position_error_m"],
                 "neutral_orientation": quaternion_orientation_error(
                     end_eef[3:],
-                    np.asarray(spec["targets"][cursor + 5]["pose"][3:]),
+                    np.asarray(spec["targets"][cursor + 6]["pose"][3:]),
                 )
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
                 "neutral_linear_stationary": end_linear_speed
@@ -3057,6 +4093,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     "slot_predicate_after": bool(slot_after),
                     "other_object_displacement_m": other_displacement,
                     "prior_slot_predicates_after": prior,
+                    "prior_slot_state_receipts_after": prior_details,
                     "completion_step": completion_steps[-1],
                     "completion_receipt": completion,
                     "selected_gripper_contact_fraction": grasp_contact_fraction,
@@ -3073,20 +4110,22 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 }
             )
             completed.append(role)
-            cursor += 6
+            cursor += len(F4_SEGMENTED_BLOCK_SUFFIXES)
         order = [item["block_id"] for item in block_receipts]
         expected = spec["object_order"]
         expected_roles = list(spec["object_order"])
-        final_slots = {
-            role: footprint_inside_local_region(
-                _pose(getattr(scene, role.lower())),
-                BLOCK_HALF_EXTENTS,
-                _pose(getattr(scene, f"slot_{role.lower()}")),
-                [-0.035, -0.035, -0.01],
-                [0.035, 0.035, 0.03],
-                (0, 1),
-            )["pass_support_footprint"]
+        final_slot_receipts = {
+            role: self._slot_state_receipt(
+                scene,
+                role=role,
+                actor=getattr(scene, role.lower()),
+                slot=getattr(scene, f"slot_{role.lower()}"),
+            )
             for role in expected_roles
+        }
+        final_slots = {
+            role: receipt["pass"]
+            for role, receipt in final_slot_receipts.items()
         }
         final_common_footprint = footprint_inside_local_region(
             _pose(scene.common_x),
@@ -3154,6 +4193,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             "final_common_tray_footprint": final_common_footprint,
             "block_receipts": block_receipts,
             "final_slot_predicates": final_slots,
+            "final_slot_state_receipts": final_slot_receipts,
             "suffix_segment_execution_receipts": execution_receipts,
             "preflight_rollout_same_control_cache": True,
             "common_prefix_replayed_from_artifact": True,

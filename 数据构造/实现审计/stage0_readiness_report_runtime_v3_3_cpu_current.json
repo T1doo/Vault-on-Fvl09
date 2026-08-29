@@ -1,41 +1,30 @@
 {
-  "accepted_nonformal_pre_stage0_roots": {
-    "F1": 1,
-    "F2": 0,
-    "F3": 0,
-    "F4": 0,
-    "total": 1
-  },
-  "cpu_baseline": {
-    "active_tests": "262/262 passed",
-    "active_vault_snapshot_byte_equal": true,
-    "snapshot_tests": "262/262 passed",
-    "status": "r2_repairs_byte_equal_cpu_pass_publication_pending"
-  },
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision3_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
-  "formal_data": false,
-  "gates": {
-    "canonical_prefix_real_smoke": "passed_nonformal",
-    "f1_accepted_root": "accepted_nonformal_revision2_three_of_three",
-    "f2_accepted_root": "revision1_failed_task_physical_revision2_cpu_ready_single_run_remaining",
-    "f3_accepted_root": "revision1_failed_prefix_physical_revision2_cpu_ready_single_run_remaining",
-    "f4_cube_ik_and_staged_blocks": "A_B_C_no_action_ik_passed_staged_blocks_pending",
-    "f4_accepted_root": "revision1_failed_staged_prefix_revision2_cpu_ready_single_run_remaining"
-  },
-  "gpu_parent_scope_authorized": true,
-  "goal_execution_status": "one_of_four_roots_accepted_three_revision2_repairs_publication_pending",
-  "gpu_execution_policy": "physical_GPU0_7_fresh_idle_one_job_per_card_parallel_independent_namespaces",
-  "implementation_source_sha256": "bd16a349e6ded6f496e5daab62616bf36e3d4fac57cfe8b66488bd98d2381e2a",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "new_gpu_launch_authorized": false,
-  "reason": "F1 revision2 is a complete accepted nonformal root. F2/F3/F4 revision1 failed before suffix execution and each has one source-distinct revision2 CPU repair ready; their roots remain pending.",
-  "runtime_v3_3_gpu_scope_count": 9,
-  "superseded_unconsumed_authorization_count": 3,
-  "valid_unconsumed_authorization_count": 0,
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_cpu_current",
-  "stage0_authorized": false,
+  "implementation_revision": "runtime_v3_3_revision3_impact_addendum_v1",
+  "implementation_source_sha256": "adc93d707fb2e2fde01b2915f160d769746ea148465f6772b7f4143a02453cb9",
+  "formal_data": false,
   "stage0_data": false,
+  "stage0_authorized": false,
+  "new_gpu_launch_authorized": false,
+  "gpu_parent_scope_authorized": true,
+  "gpu_execution_policy": "physical_GPU0_7_fresh_idle_parallel_independent_namespaces",
+  "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
+  "cpu_baseline": {
+    "active_tests": "287/287 passed",
+    "snapshot_tests": "287/287 passed",
+    "active_vault_snapshot_byte_equal": true,
+    "status": "revision3_cpu_pass_publication_pending"
+  },
+  "gates": {
+    "F1": "accepted_nonformal_revision2_three_of_three",
+    "F2": "revision2_failed_revision3_cpu_ready_not_run",
+    "F3": "revision2_failed_revision3_cpu_ready_not_run",
+    "F4": "revision2_common_prefix_passed_A_failed_revision3_cpu_ready_not_run"
+  },
+  "reason": "F1 is accepted, but F2/F3/F4 revision3 have not yet produced real accepted roots and a final real-SAPIEN pipeline audit is still pending.",
   "stage0_execution_manifest_status": "not_created_four_root_gate_pending",
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
@@ -45,8 +34,10 @@
   "compression_started": false,
   "pi0_5_started": false,
   "next_safe_sequence": [
-    "sync and publish byte-equal F2/F3/F4 revision2 baseline",
-    "run F2 revision-2, F3 revision-2, and F4 staged+revision-2 on distinct fresh-idle GPUs when available",
-    "only if four roots accepted: generate approved=false Stage0 package"
+    "publish revision3 byte-equal CPU baseline and revision2 terminal evidence",
+    "issue three revision3 single-use scopes from clean published HEAD",
+    "run F2/F3/F4 revision3 on separate fresh-idle GPUs",
+    "audit real receipts/traces/verifiers/cleanup and update readiness",
+    "only after four accepted roots and real pipeline audit: prepare approved=false Stage0 review package"
   ]
 }

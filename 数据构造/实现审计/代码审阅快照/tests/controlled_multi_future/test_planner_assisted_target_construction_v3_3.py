@@ -50,6 +50,65 @@ class _Scene:
 
 
 class PlannerAssistedTargetConstructionV3_3Test(unittest.TestCase):
+    def test_callback_selected_pose_is_bound_to_exact_contact_and_candidate(self):
+        scene = _Scene()
+        actor = _Actor()
+
+        def callback():
+            batches = []
+            for contact_id, _ in actor.iter_contact_points():
+                candidates = [
+                    np.full(7, contact_id * 100 + candidate_id, dtype=np.float64)
+                    for candidate_id in range(10)
+                ]
+                batches.append(candidates)
+                scene.robot.left_plan_multi_path(candidates)
+            return batches[3][0], np.ones(7, dtype=np.float64)
+
+        with patch(
+            "controlled_multi_future.family_runners_v3_3._planner_reset",
+            return_value={"reset_performed": True},
+        ):
+            _, audit = _audited_planner_assisted_target_construction(
+                scene,
+                actor,
+                arm="left",
+                variant_id="selected-pose-binding",
+                callback=callback,
+            )
+        self.assertEqual(audit["callback_selected_pose_match_count"], 1)
+        self.assertEqual(audit["callback_selected_contact_point_id"], 3)
+        self.assertEqual(
+            audit["callback_selected_candidate_index_within_batch"], 0
+        )
+        self.assertEqual(
+            audit["callback_selected_candidate_planner_status"], "Success"
+        )
+
+    def test_non_pose_structured_callback_remains_compatible_for_f1(self):
+        scene = _Scene()
+        actor = _Actor()
+
+        def callback():
+            for _ in actor.iter_contact_points():
+                scene.robot.left_plan_multi_path([np.zeros(7)] * 10)
+            return ([{"segment_id": str(index)} for index in range(7)], {"extra": True})
+
+        with patch(
+            "controlled_multi_future.family_runners_v3_3._planner_reset",
+            return_value={"reset_performed": True},
+        ):
+            value, audit = _audited_planner_assisted_target_construction(
+                scene,
+                actor,
+                arm="left",
+                variant_id="f1-structured-callback",
+                callback=callback,
+            )
+        self.assertEqual(len(value[0]), 7)
+        self.assertIsNone(audit["callback_selected_pregrasp_pose"])
+        self.assertEqual(audit["callback_selected_pose_match_count"], 0)
+
     def test_four_cube_contact_batches_are_counted_and_wrapper_is_restored(self):
         scene = _Scene()
         actor = _Actor()
