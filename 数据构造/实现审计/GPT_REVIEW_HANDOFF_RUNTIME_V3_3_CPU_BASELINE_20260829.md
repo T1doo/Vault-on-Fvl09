@@ -10,6 +10,8 @@ Stage 0 = not authorized / 0 trajectories
 
 CPU baseline content commit：`be7855e51288d1f977e5eba62660c9056f264242`（已push至`origin/main`）。后续runtime-v3_3 scope request必须绑定该提交或包含本发布回执的后续closeout提交，并同时绑定active source SHA。
 
+GPU前最新加固content commit：`e14b47648043f8145ba989bfa4d8002b446b3abb`；它取代旧source baseline作为后续scope的代码审阅依据。
+
 ## 这轮完成了什么
 
 `controlled_multi_future_runtime_v3_3`已把共享prefix从“fresh scene中各自重新规划”改为：
