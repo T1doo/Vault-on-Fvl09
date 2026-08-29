@@ -1,0 +1,271 @@
+{
+  "branch_receipts": [],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-red",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-red-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-green",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-green-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-blue",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-blue-v1_2-000004"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-red:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-red_default-v1_2-000005"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-green:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-green_default-v1_2-000006"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-blue:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-blue_default-v1_2-000007"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 183.47983407974243,
+  "error": "not all frozen candidates passed planner solvability",
+  "error_type": "PlannerSolvabilityError",
+  "formal_data": false,
+  "freeze_call_count": 1,
+  "gpu_probe_authorized": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "planned_root_slot_spec_sha256": "8a14d8190abdd54e0625782ba7d8fd848b3fc82eaececa6157c5d1c8b9d829aa",
+  "planner_solvability_query_count_total": 0,
+  "planner_solvability_receipts": [
+    {
+      "evidence": {
+        "error": "expected scalar type Float but found Double"
+      },
+      "failure_type": "RuntimeError",
+      "planner_query_count": 0,
+      "planner_solvable": false,
+      "program_id": "F1-red",
+      "status": "failed",
+      "variant_id": "default"
+    },
+    {
+      "evidence": {
+        "error": "expected scalar type Float but found Double"
+      },
+      "failure_type": "RuntimeError",
+      "planner_query_count": 0,
+      "planner_solvable": false,
+      "program_id": "F1-green",
+      "status": "failed",
+      "variant_id": "default"
+    },
+    {
+      "evidence": {
+        "error": "expected scalar type Float but found Double"
+      },
+      "failure_type": "RuntimeError",
+      "planner_query_count": 0,
+      "planner_solvable": false,
+      "program_id": "F1-blue",
+      "status": "failed",
+      "variant_id": "default"
+    }
+  ],
+  "reference_capture_order": [
+    "capture_pristine_current",
+    "capture_pristine_anchor",
+    "build_declarative_programs"
+  ],
+  "schema_version": "cmf_real_sapien_root_orchestrator_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_physical_feasibility_receipts": [
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-red",
+      "status": "passed",
+      "task_feasible": true
+    },
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-green",
+      "status": "passed",
+      "task_feasible": true
+    },
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-blue",
+      "status": "passed",
+      "task_feasible": true
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 692, in run_nonformal_root\n    raise PlannerSolvabilityError(\"not all frozen candidates passed planner solvability\")\ncontrolled_multi_future.root_orchestrator_v1_1.PlannerSolvabilityError: not all frozen candidates passed planner solvability\n"
+}
