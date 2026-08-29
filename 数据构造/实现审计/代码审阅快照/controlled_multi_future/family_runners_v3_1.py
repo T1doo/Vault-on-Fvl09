@@ -27,6 +27,7 @@ from .geometry import (
     world_z_yaw_pose,
 )
 from .probes.runtime_trace import _rigid_velocity, trace_rows_to_raw_streams
+from .planner_dtype_v3_2 import normalize_planner_control, planner_array, planner_dtype_receipt
 from .runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, TRAY_BASE0_SUPPORT_REGION
 from .runtime_v3_1_contracts import (
     F2_CANDIDATE_IDS,
@@ -98,11 +99,12 @@ def _must_action(scene, action, label):
 def _execute_control(scene, control, label):
     if not isinstance(control, Mapping) or control.get("status") != "Success":
         raise PlannerChainFailure(f"planner control failed at {label}")
-    scene.take_dense_action({"left_arm": control, "left_gripper": None, "right_arm": None, "right_gripper": None})
+    normalized = normalize_planner_control(control)
+    scene.take_dense_action({"left_arm": normalized, "left_gripper": None, "right_arm": None, "right_gripper": None})
 
 
 def _move_left(scene, pose, label):
-    control = scene.left_move_to_pose(pose=np.asarray(pose, dtype=np.float64).tolist())
+    control = scene.left_move_to_pose(pose=planner_array(pose, shape=(7,), label=f"{label} goal pose"))
     _execute_control(scene, control, label)
     return control
 
@@ -151,9 +153,11 @@ def _ensure_planner_trace_fields(scene, limit):
 def _plan_left(scene, pose, *, last_qpos, source):
     _ensure_planner_trace_fields(scene, getattr(scene, "planner_query_limit", 16))
     query_id = scene._reserve_planner_query()
-    pose = np.asarray(pose, dtype=np.float64).reshape(7)
-    planner_qpos = np.asarray(last_qpos, dtype=np.float32).reshape(-1)
-    result = scene.robot.left_plan_path(pose.tolist(), last_qpos=planner_qpos)
+    pose = planner_array(pose, shape=(7,), label=f"{source} goal pose")
+    planner_qpos = planner_array(last_qpos, label=f"{source} start qpos").reshape(-1)
+    result = scene.robot.left_plan_path(pose, last_qpos=planner_qpos)
+    if isinstance(result, Mapping):
+        result = normalize_planner_control(result)
     status = result.get("status") if isinstance(result, Mapping) else "Fail"
     item = {
         "query_id": query_id,
@@ -163,6 +167,11 @@ def _plan_left(scene, pose, *, last_qpos, source):
         "status": status,
         "start_step": None,
         "end_step": None,
+        "dtype_contract": planner_dtype_receipt(
+            qpos=planner_qpos,
+            goal_pose=pose,
+            control=result if isinstance(result, Mapping) else None,
+        ),
     }
     scene.planner_queries.append(item)
     if isinstance(result, dict):
@@ -171,8 +180,8 @@ def _plan_left(scene, pose, *, last_qpos, source):
 
 
 def _merge_left_arm_terminal_qpos(scene, full_start_qpos, terminal_arm_qpos):
-    full = np.asarray(full_start_qpos, dtype=np.float32).reshape(-1).copy()
-    terminal = np.asarray(terminal_arm_qpos, dtype=np.float32).reshape(-1)
+    full = planner_array(full_start_qpos, label="full start qpos").reshape(-1).copy()
+    terminal = planner_array(terminal_arm_qpos, label="terminal arm qpos").reshape(-1)
     if terminal.size == full.size:
         return terminal.copy()
     active_joints = list(scene.robot.left_entity.get_active_joints())
@@ -190,7 +199,7 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
     # RoboTwin's CuRobo worker builds a tensor directly from these NumPy
     # scalars.  Preserve float32 so it cannot infer a Double start state
     # against a Float motion-generation model.
-    last_qpos = np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float32).reshape(-1)
+    last_qpos = planner_array(scene.robot.left_entity.get_qpos(), label="initial left qpos").reshape(-1)
     segment_receipts = []
     controls = []
     for target in targets:
@@ -198,7 +207,7 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
         control = _plan_left(scene, target["pose"], last_qpos=last_qpos, source=target["segment_id"])
         status = control.get("status") if isinstance(control, Mapping) else "Fail"
         if status == "Success":
-            positions = np.asarray(control["position"], dtype=np.float32)
+            positions = planner_array(control["position"], label=f"{target['segment_id']} trajectory position")
             if positions.ndim != 2 or positions.shape[0] < 1:
                 raise PlannerChainFailure(f"planner returned no qpos path at {target['segment_id']}")
             end_qpos = _merge_left_arm_terminal_qpos(scene, last_qpos, positions[-1])

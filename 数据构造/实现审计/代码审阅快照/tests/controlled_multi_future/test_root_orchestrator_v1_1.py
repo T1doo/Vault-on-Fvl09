@@ -3,6 +3,7 @@ import hashlib
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 
@@ -221,6 +222,34 @@ class RootOrchestratorV1_1Test(unittest.TestCase):
             value,
             {"array": [1, 2, 3], "bool": True, "float": 0.5, "integer": 7, "nested": [False]},
         )
+
+    def test_final_receipt_failure_preserves_append_only_evidence(self):
+        original_write = __import__(
+            "controlled_multi_future.root_orchestrator_v1_1",
+            fromlist=["_write_json"],
+        )._write_json
+
+        def fail_final(path, value):
+            if Path(path).name == "root_receipt.json":
+                raise TypeError("injected final receipt failure")
+            return original_write(path, value)
+
+        with mock.patch(
+            "controlled_multi_future.root_orchestrator_v1_1._write_json",
+            side_effect=fail_final,
+        ):
+            receipt, output = self.run_root(SyntheticRootAdapterV1_1())
+        self.assertEqual(receipt["status"], "failed_final_receipt_serialization")
+        self.assertTrue((output / "root_receipt.serialization_failure.json").is_file())
+        events = [
+            __import__("json").loads(line)
+            for line in (output / "root_events.jsonl").read_text(encoding="utf-8").splitlines()
+        ]
+        event_names = [item["event"] for item in events]
+        self.assertIn("scene_cleanup", event_names)
+        self.assertIn("planner_solvability_receipt", event_names)
+        self.assertIn("branch_terminal_receipt", event_names)
+        self.assertEqual(event_names[-1], "failed_final_receipt_serialization")
 
     def run_root(self, adapter):
         directory = tempfile.TemporaryDirectory()

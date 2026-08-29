@@ -129,6 +129,19 @@ def _write_json(path: Path, value: Mapping[str, Any] | Sequence[Any]) -> None:
     )
 
 
+def _append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(
+        _json_compatible(value),
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(payload + "\n")
+        handle.flush()
+
+
 def _immutable_copy(value: Any) -> Any:
     """Return a detached JSON copy so adapters never receive canonical objects."""
 
@@ -407,6 +420,12 @@ class RealSapienPilotRootOrchestratorV1_1:
         self.adapter = adapter
         self.implementation_version = implementation_version
         self._seen_scene_instance_ids: set[str] = set()
+        self._event_log_path: Path | None = None
+
+    def _append_event(self, event: Mapping[str, Any]) -> None:
+        if self._event_log_path is None:
+            raise RuntimeError("root append-only event log is not initialized")
+        _append_jsonl(self._event_log_path, event)
 
     def _scene_call(
         self,
@@ -450,10 +469,14 @@ class RealSapienPilotRootOrchestratorV1_1:
                 seen_scene_instance_ids=self._seen_scene_instance_ids,
                 phase=phase,
             )
-            receipt["cleanup_records"].append({"phase": phase, **cleanup})
+            cleanup_record = {"phase": phase, **cleanup}
+            receipt["cleanup_records"].append(cleanup_record)
+            self._append_event({"event": "scene_cleanup", "record": cleanup_record})
         except CleanupUncertain:
             if isinstance(cleanup_raw, Mapping):
-                receipt["cleanup_records"].append({"phase": phase, **dict(cleanup_raw), "cleanup_validation_pass": False})
+                cleanup_record = {"phase": phase, **dict(cleanup_raw), "cleanup_validation_pass": False}
+                receipt["cleanup_records"].append(cleanup_record)
+                self._append_event({"event": "scene_cleanup_uncertain", "record": cleanup_record})
             raise
 
         if body_error is not None:
@@ -489,7 +512,16 @@ class RealSapienPilotRootOrchestratorV1_1:
             "planner_solvability_query_count_total": 0,
             "branch_receipts": [],
             "cleanup_records": [],
+            "append_only_event_log": "root_events.jsonl",
         }
+        self._event_log_path = output_dir / "root_events.jsonl"
+        self._append_event(
+            {
+                "event": "root_started",
+                "planned_root_slot_spec_sha256": planned_spec_sha256,
+                "implementation_version": self.implementation_version,
+            }
+        )
         _write_json(output_dir / "planned_root_slot_spec.json", planned_spec)
         terminal = "failed_execution"
         try:
@@ -592,6 +624,7 @@ class RealSapienPilotRootOrchestratorV1_1:
                     }
                 task_physical_all_pass = task_physical_all_pass and item["status"] == "passed"
                 receipt["task_physical_feasibility_receipts"].append(item)
+                self._append_event({"event": "task_physical_receipt", "receipt": item})
 
             if not task_physical_all_pass:
                 terminal = "failed_task_physical_feasibility"
@@ -677,6 +710,7 @@ class RealSapienPilotRootOrchestratorV1_1:
                         }
                     receipt["planner_solvability_receipts"].append(item)
                     receipt["planner_solvability_query_count_total"] += int(item.get("planner_query_count", 0))
+                    self._append_event({"event": "planner_solvability_receipt", "receipt": item})
                     if planned_spec.get("family") == "F2" and receipt["planner_solvability_query_count_total"] > 16:
                         terminal = "failed_budget_exhausted"
                         raise PlannerSolvabilityError("F2 planner query total exceeded 16")
@@ -840,6 +874,7 @@ class RealSapienPilotRootOrchestratorV1_1:
                     # preregistered branches still run.
                 receipt["branch_receipts"].append(branch)
                 _write_json(branch_dir / "receipt.json", branch)
+                self._append_event({"event": "branch_terminal_receipt", "receipt": branch})
 
             root_cleanup_pass = all(
                 item.get("cleanup_safety_pass") is True and item.get("orphan_process_count") == 0
@@ -851,6 +886,7 @@ class RealSapienPilotRootOrchestratorV1_1:
                 root_cleanup_pass=root_cleanup_pass,
             )
             receipt["root_finalization"] = finalization
+            self._append_event({"event": "root_finalization", "receipt": finalization})
             for branch in receipt["branch_receipts"]:
                 _write_json(output_dir / "branches" / branch["program_id"] / "receipt.json", branch)
             terminal = "accepted" if finalization["accepted"] else "failed_verifier"
@@ -870,5 +906,33 @@ class RealSapienPilotRootOrchestratorV1_1:
             receipt.setdefault("traceback", traceback.format_exc())
         receipt["status"] = terminal
         receipt["elapsed_seconds"] = time.time() - started
-        _write_json(output_dir / "root_receipt.json", receipt)
+        try:
+            _write_json(output_dir / "root_receipt.json", receipt)
+        except BaseException as exc:
+            receipt["status"] = "failed_final_receipt_serialization"
+            receipt["final_receipt_serialization_error"] = {
+                "type": type(exc).__name__,
+                "message": str(exc),
+            }
+            self._append_event(
+                {
+                    "event": "failed_final_receipt_serialization",
+                    "error": receipt["final_receipt_serialization_error"],
+                    "cleanup_record_count": len(receipt["cleanup_records"]),
+                    "planner_receipt_count": len(receipt["planner_solvability_receipts"]),
+                    "branch_receipt_count": len(receipt["branch_receipts"]),
+                }
+            )
+            _write_json(
+                output_dir / "root_receipt.serialization_failure.json",
+                {
+                    "schema_version": "cmf_root_final_receipt_serialization_failure_v1",
+                    "status": "failed_final_receipt_serialization",
+                    "append_only_event_log": "root_events.jsonl",
+                    "cleanup_record_count": len(receipt["cleanup_records"]),
+                    "planner_receipt_count": len(receipt["planner_solvability_receipts"]),
+                    "branch_receipt_count": len(receipt["branch_receipts"]),
+                    "error": receipt["final_receipt_serialization_error"],
+                },
+            )
         return receipt
