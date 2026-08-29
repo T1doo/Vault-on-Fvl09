@@ -154,6 +154,10 @@ def _setup_activity_summary(scene, args: Mapping[str, Any]) -> dict:
         "setup_planner_query_count_if_available": int(getattr(scene, "planner_query_count", 0))
         if hasattr(scene, "planner_query_count")
         else None,
+        "native_planner_counters_required": True,
+        "native_planner_counter_source": (
+            "RuntimeTraceMixin planner_query_count and planner_queries; both are required for real A0"
+        ),
         "setup_dense_action_known_from_call_graph": [
             "Base_Task.together_open_gripper",
             "Base_Task.set_gripper",

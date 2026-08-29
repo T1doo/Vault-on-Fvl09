@@ -9,11 +9,11 @@ from pathlib import Path
 
 from ..a0_orchestrator_v1_2 import A0CurrentAnchorOrchestratorV1_2
 from ..real_sapien_adapter_v1_2 import RoboTwinRealSapienPilotRootAdapterV1_2
-from ..runtime_v3_1_budget_v1_1 import validate_runtime_receipt_against_budget
-from .gpu_guard_v2_1 import require_atomic_gpu_guard_v2_1
-from .runtime_v3_1_authorization_v1_1 import (
+from ..runtime_v3_1_budget_v1_2 import validate_runtime_receipt_against_budget
+from .gpu_guard_v2_2 import require_atomic_gpu_guard_v2_2
+from .runtime_v3_1_authorization_v1_2 import (
     authorization_summary,
-    load_authorization_v1_1,
+    load_authorization_v1_2,
     load_consumption_receipt,
 )
 
@@ -22,7 +22,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--authorization-receipt", type=Path, required=True)
     args = parser.parse_args()
-    authorization = load_authorization_v1_1(
+    authorization = load_authorization_v1_2(
         args.authorization_receipt,
         requested_scope="A0_current_anchor_smoke",
         expected_family="F1",
@@ -41,7 +41,7 @@ def main():
     expected_uuid = binding.get("expected_gpu_uuid")
     if os.environ.get("CUDA_VISIBLE_DEVICES") != expected_uuid:
         raise RuntimeError("CUDA_VISIBLE_DEVICES must equal the freshly guarded UUID")
-    guard = require_atomic_gpu_guard_v2_1(
+    guard = require_atomic_gpu_guard_v2_2(
         authorization,
         consumption,
         expected_uuid=expected_uuid,

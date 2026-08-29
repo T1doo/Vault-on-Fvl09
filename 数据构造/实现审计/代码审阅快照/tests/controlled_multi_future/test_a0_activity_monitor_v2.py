@@ -104,6 +104,7 @@ def setup_activity():
         "setup_activity_source": "synthetic setup before monitor",
         "setup_take_action_count_if_available": 0,
         "setup_planner_query_count_if_available": None,
+        "native_planner_counters_required": False,
         "canonical_settle_steps": 60,
         "canonical_settle_is_control_action": False,
         "simulator_timestep_seconds": 0.004,
@@ -208,6 +209,48 @@ class A0ActivityMonitorV2Test(unittest.TestCase):
         receipt = reseal(receipt)
         with self.assertRaises(ActivityMonitorError):
             validate_activity_receipt_v2(receipt, expected_scene_instance_id="scene-1", expected_phase="A0_pristine")
+
+    def test_native_planner_delta_nonzero_fails(self):
+        receipt = self.stopped_receipt()
+        receipt["post_setup_activity"]["native_planner_query_count_delta_if_available"] = 1
+        receipt["post_setup_activity"]["native_planner_record_delta_if_available"] = 1
+        with self.assertRaisesRegex(ActivityMonitorError, "native planner query"):
+            validate_activity_receipt_v2(
+                reseal(receipt),
+                expected_scene_instance_id="scene-1",
+                expected_phase="A0_pristine",
+            )
+
+    def test_native_planner_record_delta_nonzero_fails(self):
+        receipt = self.stopped_receipt()
+        receipt["post_setup_activity"]["native_planner_query_count_delta_if_available"] = 0
+        receipt["post_setup_activity"]["native_planner_record_delta_if_available"] = 1
+        with self.assertRaisesRegex(ActivityMonitorError, "native planner record"):
+            validate_activity_receipt_v2(
+                reseal(receipt),
+                expected_scene_instance_id="scene-1",
+                expected_phase="A0_pristine",
+            )
+
+    def test_real_adapter_requires_native_planner_counters(self):
+        receipt = self.stopped_receipt()
+        receipt["setup_activity"]["native_planner_counters_required"] = True
+        with self.assertRaisesRegex(ActivityMonitorError, "requires both native planner counters"):
+            validate_activity_receipt_v2(
+                reseal(receipt),
+                expected_scene_instance_id="scene-1",
+                expected_phase="A0_pristine",
+            )
+
+    def test_physics_limit_mismatch_fails(self):
+        receipt = self.stopped_receipt()
+        receipt["limits"]["physics_step_limit"] = 1
+        with self.assertRaisesRegex(ActivityMonitorError, "frozen zero limits"):
+            validate_activity_receipt_v2(
+                reseal(receipt),
+                expected_scene_instance_id="scene-1",
+                expected_phase="A0_pristine",
+            )
 
     def test_missing_old_unbound_and_incomplete_receipts_fail(self):
         with self.assertRaises(ActivityMonitorError):

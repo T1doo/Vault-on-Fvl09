@@ -47,6 +47,7 @@ from .verifiers import (
 
 BLOCK_HALF_EXTENTS = np.asarray([0.022, 0.022, 0.022], dtype=np.float64)
 FAMILY_PLANNER_LIMITS = {"F1": 12, "F2": 16, "F3": 16, "F4": 16}
+FAMILY_FULL_PROGRAM_PLANNER_LIMITS = {"F3": 32, "F4": 32}
 MINIMUM_NEUTRAL_CONFIRMATION_STEPS = 1
 
 
@@ -366,7 +367,13 @@ class BaseFamilyRunnerV3_1:
     def audit_planner_solvability(self, scene, frozen_program, planner_variant):
         targets, extra = self.build_targets(scene, frozen_program, planner_variant)
         reset = _planner_reset(scene, planner_seed=20260828, variant_id=planner_variant["variant_id"])
-        planned = _plan_chain(scene, targets, query_limit=FAMILY_PLANNER_LIMITS[self.family])
+        full_program = str(extra.get("execution_scope", "")).endswith("full_program_nonformal_root")
+        query_limit = (
+            FAMILY_FULL_PROGRAM_PLANNER_LIMITS[self.family]
+            if full_program and self.family in FAMILY_FULL_PROGRAM_PLANNER_LIMITS
+            else FAMILY_PLANNER_LIMITS[self.family]
+        )
+        planned = _plan_chain(scene, targets, query_limit=query_limit)
         execution_spec = None
         if planned["pass"]:
             execution_spec = {
@@ -807,9 +814,13 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             {"segment_id": "lift", "pose": lift},
             {"segment_id": "central", "pose": central},
         ]
-        # The currently proposed finite GPU diagnostic is V->H plus return,
-        # not a formal VVHH/VHVH/VHHV root rollout.
-        axes = "VH"
+        execution_scope = planner_variant.get("execution_scope", "full_three_program_root")
+        if execution_scope == "release_diagnosis":
+            axes = "VH"
+        else:
+            axes = "".join(step["axis"] for step in program["steps"])
+            if axes not in ("VVHH", "VHVH", "VHHV"):
+                raise ValueError("F3 full program order is outside the frozen universe")
         for event_index, axis in enumerate(axes):
             vector = np.asarray([0.05, 0, 0]) if axis == "H" else np.asarray([0, 0, 0.05])
             targets.extend(
@@ -837,7 +848,13 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             ]
         )
         return targets, {
-            "execution_scope": "f3_release_diagnosis_VH_only" if correction_spec is None else "f3_single_deterministic_correction_VH_only",
+            "execution_scope": (
+                "f3_single_deterministic_correction_VH_only"
+                if correction_spec is not None
+                else "f3_release_diagnosis_VH_only"
+                if execution_scope == "release_diagnosis"
+                else "f3_full_program_nonformal_root"
+            ),
             "event_order": axes,
             "target_actor_pose": start_actor.tolist(),
             "full_program_id": program["program_id"],
@@ -934,15 +951,22 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
     def rollout(self, scene, program, realization_spec, *, anchor_capture):
         start_actor = _pose(scene.bottle)
         scene.initialize_trace(scene.bottle, "left", role_actors=scene.role_actors)
-        scene.planner_query_limit = FAMILY_PLANNER_LIMITS["F3"]
-        rollout_reset = _planner_reset(scene, planner_seed=20260828, variant_id="f3_VH_diagnosis")
+        spec = realization_spec["planner_execution_spec"]
+        full_program = spec.get("execution_scope") == "f3_full_program_nonformal_root"
+        scene.planner_query_limit = (
+            FAMILY_FULL_PROGRAM_PLANNER_LIMITS["F3"] if full_program else FAMILY_PLANNER_LIMITS["F3"]
+        )
+        rollout_reset = _planner_reset(
+            scene,
+            planner_seed=20260828,
+            variant_id="f3_full_program" if full_program else "f3_VH_diagnosis",
+        )
         start_anchor = anchor_capture(scene)
         prefix_start_action = len(scene.trace) - 1
         _must_action(scene, scene.grasp_actor(scene.bottle, arm_tag=_arm_tag_left(), pre_grasp_dis=0.09), "prefix_grasp")
         _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.12), "prefix_lift")
         held_eef_initial = np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64)
         held_actor_initial = _pose(scene.bottle)
-        spec = realization_spec["planner_execution_spec"]
         _move_left(scene, spec["targets"][3]["pose"], "prefix_central")
         metrics = {}
         axes = spec["event_order"]
@@ -1015,10 +1039,18 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         }
         repair_probe_pass = all(final_checks.values())
         semantic = {
-            "pass": False,
+            "pass": repair_probe_pass if full_program else False,
             "repair_probe_pass": repair_probe_pass,
-            "full_f3_program_complete": False,
-            "failure_reason": "runtime-v3_1 probe scope is V->H diagnosis only; formal F3 program was not executed",
+            "full_f3_program_complete": full_program and repair_probe_pass,
+            "failure_reason": (
+                None
+                if full_program and repair_probe_pass
+                else "full F3 nonformal program verifier failed"
+                if full_program
+                else "runtime-v3_1 repair scope is V->H diagnosis only"
+            ),
+            "executed_event_order": axes,
+            "expected_event_order": "".join(step["axis"] for step in program["steps"]),
             "diagnosis": diagnosis,
             "grasp_transform": grasp,
             "samples": samples,
@@ -1031,7 +1063,15 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             realization_spec=realization_spec,
             executed_prefix=executed_prefix,
             semantic_verifier=semantic,
-            extra={"rollout_planner_reset_receipt": rollout_reset},
+            extra={
+                "rollout_planner_reset_receipt": rollout_reset,
+                "final_state_equivalence_payload": {
+                    "bottle_pose": _pose(scene.bottle).tolist(),
+                    "left_eef_pose": np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64).tolist(),
+                    "left_gripper_open": bool(scene.is_left_gripper_open()),
+                    "target_bottle_pose": target_pose.tolist(),
+                },
+            },
         )
 
 
@@ -1087,6 +1127,7 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
         ]
 
     def build_targets(self, scene, program, planner_variant):
+        execution_scope = planner_variant.get("execution_scope", "full_three_program_root")
         common_pregrasp, common_grasp = scene.choose_grasp_pose(scene.common_x, arm_tag=_arm_tag_left(), pre_dis=0.09, target_dis=0)
         common_lift = world_axis_offset_pose(common_grasp, 0.10)
         target_actor = _pose(scene.common_x)
@@ -1134,36 +1175,60 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
                 {"segment_id": "common_release", "pose": common_release},
                 {"segment_id": "common_neutral", "pose": neutral},
             ]
-        # The current bounded repair is common-X only.  Full A/B/C planner
-        # chains remain implemented below for a later version, but are not
-        # included in the unapproved 16-query route envelope.
         targets = list(common_targets)
         order = [step["object"] for step in program["steps"][1:]]
+        object_target_groups = []
+        if execution_scope != "common_x_route_repair":
+            if "".join(order) not in ("ABC", "ACB", "BAC"):
+                raise ValueError("F4 full program order is outside the frozen universe")
+            for role in order:
+                actor = getattr(scene, role.lower())
+                slot = getattr(scene, f"slot_{role.lower()}")
+                group = self._object_place_targets(scene, actor, slot, role)
+                group.append({"segment_id": f"{role}_neutral", "pose": neutral.copy()})
+                targets.extend(group)
+                object_target_groups.append(
+                    {
+                        "role": role,
+                        "targets": [
+                            {"segment_id": item["segment_id"], "pose": np.asarray(item["pose"], dtype=np.float64).tolist()}
+                            for item in group
+                        ],
+                    }
+                )
         return targets, {
-            "execution_scope": "f4_common_x_route_repair_only",
+            "execution_scope": (
+                "f4_common_x_route_repair_only"
+                if execution_scope == "common_x_route_repair"
+                else "f4_full_program_nonformal_root"
+            ),
             "route_id": planner_variant["variant_id"],
             "carry_envelope_version": envelope["carry_envelope_version"],
             "carry_envelope": envelope,
             "gripper_envelope_evidence": gripper_envelope,
             "tray_pose_changed": False,
             "object_order": order,
+            "object_target_groups": object_target_groups,
             "common_target_actor_pose": target_actor.tolist(),
         }
 
     def rollout(self, scene, program, realization_spec, *, anchor_capture):
         scene.initialize_trace(scene.common_x, "left", role_actors=scene.role_actors)
-        scene.planner_query_limit = FAMILY_PLANNER_LIMITS["F4"]
+        spec = realization_spec["planner_execution_spec"]
+        full_program = spec.get("execution_scope") == "f4_full_program_nonformal_root"
+        scene.planner_query_limit = (
+            FAMILY_FULL_PROGRAM_PLANNER_LIMITS["F4"] if full_program else FAMILY_PLANNER_LIMITS["F4"]
+        )
         rollout_reset = _planner_reset(
             scene,
             planner_seed=20260828,
-            variant_id=realization_spec["planner_execution_spec"]["variant_id"],
+            variant_id=spec["variant_id"],
         )
         non_targets = {"A": scene.a, "B": scene.b, "C": scene.c}
         non_target_baseline = _position_map(non_targets)
         non_target_stages = {"initial": _position_map(non_targets)}
         start_anchor = anchor_capture(scene)
         prefix_start_action = len(scene.trace) - 1
-        spec = realization_spec["planner_execution_spec"]
         targets = spec["targets"]
         _must_action(scene, scene.grasp_actor(scene.common_x, arm_tag=_arm_tag_left(), pre_grasp_dis=0.09), "common_grasp")
         non_target_stages["after_common_grasp"] = _position_map(non_targets)
@@ -1212,12 +1277,162 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             "eef_angular_stationary": eef_angular_speed <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"],
         }
         common_probe_pass = all(common_checks.values())
+
+        block_receipts = []
+        completion_steps = []
+        completed_roles = []
+        if full_program:
+            for group in spec["object_target_groups"]:
+                role = group["role"]
+                actor = getattr(scene, role.lower())
+                slot = getattr(scene, f"slot_{role.lower()}")
+                group_targets = group["targets"]
+                other_actors = {
+                    other_role: getattr(scene, other_role.lower())
+                    for other_role in ("A", "B", "C")
+                    if other_role != role
+                }
+                other_before = _position_map(other_actors)
+                start_eef = np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64)
+                start_linear_speed = float(np.linalg.norm(scene.trace[-1]["eef_linear_velocity"]))
+                start_angular_speed = float(np.linalg.norm(scene.trace[-1]["eef_angular_velocity"]))
+                start_gripper_open = bool(scene.is_left_gripper_open())
+                object_initial_pose = _pose(actor)
+                slot_before = footprint_inside_local_region(
+                    object_initial_pose,
+                    BLOCK_HALF_EXTENTS,
+                    _pose(slot),
+                    [-0.035, -0.035, -0.01],
+                    [0.035, 0.035, 0.03],
+                    (0, 1),
+                )["pass_support_footprint"]
+
+                _must_action(scene, scene.grasp_actor(actor, arm_tag=_arm_tag_left(), pre_grasp_dis=0.09), f"{role}_grasp")
+                _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.10), f"{role}_lift")
+                _move_left(scene, group_targets[3]["pose"], group_targets[3]["segment_id"])
+                _move_left(scene, group_targets[4]["pose"], group_targets[4]["segment_id"])
+                _must_action(scene, scene.open_gripper(_arm_tag_left(), pos=1.0), f"{role}_release")
+                _wait_and_record(scene, PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
+                object_final_pose = _pose(actor)
+                slot_after = footprint_inside_local_region(
+                    object_final_pose,
+                    BLOCK_HALF_EXTENTS,
+                    _pose(slot),
+                    [-0.035, -0.035, -0.01],
+                    [0.035, 0.035, 0.03],
+                    (0, 1),
+                )["pass_support_footprint"]
+                _, block_speeds, _ = _stable_and_support(scene, actor, "table")
+                completion_step = len(scene.trace) - int(PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
+                completion_steps.append(completion_step)
+                _move_left(scene, group_targets[5]["pose"], group_targets[5]["segment_id"])
+                _wait_and_record(scene, MINIMUM_NEUTRAL_CONFIRMATION_STEPS)
+                end_eef = np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64)
+                end_linear_speed = float(np.linalg.norm(scene.trace[-1]["eef_linear_velocity"]))
+                end_angular_speed = float(np.linalg.norm(scene.trace[-1]["eef_angular_velocity"]))
+                end_gripper_open = bool(scene.is_left_gripper_open())
+                other_after = _position_map(other_actors)
+                other_displacement = {
+                    key: float(np.linalg.norm(other_after[key] - other_before[key])) for key in other_actors
+                }
+                prior_slot_preserved = {}
+                for previous_role in completed_roles:
+                    previous_actor = getattr(scene, previous_role.lower())
+                    previous_slot = getattr(scene, f"slot_{previous_role.lower()}")
+                    prior_slot_preserved[previous_role] = bool(
+                        footprint_inside_local_region(
+                            _pose(previous_actor),
+                            BLOCK_HALF_EXTENTS,
+                            _pose(previous_slot),
+                            [-0.035, -0.035, -0.01],
+                            [0.035, 0.035, 0.03],
+                            (0, 1),
+                        )["pass_support_footprint"]
+                    )
+                checks = {
+                    "slot_false_before": not bool(slot_before),
+                    "slot_true_after": bool(slot_after),
+                    "stable_after_release": bool(block_speeds)
+                    and max(block_speeds) <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+                    "gripper_open_after": end_gripper_open,
+                    "neutral_position": float(np.linalg.norm(end_eef[:3] - np.asarray(group_targets[5]["pose"][:3])))
+                    <= PROVISIONAL_RUNTIME_THRESHOLDS["neutral_position_error_m"],
+                    "neutral_orientation": quaternion_orientation_error(
+                        end_eef[3:], np.asarray(group_targets[5]["pose"][3:])
+                    )
+                    <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
+                    "neutral_linear_stationary": end_linear_speed
+                    <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_linear_speed_mps"],
+                    "neutral_angular_stationary": end_angular_speed
+                    <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"],
+                    "other_objects_stable": all(
+                        value <= PROVISIONAL_RUNTIME_THRESHOLDS["non_target_displacement_m"]
+                        for value in other_displacement.values()
+                    ),
+                    "prior_slots_preserved": all(prior_slot_preserved.values()),
+                }
+                block_receipts.append(
+                    {
+                        "block_id": role,
+                        "start_eef_pose": start_eef.tolist(),
+                        "end_eef_pose": end_eef.tolist(),
+                        "start_eef_linear_speed_mps": start_linear_speed,
+                        "end_eef_linear_speed_mps": end_linear_speed,
+                        "start_eef_angular_speed_rps": start_angular_speed,
+                        "end_eef_angular_speed_rps": end_angular_speed,
+                        "start_gripper_open": start_gripper_open,
+                        "end_gripper_open": end_gripper_open,
+                        "object_initial_pose": object_initial_pose.tolist(),
+                        "object_final_pose": object_final_pose.tolist(),
+                        "other_object_displacement_m": other_displacement,
+                        "slot_predicate_before": bool(slot_before),
+                        "slot_predicate_after": bool(slot_after),
+                        "prior_slot_predicates_after": prior_slot_preserved,
+                        "completion_step": completion_step,
+                        "checks": checks,
+                        "pass": all(checks.values()),
+                    }
+                )
+                completed_roles.append(role)
+
+        expected_order = list(spec["object_order"])
+        realized_order = [item["block_id"] for item in block_receipts]
+        final_slot_predicates = {
+            role: bool(
+                footprint_inside_local_region(
+                    _pose(getattr(scene, role.lower())),
+                    BLOCK_HALF_EXTENTS,
+                    _pose(getattr(scene, f"slot_{role.lower()}")),
+                    [-0.035, -0.035, -0.01],
+                    [0.035, 0.035, 0.03],
+                    (0, 1),
+                )["pass_support_footprint"]
+            )
+            for role in ("A", "B", "C")
+        }
+        full_checks = {
+            "common_prefix": common_probe_pass,
+            "three_blocks_executed": len(block_receipts) == 3,
+            "block_order": realized_order == expected_order,
+            "all_blocks_pass": bool(block_receipts) and all(item["pass"] for item in block_receipts),
+            "all_final_slots": all(final_slot_predicates.values()) if full_program else False,
+            "completion_strictly_ordered": all(left < right for left, right in zip(completion_steps, completion_steps[1:])),
+            "noninterference": bool(block_receipts)
+            and all(item["checks"]["prior_slots_preserved"] for item in block_receipts),
+        }
+        full_program_pass = full_program and all(full_checks.values())
         semantic = {
-            "pass": False,
+            "pass": full_program_pass,
             "common_x_repair_probe_pass": common_probe_pass,
             "common_x_checks": common_checks,
-            "full_f4_program_complete": False,
-            "failure_reason": "runtime-v3_1 route budget covers common-X only; A/B/C program was not executed",
+            "full_f4_program_complete": full_program_pass,
+            "failure_reason": (
+                None
+                if full_program_pass
+                else "full F4 nonformal program verifier failed"
+                if full_program
+                else "runtime-v3_1 repair scope covers common-X only"
+            ),
             "common_tray_footprint": footprint,
             "support_contact_window": contacts,
             "stable_speed_window_mps": speeds,
@@ -1226,6 +1441,12 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             "neutral_orientation_error_rad": neutral_orientation_error,
             "route_id": spec["route_id"],
             "carry_envelope_version": spec["carry_envelope_version"],
+            "expected_object_order": expected_order,
+            "realized_object_order": realized_order,
+            "completion_steps": completion_steps,
+            "block_receipts": block_receipts,
+            "final_slot_predicates": final_slot_predicates,
+            "full_program_checks": full_checks,
         }
         return _raw_result(
             scene,
@@ -1233,7 +1454,17 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             realization_spec=realization_spec,
             executed_prefix=executed_prefix,
             semantic_verifier=semantic,
-            extra={"rollout_planner_reset_receipt": rollout_reset},
+            extra={
+                "rollout_planner_reset_receipt": rollout_reset,
+                "final_state_equivalence_payload": {
+                    "common_x_pose": _pose(scene.common_x).tolist(),
+                    "A_pose": _pose(scene.a).tolist(),
+                    "B_pose": _pose(scene.b).tolist(),
+                    "C_pose": _pose(scene.c).tolist(),
+                    "left_eef_pose": np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64).tolist(),
+                    "left_gripper_open": bool(scene.is_left_gripper_open()),
+                },
+            },
         )
 
 

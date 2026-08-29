@@ -20,7 +20,7 @@ from typing import Any, Callable, Mapping, MutableMapping, Sequence
 
 import numpy as np
 
-from .anchor import compare_anchors
+from .anchor import compare_anchors, quaternion_angular_error
 from .candidate_freezer import freeze_candidate_universe
 from .current_hasher import hash_json, require_same_current
 from .raw_writer import write_raw_attempt
@@ -258,6 +258,48 @@ def resolve_first_post_prefix_divergence(branch_receipts: Sequence[Mapping[str, 
     return divergence
 
 
+def compare_three_branch_final_state_payloads(
+    branch_receipts: Sequence[Mapping[str, Any]],
+    *,
+    position_tolerance_m: float = 0.03,
+    orientation_tolerance_rad: float = 0.20,
+) -> dict:
+    payloads = [item.get("final_state_equivalence_payload") for item in branch_receipts]
+    if not all(isinstance(item, Mapping) for item in payloads):
+        return {"equivalent": False, "reason": "missing_final_state_equivalence_payload", "pairwise": []}
+    keys = set(payloads[0])
+    if any(set(item) != keys for item in payloads[1:]):
+        return {"equivalent": False, "reason": "final_state_payload_keys_differ", "pairwise": []}
+    pairwise = []
+    equivalent = True
+    reference = payloads[0]
+    for branch_index, candidate in enumerate(payloads[1:], start=1):
+        checks = {}
+        for key in sorted(keys):
+            left, right = reference[key], candidate[key]
+            if key.endswith("_pose"):
+                left_pose = np.asarray(left, dtype=np.float64).reshape(7)
+                right_pose = np.asarray(right, dtype=np.float64).reshape(7)
+                position_error = float(np.linalg.norm(left_pose[:3] - right_pose[:3]))
+                orientation_error = quaternion_angular_error(left_pose[3:], right_pose[3:])
+                checks[key] = {
+                    "position_error_m": position_error,
+                    "orientation_error_rad": orientation_error,
+                    "pass": position_error <= position_tolerance_m
+                    and orientation_error <= orientation_tolerance_rad,
+                }
+            else:
+                checks[key] = {"pass": left == right, "reference": left, "candidate": right}
+            equivalent = equivalent and checks[key]["pass"]
+        pairwise.append({"reference_branch_index": 0, "candidate_branch_index": branch_index, "checks": checks})
+    return {
+        "equivalent": equivalent,
+        "position_tolerance_m": position_tolerance_m,
+        "orientation_tolerance_rad": orientation_tolerance_rad,
+        "pairwise": pairwise,
+    }
+
+
 def finalize_three_branch_root_v1_1(
     branch_receipts: Sequence[Mapping[str, Any]],
     *,
@@ -301,6 +343,13 @@ def finalize_three_branch_root_v1_1(
     anchor_checks = [item.get("anchor_equivalence", {}).get("equivalent") is True for item in branch_receipts]
     candidate_hashes = {item.get("candidate_universe_sha256") for item in branch_receipts}
     prefix_hashes = {item.get("prefix_sha256") for item in branch_receipts}
+    family = str(program_ids[0]).split("-", 1)[0]
+    final_state_required = family in ("F3", "F4")
+    final_state_equivalence = (
+        compare_three_branch_final_state_payloads(branch_receipts)
+        if final_state_required
+        else {"equivalent": True, "reason": "not_required_for_family"}
+    )
     checks = {
         "three_of_three_branches_accepted": all(item.get("status") == "accepted" for item in branch_receipts),
         "branch_current_matches_reference": all(direct_current_checks),
@@ -314,6 +363,7 @@ def finalize_three_branch_root_v1_1(
         "prefix_start_anchor_equivalent": prefix_error is None and all(item["start"]["equivalent"] for item in prefix_anchor_checks),
         "prefix_end_state_equivalent": prefix_error is None and all(item["end"]["equivalent"] for item in prefix_anchor_checks),
         "root_cleanup": bool(root_cleanup_pass),
+        "final_state_equivalence": final_state_equivalence["equivalent"],
     }
     result = {
         "accepted": all(checks.values()),
@@ -321,6 +371,7 @@ def finalize_three_branch_root_v1_1(
         "program_ids": program_ids,
         "prefix_anchor_checks": prefix_anchor_checks,
         "computed_first_post_prefix_divergence_step": computed_divergence,
+        "final_state_equivalence": final_state_equivalence,
     }
     if prefix_error is not None:
         result["executed_prefix_error"] = prefix_error
@@ -710,6 +761,9 @@ class RealSapienPilotRootOrchestratorV1_1:
                             "branch_current": branch_current,
                             "anchor_equivalence": anchor_result,
                             "executed_prefix": executed_prefix,
+                            "final_state_equivalence_payload": rollout_result.get(
+                                "final_state_equivalence_payload"
+                            ),
                         }
                     )
                     _write_json(branch_dir / "receipt.json", branch)

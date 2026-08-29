@@ -141,7 +141,7 @@ class A0CurrentAnchorOrchestratorV1_2:
     formal_data = False
     stage0_data = False
     stage0_authorized = False
-    gpu_probe_authorized = False
+    gpu_probe_authorized = True
 
     _PROTECTED_METADATA_KEYS = {
         "schema_version",
@@ -153,6 +153,7 @@ class A0CurrentAnchorOrchestratorV1_2:
         "gpu_probe_authorized",
         "planner_query_limit",
         "controlled_action_limit",
+        "physics_step_limit",
         "planned_root_slot_spec_sha256",
         "scene_pattern",
         "status",
@@ -253,8 +254,19 @@ class A0CurrentAnchorOrchestratorV1_2:
         except BaseException as exc:
             body_error = exc
             body_traceback = traceback.format_exc()
-            if activity is None and isinstance(getattr(exc, "receipt", None), Mapping):
-                activity = dict(exc.receipt)
+            if activity is None:
+                candidates = [
+                    getattr(exc, "receipt", None),
+                    getattr(handle, "activity_receipt", None) if handle is not None else None,
+                    getattr(context, "activity_receipt", None),
+                ]
+                scene = getattr(handle, "scene", None) if handle is not None else None
+                monitor = getattr(scene, "_cmf_a0_activity_monitor", None)
+                candidates.append(getattr(monitor, "last_receipt", None))
+                for candidate in candidates:
+                    if isinstance(candidate, Mapping):
+                        activity = dict(candidate)
+                        break
 
         expected_id = handle.scene_instance_id if handle is not None else None
         cleanup_raw = _cleanup_receipt_from(context, handle)
@@ -342,17 +354,18 @@ class A0CurrentAnchorOrchestratorV1_2:
         receipt = {
             "schema_version": "cmf_runtime_v3_1_a0_smoke_v1_2",
             "implementation_version": self.implementation_version,
-            "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+            "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
             "orchestrator_version": A0_ORCHESTRATOR_VERSION,
             "activity_schema_version": ACTIVITY_SCHEMA_VERSION,
             "purpose": "implementation_audit",
             "formal_data": False,
             "stage0_data": False,
             "stage0_authorized": False,
-            "gpu_probe_authorized": False,
+            "gpu_probe_authorized": True,
             "scene_pattern": list(A0_PHASES_V1_2),
             "planner_query_limit": 0,
             "controlled_action_limit": 0,
+            "physics_step_limit": 0,
             "planned_root_slot_spec_sha256": planned_hash,
             "status": "running",
             "scenes": [],
@@ -445,12 +458,16 @@ class A0CurrentAnchorOrchestratorV1_2:
         receipt["post_setup_controlled_action_count"] = sum(
             int(item.get("post_setup_activity", {}).get("controlled_action_delta", 0)) for item in receipt["scenes"]
         )
+        receipt["post_setup_physics_step_count"] = sum(
+            int(item.get("post_setup_activity", {}).get("physics_step_delta", 0)) for item in receipt["scenes"]
+        )
         if receipt["status"] == "passed_nonformal_A0" and not (
             receipt["all_four_scenes_created"]
             and receipt["scene_cleanup_succeeded"]
             and receipt["orphan_process_count"] == 0
             and receipt["post_setup_planner_query_count"] == 0
             and receipt["post_setup_controlled_action_count"] == 0
+            and receipt["post_setup_physics_step_count"] == 0
         ):
             receipt["status"] = "failed_A0_summary_invariant"
         _write_json(output_dir / "receipt.json", receipt)

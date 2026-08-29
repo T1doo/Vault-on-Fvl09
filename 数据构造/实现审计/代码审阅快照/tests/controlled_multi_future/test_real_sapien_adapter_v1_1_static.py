@@ -222,13 +222,15 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
                 with self.assertRaisesRegex(PermissionError, "atomic GPU guard"):
                     require_atomic_gpu_guard(expected_uuid="GPU-test", physical_index=4)
 
-    def test_f3_and_f4_full_root_claims_fail_closed(self):
+    def test_f3_and_f4_repair_and_full_root_modes_are_distinct(self):
         f3_source = inspect.getsource(type(get_family_runner("F3")).rollout)
         f4_source = inspect.getsource(type(get_family_runner("F4")).rollout)
-        self.assertIn('"full_f3_program_complete": False', f3_source)
-        self.assertIn('"full_f4_program_complete": False', f4_source)
-        self.assertIn('"pass": False', f3_source)
-        self.assertIn('"pass": False', f4_source)
+        self.assertIn('f3_full_program_nonformal_root', f3_source)
+        self.assertIn('f4_full_program_nonformal_root', f4_source)
+        self.assertIn('"full_f3_program_complete": full_program and repair_probe_pass', f3_source)
+        self.assertIn('"full_f4_program_complete": full_program_pass', f4_source)
+        self.assertIn('else "runtime-v3_1 repair scope is V->H diagnosis only"', f3_source)
+        self.assertIn('else "runtime-v3_1 repair scope covers common-X only"', f4_source)
 
 
 if __name__ == "__main__":

@@ -11,11 +11,11 @@ from ..family_repair_orchestrator_v1_1 import FamilyRepairOrchestratorV1_1
 from ..f3_conditional_repair_orchestrator_v1_1 import F3ConditionalRepairOrchestratorV1_1
 from ..families import F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_2 import RoboTwinRealSapienPilotRootAdapterV1_2
-from ..runtime_v3_1_budget_v1_1 import validate_runtime_receipt_against_budget
-from .gpu_guard_v2_1 import require_atomic_gpu_guard_v2_1
-from .runtime_v3_1_authorization_v1_1 import (
+from ..runtime_v3_1_budget_v1_2 import validate_runtime_receipt_against_budget
+from .gpu_guard_v2_2 import require_atomic_gpu_guard_v2_2
+from .runtime_v3_1_authorization_v1_2 import (
     authorization_summary,
-    load_authorization_v1_1,
+    load_authorization_v1_2,
     load_consumption_receipt,
 )
 
@@ -26,9 +26,9 @@ PROGRAMS = {
     "F4": (F4SubtaskOrder, "F4-ABC"),
 }
 SCOPES = {
-    "F2": "F2_beside_nonformal_probe",
-    "F3": "F3_release_diagnosis_nonformal_probe",
-    "F4": "F4_common_carry_nonformal_probe",
+    "F2": "F2_workspace_and_three_branch_nonformal_probe",
+    "F3": "F3_release_and_full_program_nonformal_probe",
+    "F4": "F4_common_carry_and_full_program_nonformal_probe",
 }
 
 
@@ -44,7 +44,7 @@ def main():
     family = next((name for name, expected in SCOPES.items() if expected == scope), None)
     if family is None:
         raise PermissionError("family repair authorization scope is unsupported")
-    authorization = load_authorization_v1_1(
+    authorization = load_authorization_v1_2(
         args.authorization_receipt,
         requested_scope=scope,
         expected_family=family,
@@ -60,7 +60,7 @@ def main():
     expected_uuid = binding.get("expected_gpu_uuid")
     if os.environ.get("CUDA_VISIBLE_DEVICES") != expected_uuid:
         raise RuntimeError("CUDA_VISIBLE_DEVICES must equal the freshly guarded UUID")
-    guard = require_atomic_gpu_guard_v2_1(
+    guard = require_atomic_gpu_guard_v2_2(
         authorization,
         consumption,
         expected_uuid=expected_uuid,

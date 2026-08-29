@@ -107,6 +107,7 @@ def zero_activity(timestep=0.004):
             "setup_activity_source": "test",
             "setup_take_action_count_if_available": 0,
             "setup_planner_query_count_if_available": None,
+            "native_planner_counters_required": False,
             "canonical_settle_steps": 60,
             "canonical_settle_is_control_action": False,
             "simulator_timestep_seconds": timestep,
@@ -124,6 +125,8 @@ def zero_activity(timestep=0.004):
             "trace_row_delta": None,
             "physics_step_delta": 0,
             "renderer_update_delta": 2,
+            "native_planner_query_count_delta_if_available": None,
+            "native_planner_record_delta_if_available": None,
         },
         "instrumentation": {
             "entry_point_registry_sha256": registry["registry_sha256"],
@@ -134,7 +137,7 @@ def zero_activity(timestep=0.004):
             "wrapper_restoration_pass": True,
             "counter_sources": {"synthetic": True},
         },
-        "limits": {"planner_query_limit": 0, "controlled_action_limit": 0},
+        "limits": {"planner_query_limit": 0, "controlled_action_limit": 0, "physics_step_limit": 0},
     }
     payload["activity_receipt_sha256"] = canonical_json_sha256(payload)
     return payload

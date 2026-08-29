@@ -1,0 +1,124 @@
+{
+  "approved": true,
+  "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+  "formal_data": false,
+  "frozen": true,
+  "gpu_probe_authorized": true,
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
+  "schema_version": "cmf_runtime_v3_1_scope_budget_v1_2",
+  "scopes": {
+    "A0_current_anchor_smoke": {
+      "automatic_retry": false,
+      "execution_limit": 0,
+      "family": "F1",
+      "max_invocations": 1,
+      "maximum_implementation_repair_revisions": 1,
+      "post_setup_controlled_action_limit": 0,
+      "post_setup_physics_step_limit": 0,
+      "post_setup_planner_query_limit": 0,
+      "scene_count": 4,
+      "scene_pattern": [
+        "A0_pristine",
+        "A0_fresh_1",
+        "A0_fresh_2",
+        "A0_fresh_3"
+      ],
+      "timeout_seconds": 600,
+      "user_authorized": true
+    },
+    "F1_three_branch_nonformal_probe": {
+      "automatic_retry": false,
+      "branch_order": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "execution_limit_per_branch": 1,
+      "family": "F1",
+      "maximum_implementation_repair_revisions": 2,
+      "planner_query_limit_per_branch": 12,
+      "recovery_attempt_limit": 0,
+      "timeout_seconds_per_branch": 1200,
+      "user_authorized": true
+    },
+    "F2_workspace_and_three_branch_nonformal_probe": {
+      "automatic_retry": false,
+      "family": "F2",
+      "maximum_implementation_repair_revisions": 2,
+      "pose_candidate_limit": 6,
+      "recovery_attempt_limit": 0,
+      "root_branch_order": [
+        "inside",
+        "on",
+        "beside"
+      ],
+      "root_execution_limit_per_branch": 1,
+      "root_planner_query_limit_per_branch": 12,
+      "timeout_seconds_per_root_branch": 1200,
+      "timeout_seconds_workspace": 1200,
+      "user_authorized": true,
+      "workspace_preflight_planner_query_limit_total": 16,
+      "workspace_repair_execution_limit": 1
+    },
+    "F3_release_and_full_program_nonformal_probe": {
+      "automatic_retry": false,
+      "conditional_repair_execution_limit": 1,
+      "diagnosis_execution_limit": 1,
+      "family": "F3",
+      "full_program_execution_limit_per_program": 1,
+      "full_program_order": [
+        "VVHH",
+        "VHVH",
+        "VHHV"
+      ],
+      "full_program_planner_query_limit_per_program": 32,
+      "maximum_implementation_repair_revisions": 2,
+      "recovery_attempt_limit": 0,
+      "repair_planner_query_limit_per_run": 16,
+      "timeout_seconds_per_run": 1800,
+      "user_authorized": true
+    },
+    "F4_common_carry_and_full_program_nonformal_probe": {
+      "automatic_retry": false,
+      "execution_limit_per_route": 1,
+      "family": "F4",
+      "maximum_implementation_repair_revisions": 2,
+      "planner_query_limit_per_route": 16,
+      "post_common_execution_limit_per_item": 1,
+      "post_common_gate_order": [
+        "A_only",
+        "B_only",
+        "C_only",
+        "common_X_A_B_noninterference",
+        "common_X_ABC",
+        "common_X_ACB",
+        "common_X_BAC"
+      ],
+      "post_common_planner_query_limit_per_item": 32,
+      "post_common_timeout_seconds_per_item": 2400,
+      "recovery_attempt_limit": 0,
+      "route_limit": 2,
+      "route_order": [
+        "route1_minimum_height_segmented",
+        "route2_carry_neutral_fallback"
+      ],
+      "timeout_seconds_per_route": 1800,
+      "user_authorized": true
+    },
+    "real_sapien_root_integration_nonformal_probe": {
+      "automatic_retry": false,
+      "branch_count": 3,
+      "execution_limit_per_branch": 1,
+      "family": "F1",
+      "maximum_implementation_repair_revisions": 1,
+      "planner_query_limit_per_branch": 12,
+      "recovery_attempt_limit": 0,
+      "timeout_seconds_per_branch": 1200,
+      "user_authorized": true
+    }
+  },
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "user_authorized_pre_stage0_nonformal"
+}
+

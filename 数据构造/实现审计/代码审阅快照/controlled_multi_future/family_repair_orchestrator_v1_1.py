@@ -106,6 +106,12 @@ class FamilyRepairOrchestratorV1_1:
         _write(output_dir / "planned_root_slot_spec.json", planned)
         variants_input = _copy(program)
         variants = _copy(self.adapter.planner_audit_variants(variants_input))
+        if self.adapter.family == "F3":
+            for variant in variants:
+                variant["execution_scope"] = "release_diagnosis"
+        elif self.adapter.family == "F4":
+            for variant in variants:
+                variant["execution_scope"] = "common_x_route_repair"
         preflight_error = None
         if correction_spec is not None:
             try:

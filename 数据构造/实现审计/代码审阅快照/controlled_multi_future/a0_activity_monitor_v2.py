@@ -467,9 +467,19 @@ class A0PostSetupActivityMonitorV2:
                     "trace_row_delta": "dense trace only when initialized; never used as zero-action proof",
                     "physics_step_delta": "instance-local task.scene.step forwarding proxy",
                     "renderer_update_delta": "task/camera renderer-only wrappers",
+                    "native_planner_query_count_delta_if_available": (
+                        "RoboTwin RuntimeTraceMixin.planner_query_count when available"
+                    ),
+                    "native_planner_record_delta_if_available": (
+                        "RoboTwin RuntimeTraceMixin.planner_queries length when available"
+                    ),
                 },
             },
-            "limits": {"planner_query_limit": 0, "controlled_action_limit": 0},
+            "limits": {
+                "planner_query_limit": 0,
+                "controlled_action_limit": 0,
+                "physics_step_limit": 0,
+            },
         }
         payload["activity_receipt_sha256"] = canonical_json_sha256(payload)
         return payload
@@ -572,7 +582,11 @@ def validate_activity_receipt_v2(
         raise ActivityMonitorInstallationError("A0 entry-point registry hash mismatch", receipt=receipt)
     if not isinstance(instrumentation.get("counter_sources"), Mapping):
         raise ActivityMonitorError("A0 counter source registry is missing", receipt=receipt)
-    if limits != {"planner_query_limit": 0, "controlled_action_limit": 0}:
+    if limits != {
+        "planner_query_limit": 0,
+        "controlled_action_limit": 0,
+        "physics_step_limit": 0,
+    }:
         raise ActivityMonitorError("A0 activity limits are not the frozen zero limits", receipt=receipt)
     required_zero = (
         "planner_query_delta",
@@ -586,6 +600,35 @@ def validate_activity_receipt_v2(
     for key in required_zero:
         if post.get(key) != 0:
             raise ActivityMonitorError(f"A0 post-setup activity is nonzero: {key}={post.get(key)}", receipt=receipt)
+    native_query_delta = post.get("native_planner_query_count_delta_if_available")
+    native_record_delta = post.get("native_planner_record_delta_if_available")
+    native_required = setup.get("native_planner_counters_required") is True
+    if native_required and (native_query_delta is None or native_record_delta is None):
+        raise ActivityMonitorError(
+            "A0 real adapter requires both native planner counters",
+            receipt=receipt,
+        )
+    if (native_query_delta is None) != (native_record_delta is None):
+        raise ActivityMonitorError(
+            "A0 native planner query/record counter availability differs",
+            receipt=receipt,
+        )
+    if native_query_delta is not None:
+        if native_query_delta != 0:
+            raise ActivityMonitorError(
+                f"A0 native planner query delta is nonzero: {native_query_delta}",
+                receipt=receipt,
+            )
+        if native_record_delta != 0:
+            raise ActivityMonitorError(
+                f"A0 native planner record delta is nonzero: {native_record_delta}",
+                receipt=receipt,
+            )
+        if native_query_delta != native_record_delta:
+            raise ActivityMonitorError(
+                "A0 native planner query/record deltas disagree",
+                receipt=receipt,
+            )
     trace_delta = post.get("trace_row_delta")
     if trace_delta is not None and trace_delta != 0:
         raise ActivityMonitorError("A0 dense trace changed during the monitored window", receipt=receipt)

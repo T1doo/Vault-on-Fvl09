@@ -3,8 +3,8 @@ from ..base import ControlledMultiFutureSceneBase
 
 class F4SubtaskOrder(ControlledMultiFutureSceneBase):
     family_id = "F4"
-    family_implementation_version = "f4_segmented_common_carry_v3_1"
-    audit_status = "runtime_v3_1_cpu_static_gpu_unauthorized"
+    family_implementation_version = "f4_common_carry_and_full_program_v3_2"
+    audit_status = "runtime_v3_1_v5_1_cpu_hardening_user_authorized_nonformal_not_run"
 
     def build_provisional_programs(self):
         def place(role):

@@ -10,16 +10,23 @@ from pathlib import Path
 from ..families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_2 import RoboTwinRealSapienPilotRootAdapterV1_2
 from ..root_orchestrator_v1_1 import RealSapienPilotRootOrchestratorV1_1
-from ..runtime_v3_1_budget_v1_1 import validate_runtime_receipt_against_budget
-from .gpu_guard_v2_1 import require_atomic_gpu_guard_v2_1
-from .runtime_v3_1_authorization_v1_1 import (
+from ..runtime_v3_1_budget_v1_2 import validate_runtime_receipt_against_budget
+from .gpu_guard_v2_2 import require_atomic_gpu_guard_v2_2
+from .runtime_v3_1_authorization_v1_2 import (
     authorization_summary,
-    load_authorization_v1_1,
+    load_authorization_v1_2,
     load_consumption_receipt,
 )
 
 
 FAMILIES = {"F1": F1ObjectSelection, "F2": F2TargetRelation, "F3": F3MotionOrder, "F4": F4SubtaskOrder}
+SCOPE_FAMILIES = {
+    "F1_three_branch_nonformal_probe": "F1",
+    "F2_workspace_and_three_branch_nonformal_probe": "F2",
+    "F3_release_and_full_program_nonformal_probe": "F3",
+    "F4_common_carry_and_full_program_nonformal_probe": "F4",
+    "real_sapien_root_integration_nonformal_probe": "F1",
+}
 
 
 def main():
@@ -28,13 +35,14 @@ def main():
     args = parser.parse_args()
     raw = json.loads(args.authorization_receipt.read_text(encoding="utf-8"))
     scopes = raw.get("approved_scopes")
-    if scopes not in (["F1_three_branch_nonformal_probe"], ["real_sapien_root_integration_nonformal_probe"]):
+    if not isinstance(scopes, list) or len(scopes) != 1 or scopes[0] not in SCOPE_FAMILIES:
         raise PermissionError("root runner authorization scope is not supported")
     scope = scopes[0]
-    authorization = load_authorization_v1_1(
+    expected_family = SCOPE_FAMILIES[scope]
+    authorization = load_authorization_v1_2(
         args.authorization_receipt,
         requested_scope=scope,
-        expected_family="F1",
+        expected_family=expected_family,
     )
     consumption_path = os.environ.get("CMF_AUTHORIZATION_CONSUMPTION_RECEIPT")
     guard_path = os.environ.get("CMF_GPU_GUARD_RECEIPT")
@@ -47,7 +55,7 @@ def main():
     expected_uuid = binding.get("expected_gpu_uuid")
     if os.environ.get("CUDA_VISIBLE_DEVICES") != expected_uuid:
         raise RuntimeError("CUDA_VISIBLE_DEVICES must equal the freshly guarded UUID")
-    guard = require_atomic_gpu_guard_v2_1(
+    guard = require_atomic_gpu_guard_v2_2(
         authorization,
         consumption,
         expected_uuid=expected_uuid,

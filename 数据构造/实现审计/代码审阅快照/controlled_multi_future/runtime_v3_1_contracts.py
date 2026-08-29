@@ -111,7 +111,7 @@ def validate_f1_executed_prefixes(
     }
 
 
-F2_IMPLEMENTATION_VERSION = "f2_workspace_reachability_v4_1"
+F2_IMPLEMENTATION_VERSION = "f2_workspace_and_three_branch_v4_1"
 F2_CANDIDATE_IDS = tuple(f"f2_pose_{index}" for index in range(6))
 
 
@@ -176,7 +176,7 @@ def select_first_f2_chained_candidate(results: Sequence[Mapping[str, Any]]) -> d
     }
 
 
-F3_IMPLEMENTATION_VERSION = "f3_release_dynamics_diagnosis_v3_1"
+F3_IMPLEMENTATION_VERSION = "f3_release_and_full_program_v3_2"
 F3_CORRECTION_VERSION = "f3_deterministic_actor_to_eef_correction_v1"
 F3_RELEASE_SAMPLE_POINTS = (
     "before_release",
@@ -345,7 +345,7 @@ def build_f3_deterministic_correction_spec(
     return payload
 
 
-F4_IMPLEMENTATION_VERSION = "f4_segmented_common_carry_v3_1"
+F4_IMPLEMENTATION_VERSION = "f4_common_carry_and_full_program_v3_2"
 F4_ROUTE_ORDER = ("route1_minimum_height_segmented", "route2_carry_neutral_fallback")
 
 

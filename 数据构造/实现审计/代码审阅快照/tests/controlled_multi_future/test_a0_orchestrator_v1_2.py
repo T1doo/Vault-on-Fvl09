@@ -44,6 +44,7 @@ def activity_receipt(scene_id, phase, *, violation=False):
             "setup_activity_source": "synthetic",
             "setup_take_action_count_if_available": 0,
             "setup_planner_query_count_if_available": None,
+            "native_planner_counters_required": False,
             "canonical_settle_steps": 60,
             "canonical_settle_is_control_action": False,
             "simulator_timestep_seconds": 0.004,
@@ -80,7 +81,7 @@ def activity_receipt(scene_id, phase, *, violation=False):
             "controlled_action_records": [],
             "counter_sources": {"synthetic": True},
         },
-        "limits": {"planner_query_limit": 0, "controlled_action_limit": 0},
+        "limits": {"planner_query_limit": 0, "controlled_action_limit": 0, "physics_step_limit": 0},
     }
     payload["activity_receipt_sha256"] = canonical_json_sha256(payload)
     return payload
@@ -135,6 +136,7 @@ class SyntheticAdapter:
         violation_phase=None,
         monitor_error_phase=None,
         monitor_error_type=None,
+        capture_error_phase=None,
     ):
         self.current_mismatch_phase = current_mismatch_phase
         self.anchor_mismatch_phase = anchor_mismatch_phase
@@ -144,6 +146,7 @@ class SyntheticAdapter:
         self.violation_phase = violation_phase
         self.monitor_error_phase = monitor_error_phase
         self.monitor_error_type = monitor_error_type
+        self.capture_error_phase = capture_error_phase
         self.counter = 0
         self.opened = []
 
@@ -152,6 +155,11 @@ class SyntheticAdapter:
         return self.last_context
 
     def capture_current(self, scene):
+        if scene.phase == self.capture_error_phase:
+            receipt = activity_receipt(scene._cmf_scene_instance_id, scene.phase)
+            self.last_context.activity_receipt = receipt
+            self.last_context.handle.activity_receipt = receipt
+            raise RuntimeError("synthetic capture_current failure")
         mismatch = scene.phase == self.current_mismatch_phase
         return build_current_hashes(
             head_rgb=np.zeros((2, 2, 3), dtype=np.uint8),
@@ -284,6 +292,18 @@ class A0OrchestratorV1_2Test(unittest.TestCase):
             receipt, _ = self.run_a0(adapter)
         self.assertEqual(receipt["status"], "failed_activity_receipt_reuse")
         self.assertEqual(adapter.opened, list(A0_PHASES_V1_2[:2]))
+
+    def test_failed_capture_preserves_context_activity_receipt(self):
+        receipt, output = self.run_a0(SyntheticAdapter(capture_error_phase="A0_pristine"))
+        self.assertEqual(receipt["status"], "failed_A0")
+        activity_path = output / "scenes/00_A0_pristine/activity.json"
+        self.assertTrue(activity_path.is_file())
+        activity = json.loads(activity_path.read_text())
+        self.assertEqual(activity["phase"], "A0_pristine")
+        self.assertEqual(
+            receipt["scenes"][0]["activity_receipt_sha256"],
+            activity["activity_receipt_sha256"],
+        )
 
 
 if __name__ == "__main__":
