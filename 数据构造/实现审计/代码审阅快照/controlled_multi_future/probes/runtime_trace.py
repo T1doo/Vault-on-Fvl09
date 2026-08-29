@@ -12,6 +12,9 @@ from ..geometry import quaternion_angular_velocity
 from ..raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint
 
 
+TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
+
+
 class PlannerQueryLimitExceeded(RuntimeError):
     pass
 
@@ -256,7 +259,12 @@ class DenseTraceMixin:
         self.simulator_timestep_seconds = float(self.scene.get_timestep())
         self.control_steps_per_action = 1
         self.effective_action_interval_seconds = self.simulator_timestep_seconds * self.control_steps_per_action
-        if not np.isclose(self.simulator_timestep_seconds, 1.0 / self.trace_frequency_hz, rtol=0.0, atol=1e-12):
+        if not np.isclose(
+            self.simulator_timestep_seconds,
+            1.0 / self.trace_frequency_hz,
+            rtol=0.0,
+            atol=TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        ):
             raise RuntimeError(
                 f"scene timestep {self.simulator_timestep_seconds} does not match frozen 250 Hz"
             )

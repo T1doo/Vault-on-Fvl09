@@ -26,7 +26,8 @@ from controlled_multi_future.probes.gpu_guard import (
     verify_post_release,
 )
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
-from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
+from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
+from controlled_multi_future.a0_activity_monitor_v2 import TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS
 from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint, validate_audit_streams, validate_raw_streams
 from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
 from controlled_multi_future.verifiers import (
@@ -105,6 +106,20 @@ def field_metadata(planner_status="unavailable"):
 
 
 class PipelineContractsTest(unittest.TestCase):
+    def test_real_action_trace_uses_a0_float_representation_tolerance(self):
+        self.assertEqual(
+            TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+            TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        )
+        self.assertLess(
+            abs(0.004000000189989805 - 0.004),
+            TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        )
+        self.assertGreater(
+            abs(0.004001 - 0.004),
+            TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        )
+
     def test_dense_trace_delegates_during_base_scene_setup(self):
         result = PreTraceProbe().take_dense_action({"setup": True}, save_freq=None)
         self.assertTrue(result["delegated"])
