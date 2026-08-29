@@ -1,0 +1,16 @@
+# runtime-v3_3 CPU baseline v1.9 publication receipt
+
+```yaml
+content_commit: e160061bf390f4c6dc0c7c11280fd616b161243f
+implementation_revision: runtime_v3_3_revision4_impact_addendum_v1
+implementation_source_sha256: 3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416
+budget_receipt_sha256: 8d82460bdf943a7a797399ac8c9788c7f30cede522f9c3f65f38cdc2aafc2c4f
+active_tests: 309/309
+snapshot_tests: 309/309
+byte_equal: true
+stage0_authorized: false
+```
+
+该commit封存revision-3 terminal evidence、revision-4实现/测试、budget/parent authorization v1.3、current registry/readiness与byte-equal snapshot。发布时未运行r4 GPU。
+
+R3 evidence trees：F2=`31f1ee80fda07e14c4b2c2a1d2b0baffc5de176cc8fb54fd96257fb4563609d2`，F3=`46361ff2bf3b93643254ac6bba3edf25a5353f8190350117a91a24b698623d2b`，F4=`ec97c47705fcf7826ab9af3c1c138cbb262f5ecd4e6fcea1bd71c75e49b88d33`。
