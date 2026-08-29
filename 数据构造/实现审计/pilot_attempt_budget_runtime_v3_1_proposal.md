@@ -1,7 +1,7 @@
 # runtime-v3_1 finite GPU budget proposal
 
 ```yaml
-status: proposed_for_user_review
+status: blocked_a0_budget_exhausted_before_family_probe
 approved: false
 frozen: false
 gpu_probe_authorized: false
@@ -29,3 +29,9 @@ A0 budget 现在由 `runtime_v3_1_budget_v1_1.py` 与 `A0CurrentAnchorOrchestrat
 通用 budget registry 已覆盖 A0、F1 三分支、F2 beside、F3 diagnosis+conditional correction、F4 Route1/2 与 real-root integration。只有 A0 标记 `currently_requestable=true`；其余 scope继续未批准。
 
 待审批包：`A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.md/json`。它不构成预算冻结或运行批准，`approved=false / frozen=false / gpu_probe_authorized=false` 保持不变。
+
+## 2026-08-29 execution update
+
+用户随后批准pre-Stage-0 nonformal budget；A0按`1 initial + 1 versioned repair`执行两次并均terminal fail，预算已耗尽。Run1为SAPIEN sleep-state API兼容；run2为4ms exact-float validator/native-ledger初始化。两次cleanup/orphan/GPU release安全，family probes未启动。
+
+因此Stage-0 pilot attempt budget仍不能根据真实family耗时冻结：`approved=false / frozen=false / stage0_authorized=false`。Pre-Stage-0 scope budget的执行历史见`PRE_STAGE0_GPU_SCOPE_BUDGET_V1.*`与完整执行报告；若要验证postmortem CPU修复，必须另批新A0预算。

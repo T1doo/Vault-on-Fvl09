@@ -1,5 +1,8 @@
 # F1–F4 implementation registry — runtime-v3_1 CPU current
 
+> [!warning] Superseded
+> 本文件是GPU运行前的v5 CPU registry，已由`f1_f4_implementation_registry_v3_1_v5_1_current.md/json`取代。不要把下方“real GPU not run”当作当前事实；当前真实A0已执行两次并terminal blocked。
+
 当前状态：`cpu_static_hardened_v5_a0_approval_ready_real_gpu_unverified`；Stage-0 readiness=`BLOCKED_WITH_REASONS`；A0 approval readiness=`READY_FOR_USER_REVIEW_BEFORE_A0`。
 
 | Component | Current version | CPU status | Real GPU status |

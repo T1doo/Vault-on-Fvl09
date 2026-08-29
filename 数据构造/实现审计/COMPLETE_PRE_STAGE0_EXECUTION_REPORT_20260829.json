@@ -1,0 +1,131 @@
+{
+  "a0": {
+    "anchor_four_scene_pass": false,
+    "budget_exhausted": true,
+    "execution_count": 2,
+    "pass": false,
+    "run1": {
+      "authorization_receipt_sha256": "db3073afc544073dd3f9fd74fedb2e2b1fc4ce23aaca7656c303de9bd2a02c65",
+      "cleanup_pass": true,
+      "failure_type": "TypeError",
+      "failure_reason": "SAPIEN is_sleeping bool property called as method",
+      "gpu_guard_elapsed_seconds": 57.89471793174744,
+      "gpu_release_pass": true,
+      "namespace": "probe_outputs/nonformal_A0_F1_seed20260829_run1",
+      "orphan_count": 0,
+      "physical_gpu_index": 0,
+      "status": "failed_A0",
+      "timeout": false
+    },
+    "run2": {
+      "anchor_sha256": "27daa3e63ba5040580a6edb7725f28ab7de23490ec754d126ea167310cdb5d76",
+      "authorization_receipt_sha256": "95d4ac724d58b5550ec724257010c28e1a0bb87204d0141179bd1dda6e1ea7c0",
+      "cleanup_pass": true,
+      "current_sha256": "0b3160326b189aa4d5592e31ea6c32925ddae0d5b7dec9911348a89c65d95836",
+      "failure_type": "ActivityMonitorError",
+      "failure_reason": "exact float validator rejected 0.004000000189989805 and native planner ledger was unavailable",
+      "gpu_guard_elapsed_seconds": 50.48596405982971,
+      "gpu_release_pass": true,
+      "namespace": "probe_outputs/nonformal_A0_F1_seed20260829_run2",
+      "orphan_count": 0,
+      "physical_gpu_index": 0,
+      "post_setup_activity": {
+        "controlled_action_delta": 0,
+        "physics_step_delta": 0,
+        "planner_query_delta": 0,
+        "renderer_update_delta": 2
+      },
+      "status": "failed_zero_post_setup_activity",
+      "timeout": false
+    }
+  },
+  "current_progress": "BLOCKED_WITH_REASONS",
+  "data_pipeline": {
+    "candidate_freeze": "implemented_and_synthetic_tested_real_not_run",
+    "cleanup_orphan_audit": "real_A0_two_of_two_safe",
+    "controller_effective_setpoint_26d_250hz": "implemented_and_synthetic_tested_real_family_raw_not_run",
+    "current_hash": "real_pristine_once_captured_four_scene_equivalence_not_run",
+    "finalizer": "implemented_and_synthetic_tested_real_not_run",
+    "fresh_scene_reconstruction": "real_scene_creation_cleanup_seen_four_scene_gate_not_completed",
+    "n_actions_n_plus_one_states": "implemented_and_synthetic_tested_real_family_raw_not_run",
+    "physical_anchor": "real_pristine_once_captured_four_scene_equivalence_not_run",
+    "raw_writer": "implemented_and_synthetic_tested_real_family_raw_not_run",
+    "receipt": "real_A0_receipts_complete",
+    "task_physical_vs_planner_separation": "implemented_and_synthetic_tested_real_not_run",
+    "verifier": "implemented_and_synthetic_tested_real_family_not_run"
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "family_results": {
+    "F1": {
+      "complete_three_branch_pass": false,
+      "current_version": "f1_three_branch_coverage_v3_1",
+      "new_execution": "not_run_due_A0_gate",
+      "remaining": "red/green/blue 3/3 real root"
+    },
+    "F2": {
+      "complete_three_branch_pass": false,
+      "current_version": "f2_workspace_and_three_branch_v4_1",
+      "new_execution": "not_run_due_A0_gate",
+      "remaining": "same can/arm inside/on/beside 3/3"
+    },
+    "F3": {
+      "complete_three_program_pass": false,
+      "current_version": "f3_release_and_full_program_v3_2",
+      "new_execution": "not_run_due_A0_gate",
+      "remaining": "release Gate and VVHH/VHVH/VHHV"
+    },
+    "F4": {
+      "complete_three_program_pass": false,
+      "current_version": "f4_common_carry_and_full_program_v3_2",
+      "new_execution": "not_run_due_A0_gate",
+      "remaining": "common-X, block gates, ABC/ACB/BAC"
+    }
+  },
+  "formal_data": false,
+  "generated_at": "2026-08-29",
+  "git": {
+    "postmortem_content_commit": "28cfb46cf14be9c5850efd1af00489acc5e8b8ee",
+    "publication_commit": "pending_final_docs_commit",
+    "remote_head": "pending_push"
+  },
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "no_execution_confirmation": {
+    "compression": true,
+    "formal_360": true,
+    "formal_stage0": true,
+    "h_reveal_adjudication": true,
+    "model_training": true,
+    "pi05": true,
+    "stage1": true
+  },
+  "postmortem_cpu_fix": {
+    "active_snapshot_tests": "158/158 passed",
+    "native_planner_ledger_initialized_before_monitor": true,
+    "real_gpu_verified": false,
+    "timestep_representation_atol_seconds": 1e-09
+  },
+  "runtime_statistics": {
+    "cleanup_failures": 0,
+    "controlled_action_executions": 0,
+    "gpu_runs": 2,
+    "orphan_count": 0,
+    "planner_queries": 0,
+    "scene_creations": 2,
+    "timeouts": 0,
+    "total_guard_gpu_seconds": 108.38068199157715
+  },
+  "schema_version": "cmf_complete_pre_stage0_execution_report_v1",
+  "scientific_design_changed": false,
+  "stage0_authorized": false,
+  "stage0_package": {
+    "approval_request_generated": false,
+    "attempt_budget_frozen": false,
+    "execution_manifest_generated": false,
+    "reason": "A0 and F1-F4 evidence prerequisites did not pass",
+    "root_slots_frozen": 0,
+    "trajectory_manifest_count": 0
+  },
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0
+}

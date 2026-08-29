@@ -1,26 +1,30 @@
-# Stage 0 readiness — runtime-v3_1 current
+# Stage 0 readiness — runtime-v3_1 v5.1 current
 
 ## BLOCKED_WITH_REASONS
 
-Runtime-v3_1 已完成第五轮 GPU 前 CPU/code 加固。131/131 active/snapshot tests、76-file compile、import-side-effect audit 与 root-cpu9 synthetic evidence通过。A0 现在使用 post-setup activity monitor v2、orchestrator v1_2、real adapter/context v1_2、one-shot authorization v1_1 和 guard v2_1；代码、预算、family/seed/spec、output与单次消费均可机器核对。
+用户已批准全部 pre-Stage-0 nonformal 工作，但真实 A0 的冻结执行预算已耗尽且未通过：run1 因fvl05 SAPIEN sleep-state API差异失败；唯一versioned repair后的run2生成了pristine current/anchor，但被旧exact-float timestep Gate拒绝，并暴露native planner ledger未初始化。两次均cleanup/orphan/GPU-release安全，post-setup planner/control/physics均为0。
 
-## A0 用户审批 readiness
+Postmortem CPU修复已完成：4 ms使用`1e-9 s`表示容差，monitor前初始化RuntimeTraceMixin-compatible空planner ledger；active/snapshot 158/158 tests通过。但该修复没有新的GPU预算和真实evidence。
 
-```text
-a0_user_approval_readiness = READY_FOR_USER_REVIEW_BEFORE_A0
+因此当前硬阻塞：
+
+1. A0 pass=false，fresh1/fresh2/fresh3未运行，same-current与anchor四场景Gate未验证；
+2. A0的`1 initial + 1 repair` execution budget已耗尽；
+3. F1–F4和real-root scopes因A0前置失败均未启动；
+4. F1 3/3、F2 inside/on/beside 3/3、F3三个完整program、F4三个完整program仍缺真实证据；
+5. Stage 0 manifest与attempt budget不能根据缺失的family probe伪冻结。
+
+```yaml
+pre_stage0_parent_authorized: true
+a0_real_execution_count: 2
+a0_execution_budget_exhausted: true
+a0_pass: false
+new_gpu_launch_authorized: false
+stage0_authorized: false
+stage0_trajectory_count: 0
+stage1_trajectory_count: 0
+formal_f1_f4_trajectory_count: 0
+h_reveal: null
 ```
 
-这只表示 A0 前的 CPU/code 工作与待审批材料已经齐全。`A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.json` 仍为 `approved=false / gpu_probe_authorized=false`；没有最终 authorization receipt，也没有运行 A0。
-
-但以下事实仍阻止 GPU budget 和 Stage 0：
-
-1. A0 已达到用户审阅条件，但尚未获得用户单次批准，也未运行；
-2. concrete adapter/runner 尚无真实 SAPIEN/GPU evidence；
-3. F1 真实 actual-prefix red/green/blue 3/3 未运行；
-4. F2 six fresh planner variants/chained beside 未运行；
-5. F3 V→H release diagnosis 未运行，完整三个程序仍 incomplete；
-6. F4 common-X routes 未运行，A/B/C 与 ABC/ACB/BAC 仍 incomplete；
-7. runtime-v3_1 budget仍 `proposed_for_user_review / approved=false / frozen=false`；
-8. 不存在合法、未消费的 `cmf_runtime_v3_1_gpu_authorization_v1_1` receipt。
-
-`H_reveal=null`；Stage 0/1/formal trajectories 均为 0；无训练、compression、π0.5。不得启动 Stage 0。
+不得启动 Stage 0。下一安全动作是由用户/GPT审阅run1/run2与postmortem CPU修复，决定是否建立一个新的、独立版本与新增A0预算；旧authorization均已消费，不可重放。

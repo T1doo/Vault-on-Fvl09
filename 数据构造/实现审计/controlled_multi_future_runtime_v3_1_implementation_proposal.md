@@ -1,6 +1,6 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`cpu_static_hardened_v5_a0_approval_ready_pending_user_review`。
+状态：`a0_attempted_twice_budget_exhausted_postmortem_cpu_fixed_real_unverified`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
@@ -9,8 +9,8 @@ root_orchestrator: real_sapien_pilot_root_orchestrator_v1_1
 a0_orchestrator: A0CurrentAnchorOrchestratorV1_2
 a0_activity_audit: cmf_a0_activity_audit_v2
 real_adapter: RoboTwinRealSapienPilotRootAdapterV1_2
-gpu_authorization: cmf_runtime_v3_1_gpu_authorization_v1_1
-gpu_guard: cmf_gpu_guard_v2_1
+gpu_authorization: cmf_runtime_v3_1_gpu_authorization_v1_2
+gpu_guard: cmf_gpu_guard_v2_2
 current_hash: current_context_hash_v2
 physical_anchor: physical_anchor_v2
 raw_schema: cmf_raw_attempt_v2_1_1
@@ -79,4 +79,16 @@ stage0_data: false
 
 CPU current：active/snapshot 131/131 tests passed，76 Python files compile passed；root-cpu10 synthetic dry-run accepted。Import audit未加载 SAPIEN/Torch/CUDA。它们不证明真实 SAPIEN，也不表示 A0 已运行。
 
-当前 `a0_user_approval_readiness=READY_FOR_USER_REVIEW_BEFORE_A0`。任何 GPU 运行仍必须由用户单独批准并生成最终 `approved=true` authorization receipt；Stage 0 明确禁止。
+上述V5段是历史pre-run状态，已由下面V5.1 terminal update取代。
+
+## runtime-v3_1 v5.1 terminal update
+
+- 用户批准全部pre-Stage-0 nonformal scopes；parent authorization与六个request/budget已机器化；
+- authorization v1.2绑定parent/request/source-lock/content/budget/command，guard v2.2在消费前重新验证source lock；
+- F3/F4完整三程序runner、block/noninterference与root final-state equivalence已实现；
+- 真实A0执行2次：run1因SAPIEN sleep-state API差异失败；run2在生成pristine current/anchor后因4ms exact-float validator/native-ledger问题失败；
+- 两次cleanup/orphan/GPU release均通过，planner/control/physics均为0；
+- A0预算耗尽，F1–F4及real-root均未运行；
+- postmortem CPU修复已通过active/snapshot 158/158 tests，但无新增GPU验证。
+
+Current decision=`BLOCKED_WITH_REASONS`，`new_gpu_launch_authorized=false`，`stage0_authorized=false`。

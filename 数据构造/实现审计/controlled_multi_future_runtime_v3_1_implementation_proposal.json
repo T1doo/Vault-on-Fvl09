@@ -1,14 +1,14 @@
 {
-  "a0_user_approval_readiness": "READY_FOR_USER_REVIEW_BEFORE_A0",
+  "a0_user_approval_readiness": "BLOCKED_A0_BUDGET_EXHAUSTED",
   "approved": false,
   "cpu_validation": {
     "active_snapshot_byte_equal": true,
-    "active_tests": "131/131 passed",
+    "active_tests": "158/158 passed",
     "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10",
     "import_side_effect_audit": "no sapien/torch/cuda modules loaded",
-    "python_files_compiled": 76,
+    "python_files_compiled": 87,
     "synthetic_only": true,
-    "vault_snapshot_tests": "131/131 passed"
+    "vault_snapshot_tests": "158/158 passed"
   },
   "current_anchor_repairs": {
     "actor_velocity_and_sleep_state_required": true,
@@ -29,19 +29,19 @@
     "F2": {
       "current_scope": "same-can left-arm beside repair with six fresh planner variants",
       "full_program_complete": "static_only_not_run",
-      "version": "f2_workspace_reachability_v4_1"
+      "version": "f2_workspace_and_three_branch_v4_1"
     },
     "F3": {
       "current_scope": "V-to-H return diagnosis",
       "fail_closed_reason": "VVHH/VHVH/VHHV not executed by repair runner",
       "full_program_complete": false,
-      "version": "f3_release_dynamics_diagnosis_v3_1"
+      "version": "f3_release_and_full_program_v3_2"
     },
     "F4": {
       "current_scope": "common-X Route1/Route2 repair",
       "fail_closed_reason": "A/B/C and ABC/ACB/BAC not executed by repair runner",
       "full_program_complete": false,
-      "version": "f4_segmented_common_carry_v3_1"
+      "version": "f4_common_carry_and_full_program_v3_2"
     }
   },
   "formal_data": false,
@@ -107,9 +107,19 @@
     "trace_absence_is_not_zero_action_evidence": true,
     "wrapper_installation_and_restoration_fail_closed": true
   },
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+  "hardening_v5_1_terminal": {
+    "a0_budget_exhausted": true,
+    "a0_execution_count": 2,
+    "a0_pass": false,
+    "authorization_schema": "cmf_runtime_v3_1_gpu_authorization_v1_2",
+    "family_scopes_executed": false,
+    "gpu_guard_schema": "cmf_gpu_guard_v2_2",
+    "postmortem_cpu_fix_real_gpu_verified": false,
+    "source_lock_schema": "cmf_runtime_source_lock_v1"
+  },
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
-  "next_decision": "user review of the bound one-shot A0 request; no execution or Stage 0 authorization is implied",
+  "next_decision": "user/GPT review of two terminal A0 failures and whether to approve a new versioned A0 budget",
   "physical_anchor_version": "physical_anchor_v2",
   "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
   "raw_repairs": {
@@ -151,5 +161,5 @@
   "scientific_design_changed": false,
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "cpu_static_hardened_v5_a0_approval_ready_pending_user_review"
+  "status": "a0_attempted_twice_budget_exhausted_postmortem_cpu_fixed_real_unverified"
 }
