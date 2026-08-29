@@ -27,7 +27,7 @@ stage0_authorized: false
 - impact reports、registry/readiness/日志；
 - Vault commit/push。
 
-GPU范围为physical fvl05 GPU0–7中任一在launch前由atomic guard独立证明fresh-idle的单卡；不共享、不抢占、不干预他人进程。
+当前会话GPU硬规则优先：只允许physical fvl05 GPU0，并且每次launch前仍须由atomic guard证明fresh-idle；不共享、不抢占、不干预他人进程。
 
 新预算边界：
 
