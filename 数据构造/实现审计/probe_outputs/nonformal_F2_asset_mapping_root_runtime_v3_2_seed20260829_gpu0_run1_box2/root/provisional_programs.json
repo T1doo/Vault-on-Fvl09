@@ -1,0 +1,57 @@
+{
+  "planned_root_slot_spec_sha256": "a689652d6897c70f13ea15d771d30789e8b2b7f5351b962867b83d9249c4e784",
+  "program_sha256": {
+    "F2-beside": "2d16b0870551cad8e35e9f978dc7610e222679cc629993af5e36677621b25f0b",
+    "F2-inside": "5d4252db5cb291f2509c51c494635be53a548eb02cb7127d09963826a9f1be34",
+    "F2-on": "b816e92e6590dfcac6adde36ae7edd30ad22daf2f7a7b52207cabcc1c9a1a3e6"
+  },
+  "programs": [
+    {
+      "program_id": "F2-inside",
+      "steps": [
+        {
+          "object": "main_object",
+          "op": "pick"
+        },
+        {
+          "object": "main_object",
+          "op": "place",
+          "reference": "plastic_box",
+          "relation": "inside"
+        }
+      ]
+    },
+    {
+      "program_id": "F2-on",
+      "steps": [
+        {
+          "object": "main_object",
+          "op": "pick"
+        },
+        {
+          "object": "main_object",
+          "op": "place",
+          "reference": "electronic_scale",
+          "relation": "on"
+        }
+      ]
+    },
+    {
+      "program_id": "F2-beside",
+      "steps": [
+        {
+          "object": "main_object",
+          "op": "pick"
+        },
+        {
+          "object": "main_object",
+          "op": "place",
+          "reference": "pot_or_stand",
+          "relation": "beside"
+        }
+      ]
+    }
+  ],
+  "provisional_programs_sha256": "4e7ab9df97c5a304751325daaddeb3b707f1f3c148913667c8e7ba859a31c9b2",
+  "schema_version": "cmf_provisional_programs_v1_1"
+}

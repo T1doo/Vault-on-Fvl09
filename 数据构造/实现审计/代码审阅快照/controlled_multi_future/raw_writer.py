@@ -18,6 +18,7 @@ PRIMARY_FREQUENCY_HZ = 250
 PRIMARY_ACTION_DIM = 26
 ACTION_LAYOUT_VERSION = "controller_effective_setpoint_v1_layout_v2_1"
 RAW_SCHEMA_VERSION = "cmf_raw_attempt_v2_1_1"
+TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
 ACTION_LAYOUT_DIMENSIONS = tuple(
     [f"left_joint_{index}_position_target" for index in range(6)]
     + [f"right_joint_{index}_position_target" for index in range(6)]
@@ -146,11 +147,29 @@ def validate_simulator_timing(provenance: Mapping[str, Any]) -> dict:
         raise ValueError("control_steps_per_action must be a positive integer")
     if not isinstance(source, str) or not source:
         raise ValueError("scene_timestep_source must be non-empty")
-    if not np.isclose(effective, timestep * control_steps, rtol=0.0, atol=1e-12):
+    if not np.isclose(
+        effective,
+        timestep * control_steps,
+        rtol=0.0,
+        atol=TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+    ):
         raise ValueError("effective action interval must equal simulator timestep times control steps")
-    if not np.isclose(effective, 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-12):
+    if not np.isclose(
+        effective,
+        1.0 / PRIMARY_FREQUENCY_HZ,
+        rtol=0.0,
+        atol=TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+    ):
         raise ValueError("effective action interval must match the frozen 250 Hz stream")
-    if not np.isclose(timestep, 1.0 / PRIMARY_FREQUENCY_HZ, rtol=0.0, atol=1e-12) or control_steps != 1:
+    if (
+        not np.isclose(
+            timestep,
+            1.0 / PRIMARY_FREQUENCY_HZ,
+            rtol=0.0,
+            atol=TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        )
+        or control_steps != 1
+    ):
         raise ValueError("current raw-v2_1_1 requires a real 0.004 s scene timestep and one scene.step per action")
     return {
         "simulator_timestep_seconds": timestep,

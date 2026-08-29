@@ -28,7 +28,7 @@ from controlled_multi_future.probes.gpu_guard import (
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
 from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
 from controlled_multi_future.a0_activity_monitor_v2 import TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS
-from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_effective_setpoint, validate_audit_streams, validate_raw_streams
+from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS as RAW_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, pack_effective_setpoint, validate_audit_streams, validate_raw_streams, validate_simulator_timing
 from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
 from controlled_multi_future.verifiers import (
     verify_completed_slots_preserved,
@@ -119,6 +119,25 @@ class PipelineContractsTest(unittest.TestCase):
             abs(0.004001 - 0.004),
             TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
         )
+
+    def test_raw_writer_uses_same_float_timestep_representation_tolerance(self):
+        self.assertEqual(
+            RAW_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+            TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS,
+        )
+        value = {
+            "simulator_timing": {
+                "simulator_timestep_seconds": 0.004000000189989805,
+                "control_steps_per_action": 1,
+                "effective_action_interval_seconds": 0.004000000189989805,
+                "scene_timestep_source": "SAPIEN scene.get_timestep()",
+            }
+        }
+        self.assertEqual(validate_simulator_timing(value)["control_steps_per_action"], 1)
+        value["simulator_timing"]["simulator_timestep_seconds"] = 0.004001
+        value["simulator_timing"]["effective_action_interval_seconds"] = 0.004001
+        with self.assertRaisesRegex(ValueError, "frozen 250 Hz"):
+            validate_simulator_timing(value)
 
     def test_dense_trace_delegates_during_base_scene_setup(self):
         result = PreTraceProbe().take_dense_action({"setup": True}, save_freq=None)
