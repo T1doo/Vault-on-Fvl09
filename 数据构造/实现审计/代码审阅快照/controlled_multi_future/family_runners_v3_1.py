@@ -1174,7 +1174,11 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             frozen_clearance_m=0.03,
         )
         safe = common_lift.copy()
-        safe[2] = envelope["safe_eef_or_actor_center_z"]
+        envelope["computed_obstacle_clearance_height_m"] = envelope["safe_eef_or_actor_center_z"]
+        envelope["common_lift_height_m"] = float(common_lift[2])
+        safe[2] = max(float(common_lift[2]), envelope["safe_eef_or_actor_center_z"])
+        envelope["selected_safe_carry_height_m"] = float(safe[2])
+        envelope["selected_height_not_below_lift"] = bool(safe[2] >= common_lift[2])
         center = safe.copy()
         center[0] = -0.02
         above = common_preplace.copy()

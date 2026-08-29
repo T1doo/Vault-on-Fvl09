@@ -1,0 +1,319 @@
+{
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-repair_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_task_physical",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-repair_task_physical-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_planner:route1_minimum_height_segmented",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-repair_planner_route1_minimum_height_segmented-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_planner:route2_carry_neutral_fallback",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-repair_planner_route2_carry_neutral_fallback-v1_2-000004"
+    }
+  ],
+  "correction_spec": null,
+  "elapsed_seconds": 115.62861680984497,
+  "error": "all preregistered repair planner variants failed",
+  "error_type": "RuntimeError",
+  "execution_attempt_count": 0,
+  "family": "F4",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "next_gate": "f4_tray_layout_impact_review_v4",
+  "partial_output_status": "none",
+  "planner_solvability_query_count_total": 10,
+  "planner_variant_receipts": [
+    {
+      "evidence": {
+        "planner_reset_receipt": {
+          "planner_instance_id": "inprocess:CuroboPlanner:139717288658208",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "route1_minimum_height_segmented"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos_sha256": "78f8b812ce1afcceef8e51be9a1feda0b504f2c7e14b37077a9ee221f749af3d",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000226497650146,
+              0.06000440567731857,
+              0.9720004796981812,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_pregrasp",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "6b1edbb8d37f72413290b1eb5984f54f9ec92ce9e953c3e9bc9480166af9f060",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000145494766973,
+              0.06000266760667376,
+              0.8820004797186092,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_grasp",
+            "start_qpos_sha256": "78f8b812ce1afcceef8e51be9a1feda0b504f2c7e14b37077a9ee221f749af3d"
+          },
+          {
+            "end_qpos_sha256": "9a3cc5e040ec9c104b24c09b194ef45897bb7986dce43ca96e501142977ff083",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000145494766973,
+              0.06000266760667376,
+              0.9820004797186092,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_lift",
+            "start_qpos_sha256": "6b1edbb8d37f72413290b1eb5984f54f9ec92ce9e953c3e9bc9480166af9f060"
+          },
+          {
+            "end_qpos_sha256": "cddfdbec6b61eca71d8d14ad5a3c297320ef887214b7b8c93f8a1ee95cea1927",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000145494766973,
+              0.06000266760667376,
+              0.8441054649353028,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_safe_vertical",
+            "start_qpos_sha256": "9a3cc5e040ec9c104b24c09b194ef45897bb7986dce43ca96e501142977ff083"
+          },
+          {
+            "end_qpos_sha256": "cddfdbec6b61eca71d8d14ad5a3c297320ef887214b7b8c93f8a1ee95cea1927",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.02,
+              0.06000266760667376,
+              0.8441054649353028,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Fail",
+            "segment_id": "common_center_high",
+            "start_qpos_sha256": "cddfdbec6b61eca71d8d14ad5a3c297320ef887214b7b8c93f8a1ee95cea1927"
+          }
+        ]
+      },
+      "execution_spec": null,
+      "failure_type": "chained_planner_failure",
+      "planner_query_count": 5,
+      "planner_solvable": false,
+      "scene_anchor_equivalence": {
+        "candidate_sha256": "065815da06eaef774947f938e58951ab087745a80e678dcd0c2bd9c36058eb1a",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "065815da06eaef774947f938e58951ab087745a80e678dcd0c2bd9c36058eb1a"
+      },
+      "scene_current_sha256": "28012ced8d26190e0f32167000023822ce7ae032021091c841ec36e602e3af4c",
+      "variant_id": "route1_minimum_height_segmented"
+    },
+    {
+      "evidence": {
+        "planner_reset_receipt": {
+          "planner_instance_id": "inprocess:CuroboPlanner:139717278667856",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "route2_carry_neutral_fallback"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos_sha256": "78f8b812ce1afcceef8e51be9a1feda0b504f2c7e14b37077a9ee221f749af3d",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000226497650146,
+              0.06000440567731857,
+              0.9720004796981812,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_pregrasp",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "6b1edbb8d37f72413290b1eb5984f54f9ec92ce9e953c3e9bc9480166af9f060",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000145494766973,
+              0.06000266760667376,
+              0.8820004797186092,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_grasp",
+            "start_qpos_sha256": "78f8b812ce1afcceef8e51be9a1feda0b504f2c7e14b37077a9ee221f749af3d"
+          },
+          {
+            "end_qpos_sha256": "9a3cc5e040ec9c104b24c09b194ef45897bb7986dce43ca96e501142977ff083",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.25000145494766973,
+              0.06000266760667376,
+              0.9820004797186092,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_lift",
+            "start_qpos_sha256": "6b1edbb8d37f72413290b1eb5984f54f9ec92ce9e953c3e9bc9480166af9f060"
+          },
+          {
+            "end_qpos_sha256": "89b9c99075aa7bc530331df5766762954b789aa39b4a5318ca71a88f8231f63d",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.15,
+              -0.04,
+              0.8441054649353028,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_carry_neutral",
+            "start_qpos_sha256": "9a3cc5e040ec9c104b24c09b194ef45897bb7986dce43ca96e501142977ff083"
+          },
+          {
+            "end_qpos_sha256": "89b9c99075aa7bc530331df5766762954b789aa39b4a5318ca71a88f8231f63d",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.02,
+              0.06000266760667376,
+              0.8441054649353028,
+              0.49999693036079407,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Fail",
+            "segment_id": "common_center_high",
+            "start_qpos_sha256": "89b9c99075aa7bc530331df5766762954b789aa39b4a5318ca71a88f8231f63d"
+          }
+        ]
+      },
+      "execution_spec": null,
+      "failure_type": "chained_planner_failure",
+      "planner_query_count": 5,
+      "planner_solvable": false,
+      "scene_anchor_equivalence": {
+        "candidate_sha256": "065815da06eaef774947f938e58951ab087745a80e678dcd0c2bd9c36058eb1a",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "065815da06eaef774947f938e58951ab087745a80e678dcd0c2bd9c36058eb1a"
+      },
+      "scene_current_sha256": "28012ced8d26190e0f32167000023822ce7ae032021091c841ec36e602e3af4c",
+      "variant_id": "route2_carry_neutral_fallback"
+    }
+  ],
+  "program_id": "F4-ABC",
+  "raw_manifest": null,
+  "reference_anchor_sha256": "065815da06eaef774947f938e58951ab087745a80e678dcd0c2bd9c36058eb1a",
+  "reference_current_sha256": "28012ced8d26190e0f32167000023822ce7ae032021091c841ec36e602e3af4c",
+  "repair_mode": "diagnosis",
+  "rollout_planner_query_count": null,
+  "schema_version": "cmf_family_repair_orchestrator_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_physical_receipt": {
+    "evidence": {
+      "common_first": true,
+      "objects_pairwise_separated": true,
+      "order": true,
+      "roles": true,
+      "slots_pairwise_separated": true,
+      "tray_region_fits_common_block": true
+    },
+    "failure_type": null,
+    "physical_feasible": true,
+    "planner_solvable": null,
+    "task_feasible": true
+  },
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_repair_orchestrator_v1_1.py\", line 216, in run\n    raise RuntimeError(\"all preregistered repair planner variants failed\")\nRuntimeError: all preregistered repair planner variants failed\n",
+  "verifier": null
+}

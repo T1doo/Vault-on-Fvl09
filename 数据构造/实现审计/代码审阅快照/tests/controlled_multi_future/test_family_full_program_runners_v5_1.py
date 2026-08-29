@@ -110,6 +110,30 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
             self.assertEqual(extra["execution_scope"], "f4_common_x_route_repair_only")
             self.assertEqual(extra["object_target_groups"], [])
             self.assertEqual(len(targets), 9)
+            target_by_id = {item["segment_id"]: item["pose"] for item in targets}
+            self.assertGreaterEqual(
+                target_by_id["common_safe_vertical"][2],
+                target_by_id["common_lift"][2],
+            )
+            self.assertGreaterEqual(
+                target_by_id["common_center_high"][2],
+                target_by_id["common_lift"][2],
+            )
+            self.assertTrue(extra["carry_envelope"]["selected_height_not_below_lift"])
+            route2_targets, route2_extra = runner.build_targets(
+                scene,
+                F4SubtaskOrder().checked_provisional_programs()[0],
+                {
+                    "variant_id": "route2_carry_neutral_fallback",
+                    "execution_scope": "common_x_route_repair",
+                },
+            )
+            route2_by_id = {item["segment_id"]: item["pose"] for item in route2_targets}
+            self.assertGreaterEqual(
+                route2_by_id["common_carry_neutral"][2],
+                route2_by_id["common_lift"][2],
+            )
+            self.assertTrue(route2_extra["carry_envelope"]["selected_height_not_below_lift"])
 
     def test_final_state_comparison_is_pose_aware_and_fail_closed(self):
         base = {
