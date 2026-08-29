@@ -8,6 +8,8 @@ accepted real roots = 0
 Stage 0 = not authorized / 0 trajectories
 ```
 
+最新真实进展：canonical-prefix run3已在GPU0完成并通过，详见`CANONICAL_PREFIX_REAL_SMOKE_RUNTIME_V3_3_EXECUTION_REPORT_20260829.md/json`。一次reference生成的793-step prefix在三fresh scenes得到完全相同action SHA，三条end/physical Gate与cleanup均通过。
+
 CPU baseline content commit：`be7855e51288d1f977e5eba62660c9056f264242`（已push至`origin/main`）。后续runtime-v3_3 scope request必须绑定该提交或包含本发布回执的后续closeout提交，并同时绑定active source SHA。
 
 GPU前v1.2加固content commit：`7187fcb11e707dda2d6d9636fd238ea54a4530d2`。任何新scope必须绑定该版本或其publication closeout commit及source SHA=`399ccab...`，不得使用run1/run2旧source lock。
