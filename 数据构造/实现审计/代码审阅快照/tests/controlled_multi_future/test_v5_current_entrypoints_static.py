@@ -6,6 +6,7 @@ import unittest
 from controlled_multi_future.probes import (
     a0_real_sapien_adapter_smoke,
     gpu_guard_v2_2,
+    runtime_v3_1_complete_family_scope,
     runtime_v3_1_family_repair_runner,
     runtime_v3_1_root_runner,
 )
@@ -51,12 +52,22 @@ class V5CurrentEntrypointsStaticTest(unittest.TestCase):
                 a0_real_sapien_adapter_smoke,
                 runtime_v3_1_root_runner,
                 runtime_v3_1_family_repair_runner,
+                runtime_v3_1_complete_family_scope,
                 gpu_guard_v2_2,
             )
         )
         self.assertNotIn('"stage0_authorized": True', sources)
         self.assertNotIn('"formal_data": True', sources)
         self.assertNotIn('"stage0_data": True', sources)
+
+    def test_complete_family_scope_is_one_shot_guarded_and_root_finalized(self):
+        source = inspect.getsource(runtime_v3_1_complete_family_scope)
+        self.assertIn("load_authorization_v1_2", source)
+        self.assertIn("require_atomic_gpu_guard_v2_2", source)
+        self.assertIn("F3ConditionalRepairOrchestratorV1_1", source)
+        self.assertIn("FamilyRepairOrchestratorV1_1", source)
+        self.assertIn("RealSapienPilotRootOrchestratorV1_1", source)
+        self.assertIn("validate_runtime_receipt_against_budget", source)
 
     def test_historical_gpu_clis_are_explicitly_disabled(self):
         probe_root = Path(__file__).resolve().parents[2] / "controlled_multi_future" / "probes"
