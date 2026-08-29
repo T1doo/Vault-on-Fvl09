@@ -69,6 +69,37 @@ SCOPE_BUDGETS = {
     },
 }
 
+# Source-bound structural maxima.  These count the finite target lists, not
+# the looser per-scene emergency caps.  Any code change that adds a planner
+# call changes the implementation source hash and requires a new reviewed
+# authorization; the terminal receipt still reports the measured total.
+STATIC_SCOPE_ACTIVITY_ENVELOPES = {
+    "canonical_prefix_real_smoke": {
+        "planner_query_count": 1,
+        "execution_attempt_count": 1,
+    },
+    "F4_cube_grasp_no_action_ik": {
+        "planner_query_count": 6,
+        "execution_attempt_count": 0,
+    },
+    "F1_planner_root_per_revision": {
+        "planner_query_count": 31,
+        "execution_attempt_count": 3,
+    },
+    "F2_diagnosis_root_per_revision": {
+        "planner_query_count": 19,
+        "execution_attempt_count": 3,
+    },
+    "F3_prefix_root_per_revision": {
+        "planner_query_count": 47,
+        "execution_attempt_count": 3,
+    },
+    "F4_block_root_per_revision": {
+        "planner_query_count": 102,
+        "execution_attempt_count": 7,
+    },
+}
+
 
 def _sha256(value: Any) -> str:
     return hashlib.sha256(
@@ -136,6 +167,35 @@ def authorization_common_limits(scope: str) -> tuple[int, int, int, int]:
         -1,
         int(budget["timeout_seconds"]),
     )
+
+
+def validate_static_scope_activity_envelope(scope: str) -> dict:
+    budget = scope_budget(scope)
+    envelope = STATIC_SCOPE_ACTIVITY_ENVELOPES.get(scope)
+    if not isinstance(envelope, Mapping):
+        raise ValueError(f"runtime-v3_3 scope {scope} lacks a static activity envelope")
+    checks = {
+        "planner_within_budget": isinstance(
+            envelope.get("planner_query_count"), int
+        )
+        and 0 <= envelope["planner_query_count"] <= budget["planner_query_limit"],
+        "execution_within_budget": isinstance(
+            envelope.get("execution_attempt_count"), int
+        )
+        and 0
+        <= envelope["execution_attempt_count"]
+        <= budget["execution_limit"],
+    }
+    result = {
+        "scope": scope,
+        "source_bound_static_envelope": dict(envelope),
+        "scope_budget_sha256": budget["scope_budget_sha256"],
+        "checks": checks,
+        "pass": all(checks.values()),
+    }
+    if result["pass"] is not True:
+        raise ValueError(f"runtime-v3_3 static activity envelope exceeds budget: {scope}")
+    return result
 
 
 def validate_runtime_receipt_against_budget(

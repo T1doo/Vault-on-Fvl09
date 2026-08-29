@@ -54,6 +54,18 @@ def replay_canonical_prefix(
             normalized["effective_setpoint_actions"][index],
             requested_command=normalized["requested_commands"][index],
             component_mask=normalized["component_masks"][index],
+            left_gripper_joint_drive_target=normalized[
+                "left_gripper_joint_drive_targets"
+            ][index],
+            right_gripper_joint_drive_target=normalized[
+                "right_gripper_joint_drive_targets"
+            ][index],
+            left_gripper_joint_drive_velocity_target=normalized[
+                "left_gripper_joint_drive_velocity_targets"
+            ][index],
+            right_gripper_joint_drive_velocity_target=normalized[
+                "right_gripper_joint_drive_velocity_targets"
+            ][index],
         )
     scene.mark("canonical_prefix_end")
     semantic_end_anchor = dict(capture_anchor(scene))
@@ -64,7 +76,13 @@ def replay_canonical_prefix(
     settling_steps = int(artifact["settling_step_count_excluded_from_semantic_prefix"])
     if settling_steps:
         policy = artifact.get("settling_policy", {})
-        if policy.get("mode") != "hold_last_effective_setpoint":
+        if (
+            policy.get("mode") != "hold_last_effective_setpoint"
+            or policy.get("component_mask_policy")
+            != "all_false_no_new_control_command"
+            or policy.get("transition_operator")
+            != "replay_effective_setpoint_step_v1_1"
+        ):
             raise ValueError("unsupported canonical prefix settling policy")
         scene.mark("canonical_prefix_settling_start")
         hold_action = normalized["effective_setpoint_actions"][-1]
@@ -75,6 +93,18 @@ def replay_canonical_prefix(
                 hold_action,
                 requested_command=hold_requested,
                 component_mask=hold_mask,
+                left_gripper_joint_drive_target=normalized[
+                    "left_gripper_joint_drive_targets"
+                ][-1],
+                right_gripper_joint_drive_target=normalized[
+                    "right_gripper_joint_drive_targets"
+                ][-1],
+                left_gripper_joint_drive_velocity_target=normalized[
+                    "left_gripper_joint_drive_velocity_targets"
+                ][-1],
+                right_gripper_joint_drive_velocity_target=normalized[
+                    "right_gripper_joint_drive_velocity_targets"
+                ][-1],
             )
         scene.mark("canonical_prefix_settling_end")
     acceptance_end_anchor = dict(capture_anchor(scene))
@@ -107,6 +137,22 @@ def replay_canonical_prefix(
         raise ValueError("canonical prefix replay requested commands differ from artifact")
     if not np.array_equal(executed_masks, normalized["component_masks"]):
         raise ValueError("canonical prefix replay component masks differ from artifact")
+    gripper_fields = {
+        "left_gripper_joint_drive_targets": "left_gripper_joint_drive_target",
+        "right_gripper_joint_drive_targets": "right_gripper_joint_drive_target",
+        "left_gripper_joint_drive_velocity_targets": "left_gripper_joint_drive_velocity_target",
+        "right_gripper_joint_drive_velocity_targets": "right_gripper_joint_drive_velocity_target",
+    }
+    executed_gripper_hashes = {}
+    for artifact_key, row_key in gripper_fields.items():
+        executed = np.ascontiguousarray(
+            np.asarray([row[row_key] for row in rows], dtype=np.float64)
+        )
+        if not np.array_equal(executed, normalized[artifact_key]):
+            raise ValueError(
+                f"canonical prefix replay {artifact_key} differ from artifact"
+            )
+        executed_gripper_hashes[artifact_key] = array_sha256(executed)
     arm = artifact.get("prefix_contract", {}).get("arm")
     if arm not in ("left", "right"):
         raise ValueError("canonical prefix contract must name one executing arm")
@@ -123,6 +169,7 @@ def replay_canonical_prefix(
         "executed_prefix_action_sha256": executed_hash,
         "executed_requested_commands_sha256": array_sha256(executed_requested),
         "executed_component_masks_sha256": array_sha256(executed_masks),
+        "executed_gripper_drive_array_sha256": executed_gripper_hashes,
         "executed_prefix_step_count": artifact["prefix_step_count"],
         "canonical_prefix_end_step": artifact["prefix_step_count"],
         "semantic_prefix_end_anchor": semantic_end_anchor,

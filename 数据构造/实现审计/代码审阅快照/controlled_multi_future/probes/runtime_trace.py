@@ -71,6 +71,14 @@ def _gripper_joint_qpos(robot, arm):
     return np.asarray(values, dtype=np.float64)
 
 
+def _gripper_joint_drive_values(robot, arm, getter):
+    gripper = robot.left_gripper if arm == "left" else robot.right_gripper
+    return np.asarray(
+        [_scalar(getattr(spec[0], getter)()) for spec in gripper],
+        dtype=np.float64,
+    )
+
+
 def _pose_array(value):
     if value is None:
         return np.full(7, np.nan, dtype=np.float64)
@@ -170,11 +178,18 @@ def trace_rows_to_raw_streams(rows):
         "eef_linear_velocity": np.asarray([row["eef_linear_velocity"] for row in rows], dtype=np.float64),
         "eef_angular_velocity": np.asarray([row["eef_angular_velocity"] for row in rows], dtype=np.float64),
         "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_target": np.asarray([row["left_gripper_joint_drive_target"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_target": np.asarray([row["right_gripper_joint_drive_target"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_velocity_target": np.asarray([row["left_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_velocity_target": np.asarray([row["right_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
         "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
         "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
         "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
         "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
         "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
+        "selected_contact_actor_name": np.asarray(
+            [row["selected_contact_actor_name"] for row in rows]
+        ).astype(str),
         "contact_count": np.asarray([len(row["contact_pairs"]) for row in rows], dtype=np.int64),
         "planner_goal_available": planner_active.copy(),
         "planner_query_id": planner_query_ids,
@@ -192,11 +207,16 @@ def trace_rows_to_raw_streams(rows):
             "eef_linear_velocity": {"status": "derived", "source": "runtime 250 Hz EEF position difference"},
             "eef_angular_velocity": {"status": "derived", "source": "runtime 250 Hz EEF quaternion difference"},
             "gripper_drive_target_readback": {"status": "measured", "source": "runtime normalized gripper joint drive targets; not physical aperture"},
+            "left_gripper_joint_drive_target": {"status": "measured", "source": "runtime exact left gripper joint drive targets"},
+            "right_gripper_joint_drive_target": {"status": "measured", "source": "runtime exact right gripper joint drive targets"},
+            "left_gripper_joint_drive_velocity_target": {"status": "measured", "source": "runtime exact left gripper joint drive velocity targets"},
+            "right_gripper_joint_drive_velocity_target": {"status": "measured", "source": "runtime exact right gripper joint drive velocity targets"},
             "realized_left_gripper_joint_qpos": {"status": "measured", "source": "runtime left articulation active-joint qpos"},
             "realized_right_gripper_joint_qpos": {"status": "measured", "source": "runtime right articulation active-joint qpos"},
             "selected_gripper_contact": {"status": "measured", "source": "runtime SAPIEN contact restricted to selected arm gripper links"},
             "selected_gripper_contact_count": {"status": "measured", "source": "runtime selected-arm SAPIEN contact-pair count"},
             "selected_gripper_contact_impulse": {"status": "measured", "source": "runtime selected-arm SAPIEN contact point impulse sum"},
+            "selected_contact_actor_name": {"status": "derived", "source": "runtime verifier contact-subject actor name"},
             "contact_count": {"status": "measured", "source": "runtime all SAPIEN scene contact-pair count"},
             "planner_goal_available": {"status": "derived", "source": "runtime per-arm direct planner-goal presence"},
             "planner_query_id": {"status": "derived", "source": "runtime planner query ID active on each action interval"},
@@ -478,9 +498,24 @@ class DenseTraceMixin:
             "actor_angular_velocity_measured": actor_angular_measured,
             "gripper_command": np.asarray(self._requested_gripper, dtype=np.float64),
             "gripper_drive_target_readback": np.asarray(effective_gripper, dtype=np.float64),
+            "left_gripper_joint_drive_target": _gripper_joint_drive_values(
+                self.robot, "left", "get_drive_target"
+            ),
+            "right_gripper_joint_drive_target": _gripper_joint_drive_values(
+                self.robot, "right", "get_drive_target"
+            ),
+            "left_gripper_joint_drive_velocity_target": _gripper_joint_drive_values(
+                self.robot, "left", "get_drive_velocity_target"
+            ),
+            "right_gripper_joint_drive_velocity_target": _gripper_joint_drive_values(
+                self.robot, "right", "get_drive_velocity_target"
+            ),
             "realized_left_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "left"),
             "realized_right_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "right"),
             "selected_gripper_links": self.selected_gripper_links(),
+            "selected_contact_actor_name": _entity(
+                self.trace_contact_actor
+            ).get_name(),
             "selected_gripper_contact": selected_contact_count > 0,
             "selected_gripper_contact_count": selected_contact_count,
             "selected_gripper_contact_impulse": selected_impulse,
@@ -600,6 +635,10 @@ class DenseTraceMixin:
         *,
         requested_command,
         component_mask,
+        left_gripper_joint_drive_target,
+        right_gripper_joint_drive_target,
+        left_gripper_joint_drive_velocity_target,
+        right_gripper_joint_drive_velocity_target,
     ):
         """Apply one exact 26-D artifact action without invoking a planner."""
 
@@ -621,10 +660,36 @@ class DenseTraceMixin:
         self._requested_gripper = [float(requested[24]), float(requested[25])]
         self._component_mask = mask.copy()
         self._active_planner_query = {"left": None, "right": None}
-        self.robot.set_arm_joints(effective[0:6], effective[12:18], "left")
-        self.robot.set_arm_joints(effective[6:12], effective[18:24], "right")
-        self.robot.set_gripper(float(effective[24]), "left", 0.0)
-        self.robot.set_gripper(float(effective[25]), "right", 0.0)
+        if bool(np.any(mask[0:6]) or np.any(mask[12:18])):
+            self.robot.set_arm_joints(effective[0:6], effective[12:18], "left")
+        if bool(np.any(mask[6:12]) or np.any(mask[18:24])):
+            self.robot.set_arm_joints(effective[6:12], effective[18:24], "right")
+        raw_gripper = {
+            "left": (
+                left_gripper_joint_drive_target,
+                left_gripper_joint_drive_velocity_target,
+                24,
+            ),
+            "right": (
+                right_gripper_joint_drive_target,
+                right_gripper_joint_drive_velocity_target,
+                25,
+            ),
+        }
+        for arm, (targets, velocities, mask_index) in raw_gripper.items():
+            joints = self.robot.left_gripper if arm == "left" else self.robot.right_gripper
+            targets = np.asarray(targets, dtype=np.float64).reshape(len(joints))
+            velocities = np.asarray(velocities, dtype=np.float64).reshape(len(joints))
+            if mask[mask_index]:
+                self.robot._entity_qf(self.robot.left_entity)
+                self.robot._entity_qf(self.robot.right_entity)
+                for spec, target, velocity in zip(joints, targets, velocities):
+                    spec[0].set_drive_target(float(target))
+                    spec[0].set_drive_velocity_target(float(velocity))
+                if arm == "left":
+                    self.robot.left_gripper_val = float(requested[24])
+                else:
+                    self.robot.right_gripper_val = float(requested[25])
         self.scene.step()
         self._record()
         recorded = np.asarray(self.trace[-1]["effective_setpoint"], dtype=np.float64)
@@ -673,11 +738,18 @@ class DenseTraceMixin:
             "object_angular_velocity_measured": np.asarray([row["actor_angular_velocity_measured"] for row in rows], dtype=bool),
             "gripper_command": np.asarray([row["gripper_command"] for row in rows], dtype=np.float64),
             "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_target": np.asarray([row["left_gripper_joint_drive_target"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_target": np.asarray([row["right_gripper_joint_drive_target"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_velocity_target": np.asarray([row["left_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_velocity_target": np.asarray([row["right_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
             "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
             "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
             "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
             "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
             "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
+            "selected_contact_actor_name": np.asarray(
+                [row["selected_contact_actor_name"] for row in rows]
+            ).astype(str),
             "event_markers_json": np.asarray(json.dumps(self.markers, sort_keys=True)),
             "selected_gripper_links_json": np.asarray(json.dumps(self.selected_gripper_links(), sort_keys=True)),
             "contact_pairs_json": np.asarray([json.dumps(row["contact_pairs"], sort_keys=True) for row in rows]),
@@ -707,11 +779,16 @@ class DenseTraceMixin:
                 "object_angular_velocity": {"status": "measured_or_derived", "source": "rigid component when available, otherwise 250 Hz quaternion difference; per-row mask saved"},
                 "gripper_command": {"status": "commanded", "source": "normalized take_dense_action gripper request"},
                 "gripper_drive_target_readback": {"status": "measured", "source": "normalized gripper joint drive targets; not physical aperture"},
+                "left_gripper_joint_drive_target": {"status": "measured", "source": "exact left gripper joint drive targets for deterministic replay"},
+                "right_gripper_joint_drive_target": {"status": "measured", "source": "exact right gripper joint drive targets for deterministic replay"},
+                "left_gripper_joint_drive_velocity_target": {"status": "measured", "source": "exact left gripper joint drive velocity targets for deterministic replay"},
+                "right_gripper_joint_drive_velocity_target": {"status": "measured", "source": "exact right gripper joint drive velocity targets for deterministic replay"},
                 "realized_left_gripper_joint_qpos": {"status": "measured", "source": "left articulation active-joint qpos"},
                 "realized_right_gripper_joint_qpos": {"status": "measured", "source": "right articulation active-joint qpos"},
                 "selected_gripper_contact": {"status": "measured", "source": "SAPIEN body-pair contacts restricted to selected arm links"},
                 "selected_gripper_contact_count": {"status": "measured", "source": "SAPIEN contact pair count for selected arm"},
                 "selected_gripper_contact_impulse": {"status": "measured", "source": "SAPIEN contact point impulses when available"},
+                "selected_contact_actor_name": {"status": "derived", "source": "verifier contact-subject actor name"},
                 "contact_pairs_json": {"status": "measured", "source": "all SAPIEN scene contact body pairs"},
                 "event_markers_json": {"status": "derived", "source": "explicit runtime event markers"},
                 "selected_gripper_links_json": {"status": "configured", "source": "selected robot arm gripper link names"},

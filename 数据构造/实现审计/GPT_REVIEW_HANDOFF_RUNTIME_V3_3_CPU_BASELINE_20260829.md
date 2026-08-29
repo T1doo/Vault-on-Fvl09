@@ -10,7 +10,7 @@ Stage 0 = not authorized / 0 trajectories
 
 CPU baseline content commit：`be7855e51288d1f977e5eba62660c9056f264242`（已push至`origin/main`）。后续runtime-v3_3 scope request必须绑定该提交或包含本发布回执的后续closeout提交，并同时绑定active source SHA。
 
-GPU前最新加固content commit：`e14b47648043f8145ba989bfa4d8002b446b3abb`；它取代旧source baseline作为后续scope的代码审阅依据。
+GPU前v1.1加固content commit：`e14b47648043f8145ba989bfa4d8002b446b3abb`。当前v1.2 source已通过测试，publication commit将在本文件后续回执中记录；任何新scope必须绑定v1.2而非旧commit/source lock。
 
 ## 这轮完成了什么
 
@@ -39,6 +39,9 @@ reference scene规划/执行一次
 - F4 full root前固定执行`A-only→B-only→C-only→A+B noninterference`；
 - one-shot authorization绑定parent/request/source/code/budget/family/seed/spec/output/command；root revision使用canonical O_EXCL ledger，revision2必须同slot/seed且source hash不同；
 - GPU Guard在source-lock后、消费authorization前再次做fresh-idle UUID snapshot。
+- canonical artifact schema升级为9-field v1.1：主26-D action保持不变，另封存左右夹爪每个关节的底层drive target/velocity，避免官方归一化scale往返产生1-ULP偏差破坏exact replay；settling两侧统一使用all-false component mask。
+- fresh suffix execution恢复frozen planner query table但live query count保持0；只对首段selected-arm replay-end qpos做exact Gate，后续gripper/hold动态由连续250 Hz raw记录。
+- Guard receipt路径、stdout/stderr immutability、consume前expiry revalidation、prefix失败query/partial trace、F4 verifier-exception raw receipt均已加固。
 
 ## Family CPU状态
 
@@ -54,18 +57,18 @@ reference scene规划/执行一次
 ```text
 official tracked baseline = c3ddfa8b97d5519efa828b075999bd0006778e5e
 official tracked worktree = clean
-active source tests = 237/237 passed
-Vault snapshot tests = 237/237 passed
+active source tests = 243/243 passed
+Vault snapshot tests = 243/243 passed
 active/snapshot diff = byte-equal
-implementation source SHA-256 = fb51b9d4c2404fcaf130743640e9068019a22ae9a072bdc0d9cf9d1cdc4453ac
+implementation source SHA-256 = 399ccab5377d867af5ac39597d018b5e1c6115a45a8b28ea6cff79291de0756a
 budget SHA-256 = 31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544
 ```
 
-本CPU baseline没有运行GPU或SAPIEN scene。首次prefix-smoke authorization因GPU0 busy未消费；随后F4 staged failure evidence加固改变source hash，该authorization已明确superseded、不得启动。需要发布v1.1 byte-equal baseline后重新签发fresh namespace，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
+本CPU baseline没有运行GPU或SAPIEN scene。prefix-smoke run1/run2均因GPU0 busy保持未消费；后续source hardening使两者失效，均已明确superseded、不得启动。需要发布v1.2 byte-equal baseline后重新签发run3 fresh namespace，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
 
 ## 建议审阅入口
 
-1. `runtime_v3_3_cpu_static_audit_v1_20260829.json`
+1. `runtime_v3_3_cpu_static_audit_v1_2_20260829.json`
 2. `f1_f4_implementation_registry_v3_3_cpu_current.md/json`
 3. `stage0_readiness_report_runtime_v3_3_cpu_current.md/json`
 4. `PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1.md/json`

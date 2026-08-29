@@ -14,7 +14,11 @@ from ..f4_staged_block_gate_v1 import F4StagedBlockExecutionGateV1
 from ..families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_3 import RoboTwinRealSapienStrictPrefixAdapterV1_3
 from ..root_orchestrator_v1_2 import RealSapienStrictPrefixRootOrchestratorV1_2
-from ..runtime_v3_3_budget_v1 import ROOT_SCOPES, validate_runtime_receipt_against_budget
+from ..runtime_v3_3_budget_v1 import (
+    ROOT_SCOPES,
+    validate_runtime_receipt_against_budget,
+    validate_static_scope_activity_envelope,
+)
 from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 from .runtime_v3_3_authorization_v1 import (
     authorization_summary,
@@ -148,10 +152,17 @@ def main() -> int:
         "status": "running",
     }
     _write(output / "receipt.json", aggregate)
+    execution_dispatched = False
+    result_returned = False
     try:
+        aggregate["static_activity_envelope"] = (
+            validate_static_scope_activity_envelope(scope)
+        )
+        _write(output / "receipt.json", aggregate)
         adapter = RoboTwinRealSapienStrictPrefixAdapterV1_3(
             family=family, output_root=output / "scene_work"
         )
+        execution_dispatched = True
         if scope == "canonical_prefix_real_smoke":
             relative_receipt = "canonical_prefix_smoke/receipt.json"
             result = CanonicalPrefixRealSmokeV1(adapter).run(
@@ -246,6 +257,7 @@ def main() -> int:
                     realization_spec_by_program=realization_specs,
                 )
                 passed = result.get("status") == "accepted"
+        result_returned = True
         aggregate["result"] = {
             "relative_receipt_path": relative_receipt,
             "status": result.get("status"),
@@ -264,14 +276,20 @@ def main() -> int:
                 "status", "failed_execution"
             )
     except BaseException as exc:
-        aggregate["status"] = "failed_cleanup_uncertain" if any(
-            item.get("cleanup_safety_pass") is not True
-            for item in aggregate["cleanup_records"]
-        ) else "failed_execution"
+        cleanup_state = _cleanup_summary(aggregate["cleanup_records"])
+        aggregate["status"] = (
+            "failed_cleanup_uncertain"
+            if execution_dispatched
+            and (
+                not result_returned
+                or cleanup_state["scene_cleanup_succeeded"] is not True
+            )
+            else "failed_execution"
+        )
         aggregate["error_type"] = type(exc).__name__
         aggregate["error"] = str(exc)
         aggregate["traceback"] = traceback.format_exc()
-        aggregate.update(_cleanup_summary(aggregate["cleanup_records"]))
+        aggregate.update(cleanup_state)
     _write(output / "receipt.json", aggregate)
     return 0 if aggregate["status"] == "accepted" else 1
 

@@ -28,6 +28,10 @@ def prefix_arrays():
         "component_masks": np.ones((2, 26), dtype=bool),
         "action_interval_start_timestamps": np.asarray([0.0, 0.004]),
         "action_interval_end_timestamps": np.asarray([0.004, 0.008]),
+        "left_gripper_joint_drive_targets": np.zeros((2, 1), dtype=np.float64),
+        "right_gripper_joint_drive_targets": np.zeros((2, 1), dtype=np.float64),
+        "left_gripper_joint_drive_velocity_targets": np.zeros((2, 1), dtype=np.float64),
+        "right_gripper_joint_drive_velocity_targets": np.zeros((2, 1), dtype=np.float64),
     }
 
 
@@ -74,7 +78,17 @@ class Scene:
     def mark(self, name):
         self.markers[name] = max(0, len(self.trace) - 1)
 
-    def replay_effective_setpoint_step(self, action, *, requested_command, component_mask):
+    def replay_effective_setpoint_step(
+        self,
+        action,
+        *,
+        requested_command,
+        component_mask,
+        left_gripper_joint_drive_target,
+        right_gripper_joint_drive_target,
+        left_gripper_joint_drive_velocity_target,
+        right_gripper_joint_drive_velocity_target,
+    ):
         value = np.asarray(action, dtype=np.float64).copy()
         if self.corrupt and self.action_count == 0:
             value[0] += 1.0
@@ -83,6 +97,10 @@ class Scene:
                 "effective_setpoint": value,
                 "requested_command": np.asarray(requested_command).copy(),
                 "component_mask": np.asarray(component_mask).copy(),
+                "left_gripper_joint_drive_target": np.asarray(left_gripper_joint_drive_target, dtype=np.float64).copy(),
+                "right_gripper_joint_drive_target": np.asarray(right_gripper_joint_drive_target, dtype=np.float64).copy(),
+                "left_gripper_joint_drive_velocity_target": np.asarray(left_gripper_joint_drive_velocity_target, dtype=np.float64).copy(),
+                "right_gripper_joint_drive_velocity_target": np.asarray(right_gripper_joint_drive_velocity_target, dtype=np.float64).copy(),
             }
         )
         self.action_count += 1
@@ -211,6 +229,8 @@ class StrictPrefixSyntheticAdapter:
             "settling_policy": {
                 "mode": "hold_last_effective_setpoint",
                 "semantic": False,
+                "component_mask_policy": "all_false_no_new_control_command",
+                "transition_operator": "replay_effective_setpoint_step_v1_1",
             },
             "prefix_physical_acceptance": {
                 "pass": True,
@@ -281,6 +301,15 @@ class StrictPrefixSyntheticAdapter:
                     "status": "Success",
                     "position": position,
                     "velocity": velocity,
+                    "_cmf_planner_query": {
+                        "query_id": 1,
+                        "arm": "left",
+                        "source": f"{program['program_id']}-suffix",
+                        "goal_eef_pose": [0, 0, 0.9, 1, 0, 0, 0],
+                        "status": "Success",
+                        "start_step": None,
+                        "end_step": None,
+                    },
                 }
             ],
             "_actual_prefix_end_qpos": np.asarray(
@@ -358,6 +387,13 @@ class RootOrchestratorV1_2Test(unittest.TestCase):
         self.assertEqual(adapter.prefix_generation_count, 1)
         self.assertEqual(receipt["freeze_call_count"], 1)
         self.assertEqual(receipt["canonical_prefix_generation_count"], 1)
+        self.assertEqual(
+            receipt["candidate_prefix_link"]["canonical_prefix_artifact_sha256"],
+            receipt["canonical_prefix_artifact_sha256"],
+        )
+        self.assertTrue(
+            (output / "candidate_prefix_link_receipt.json").is_file()
+        )
         self.assertEqual(len(receipt["branch_receipts"]), 3)
         hashes = {
             item["executed_prefix"]["executed_prefix_action_sha256"]
@@ -377,6 +413,13 @@ class RootOrchestratorV1_2Test(unittest.TestCase):
         self.assertEqual(
             receipt["root_finalization"]["computed_first_post_prefix_divergence_step"],
             3,
+        )
+        self.assertTrue(
+            all(
+                receipt["root_finalization"][
+                    "runtime_v3_3_independent_checks"
+                ].values()
+            )
         )
         artifact, arrays = load_canonical_prefix_artifact(
             output / "canonical_prefix_artifact"

@@ -8,13 +8,13 @@
 - 科学设计：`controlled_multi_future_f1_f4_v1_2`
 - 当前实现：`controlled_multi_future_runtime_v3_3`
 - 当前状态：CPU/static baseline passed；真实 runtime-v3_3 GPU scope 尚未执行；accepted roots=0；Stage 0 未授权。
-- 2026-08-29 active 与本快照各 `237/237 tests passed`，两棵 source/test 目录 `diff -qr` 无差异。
+- 2026-08-29 active 与本快照各 `243/243 tests passed`，两棵 source/test 目录 `diff -qr` 无差异。
 
 本快照不是 active source，不得从这里运行 GPU、Stage 0 或 formal collection。所有实现修改必须先发生在 active RoboTwin additive source，验证后再同步。
 
 ## runtime-v3_3 主要入口
 
-- `canonical_prefix_artifact_v1.py`：封存一次规划得到的 26-D/250 Hz canonical prefix、requested/mask、reference trace、physical-acceptance 和 semantic/settling 边界。
+- `canonical_prefix_artifact_v1.py`：封存一次规划得到的 26-D/250 Hz canonical prefix、requested/mask、左右gripper底层joint drive target/velocity、reference trace、physical-acceptance 和 semantic/settling 边界。
 - `canonical_prefix_replay_v1.py`：fresh scene 中逐 step 重放完全相同的 effective-setpoint bytes，并复核 requested/mask/current/anchor/end state；不调用 planner。
 - `frozen_suffix_artifact_v1.py`：把实际 replay-end qpos 后规划出的 suffix control arrays、planner receipts、目标与链式 qpos 封成不可变 artifact。
 - `root_orchestrator_v1_2.py`：pristine→3 task/physical scenes→freeze once→prefix once→3 suffix preflights→3 fresh executions→3/3 finalizer。
@@ -47,4 +47,4 @@ PYTHONDONTWRITEBYTECODE=1 \
   -p 'test_*.py' -v
 ```
 
-真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。当前尚无 runtime-v3_3 GPU execution evidence；prefix-smoke run1 authorization未消费且已因source-hash变化superseded。任何后续 evidence 都必须经v1.1 baseline后的fresh one-shot authorization和guard产生。
+真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。当前尚无 runtime-v3_3 GPU execution evidence；prefix-smoke run1/run2均未消费且已因source-hash变化superseded。任何后续 evidence 都必须经v1.2 baseline后的fresh one-shot authorization和guard产生。

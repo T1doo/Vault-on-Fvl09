@@ -97,6 +97,7 @@ def build_guard_binding(
         "physics_step_limit": authorization["physics_step_limit"],
         "timeout_seconds": timeout_seconds,
         "output_namespace": output_namespace,
+        "guard_receipt_path": authorization["guard_receipt_path"],
         "consumption_ledger_directory": authorization[
             "consumption_ledger_directory"
         ],
@@ -144,6 +145,7 @@ def validate_guard_binding(
         "physics_step_limit": authorization["physics_step_limit"],
         "timeout_seconds": authorization["timeout_seconds"],
         "output_namespace": authorization["output_namespace"],
+        "guard_receipt_path": authorization["guard_receipt_path"],
         "consumption_ledger_directory": authorization[
             "consumption_ledger_directory"
         ],
@@ -203,6 +205,10 @@ def require_atomic_gpu_guard_v2_4(
         raise GuardAuthorizationMismatch("bound guard/authorization file is unreadable") from exc
     if environment_authorization.get("receipt_sha256") != authorization.get("receipt_sha256"):
         raise GuardAuthorizationMismatch("bound authorization file differs from validated authorization")
+    if str(Path(guard_path).resolve()) != str(
+        Path(authorization["guard_receipt_path"]).resolve()
+    ):
+        raise GuardAuthorizationMismatch("bound guard path differs from authorization")
     if Path(consumption_path).resolve() != Path(consumption.get("path", consumption_path)).resolve():
         raise GuardAuthorizationMismatch("consumption environment path is inconsistent")
     result = validate_guard_binding(
@@ -276,8 +282,18 @@ def main() -> int:
             raise GuardAuthorizationMismatch("physical index is not authorized")
         if str(args.consumption_ledger_dir) != authorization["consumption_ledger_directory"]:
             raise GuardAuthorizationMismatch("guard consumption ledger differs from authorization")
+        if str(args.guard_receipt.resolve()) != str(
+            Path(authorization["guard_receipt_path"]).resolve()
+        ):
+            raise GuardAuthorizationMismatch("guard receipt path differs from authorization")
         if command_sha256(command) != authorization["authorized_command_sha256"]:
             raise GuardAuthorizationMismatch("child command differs from authorization")
+        stdout_path = args.guard_receipt.with_suffix(".stdout.log")
+        stderr_path = args.guard_receipt.with_suffix(".stderr.log")
+        if stdout_path.exists() or stderr_path.exists():
+            raise GuardAuthorizationMismatch(
+                "guard stdout/stderr paths must be new and immutable"
+            )
     except (AuthorizationError, GuardAuthorizationMismatch, GuardBudgetMismatch, SourceLockError) as exc:
         guard.update(
             {
@@ -288,6 +304,16 @@ def main() -> int:
         )
         write_json(args.guard_receipt, guard)
         return 96
+    except BaseException as exc:
+        guard.update(
+            {
+                "status": "failed_guard_internal_prevalidation",
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+                "elapsed_seconds": time.time() - started,
+            }
+        )
+        write_json(args.guard_receipt, guard)
+        return 99
 
     try:
         pre = snapshot(args.physical_index, args.expected_uuid)
@@ -316,6 +342,16 @@ def main() -> int:
             raise GuardLaunchPrecheckNotIdle(
                 "GPU stopped being fresh-idle before authorization consumption"
             )
+        authorization = load_authorization_v3_3(
+            args.authorization_receipt,
+            requested_scope=authorization["approved_scopes"][0],
+            expected_family=authorization["family"],
+            expected_seed=authorization["scene_seed"],
+            expected_output_namespace=str(args.output_dir),
+            expected_reviewed_content_commit=authorization[
+                "reviewed_content_commit"
+            ],
+        )
         consumption = consume_authorization_once(authorization, ledger_directory=args.consumption_ledger_dir)
         binding = build_guard_binding(
             authorization,
@@ -356,8 +392,6 @@ def main() -> int:
     guard.update({"binding": binding, "consumption_receipt": consumption["path"], "status": "precheck_passed"})
     write_json(args.guard_receipt, guard)
 
-    stdout_path = args.guard_receipt.with_suffix(".stdout.log")
-    stderr_path = args.guard_receipt.with_suffix(".stderr.log")
     environment = build_child_environment(os.environ, args.expected_uuid)
     environment.update(
         {

@@ -244,6 +244,7 @@ def validate_authorization_v3_3(
         "output_namespace": "output_namespace",
         "exact_child_command_sha256": "authorized_command_sha256",
         "source_lock_receipt_path": "source_lock_receipt_path",
+        "guard_receipt_path": "guard_receipt_path",
         "consumption_ledger_directory": "consumption_ledger_directory",
         "revision_ledger_directory": "revision_ledger_directory",
         "family_revision_index": "family_revision_index",
@@ -271,6 +272,13 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("authorization source lock hash mismatch")
     if source_lock["snapshot"].get("implementation_source_sha256") != receipt["implementation_source_sha256"]:
         raise AuthorizationBindingError("source lock implementation hash mismatch")
+    guard_receipt_path = receipt.get("guard_receipt_path")
+    if (
+        not isinstance(guard_receipt_path, str)
+        or not Path(guard_receipt_path).is_absolute()
+        or not guard_receipt_path.startswith("/nfs_share/lijunhui/")
+    ):
+        raise AuthorizationBindingError("authorization guard receipt path is invalid")
 
     planned = receipt.get("planned_root_slot_spec")
     if not isinstance(planned, Mapping) or receipt.get("planned_root_slot_spec_sha256") != hash_json(planned):
@@ -374,6 +382,7 @@ def authorization_summary(value: Mapping[str, Any]) -> dict:
         "family_revision_index": value.get("family_revision_index"),
         "revision_ledger_directory": value.get("revision_ledger_directory"),
         "consumption_ledger_directory": value["consumption_ledger_directory"],
+        "guard_receipt_path": value["guard_receipt_path"],
         "stage0_authorized": False,
         "formal_data": False,
         "stage0_data": False,

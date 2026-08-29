@@ -311,11 +311,16 @@ class PipelineContractsTest(unittest.TestCase):
                 "eef_linear_velocity": np.zeros(3),
                 "eef_angular_velocity": np.zeros(3),
                 "gripper_drive_target_readback": np.ones(2),
+                "left_gripper_joint_drive_target": np.zeros(2) + index,
+                "right_gripper_joint_drive_target": np.zeros(2) + index,
+                "left_gripper_joint_drive_velocity_target": np.zeros(2),
+                "right_gripper_joint_drive_velocity_target": np.zeros(2),
                 "realized_left_gripper_joint_qpos": np.zeros(2) + index,
                 "realized_right_gripper_joint_qpos": np.zeros(2) + index,
                 "selected_gripper_contact": True,
                 "selected_gripper_contact_count": 1,
                 "selected_gripper_contact_impulse": 0.1,
+                "selected_contact_actor_name": "object",
                 "contact_pairs": [],
             })
         streams, audit = trace_rows_to_raw_streams(rows)
@@ -328,6 +333,8 @@ class PipelineContractsTest(unittest.TestCase):
         np.testing.assert_allclose(streams["state_timestamps"], [0.0, 0.004, 0.008])
         self.assertEqual(audit["object_pose"].shape, (3, 7))
         self.assertEqual(audit["realized_left_gripper_joint_qpos"].shape, (3, 2))
+        self.assertEqual(audit["left_gripper_joint_drive_target"].shape, (3, 2))
+        self.assertEqual(audit["selected_contact_actor_name"].tolist(), ["object"] * 3)
         self.assertFalse(np.shares_memory(streams["controller_effective_setpoint"], streams["requested_command"]))
 
     def test_realized_gripper_qpos_comes_from_articulation_state(self):

@@ -19,7 +19,7 @@ from .raw_writer import ACTION_LAYOUT_VERSION, PRIMARY_ACTION_DIM, PRIMARY_FREQU
 
 
 SCHEMA_VERSION = "cmf_canonical_prefix_artifact_v1"
-ARRAY_SCHEMA_VERSION = "cmf_canonical_prefix_arrays_v1"
+ARRAY_SCHEMA_VERSION = "cmf_canonical_prefix_arrays_v1_1"
 PREFIX_END_TOLERANCE_VERSION = "cmf_prefix_end_tolerance_v1_provisional"
 FORBIDDEN_PREFIX_KEYS = frozenset(
     {
@@ -37,6 +37,10 @@ ARRAY_FIELDS = (
     "component_masks",
     "action_interval_start_timestamps",
     "action_interval_end_timestamps",
+    "left_gripper_joint_drive_targets",
+    "right_gripper_joint_drive_targets",
+    "left_gripper_joint_drive_velocity_targets",
+    "right_gripper_joint_drive_velocity_targets",
 )
 
 
@@ -96,6 +100,24 @@ def _normalized_arrays(arrays: Mapping[str, Any]) -> dict[str, np.ndarray]:
     masks = np.ascontiguousarray(np.asarray(arrays["component_masks"], dtype=bool))
     starts = np.ascontiguousarray(np.asarray(arrays["action_interval_start_timestamps"], dtype=np.float64))
     ends = np.ascontiguousarray(np.asarray(arrays["action_interval_end_timestamps"], dtype=np.float64))
+    left_gripper_targets = np.ascontiguousarray(
+        np.asarray(arrays["left_gripper_joint_drive_targets"], dtype=np.float64)
+    )
+    right_gripper_targets = np.ascontiguousarray(
+        np.asarray(arrays["right_gripper_joint_drive_targets"], dtype=np.float64)
+    )
+    left_gripper_velocities = np.ascontiguousarray(
+        np.asarray(
+            arrays["left_gripper_joint_drive_velocity_targets"],
+            dtype=np.float64,
+        )
+    )
+    right_gripper_velocities = np.ascontiguousarray(
+        np.asarray(
+            arrays["right_gripper_joint_drive_velocity_targets"],
+            dtype=np.float64,
+        )
+    )
     if actions.ndim != 2 or actions.shape[1] != PRIMARY_ACTION_DIM or actions.shape[0] < 1:
         raise ValueError("canonical prefix effective actions must have nonempty shape [N,26]")
     n = actions.shape[0]
@@ -103,6 +125,23 @@ def _normalized_arrays(arrays: Mapping[str, Any]) -> dict[str, np.ndarray]:
         raise ValueError("requested commands and component masks must match canonical actions")
     if starts.shape != (n,) or ends.shape != (n,):
         raise ValueError("canonical prefix action timestamps must have shape [N]")
+    for label, target, velocity in (
+        ("left", left_gripper_targets, left_gripper_velocities),
+        ("right", right_gripper_targets, right_gripper_velocities),
+    ):
+        if (
+            target.ndim != 2
+            or target.shape[0] != n
+            or target.shape[1] < 1
+            or velocity.shape != target.shape
+        ):
+            raise ValueError(
+                f"canonical prefix {label} gripper drive arrays are invalid"
+            )
+        if not np.all(np.isfinite(target)) or not np.all(np.isfinite(velocity)):
+            raise ValueError(
+                f"canonical prefix {label} gripper drive arrays must be finite"
+            )
     if not np.all(np.isfinite(actions)) or not np.all(np.isfinite(requested)):
         raise ValueError("canonical prefix commands must be finite")
     if not np.all(np.isfinite(starts)) or not np.all(np.isfinite(ends)):
@@ -120,7 +159,39 @@ def _normalized_arrays(arrays: Mapping[str, Any]) -> dict[str, np.ndarray]:
         "component_masks": masks,
         "action_interval_start_timestamps": starts,
         "action_interval_end_timestamps": ends,
+        "left_gripper_joint_drive_targets": left_gripper_targets,
+        "right_gripper_joint_drive_targets": right_gripper_targets,
+        "left_gripper_joint_drive_velocity_targets": left_gripper_velocities,
+        "right_gripper_joint_drive_velocity_targets": right_gripper_velocities,
     }
+
+
+def _expected_end_state_aliases(anchor: Mapping[str, Any]) -> tuple[dict, dict]:
+    if anchor.get("schema_version") == "physical_anchor_v2":
+        robot = {
+            key: anchor[key]
+            for key in (
+                "robot_qpos",
+                "robot_qvel",
+                "robot_drive_target",
+                "gripper_joint_qpos",
+            )
+        }
+        objects = {
+            "actor_states": anchor["actor_states"],
+            "facility_poses": anchor["facility_poses"],
+        }
+    else:
+        robot = {
+            "robot_qpos": anchor["robot_qpos"],
+            "robot_qvel": anchor["robot_qvel"],
+            "gripper_state": anchor["gripper_state"],
+        }
+        objects = {"actor_poses": anchor["actor_poses"]}
+    return (
+        json.loads(json.dumps(robot, sort_keys=True)),
+        json.loads(json.dumps(objects, sort_keys=True)),
+    )
 
 
 def build_canonical_prefix_artifact(
@@ -152,6 +223,15 @@ def build_canonical_prefix_artifact(
         raise ValueError("planner source hash is invalid")
     if not isinstance(settling_step_count, int) or settling_step_count < 0:
         raise ValueError("settling_step_count must be nonnegative")
+    if (
+        settling_policy.get("mode") != "hold_last_effective_setpoint"
+        or settling_policy.get("semantic") is not False
+        or settling_policy.get("component_mask_policy")
+        != "all_false_no_new_control_command"
+        or settling_policy.get("transition_operator")
+        != "replay_effective_setpoint_step_v1_1"
+    ):
+        raise ValueError("canonical prefix settling policy is not fully frozen")
     _reject_forbidden_keys(prefix_contract)
     if (
         not isinstance(prefix_physical_acceptance, Mapping)
@@ -175,6 +255,9 @@ def build_canonical_prefix_artifact(
     ):
         raise ValueError("canonical prefix event boundaries are invalid")
     array_hashes = {key: array_sha256(value) for key, value in normalized.items()}
+    expected_robot_state, expected_object_state = _expected_end_state_aliases(
+        acceptance_prefix_end_anchor
+    )
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "array_schema_version": ARRAY_SCHEMA_VERSION,
@@ -204,6 +287,8 @@ def build_canonical_prefix_artifact(
         "semantic_prefix_end_anchor_sha256": semantic_prefix_end_anchor.get("anchor_sha256"),
         "acceptance_prefix_end_anchor": json.loads(json.dumps(acceptance_prefix_end_anchor, sort_keys=True)),
         "acceptance_prefix_end_anchor_sha256": acceptance_prefix_end_anchor.get("anchor_sha256"),
+        "expected_prefix_end_robot_state": expected_robot_state,
+        "expected_prefix_end_object_state": expected_object_state,
         "prefix_end_tolerance_version": PREFIX_END_TOLERANCE_VERSION,
         "settling_step_count_excluded_from_semantic_prefix": settling_step_count,
         "settling_policy": json.loads(json.dumps(settling_policy, sort_keys=True)),
@@ -246,6 +331,13 @@ def validate_canonical_prefix_artifact(
     reference_trace_sha = manifest.get("reference_trace_source", {}).get("sha256")
     if not isinstance(reference_trace_sha, str) or len(reference_trace_sha) != 64:
         raise ValueError("canonical prefix reference trace SHA-256 is invalid")
+    expected_robot_state, expected_object_state = _expected_end_state_aliases(
+        manifest.get("acceptance_prefix_end_anchor", {})
+    )
+    if manifest.get("expected_prefix_end_robot_state") != expected_robot_state:
+        raise ValueError("canonical prefix expected robot-state alias mismatch")
+    if manifest.get("expected_prefix_end_object_state") != expected_object_state:
+        raise ValueError("canonical prefix expected object-state alias mismatch")
     _reject_forbidden_keys(manifest.get("prefix_contract", {}))
     normalized = _normalized_arrays(arrays)
     if manifest.get("prefix_step_count") != normalized["effective_setpoint_actions"].shape[0]:

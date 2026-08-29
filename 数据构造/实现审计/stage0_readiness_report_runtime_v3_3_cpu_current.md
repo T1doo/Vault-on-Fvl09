@@ -11,7 +11,7 @@ CPU/static基线已经通过，但目前仍不能启动Stage 0：runtime-v3_3尚
 - current/anchor、raw、verifier、cleanup与3/3 root finalizer；
 - F1公平planner evidence、F2动态inside与互斥layout、F3 shared-V物理Gate、F4 no-action IK与staged blocks；
 - 与冻结JSON一致的有限预算及one-shot/revision/GPU guard链；
-- active和byte-equal snapshot各`237/237 tests passed`。
+- active和byte-equal snapshot各`243/243 tests passed`。
 
 仍缺的真实证据：
 
@@ -26,6 +26,6 @@ F4 staged A/B/C/AB Gate + accepted root
 
 当前计数：Stage 0=0、Stage 1=0、formal F1–F4=0；没有训练、H-reveal、compression或π0.5。
 
-下一步只能先发布本CPU baseline，再按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
+下一步只能先发布CPU baseline v1.2，再按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
 
-补充：prefix-smoke run1 authorization在GPU0 busy时未消费；随后failure-evidence collector加固改变active source hash，run1已明确superseded。任何真实launch必须使用v1.1 baseline之后生成的全新run2 source-lock/request/authorization。
+补充：prefix-smoke run1/run2均在GPU0 busy时保持未消费，随后两轮source hardening使其source lock失效，现均明确superseded。任何真实launch必须使用v1.2 baseline之后生成的全新run3 source-lock/request/authorization。

@@ -20,11 +20,29 @@ def artifact():
             "status": "Success",
             "position": np.arange(18, dtype=np.float32).reshape(3, 6),
             "velocity": np.ones((3, 6), dtype=np.float32),
+            "_cmf_planner_query": {
+                "query_id": 1,
+                "arm": "left",
+                "source": "s0",
+                "goal_eef_pose": [0, 0, 0.9, 1, 0, 0, 0],
+                "status": "Success",
+                "start_step": None,
+                "end_step": None,
+            },
         },
         {
             "status": "Success",
             "position": np.arange(12, dtype=np.float32).reshape(2, 6),
             "velocity": np.full((2, 6), 0.5, dtype=np.float32),
+            "_cmf_planner_query": {
+                "query_id": 2,
+                "arm": "left",
+                "source": "s1",
+                "goal_eef_pose": [0, 0, 1.0, 1, 0, 0, 0],
+                "status": "Success",
+                "start_step": None,
+                "end_step": None,
+            },
         },
     ]
     spec = {
@@ -79,6 +97,7 @@ class FrozenSuffixArtifactV1Test(unittest.TestCase):
         np.testing.assert_array_equal(
             controls[0]["position"], np.arange(18, dtype=np.float32).reshape(3, 6)
         )
+        self.assertEqual(controls[0]["_cmf_planner_query"]["query_id"], 1)
 
     def test_control_tamper_fails(self):
         manifest, arrays = artifact()

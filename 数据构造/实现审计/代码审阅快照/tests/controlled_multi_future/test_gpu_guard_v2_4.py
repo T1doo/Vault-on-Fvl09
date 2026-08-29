@@ -41,6 +41,7 @@ def authorization():
         "physics_step_limit": -1,
         "timeout_seconds": 1800,
         "output_namespace": "/nfs_share/lijunhui/output",
+        "guard_receipt_path": "/nfs_share/lijunhui/guard.json",
         "consumption_ledger_directory": CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
         "family_revision_index": None,
         "allowed_physical_gpu_indices": [0],
@@ -116,6 +117,7 @@ class GpuGuardV2_4Test(unittest.TestCase):
             "source_lock_receipt_sha256",
             "consumption_ledger_directory",
             "command_sha256",
+            "guard_receipt_path",
         ):
             guard = self.guard()
             guard["binding"][field] = "tampered"
@@ -177,6 +179,8 @@ class GpuGuardV2_4Test(unittest.TestCase):
         consume_index = source.index("consume_authorization_once")
         self.assertLess(source_lock_index, launch_snapshot_index)
         self.assertLess(launch_snapshot_index, consume_index)
+        self.assertGreaterEqual(source.count("load_authorization_v3_3"), 2)
+        self.assertIn("stdout/stderr paths must be new and immutable", source)
         self.assertIn("failed_guard_internal_prelaunch", source)
 
 

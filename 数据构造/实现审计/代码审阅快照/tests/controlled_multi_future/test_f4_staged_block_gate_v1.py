@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -89,6 +90,15 @@ class Controller:
                     "status": "Success",
                     "position": np.repeat(planner[None, :], 2, axis=0),
                     "velocity": np.zeros((2, len(planner)), dtype=np.float32),
+                    "_cmf_planner_query": {
+                        "query_id": index + 1,
+                        "arm": "right",
+                        "source": role,
+                        "goal_eef_pose": targets[-1]["pose"],
+                        "status": "Success",
+                        "start_step": None,
+                        "end_step": None,
+                    },
                 }
             )
         program_id = "F4-DIAG-" + "".join(roles)
@@ -174,6 +184,8 @@ class Adapter:
             "settling_policy": {
                 "mode": "hold_last_effective_setpoint",
                 "semantic": False,
+                "component_mask_policy": "all_false_no_new_control_command",
+                "transition_operator": "replay_effective_setpoint_step_v1_1",
             },
             "prefix_physical_acceptance": {"pass": True},
         }
@@ -202,6 +214,11 @@ class Adapter:
         return {"pass": result["semantic_verifier"]["pass"]}
 
 
+class VerifierFailureAdapter(Adapter):
+    def verify(self, scene, program, result):
+        raise RuntimeError("synthetic verifier exception")
+
+
 class F4StagedBlockGateV1Test(unittest.TestCase):
     def test_all_four_gates_run_fresh_and_preserve_raw(self):
         directory = tempfile.TemporaryDirectory()
@@ -224,6 +241,27 @@ class F4StagedBlockGateV1Test(unittest.TestCase):
         self.assertEqual(len(receipt["cleanup_records"]), 10)
         for gate_id in ("A", "B", "C", "AB"):
             self.assertTrue((output / f"gate_{gate_id}/raw/manifest.json").is_file())
+
+    def test_verifier_exception_keeps_raw_manifest_trace_and_stops_next_gate(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        output = Path(directory.name) / "f4-gate-failure"
+        receipt = F4StagedBlockExecutionGateV1(VerifierFailureAdapter()).run(
+            output_dir=output,
+            planned_root_slot_spec={
+                "slot_id": "f4-root",
+                "family": "F4",
+                "seed": 17,
+            },
+        )
+        self.assertEqual(receipt["status"], "failed_f4_staged_block_gate")
+        gate = json.loads(
+            (output / "gate_A/receipt.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(gate["status"], "failed_verifier_exception")
+        self.assertIn("raw_manifest", gate)
+        self.assertIn("trace_source", gate)
+        self.assertFalse((output / "gate_B").exists())
 
 
 if __name__ == "__main__":

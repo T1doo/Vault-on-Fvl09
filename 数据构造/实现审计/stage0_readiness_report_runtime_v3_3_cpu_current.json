@@ -7,9 +7,9 @@
     "total": 0
   },
   "cpu_baseline": {
-    "active_tests": "237/237 passed",
+    "active_tests": "243/243 passed",
     "active_vault_snapshot_byte_equal": true,
-    "snapshot_tests": "237/237 passed",
+    "snapshot_tests": "243/243 passed",
     "status": "passed"
   },
   "decision": "BLOCKED_WITH_REASONS",
@@ -24,12 +24,12 @@
     "f4_accepted_root": "pending"
   },
   "gpu_parent_scope_authorized": true,
-  "implementation_source_sha256": "fb51b9d4c2404fcaf130743640e9068019a22ae9a072bdc0d9cf9d1cdc4453ac",
+  "implementation_source_sha256": "399ccab5377d867af5ac39597d018b5e1c6115a45a8b28ea6cff79291de0756a",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "new_gpu_launch_authorized": false,
-  "reason": "CPU baseline passed, but no runtime-v3_3 one-shot authorization has been issued or executed and no family has an accepted real root.",
+  "reason": "CPU baseline v1.2 passed. Two prefix-smoke authorizations were issued but never consumed and are superseded by source hardening; no currently valid child authorization has executed and no family has an accepted real root.",
   "runtime_v3_3_gpu_scope_count": 0,
-  "superseded_unconsumed_authorization_count": 1,
+  "superseded_unconsumed_authorization_count": 2,
   "schema_version": "cmf_stage0_readiness_runtime_v3_3_cpu_current",
   "stage0_authorized": false,
   "stage0_data": false,
@@ -42,7 +42,7 @@
   "compression_started": false,
   "pi0_5_started": false,
   "next_safe_sequence": [
-    "publish immutable CPU baseline",
+    "publish immutable CPU baseline v1.2",
     "canonical-prefix real smoke",
     "F4 procedural cube no-action/IK",
     "F1 revision-1 root",

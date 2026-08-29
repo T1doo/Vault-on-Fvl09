@@ -20,6 +20,7 @@ from controlled_multi_future.family_runners_v3_3 import (
     F4ControllerV3_3,
     _first_stable_slot_completion,
     _raw_result,
+    install_frozen_suffix_controls,
 )
 from controlled_multi_future.probes import runtime_v3_3_scope_runner
 from controlled_multi_future.runtime_v3_3_scope_specs_v1 import (
@@ -64,6 +65,10 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
             "component_masks": np.ones((1, 26), dtype=bool),
             "action_interval_start_timestamps": np.asarray([0.0]),
             "action_interval_end_timestamps": np.asarray([0.004]),
+            "left_gripper_joint_drive_targets": np.zeros((1, 1)),
+            "right_gripper_joint_drive_targets": np.zeros((1, 1)),
+            "left_gripper_joint_drive_velocity_targets": np.zeros((1, 1)),
+            "right_gripper_joint_drive_velocity_targets": np.zeros((1, 1)),
         }
         kwargs = dict(
             root_slot_id="root",
@@ -78,7 +83,12 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
             semantic_prefix_end_anchor=anchor(2),
             acceptance_prefix_end_anchor=anchor(3),
             settling_step_count=50,
-            settling_policy={"mode": "hold", "semantic": False},
+            settling_policy={
+                "mode": "hold_last_effective_setpoint",
+                "semantic": False,
+                "component_mask_policy": "all_false_no_new_control_command",
+                "transition_operator": "replay_effective_setpoint_step_v1_1",
+            },
             prefix_physical_acceptance={"pass": False},
             reference_trace_source={"sha256": "c" * 64},
         )
@@ -129,6 +139,12 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         self.assertEqual(relation, "beside")
         self.assertAlmostEqual(target[2], LAYOUT["can_xyz"][2])
         self.assertNotAlmostEqual(target[2], scene.can.get_pose().p[2])
+        execution_source = inspect.getsource(
+            F2ControllerV3_3.execute_frozen_suffix_spec
+        )
+        self.assertIn("obb_corners", execution_source)
+        self.assertIn("on_scale_full_obb_footprint", execution_source)
+        self.assertNotIn("top_surface_region", execution_source)
 
     def test_f4_completion_is_first_consecutive_stable_supported_window(self):
         actor = Actor("cube-a", [0, 0, 0, 1, 0, 0, 0])
@@ -169,6 +185,8 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         self.assertIn("RealSapienStrictPrefixRootOrchestratorV1_2", source)
         self.assertIn("require_atomic_gpu_guard_v2_4", source)
         self.assertNotIn("runtime_v3_2", source)
+        self.assertIn("execution_dispatched", source)
+        self.assertIn("result_returned", source)
         self.assertEqual(
             GATE_SEQUENCE, (("A",), ("B",), ("C",), ("A", "B"))
         )
@@ -238,6 +256,47 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         )
         self.assertIn("raw_actual_qpos", source)
         self.assertIn("planner_input_prefix_end_qpos_sha256", source)
+
+    def test_frozen_suffix_install_restores_query_table_without_live_query(self):
+        scene = type("Scene", (), {})()
+        scene.planner_queries = []
+        scene.planner_query_count = 0
+        control = {
+            "status": "Success",
+            "position": np.zeros((1, 7), dtype=np.float32),
+            "velocity": np.zeros((1, 7), dtype=np.float32),
+            "_cmf_planner_query": {
+                "query_id": 1,
+                "arm": "left",
+                "source": "segment",
+                "goal_eef_pose": [0, 0, 1, 1, 0, 0, 0],
+                "status": "Success",
+                "start_step": 5,
+                "end_step": 6,
+            },
+        }
+        install_frozen_suffix_controls(
+            scene,
+            {"control_cache_key": "cache-key"},
+            [control],
+        )
+        self.assertEqual(scene.planner_query_count, 0)
+        self.assertEqual(len(scene.planner_queries), 1)
+        self.assertIsNone(scene.planner_queries[0]["start_step"])
+        self.assertTrue(
+            scene.planner_queries[0]["replayed_from_frozen_suffix_artifact"]
+        )
+
+    def test_only_initial_suffix_segment_requires_exact_preflight_qpos(self):
+        module = __import__(
+            "controlled_multi_future.family_runners_v3_3",
+            fromlist=["_execute_cached_segment"],
+        )
+        source = inspect.getsource(module._execute_cached_segment)
+        self.assertIn("if index == 0", source)
+        self.assertIn("intervening_control_trace_is_authoritative", source)
+        self.assertIn("terminal_qpos_within_provisional_audit_tolerance", source)
+        self.assertNotIn("terminal qpos tracking failed", source)
 
     def test_planned_specs_freeze_f2_layout_f4_layout_and_revision_identity(self):
         f2_r1 = planned_scope_spec(

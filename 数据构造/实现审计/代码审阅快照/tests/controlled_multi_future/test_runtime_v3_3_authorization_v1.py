@@ -239,6 +239,20 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     tampered,
                     requested_scope="F4_cube_grasp_no_action_ik",
                 )
+            tampered_guard = copy.deepcopy(authorization)
+            tampered_guard["guard_receipt_path"] = str(
+                directory / "other-guard.json"
+            )
+            tampered_guard["receipt_sha256"] = authorization_receipt_sha256(
+                tampered_guard
+            )
+            with self.assertRaisesRegex(
+                AuthorizationBindingError, "guard_receipt_path"
+            ):
+                validate_authorization_v3_3(
+                    tampered_guard,
+                    requested_scope="F4_cube_grasp_no_action_ik",
+                )
 
 
 if __name__ == "__main__":

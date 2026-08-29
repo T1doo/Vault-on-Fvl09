@@ -357,9 +357,28 @@ class F4StagedBlockExecutionGateV1:
                         result["audit_streams"],
                         result["provenance"],
                     )
-                    verifier = self.adapter.verify(
-                        scene, diagnostic_program, result
-                    )
+                    try:
+                        verifier = self.adapter.verify(
+                            scene, diagnostic_program, result
+                        )
+                    except BaseException as exc:
+                        _write_json(
+                            gate_dir / "receipt.json",
+                            {
+                                "status": "failed_verifier_exception",
+                                "roles": list(roles),
+                                "raw_manifest": raw,
+                                "trace_source": trace,
+                                "semantic_verifier": result.get(
+                                    "semantic_verifier"
+                                ),
+                                "error_type": type(exc).__name__,
+                                "error": str(exc),
+                                "formal_data": False,
+                                "stage0_data": False,
+                            },
+                        )
+                        raise
                     return {
                         "status": "passed"
                         if verifier.get("pass") is True

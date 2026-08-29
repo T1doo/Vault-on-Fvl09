@@ -277,6 +277,7 @@ def issue_authorization_from_scope_request(
         "approval_request_sha256": request["scope_request_sha256"],
         "approval_request_file_sha256": sha256_file(scope_request_path),
         "source_lock_receipt_path": request["source_lock_receipt_path"],
+        "guard_receipt_path": request["guard_receipt_path"],
         "consumption_ledger_directory": request[
             "consumption_ledger_directory"
         ],

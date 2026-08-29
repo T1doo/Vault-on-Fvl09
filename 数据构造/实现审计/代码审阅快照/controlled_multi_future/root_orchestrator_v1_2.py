@@ -372,6 +372,37 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             )
             receipt["canonical_prefix_generation_count"] = 1
             receipt["canonical_prefix_artifact_sha256"] = manifest["artifact_sha256"]
+            candidate_prefix_link = {
+                "schema_version": "cmf_candidate_prefix_link_receipt_v1",
+                "candidate_frozen_root_spec_sha256": frozen[
+                    "frozen_spec_sha256"
+                ],
+                "candidate_universe_sha256": frozen[
+                    "candidate_universe_sha256"
+                ],
+                "observable_task_tree_sha256": frozen[
+                    "observable_task_tree_sha256"
+                ],
+                "oracle_task_tree_sha256": frozen[
+                    "oracle_task_tree_sha256"
+                ],
+                "canonical_prefix_artifact_sha256": manifest[
+                    "artifact_sha256"
+                ],
+                "prefix_contract_sha256": manifest[
+                    "prefix_contract_sha256"
+                ],
+                "formal_data": False,
+                "stage0_data": False,
+            }
+            candidate_prefix_link["link_receipt_sha256"] = hash_json(
+                candidate_prefix_link
+            )
+            receipt["candidate_prefix_link"] = candidate_prefix_link
+            _write_json(
+                output_dir / "candidate_prefix_link_receipt.json",
+                candidate_prefix_link,
+            )
             self._append_event(
                 {
                     "event": "canonical_prefix_artifact_sealed",
@@ -827,6 +858,46 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 receipt["branch_receipts"],
                 reference_current_sha256=reference_current["aggregate_sha256"],
                 root_cleanup_pass=root_cleanup_pass,
+            )
+            expected_gripper_hashes = {
+                key: manifest["array_hashes"][key]
+                for key in (
+                    "left_gripper_joint_drive_targets",
+                    "right_gripper_joint_drive_targets",
+                    "left_gripper_joint_drive_velocity_targets",
+                    "right_gripper_joint_drive_velocity_targets",
+                )
+            }
+            branch_gripper_hashes = [
+                item.get("prefix_replay", {}).get(
+                    "executed_gripper_drive_array_sha256"
+                )
+                for item in receipt["branch_receipts"]
+            ]
+            link_payload = dict(candidate_prefix_link)
+            link_hash = link_payload.pop("link_receipt_sha256", None)
+            v3_3_checks = {
+                "three_replayed_gripper_drive_hashes_match_artifact": len(
+                    branch_gripper_hashes
+                )
+                == 3
+                and all(
+                    item == expected_gripper_hashes
+                    for item in branch_gripper_hashes
+                ),
+                "candidate_prefix_link_receipt_integrity": isinstance(
+                    link_hash, str
+                )
+                and hash_json(link_payload) == link_hash,
+                "candidate_prefix_link_matches_frozen_spec": candidate_prefix_link[
+                    "candidate_frozen_root_spec_sha256"
+                ]
+                == frozen["frozen_spec_sha256"],
+            }
+            finalization.setdefault("checks", {}).update(v3_3_checks)
+            finalization["runtime_v3_3_independent_checks"] = v3_3_checks
+            finalization["accepted"] = all(
+                finalization["checks"].values()
             )
             receipt["root_finalization"] = finalization
             terminal = "accepted" if finalization.get("accepted") else "failed_verifier"

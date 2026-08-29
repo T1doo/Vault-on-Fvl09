@@ -37,6 +37,10 @@ def arrays():
         "component_masks": np.ones((2, 26), dtype=bool),
         "action_interval_start_timestamps": np.asarray([0.0, 0.004]),
         "action_interval_end_timestamps": np.asarray([0.004, 0.008]),
+        "left_gripper_joint_drive_targets": np.asarray([[-0.01], [0.020799919962883]], dtype=np.float64),
+        "right_gripper_joint_drive_targets": np.asarray([[-0.01], [0.020799919962883]], dtype=np.float64),
+        "left_gripper_joint_drive_velocity_targets": np.asarray([[0.0], [0.001]], dtype=np.float64),
+        "right_gripper_joint_drive_velocity_targets": np.asarray([[0.0], [0.001]], dtype=np.float64),
     }
 
 
@@ -55,7 +59,12 @@ def artifact(prefix_contract=None):
         semantic_prefix_end_anchor=anchor(1),
         acceptance_prefix_end_anchor=anchor(2),
         settling_step_count=1,
-        settling_policy={"mode": "hold_last_effective_setpoint", "semantic": False},
+        settling_policy={
+            "mode": "hold_last_effective_setpoint",
+            "semantic": False,
+            "component_mask_policy": "all_false_no_new_control_command",
+            "transition_operator": "replay_effective_setpoint_step_v1_1",
+        },
         prefix_physical_acceptance={"pass": True, "checks": {"synthetic": True}},
         reference_trace_source={"sha256": "c" * 64, "path": "synthetic.npz"},
     )
@@ -86,12 +95,26 @@ class ReplayScene:
     def mark(self, name):
         self.markers[name] = len(self.trace) - 1
 
-    def replay_effective_setpoint_step(self, action, *, requested_command, component_mask):
+    def replay_effective_setpoint_step(
+        self,
+        action,
+        *,
+        requested_command,
+        component_mask,
+        left_gripper_joint_drive_target,
+        right_gripper_joint_drive_target,
+        left_gripper_joint_drive_velocity_target,
+        right_gripper_joint_drive_velocity_target,
+    ):
         self.trace.append(
             {
                 "effective_setpoint": np.asarray(action, dtype=np.float64).copy(),
                 "requested_command": np.asarray(requested_command, dtype=np.float64).copy(),
                 "component_mask": np.asarray(component_mask, dtype=bool).copy(),
+                "left_gripper_joint_drive_target": np.asarray(left_gripper_joint_drive_target, dtype=np.float64).copy(),
+                "right_gripper_joint_drive_target": np.asarray(right_gripper_joint_drive_target, dtype=np.float64).copy(),
+                "left_gripper_joint_drive_velocity_target": np.asarray(left_gripper_joint_drive_velocity_target, dtype=np.float64).copy(),
+                "right_gripper_joint_drive_velocity_target": np.asarray(right_gripper_joint_drive_velocity_target, dtype=np.float64).copy(),
             }
         )
         value = float(len(self.trace) - 1)
@@ -103,9 +126,15 @@ class CanonicalPrefixV3_3Test(unittest.TestCase):
     def test_artifact_round_trip_and_settling_excluded(self):
         manifest, values = artifact()
         self.assertEqual(manifest["prefix_step_count"], 2)
+        self.assertEqual(
+            manifest["array_schema_version"],
+            "cmf_canonical_prefix_arrays_v1_1",
+        )
         self.assertEqual(manifest["semantic_prefix_step_count"], 2)
         self.assertEqual(manifest["settling_step_count_excluded_from_semantic_prefix"], 1)
         self.assertFalse(manifest["settling_is_part_of_semantic_prefix"])
+        self.assertIn("expected_prefix_end_robot_state", manifest)
+        self.assertIn("expected_prefix_end_object_state", manifest)
         self.assertEqual(
             manifest["prefix_action_sha256"],
             prefix_action_sha256(values["effective_setpoint_actions"]),
@@ -131,6 +160,13 @@ class CanonicalPrefixV3_3Test(unittest.TestCase):
         changed["effective_setpoint_actions"][0, 0] += 1.0
         with self.assertRaisesRegex(ValueError, "action hash|array hash"):
             validate_canonical_prefix_artifact(manifest, changed)
+        changed_gripper = dict(values)
+        changed_gripper["left_gripper_joint_drive_targets"] = values[
+            "left_gripper_joint_drive_targets"
+        ].copy()
+        changed_gripper["left_gripper_joint_drive_targets"][0, 0] += 1e-9
+        with self.assertRaisesRegex(ValueError, "array hash"):
+            validate_canonical_prefix_artifact(manifest, changed_gripper)
 
     def test_three_fresh_replays_use_identical_bytes_without_planner(self):
         manifest, values = artifact()
@@ -165,9 +201,34 @@ class CanonicalPrefixV3_3Test(unittest.TestCase):
         source = inspect.getsource(DenseTraceMixin.replay_effective_setpoint_step)
         self.assertIn('set_arm_joints(effective[0:6]', source)
         self.assertIn('set_arm_joints(effective[6:12]', source)
-        self.assertIn('set_gripper(float(effective[24])', source)
+        self.assertNotIn("self.robot.set_gripper", source)
+        self.assertIn("set_drive_target(float(target))", source)
+        self.assertIn("left_gripper_joint_drive_target", source)
         self.assertNotIn("plan_path", source)
         self.assertNotIn("move_to_pose", source)
+
+    def test_real_gripper_non_fixed_point_requires_raw_drive_target_replay(self):
+        normalized = np.float64(0.5599985447796909)
+        lower = np.float64(-0.01)
+        upper = np.float64(0.045)
+        recomputed_drive = lower + normalized * (upper - lower)
+        roundtrip = (recomputed_drive - lower) / (upper - lower)
+        self.assertNotEqual(roundtrip, normalized)
+        candidates = [recomputed_drive]
+        value = recomputed_drive
+        for _ in range(4):
+            value = np.nextafter(value, -np.inf)
+            candidates.append(value)
+        value = recomputed_drive
+        for _ in range(4):
+            value = np.nextafter(value, np.inf)
+            candidates.append(value)
+        exact_raw = next(
+            item
+            for item in candidates
+            if (item - lower) / (upper - lower) == normalized
+        )
+        self.assertEqual((exact_raw - lower) / (upper - lower), normalized)
 
 
 if __name__ == "__main__":

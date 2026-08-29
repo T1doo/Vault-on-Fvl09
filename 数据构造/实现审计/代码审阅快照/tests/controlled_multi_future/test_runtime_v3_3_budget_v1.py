@@ -8,6 +8,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
     budget_artifact,
     scope_budget,
     validate_runtime_receipt_against_budget,
+    validate_static_scope_activity_envelope,
 )
 
 
@@ -68,6 +69,9 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
         for scope, total in totals.items():
             with self.subTest(scope=scope):
                 self.assertLessEqual(total, scope_budget(scope)["planner_query_limit"])
+        for scope in SUPPORTED_SCOPES:
+            with self.subTest(static_scope=scope):
+                self.assertTrue(validate_static_scope_activity_envelope(scope)["pass"])
 
 
 if __name__ == "__main__":

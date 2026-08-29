@@ -30,8 +30,30 @@ from .schemas import validate_exactly_three_programs
 SCHEMA_VERSION = "cmf_canonical_prefix_real_smoke_v1"
 
 
+def _best_effort_trace(scene, path: Path) -> dict:
+    if not hasattr(scene, "save_trace"):
+        return {
+            "status": "unavailable",
+            "error_type": "MissingTraceWriter",
+            "error": "scene does not expose save_trace",
+        }
+    try:
+        info = dict(scene.save_trace(path))
+        return {
+            "status": "saved",
+            **info,
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        }
+    except BaseException as exc:
+        return {
+            "status": "failed",
+            "error_type": type(exc).__name__,
+            "error": str(exc),
+        }
+
+
 class CanonicalPrefixRealSmokeV1:
-    """Generate once and replay once; never execute a candidate suffix."""
+    """Generate once and replay in three fresh scenes; never execute a suffix."""
 
     def __init__(self, adapter):
         self.adapter = adapter
@@ -92,36 +114,58 @@ class CanonicalPrefixRealSmokeV1:
             _write_json(output_dir / "programs.json", {"programs": programs})
             _write_json(output_dir / "prefix_contract.json", prefix_contract)
 
-            def reference_callback(scene, _program):
-                require_same_current(current, dict(self.adapter.capture_current(scene)))
-                start = compare_anchors(anchor, dict(self.adapter.capture_anchor(scene)))
-                if not start["equivalent"]:
-                    raise ValueError(
-                        f"prefix smoke reference anchor mismatch: {start['failures']}"
-                    )
-                result = _validate_prefix_reference_result(
-                    self.adapter.plan_and_execute_canonical_prefix(
-                        scene, _immutable_copy(prefix_contract)
-                    )
-                )
-                if hasattr(scene, "save_trace"):
-                    trace_path = output_dir / "reference_trace.npz"
-                    trace_info = dict(scene.save_trace(trace_path))
-                    result["trace_source"] = {
-                        **trace_info,
-                        "sha256": hashlib.sha256(trace_path.read_bytes()).hexdigest(),
-                    }
-                return result
+            reference_runtime = {"planner_query_count": 0}
 
-            result = self.scene_helper._scene_call(
-                receipt=receipt,
-                planned_spec=planned,
-                planned_spec_sha256=planned_hash,
-                phase="canonical_prefix_smoke_reference",
-                program=None,
-                program_sha256=None,
-                callback=reference_callback,
-            )
+            def reference_callback(scene, _program):
+                planner_before = int(getattr(scene, "planner_query_count", 0))
+                try:
+                    require_same_current(
+                        current, dict(self.adapter.capture_current(scene))
+                    )
+                    start = compare_anchors(
+                        anchor, dict(self.adapter.capture_anchor(scene))
+                    )
+                    if not start["equivalent"]:
+                        raise ValueError(
+                            f"prefix smoke reference anchor mismatch: {start['failures']}"
+                        )
+                    result = _validate_prefix_reference_result(
+                        self.adapter.plan_and_execute_canonical_prefix(
+                            scene, _immutable_copy(prefix_contract)
+                        )
+                    )
+                    trace_path = output_dir / "reference_trace.npz"
+                    trace_info = _best_effort_trace(scene, trace_path)
+                    if trace_info.get("status") != "saved":
+                        raise RuntimeError(
+                            f"canonical prefix reference trace save failed: {trace_info}"
+                        )
+                    result["trace_source"] = trace_info
+                    return result
+                except BaseException:
+                    receipt["reference_partial_trace"] = _best_effort_trace(
+                        scene, output_dir / "reference_partial_trace.npz"
+                    )
+                    raise
+                finally:
+                    reference_runtime["planner_query_count"] = int(
+                        getattr(scene, "planner_query_count", 0)
+                    ) - planner_before
+
+            try:
+                result = self.scene_helper._scene_call(
+                    receipt=receipt,
+                    planned_spec=planned,
+                    planned_spec_sha256=planned_hash,
+                    phase="canonical_prefix_smoke_reference",
+                    program=None,
+                    program_sha256=None,
+                    callback=reference_callback,
+                )
+            finally:
+                receipt["planner_query_count"] = int(
+                    reference_runtime["planner_query_count"]
+                )
             manifest, arrays = build_canonical_prefix_artifact(
                 root_slot_id=str(planned["slot_id"]),
                 family=str(planned["family"]),
@@ -147,7 +191,12 @@ class CanonicalPrefixRealSmokeV1:
             manifest = write_canonical_prefix_artifact(
                 output_dir / "artifact", manifest, arrays
             )
-            receipt["planner_query_count"] = len(result["planner_query_receipts"])
+            if receipt["planner_query_count"] != len(
+                result["planner_query_receipts"]
+            ):
+                raise ValueError(
+                    "prefix smoke planner query delta/table count mismatch"
+                )
             receipt["canonical_prefix_artifact_sha256"] = manifest[
                 "artifact_sha256"
             ]
@@ -155,50 +204,61 @@ class CanonicalPrefixRealSmokeV1:
             replays = []
             for replay_index in range(1, 4):
                 def replay_callback(scene, _program, replay_index=replay_index):
-                    require_same_current(
-                        current, dict(self.adapter.capture_current(scene))
-                    )
-                    replay_start = compare_anchors(
-                        anchor, dict(self.adapter.capture_anchor(scene))
-                    )
-                    if not replay_start["equivalent"]:
-                        raise ValueError(
-                            f"prefix smoke replay anchor mismatch: {replay_start['failures']}"
+                    try:
+                        require_same_current(
+                            current, dict(self.adapter.capture_current(scene))
                         )
-                    self.adapter.initialize_prefix_replay_trace(scene)
-                    receipt["prefix_replay_count"] += 1
-                    replay = replay_canonical_prefix(
-                        scene,
-                        manifest=manifest,
-                        arrays=arrays,
-                        reference_current=current,
-                        capture_current=self.adapter.capture_current,
-                        capture_anchor=self.adapter.capture_anchor,
-                    )
-                    if replay["prefix_end_equivalent"] is not True:
-                        raise ValueError(
-                            "canonical prefix exact replay end state mismatch"
+                        replay_start = compare_anchors(
+                            anchor, dict(self.adapter.capture_anchor(scene))
                         )
-                    physical = dict(
-                        self.adapter.validate_replayed_prefix_physical(
-                            scene, replay
+                        if not replay_start["equivalent"]:
+                            raise ValueError(
+                                f"prefix smoke replay anchor mismatch: {replay_start['failures']}"
+                            )
+                        self.adapter.initialize_prefix_replay_trace(scene)
+                        receipt["prefix_replay_count"] += 1
+                        replay = replay_canonical_prefix(
+                            scene,
+                            manifest=manifest,
+                            arrays=arrays,
+                            reference_current=current,
+                            capture_current=self.adapter.capture_current,
+                            capture_anchor=self.adapter.capture_anchor,
                         )
-                    )
-                    replay["replayed_prefix_physical_acceptance"] = physical
-                    if physical.get("pass") is not True:
-                        raise ValueError(
-                            "canonical prefix smoke replay physical Gate failed"
+                        if replay["prefix_end_equivalent"] is not True:
+                            raise ValueError(
+                                "canonical prefix exact replay end state mismatch"
+                            )
+                        physical = dict(
+                            self.adapter.validate_replayed_prefix_physical(
+                                scene, replay
+                            )
                         )
-                    if hasattr(scene, "save_trace"):
+                        replay["replayed_prefix_physical_acceptance"] = physical
+                        if physical.get("pass") is not True:
+                            raise ValueError(
+                                "canonical prefix smoke replay physical Gate failed"
+                            )
                         trace_path = output_dir / f"replay_{replay_index}_trace.npz"
-                        trace_info = dict(scene.save_trace(trace_path))
-                        replay["trace_source"] = {
-                            **trace_info,
-                            "sha256": hashlib.sha256(
-                                trace_path.read_bytes()
-                            ).hexdigest(),
-                        }
-                    return replay
+                        trace_info = _best_effort_trace(scene, trace_path)
+                        if trace_info.get("status") != "saved":
+                            raise RuntimeError(
+                                f"canonical replay trace save failed: {trace_info}"
+                            )
+                        replay["trace_source"] = trace_info
+                        return replay
+                    except BaseException:
+                        receipt.setdefault("replay_partial_traces", []).append(
+                            {
+                                "replay_index": replay_index,
+                                "trace": _best_effort_trace(
+                                    scene,
+                                    output_dir
+                                    / f"replay_{replay_index}_partial_trace.npz",
+                                ),
+                            }
+                        )
+                        raise
 
                 replays.append(
                     self.scene_helper._scene_call(
