@@ -10,7 +10,9 @@ Current decision：`BLOCKED_WITH_REASONS`
 
 Postmortem code/evidence content commit：`28cfb46cf14be9c5850efd1af00489acc5e8b8ee`
 
-最终docs/publication commit与remote HEAD将在本文件发布后回填。
+Terminal report/docs content commit：`2f1480e6b0feae4ae0c559c27b268f5c8d409123`
+
+最终publication closeout commit与remote HEAD见本轮最终回复及`正式数据构造日志.md`更晚发布回执。
 
 ## 建议阅读顺序
 
