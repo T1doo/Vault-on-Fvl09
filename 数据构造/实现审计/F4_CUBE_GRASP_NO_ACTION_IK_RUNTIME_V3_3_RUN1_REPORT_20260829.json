@@ -1,0 +1,33 @@
+{
+  "authorization_sha256": "fd52608e0caa4fa747219713bbd8202d7833fdc4b7f09d6ffcdf55ab20364a29",
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 3,
+    "recovery_attempt_count": 0
+  },
+  "checks": {
+    "all_four_scene_cleanups_pass": true,
+    "all_roles_used_same_grasp_contract": true,
+    "budget_pass": true,
+    "execution_count_zero": true,
+    "guard_post_release_verified": true,
+    "no_task_owned_orphan": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "failure": {
+    "A": "A_pregrasp planner Fail",
+    "B": "B_pregrasp planner Fail",
+    "C": "C_pregrasp planner Fail"
+  },
+  "formal_data": false,
+  "implementation_source_sha256": "399ccab5377d867af5ac39597d018b5e1c6115a45a8b28ea6cff79291de0756a",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "inference": "All roles share the common-X-derived orientation and all fail at their first pregrasp. Current A/B/C x positions (0.07,-0.08,-0.23) lie left of the successful common-X x=0.28 right-arm grasp; frozen joint margin evidence was never reached. The next repair must be one common layout rule, not role-specific poses.",
+  "next_gate": "F4_RIGHT_WORKSPACE_LAYOUT_IMPACT_REVIEW_V7 before any staged/full execution",
+  "physical_gpu_index": 0,
+  "schema_version": "cmf_f4_cube_grasp_no_action_ik_run_report_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "FAILED_NO_ACTION_IK_ALL_THREE_PREGRASP",
+  "terminal_qpos_available": false
+}
