@@ -245,6 +245,7 @@ class RoboTwinSceneContextV1_2:
             self._scene = scene
             args = scene_args(self.family, self.output_root / self.scene_instance_id)
             args["seed"] = int(self.planned_spec["seed"])
+            scene._cmf_planned_root_slot_spec = deepcopy(self.planned_spec)
             scene.setup_demo(**args)
             for _ in range(CANONICAL_SETTLE_STEPS):
                 scene.scene.step()

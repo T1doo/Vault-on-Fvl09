@@ -1,0 +1,84 @@
+{
+  "binding": {
+    "approval_request_sha256": "005207132c141396fe67a287def7963421549a8b6b4a6d532210246142ee9306",
+    "approved_scope": "F4_arm_asset_layout_and_full_program_nonformal_probe_v3_2",
+    "authorization_id": "f4-runtime-v3-2-gpu0-seed20260829-auth1-right",
+    "authorization_receipt_sha256": "ca96a4b900f9b031d29a5ee901f53fe505762125da4ec6ddcf7f7031bb94a954",
+    "authorized_run_id": "f4-runtime-v3-2-gpu0-seed20260829-run1-right",
+    "budget_receipt_sha256": "20c25c1c348e691bdd24ed69e47b7e0c534dc3c590819442c7b014bb21f2bf1a",
+    "command_sha256": "c4cd57dbed92c5f080c1d8fda29324ed1e22bfcf1f14b55120e058c9ff6e5126",
+    "consumption_receipt_sha256": "388a316a7a6062c721b75b7924f3da2366aea54d402086ae532141d0fb9be396",
+    "controlled_action_limit": 10,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F4",
+    "guard_pid": 1350371,
+    "implementation_source_sha256": "81d7d0d437c7a9f1e9191ac3a3c7a5c161fb0e5e41a77729ab92d241e8b3d7dc",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_F4_right_arm_layout_full_root_runtime_v3_2_seed20260829_gpu0_run1",
+    "parent_user_authorization_sha256": "1f2eececacda0fce745709f29ad57385b3261dc958b96e0374713780d4d06e8c",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "cb8b8d3edfcdb85faddf6fd1ebae22f2308e7419c3d1faddeaccfee1f10280c5",
+    "planner_query_limit": 256,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "986e9b14b26c0d944e7f93fdb551135ecf8f76eab639528bc8bbaa0e07c97479",
+    "timeout_seconds": 20400
+  },
+  "child_exit_code": 1,
+  "child_launch_error": null,
+  "child_receipt_update_error": null,
+  "child_receipt_updated": true,
+  "consumption_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/authorization_consumed/runtime_v3_2_v1_gpu0/f4-runtime-v3-2-gpu0-seed20260829-auth1-right.json",
+  "elapsed_seconds": 151.49095940589905,
+  "formal_data": false,
+  "orphan_process_count": 0,
+  "postcheck": {
+    "captured_at": "2026-08-29T17:14:45.418132+08:00",
+    "compute_processes": [
+      {
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "pid": 1345120,
+        "used_memory_mib": 22974
+      }
+    ],
+    "memory_used_mib": 22991,
+    "physical_index": 0,
+    "pstate": "P2",
+    "utilization_percent": 48,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "postcheck_error": null,
+  "postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": false,
+      "no_compute_process": false,
+      "utilization_idle": false
+    },
+    "new_compute_processes": [
+      {
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "pid": 1345120,
+        "used_memory_mib": 22974
+      }
+    ],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P2",
+    "verified": false
+  },
+  "precheck": {
+    "captured_at": "2026-08-29T17:12:15.428477+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "purpose": "pre_stage0_nonformal_validation",
+  "schema_version": "cmf_gpu_guard_v2_3",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_cleanup_uncertain",
+  "task_owned_orphan_pids": [],
+  "timed_out": false
+}

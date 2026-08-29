@@ -179,6 +179,10 @@ class RealSapienAdapterV1_2StaticTest(unittest.TestCase):
         prefix = module_source.split("class RoboTwinSceneContextV1_2", 1)[0]
         self.assertNotIn("import sapien", prefix)
         source = inspect.getsource(RoboTwinSceneContextV1_2.__enter__)
+        self.assertLess(
+            source.index("scene._cmf_planned_root_slot_spec"),
+            source.index("scene.setup_demo"),
+        )
         self.assertLess(source.index("scene.setup_demo"), source.index("for _ in range(CANONICAL_SETTLE_STEPS)"))
         self.assertLess(source.index("for _ in range(CANONICAL_SETTLE_STEPS)"), source.index("self._monitor.start()"))
         self.assertEqual(ADAPTER_VERSION, "RoboTwinRealSapienPilotRootAdapterV1_2")
