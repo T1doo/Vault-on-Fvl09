@@ -9,7 +9,7 @@ cabdb51d865d9407c6b4c594b37da7a3f94bf7f5
 包含本 handoff、current registry/readiness 与总方案更新的 closure content commit：
 
 ```text
-PENDING_CLOSURE_CONTENT_COMMIT
+58e932cb236df96efc3444ba22cb9d6882d7c27a
 ```
 
 ## 建议优先阅读
@@ -19,9 +19,10 @@ PENDING_CLOSURE_CONTENT_COMMIT
 3. `数据构造/实现审计/f1_f4_implementation_registry_v3_2_current.md/json`
 4. `数据构造/实现审计/STAGE0_PREPARATION_GATE_FAILURE_RUNTIME_V3_2_20260829.md/json`
 5. `数据构造/实现审计/runtime_v3_2_terminal_static_audit_20260829.json`
-6. `数据构造/正式数据构造日志.md` 第 103–120 节
-7. `数据构造/实现审计/F2_OFFICIAL_ASSET_COMPATIBILITY_MATRIX_V2.md/json`
-8. `数据构造/实现审计/F4_ARM_ASSET_LAYOUT_IMPACT_REVIEW_V6.md/json`
+6. `数据构造/实现审计/RUNTIME_V3_2_TERMINAL_PUBLICATION_RECEIPT_20260829.json`
+7. `数据构造/正式数据构造日志.md` 第 103–122 节
+8. `数据构造/实现审计/F2_OFFICIAL_ASSET_COMPATIBILITY_MATRIX_V2.md/json`
+9. `数据构造/实现审计/F4_ARM_ASSET_LAYOUT_IMPACT_REVIEW_V6.md/json`
 
 ## 本轮完成内容
 
