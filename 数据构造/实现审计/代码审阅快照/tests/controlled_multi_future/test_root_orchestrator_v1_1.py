@@ -15,6 +15,7 @@ from controlled_multi_future.root_orchestrator_v1_1 import (
     RealSapienPilotRootAdapterV1_1,
     RealSapienPilotRootOrchestratorV1_1,
     SceneHandleV1_1,
+    _save_partial_trace_if_available,
     _write_json,
 )
 
@@ -201,6 +202,27 @@ class SyntheticRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
 
 
 class RootOrchestratorV1_1Test(unittest.TestCase):
+    def test_execution_exception_partial_trace_is_retained(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        branch_dir = Path(directory.name) / "branch"
+        branch = {"partial_output_status": "none"}
+
+        class TraceScene:
+            @staticmethod
+            def save_trace(path):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(b"partial-runtime-trace")
+                return {"path": str(path), "sample_count": 7}
+
+        _save_partial_trace_if_available(TraceScene(), branch_dir, branch)
+        self.assertEqual(branch["partial_output_status"], "partial_trace_saved")
+        self.assertEqual(branch["partial_trace_source"]["sample_count"], 7)
+        self.assertEqual(
+            branch["partial_trace_source"]["sha256"],
+            hashlib.sha256(b"partial-runtime-trace").hexdigest(),
+        )
+
     def test_receipt_writer_normalizes_numpy_values(self):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)

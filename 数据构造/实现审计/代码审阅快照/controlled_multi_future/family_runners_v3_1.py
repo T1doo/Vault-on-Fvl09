@@ -1118,7 +1118,6 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         for distance, segment_id in (
             (0.04, "prefix_lift_4cm"),
             (0.04, "prefix_lift_8cm"),
-            (0.04, "prefix_lift_to_full_height"),
         ):
             actual_qpos = planner_array(
                 scene.robot.left_entity.get_qpos(),

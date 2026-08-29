@@ -42,8 +42,8 @@ class F3GraspLiftDiagnosticV3_2Test(unittest.TestCase):
         self.assertLess(actual_qpos_index, first_event_index)
         self.assertIn("prefix_lift_4cm", source)
         self.assertIn("prefix_lift_8cm", source)
-        self.assertIn("prefix_lift_to_full_height", source)
-        self.assertEqual(source.count('(0.04, "prefix_lift_'), 3)
+        self.assertNotIn("prefix_lift_to_full_height", source)
+        self.assertEqual(source.count('(0.04, "prefix_lift_'), 2)
 
 
 if __name__ == "__main__":

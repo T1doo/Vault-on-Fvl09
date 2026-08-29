@@ -1,0 +1,14 @@
+{
+  "candidate_universe_sha256": "dc48bd558f4cad2488585e7ab321dd1caa0aae56e4c576327f370dad61907820",
+  "error": "planner control failed at prefix_lift_to_full_height",
+  "error_type": "PlannerChainFailure",
+  "formal_data": false,
+  "partial_output_status": "none",
+  "prefix_sha256": "b81da62972b644846059ce4fa5c418dc3503d17d5ea120ebaf5548ec116ebe2b",
+  "program_id": "F3-VHHV",
+  "reference_current_sha256": "a6cca25cf279dabbf5100b1bee0ce1b837a61a4ae444637c7c84ba84b595a84f",
+  "schema_version": "cmf_root_branch_receipt_v1_1",
+  "stage0_data": false,
+  "status": "failed_execution",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 454, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 767, in rollout_callback\n    self.adapter.rollout(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/real_sapien_adapter_v1_1.py\", line 484, in rollout\n    return self.runner.rollout(fresh_scene, frozen_program, realization_spec, anchor_capture=self.capture_anchor)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_1.py\", line 1134, in rollout\n    _execute_control(scene, lift_control, segment_id)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_1.py\", line 144, in _execute_control\n    raise PlannerChainFailure(f\"planner control failed at {label}\")\ncontrolled_multi_future.family_runners_v3_1.PlannerChainFailure: planner control failed at prefix_lift_to_full_height\n"
+}

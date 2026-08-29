@@ -129,6 +129,24 @@ def _write_json(path: Path, value: Mapping[str, Any] | Sequence[Any]) -> None:
     )
 
 
+def _save_partial_trace_if_available(scene: Any, branch_dir: Path, branch: MutableMapping[str, Any]) -> None:
+    """Best-effort failure evidence without replacing the original exception."""
+
+    if not hasattr(scene, "save_trace"):
+        return
+    trace_path = branch_dir / "partial_trace_source.npz"
+    try:
+        trace_info = dict(scene.save_trace(trace_path))
+        trace_sha256 = hashlib.sha256(trace_path.read_bytes()).hexdigest()
+        branch["partial_trace_source"] = {**trace_info, "sha256": trace_sha256}
+        branch["partial_output_status"] = "partial_trace_saved"
+    except BaseException as exc:
+        branch["partial_trace_save_error"] = {
+            "type": type(exc).__name__,
+            "message": str(exc),
+        }
+
+
 def _append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(
@@ -763,13 +781,18 @@ class RealSapienPilotRootOrchestratorV1_1:
                         raise ValueError(f"rollout anchor mismatch: {anchor_result['failures']}")
                     realization_spec = _immutable_copy(realization_spec_by_program[program_id])
                     realization_spec["planner_execution_spec"] = _immutable_copy(planner_execution_specs[program_id])
-                    rollout_result = dict(
-                        self.adapter.rollout(
-                            scene,
-                            candidate,
-                            realization_spec,
+                    try:
+                        rollout_result = dict(
+                            self.adapter.rollout(
+                                scene,
+                                candidate,
+                                realization_spec,
+                            )
                         )
-                    )
+                    except BaseException:
+                        _save_partial_trace_if_available(scene, branch_dir, branch)
+                        _write_json(branch_dir / "receipt.json", branch)
+                        raise
                     if hasattr(scene, "save_trace"):
                         trace_path = branch_dir / "trace_source.npz"
                         trace_info = dict(scene.save_trace(trace_path))
