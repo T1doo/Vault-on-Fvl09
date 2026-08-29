@@ -3,12 +3,12 @@
   "approved": false,
   "cpu_validation": {
     "active_snapshot_byte_equal": true,
-    "active_tests": "158/158 passed",
+    "active_tests": "162/162 passed",
     "current_synthetic_root": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10",
     "import_side_effect_audit": "no sapien/torch/cuda modules loaded",
     "python_files_compiled": 87,
     "synthetic_only": true,
-    "vault_snapshot_tests": "158/158 passed"
+    "vault_snapshot_tests": "162/162 passed"
   },
   "current_anchor_repairs": {
     "actor_velocity_and_sleep_state_required": true,
@@ -23,24 +23,28 @@
   "family_scope": {
     "F1": {
       "current_scope": "full red/green/blue r_pc repair root",
-      "full_program_complete": "static_only_not_run",
+      "full_program_complete": false,
+      "terminal_status": "failed_planner_after_two_versioned_repairs",
       "version": "f1_three_branch_coverage_v3_1"
     },
     "F2": {
       "current_scope": "same-can left-arm beside repair with six fresh planner variants",
-      "full_program_complete": "static_only_not_run",
+      "full_program_complete": false,
+      "terminal_status": "failed_task_physical_can_box_full_obb_incompatibility",
       "version": "f2_workspace_and_three_branch_v4_1"
     },
     "F3": {
       "current_scope": "V-to-H return diagnosis",
-      "fail_closed_reason": "VVHH/VHVH/VHHV not executed by repair runner",
+      "fail_closed_reason": "prefix lift execution failed before V/H diagnosis",
       "full_program_complete": false,
+      "terminal_status": "failed_execution_after_two_versioned_repairs",
       "version": "f3_release_and_full_program_v3_2"
     },
     "F4": {
       "current_scope": "common-X Route1/Route2 repair",
-      "fail_closed_reason": "A/B/C and ABC/ACB/BAC not executed by repair runner",
+      "fail_closed_reason": "common-X Route1/2 failed before A/B/C",
       "full_program_complete": false,
+      "terminal_status": "failed_planner_no_authorized_tray_layout_candidate",
       "version": "f4_common_carry_and_full_program_v3_2"
     }
   },
@@ -117,9 +121,22 @@
     "postmortem_cpu_fix_real_gpu_verified": true,
     "source_lock_schema": "cmf_runtime_source_lock_v1"
   },
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
+  "family_scope_terminal_v1": {
+    "F1_repairs_consumed": 2,
+    "F1_status": "failed_planner",
+    "F2_repairs_consumed": 0,
+    "F2_status": "failed_task_physical_feasibility",
+    "F3_repairs_consumed": 2,
+    "F3_status": "failed_execution",
+    "F4_repairs_consumed": 1,
+    "F4_status": "failed_planner_no_authorized_layout_candidate",
+    "accepted_real_root_count": 0,
+    "family_scopes_executed": true,
+    "stage0_package_generated": false
+  },
+  "implementation_revision": "runtime_v3_1_family_scope_terminal_v1",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
-  "next_decision": "separate user/GPT review of bounded F1-F4 nonformal scopes; Stage 0 remains blocked",
+  "next_decision": "user/GPT impact review of terminal F1-F4 blockers; Stage 0 remains blocked",
   "physical_anchor_version": "physical_anchor_v2",
   "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
   "raw_repairs": {
@@ -144,7 +161,7 @@
     "f2_f3_f4_repair_entry_point": "controlled_multi_future/probes/runtime_v3_1_family_repair_runner.py",
     "gpu_guard_required": "cmf_gpu_guard_v2_2",
     "lazy_sapien_import": true,
-    "status": "concrete_real_A0_passed_family_scopes_not_run"
+    "status": "concrete_real_A0_passed_family_scopes_terminal_blocked"
   },
   "root_orchestrator_version": "real_sapien_pilot_root_orchestrator_v1_1",
   "root_p0_repairs": {
@@ -161,5 +178,5 @@
   "scientific_design_changed": false,
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "a0_passed_nonformal_family_scopes_not_run"
+  "status": "a0_passed_f1_f4_terminal_blocked"
 }

@@ -42,29 +42,63 @@
   ],
   "compression_run": false,
   "cpu_status": {
-    "active_tests": "158/158 passed",
+    "active_tests": "162/162 passed",
     "postmortem_native_planner_ledger_fix": "implemented_and_verified_by_real_A0",
     "postmortem_timestep_float_representation_fix": "implemented_and_verified_by_real_A0",
-    "vault_snapshot_tests": "158/158 passed"
+    "vault_snapshot_tests": "162/162 passed"
   },
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
-  "family_gpu_scopes_executed": false,
+  "family_gpu_scopes_executed": true,
+  "family_results": {
+    "F1": {
+      "execution_attempt_count": 0,
+      "planner_query_count": 0,
+      "repairs_consumed": 2,
+      "stage0_eligible": false,
+      "status": "terminal_failed_planner_float_double_after_two_repairs"
+    },
+    "F2": {
+      "execution_attempt_count": 0,
+      "planner_query_count": 0,
+      "repairs_consumed": 0,
+      "stage0_eligible": false,
+      "status": "terminal_failed_task_physical_can_box_full_obb_incompatibility"
+    },
+    "F3": {
+      "execution_attempt_count": 1,
+      "planner_query_count": 28,
+      "repairs_consumed": 2,
+      "stage0_eligible": false,
+      "status": "terminal_failed_execution_prefix_lift"
+    },
+    "F4": {
+      "execution_attempt_count": 0,
+      "planner_query_count": 20,
+      "repairs_consumed": 1,
+      "stage0_eligible": false,
+      "status": "terminal_failed_planner_no_authorized_tray_layout_candidate"
+    }
+  },
   "formal_data_generated": false,
   "formal_f1_f4_trajectory_count": 0,
   "generated_at": "2026-08-29",
   "h_reveal": null,
   "hard_blockers": [
-    "F1-F4 real full-program evidence has not been run",
-    "real root pipeline was not run",
-    "Stage 0 manifest and attempt budget cannot be frozen from missing family probes"
+    "F1 terminal planner failure after two versioned implementation repairs",
+    "F2 fixed 071_can/base1 cannot fit wholly inside 062_plasticbox/base3 strict cavity",
+    "F3 terminal prefix-lift execution failure after two versioned implementation repairs",
+    "F4 both common-X routes failed and no non-overlapping left-workspace tray layout exists",
+    "no accepted real three-branch root exists",
+    "Stage 0 manifest and attempt budget cannot be generated from terminal family failures"
   ],
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
+  "implementation_revision": "runtime_v3_1_family_scope_terminal_v1",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "new_gpu_launch_authorized": false,
   "pi05_run": false,
   "policy_transfer_run": false,
   "pre_stage0_parent_authorized": true,
+  "real_root_integration_executed": false,
   "postmortem_a0_authorization_sha256": "122896069bf65963fab872a068d00ac42286e8149703c75d5a3690954cd2b68e",
   "postmortem_a0_guard_status": "completed",
   "postmortem_a0_reviewed_vault_commit": "d56a7f8de1784d116ce169fcce1d192387992bfc",
@@ -73,6 +107,8 @@
   "schema_version": "cmf_stage0_readiness_runtime_v3_1_v1_1",
   "scientific_invariants_unchanged": true,
   "stage0_authorized": false,
+  "stage0_execution_manifest_generated": false,
+  "stage0_user_approval_request_generated": false,
   "stage0_readiness": "blocked_with_reasons",
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0

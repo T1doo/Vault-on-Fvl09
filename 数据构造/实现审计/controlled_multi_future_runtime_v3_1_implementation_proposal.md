@@ -1,6 +1,6 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`a0_passed_nonformal_family_scopes_not_run`。
+状态：`a0_passed_f1_f4_terminal_blocked`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
@@ -92,3 +92,12 @@ CPU current：active/snapshot 131/131 tests passed，76 Python files compile pas
 - A0 Gate现在pass，但该授权已消费且不自动开放F1–F4；F1–F4及real-root仍未运行。
 
 Current decision=`BLOCKED_WITH_REASONS`，`new_gpu_launch_authorized=false`，`stage0_authorized=false`。
+
+## family-scope terminal update
+
+- F1：task/physical 3/3与freeze once通过；planner在Float/Double接口终止，2轮repair耗尽；
+- F2：固定071_can/base1最小完整直径大于plasticbox/base3 strict cavity短轴，full-OBB inside物理不兼容；
+- F3：pad/trace修复后task/physical与14段preflight通过，真实抓瓶后的prefix lift失败，2轮repair耗尽；
+- F4：task/physical通过，Route1/2均在center-high失败；CPU layout review没有合规左臂tray位置；
+- accepted real root=0，Stage0 manifest/budget/request不满足生成Gate；
+- 正式Stage0/1/formal data/training/H-reveal/compression/π0.5均未执行。

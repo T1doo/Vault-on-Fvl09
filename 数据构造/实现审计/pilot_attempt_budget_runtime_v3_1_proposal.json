@@ -100,10 +100,36 @@
   },
   "formal_data": false,
   "frozen": false,
-  "full_f3_f4_program_budget": "unresolved_and_unapproved_after_repair_gates",
-  "family_gpu_probes_executed": false,
+  "full_f3_f4_program_budget": "not_reached_due_terminal_repair_gates",
+  "family_gpu_probes_executed": true,
+  "family_execution_summary": {
+    "F1": {
+      "executions": 0,
+      "planner_queries": 0,
+      "repairs": 2,
+      "status": "failed_planner"
+    },
+    "F2": {
+      "executions": 0,
+      "planner_queries": 0,
+      "repairs": 0,
+      "status": "failed_task_physical_feasibility"
+    },
+    "F3": {
+      "executions": 1,
+      "planner_queries": 28,
+      "repairs": 2,
+      "status": "failed_execution"
+    },
+    "F4": {
+      "executions": 0,
+      "planner_queries": 20,
+      "repairs": 1,
+      "status": "failed_planner_no_authorized_layout_candidate"
+    }
+  },
   "gpu_probe_authorized": false,
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
+  "implementation_revision": "runtime_v3_1_family_scope_terminal_v1",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "machine_scope_budget": {
     "approved": false,
@@ -195,5 +221,5 @@
   "schema_version": "cmf_runtime_v3_1_probe_budget_proposal_v1_1",
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "proposed_not_frozen_family_probes_not_run"
+  "status": "terminal_family_probes_failed_stage0_budget_not_frozen"
 }

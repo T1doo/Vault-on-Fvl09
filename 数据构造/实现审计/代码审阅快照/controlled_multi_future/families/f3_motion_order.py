@@ -4,7 +4,7 @@ from ..base import ControlledMultiFutureSceneBase
 class F3MotionOrder(ControlledMultiFutureSceneBase):
     family_id = "F3"
     family_implementation_version = "f3_release_and_full_program_v3_2"
-    audit_status = "runtime_v3_1_v5_1_cpu_hardening_user_authorized_nonformal_not_run"
+    audit_status = "terminal_failed_prefix_lift_after_two_versioned_repairs"
 
     def build_provisional_programs(self):
         return [

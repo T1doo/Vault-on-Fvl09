@@ -1,7 +1,7 @@
 # runtime-v3_1 finite GPU budget proposal
 
 ```yaml
-status: proposed_not_frozen_family_probes_not_run
+status: terminal_family_probes_failed_stage0_budget_not_frozen
 approved: false
 frozen: false
 gpu_probe_authorized: false
@@ -37,3 +37,14 @@ A0 budget 现在由 `runtime_v3_1_budget_v1_1.py` 与 `A0CurrentAnchorOrchestrat
 GPT审阅postmortem修复后，用户单独批准一个全新namespace的A0-only one-shot。Run3完成pristine+fresh1/2/3四场景并通过same-current、physical-anchor、zero planner/control/physics、cleanup/orphan、artifact hash和GPU release Gate。A0当前为`passed_nonformal_A0`，新授权已消费且不可重放。
 
 Stage-0 pilot attempt budget仍不能根据真实family耗时冻结：`approved=false / frozen=false / gpu_probe_authorized=false / stage0_authorized=false`。A0 pass不自动批准family scopes；F1–F4与真实root仍需单独审阅和授权。
+
+## Family terminal execution update
+
+| Family | Planner queries | Real executions | Repairs | Terminal |
+|---|---:|---:|---:|---|
+| F1 | 0 | 0 | 2 | planner dtype failure |
+| F2 | 0 | 0 | 0 | can/box full-OBB incompatibility |
+| F3 | 28 | 1 | 2 | prefix lift failed |
+| F4 | 20 | 0 | 1 | both common routes failed; no compliant tray layout |
+
+所有run均无timeout；task-owned scene/process-group orphan均为0。F4 repair-1 child结束后另一用户占用GPU0，guard因此把post-release标为uncertain并停止该卡后续工作。Accepted root=0，Stage0 attempt budget不能冻结，正式12条不授权。

@@ -47,14 +47,17 @@
     }
   },
   "blockers": [
-    "F1-F4 complete real scopes not run",
-    "real root integration not run",
-    "Stage 0 manifest and attempt budget not frozen"
+    "F1 planner failure after two versioned repairs",
+    "F2 can/box strict full-OBB physical incompatibility",
+    "F3 prefix-lift execution failure after two versioned repairs",
+    "F4 common-center planner failure with no authorized tray layout candidate",
+    "accepted real root count is zero",
+    "Stage 0 manifest and attempt budget not generated"
   ],
   "code_hashes": {
     "a0_activity_monitor_v2.py": "f114e182bb0a5a1e11d69cfce1401be4a38e66518168aa3ec893c1682a0787f5",
     "a0_orchestrator_v1_2.py": "f73304626ba9a86e252fd9ead71a4a9a5ee36bf7b3e100b2e3d0e4814c33ff03",
-    "family_runners_v3_1.py": "c43b9cab28deff39babf9f94ebe50700037179ce109b7902081f8ad7ff68340b",
+    "family_runners_v3_1.py": "5aa993696ba66c0c9fda6031b10e682d1345095cd867eba79809250c3f776a4a",
     "pre_stage0_authorization_v1.py": "a3fa539547474bb93448de8f08caf8ce857290712966f08a275287a26da7ec93",
     "probes/a0_real_sapien_adapter_smoke.py": "3b7c973256805da18b358b17878bd7205196b82ff58a56c6df7f3afc174f871b",
     "probes/gpu_guard_v2_2.py": "1f63292e6cf01f9bf0d4f7ba023a8b8df31cb822610f5bc93723a2f91d4f3d24",
@@ -62,63 +65,78 @@
     "probes/runtime_v3_1_complete_family_scope.py": "c821c6c3b7cd8ff423142db9209c626d55645f10ae129996589c0954e3926a46",
     "probes/runtime_v3_1_root_runner.py": "88aace2d9ba4ae81e956c6678a7466ab15dc4ef9dfff6aa47045d6bd70156688",
     "raw_writer.py": "6bcd5b77b8349118cca5e1a07c225cfc5baefa07872719da665f61bdd140ae83",
-    "real_sapien_adapter_v1_2.py": "dcd973676c03f48df58b47c59dfb0f2d06f7e1489bbdcad83fbde2d32d0a304e",
-    "root_orchestrator_v1_1.py": "0f68c69397126d0dec83aae8e8daf471d8c666ea029abf5b68bf86ae0984252f",
+    "real_sapien_adapter_v1_2.py": "458f8a92d10d4e7560be0c9f037d7471ff8fdb9453ae9f66c969c7e6ce213a9d",
+    "root_orchestrator_v1_1.py": "42e48ae3965fd1175bde9209fa676c8d29f08024d3c5e7add28c1edc9990b653",
     "runtime_source_lock_v1.py": "2fc83c75e652b0d756b62b8e6382db7ed104d189901238515642ada2b45c62d6",
-    "runtime_v3_1_budget_v1_2.py": "719779a4a3fa298d8845998c4a1f0ca2a469f1759e6ef9036d2e94fc255e93d4"
+    "runtime_v3_1_budget_v1_2.py": "719779a4a3fa298d8845998c4a1f0ca2a469f1759e6ef9036d2e94fc255e93d4",
+    "runtime_v3_1_contracts.py": "c9be28f312d14246f588d4989d0b33f459d658ae37555df4527d2b5792171929",
+    "probes/runtime_trace.py": "1b5fb8b81fbbdb9d9f125894a26215b9c372d42a892a6e667c8d2281bb50cad5",
+    "probes/scene_inspection.py": "a2b2b0d11c5cf49edf87e56e7939268f3d56e510234d97e07a8b197dcba53baa",
+    "families/f1_object_selection.py": "0a41c1444ca77e45d4aaab5502c7140cbd4756294e6ef3a6d4d34c8ac97f3626",
+    "families/f2_target_relation.py": "91de2458c51a34020cbcde2038cb9233184ed726de590cb5db1baf762c3ab2de",
+    "families/f3_motion_order.py": "4fcc8d3531f227a00e2ac99124fc9e3b498eb7e3d63ede735c450a95f63124af",
+    "families/f4_subtask_order.py": "b0c5b5f2e7e69f037abf5a53f40d9e1356a6090c1eecfdcff4d0cb05ac603639"
   },
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "evidence": {
-    "log": "../正式数据构造日志.md sections 77-82",
+    "log": "../正式数据构造日志.md sections 82-100",
     "run1": "probe_outputs/nonformal_A0_F1_seed20260829_run1",
     "run2": "probe_outputs/nonformal_A0_F1_seed20260829_run2",
-    "run3_postmortem_validation": "probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation"
+    "run3_postmortem_validation": "probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation",
+    "F1_terminal": "probe_outputs/nonformal_F1_three_branch_root_seed20260829_run3_repair2",
+    "F2_terminal": "probe_outputs/nonformal_F2_workspace_three_branch_root_seed20260829_run1",
+    "F3_terminal": "probe_outputs/nonformal_F3_release_full_program_seed20260829_run3_repair2",
+    "F4_terminal": "probe_outputs/nonformal_F4_common_full_program_seed20260829_run2_repair1"
   },
   "families": {
     "F1": {
       "historical_runtime_v2": "red-only passed",
-      "real_scope": "not_run_A0_passed_requires_separate_authorization",
+      "real_scope": "terminal_failed_planner_after_two_versioned_repairs",
+      "repairs_consumed": 2,
       "three_branch_pass": false
     },
     "F2": {
       "historical_runtime_v2": "inside/on passed; beside failed",
-      "real_scope": "not_run_A0_passed_requires_separate_authorization",
+      "real_scope": "terminal_failed_task_physical_can_box_full_obb_incompatibility",
+      "repairs_consumed": 0,
       "three_branch_pass": false
     },
     "F3": {
       "historical_runtime_v2": "V/H passed; return failed",
-      "real_scope": "not_run_A0_passed_requires_separate_authorization",
+      "real_scope": "terminal_failed_prefix_lift_after_two_versioned_repairs",
+      "repairs_consumed": 2,
       "three_full_program_pass": false
     },
     "F4": {
       "historical_runtime_v2": "single A passed; common-X failed",
-      "real_scope": "not_run_A0_passed_requires_separate_authorization",
+      "real_scope": "terminal_failed_common_carry_no_authorized_tray_layout_candidate",
+      "repairs_consumed": 1,
       "three_full_program_pass": false
     }
   },
   "formal_data": false,
   "generated_at": "2026-08-29",
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
+  "implementation_revision": "runtime_v3_1_family_scope_terminal_v1",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "new_gpu_launch_authorized": false,
   "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
   "pre_stage0_parent_authorized": true,
   "readiness": "BLOCKED_WITH_REASONS",
-  "registry_sha256": "db3b54e250693b14ea99996aeab9257adbb7b397f88bf361e3fa3f8efbb21cea",
+  "registry_sha256": "fd50cc510491984d5dfeaa023ca5ad4a177fb6f2eaf1d3a2d288dd3fa6abffbc",
   "reviewed_postmortem_content_commit": "d56a7f8de1784d116ce169fcce1d192387992bfc",
   "schema_version": "f1_f4_implementation_registry_v3_1_v5_1_current",
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "a0_passed_family_runtime_not_run",
+  "status": "a0_passed_f1_f4_terminal_blocked",
   "validation": {
     "a0_artifact_hashes": "run1 2/2 available; run2 4/4 available; run3 16/16 independently rehashed",
     "active_snapshot_byte_equal": true,
-    "active_tests": "158/158 passed",
+    "active_tests": "162/162 passed",
     "import_side_effect_audit": "7 current modules imported; no sapien/torch/cuda additions",
-    "json_parse": "23/23 passed",
+    "family_scope_terminal_evidence": true,
     "postmortem_gpu_evidence": true,
     "python_files_compiled": 87,
-    "snapshot_tests": "158/158 passed"
+    "snapshot_tests": "162/162 passed"
   },
   "versions": {
     "A0": "A0CurrentAnchorOrchestratorV1_2",

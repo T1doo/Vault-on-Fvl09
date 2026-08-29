@@ -2,15 +2,26 @@
 
 ## BLOCKED_WITH_REASONS
 
-真实 A0 Gate 已在全新 postmortem-validation namespace 下通过。Run1 与 run2 的历史失败证据保持不变；用户根据 GPT 对 postmortem 修复的审阅，单独批准了第三次、one-shot、A0-only 验证。Run3 在 physical GPU0 上完成 `A0_pristine + A0_fresh_1/2/3` 四个唯一 scene，全部 cleanup 成功且 task-owned orphan=0。
+真实 A0 Gate 已通过；随后用户授权的F1–F4有限nonformal scopes已经执行到各自停止线。没有任何family达到Stage0所需的完整3/3成功，因此当前仍为`BLOCKED_WITH_REASONS`。
 
-Run3 的四个 current hash 均为 `10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8`，四个 physical anchor hash 均为 `0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d`。每场 wrapper/native planner、controlled action、post-setup physics step 均为0；16/16被引用artifact已独立重哈希通过。Guard无timeout，process-group/scene orphan均为0，GPU0最终回到P8、14 MiB、0%且无compute process。
+A0证据保持有效：四个current hash和physical anchor hash分别一致，零post-setup activity、4/4 cleanup与16/16 artifact hash均通过。
+
+Family结果：
+
+| Family | 最终结果 | Planner queries | Real execution | Repair |
+|---|---|---:|---:|---:|
+| F1 | task/physical 3/3通过并freeze一次；三候选planner在Float/Double接口失败 | 0 | 0 | 2/2耗尽 |
+| F2 | 071_can/base1最小完整直径大于box严格cavity短轴 | 0 | 0 | 无合理repair |
+| F3 | pad与trace修复后14段preflight成功；真实抓瓶后prefix lift失败 | 28 | 1 | 2/2耗尽 |
+| F4 | task/physical通过；Route1/2均在center-high失败；无合规左侧tray layout | 20 | 0 | 1；剩余repair无合规候选 |
 
 因此当前硬阻塞：
 
-1. F1 3/3、F2 inside/on/beside 3/3、F3三个完整program、F4三个完整program仍缺真实证据；
-2. 真实root pipeline尚未运行；
-3. Stage 0 manifest与attempt budget不能根据缺失的family probe伪冻结。
+1. F1/F3已耗尽repair预算仍失败；
+2. F2存在固定asset/full-OBB物理不兼容；
+3. F4没有满足当前布局约束的tray impact candidate；
+4. accepted real root=0；
+5. Stage 0 manifest、budget与approval request不得在这些前置失败下生成。
 
 ```yaml
 pre_stage0_parent_authorized: true
@@ -25,4 +36,4 @@ formal_f1_f4_trajectory_count: 0
 h_reveal: null
 ```
 
-不得启动 Stage 0。本次新A0授权已消费，不可重放；它没有自动授权F1–F4 action probes。下一安全动作是单独审阅并批准有限的family nonformal scopes，然后依次补齐F1–F4与真实root证据。
+不得启动 Stage 0。下一安全动作是用户/GPT对四个terminal blocker做impact review；任何进一步GPU工作都需要新的设计/实现版本、明确repair方向和新授权，不能重放本轮receipt或扩大现有预算。
