@@ -1,0 +1,97 @@
+{
+  "a0_activity_monitor_sha256": "f114e182bb0a5a1e11d69cfce1401be4a38e66518168aa3ec893c1682a0787f5",
+  "a0_orchestrator_sha256": "f73304626ba9a86e252fd9ead71a4a9a5ee36bf7b3e100b2e3d0e4814c33ff03",
+  "allowed_gpu_uuid_policy": "fresh_idle_exact_uuid_selected_by_atomic_guard",
+  "allowed_physical_gpu_indices": [
+    0
+  ],
+  "approval_request_file_sha256": "4d181fd4aefc338d3fea18d7885f21b016824cdbbd66f214f174950933cbc20d",
+  "approval_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_family_work_v1_r2/F3_release_full_program_seed20260829_run3_repair2.request.json",
+  "approval_request_schema_version": "cmf_pre_stage0_gpu_scope_request_v1",
+  "approval_request_sha256": "302f4073a8feaa1b37bba6b90dd210cb722128b9eb0b6e75b3fcb7493e2e2102",
+  "approved": true,
+  "approved_scopes": [
+    "F3_release_and_full_program_nonformal_probe"
+  ],
+  "authorization_id": "f3-release-full-program-seed20260829-v1-r2-auth3",
+  "authorization_validator_sha256": "80c756d515990a5517e0897c4de044f6cbc02e7cec3e2c0124ef77ce2402e6fb",
+  "authorized_command_sha256": "17a51f001815fad1db0a6f8e0d5db37ed5326ad91103344b8df99d93a5cbd494",
+  "authorized_run_id": "f3-release-full-program-seed20260829-v1-r2-run3",
+  "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+  "controlled_action_limit": 5,
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "expires_at": "2026-08-29T08:05:06.356711+00:00",
+  "family": "F3",
+  "formal_data": false,
+  "gpu_guard_sha256": "1f63292e6cf01f9bf0d4f7ba023a8b8df31cb822610f5bc93723a2f91d4f3d24",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
+  "implementation_source_sha256": "8878f937667d89777dbc225fae9c2f8c31538c515b956f074ef25f501c29cbbb",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "issued_at": "2026-08-29T07:05:06.356711+00:00",
+  "max_invocations": 1,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F3_release_full_program_seed20260829_run3_repair2",
+  "parent_user_authorization_sha256": "9fd9a0d16cc0353db61d4a7167c3f3f645d0b5bad2c1384d34f345cf95063df1",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "H_axis": "x",
+    "V_axis": "z",
+    "a0_reference_anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+    "a0_reference_current_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+    "arm": "left",
+    "axis_frame": "table",
+    "bottle": {
+      "model_id": 13,
+      "modelname": "001_bottle"
+    },
+    "family": "F3",
+    "origin": "nonformal_family_scope_after_passed_A0",
+    "pad_half_size_m": [
+      0.11,
+      0.145,
+      0.005
+    ],
+    "program_order": [
+      "VVHH",
+      "VHVH",
+      "VHHV"
+    ],
+    "return_target": "original_pad",
+    "scene_layout_version": "f3_pad_support_v2",
+    "seed": 20260829,
+    "slot_id": "runtime_v3_1_F3_pre_stage0_root_v4_seed20260829_pad_support_v2"
+  },
+  "planned_root_slot_spec_sha256": "c3582dccb1d309c0bdbd168e1b0c1263ee1a1c1ddb466a93298196068abedd31",
+  "planner_query_limit": 128,
+  "real_adapter_sha256": "458f8a92d10d4e7560be0c9f037d7471ff8fdb9453ae9f66c969c7e6ce213a9d",
+  "receipt_sha256": "f5e06859e2b3cfb02454594cb965814517eaf1f64464ba93675ceba1127876bc",
+  "reviewed_content_commit": "895b51af41e853880c9fd25b7cd55c37b49760b8",
+  "runtime_source_lock_module_sha256": "2fc83c75e652b0d756b62b8e6382db7ed104d189901238515642ada2b45c62d6",
+  "scene_seed": 20260829,
+  "schema_version": "cmf_runtime_v3_1_gpu_authorization_v1_2",
+  "scope_budget": {
+    "automatic_retry": false,
+    "conditional_repair_execution_limit": 1,
+    "diagnosis_execution_limit": 1,
+    "family": "F3",
+    "full_program_execution_limit_per_program": 1,
+    "full_program_order": [
+      "VVHH",
+      "VHVH",
+      "VHHV"
+    ],
+    "full_program_planner_query_limit_per_program": 32,
+    "maximum_implementation_repair_revisions": 2,
+    "recovery_attempt_limit": 0,
+    "repair_planner_query_limit_per_run": 16,
+    "scope": "F3_release_and_full_program_nonformal_probe",
+    "scope_budget_sha256": "fd0083bb22c0ed6ace9988d0f61ff5addbb990917155f36192e5550766373328",
+    "timeout_seconds_per_run": 1800,
+    "user_authorized": true
+  },
+  "scope_budget_sha256": "fd0083bb22c0ed6ace9988d0f61ff5addbb990917155f36192e5550766373328",
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_family_work_v1_r2/F3_release_full_program_seed20260829_run3_repair2.source_lock.json",
+  "source_lock_receipt_sha256": "6b79377d073a7f1cf7ce5c9f905d4e74ed6b1c02b6c845acc43c6dfe53d5df8d",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "timeout_seconds": 9000
+}
