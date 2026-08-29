@@ -1,11 +1,16 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`cpu_static_hardened_v4_pending_gpt_review`。
+状态：`cpu_static_hardened_v5_a0_approval_ready_pending_user_review`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
 implementation_version: controlled_multi_future_runtime_v3_1
 root_orchestrator: real_sapien_pilot_root_orchestrator_v1_1
+a0_orchestrator: A0CurrentAnchorOrchestratorV1_2
+a0_activity_audit: cmf_a0_activity_audit_v2
+real_adapter: RoboTwinRealSapienPilotRootAdapterV1_2
+gpu_authorization: cmf_runtime_v3_1_gpu_authorization_v1_1
+gpu_guard: cmf_gpu_guard_v2_1
 current_hash: current_context_hash_v2
 physical_anchor: physical_anchor_v2
 raw_schema: cmf_raw_attempt_v2_1_1
@@ -52,12 +57,26 @@ stage0_data: false
 
 ## GPU-preflight hardening v4
 
+以下为保留的 V4 历史实现；已由 V5 activity monitor／orchestrator／adapter／authorization／guard supersede，不再是 current execution entry。
+
 - A0 从 GPU CLI 中抽离为 adapter-agnostic `A0CurrentAnchorOrchestratorV1_1`；CLI 只负责内容哈希授权、atomic GPU guard 与真实 adapter 装配；
 - A0 固定构造 `A0_pristine + A0_fresh_1/2/3` 四个唯一 scene，逐场保存 current、anchor、activity audit 与 scene-bound cleanup receipt；
 - fresh current mismatch、physical anchor mismatch、planned spec mutation、cleanup uncertainty 均立即终止，不会继续后续 scene；
 - 每场必须显式证明 `planner_query_count=0`、`planner_query_record_count=0`、`action_execution_count=0`，并把 canonical setup settle 与 controlled action 分开；
 - 新增五项 A0 synthetic tests，分别覆盖四场景通过、current mismatch、anchor mismatch、cleanup uncertainty 与 planner activity violation。
 
-CPU current：active/snapshot 88/88 tests passed，61 Python files compile passed；root-cpu8 synthetic dry-run accepted。它们不证明真实 SAPIEN，也不表示 A0 已运行。
+## GPU-preflight hardening v5
 
-任何 GPU 运行仍必须先经 GPT/user 审阅并生成独立、内容哈希的授权 receipt。Stage 0 明确禁止。
+- `A0PostSetupActivityMonitorV2` 在 `setup_demo + 60-step canonical settle` 完成后才启动；实例级 wrapper 独立覆盖 task control、robot planner、direct drive、renderer 与 physics step，不再用“trace 不存在”推断 action=0；
+- v2 activity receipt绑定 scene/phase/monitor boundary/setup summary、独立 planner/control records、physics/renderer delta、wrapper install/restore 与内容 hash；任何非零 planner/control/physics 或 instrumentation 异常立即失败；
+- `A0CurrentAnchorOrchestratorV1_2` 每 scene 分离保存 current/anchor/activity/cleanup/artifact hashes，top receipt只引用 hash；current/anchor mismatch 另存 component diagnostics，但不放宽正式 Gate；
+- `RoboTwinSceneContextV1_2` 在 setup/settle 后安装 monitor，capture 后停止，cleanup 再保证恢复；真实 timestep必须为 0.004；
+- procedural block/pad/marker/slot 的尺寸、颜色、collision/visual-only、material source与 creation API进入 asset/physics hash；camera 与 friction metadata明确 runtime/declared/unavailable source；
+- one-shot authorization v1_1绑定 scope/family/seed/spec、代码 hash、budget、timeout、output、command与 allowed GPU policy；guard在 child 前以 `O_CREAT|O_EXCL` 消费一次，失败也不复用；
+- guard v2_1绑定 authorization/consumption/budget/source/command/output/GPU/PID，并继续执行 fresh-idle、timeout、child receipt、orphan和 post-release；
+- 六个未来 probe scope 都有机器预算 validator，目前只有 A0 requestable；历史 runtime-v2/scene-inspection/environment-certification/guard CLI 已 fail-closed；
+- 已生成 `A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.md/json`，状态保持 `approved=false / gpu_probe_authorized=false`。
+
+CPU current：active/snapshot 131/131 tests passed，76 Python files compile passed；root-cpu10 synthetic dry-run accepted。Import audit未加载 SAPIEN/Torch/CUDA。它们不证明真实 SAPIEN，也不表示 A0 已运行。
+
+当前 `a0_user_approval_readiness=READY_FOR_USER_REVIEW_BEFORE_A0`。任何 GPU 运行仍必须由用户单独批准并生成最终 `approved=true` authorization receipt；Stage 0 明确禁止。

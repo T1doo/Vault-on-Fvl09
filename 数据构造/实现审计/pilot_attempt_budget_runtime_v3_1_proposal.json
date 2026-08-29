@@ -1,30 +1,193 @@
 {
-  "schema_version": "cmf_runtime_v3_1_probe_budget_proposal_v1",
-  "design_version": "controlled_multi_future_f1_f4_v1_2",
-  "implementation_version": "controlled_multi_future_runtime_v3_1",
-  "status": "proposed_for_user_review",
+  "A0": {
+    "activity_schema": "cmf_a0_activity_audit_v2",
+    "cpu_contract_tested": true,
+    "max_invocations": 1,
+    "orchestrator": "A0CurrentAnchorOrchestratorV1_2",
+    "post_setup_controlled_action_limit": 0,
+    "post_setup_physics_step_limit": 0,
+    "post_setup_planner_query_limit": 0,
+    "real_sapien_executed": false,
+    "scene_count": 4,
+    "scene_pattern": [
+      "A0_pristine",
+      "A0_fresh_1",
+      "A0_fresh_2",
+      "A0_fresh_3"
+    ],
+    "setup_and_canonical_settle_excluded_from_zero_action_claim": true,
+    "stop_on_any_failure": true,
+    "timeout_seconds": 600,
+    "unique_scene_bound_cleanup_required": true
+  },
+  "F1": {
+    "automatic_retry": false,
+    "branch_order": [
+      "red",
+      "green",
+      "blue"
+    ],
+    "execution_limit_per_branch": 1,
+    "planner_query_limit_per_branch": 12,
+    "recovery_attempts": 0,
+    "stop_condition": "three of three required",
+    "timeout_seconds_per_branch": 1200
+  },
+  "F2": {
+    "automatic_retry": false,
+    "execution_limit": 1,
+    "fresh_planner_scene_per_candidate": true,
+    "planner_query_limit_total": 16,
+    "pose_candidate_limit": 6,
+    "recovery_attempts": 0,
+    "scope": "F2-beside repair only",
+    "stop_condition": "six failures enter f2_stand_layout_impact_review_v5",
+    "timeout_seconds": 1200
+  },
+  "F3": {
+    "automatic_retry": false,
+    "conditional_correction_execution_limit": 1,
+    "correction_gate": "stable grasp transform plus normal EEF tracking plus systematic pre-release offset",
+    "correction_spec": "content-hashed deterministic actor-to-EEF formula",
+    "diagnostic_execution_limit": 1,
+    "fresh_scene_and_same_current_anchor_required_for_correction": true,
+    "planner_query_limit_per_run": 16,
+    "recovery_attempts": 0,
+    "scope": "V-to-H release diagnosis only",
+    "stop_condition": "grasp slip or post-release physics forbids correction",
+    "timeout_seconds_per_run": 1800
+  },
+  "F4": {
+    "automatic_retry": false,
+    "execution_limit_per_route": 1,
+    "fresh_scene_per_route": true,
+    "planner_query_limit_per_route": 16,
+    "recovery_attempts": 0,
+    "route_order": [
+      "route1_minimum_height_segmented",
+      "route2_carry_neutral_fallback"
+    ],
+    "scope": "common-X repair only",
+    "stop_condition": "Route1 cleanup uncertainty forbids Route2; two terminal non-cleanup failures enter layout review",
+    "timeout_seconds_per_route": 1800
+  },
+  "a0_user_approval_request": {
+    "approved": false,
+    "gpu_probe_authorized": false,
+    "path": "A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.json",
+    "readiness": "READY_FOR_USER_REVIEW_BEFORE_A0"
+  },
   "approved": false,
-  "frozen": false,
-  "gpu_probe_authorized": false,
-  "stage0_authorized": false,
-  "formal_data": false,
-  "stage0_data": false,
+  "authorization_mechanism": "future user-approved cmf_runtime_v3_1_gpu_authorization_v1_1 receipt with atomic one-shot consumption",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
   "device_scope_if_later_approved": "one independently fresh-idle physical fvl05 GPU0-7 per sequential job",
-  "A0": {"orchestrator": "A0CurrentAnchorOrchestratorV1_1", "scene_count": 4, "scene_pattern": ["A0_pristine", "A0_fresh_1", "A0_fresh_2", "A0_fresh_3"], "unique_scene_bound_cleanup_required": true, "planner_query_limit": 0, "action_execution_limit": 0, "setup_settle_is_not_control_action": true, "timeout_seconds": 600, "stop_on_any_failure": true, "cpu_contract_tested": true, "real_sapien_executed": false},
-  "F1": {"branch_order": ["red", "green", "blue"], "execution_limit_per_branch": 1, "planner_query_limit_per_branch": 12, "timeout_seconds_per_branch": 1200, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "three of three required"},
-  "F2": {"scope": "F2-beside repair only", "fresh_planner_scene_per_candidate": true, "pose_candidate_limit": 6, "planner_query_limit_total": 16, "execution_limit": 1, "timeout_seconds": 1200, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "six failures enter f2_stand_layout_impact_review_v5"},
-  "F3": {"scope": "V-to-H release diagnosis only", "diagnostic_execution_limit": 1, "conditional_correction_execution_limit": 1, "planner_query_limit_per_run": 16, "timeout_seconds_per_run": 1800, "recovery_attempts": 0, "automatic_retry": false, "correction_gate": "stable grasp transform plus normal EEF tracking plus systematic pre-release offset", "correction_spec": "content-hashed deterministic actor-to-EEF formula", "fresh_scene_and_same_current_anchor_required_for_correction": true, "stop_condition": "grasp slip or post-release physics forbids correction"},
-  "F4": {"scope": "common-X repair only", "route_order": ["route1_minimum_height_segmented", "route2_carry_neutral_fallback"], "fresh_scene_per_route": true, "planner_query_limit_per_route": 16, "execution_limit_per_route": 1, "timeout_seconds_per_route": 1800, "recovery_attempts": 0, "automatic_retry": false, "stop_condition": "Route1 cleanup uncertainty forbids Route2; two terminal non-cleanup failures enter layout review"},
-  "full_f3_f4_program_budget": "unresolved_and_unapproved_after_repair_gates",
-  "authorization_mechanism": "future content-hashed cmf_runtime_v3_1_gpu_authorization_v1 receipt",
   "execution_guard": {
-    "schema": "cmf_gpu_guard_v2",
-    "guard_parent_pid_bound": true,
-    "precheck_max_age_seconds": 60,
-    "uuid_and_physical_index_bound": true,
+    "authorization_and_consumption_bound": true,
+    "budget_source_command_output_bound": true,
     "fresh_idle_required": true,
-    "top_level_child_receipt_required": true,
+    "guard_parent_pid_bound": true,
+    "post_release_required": true,
+    "precheck_max_age_seconds": 60,
     "scene_and_process_group_orphans_accumulated": true,
-    "post_release_required": true
-  }
+    "schema": "cmf_gpu_guard_v2_1",
+    "top_level_child_receipt_required": true,
+    "uuid_and_physical_index_bound": true
+  },
+  "formal_data": false,
+  "frozen": false,
+  "full_f3_f4_program_budget": "unresolved_and_unapproved_after_repair_gates",
+  "gpu_probe_authorized": false,
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "machine_scope_budget": {
+    "approved": false,
+    "budget_receipt_sha256": "c793faf2f3017fbd1b9b52dc4a7f71262ff5fa73ae2286f7873691f9101d1cd0",
+    "frozen": false,
+    "gpu_probe_authorized": false,
+    "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+    "schema_version": "cmf_runtime_v3_1_scope_budget_v1_1",
+    "scopes": {
+      "A0_current_anchor_smoke": {
+        "automatic_retry": false,
+        "controlled_action_limit": 0,
+        "currently_requestable": true,
+        "execution_limit": 0,
+        "family": "F1",
+        "max_invocations": 1,
+        "planner_query_limit": 0,
+        "scene_count": 4,
+        "scene_pattern": [
+          "A0_pristine",
+          "A0_fresh_1",
+          "A0_fresh_2",
+          "A0_fresh_3"
+        ],
+        "timeout_seconds": 600
+      },
+      "F1_three_branch_nonformal_probe": {
+        "automatic_retry": false,
+        "branch_order": [
+          "red",
+          "green",
+          "blue"
+        ],
+        "currently_requestable": false,
+        "execution_limit_per_branch": 1,
+        "family": "F1",
+        "planner_query_limit_per_branch": 12,
+        "recovery_attempt_limit": 0,
+        "timeout_seconds_per_branch": 1200
+      },
+      "F2_beside_nonformal_probe": {
+        "automatic_retry": false,
+        "currently_requestable": false,
+        "execution_limit": 1,
+        "family": "F2",
+        "planner_query_limit_total": 16,
+        "pose_candidate_limit": 6,
+        "recovery_attempt_limit": 0,
+        "timeout_seconds": 1200
+      },
+      "F3_release_diagnosis_nonformal_probe": {
+        "automatic_retry": false,
+        "conditional_correction_execution_limit": 1,
+        "currently_requestable": false,
+        "diagnosis_execution_limit": 1,
+        "family": "F3",
+        "planner_query_limit_per_run": 16,
+        "recovery_attempt_limit": 0,
+        "timeout_seconds_per_run": 1800
+      },
+      "F4_common_carry_nonformal_probe": {
+        "automatic_retry": false,
+        "currently_requestable": false,
+        "execution_limit_per_route": 1,
+        "family": "F4",
+        "planner_query_limit_per_route": 16,
+        "recovery_attempt_limit": 0,
+        "route_limit": 2,
+        "route_order": [
+          "route1_minimum_height_segmented",
+          "route2_carry_neutral_fallback"
+        ],
+        "timeout_seconds_per_route": 1800
+      },
+      "real_sapien_root_integration_nonformal_probe": {
+        "automatic_retry": false,
+        "branch_count": 3,
+        "currently_requestable": false,
+        "execution_limit_per_branch": 1,
+        "family": "F1",
+        "planner_query_limit_per_branch": 12,
+        "recovery_attempt_limit": 0,
+        "timeout_seconds_per_branch": 1200
+      }
+    },
+    "stage0_authorized": false,
+    "status": "proposed_for_user_review"
+  },
+  "schema_version": "cmf_runtime_v3_1_probe_budget_proposal_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "proposed_for_user_review"
 }

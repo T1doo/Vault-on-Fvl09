@@ -1,0 +1,89 @@
+{
+  "schema_version": "cmf_runtime_v3_1_cpu_static_audit_v5",
+  "generated_at": "2026-08-29",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+  "content_commit": "3e7cba9e1dc798f9e18a1c23e4811c80f664bf1a",
+  "status": "cpu_static_hardening_v5_passed_a0_approval_ready_real_gpu_unverified",
+  "decision": "BLOCKED_WITH_REASONS",
+  "a0_user_approval_readiness": "READY_FOR_USER_REVIEW_BEFORE_A0",
+  "formal_data": false,
+  "stage0_data": false,
+  "gpu_used": false,
+  "sapien_scene_created": false,
+  "gpu_probe_authorized": false,
+  "stage0_authorized": false,
+  "validation": {
+    "active_tests": "131/131 passed",
+    "vault_snapshot_tests": "131/131 passed",
+    "python_files_compiled": 76,
+    "active_snapshot_byte_equal": true,
+    "registry_code_hashes": "35/35 active_and_snapshot_matched",
+    "import_side_effect_audit": "V5 imports added no sapien/torch/cuda modules",
+    "git_diff_check": "passed_before_publication"
+  },
+  "new_since_hardening_v4": {
+    "post_setup_monitor": "A0PostSetupActivityMonitorV2",
+    "activity_schema": "cmf_a0_activity_audit_v2",
+    "trace_absence_not_zero_action_evidence": true,
+    "independent_control_planner_physics_counters": true,
+    "setup_and_60_step_settle_excluded_from_zero_action_claim": true,
+    "scene_phase_hash_and_one_use_activity_binding": true,
+    "wrapper_installation_and_restoration_fail_closed": true,
+    "a0_orchestrator": "A0CurrentAnchorOrchestratorV1_2",
+    "per_scene_artifact_hashes_and_component_diffs": true,
+    "real_adapter": "RoboTwinRealSapienPilotRootAdapterV1_2",
+    "scene_context": "RoboTwinSceneContextV1_2",
+    "timestep_camera_procedural_asset_physics_source_audit": true,
+    "authorization_schema": "cmf_runtime_v3_1_gpu_authorization_v1_1",
+    "authorization_one_shot_atomic_consumption": true,
+    "guard_schema": "cmf_gpu_guard_v2_1",
+    "scope_budget_schema": "cmf_runtime_v3_1_scope_budget_v1_1",
+    "only_A0_requestable": true,
+    "historical_gpu_clis_disabled": true
+  },
+  "source_bindings": {
+    "implementation_source_sha256": "1aace10635af7d4aa1c371ac0818249081a83d55623871eaf5346b3af2810ab0",
+    "a0_orchestrator_sha256": "bbcb7521581886b7520a075a7846eba15cf5d7373f3a318ac43768b6e7eb8a1f",
+    "a0_activity_monitor_sha256": "aaf4c6399bddf3b13ef9bacddda9dfbb22a7ed0baffb50154e614852f99e7154",
+    "real_adapter_sha256": "5b7493ada5c9a6b838d3257fe1dde5a00fb637a539513e89a007387df30ff0eb",
+    "gpu_guard_sha256": "27e8468121c3d213bf3cea7c44e7beebee02f0890244d4462eb509fb5deecced",
+    "budget_receipt_sha256": "c793faf2f3017fbd1b9b52dc4a7f71262ff5fa73ae2286f7873691f9101d1cd0"
+  },
+  "a0_approval_request": {
+    "path": "A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.json",
+    "approval_request_sha256": "0e845b6f694a696b8a21f56f00590679e90e0fefd3de126d8b9675c0646baade",
+    "approved": false,
+    "gpu_probe_authorized": false,
+    "approved_authorization_receipt_exists": false,
+    "authorization_consumption_receipt_exists": false
+  },
+  "current_synthetic_evidence": {
+    "namespace": "probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10",
+    "root_receipt_sha256": "29462ada71ee014d81f75e0682115f54b4b690db74f3d8a179762f925d9e6f8a",
+    "status": "accepted_synthetic_only",
+    "freeze_call_count": 1,
+    "task_physical_receipts": 3,
+    "planner_solvability_receipts": 3,
+    "branch_receipts": 3,
+    "cleanup_records": 10,
+    "raw_integrity_three_of_three": true,
+    "prefix_action_hash_count": 1,
+    "first_suffix_action_hash_count": 3,
+    "computed_first_post_prefix_divergence_step": 2
+  },
+  "preserved_failures": [
+    "first snapshot suite after v5 returned 2 import errors because adapter read envs/utils/create_actor.py relative to snapshot",
+    "fixed by replacing import-time path read with audited fixed-commit source hash constant",
+    "subsequent active and snapshot suites both passed 131/131",
+    "cpu9 preserved; cpu10 generated after final source correction and is current"
+  ],
+  "authorization": {
+    "budget_status": "proposed_for_user_review",
+    "approved": false,
+    "frozen": false,
+    "authorization_receipt_exists": false
+  },
+  "readiness": "BLOCKED_WITH_REASONS"
+}
