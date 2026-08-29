@@ -24,6 +24,7 @@ class F3GraspLiftDiagnosticV3_2Test(unittest.TestCase):
             "diagnostic_grasp_pose",
             "diagnostic_close_gripper",
             "post_grasp_lift_4cm",
+            "post_grasp_lift_8cm",
             "post_grasp_lift_to_full_height",
         ]
         indices = [source.index(value) for value in ordered]
@@ -40,7 +41,9 @@ class F3GraspLiftDiagnosticV3_2Test(unittest.TestCase):
         self.assertLess(close_index, actual_qpos_index)
         self.assertLess(actual_qpos_index, first_event_index)
         self.assertIn("prefix_lift_4cm", source)
+        self.assertIn("prefix_lift_8cm", source)
         self.assertIn("prefix_lift_to_full_height", source)
+        self.assertEqual(source.count('(0.04, "prefix_lift_'), 3)
 
 
 if __name__ == "__main__":

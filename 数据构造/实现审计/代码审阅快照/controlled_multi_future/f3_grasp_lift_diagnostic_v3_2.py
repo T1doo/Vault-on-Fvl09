@@ -158,11 +158,23 @@ class F3GraspLiftDiagnosticV3_2:
 
                 second = _plan_and_execute_lift(
                     scene,
-                    distance_m=0.08,
-                    segment_id="post_grasp_lift_to_full_height",
+                    distance_m=0.04,
+                    segment_id="post_grasp_lift_8cm",
                 )
                 receipt["lift_segments"].append(second)
                 if second.get("planner_status") != "Success" or second.get("executed") is not True:
+                    raise RuntimeError("post-grasp 8cm cumulative lift failed")
+                _wait_and_record(scene, 25)
+                after_8cm = _state(scene, "after_8cm_lift_hold")
+                receipt["states"].append(after_8cm)
+
+                third = _plan_and_execute_lift(
+                    scene,
+                    distance_m=0.04,
+                    segment_id="post_grasp_lift_to_full_height",
+                )
+                receipt["lift_segments"].append(third)
+                if third.get("planner_status") != "Success" or third.get("executed") is not True:
                     raise RuntimeError("post-grasp full lift failed")
                 _wait_and_record(scene, 25)
                 after_full = _state(scene, "after_full_lift_hold")
@@ -174,6 +186,7 @@ class F3GraspLiftDiagnosticV3_2:
                 checks = {
                     "post_grasp_contact": post_grasp["selected_gripper_contact"],
                     "contact_after_4cm": after_4cm["selected_gripper_contact"],
+                    "contact_after_8cm": after_8cm["selected_gripper_contact"],
                     "contact_after_full_lift": after_full["selected_gripper_contact"],
                     "bottle_lift_delta": bottle_z_delta >= 0.10,
                     "grasp_translation_stable": float(np.linalg.norm(initial_transform[:3] - final_transform[:3])) <= 0.005,
