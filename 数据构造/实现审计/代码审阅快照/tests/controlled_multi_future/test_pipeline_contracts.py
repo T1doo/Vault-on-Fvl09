@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 import numpy as np
@@ -28,7 +31,7 @@ from controlled_multi_future.probes.gpu_guard import (
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
 from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
 from controlled_multi_future.a0_activity_monitor_v2 import TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS
-from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS as RAW_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, pack_effective_setpoint, validate_audit_streams, validate_raw_streams, validate_simulator_timing
+from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS as RAW_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, pack_effective_setpoint, validate_audit_streams, validate_raw_streams, validate_real_runtime_audit_fields, validate_simulator_timing
 from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
 from controlled_multi_future.verifiers import (
     verify_completed_slots_preserved,
@@ -291,6 +294,7 @@ class PipelineContractsTest(unittest.TestCase):
         for index in range(3):
             action = np.arange(26, dtype=float) + index
             rows.append({
+                "step_index": index,
                 "initial_state": index == 0,
                 "effective_setpoint": action,
                 "requested_command": action.copy(),
@@ -303,11 +307,22 @@ class PipelineContractsTest(unittest.TestCase):
                 "joint_qpos": np.zeros(14) + index,
                 "joint_qvel": np.zeros(14),
                 "dual_eef": np.zeros(14),
+                "eef": np.zeros(7),
                 "gripper_command": np.ones(2),
                 "timestamp": index / 250,
                 "actor_pose": np.zeros(7),
                 "actor_linear_velocity": np.zeros(3),
+                "actor_linear_velocity_measured": False,
                 "actor_angular_velocity": np.zeros(3),
+                "actor_angular_velocity_measured": False,
+                "actor_component_linear_velocity": np.ones(3) * 9.0,
+                "actor_component_linear_velocity_measured": True,
+                "actor_component_angular_velocity": np.ones(3) * 7.0,
+                "actor_component_angular_velocity_measured": True,
+                "actor_component_velocity_provenance": {
+                    "linear": {"component_type": "DummyRigid", "gate_signal": False},
+                    "angular": {"component_type": "DummyRigid", "gate_signal": False},
+                },
                 "eef_linear_velocity": np.zeros(3),
                 "eef_angular_velocity": np.zeros(3),
                 "gripper_drive_target_readback": np.ones(2),
@@ -322,6 +337,21 @@ class PipelineContractsTest(unittest.TestCase):
                 "selected_gripper_contact_impulse": 0.1,
                 "selected_contact_actor_name": "object",
                 "contact_pairs": [],
+                "role_actor_poses": {"main": np.zeros(7)},
+                "role_actor_linear_velocities": {"main": np.zeros(3)},
+                "role_actor_angular_velocities": {"main": np.zeros(3)},
+                "role_actor_linear_velocity_measured": {"main": False},
+                "role_actor_angular_velocity_measured": {"main": False},
+                "role_actor_component_linear_velocities": {"main": np.ones(3) * 9.0},
+                "role_actor_component_angular_velocities": {"main": np.ones(3) * 7.0},
+                "role_actor_component_linear_velocity_measured": {"main": True},
+                "role_actor_component_angular_velocity_measured": {"main": True},
+                "role_actor_component_velocity_provenance": {
+                    "main": {
+                        "linear": {"component_type": "DummyRigid", "gate_signal": False},
+                        "angular": {"component_type": "DummyRigid", "gate_signal": False},
+                    }
+                },
             })
         streams, audit = trace_rows_to_raw_streams(rows)
         validate_raw_streams(streams)
@@ -335,6 +365,68 @@ class PipelineContractsTest(unittest.TestCase):
         self.assertEqual(audit["realized_left_gripper_joint_qpos"].shape, (3, 2))
         self.assertEqual(audit["left_gripper_joint_drive_target"].shape, (3, 2))
         self.assertEqual(audit["selected_contact_actor_name"].tolist(), ["object"] * 3)
+        np.testing.assert_allclose(audit["object_linear_velocity"], 0.0)
+        np.testing.assert_allclose(audit["object_component_linear_velocity"], 9.0)
+        self.assertTrue(np.all(audit["object_component_linear_velocity_measured"]))
+        self.assertIn("DummyRigid", audit["object_component_velocity_provenance_json"][0])
+        self.assertEqual(audit["role_object_pose__main"].shape, (3, 7))
+        np.testing.assert_allclose(audit["role_object_linear_velocity__main"], 0.0)
+        np.testing.assert_allclose(audit["role_object_component_linear_velocity__main"], 9.0)
+        real_provenance = {
+            "synthetic": False,
+            "trace_schema_version": "cmf_runtime_trace_pose_consistent_velocity_v2",
+            "trace_role_names": ["main"],
+        }
+        validate_real_runtime_audit_fields(audit, real_provenance)
+        with self.assertRaisesRegex(ValueError, "exact trace schema"):
+            validate_real_runtime_audit_fields(
+                audit, {"synthetic": False, "trace_role_names": ["main"]}
+            )
+        missing = dict(audit)
+        missing.pop("object_component_linear_velocity")
+        with self.assertRaisesRegex(ValueError, "missing required fields"):
+            validate_real_runtime_audit_fields(
+                missing,
+                real_provenance,
+            )
+        missing_role = {
+            key: value
+            for key, value in audit.items()
+            if not key.startswith("role_object_")
+        }
+        with self.assertRaisesRegex(ValueError, "role bundle"):
+            validate_real_runtime_audit_fields(missing_role, real_provenance)
+        missing_role_pose = dict(audit)
+        missing_role_pose.pop("role_object_pose__main")
+        with self.assertRaisesRegex(ValueError, "missing required field"):
+            validate_real_runtime_audit_fields(
+                missing_role_pose, real_provenance
+            )
+        wrong_role_shape = dict(audit)
+        wrong_role_shape["role_object_linear_velocity__main"] = np.zeros((3, 1))
+        with self.assertRaisesRegex(ValueError, "must have shape"):
+            validate_real_runtime_audit_fields(
+                wrong_role_shape, real_provenance
+            )
+        wrong_rows = dict(audit)
+        wrong_rows["object_linear_velocity"] = wrong_rows["object_linear_velocity"][:-1]
+        with self.assertRaisesRegex(ValueError, "must have 3 rows"):
+            validate_audit_streams(wrong_rows, 2)
+        probe = PreTraceProbe()
+        probe.trace = rows
+        probe.markers = {"test": 1}
+        probe.planner_queries = []
+        probe.selected_gripper_links = lambda: ["finger"]
+        temp_root = Path("/nfs_share/lijunhui/Robotwin2/tmp")
+        temp_root.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=temp_root) as directory:
+            path = Path(directory) / "trace.npz"
+            probe.save_trace(path)
+            with np.load(path, allow_pickle=False) as saved:
+                self.assertIn("role_object_pose__main", saved.files)
+                self.assertIn("role_object_component_linear_velocity__main", saved.files)
+                sources = json.loads(str(saved["field_sources_json"].item()))
+                self.assertIn("role_object_component_velocity_provenance_json__main", sources)
         self.assertFalse(np.shares_memory(streams["controller_effective_setpoint"], streams["requested_command"]))
 
     def test_realized_gripper_qpos_comes_from_articulation_state(self):

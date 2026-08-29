@@ -1,0 +1,259 @@
+{
+  "authorization": {
+    "approval_request_sha256": "7515950e67bddb5f5dac9b3e67941d785d4b28baf2842e8c30eba056b4fefbe5",
+    "approved_scope": "F4_block_root_per_revision",
+    "authorization_id": "v3-3-f4-root-r1-20260830-auth1",
+    "authorization_receipt_sha256": "1187380c73985ba43b3e41e0489805d3e7f482a10c3a5d5276e17870bf7d0ec8",
+    "authorized_run_id": "v3-3-f4-root-r1-20260830-run1",
+    "budget_receipt_sha256": "68cee0949ccb6d87bef5255560bf32737d0d79dc803dfd92ac71d1098cad5d2c",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "family": "F4",
+    "family_revision_index": 1,
+    "formal_data": false,
+    "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_3_v1_1_gpu0_7/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6.guard.json",
+    "implementation_source_sha256": "40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037",
+    "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6",
+    "parent_user_authorization_sha256": "415372983a380e2a8bb2d4e177651cc487d0b51f69f48e7467b4fdec0f435d35",
+    "planned_root_slot_spec_sha256": "595822abada10f1b56f310e907ec2ac23afb3d17cad9f022fa5b7fa2bad51ae8",
+    "revision_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions",
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "c93ef29eb20924f65dbdc9e5db8a8d37de1b3eb5a3dfd55066727bb026aabb52",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "timeout_seconds": 20400
+  },
+  "authorization_consumption_receipt_sha256": "f3ceda0917e076f4bb074a22a4707ee06169e085c2f24e9e1dcfd9749b9440b2",
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 0,
+    "recovery_attempt_count": 0
+  },
+  "budget_validation": {
+    "budget": {
+      "automatic_retry": false,
+      "execution_limit": 10,
+      "family": "F4",
+      "planner_query_limit": 256,
+      "recovery_attempts": 0,
+      "scope": "F4_block_root_per_revision",
+      "scope_budget_sha256": "de139205c5ed3709b7687c09fa1b1d44e1a712b1e46c19e7fbc5c63adf97a706",
+      "timeout_seconds": 20400
+    },
+    "checks": {
+      "controlled_executions": true,
+      "execution_within_source_bound_static_envelope": true,
+      "no_recovery": true,
+      "planner_queries": true,
+      "planner_within_source_bound_static_envelope": true
+    },
+    "pass": true,
+    "scope": "F4_block_root_per_revision",
+    "source_bound_static_envelope": {
+      "execution_attempt_count": 7,
+      "planner_query_count": 138
+    }
+  },
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_prefix_reference-v1_2-000002"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "family": "F4",
+  "formal_data": false,
+  "gpu_guard_binding": {
+    "approval_request_sha256": "7515950e67bddb5f5dac9b3e67941d785d4b28baf2842e8c30eba056b4fefbe5",
+    "approved_scope": "F4_block_root_per_revision",
+    "authorization_id": "v3-3-f4-root-r1-20260830-auth1",
+    "authorization_receipt_sha256": "1187380c73985ba43b3e41e0489805d3e7f482a10c3a5d5276e17870bf7d0ec8",
+    "authorized_run_id": "v3-3-f4-root-r1-20260830-run1",
+    "budget_receipt_sha256": "68cee0949ccb6d87bef5255560bf32737d0d79dc803dfd92ac71d1098cad5d2c",
+    "command_sha256": "00db6c4b56010fd55b6c155920ac1515611bb285d3b53637abe849248cd5d595",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "consumption_receipt_sha256": "f3ceda0917e076f4bb074a22a4707ee06169e085c2f24e9e1dcfd9749b9440b2",
+    "controlled_action_limit": 10,
+    "expected_gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+    "family": "F4",
+    "family_revision_index": 1,
+    "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+    "guard_pid": 1824943,
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_3_v1_1_gpu0_7/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6.guard.json",
+    "implementation_source_sha256": "40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037",
+    "job_cache_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1",
+    "job_cache_environment": {
+      "CONDA_PKGS_DIRS": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/conda_pkgs",
+      "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/cuda",
+      "HF_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/huggingface",
+      "HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/home",
+      "HUGGINGFACE_HUB_CACHE": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/huggingface_hub",
+      "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/matplotlib",
+      "NUMBA_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/numba",
+      "PIP_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/pip",
+      "TMPDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/tmp",
+      "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/torch_extensions",
+      "TORCH_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/torch",
+      "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/triton",
+      "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/xdg"
+    },
+    "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6",
+    "parent_user_authorization_sha256": "415372983a380e2a8bb2d4e177651cc487d0b51f69f48e7467b4fdec0f435d35",
+    "physical_gpu_index": 6,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "595822abada10f1b56f310e907ec2ac23afb3d17cad9f022fa5b7fa2bad51ae8",
+    "planner_query_limit": 256,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "c93ef29eb20924f65dbdc9e5db8a8d37de1b3eb5a3dfd55066727bb026aabb52",
+    "timeout_seconds": 20400
+  },
+  "gpu_postcheck": {
+    "captured_at": "2026-08-30T00:07:05.518106+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 6,
+    "pstate": "P3",
+    "utilization_percent": 0,
+    "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P3",
+    "verified": true
+  },
+  "guard_additional_cleanup_audit": {
+    "gpu_lease_release": {
+      "error": null,
+      "lease_path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases/physical_gpu_6.lock",
+      "physical_gpu_index": 6,
+      "released": true,
+      "released_at": "2026-08-29T16:07:06.631611+00:00",
+      "schema_version": "cmf_physical_gpu_lease_v1"
+    },
+    "job_cache_cleanup": {
+      "attempted": true,
+      "error": null,
+      "path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1",
+      "succeeded": true
+    },
+    "pass": true
+  },
+  "guard_binding": {
+    "approval_request_sha256": "7515950e67bddb5f5dac9b3e67941d785d4b28baf2842e8c30eba056b4fefbe5",
+    "approved_scope": "F4_block_root_per_revision",
+    "authorization_id": "v3-3-f4-root-r1-20260830-auth1",
+    "authorization_receipt_sha256": "1187380c73985ba43b3e41e0489805d3e7f482a10c3a5d5276e17870bf7d0ec8",
+    "authorized_run_id": "v3-3-f4-root-r1-20260830-run1",
+    "budget_receipt_sha256": "68cee0949ccb6d87bef5255560bf32737d0d79dc803dfd92ac71d1098cad5d2c",
+    "command_sha256": "00db6c4b56010fd55b6c155920ac1515611bb285d3b53637abe849248cd5d595",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "consumption_receipt_sha256": "f3ceda0917e076f4bb074a22a4707ee06169e085c2f24e9e1dcfd9749b9440b2",
+    "controlled_action_limit": 10,
+    "expected_gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+    "family": "F4",
+    "family_revision_index": 1,
+    "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+    "guard_pid": 1824943,
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_3_v1_1_gpu0_7/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6.guard.json",
+    "implementation_source_sha256": "40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037",
+    "job_cache_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1",
+    "job_cache_environment": {
+      "CONDA_PKGS_DIRS": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/conda_pkgs",
+      "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/cuda",
+      "HF_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/huggingface",
+      "HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/home",
+      "HUGGINGFACE_HUB_CACHE": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/huggingface_hub",
+      "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/matplotlib",
+      "NUMBA_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/numba",
+      "PIP_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/pip",
+      "TMPDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/tmp",
+      "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/torch_extensions",
+      "TORCH_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/torch",
+      "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/triton",
+      "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/v3-3-f4-root-r1-20260830-auth1/xdg"
+    },
+    "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6",
+    "parent_user_authorization_sha256": "415372983a380e2a8bb2d4e177651cc487d0b51f69f48e7467b4fdec0f435d35",
+    "physical_gpu_index": 6,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "595822abada10f1b56f310e907ec2ac23afb3d17cad9f022fa5b7fa2bad51ae8",
+    "planner_query_limit": 256,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "c93ef29eb20924f65dbdc9e5db8a8d37de1b3eb5a3dfd55066727bb026aabb52",
+    "timeout_seconds": 20400
+  },
+  "guard_precheck": {
+    "captured_at": "2026-08-30T00:05:38.588922+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 6,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+  },
+  "guard_process_group_orphan_count": 0,
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_3_v1_1_gpu0_7/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision1_run1_gpu6.guard.json",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "orphan_process_count": 0,
+  "result": {
+    "relative_receipt_path": "f4_staged_gate/receipt.json",
+    "status": "failed_f4_staged_block_gate"
+  },
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "scene_orphan_process_count": 0,
+  "schema_version": "cmf_runtime_v3_3_guarded_scope_receipt_v1",
+  "scope": "F4_block_root_per_revision",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "static_activity_envelope": {
+    "checks": {
+      "execution_within_budget": true,
+      "planner_within_budget": true
+    },
+    "pass": true,
+    "scope": "F4_block_root_per_revision",
+    "scope_budget_sha256": "de139205c5ed3709b7687c09fa1b1d44e1a712b1e46c19e7fbc5c63adf97a706",
+    "source_bound_static_envelope": {
+      "execution_attempt_count": 7,
+      "planner_query_count": 138
+    }
+  },
+  "status": "failed_f4_staged_block_gate",
+  "task_owned_orphan_pids": []
+}

@@ -1,0 +1,868 @@
+{
+  "action_count": 4163,
+  "action_dim": 26,
+  "action_layout_dimensions": [
+    "left_joint_0_position_target",
+    "left_joint_1_position_target",
+    "left_joint_2_position_target",
+    "left_joint_3_position_target",
+    "left_joint_4_position_target",
+    "left_joint_5_position_target",
+    "right_joint_0_position_target",
+    "right_joint_1_position_target",
+    "right_joint_2_position_target",
+    "right_joint_3_position_target",
+    "right_joint_4_position_target",
+    "right_joint_5_position_target",
+    "left_joint_0_velocity_target",
+    "left_joint_1_velocity_target",
+    "left_joint_2_velocity_target",
+    "left_joint_3_velocity_target",
+    "left_joint_4_velocity_target",
+    "left_joint_5_velocity_target",
+    "right_joint_0_velocity_target",
+    "right_joint_1_velocity_target",
+    "right_joint_2_velocity_target",
+    "right_joint_3_velocity_target",
+    "right_joint_4_velocity_target",
+    "right_joint_5_velocity_target",
+    "left_gripper_normalized_target",
+    "right_gripper_normalized_target"
+  ],
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "audit_field_metadata": {
+    "contact_count": {
+      "source": "runtime all SAPIEN scene contact-pair count",
+      "status": "measured"
+    },
+    "contact_pairs_json": {
+      "source": "runtime all SAPIEN scene contact body pairs",
+      "status": "measured"
+    },
+    "eef_angular_velocity": {
+      "source": "runtime 250 Hz EEF quaternion difference",
+      "status": "derived"
+    },
+    "eef_linear_velocity": {
+      "source": "runtime 250 Hz EEF position difference",
+      "status": "derived"
+    },
+    "gripper_drive_target_readback": {
+      "source": "runtime normalized gripper joint drive targets; not physical aperture",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_target": {
+      "source": "runtime exact left gripper joint drive targets",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact left gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "object_angular_velocity": {
+      "source": "runtime rigid component or 250 Hz quaternion difference with measured mask",
+      "status": "mixed"
+    },
+    "object_angular_velocity_measured": {
+      "source": "runtime rigid-component availability mask",
+      "status": "derived"
+    },
+    "object_linear_velocity": {
+      "source": "runtime rigid component or 250 Hz position difference with measured mask",
+      "status": "mixed"
+    },
+    "object_linear_velocity_measured": {
+      "source": "runtime rigid-component availability mask",
+      "status": "derived"
+    },
+    "object_pose": {
+      "source": "runtime SAPIEN actor pose API",
+      "status": "measured"
+    },
+    "planner_goal_active": {
+      "source": "runtime planner control active on each action interval",
+      "status": "derived"
+    },
+    "planner_goal_available": {
+      "source": "runtime per-arm direct planner-goal presence",
+      "status": "derived"
+    },
+    "planner_goal_end_step": {
+      "source": "exclusive last action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_goal_source": {
+      "source": "runtime move API that produced the active planner control",
+      "status": "derived"
+    },
+    "planner_goal_start_step": {
+      "source": "first action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_query_id": {
+      "source": "runtime planner query ID active on each action interval",
+      "status": "derived"
+    },
+    "realized_left_gripper_joint_qpos": {
+      "source": "runtime left articulation active-joint qpos",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qpos": {
+      "source": "runtime right articulation active-joint qpos",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_target": {
+      "source": "runtime exact right gripper joint drive targets",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact right gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "role_object_angular_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz angular velocity for scene role blue",
+      "status": "mixed"
+    },
+    "role_object_angular_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz angular velocity for scene role common_box",
+      "status": "mixed"
+    },
+    "role_object_angular_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz angular velocity for scene role green",
+      "status": "mixed"
+    },
+    "role_object_angular_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz angular velocity for scene role red",
+      "status": "mixed"
+    },
+    "role_object_angular_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz linear velocity for scene role blue",
+      "status": "mixed"
+    },
+    "role_object_linear_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz linear velocity for scene role common_box",
+      "status": "mixed"
+    },
+    "role_object_linear_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz linear velocity for scene role green",
+      "status": "mixed"
+    },
+    "role_object_linear_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz linear velocity for scene role red",
+      "status": "mixed"
+    },
+    "role_object_linear_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_pose__blue": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role blue",
+      "status": "measured"
+    },
+    "role_object_pose__common_box": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role common_box",
+      "status": "measured"
+    },
+    "role_object_pose__green": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role green",
+      "status": "measured"
+    },
+    "role_object_pose__red": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role red",
+      "status": "measured"
+    },
+    "selected_contact_actor_name": {
+      "source": "runtime verifier contact-subject actor name",
+      "status": "derived"
+    },
+    "selected_gripper_contact": {
+      "source": "runtime SAPIEN contact restricted to selected arm gripper links",
+      "status": "measured"
+    },
+    "selected_gripper_contact_count": {
+      "source": "runtime selected-arm SAPIEN contact-pair count",
+      "status": "measured"
+    },
+    "selected_gripper_contact_impulse": {
+      "source": "runtime selected-arm SAPIEN contact point impulse sum",
+      "status": "measured"
+    }
+  },
+  "formal_data": false,
+  "frequency_hz": 250,
+  "manifest_payload_sha256": "05ff26388e10f050a31bb1d06aa48ecfc48134fa338ae4b2557b6b53d1d69d43",
+  "manifest_sha256": "05ff26388e10f050a31bb1d06aa48ecfc48134fa338ae4b2557b6b53d1d69d43",
+  "primary_action_stream": "controller_effective_setpoint_v1",
+  "provenance": {
+    "audit_role_mapping": {
+      "target_role": "red",
+      "target_role_pose_field": "role_object_pose__red"
+    },
+    "family": "F1",
+    "implementation_version": "controlled_multi_future_runtime_v3_3",
+    "planner_queries": [
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                489,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                489,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1332,
+        "goal_eef_pose": [
+          -0.2000022828578949,
+          0.020004412159323692,
+          0.9720004796981812,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 5,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_pregrasp",
+        "start_step": 843,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                176,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                176,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1508,
+        "goal_eef_pose": [
+          -0.20000147819519043,
+          0.02000267058610916,
+          0.8820005059242249,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 6,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_grasp",
+        "start_step": 1332,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                118,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                118,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1926,
+        "goal_eef_pose": [
+          -0.20000147819519043,
+          0.02000267058610916,
+          0.9220004677772522,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 7,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_lift_mid",
+        "start_step": 1808,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                120,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                120,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2046,
+        "goal_eef_pose": [
+          -0.20000147819519043,
+          0.02000267058610916,
+          0.9620004892349243,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 8,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_lift",
+        "start_step": 1926,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                157,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                157,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2203,
+        "goal_eef_pose": [
+          -0.10999999940395355,
+          0.019999999552965164,
+          0.9620004892349243,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 9,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "carry_hub_low",
+        "start_step": 2046,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                193,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                193,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2396,
+        "goal_eef_pose": [
+          -0.10999999940395355,
+          0.019999999552965164,
+          1.0199999809265137,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 10,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "carry_hub_high",
+        "start_step": 2203,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                338,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                338,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2734,
+        "goal_eef_pose": [
+          -0.08000107109546661,
+          -0.15999767184257507,
+          1.0199999809265137,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 11,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "safe_horizontal",
+        "start_step": 2396,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                105,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                105,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2839,
+        "goal_eef_pose": [
+          -0.08000107109546661,
+          -0.15999767184257507,
+          1.0469999313354492,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 12,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "preplace",
+        "start_step": 2734,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                203,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                203,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3042,
+        "goal_eef_pose": [
+          -0.08000107109546661,
+          -0.15999767184257507,
+          0.9469999670982361,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 13,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "release",
+        "start_step": 2839,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                197,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                197,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3614,
+        "goal_eef_pose": [
+          -0.08000107109546661,
+          -0.15999767184257507,
+          1.0469999313354492,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934136867523
+        ],
+        "query_id": 14,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "retreat",
+        "start_step": 3417,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                474,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                474,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 4088,
+        "goal_eef_pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.700000524520874,
+          -1.6168087313417345e-05,
+          6.60717432765523e-06,
+          0.7141423225402832
+        ],
+        "query_id": 15,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "rest",
+        "start_step": 3614,
+        "status": "Success"
+      }
+    ],
+    "program_id": "F1-red",
+    "realization_spec": {
+      "formal_data": false,
+      "realization": "r_pc",
+      "stage0_data": false
+    },
+    "simulator_timing": {
+      "control_steps_per_action": 1,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+      "simulator_timestep_seconds": 0.004000000189989805
+    },
+    "synthetic": false,
+    "trace_source_relative_path": "../trace_source.npz",
+    "trace_source_sha256": "67146c5a913fa2561a27b90a1fc47fceb6c1f6ad2fd58a9f66cb5922b33c2f52"
+  },
+  "raw_streams_npz_sha256": "df0f66cd8e59f2ff03bf25e70bd6f0f5990bdbc872c3e16ef0262b041a0cb8eb",
+  "schema_version": "cmf_raw_attempt_v2_1_1",
+  "simulator_timing": {
+    "control_steps_per_action": 1,
+    "effective_action_interval_seconds": 0.004000000189989805,
+    "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+    "simulator_timestep_seconds": 0.004000000189989805
+  },
+  "stage0_data": false,
+  "state_count": 4164,
+  "stream_field_metadata": {
+    "action_interval_end_timestamps": {
+      "source": "runtime state_timestamps[1:]",
+      "status": "derived"
+    },
+    "action_interval_start_timestamps": {
+      "source": "runtime state_timestamps[:-1]",
+      "status": "derived"
+    },
+    "component_masks": {
+      "source": "runtime commanded component availability",
+      "status": "derived"
+    },
+    "controller_effective_setpoint": {
+      "source": "runtime joint drive targets plus normalized gripper drive targets",
+      "status": "measured"
+    },
+    "gripper_command": {
+      "source": "runtime normalized gripper command",
+      "status": "commanded"
+    },
+    "planner_goal_eef_pose": {
+      "source": "runtime left/right move_to_pose direct EEF goal arguments",
+      "status": "commanded"
+    },
+    "realized_eef": {
+      "source": "runtime dual-arm EEF pose API",
+      "status": "measured"
+    },
+    "realized_qpos": {
+      "source": "runtime complete dual-arm articulation get_qpos",
+      "status": "measured"
+    },
+    "realized_qvel": {
+      "source": "runtime complete dual-arm articulation get_qvel",
+      "status": "measured"
+    },
+    "requested_command": {
+      "source": "runtime Base_Task.take_dense_action control_seq",
+      "status": "commanded"
+    },
+    "state_timestamps": {
+      "source": "runtime 250 Hz state step index",
+      "status": "derived"
+    }
+  },
+  "timestamp_semantics": "state[k] -- action[k] on [start,end) --> state[k+1]",
+  "trace_source_sha256": "67146c5a913fa2561a27b90a1fc47fceb6c1f6ad2fd58a9f66cb5922b33c2f52"
+}

@@ -161,6 +161,9 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
                     "role_actor_linear_velocities": {
                         "A": np.zeros(3) if good else np.asarray([0.1, 0, 0])
                     },
+                    "role_actor_angular_velocities": {
+                        "A": np.zeros(3) if good else np.asarray([0.1, 0, 0])
+                    },
                     "contact_pairs": [
                         {"body_a": "cube-a", "body_b": "table"}
                     ]

@@ -47,6 +47,7 @@ from .geometry import (
     footprint_inside_local_region,
     obb_corners,
     quaternion_orientation_error,
+    quaternion_angular_velocity,
     relative_pose,
     world_axis_offset_pose,
     world_z_yaw_pose,
@@ -57,6 +58,7 @@ from .f1_uniform_carry_hub_v2 import (
     build_uniform_carry_hub_targets,
 )
 from .planner_dtype_v3_2 import planner_array
+from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
     PLASTICBOX_BASE3_CAVITY,
     PROVISIONAL_RUNTIME_THRESHOLDS,
@@ -78,6 +80,8 @@ from .verifiers import (
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PLANNER_SEED = 20260828
 SUFFIX_CACHE_ATTRIBUTE = "_cmf_v3_3_suffix_control_cache"
+F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2 = 50
+F3_CLOSED_LOOP_PRIMITIVE_VERSION = "f3_pose_consistent_time_dilated_closed_loop_v2"
 
 
 def _raw_result(*args, **kwargs):
@@ -103,6 +107,9 @@ def planner_source_hash_v3_3() -> str:
             ),
             "f1_uniform_carry_hub_v2.py": _sha256_file(
                 Path(__file__).with_name("f1_uniform_carry_hub_v2.py")
+            ),
+            "project_cube_grasp_pose_v1.py": _sha256_file(
+                Path(__file__).with_name("project_cube_grasp_pose_v1.py")
             ),
             "family_runners_v3_1.py": _sha256_file(
                 Path(__file__).with_name("family_runners_v3_1.py")
@@ -679,6 +686,89 @@ def _realized_event_metrics(rows, *, axis: str) -> dict:
     }
 
 
+def _time_dilated_closed_loop_event_targets(
+    center: np.ndarray,
+    *,
+    axis: str,
+    amplitude_m: float,
+    segment_prefix: str,
+) -> list[dict]:
+    if axis not in ("V", "H") or not np.isfinite(amplitude_m) or amplitude_m <= 0:
+        raise ValueError("F3 closed-loop event specification is invalid")
+    center = np.asarray(center, dtype=np.float64).reshape(7)
+    dimension = 2 if axis == "V" else 0
+
+    def offset(fraction: float) -> np.ndarray:
+        pose = center.copy()
+        pose[dimension] += float(fraction) * float(amplitude_m)
+        return pose
+
+    values = (
+        ("positive_half", 0.5),
+        ("positive", 1.0),
+        ("center_after_positive", 0.0),
+        ("negative_half", -0.5),
+        ("negative", -1.0),
+        ("return_half", -0.5),
+        ("return", 0.0),
+    )
+    return [
+        {
+            "segment_id": f"{segment_prefix}_{label}",
+            "pose": offset(fraction),
+        }
+        for label, fraction in values
+    ]
+
+
+def _f2_dynamic_post_settle_checks(
+    *,
+    planned_can_xyz,
+    can_pose,
+    table_support_height_m: float,
+    pose_linear_speeds,
+    pose_angular_speeds,
+    table_contact_window,
+    sleep_state,
+    required: bool,
+) -> dict:
+    if not required:
+        return {}
+    planned = np.asarray(planned_can_xyz, dtype=np.float64).reshape(3)
+    pose = np.asarray(can_pose, dtype=np.float64).reshape(7)
+    linear = [float(value) for value in pose_linear_speeds]
+    angular = [float(value) for value in pose_angular_speeds]
+    contacts = [bool(value) for value in table_contact_window]
+    required_frames = int(PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
+    return {
+        "post_settle_xy_within_5mm_of_spawn": float(
+            np.linalg.norm(pose[:2] - planned[:2])
+        )
+        <= 0.005,
+        "post_settle_z_drop_nonnegative_bounded_10cm": 0.0
+        <= float(planned[2] - pose[2])
+        <= 0.10,
+        "post_settle_upright_orientation": quaternion_orientation_error(
+            pose[3:], [0.5, 0.5, 0.5, 0.5]
+        )
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
+        "post_settle_table_support_height_band": abs(
+            float(pose[2]) - float(table_support_height_m)
+        )
+        <= 0.02,
+        "post_settle_sleeping": sleep_state is True,
+        "pose_velocity_stable_window_length": len(linear) == required_frames
+        and len(angular) == required_frames,
+        "pose_derived_linear_stationary": bool(linear)
+        and max(linear)
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+        "pose_derived_angular_stationary": bool(angular)
+        and max(angular)
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"],
+        "continuous_table_contact": bool(contacts) and all(contacts),
+    }
+
+
 def _prefix_physical_acceptance(
     scene,
     *,
@@ -776,7 +866,8 @@ def _first_stable_slot_completion(
         row = scene.trace[row_index]
         role_pose = row.get("role_actor_poses", {}).get(role)
         role_velocity = row.get("role_actor_linear_velocities", {}).get(role)
-        if role_pose is None or role_velocity is None:
+        role_angular_velocity = row.get("role_actor_angular_velocities", {}).get(role)
+        if role_pose is None or role_velocity is None or role_angular_velocity is None:
             raise ValueError(f"F4 completion trace lacks role stream {role}")
         footprint = footprint_inside_local_region(
             role_pose,
@@ -786,8 +877,11 @@ def _first_stable_slot_completion(
             [0.035, 0.035, 0.03],
             (0, 1),
         )["pass_support_footprint"]
-        stable = float(np.linalg.norm(role_velocity)) <= float(
+        linear_stable = float(np.linalg.norm(role_velocity)) <= float(
             PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+        )
+        angular_stable = float(np.linalg.norm(role_angular_velocity)) <= float(
+            PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"]
         )
         support = any(
             actor_name in (item["body_a"], item["body_b"])
@@ -798,13 +892,14 @@ def _first_stable_slot_completion(
             )
             for item in row["contact_pairs"]
         )
-        active = bool(footprint and stable and support)
+        active = bool(footprint and linear_stable and angular_stable and support)
         streak = streak + 1 if active else 0
         frame_evidence.append(
             {
                 "trace_row": row_index,
                 "footprint": bool(footprint),
-                "stable": bool(stable),
+                "linear_stable": bool(linear_stable),
+                "angular_stable": bool(angular_stable),
                 "table_support": bool(support),
             }
         )
@@ -819,7 +914,7 @@ def _first_stable_slot_completion(
         "first_window_evidence": frame_evidence[-int(required_frames):]
         if first_index is not None
         else frame_evidence[-min(len(frame_evidence), int(required_frames)):],
-        "definition": "first post-release frame of a consecutive footprint+stable+table-support window",
+        "definition": "first post-release frame of a consecutive footprint+linear-stable+angular-stable+table-support window",
     }
 
 
@@ -1206,7 +1301,15 @@ class F1ControllerV3_3(FamilyControllerV3_3):
             stages,
             PROVISIONAL_RUNTIME_THRESHOLDS["non_target_displacement_m"],
         )
-        _, speeds, contacts = _stable_and_support(scene, actor, scene.box)
+        stable_rows, speeds, contacts = _stable_and_support(scene, actor, scene.box)
+        angular_speeds = [
+            float(
+                np.linalg.norm(
+                    row["role_actor_angular_velocities"][role]
+                )
+            )
+            for row in stable_rows
+        ]
         rest = np.asarray(spec["targets"][-1]["pose"], dtype=np.float64)
         realized = _arm_eef_pose(scene, "left")
         rest_position_error = float(np.linalg.norm(realized[:3] - rest[:3]))
@@ -1224,7 +1327,12 @@ class F1ControllerV3_3(FamilyControllerV3_3):
             "non_target": non_target["pass"],
             "stable": bool(speeds)
             and max(speeds)
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+            and bool(angular_speeds)
+            and max(angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
             "continuous_box_contact": bool(contacts) and all(contacts),
             "gripper_open": _arm_gripper_open(scene, "left"),
             "rest_position": rest_position_error
@@ -1289,7 +1397,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         result["grasp_transform_orientation_drift_rad"] = orientation_drift
         return result
 
-    def _require_layout_v2(self, scene):
+    def _require_layout_v2(self, scene, *, require_dynamic_stability=False):
         planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
         layout = planned.get("scene_layout")
         if not isinstance(layout, Mapping):
@@ -1308,7 +1416,6 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         if hash_json(layout) != hash_json(expected):
             raise ValueError("F2 planned scene layout differs from frozen layout v2")
         realized = {
-            "can_xyz": _pose(scene.can)[:3],
             "box_xyz": _pose(scene.box)[:3],
             "scale_xyz": _pose(scene.scale)[:3],
             "stand_xyz": _pose(scene.stand)[:3],
@@ -1322,12 +1429,138 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             _pose(scene.stand)[3:], expected["stand_q_wxyz"]
         ) > 1e-6:
             raise ValueError("F2 realized stand orientation differs from layout v2")
-        return {"layout_version": F2_LAYOUT_VERSION_V2, "layout_sha256": hash_json(expected)}
+        can_pose = _pose(scene.can)
+        pose_linear_speeds = []
+        pose_angular_speeds = []
+        table_contact_window = []
+        can_name = _entity(scene.can).get_name()
+        if require_dynamic_stability:
+            timestep = float(scene.scene.get_timestep())
+            if not np.isclose(timestep, 1.0 / 250.0, rtol=0.0, atol=1e-9):
+                raise ValueError(
+                    "F2 post-settle dynamic pose contract requires 250 Hz timestep"
+                )
+            previous_pose = can_pose.copy()
+            for _ in range(
+                int(PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
+            ):
+                scene.scene.step()
+                current_pose = _pose(scene.can)
+                pose_linear_speeds.append(
+                    float(
+                        np.linalg.norm(
+                            (current_pose[:3] - previous_pose[:3]) / timestep
+                        )
+                    )
+                )
+                pose_angular_speeds.append(
+                    float(
+                        np.linalg.norm(
+                            quaternion_angular_velocity(
+                                previous_pose[3:], current_pose[3:], timestep
+                            )
+                        )
+                    )
+                )
+                table_contact_window.append(
+                    any(
+                        can_name
+                        in (
+                            contact.bodies[0].entity.name,
+                            contact.bodies[1].entity.name,
+                        )
+                        and any(
+                            "table" in str(body).lower()
+                            for body in (
+                                contact.bodies[0].entity.name,
+                                contact.bodies[1].entity.name,
+                            )
+                            if body != can_name
+                        )
+                        for contact in scene.scene.get_contacts()
+                    )
+                )
+                previous_pose = current_pose
+            can_pose = previous_pose
+        planned_can_xyz = np.asarray(expected["can_xyz"], dtype=np.float64)
+        can_xy_drift = float(np.linalg.norm(can_pose[:2] - planned_can_xyz[:2]))
+        can_settle_drop = float(planned_can_xyz[2] - can_pose[2])
+        can_orientation_error = quaternion_orientation_error(
+            can_pose[3:], [0.5, 0.5, 0.5, 0.5]
+        )
+        table_support_height = 0.74 + float(scene.table_z_bias)
+        can_support_height_error = abs(float(can_pose[2]) - table_support_height)
+        linear, linear_measured, linear_provenance = _rigid_velocity_with_provenance(
+            scene.can, "linear_velocity"
+        )
+        angular, angular_measured, angular_provenance = _rigid_velocity_with_provenance(
+            scene.can, "angular_velocity"
+        )
+        sleep_state = None
+        for component in _entity(scene.can).get_components():
+            value = getattr(component, "is_sleeping", None)
+            if value is None:
+                continue
+            value = value() if callable(value) else value
+            if isinstance(value, (bool, np.bool_)):
+                sleep_state = bool(value)
+                break
+        dynamic_checks = _f2_dynamic_post_settle_checks(
+            planned_can_xyz=planned_can_xyz,
+            can_pose=can_pose,
+            table_support_height_m=table_support_height,
+            pose_linear_speeds=pose_linear_speeds,
+            pose_angular_speeds=pose_angular_speeds,
+            table_contact_window=table_contact_window,
+            sleep_state=sleep_state,
+            required=bool(require_dynamic_stability),
+        )
+        if require_dynamic_stability and not all(dynamic_checks.values()):
+            raise ValueError(
+                "F2 dynamic can post-settle contract failed: "
+                + str(dynamic_checks)
+            )
+        return {
+            "layout_version": F2_LAYOUT_VERSION_V2,
+            "layout_sha256": hash_json(expected),
+            "dynamic_pose_contract_version": "f2_post_settle_dynamic_pose_contract_v3",
+            "planned_spawn_can_xyz": planned_can_xyz.tolist(),
+            "post_settle_can_pose": can_pose.tolist(),
+            "post_settle_can_xyz_delta_m": (
+                can_pose[:3] - planned_can_xyz
+            ).tolist(),
+            "post_settle_can_xy_drift_m": can_xy_drift,
+            "post_settle_can_z_drop_m": can_settle_drop,
+            "post_settle_can_orientation_error_rad": can_orientation_error,
+            "table_support_height_m": table_support_height,
+            "post_settle_can_support_height_error_m": can_support_height_error,
+            "post_settle_table_contact": table_contact_window,
+            "post_settle_component_linear_velocity_mps": linear.tolist(),
+            "post_settle_component_angular_velocity_rps": angular.tolist(),
+            "post_settle_component_velocity_provenance": {
+                "linear": linear_provenance,
+                "angular": angular_provenance,
+            },
+            "post_settle_component_velocity_available_audit_only": {
+                "linear": linear_measured,
+                "angular": angular_measured,
+            },
+            "post_settle_pose_linear_speed_mps": pose_linear_speeds,
+            "post_settle_pose_angular_speed_rps": pose_angular_speeds,
+            "gate_velocity_source": "250 Hz finite difference of the same saved actor pose",
+            "post_settle_sleep_state": sleep_state,
+            "checks": dynamic_checks,
+            "dynamic_post_settle_gate_applied": bool(
+                require_dynamic_stability
+            ),
+        }
 
     def audit_task_physical_feasibility(self, scene, program):
         receipt = dict(super().audit_task_physical_feasibility(scene, program))
         try:
-            layout = self._require_layout_v2(scene)
+            layout = self._require_layout_v2(
+                scene, require_dynamic_stability=True
+            )
         except BaseException as exc:
             receipt.update(
                 {
@@ -1695,9 +1928,13 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             and not on
         )
         support_actor = scene.box if inside else scene.scale if on else "table"
-        _, speeds, support = _stable_and_support(
+        stable_rows, speeds, support = _stable_and_support(
             scene, scene.can, support_actor
         )
+        angular_speeds = [
+            float(np.linalg.norm(row["actor_angular_velocity"]))
+            for row in stable_rows
+        ]
         exclusive = {"inside": inside, "on": on, "beside": beside}
         relation = spec["relation"]
         rest = np.asarray(spec["targets"][-1]["pose"], dtype=np.float64)
@@ -1708,7 +1945,12 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             == 1,
             "stable_window": bool(speeds)
             and max(speeds)
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+            and bool(angular_speeds)
+            and max(angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
             "support_contact_window": bool(support) and all(support),
             "gripper_open": _arm_gripper_open(scene, "left"),
             "rest_position": np.linalg.norm(realized[:3] - rest[:3])
@@ -1827,7 +2069,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "lift_4cm",
                 "lift_8cm",
                 "central",
-                "shared_first_V",
+                "shared_first_V_time_dilated_endpoint_holds",
             ],
             "shared_v_nominal_amplitude_m": F3_V_NOMINAL_AMPLITUDE_M_V3_3,
             "target_role_read": False,
@@ -1896,14 +2138,18 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             _arm_eef_pose(scene, "left"), _pose(scene.bottle)
         )
         v_start = len(scene.trace) - 1 - start
-        positive = central.copy()
-        positive[2] += F3_V_NOMINAL_AMPLITUDE_M_V3_3
-        negative = central.copy()
-        negative[2] -= F3_V_NOMINAL_AMPLITUDE_M_V3_3
+        shared_v_targets = _time_dilated_closed_loop_event_targets(
+            central,
+            axis="V",
+            amplitude_m=F3_V_NOMINAL_AMPLITUDE_M_V3_3,
+            segment_prefix="f3_shared_V",
+        )
         scene.mark("event_0_V_start")
-        _move_left(scene, positive, "f3_shared_V_positive")
-        _move_left(scene, negative, "f3_shared_V_negative")
-        _move_left(scene, central, "f3_shared_V_return")
+        for target in shared_v_targets:
+            _move_left(scene, target["pose"], target["segment_id"])
+            _wait_and_record(
+                scene, F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2
+            )
         scene.mark("event_0_V_end")
         v_end = len(scene.trace) - 1 - start
         post_shared = v_end
@@ -1988,6 +2234,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                     "post_shared_V": post_shared,
                 },
                 "reference_shared_first_v_metrics": first_v_metrics,
+                "closed_loop_primitive_version": F3_CLOSED_LOOP_PRIMITIVE_VERSION,
+                "event_endpoint_hold_steps": F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2,
+                "shared_v_target_count": len(shared_v_targets),
                 "target_construction_planner_audit": target_construction_audit,
                 "prefix_planner_reset_receipt": prefix_planner_reset,
                 "prefix_physical_acceptance": prefix_acceptance,
@@ -2007,34 +2256,21 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 if axis == "H"
                 else F3_V_NOMINAL_AMPLITUDE_M_V3_3
             )
-            vector = np.zeros(3, dtype=np.float64)
-            vector[0 if axis == "H" else 2] = amplitude
-            positive = center.copy()
-            positive[:3] += vector
-            negative = center.copy()
-            negative[:3] -= vector
             start_index = len(targets)
-            targets.extend(
-                [
-                    {
-                        "segment_id": f"suffix_event_{event_index}_{axis}_positive",
-                        "pose": positive,
-                    },
-                    {
-                        "segment_id": f"suffix_event_{event_index}_{axis}_negative",
-                        "pose": negative,
-                    },
-                    {
-                        "segment_id": f"suffix_event_{event_index}_{axis}_return",
-                        "pose": center.copy(),
-                    },
-                ]
+            event_targets = _time_dilated_closed_loop_event_targets(
+                center,
+                axis=axis,
+                amplitude_m=amplitude,
+                segment_prefix=f"suffix_event_{event_index}_{axis}",
             )
+            targets.extend(event_targets)
             event_groups.append(
                 {
                     "event_index": event_index,
                     "axis": axis,
                     "target_start_index": start_index,
+                    "target_count": len(event_targets),
+                    "endpoint_hold_steps": F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2,
                 }
             )
         start_actor = np.asarray(
@@ -2069,6 +2305,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "event_groups": event_groups,
                 "return_start_index": return_start,
                 "target_bottle_pose": start_actor.tolist(),
+                "closed_loop_primitive_version": F3_CLOSED_LOOP_PRIMITIVE_VERSION,
             },
         )
 
@@ -2097,12 +2334,19 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             event_index = int(group["event_index"])
             event_center_row = len(scene.trace) - 1
             scene.mark(f"event_{event_index}_{axis}_start")
-            for offset in range(3):
+            target_count = int(group["target_count"])
+            if target_count != 7:
+                raise RuntimeError("F3 time-dilated event target count changed")
+            hold_steps = int(group["endpoint_hold_steps"])
+            if hold_steps != F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2:
+                raise RuntimeError("F3 event endpoint hold contract changed")
+            for offset in range(target_count):
                 execution_receipts.append(
                     _execute_cached_segment(
                         scene, spec, controls, index + offset
                     )
                 )
+                _wait_and_record(scene, hold_steps)
             scene.mark(f"event_{event_index}_{axis}_end")
             metrics[f"event_{event_index}_{axis}"] = _realized_event_metrics(
                 scene.trace[event_center_row:], axis=axis
@@ -2141,18 +2385,37 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             _execute_cached_segment(scene, spec, controls, return_start + 3)
         )
         _wait_and_record(scene, 75)
-        _, speeds, contacts = _stable_and_support(
+        stable_rows, speeds, contacts = _stable_and_support(
             scene, scene.bottle, scene.pad
+        )
+        angular_speeds = [
+            float(np.linalg.norm(row["actor_angular_velocity"]))
+            for row in stable_rows
+        ]
+        stable_motion_pass = (
+            bool(speeds)
+            and max(speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+            and bool(angular_speeds)
+            and max(angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ]
         )
         samples["after_rest"] = self.legacy._release_sample(
             scene,
             target_pose,
             eef_target=spec["targets"][return_start + 3]["pose"],
-            stable_window_pass=bool(speeds)
-            and max(speeds)
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            stable_window_pass=stable_motion_pass,
             support_window_pass=bool(contacts) and all(contacts),
         )
+        samples["after_rest"]["stable_linear_speed_max_mps"] = (
+            max(speeds) if speeds else None
+        )
+        samples["after_rest"]["stable_angular_speed_max_rps"] = (
+            max(angular_speeds) if angular_speeds else None
+        )
+        samples["after_rest"]["stable_motion_gate_includes_angular"] = True
         transforms = {
             name: self._boundary_transform(scene, replay, name).tolist()
             for name in (
@@ -2213,6 +2476,8 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         )
         realized_rest = _arm_eef_pose(scene, "left")
         final_checks = {
+            "event_order_matches_program": spec["event_order"]
+            == "".join(step["axis"] for step in program["steps"]),
             "return_equivalence": diagnosis["final_return_equivalence"],
             "realized_motion": motion["pass"],
             "grasp_transform_stable": grasp["grasp_transform_stable"],
@@ -2271,6 +2536,68 @@ class F3ControllerV3_3(FamilyControllerV3_3):
 class F4ControllerV3_3(FamilyControllerV3_3):
     family = "F4"
     arm = "right"
+    COMMON_SEGMENT_IDS = (
+        "common_pregrasp",
+        "common_grasp",
+        "common_lift",
+        "common_safe_vertical",
+        "common_center_high",
+        "common_above_tray",
+        "common_preplace",
+        "common_release",
+        "common_neutral",
+    )
+
+    @classmethod
+    def _validate_f4_target_structure(
+        cls, targets, extra, *, require_three_groups: bool
+    ):
+        ids = tuple(item.get("segment_id") for item in targets)
+        if ids[:9] != cls.COMMON_SEGMENT_IDS:
+            raise ValueError("F4 common target segment structure changed")
+        if extra.get("execution_arm") != "right":
+            raise ValueError("F4 execution arm must remain right")
+        common_contract = extra.get("common_grasp_contract")
+        if (
+            not isinstance(common_contract, Mapping)
+            or common_contract.get("arm") != "right"
+        ):
+            raise ValueError("F4 common-X explicit grasp contract is invalid")
+        groups = extra.get("object_target_groups")
+        if not isinstance(groups, list):
+            raise ValueError("F4 object target groups are missing")
+        if not require_three_groups:
+            if len(targets) != 9 or groups:
+                raise ValueError("F4 common-prefix target scope must contain exactly 9 targets")
+            return
+        order = list(extra.get("object_order", []))
+        if len(groups) != 3 or [group.get("role") for group in groups] != order:
+            raise ValueError("F4 object target group order differs from program order")
+        flattened = []
+        for group in groups:
+            role = group["role"]
+            group_targets = group.get("targets")
+            expected = tuple(
+                f"{role}_{suffix}"
+                for suffix in (
+                    "pregrasp",
+                    "grasp",
+                    "lift",
+                    "preplace",
+                    "release",
+                    "neutral",
+                )
+            )
+            if (
+                not isinstance(group_targets, list)
+                or len(group_targets) != 6
+                or tuple(item.get("segment_id") for item in group_targets)
+                != expected
+            ):
+                raise ValueError(f"F4 {role} target group structure changed")
+            flattened.extend(expected)
+        if len(targets) != 27 or ids[9:] != tuple(flattened):
+            raise ValueError("F4 flattened target sequence differs from grouped targets")
 
     def validate_replayed_prefix_physical(self, scene, replay):
         footprint = footprint_inside_local_region(
@@ -2318,31 +2645,26 @@ class F4ControllerV3_3(FamilyControllerV3_3):
 
     def _common_targets(self, scene):
         program = F4SubtaskOrder().checked_provisional_programs()[0]
-        built, target_construction_audit = (
-            _audited_planner_assisted_target_construction(
-                scene,
-                scene.common_x,
-                arm="right",
-                variant_id="f4_common_prefix_target_construction",
-                callback=lambda: self.legacy.build_targets(
-                    scene,
-                    program,
-                    {
-                        "variant_id": "route1_minimum_height_segmented",
-                        "execution_scope": "common_x_route_repair",
-                    },
-                ),
-            )
+        targets, extra = self.legacy.build_targets(
+            scene,
+            program,
+            {
+                "variant_id": "route1_minimum_height_segmented",
+                "execution_scope": "common_x_route_repair",
+                "common_grasp_mode": "project_cube_grasp_v1",
+            },
         )
-        targets, extra = built
-        return targets, extra, target_construction_audit
+        self._validate_f4_target_structure(
+            targets, extra, require_three_groups=False
+        )
+        return targets, extra
 
     def plan_and_execute_canonical_prefix(
         self, scene, prefix_contract, *, capture_anchor
     ):
         self.initialize_prefix_replay_trace(scene)
         scene.planner_query_limit = 24
-        targets, extra, target_construction_audit = self._common_targets(scene)
+        targets, extra = self._common_targets(scene)
         reset = _planner_reset(
             scene,
             planner_seed=PLANNER_SEED,
@@ -2388,9 +2710,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             TRAY_BASE0_SUPPORT_REGION["upper_m"],
             TRAY_BASE0_SUPPORT_REGION["horizontal_axes"],
         )
-        _, common_speeds, common_contacts = _stable_and_support(
+        common_rows, common_speeds, common_contacts = _stable_and_support(
             scene, scene.common_x, scene.tray
         )
+        common_angular_speeds = [
+            float(np.linalg.norm(row["actor_angular_velocity"]))
+            for row in common_rows
+        ]
         prefix_acceptance = _prefix_physical_acceptance(
             scene,
             roles=("common_x",),
@@ -2416,7 +2742,6 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             settling_steps=settling,
             extra={
                 "planner_reset_receipt": reset,
-                "target_construction_planner_audit": target_construction_audit,
                 "prefix_segment_receipts": planned["segment_receipts"],
                 "common_execution_extra": extra,
                 "prefix_physical_acceptance": prefix_acceptance,
@@ -2424,20 +2749,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-        built, target_construction_audit = (
-            _audited_planner_assisted_target_construction(
-                scene,
-                scene.common_x,
-                arm="right",
-                variant_id=f"f4_suffix_target_construction:{program['program_id']}",
-                callback=lambda: self.legacy.build_targets(
-                    scene,
-                    program,
-                    {"variant_id": "route1_minimum_height_segmented"},
-                ),
-            )
+        all_targets, extra = self.legacy.build_targets(
+            scene,
+            program,
+            {
+                "variant_id": "route1_minimum_height_segmented",
+                "common_grasp_mode": "project_cube_grasp_v1",
+            },
         )
-        all_targets, extra = built
+        self._validate_f4_target_structure(
+            all_targets, extra, require_three_groups=True
+        )
         targets = all_targets[9:]
         result = _cache_suffix_controls(
             scene,
@@ -2449,11 +2771,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "object_order": extra["object_order"],
                 "object_target_groups": extra["object_target_groups"],
                 "common_prefix_artifact_required": True,
-                "target_construction_planner_audit": target_construction_audit,
             },
-        )
-        result["evidence"]["target_construction_planner_audit"] = (
-            target_construction_audit
         )
         return result
 
@@ -2466,20 +2784,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if len(set(roles)) != len(roles):
             raise ValueError("F4 diagnostic block roles must be unique")
         base_program = F4SubtaskOrder().checked_provisional_programs()[0]
-        built, target_construction_audit = (
-            _audited_planner_assisted_target_construction(
-                scene,
-                scene.common_x,
-                arm="right",
-                variant_id="f4_diagnostic_target_construction:" + "".join(roles),
-                callback=lambda: self.legacy.build_targets(
-                    scene,
-                    base_program,
-                    {"variant_id": "route1_minimum_height_segmented"},
-                ),
-            )
+        all_targets, extra = self.legacy.build_targets(
+            scene,
+            base_program,
+            {
+                "variant_id": "route1_minimum_height_segmented",
+                "common_grasp_mode": "project_cube_grasp_v1",
+            },
         )
-        all_targets, extra = built
+        self._validate_f4_target_structure(
+            all_targets, extra, require_three_groups=True
+        )
         suffix_targets = all_targets[9:]
         group_by_role = {
             group["role"]: (index, group)
@@ -2503,11 +2818,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "object_target_groups": groups,
                 "common_prefix_artifact_required": True,
                 "diagnostic_block_gate": True,
-                "target_construction_planner_audit": target_construction_audit,
             },
-        )
-        result["evidence"]["target_construction_planner_audit"] = (
-            target_construction_audit
         )
         return result
 
@@ -2523,14 +2834,23 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             TRAY_BASE0_SUPPORT_REGION["upper_m"],
             TRAY_BASE0_SUPPORT_REGION["horizontal_axes"],
         )
-        _, common_speeds, common_contacts = _stable_and_support(
+        common_rows, common_speeds, common_contacts = _stable_and_support(
             scene, scene.common_x, scene.tray
         )
+        common_angular_speeds = [
+            float(np.linalg.norm(row["actor_angular_velocity"]))
+            for row in common_rows
+        ]
         common_checks = {
             "tray_footprint": common_footprint["pass_support_footprint"],
             "stable_window": bool(common_speeds)
             and max(common_speeds)
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+            and bool(common_angular_speeds)
+            and max(common_angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
             "support_contact_window": bool(common_contacts)
             and all(common_contacts),
             "gripper_open": _arm_gripper_open(scene, "right"),
@@ -2776,14 +3096,23 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             TRAY_BASE0_SUPPORT_REGION["upper_m"],
             TRAY_BASE0_SUPPORT_REGION["horizontal_axes"],
         )
-        _, final_common_speeds, final_common_contacts = _stable_and_support(
+        final_common_rows, final_common_speeds, final_common_contacts = _stable_and_support(
             scene, scene.common_x, scene.tray
         )
+        final_common_angular_speeds = [
+            float(np.linalg.norm(row["actor_angular_velocity"]))
+            for row in final_common_rows
+        ]
         final_common_checks = {
             "tray_footprint": final_common_footprint["pass_support_footprint"],
             "stable_window": bool(final_common_speeds)
             and max(final_common_speeds)
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"]
+            and bool(final_common_angular_speeds)
+            and max(final_common_angular_speeds)
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ],
             "support_contact_window": bool(final_common_contacts)
             and all(final_common_contacts),
             "displacement": float(

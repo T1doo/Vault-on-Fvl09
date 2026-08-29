@@ -48,6 +48,34 @@ REQUIRED_STREAM_METADATA = (
     "state_timestamps",
     "component_masks",
 )
+REAL_RUNTIME_REQUIRED_AUDIT_FIELDS = (
+    "object_pose",
+    "object_linear_velocity",
+    "object_linear_velocity_measured",
+    "object_angular_velocity",
+    "object_angular_velocity_measured",
+    "object_component_linear_velocity",
+    "object_component_linear_velocity_measured",
+    "object_component_angular_velocity",
+    "object_component_angular_velocity_measured",
+    "object_component_velocity_provenance_json",
+    "eef_linear_velocity",
+    "eef_angular_velocity",
+    "gripper_drive_target_readback",
+    "left_gripper_joint_drive_target",
+    "right_gripper_joint_drive_target",
+    "left_gripper_joint_drive_velocity_target",
+    "right_gripper_joint_drive_velocity_target",
+    "realized_left_gripper_joint_qpos",
+    "realized_right_gripper_joint_qpos",
+    "selected_gripper_contact",
+    "selected_gripper_contact_count",
+    "selected_gripper_contact_impulse",
+    "selected_contact_actor_name",
+    "contact_count",
+    "contact_pairs_json",
+    *PLANNER_AUDIT_FIELDS,
+)
 
 
 def pack_effective_setpoint(left_position, left_velocity, left_gripper, right_position, right_velocity, right_gripper):
@@ -83,6 +111,34 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
     if not isinstance(metadata, Mapping):
         raise ValueError("audit_streams must include machine-readable field_metadata")
     arrays = {key: np.asarray(value) for key, value in audit_streams.items() if key != "field_metadata"}
+    role_prefix = "role_object_pose__"
+    roles = sorted(
+        field[len(role_prefix) :]
+        for field in arrays
+        if field.startswith(role_prefix)
+    )
+    role_suffixes = (
+        "pose",
+        "linear_velocity",
+        "angular_velocity",
+        "linear_velocity_measured",
+        "angular_velocity_measured",
+        "component_linear_velocity",
+        "component_angular_velocity",
+        "component_linear_velocity_measured",
+        "component_angular_velocity_measured",
+        "component_velocity_provenance_json",
+    )
+    for role in roles:
+        role_missing = [
+            f"role_object_{suffix}__{role}"
+            for suffix in role_suffixes
+            if f"role_object_{suffix}__{role}" not in arrays
+        ]
+        if role_missing:
+            raise ValueError(
+                f"audit role {role} has incomplete pose/velocity bundle: {role_missing}"
+            )
     if np.asarray(arrays.get("object_pose")).shape != (action_count + 1, 7):
         raise ValueError("audit object_pose must have shape [N+1,7]")
     if np.asarray(arrays.get("contact_count")).shape != (action_count + 1,):
@@ -96,14 +152,79 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
         if values.shape != (action_count, 2):
             raise ValueError(f"audit {field} must have shape [N,2]")
     for field, values in arrays.items():
-        if values.ndim == 0 or values.shape[0] not in (action_count, action_count + 1):
-            raise ValueError(f"audit field {field} must have N or N+1 rows")
+        expected_rows = action_count if field in PLANNER_AUDIT_FIELDS else action_count + 1
+        if values.ndim == 0 or values.shape[0] != expected_rows:
+            raise ValueError(
+                f"audit field {field} must have {expected_rows} rows"
+            )
         item = metadata.get(field)
         if not isinstance(item, Mapping) or item.get("status") not in STREAM_SOURCE_STATUSES:
             raise ValueError(f"audit field_metadata missing valid status for {field}")
         source = item.get("source")
         if not isinstance(source, str) or not source or "placeholder" in source.lower():
             raise ValueError(f"audit field {field} must name a non-placeholder source")
+
+
+def validate_real_runtime_audit_fields(
+    audit_streams: Mapping[str, Any], provenance: Mapping[str, Any]
+) -> None:
+    expected_schema = "cmf_runtime_trace_pose_consistent_velocity_v2"
+    if provenance.get("synthetic") is False and provenance.get(
+        "trace_schema_version"
+    ) != expected_schema:
+        raise ValueError("real runtime provenance lacks the exact trace schema")
+    if provenance.get("trace_schema_version") != expected_schema:
+        return
+    arrays = {
+        key: value for key, value in audit_streams.items() if key != "field_metadata"
+    }
+    missing = [
+        field for field in REAL_RUNTIME_REQUIRED_AUDIT_FIELDS if field not in arrays
+    ]
+    if missing:
+        raise ValueError(f"real runtime audit streams missing required fields: {missing}")
+    expected_roles = provenance.get("trace_role_names")
+    if (
+        not isinstance(expected_roles, list)
+        or not expected_roles
+        or any(not isinstance(role, str) or not role for role in expected_roles)
+        or len(set(expected_roles)) != len(expected_roles)
+    ):
+        raise ValueError("real runtime provenance lacks exact trace_role_names")
+    role_marker = "role_object_"
+    actual_roles = {
+        field.rsplit("__", 1)[1]
+        for field in arrays
+        if field.startswith(role_marker) and "__" in field
+    }
+    if actual_roles != set(expected_roles):
+        raise ValueError(
+            "real runtime audit role bundle differs from trace_role_names"
+        )
+    state_count = int(np.asarray(arrays["object_pose"]).shape[0])
+    shaped_suffixes = {
+        "pose": (state_count, 7),
+        "linear_velocity": (state_count, 3),
+        "angular_velocity": (state_count, 3),
+        "component_linear_velocity": (state_count, 3),
+        "component_angular_velocity": (state_count, 3),
+        "linear_velocity_measured": (state_count,),
+        "angular_velocity_measured": (state_count,),
+        "component_linear_velocity_measured": (state_count,),
+        "component_angular_velocity_measured": (state_count,),
+        "component_velocity_provenance_json": (state_count,),
+    }
+    for role in expected_roles:
+        for suffix, expected_shape in shaped_suffixes.items():
+            field = f"role_object_{suffix}__{role}"
+            if field not in arrays:
+                raise ValueError(
+                    f"real runtime audit role {role} missing required field {field}"
+                )
+            if np.asarray(arrays[field]).shape != expected_shape:
+                raise ValueError(
+                    f"real runtime audit role field {field} must have shape {expected_shape}"
+                )
 
 
 def _require_sha256(value: Any, label: str) -> str:
@@ -317,6 +438,7 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
     validate_raw_streams(streams)
     action_count = int(np.asarray(streams["controller_effective_setpoint"]).shape[0])
     validate_audit_streams(audit_streams, action_count)
+    validate_real_runtime_audit_fields(audit_streams, provenance)
     timing = validate_simulator_timing(provenance)
     validate_planner_goal_audit(streams, audit_streams, provenance)
     trace_source_sha256 = _require_sha256(provenance.get("trace_source_sha256"), "trace_source_sha256")

@@ -47,7 +47,7 @@ def project_cube_grasp_contract() -> dict:
         "source_namespace": "nonformal_F4_right_arm_layout_full_root_runtime_v3_2_seed20260829_gpu0_run2_layout_injection",
         "source_segment": "successful common_grasp and common transport",
         "functional_point_helper_used": False,
-        "same_contract_required_for_roles": ["A", "B", "C"],
+        "same_contract_required_for_roles": ["common_X", "A", "B", "C"],
     }
     payload["grasp_contract_sha256"] = hash_json(payload)
     return payload

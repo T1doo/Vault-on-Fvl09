@@ -32,6 +32,7 @@ def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict
         "schema_version": SCHEMA_VERSION,
         "slot_id": slot_ids[scope],
         "family": family,
+        "arm": "right" if family == "F4" else "left",
         "seed": SCENE_SEED,
         "generator": "controlled_multi_future_joint_scene_v3_3_adapter_v1_3",
         "origin": "runtime_v3_3_pre_stage0_nonformal",

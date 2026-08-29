@@ -162,6 +162,7 @@ class PlannerAssistedTargetConstructionV3_3Test(unittest.TestCase):
             "rest",
         ):
             self.assertIn(f'"{segment_id}"', execute_source)
+        self.assertIn('row["role_actor_angular_velocities"][role]', execute_source)
 
 
 if __name__ == "__main__":

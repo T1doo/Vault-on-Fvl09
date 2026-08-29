@@ -7,8 +7,8 @@
 - official baseline：`c3ddfa8b97d5519efa828b075999bd0006778e5e`
 - 科学设计：`controlled_multi_future_f1_f4_v1_2`
 - 当前实现：`controlled_multi_future_runtime_v3_3`
-- 当前状态：CPU/static baseline passed；canonical-prefix smoke与F4 final no-action IK通过；F1 revision-1在blue `safe_vertical` planner失败、execution=0；accepted roots=0；Stage 0 未授权。
-- 2026-08-29 active 与本快照各 `256/256 tests passed`，两棵 source/test 目录 `diff -qr` 无差异，source SHA=`40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037`。
+- 当前状态：F1 revision-2完整nonformal root accepted；F2/F3/F4 revision-1受控失败，各自revision-2 CPU repair完成；accepted roots=1/4；Stage 0 未授权。
+- 2026-08-30 active 与本快照各 `262/262 tests passed`，两棵 source/test 目录 `diff -qr` 无差异，source SHA=`bd16a349e6ded6f496e5daab62616bf36e3d4fac57cfe8b66488bd98d2381e2a`。
 
 本快照不是 active source，不得从这里运行 GPU、Stage 0 或 formal collection。所有实现修改必须先发生在 active RoboTwin additive source，验证后再同步。
 
@@ -30,7 +30,10 @@
 
 ## Family 当前 CPU 修复
 
-- F1：revision-2保持同一planner-assisted top-down + 4 cm + 4 cm lift，统一先回frozen cluster-center carry hub再升至不变1.02 m；无blue特例；所有batch planner calls完整计数，3/3后才执行。
+- F1：revision-2已accepted；同一planner-assisted top-down + 4 cm + 4 cm lift，统一frozen cluster-center carry hub；三分支3/3。
+- F2：dynamic can只在task/physical执行post-settle pose/contact/upright Gate；held suffix不再错误套spawn Gate。
+- F3：V/H固定7-target闭环与每endpoint 50-frame hold；pose-derived linear+angular Gate，component velocity仅audit。
+- F4：common-X与A/B/C共享显式right-arm cube grasp contract；common9+每block6结构硬校验。
 - F2：固定同一 `071_can/base1`、left arm、official plasticbox/base2；联合布局 v2 的 inside/on/beside 区域经 5 mm 网格证明互斥；beside z 由冻结桌面支撑高度决定；inside 保存 release 前后动态样本且 full-OBB verifier 不放宽。
 - F3：prefix 固定 grasp/lift/central/shared-first-V；reference 和每次 replay 都硬检 realized EEF/bottle V、off-axis/return、速度、selected contact 与 grasp-transform drift。
 - F4：同一显式 right-arm cube grasp generator用于 A/B/C；每 block 检查指定夹爪接触、连续稳定 slot completion、table support、non-target/prior-slot/common-X preservation 和 neutral boundary。

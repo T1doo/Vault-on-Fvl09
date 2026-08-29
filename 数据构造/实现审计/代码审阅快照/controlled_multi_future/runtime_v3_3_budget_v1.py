@@ -91,11 +91,11 @@ STATIC_SCOPE_ACTIVITY_ENVELOPES = {
         "execution_attempt_count": 3,
     },
     "F3_prefix_root_per_revision": {
-        "planner_query_count": 55,
+        "planner_query_count": 95,
         "execution_attempt_count": 3,
     },
     "F4_block_root_per_revision": {
-        "planner_query_count": 138,
+        "planner_query_count": 102,
         "execution_attempt_count": 7,
     },
 }

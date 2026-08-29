@@ -56,6 +56,7 @@ def root_authorization(*, auth_id, source_hash, seed=17, revision=1):
         "planned_root_slot_spec": {
             "slot_id": "f1-root-a",
             "family": "F1",
+            "arm": "left",
             "seed": seed,
             "implementation_revision_index": revision,
             "implementation_revision": f"f1-v3-3-r{revision}",
@@ -73,6 +74,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
         planned = {
             "slot_id": "f1-root-a",
             "family": "F1",
+            "arm": "left",
             "seed": 17,
             "origin": "runtime_v3_3_nonformal",
             "implementation_revision_index": 1,
@@ -203,6 +205,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             planned = {
                 "slot_id": "f4-ik-audit",
                 "family": "F4",
+                "arm": "right",
                 "seed": 17,
                 "origin": "test",
             }

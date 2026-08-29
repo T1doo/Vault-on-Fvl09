@@ -1,0 +1,66 @@
+{
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_prefix_reference-v1_2-000002"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 82.96324229240417,
+  "error": "cannot reshape array of size 1 into shape (7,)",
+  "error_type": "ValueError",
+  "execution_attempt_count": 0,
+  "formal_data": false,
+  "gate_receipts": [],
+  "gate_sequence": [
+    [
+      "A"
+    ],
+    [
+      "B"
+    ],
+    [
+      "C"
+    ],
+    [
+      "A",
+      "B"
+    ]
+  ],
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "orphan_process_count": 0,
+  "planner_query_count": 0,
+  "prefix_replay_count": 0,
+  "recovery_attempt_count": 0,
+  "reference_prefix_generation_count": 1,
+  "scene_cleanup_succeeded": true,
+  "schema_version": "cmf_f4_staged_block_execution_gate_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_staged_block_gate",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 127, in run\n    prefix_result = self.helper._scene_call(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 502, in _scene_call\n    raise body_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 103, in prefix_callback\n    self.adapter.plan_and_execute_canonical_prefix(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/real_sapien_adapter_v1_3.py\", line 47, in plan_and_execute_canonical_prefix\n    return self.controller_v3_3.plan_and_execute_canonical_prefix(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 2345, in plan_and_execute_canonical_prefix\n    targets, extra, target_construction_audit = self._common_targets(scene)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 2322, in _common_targets\n    _audited_planner_assisted_target_construction(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 241, in _audited_planner_assisted_target_construction\n    raise callback_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 225, in _audited_planner_assisted_target_construction\n    value = callback()\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 2327, in <lambda>\n    callback=lambda: self.legacy.build_targets(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_1.py\", line 1365, in build_targets\n    common_lift = world_axis_offset_pose(common_grasp, 0.10)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/geometry.py\", line 129, in world_axis_offset_pose\n    result = np.asarray(pose, dtype=np.float64).reshape(7).copy()\nValueError: cannot reshape array of size 1 into shape (7,)\n"
+}

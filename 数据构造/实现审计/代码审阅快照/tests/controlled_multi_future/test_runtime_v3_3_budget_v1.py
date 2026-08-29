@@ -65,8 +65,8 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
         expected_static_planner = {
             "F1_planner_root_per_revision": 46,
             "F2_diagnosis_root_per_revision": 35,
-            "F3_prefix_root_per_revision": 55,
-            "F4_block_root_per_revision": 138,
+            "F3_prefix_root_per_revision": 95,
+            "F4_block_root_per_revision": 102,
         }
         for scope, expected in expected_static_planner.items():
             self.assertEqual(

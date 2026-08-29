@@ -19,6 +19,7 @@ from .geometry import (
     actor_target_to_eef_pose,
     compose_pose,
     footprint_inside_local_region,
+    quaternion_angular_velocity,
     quaternion_orientation_error,
     relative_pose,
     swept_path_collisions,
@@ -956,12 +957,33 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         angular_speeds = []
         pad_contacts = []
         required = int(PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
+        previous_pose = _pose(scene.bottle)
+        timestep = float(scene.scene.get_timestep())
+        if not np.isclose(timestep, 1.0 / 250.0, rtol=0.0, atol=1e-9):
+            raise ValueError("F3 task/physical pose velocity requires 250 Hz scene timestep")
+        component_linear_speeds = []
+        component_angular_speeds = []
         for _ in range(required):
             scene.scene.step()
-            linear, _ = _rigid_velocity(scene.bottle, "linear_velocity")
-            angular, _ = _rigid_velocity(scene.bottle, "angular_velocity")
+            current_pose = _pose(scene.bottle)
+            linear = (current_pose[:3] - previous_pose[:3]) / timestep
+            angular = quaternion_angular_velocity(
+                previous_pose[3:], current_pose[3:], timestep
+            )
+            component_linear, _ = _rigid_velocity(
+                scene.bottle, "linear_velocity"
+            )
+            component_angular, _ = _rigid_velocity(
+                scene.bottle, "angular_velocity"
+            )
             linear_speeds.append(float(np.linalg.norm(linear)))
             angular_speeds.append(float(np.linalg.norm(angular)))
+            component_linear_speeds.append(
+                float(np.linalg.norm(component_linear))
+            )
+            component_angular_speeds.append(
+                float(np.linalg.norm(component_angular))
+            )
             pad_contacts.append(
                 any(
                     bottle_name in (contact.bodies[0].entity.name, contact.bodies[1].entity.name)
@@ -969,6 +991,7 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
                     for contact in scene.scene.get_contacts()
                 )
             )
+            previous_pose = current_pose
         footprint = footprint_inside_local_region(
             _pose(scene.bottle),
             _actor_half_extents(scene.bottle),
@@ -995,6 +1018,9 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
                     "sample_count": required,
                     "linear_speed_mps": linear_speeds,
                     "angular_speed_rps": angular_speeds,
+                    "component_linear_speed_mps_audit_only": component_linear_speeds,
+                    "component_angular_speed_rps_audit_only": component_angular_speeds,
+                    "gate_velocity_source": "250 Hz finite difference of the same saved actor pose",
                     "pad_contact": pad_contacts,
                     "footprint": footprint,
                 },
@@ -1361,7 +1387,33 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
     def build_targets(self, scene, program, planner_variant):
         execution_scope = planner_variant.get("execution_scope", "full_three_program_root")
         arm = _execution_arm(scene)
-        common_pregrasp, common_grasp = scene.choose_grasp_pose(scene.common_x, arm_tag=_arm_tag(arm), pre_dis=0.09, target_dis=0)
+        common_grasp_mode = planner_variant.get("common_grasp_mode")
+        if common_grasp_mode == "project_cube_grasp_v1":
+            common_pregrasp, common_grasp, common_grasp_contract = (
+                build_project_cube_grasp_poses(
+                    _pose(scene.common_x),
+                    cube_half_extents_m=_actor_half_extents(scene.common_x),
+                    arm=arm,
+                    pregrasp_distance_m=0.09,
+                )
+            )
+        elif common_grasp_mode in (None, "official_planner_assisted"):
+            common_pregrasp, common_grasp = scene.choose_grasp_pose(
+                scene.common_x,
+                arm_tag=_arm_tag(arm),
+                pre_dis=0.09,
+                target_dis=0,
+            )
+            if common_pregrasp is None or common_grasp is None:
+                raise ValueError(
+                    "F4 common-X planner-assisted grasp target construction failed"
+                )
+            common_grasp_contract = {
+                "contract_version": "official_planner_assisted_choose_grasp_pose",
+                "arm": arm,
+            }
+        else:
+            raise ValueError("F4 common grasp mode is outside the frozen implementation universe")
         common_lift = world_axis_offset_pose(common_grasp, 0.10)
         target_actor = _pose(scene.common_x)
         target_actor[:3] = transform_local_point(_pose(scene.tray), TRAY_BASE0_SUPPORT_REGION["target_center_local_m"])
@@ -1458,6 +1510,7 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             "object_order": order,
             "object_target_groups": object_target_groups,
             "common_target_actor_pose": target_actor.tolist(),
+            "common_grasp_contract": common_grasp_contract,
         }
 
     def audit_planner_solvability(self, scene, frozen_program, planner_variant):

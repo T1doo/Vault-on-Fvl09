@@ -13,6 +13,7 @@ from ..raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_e
 
 
 TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
+TRACE_SCHEMA_VERSION = "cmf_runtime_trace_pose_consistent_velocity_v2"
 
 
 class PlannerQueryLimitExceeded(RuntimeError):
@@ -35,13 +36,28 @@ def _entity(actor):
 
 
 def _rigid_velocity(actor, attr):
+    value, measured, _ = _rigid_velocity_with_provenance(actor, attr)
+    return value, measured
+
+
+def _rigid_velocity_with_provenance(actor, attr):
     entity = _entity(actor)
     for component in entity.get_components():
         if hasattr(component, attr):
             value = getattr(component, attr)
             value = value() if callable(value) else value
-            return np.asarray(value, dtype=np.float64).reshape(3), True
-    return np.zeros(3, dtype=np.float64), False
+            return np.asarray(value, dtype=np.float64).reshape(3), True, {
+                "component_type": type(component).__name__,
+                "property": str(attr),
+                "frame": "runtime PhysX rigid-component native frame; audit-only",
+                "gate_signal": False,
+            }
+    return np.zeros(3, dtype=np.float64), False, {
+        "component_type": None,
+        "property": str(attr),
+        "frame": "unavailable",
+        "gate_signal": False,
+    }
 
 
 def _dual_entity_values(robot, getter):
@@ -175,6 +191,14 @@ def trace_rows_to_raw_streams(rows):
         "object_linear_velocity_measured": np.asarray([row.get("actor_linear_velocity_measured", False) for row in rows], dtype=bool),
         "object_angular_velocity": np.asarray([row["actor_angular_velocity"] for row in rows], dtype=np.float64),
         "object_angular_velocity_measured": np.asarray([row.get("actor_angular_velocity_measured", False) for row in rows], dtype=bool),
+        "object_component_linear_velocity": np.asarray([row.get("actor_component_linear_velocity", np.zeros(3)) for row in rows], dtype=np.float64),
+        "object_component_linear_velocity_measured": np.asarray([row.get("actor_component_linear_velocity_measured", False) for row in rows], dtype=bool),
+        "object_component_angular_velocity": np.asarray([row.get("actor_component_angular_velocity", np.zeros(3)) for row in rows], dtype=np.float64),
+        "object_component_angular_velocity_measured": np.asarray([row.get("actor_component_angular_velocity_measured", False) for row in rows], dtype=bool),
+        "object_component_velocity_provenance_json": np.asarray([
+            json.dumps(row.get("actor_component_velocity_provenance", {}), sort_keys=True)
+            for row in rows
+        ]),
         "eef_linear_velocity": np.asarray([row["eef_linear_velocity"] for row in rows], dtype=np.float64),
         "eef_angular_velocity": np.asarray([row["eef_angular_velocity"] for row in rows], dtype=np.float64),
         "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
@@ -200,10 +224,15 @@ def trace_rows_to_raw_streams(rows):
         "contact_pairs_json": np.asarray([json.dumps(row["contact_pairs"], sort_keys=True) for row in rows]),
         "field_metadata": {
             "object_pose": {"status": "measured", "source": "runtime SAPIEN actor pose API"},
-            "object_linear_velocity": {"status": "mixed", "source": "runtime rigid component or 250 Hz position difference with measured mask"},
-            "object_linear_velocity_measured": {"status": "derived", "source": "runtime rigid-component availability mask"},
-            "object_angular_velocity": {"status": "mixed", "source": "runtime rigid component or 250 Hz quaternion difference with measured mask"},
-            "object_angular_velocity_measured": {"status": "derived", "source": "runtime rigid-component availability mask"},
+            "object_linear_velocity": {"status": "derived", "source": "250 Hz finite difference of the same saved actor pose origin"},
+            "object_linear_velocity_measured": {"status": "derived", "source": "false: primary gate velocity is pose-derived"},
+            "object_angular_velocity": {"status": "derived", "source": "250 Hz quaternion difference of the same saved actor pose"},
+            "object_angular_velocity_measured": {"status": "derived", "source": "false: primary gate velocity is pose-derived"},
+            "object_component_linear_velocity": {"status": "measured", "source": "audit-only runtime PhysX rigid-component native linear_velocity property"},
+            "object_component_linear_velocity_measured": {"status": "derived", "source": "runtime component-property availability mask"},
+            "object_component_angular_velocity": {"status": "measured", "source": "audit-only runtime PhysX rigid-component native angular_velocity property"},
+            "object_component_angular_velocity_measured": {"status": "derived", "source": "runtime component-property availability mask"},
+            "object_component_velocity_provenance_json": {"status": "derived", "source": "runtime component type/property/frame provenance; never a semantic Gate"},
             "eef_linear_velocity": {"status": "derived", "source": "runtime 250 Hz EEF position difference"},
             "eef_angular_velocity": {"status": "derived", "source": "runtime 250 Hz EEF quaternion difference"},
             "gripper_drive_target_readback": {"status": "measured", "source": "runtime normalized gripper joint drive targets; not physical aperture"},
@@ -241,14 +270,14 @@ def trace_rows_to_raw_streams(rows):
             f"role_object_linear_velocity__{role}": (
                 "role_actor_linear_velocities",
                 np.float64,
-                "mixed",
-                "linear velocity",
+                "derived",
+                "pose-origin finite-difference linear velocity",
             ),
             f"role_object_angular_velocity__{role}": (
                 "role_actor_angular_velocities",
                 np.float64,
-                "mixed",
-                "angular velocity",
+                "derived",
+                "pose-quaternion finite-difference angular velocity",
             ),
             f"role_object_linear_velocity_measured__{role}": (
                 "role_actor_linear_velocity_measured",
@@ -262,6 +291,30 @@ def trace_rows_to_raw_streams(rows):
                 "derived",
                 "angular velocity measured mask",
             ),
+            f"role_object_component_linear_velocity__{role}": (
+                "role_actor_component_linear_velocities",
+                np.float64,
+                "measured",
+                "rigid-component native linear velocity",
+            ),
+            f"role_object_component_angular_velocity__{role}": (
+                "role_actor_component_angular_velocities",
+                np.float64,
+                "measured",
+                "rigid-component native angular velocity",
+            ),
+            f"role_object_component_linear_velocity_measured__{role}": (
+                "role_actor_component_linear_velocity_measured",
+                bool,
+                "derived",
+                "component linear-velocity availability mask",
+            ),
+            f"role_object_component_angular_velocity_measured__{role}": (
+                "role_actor_component_angular_velocity_measured",
+                bool,
+                "derived",
+                "component angular-velocity availability mask",
+            ),
         }
         for field, (row_key, dtype, status, description) in role_fields.items():
             if any(role not in row.get(row_key, {}) for row in rows):
@@ -273,6 +326,20 @@ def trace_rows_to_raw_streams(rows):
                 "status": status,
                 "source": f"runtime SAPIEN/250 Hz {description} for scene role {role}",
             }
+        provenance_field = f"role_object_component_velocity_provenance_json__{role}"
+        audit_streams[provenance_field] = np.asarray(
+            [
+                json.dumps(
+                    row["role_actor_component_velocity_provenance"][role],
+                    sort_keys=True,
+                )
+                for row in rows
+            ]
+        )
+        audit_streams["field_metadata"][provenance_field] = {
+            "status": "derived",
+            "source": "runtime component type/property/frame provenance; never a semantic Gate",
+        }
     return streams, audit_streams
 
 
@@ -421,12 +488,23 @@ class DenseTraceMixin:
             eef_angular = np.zeros(3)
             actor_linear_fallback = np.zeros(3)
             actor_angular_fallback = np.zeros(3)
-        actor_linear, actor_linear_measured = _rigid_velocity(self.trace_actor, "linear_velocity")
-        if not actor_linear_measured:
-            actor_linear = actor_linear_fallback
-        actor_angular, actor_angular_measured = _rigid_velocity(self.trace_actor, "angular_velocity")
-        if not actor_angular_measured:
-            actor_angular = actor_angular_fallback
+        actor_component_linear, actor_component_linear_measured, actor_linear_provenance = (
+            _rigid_velocity_with_provenance(
+                self.trace_actor, "linear_velocity"
+            )
+        )
+        actor_component_angular, actor_component_angular_measured, actor_angular_provenance = (
+            _rigid_velocity_with_provenance(
+                self.trace_actor, "angular_velocity"
+            )
+        )
+        # Gate velocities must describe the same saved actor pose/origin.
+        # PhysX component properties can use a different body/COM frame, so
+        # retain them as audit-only streams and use the 250 Hz pose derivative.
+        actor_linear = actor_linear_fallback
+        actor_angular = actor_angular_fallback
+        actor_linear_measured = False
+        actor_angular_measured = False
         role_actor_poses = {
             role: _pose_array(role_actor.get_pose())
             for role, role_actor in self.trace_role_actors.items()
@@ -435,6 +513,11 @@ class DenseTraceMixin:
         role_actor_angular_velocities = {}
         role_actor_linear_velocity_measured = {}
         role_actor_angular_velocity_measured = {}
+        role_actor_component_linear_velocities = {}
+        role_actor_component_angular_velocities = {}
+        role_actor_component_linear_velocity_measured = {}
+        role_actor_component_angular_velocity_measured = {}
+        role_actor_component_velocity_provenance = {}
         for role, role_actor in self.trace_role_actors.items():
             role_pose = role_actor_poses[role]
             if self.trace and role in self.trace[-1].get("role_actor_poses", {}):
@@ -448,20 +531,28 @@ class DenseTraceMixin:
             else:
                 role_linear_fallback = np.zeros(3, dtype=np.float64)
                 role_angular_fallback = np.zeros(3, dtype=np.float64)
-            role_linear, role_linear_measured = _rigid_velocity(
-                role_actor, "linear_velocity"
+            role_component_linear, role_component_linear_measured, role_linear_provenance = (
+                _rigid_velocity_with_provenance(role_actor, "linear_velocity")
             )
-            role_angular, role_angular_measured = _rigid_velocity(
-                role_actor, "angular_velocity"
+            role_component_angular, role_component_angular_measured, role_angular_provenance = (
+                _rigid_velocity_with_provenance(role_actor, "angular_velocity")
             )
-            role_actor_linear_velocities[role] = (
-                role_linear if role_linear_measured else role_linear_fallback
+            role_actor_linear_velocities[role] = role_linear_fallback
+            role_actor_angular_velocities[role] = role_angular_fallback
+            role_actor_linear_velocity_measured[role] = False
+            role_actor_angular_velocity_measured[role] = False
+            role_actor_component_linear_velocities[role] = role_component_linear
+            role_actor_component_angular_velocities[role] = role_component_angular
+            role_actor_component_linear_velocity_measured[role] = bool(
+                role_component_linear_measured
             )
-            role_actor_angular_velocities[role] = (
-                role_angular if role_angular_measured else role_angular_fallback
+            role_actor_component_angular_velocity_measured[role] = bool(
+                role_component_angular_measured
             )
-            role_actor_linear_velocity_measured[role] = bool(role_linear_measured)
-            role_actor_angular_velocity_measured[role] = bool(role_angular_measured)
+            role_actor_component_velocity_provenance[role] = {
+                "linear": role_linear_provenance,
+                "angular": role_angular_provenance,
+            }
         self.trace.append({
             "step_index": self._step_index,
             "timestamp": self._step_index * self.simulator_timestep_seconds,
@@ -496,6 +587,14 @@ class DenseTraceMixin:
             "actor_linear_velocity_measured": actor_linear_measured,
             "actor_angular_velocity": actor_angular,
             "actor_angular_velocity_measured": actor_angular_measured,
+            "actor_component_linear_velocity": actor_component_linear,
+            "actor_component_linear_velocity_measured": actor_component_linear_measured,
+            "actor_component_angular_velocity": actor_component_angular,
+            "actor_component_angular_velocity_measured": actor_component_angular_measured,
+            "actor_component_velocity_provenance": {
+                "linear": actor_linear_provenance,
+                "angular": actor_angular_provenance,
+            },
             "gripper_command": np.asarray(self._requested_gripper, dtype=np.float64),
             "gripper_drive_target_readback": np.asarray(effective_gripper, dtype=np.float64),
             "left_gripper_joint_drive_target": _gripper_joint_drive_values(
@@ -525,6 +624,11 @@ class DenseTraceMixin:
             "role_actor_angular_velocities": role_actor_angular_velocities,
             "role_actor_linear_velocity_measured": role_actor_linear_velocity_measured,
             "role_actor_angular_velocity_measured": role_actor_angular_velocity_measured,
+            "role_actor_component_linear_velocities": role_actor_component_linear_velocities,
+            "role_actor_component_angular_velocities": role_actor_component_angular_velocities,
+            "role_actor_component_linear_velocity_measured": role_actor_component_linear_velocity_measured,
+            "role_actor_component_angular_velocity_measured": role_actor_component_angular_velocity_measured,
+            "role_actor_component_velocity_provenance": role_actor_component_velocity_provenance,
             "initial_state": bool(initial_state),
         })
         self._step_index += 1
@@ -701,6 +805,9 @@ class DenseTraceMixin:
     def trace_provenance(self):
         streams, audit_streams = trace_rows_to_raw_streams(self.trace)
         return {
+            "trace_schema_version": TRACE_SCHEMA_VERSION,
+            "trace_role_names": sorted(self.trace_role_actors),
+            "synthetic": False,
             "simulator_timing": {
                 "simulator_timestep_seconds": self.simulator_timestep_seconds,
                 "control_steps_per_action": self.control_steps_per_action,
@@ -736,6 +843,14 @@ class DenseTraceMixin:
             "object_linear_velocity_measured": np.asarray([row["actor_linear_velocity_measured"] for row in rows], dtype=bool),
             "object_angular_velocity": np.asarray([row["actor_angular_velocity"] for row in rows], dtype=np.float64),
             "object_angular_velocity_measured": np.asarray([row["actor_angular_velocity_measured"] for row in rows], dtype=bool),
+            "object_component_linear_velocity": np.asarray([row["actor_component_linear_velocity"] for row in rows], dtype=np.float64),
+            "object_component_linear_velocity_measured": np.asarray([row["actor_component_linear_velocity_measured"] for row in rows], dtype=bool),
+            "object_component_angular_velocity": np.asarray([row["actor_component_angular_velocity"] for row in rows], dtype=np.float64),
+            "object_component_angular_velocity_measured": np.asarray([row["actor_component_angular_velocity_measured"] for row in rows], dtype=bool),
+            "object_component_velocity_provenance_json": np.asarray([
+                json.dumps(row["actor_component_velocity_provenance"], sort_keys=True)
+                for row in rows
+            ]),
             "gripper_command": np.asarray([row["gripper_command"] for row in rows], dtype=np.float64),
             "gripper_drive_target_readback": np.asarray([row["gripper_drive_target_readback"] for row in rows], dtype=np.float64),
             "left_gripper_joint_drive_target": np.asarray([row["left_gripper_joint_drive_target"] for row in rows], dtype=np.float64),
@@ -775,8 +890,15 @@ class DenseTraceMixin:
                 "eef_linear_velocity": {"status": "derived", "source": "250 Hz position difference"},
                 "eef_angular_velocity": {"status": "derived", "source": "250 Hz quaternion difference"},
                 "object_pose": {"status": "measured", "source": "SAPIEN actor pose API"},
-                "object_linear_velocity": {"status": "measured_or_derived", "source": "rigid component when available, otherwise 250 Hz position difference; per-row mask saved"},
-                "object_angular_velocity": {"status": "measured_or_derived", "source": "rigid component when available, otherwise 250 Hz quaternion difference; per-row mask saved"},
+                "object_linear_velocity": {"status": "derived", "source": "250 Hz finite difference of the same saved actor pose origin"},
+                "object_linear_velocity_measured": {"status": "derived", "source": "false: primary object velocity is pose-derived"},
+                "object_angular_velocity": {"status": "derived", "source": "250 Hz quaternion difference of the same saved actor pose"},
+                "object_angular_velocity_measured": {"status": "derived", "source": "false: primary object velocity is pose-derived"},
+                "object_component_linear_velocity": {"status": "measured", "source": "audit-only runtime PhysX rigid-component native linear_velocity property"},
+                "object_component_linear_velocity_measured": {"status": "derived", "source": "runtime component-property availability mask"},
+                "object_component_angular_velocity": {"status": "measured", "source": "audit-only runtime PhysX rigid-component native angular_velocity property"},
+                "object_component_angular_velocity_measured": {"status": "derived", "source": "runtime component-property availability mask"},
+                "object_component_velocity_provenance_json": {"status": "derived", "source": "component type/property/frame; never a semantic Gate"},
                 "gripper_command": {"status": "commanded", "source": "normalized take_dense_action gripper request"},
                 "gripper_drive_target_readback": {"status": "measured", "source": "normalized gripper joint drive targets; not physical aperture"},
                 "left_gripper_joint_drive_target": {"status": "measured", "source": "exact left gripper joint drive targets for deterministic replay"},
@@ -795,5 +917,54 @@ class DenseTraceMixin:
                 "initial_state": {"status": "derived", "source": "trace lifecycle marker"},
             }, sort_keys=True)),
         }
+        field_sources = json.loads(str(arrays["field_sources_json"].item()))
+        role_names = sorted(
+            {
+                role
+                for row in rows
+                for role in row.get("role_actor_poses", {})
+            }
+        )
+        role_specs = {
+            "pose": ("role_actor_poses", np.float64, "measured", "runtime SAPIEN actor pose API"),
+            "linear_velocity": ("role_actor_linear_velocities", np.float64, "derived", "250 Hz finite difference of the same saved role actor pose origin"),
+            "angular_velocity": ("role_actor_angular_velocities", np.float64, "derived", "250 Hz quaternion difference of the same saved role actor pose"),
+            "linear_velocity_measured": ("role_actor_linear_velocity_measured", bool, "derived", "false: primary role velocity is pose-derived"),
+            "angular_velocity_measured": ("role_actor_angular_velocity_measured", bool, "derived", "false: primary role velocity is pose-derived"),
+            "component_linear_velocity": ("role_actor_component_linear_velocities", np.float64, "measured", "audit-only runtime PhysX rigid-component native linear_velocity property"),
+            "component_angular_velocity": ("role_actor_component_angular_velocities", np.float64, "measured", "audit-only runtime PhysX rigid-component native angular_velocity property"),
+            "component_linear_velocity_measured": ("role_actor_component_linear_velocity_measured", bool, "derived", "runtime component linear-velocity availability mask"),
+            "component_angular_velocity_measured": ("role_actor_component_angular_velocity_measured", bool, "derived", "runtime component angular-velocity availability mask"),
+        }
+        for role in role_names:
+            for suffix, (row_key, dtype, status, source) in role_specs.items():
+                if any(role not in row.get(row_key, {}) for row in rows):
+                    raise ValueError(
+                        f"trace role {role} lacks {row_key} for save_trace"
+                    )
+                field = f"role_object_{suffix}__{role}"
+                arrays[field] = np.asarray(
+                    [row[row_key][role] for row in rows], dtype=dtype
+                )
+                field_sources[field] = {"status": status, "source": source}
+            provenance_field = (
+                f"role_object_component_velocity_provenance_json__{role}"
+            )
+            arrays[provenance_field] = np.asarray(
+                [
+                    json.dumps(
+                        row["role_actor_component_velocity_provenance"][role],
+                        sort_keys=True,
+                    )
+                    for row in rows
+                ]
+            )
+            field_sources[provenance_field] = {
+                "status": "derived",
+                "source": "runtime component type/property/frame provenance; never a semantic Gate",
+            }
+        arrays["field_sources_json"] = np.asarray(
+            json.dumps(field_sources, sort_keys=True)
+        )
         np.savez_compressed(path, **arrays)
         return {"path": str(path), "sample_count": len(rows), "fields": sorted(arrays)}

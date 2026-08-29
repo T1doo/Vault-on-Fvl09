@@ -159,6 +159,11 @@ def build_scope_request(
     planned = json.loads(json.dumps(planned_root_slot_spec, ensure_ascii=False, sort_keys=True, allow_nan=False))
     if planned.get("family") != family or planned.get("seed") != scene_seed:
         raise ValueError("scope request planned spec family/seed mismatch")
+    expected_arm = "right" if family == "F4" else "left"
+    if planned.get("arm") != expected_arm:
+        raise ValueError(
+            f"scope request planned spec must freeze {family} arm={expected_arm}"
+        )
     if scope in ROOT_SCOPES and planned.get("implementation_revision_index") != family_revision_index:
         raise ValueError("planned spec revision index differs from root scope")
     if scope in ROOT_SCOPES and not isinstance(
