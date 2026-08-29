@@ -55,11 +55,11 @@ official tracked worktree = clean
 active source tests = 236/236 passed
 Vault snapshot tests = 236/236 passed
 active/snapshot diff = byte-equal
-implementation source SHA-256 = a3e417e46e6f65434cfbb014827790ffe8d89c38e61150a2123b323d13a0a783
+implementation source SHA-256 = fb51b9d4c2404fcaf130743640e9068019a22ae9a072bdc0d9cf9d1cdc4453ac
 budget SHA-256 = 31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544
 ```
 
-本CPU baseline没有运行GPU或SAPIEN scene。新的one-shot GPU authorization尚未签发；需要先发布此不可变baseline，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
+本CPU baseline没有运行GPU或SAPIEN scene。首次prefix-smoke authorization因GPU0 busy未消费；随后F4 staged failure evidence加固改变source hash，该authorization已明确superseded、不得启动。需要发布v1.1 byte-equal baseline后重新签发fresh namespace，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
 
 ## 建议审阅入口
 

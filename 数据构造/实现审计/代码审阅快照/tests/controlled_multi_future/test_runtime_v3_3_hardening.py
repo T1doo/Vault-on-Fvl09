@@ -8,7 +8,10 @@ from controlled_multi_future.canonical_prefix_artifact_v1 import (
 )
 from controlled_multi_future.current_hasher import hash_array
 from controlled_multi_future.f2_mutually_exclusive_region_layout_v2 import LAYOUT
-from controlled_multi_future.f4_staged_block_gate_v1 import GATE_SEQUENCE
+from controlled_multi_future.f4_staged_block_gate_v1 import (
+    F4StagedBlockExecutionGateV1,
+    GATE_SEQUENCE,
+)
 from controlled_multi_future.family_runners_v3_1 import _stable_and_support
 from controlled_multi_future.family_runners_v3_3 import (
     F1ControllerV3_3,
@@ -168,6 +171,13 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         self.assertNotIn("runtime_v3_2", source)
         self.assertEqual(
             GATE_SEQUENCE, (("A",), ("B",), ("C",), ("A", "B"))
+        )
+        staged_source = inspect.getsource(F4StagedBlockExecutionGateV1.run)
+        self.assertIn("preflight_partial_trace_source.npz", staged_source)
+        self.assertIn("partial_trace_source.npz", staged_source)
+        self.assertLess(
+            staged_source.index("raw = write_raw_attempt"),
+            staged_source.index("verifier = self.adapter.verify"),
         )
         f4_source = inspect.getsource(F4ControllerV3_3.execute_frozen_suffix_spec)
         self.assertIn("set_trace_contact_actor(actor)", f4_source)

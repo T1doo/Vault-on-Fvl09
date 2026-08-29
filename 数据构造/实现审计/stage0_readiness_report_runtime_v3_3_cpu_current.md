@@ -27,3 +27,5 @@ F4 staged A/B/C/AB Gate + accepted root
 当前计数：Stage 0=0、Stage 1=0、formal F1–F4=0；没有训练、H-reveal、compression或π0.5。
 
 下一步只能先发布本CPU baseline，再按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
+
+补充：prefix-smoke run1 authorization在GPU0 busy时未消费；随后failure-evidence collector加固改变active source hash，run1已明确superseded。任何真实launch必须使用v1.1 baseline之后生成的全新run2 source-lock/request/authorization。

@@ -198,12 +198,31 @@ class F4StagedBlockExecutionGateV1:
                         raise ValueError(f"F4 {gate_id} preflight prefix physical Gate failed")
                     before = int(getattr(scene, "planner_query_count", 0))
                     try:
-                        suffix = _validate_suffix_planner_receipt(
-                            self.adapter.controller_v3_3.plan_diagnostic_blocks_from_actual_prefix_end_state(
-                                scene, roles, replay
-                            ),
-                            diagnostic_program["program_id"],
-                        )
+                        try:
+                            suffix = _validate_suffix_planner_receipt(
+                                self.adapter.controller_v3_3.plan_diagnostic_blocks_from_actual_prefix_end_state(
+                                    scene, roles, replay
+                                ),
+                                diagnostic_program["program_id"],
+                            )
+                        except BaseException:
+                            if hasattr(scene, "save_trace"):
+                                partial_path = gate_dir / "preflight_partial_trace_source.npz"
+                                partial = dict(scene.save_trace(partial_path))
+                                partial["sha256"] = hashlib.sha256(
+                                    partial_path.read_bytes()
+                                ).hexdigest()
+                                _write_json(
+                                    gate_dir / "preflight_receipt.json",
+                                    {
+                                        "status": "failed_planner_exception",
+                                        "roles": list(roles),
+                                        "partial_trace_source": partial,
+                                        "formal_data": False,
+                                        "stage0_data": False,
+                                    },
+                                )
+                            raise
                     finally:
                         runtime["queries"] = int(
                             getattr(scene, "planner_query_count", 0)
@@ -211,6 +230,16 @@ class F4StagedBlockExecutionGateV1:
                     controls = suffix.pop("_execution_controls", None)
                     qpos = suffix.pop("_actual_prefix_end_qpos", None)
                     if suffix["planner_solvable"] is not True:
+                        if hasattr(scene, "save_trace"):
+                            trace_path = gate_dir / "preflight_trace_source.npz"
+                            trace = dict(scene.save_trace(trace_path))
+                            trace["sha256"] = hashlib.sha256(
+                                trace_path.read_bytes()
+                            ).hexdigest()
+                            suffix["trace_source"] = trace
+                        _write_json(
+                            gate_dir / "preflight_receipt.json", suffix
+                        )
                         raise RuntimeError(f"F4 staged {gate_id} planner failed")
                     suffix_manifest, suffix_arrays = build_frozen_suffix_artifact(
                         root_slot_id=str(planned["slot_id"]),
@@ -225,6 +254,9 @@ class F4StagedBlockExecutionGateV1:
                     )
                     written = write_frozen_suffix_artifact(
                         gate_dir / "suffix_artifact", suffix_manifest, suffix_arrays
+                    )
+                    _write_json(
+                        gate_dir / "preflight_receipt.json", suffix
                     )
                     return suffix, written
 
@@ -279,18 +311,34 @@ class F4StagedBlockExecutionGateV1:
                     install_frozen_suffix_controls(scene, spec, controls)
                     before = int(getattr(scene, "planner_query_count", 0))
                     receipt["execution_attempt_count"] += 1
-                    result = self.adapter.execute_frozen_suffix_spec(
-                        scene,
-                        diagnostic_program,
-                        spec,
-                        replay,
-                        {"realization": "diagnostic", "formal_data": False, "stage0_data": False},
-                    )
+                    try:
+                        result = self.adapter.execute_frozen_suffix_spec(
+                            scene,
+                            diagnostic_program,
+                            spec,
+                            replay,
+                            {"realization": "diagnostic", "formal_data": False, "stage0_data": False},
+                        )
+                    except BaseException:
+                        if hasattr(scene, "save_trace"):
+                            partial_path = gate_dir / "partial_trace_source.npz"
+                            partial = dict(scene.save_trace(partial_path))
+                            partial["sha256"] = hashlib.sha256(
+                                partial_path.read_bytes()
+                            ).hexdigest()
+                            _write_json(
+                                gate_dir / "receipt.json",
+                                {
+                                    "status": "failed_execution",
+                                    "roles": list(roles),
+                                    "partial_trace_source": partial,
+                                    "formal_data": False,
+                                    "stage0_data": False,
+                                },
+                            )
+                        raise
                     if int(getattr(scene, "planner_query_count", 0)) != before:
                         raise ValueError("F4 staged frozen execution invoked planner")
-                    verifier = self.adapter.verify(scene, diagnostic_program, result)
-                    if verifier.get("pass") is not True:
-                        raise ValueError(f"F4 staged {gate_id} semantic verifier failed")
                     if hasattr(scene, "save_trace"):
                         path = gate_dir / "trace_source.npz"
                         trace = dict(scene.save_trace(path))
@@ -309,12 +357,18 @@ class F4StagedBlockExecutionGateV1:
                         result["audit_streams"],
                         result["provenance"],
                     )
+                    verifier = self.adapter.verify(
+                        scene, diagnostic_program, result
+                    )
                     return {
-                        "status": "passed",
+                        "status": "passed"
+                        if verifier.get("pass") is True
+                        else "failed_verifier",
                         "roles": list(roles),
                         "prefix_replay": replay,
                         "suffix_planner": suffix_receipt,
                         "semantic_verifier": result["semantic_verifier"],
+                        "verifier": verifier,
                         "raw_manifest": raw,
                         "trace_source": trace,
                     }
@@ -330,6 +384,10 @@ class F4StagedBlockExecutionGateV1:
                 )
                 receipt["gate_receipts"].append(gate_receipt)
                 _write_json(gate_dir / "receipt.json", gate_receipt)
+                if gate_receipt.get("status") != "passed":
+                    raise ValueError(
+                        f"F4 staged {gate_id} semantic verifier failed"
+                    )
 
             receipt["status"] = (
                 "passed_f4_staged_block_gate"

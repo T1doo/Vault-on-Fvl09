@@ -47,4 +47,4 @@ PYTHONDONTWRITEBYTECODE=1 \
   -p 'test_*.py' -v
 ```
 
-真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。当前尚无 runtime-v3_3 GPU evidence；任何后续 evidence 都必须经 fresh one-shot authorization 和 guard 产生。
+真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。当前尚无 runtime-v3_3 GPU execution evidence；prefix-smoke run1 authorization未消费且已因source-hash变化superseded。任何后续 evidence 都必须经v1.1 baseline后的fresh one-shot authorization和guard产生。
