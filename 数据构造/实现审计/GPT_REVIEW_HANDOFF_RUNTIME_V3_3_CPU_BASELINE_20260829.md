@@ -64,7 +64,7 @@ implementation source SHA-256 = 399ccab5377d867af5ac39597d018b5e1c6115a45a8b28ea
 budget SHA-256 = 31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544
 ```
 
-本CPU baseline没有运行GPU或SAPIEN scene。prefix-smoke run1/run2均因GPU0 busy保持未消费；后续source hardening使两者失效，均已明确superseded、不得启动。需要发布v1.2 byte-equal baseline后重新签发run3 fresh namespace，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
+本CPU baseline没有运行GPU或SAPIEN scene。prefix-smoke run1/run2均未消费且已superseded；v1.2 run3已签发、未消费，但GPU0仍被外部进程占用，尚未通过live admission。GPU0 fresh-idle后由Guard现场复核，再按顺序运行canonical-prefix smoke、F4 cube IK、F1/F2/F3/F4有限root scopes。
 
 ## 建议审阅入口
 

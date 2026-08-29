@@ -29,3 +29,5 @@ F4 staged A/B/C/AB Gate + accepted root
 下一步只能先发布CPU baseline v1.2，再按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
 
 补充：prefix-smoke run1/run2均在GPU0 busy时保持未消费，随后两轮source hardening使其source lock失效，现均明确superseded。任何真实launch必须使用v1.2 baseline之后生成的全新run3 source-lock/request/authorization。
+
+Run3现已按v1.2 source签发且未消费，但21:45即时precheck仍显示GPU0被外部进程占用，因此`new_gpu_launch_authorized=false`表示当前设备admission失败，不表示没有parent/one-shot授权。GPU0 fresh-idle后仍须由Guard再次现场复核。
