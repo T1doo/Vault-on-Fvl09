@@ -1,0 +1,29 @@
+{
+  "authorization_sha256": "afe8f99bf151f4ed62fd03db47de12d562d6d6bc11c96ca72e8fe9b20e070d41",
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 3,
+    "recovery_attempt_count": 0
+  },
+  "checks": {
+    "budget_pass": true,
+    "cleanup_and_orphan_pass": true,
+    "execution_count_zero": true,
+    "guard_and_independent_release_pass": true,
+    "same_grasp_contract": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "failure": {
+    "A_at_xy_0.18_0.175": "pregrasp Fail",
+    "B_at_xy_0.29_0.175": "pregrasp Fail",
+    "C_at_xy_0.40_0.175": "pregrasp Fail"
+  },
+  "formal_data": false,
+  "implementation_source_sha256": "b539e81b5377ad28d06a5081e277f2f3d9420f32b928703a37b5547001e25beb",
+  "layout_version": "f4_right_arm_workspace_base0_v3",
+  "next_action": "final uniform repair moves the complete A/B/C row from y=0.175 to the common-X reachable y-band near zero while preserving x-band, common-X, tray, right arm, programs and verifier; if repeated IK fails, F4 terminates",
+  "schema_version": "cmf_f4_cube_grasp_no_action_ik_run_report_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "FAILED_LAYOUT_V3_ALL_THREE_PREGRASP_Y_BAND_REPAIR_PENDING"
+}

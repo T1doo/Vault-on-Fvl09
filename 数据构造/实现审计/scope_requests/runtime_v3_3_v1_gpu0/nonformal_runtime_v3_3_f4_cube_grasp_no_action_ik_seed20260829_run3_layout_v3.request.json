@@ -1,0 +1,182 @@
+{
+  "allowed_gpu_uuid_policy": "fresh_idle_exact_uuid_selected_by_atomic_guard",
+  "allowed_physical_gpu_indices": [
+    0
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_3_v1_gpu0/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3.authorization.json",
+  "automatic_retry": false,
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "controlled_action_limit": 0,
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_3_scope_runner",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_3_v1_gpu0/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3.authorization.json"
+  ],
+  "exact_child_command_sha256": "09586de2b70adffa025eeb1cdb6041c8bfa8876ef2411accf253a2bfb9ee24db",
+  "family": "F4",
+  "family_revision_index": null,
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/runtime_v3_3_v1_gpu0/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3.guard.json",
+  "max_invocations": 1,
+  "maximum_full_root_execution_per_revision": 1,
+  "maximum_new_implementation_revisions_per_family": 2,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3",
+  "parent_user_authorization_sha256": "4587b4a4967db2869bc59f782d7d022da90f7238791244e167ab0e62430cc509",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "automatic_retry": false,
+    "budget_sha256": "f9f0e76d38fb7ea7e091a774569ca1dd1f8b9ee8523e45e063c8ecb2d9ebada8",
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_joint_scene_v3_3_adapter_v1_3",
+    "origin": "runtime_v3_3_pre_stage0_nonformal",
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_right_arm_workspace_base0_v3",
+      "object_poses": {
+        "A": [
+          0.18,
+          0.175,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.29,
+          0.175,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.4,
+          0.175,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          0.15,
+          0.032,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.3,
+          0.032,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.41,
+          0.032,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "schema_version": "cmf_runtime_v3_3_planned_scope_spec_v1",
+    "scope": "F4_cube_grasp_no_action_ik",
+    "seed": 20260829,
+    "slot_id": "runtime-v3-3-f4-cube-ik",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stop_condition": "terminal receipt or first cleanup/source/GPU safety uncertainty"
+  },
+  "planned_root_slot_spec_sha256": "854374e4443cf762766fecfa578bf73c12a1b6bb10b952e71210d4692236a0b0",
+  "planner_query_limit": 24,
+  "reviewed_content_commit": "cdf8d1107ac3d08f618e385494ce72c30af90dd1",
+  "revision_ledger_directory": null,
+  "scene_seed": 20260829,
+  "schema_version": "cmf_pre_stage0_gpu_scope_request_v3",
+  "scope": "F4_cube_grasp_no_action_ik",
+  "scope_budget": {
+    "automatic_retry": false,
+    "execution_limit": 0,
+    "family": "F4",
+    "planner_query_limit": 24,
+    "recovery_attempts": 0,
+    "scope": "F4_cube_grasp_no_action_ik",
+    "scope_budget_sha256": "f9f0e76d38fb7ea7e091a774569ca1dd1f8b9ee8523e45e063c8ecb2d9ebada8",
+    "timeout_seconds": 1800
+  },
+  "scope_budget_sha256": "f9f0e76d38fb7ea7e091a774569ca1dd1f8b9ee8523e45e063c8ecb2d9ebada8",
+  "scope_request_sha256": "b31b88ec154f04d7417ef8041d6f29deacd7216aaa6845c416802c7eb891f589",
+  "source_bindings": {
+    "authorization_validator_sha256": "d24184726433abec385d14a353f74955c24253f438177f969952b62f46a4043e",
+    "budget_module_sha256": "ac2aac17c8b6fca5dc6f3d5e1aedfa965abda5f2cc774375f68f92d5fae4ead6",
+    "budget_receipt_sha256": "31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544",
+    "canonical_prefix_artifact_sha256": "ab4d050c177ecb17f8393f1a1e82a3d0a1bf80177662dfc0926ca28107264a8d",
+    "canonical_prefix_replay_sha256": "11bcbfa1aa93f3d084a7dd1891d20c590ffe4096b8d898ab2fdf701918a2aeab",
+    "canonical_prefix_smoke_sha256": "0e896b962b8f9f66a92dbae3acf6f31d13a1ebe6e4dc1b6505663ead66ff7c19",
+    "f4_cube_grasp_ik_audit_sha256": "a89b69ed7a64f46348bef0a974679cd9121d4d09a89931208481e38c02d977ea",
+    "f4_right_workspace_layout_sha256": "798e694d4b5fba3533ae38ef2d66f0f2b856414f778efc239baba54d6abfc457",
+    "f4_staged_block_gate_sha256": "ba078e458d24d6dba4998b7a70e3beb2f11c8ae33b1dede13ad7eebc87847318",
+    "family_runners_sha256": "50f1a242a33bd1f923bdb350b4ced89c4fd7cd231263cfd0c67d6b5d095aade6",
+    "frozen_suffix_artifact_sha256": "9469092308e5801b52a37bb9797567b75e5ebcbdf6f13541f806f9a46753ba9e",
+    "gpu_guard_sha256": "b69c39d3b507dffbfd1256ae0800d7b2ba3e02ccafd7b5aa51a776fd0b0c5730",
+    "implementation_source_sha256": "b539e81b5377ad28d06a5081e277f2f3d9420f32b928703a37b5547001e25beb",
+    "project_cube_grasp_pose_sha256": "0b9becffeb92daae0a34fc39e5deb27ba0bf400fd83bb64091a08ef73354ef23",
+    "real_adapter_sha256": "4141857ab1457672dc94f3355d78663d2bd944427ccd3d0830f53ad5f988f0f4",
+    "root_orchestrator_sha256": "29da78b347805c05e24b98854cb9e9afb6296ed172d0021f81fb0fcccacdc0ea",
+    "runtime_source_lock_module_sha256": "4f2a59f67b38500d8e192cea92eea3d646fa99a3ac52e599e1bd1421769acd2a",
+    "scope_bundle_builder_sha256": "b2c456b763d81ad2633141eb303008cbf01db438a71ce4a7d608d05e0f228cb7",
+    "scope_runner_sha256": "e0cb92b857e548411a81018c557fe4716a330e70c5327f26ad6d9a431f55156d",
+    "scope_specs_sha256": "bca4c719b1d8d84565ce7f2dc07a5eefab1a2c2e733cb91053b09fe1215e66c4"
+  },
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_3_v1_gpu0/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "approved_by_parent_user_authorization_pending_one_shot_issue",
+  "timeout_seconds": 1800
+}

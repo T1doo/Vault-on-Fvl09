@@ -1,0 +1,93 @@
+{
+  "admission_precheck": {
+    "captured_at": "2026-08-29T22:53:10.489464+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "binding": {
+    "approval_request_sha256": "b31b88ec154f04d7417ef8041d6f29deacd7216aaa6845c416802c7eb891f589",
+    "approved_scope": "F4_cube_grasp_no_action_ik",
+    "authorization_id": "v3-3-f4-cube-ik-20260829-auth3-layout-v3",
+    "authorization_receipt_sha256": "afe8f99bf151f4ed62fd03db47de12d562d6d6bc11c96ca72e8fe9b20e070d41",
+    "authorized_run_id": "v3-3-f4-cube-ik-20260829-run3-layout-v3",
+    "budget_receipt_sha256": "31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544",
+    "command_sha256": "09586de2b70adffa025eeb1cdb6041c8bfa8876ef2411accf253a2bfb9ee24db",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "consumption_receipt_sha256": "d45987bb81f37542e461241097f19d1de69bf30a97ca0f78eebf071f517c3d30",
+    "controlled_action_limit": 0,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F4",
+    "family_revision_index": null,
+    "guard_pid": 1715938,
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_3_v1_gpu0/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3.guard.json",
+    "implementation_source_sha256": "b539e81b5377ad28d06a5081e277f2f3d9420f32b928703a37b5547001e25beb",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run3_layout_v3",
+    "parent_user_authorization_sha256": "4587b4a4967db2869bc59f782d7d022da90f7238791244e167ab0e62430cc509",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "854374e4443cf762766fecfa578bf73c12a1b6bb10b952e71210d4692236a0b0",
+    "planner_query_limit": 24,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "c0347c6be21e004ca0536d30729ef4a1dc6c5032f7847c8ce3e8012e2fd9bcdd",
+    "timeout_seconds": 1800
+  },
+  "child_exit_code": 1,
+  "child_launch_error": null,
+  "child_receipt_update_error": null,
+  "child_receipt_updated": true,
+  "consumption_receipt": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations/v3-3-f4-cube-ik-20260829-auth3-layout-v3.json",
+  "elapsed_seconds": 121.1330394744873,
+  "formal_data": false,
+  "launch_precheck": {
+    "captured_at": "2026-08-29T22:53:11.130568+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "orphan_process_count": 0,
+  "postcheck": {
+    "captured_at": "2026-08-29T22:55:10.268355+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "postcheck_error": null,
+  "postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "precheck": {
+    "captured_at": "2026-08-29T22:53:11.130568+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "purpose": "pre_stage0_nonformal_validation",
+  "schema_version": "cmf_gpu_guard_v2_4",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "completed_child_failed",
+  "task_owned_orphan_pids": [],
+  "timed_out": false
+}
