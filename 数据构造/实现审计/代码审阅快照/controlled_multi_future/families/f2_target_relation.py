@@ -4,7 +4,7 @@ from ..base import ControlledMultiFutureSceneBase
 class F2TargetRelation(ControlledMultiFutureSceneBase):
     family_id = "F2"
     family_implementation_version = "f2_workspace_and_three_branch_v4_1"
-    audit_status = "terminal_failed_task_physical_can_box_full_obb_incompatibility"
+    audit_status = "runtime_v3_2_selected_071_can_base1_plasticbox_base2_pending_gpu"
 
     main_object = {"modelname": "071_can", "model_id": 1, "arm": "left"}
 

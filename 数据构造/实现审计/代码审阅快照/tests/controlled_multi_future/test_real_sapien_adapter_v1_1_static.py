@@ -15,6 +15,7 @@ from controlled_multi_future.family_runners_v3_1 import (
     F2RunnerV3_1,
     _left_gripper_below_eef_envelope,
     _merge_left_arm_terminal_qpos,
+    _plan_chain,
     get_family_runner,
 )
 from controlled_multi_future.families import F2TargetRelation, F4SubtaskOrder
@@ -30,6 +31,51 @@ from controlled_multi_future.root_orchestrator_v1_1 import RealSapienPilotRootAd
 
 
 class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
+    def test_generic_planner_chain_uses_only_selected_right_arm(self):
+        class Entity:
+            def get_qpos(self):
+                return np.asarray([0.1, -0.2], dtype=np.float64)
+
+        class Robot:
+            right_entity = Entity()
+
+            def __init__(self):
+                self.right_calls = 0
+
+            def right_plan_path(self, pose, last_qpos=None):
+                self.right_calls += 1
+                start = np.asarray(last_qpos, dtype=np.float32)
+                return {
+                    "status": "Success",
+                    "position": np.stack((start, start + 0.1)),
+                    "velocity": np.zeros((2, 2), dtype=np.float64),
+                }
+
+            def left_plan_path(self, *args, **kwargs):
+                raise AssertionError("left planner must not be called for a right-arm root")
+
+        class Scene:
+            def __init__(self):
+                self.robot = Robot()
+                self.planner_query_count = 0
+                self.planner_queries = []
+
+            def _reserve_planner_query(self):
+                self.planner_query_count += 1
+                return self.planner_query_count
+
+        scene = Scene()
+        result = _plan_chain(
+            scene,
+            [{"segment_id": "right_test", "pose": [0.1, 0.0, 0.9, 1, 0, 0, 0]}],
+            query_limit=2,
+            arm="right",
+        )
+        self.assertTrue(result["pass"])
+        self.assertEqual(scene.robot.right_calls, 1)
+        self.assertEqual(scene.planner_queries[0]["arm"], "right")
+        self.assertEqual(scene.planner_queries[0]["dtype_contract"]["qpos"]["dtype"], "float32")
+
     def test_adapter_is_concrete_and_import_does_not_create_scene(self):
         self.assertTrue(issubclass(RoboTwinRealSapienPilotRootAdapterV1_1, RealSapienPilotRootAdapterV1_1))
         self.assertFalse(inspect.isabstract(RoboTwinRealSapienPilotRootAdapterV1_1))
@@ -239,7 +285,7 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
         self.assertIn('"full_f3_program_complete": full_program and repair_probe_pass', f3_source)
         self.assertIn('"full_f4_program_complete": full_program_pass', f4_source)
         self.assertIn('else "runtime-v3_1 repair scope is V->H diagnosis only"', f3_source)
-        self.assertIn('else "runtime-v3_1 repair scope covers common-X only"', f4_source)
+        self.assertIn('else "runtime-v3_2 repair scope covers common-X only"', f4_source)
 
 
 if __name__ == "__main__":

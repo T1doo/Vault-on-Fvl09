@@ -44,7 +44,7 @@ ROLE_ASSETS = {
     },
     "F2": {
         "main_can": {"modelname": "071_can", "model_id": 1, "static_or_dynamic": "dynamic", "collision_mode": "multiple_convex"},
-        "box": {"modelname": "062_plasticbox", "model_id": 3, "static_or_dynamic": "static", "collision_mode": "multiple_convex"},
+        "box": {"modelname": "062_plasticbox", "model_id": 2, "static_or_dynamic": "static", "collision_mode": "multiple_convex"},
         "scale": {"modelname": "072_electronicscale", "model_id": 0, "static_or_dynamic": "static", "collision_mode": "multiple_convex"},
         "stand": {"modelname": "074_displaystand", "model_id": 3, "static_or_dynamic": "static", "collision_mode": "multiple_convex"},
     },
@@ -181,6 +181,7 @@ class RoboTwinSceneContextV1_1:
             self._scene = scene
             args = scene_args(self.family, self.output_root / self.scene_instance_id)
             args["seed"] = int(self.planned_spec["seed"])
+            scene._cmf_planned_root_slot_spec = deepcopy(self.planned_spec)
             scene.setup_demo(**args)
             for _ in range(60):
                 scene.scene.step()

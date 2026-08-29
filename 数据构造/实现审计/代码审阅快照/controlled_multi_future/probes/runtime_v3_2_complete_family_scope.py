@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 
 from ..f3_conditional_repair_orchestrator_v1_1 import F3ConditionalRepairOrchestratorV1_1
+from ..f3_grasp_lift_diagnostic_v3_2 import F3GraspLiftDiagnosticV3_2
 from ..families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..family_repair_orchestrator_v1_1 import FamilyRepairOrchestratorV1_1
 from ..real_sapien_adapter_v1_2 import RoboTwinRealSapienPilotRootAdapterV1_2
@@ -111,21 +112,17 @@ def main() -> int:
 
     if family == "F3":
         diagnostic_program = next(item for item in programs if item["program_id"] == "F3-VHVH")
-        repair = F3ConditionalRepairOrchestratorV1_1(adapter).run(
-            output_dir=output / "repair_gate",
+        repair = F3GraspLiftDiagnosticV3_2(adapter).run(
+            output_dir=output / "grasp_lift_gate",
             planned_root_slot_spec=planned,
             program=diagnostic_program,
         )
-        aggregate["repair_gate"] = {"path": "repair_gate/receipt.json", "status": repair["status"]}
-        aggregate["cleanup_records"].extend(repair.get("cleanup_records", []))
-        aggregate["budget_counts"]["planner_query_count"] += sum(
-            int(item.get("planner_solvability_query_count", 0))
-            + int(item.get("rollout_planner_query_count", 0))
-            for item in repair.get("planner_query_count_by_run", [])
-        )
-        aggregate["budget_counts"]["execution_attempt_count"] += int(repair.get("diagnostic_execution_count", 0))
-        aggregate["budget_counts"]["execution_attempt_count"] += int(repair.get("correction_execution_count", 0))
-        if repair.get("repair_probe_pass") is not True:
+        aggregate["repair_gate"] = {"path": "grasp_lift_gate/receipt.json", "status": repair["status"]}
+        if isinstance(repair.get("cleanup"), dict):
+            aggregate["cleanup_records"].append(repair["cleanup"])
+        aggregate["budget_counts"]["planner_query_count"] += int(repair.get("planner_query_count", 0))
+        aggregate["budget_counts"]["execution_attempt_count"] += int(repair.get("execution_attempt_count", 0))
+        if repair.get("status") != "passed_f3_grasp_lift_diagnostic":
             aggregate["status"] = repair["status"]
             aggregate["scene_created"] = any(item.get("scene_created") is True for item in aggregate["cleanup_records"])
             aggregate["scene_cleanup_succeeded"] = bool(aggregate["cleanup_records"]) and all(

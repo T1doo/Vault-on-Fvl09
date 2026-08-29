@@ -99,11 +99,14 @@ class F2Scene(AuditScene):
     family_id = "F2"
 
     def load_actors(self):
+        planned = getattr(self, "_cmf_planned_root_slot_spec", {})
+        box_model_id = int(planned.get("plasticbox_model_id", 2))
+        layout = planned.get("scene_layout", {})
         q = [0.5, 0.5, 0.5, 0.5]
-        self.can = create_actor(self, sapien.Pose([-0.24, 0.03, 0.79], q), "071_can", convex=True, model_id=1)
+        self.can = create_actor(self, sapien.Pose(layout.get("can_xyz", [-0.24, 0.03, 0.79]), q), "071_can", convex=True, model_id=1)
         self.can.set_name("f2_main_can")
         self.can.set_mass(0.05)
-        self.box = create_actor(self, sapien.Pose([-0.17, -0.17, 0.78], q), "062_plasticbox", convex=True, is_static=True, model_id=3)
+        self.box = create_actor(self, sapien.Pose(layout.get("box_xyz", [-0.17, -0.17, 0.78]), q), "062_plasticbox", convex=True, is_static=True, model_id=box_model_id)
         self.box.set_name("f2_plasticbox")
         self.scale = create_actor(self, sapien.Pose([0.00, -0.17, 0.77], q), "072_electronicscale", convex=True, is_static=True, model_id=0)
         self.scale.set_name("f2_scale")
@@ -120,7 +123,7 @@ class F2PotScene(AuditScene):
         self.can = create_actor(self, sapien.Pose([-0.24, 0.03, 0.79], q), "071_can", convex=True, model_id=1)
         self.can.set_name("f2_main_can")
         self.can.set_mass(0.05)
-        self.box = create_actor(self, sapien.Pose([-0.17, -0.17, 0.78], q), "062_plasticbox", convex=True, is_static=True, model_id=3)
+        self.box = create_actor(self, sapien.Pose([-0.17, -0.17, 0.78], q), "062_plasticbox", convex=True, is_static=True, model_id=2)
         self.box.set_name("f2_plasticbox")
         self.scale = create_actor(self, sapien.Pose([0.00, -0.17, 0.77], q), "072_electronicscale", convex=True, is_static=True, model_id=0)
         self.scale.set_name("f2_scale")
@@ -154,15 +157,32 @@ class F4Scene(AuditScene):
     family_id = "F4"
 
     def load_actors(self):
-        self.common_x = self._box("f4_common_x", [-0.25, 0.06, 0.762], (1, 1, 0))
-        self.a = self._box("f4_object_a", [-0.15, 0.06, 0.762], (1, 0, 0))
-        self.b = self._box("f4_object_b", [-0.05, 0.06, 0.762], (0, 1, 0))
-        self.c = self._box("f4_object_c", [0.05, 0.06, 0.762], (0, 0, 1))
-        self.tray = create_actor(self, sapien.Pose([0.23, 0.02, 0.76], [0.706527, 0.706483, -0.0291356, -0.0291767]), "008_tray", convex=True, is_static=True, model_id=0)
+        planned = getattr(self, "_cmf_planned_root_slot_spec", {})
+        layout = planned.get("scene_layout", {})
+        common_pose = layout.get("common_x_pose", [-0.25, 0.06, 0.762, 1, 0, 0, 0])
+        object_poses = layout.get("object_poses", {
+            "A": [-0.15, 0.06, 0.762, 1, 0, 0, 0],
+            "B": [-0.05, 0.06, 0.762, 1, 0, 0, 0],
+            "C": [0.05, 0.06, 0.762, 1, 0, 0, 0],
+        })
+        slot_poses = layout.get("slot_poses", {
+            "A": [-0.15, -0.17, 0.742, 1, 0, 0, 0],
+            "B": [0.0, -0.17, 0.742, 1, 0, 0, 0],
+            "C": [0.15, -0.17, 0.742, 1, 0, 0, 0],
+        })
+        tray_spec = layout.get("tray", {
+            "model_id": 0,
+            "pose": [0.23, 0.02, 0.76, 0.706527, 0.706483, -0.0291356, -0.0291767],
+        })
+        self.common_x = self._box("f4_common_x", common_pose[:3], (1, 1, 0))
+        self.a = self._box("f4_object_a", object_poses["A"][:3], (1, 0, 0))
+        self.b = self._box("f4_object_b", object_poses["B"][:3], (0, 1, 0))
+        self.c = self._box("f4_object_c", object_poses["C"][:3], (0, 0, 1))
+        self.tray = create_actor(self, sapien.Pose(tray_spec["pose"][:3], tray_spec["pose"][3:]), "008_tray", convex=True, is_static=True, model_id=int(tray_spec["model_id"]))
         self.tray.set_name("f4_common_tray")
-        self.slot_a = create_visual_box(self, sapien.Pose([-0.15, -0.17, 0.742]), (0.035, 0.035, 0.002), color=(0.7, 0.2, 0.2), name="f4_slot_a")
-        self.slot_b = create_visual_box(self, sapien.Pose([0.0, -0.17, 0.742]), (0.035, 0.035, 0.002), color=(0.2, 0.7, 0.2), name="f4_slot_b")
-        self.slot_c = create_visual_box(self, sapien.Pose([0.15, -0.17, 0.742]), (0.035, 0.035, 0.002), color=(0.2, 0.2, 0.7), name="f4_slot_c")
+        self.slot_a = create_visual_box(self, sapien.Pose(slot_poses["A"][:3]), (0.035, 0.035, 0.002), color=(0.7, 0.2, 0.2), name="f4_slot_a")
+        self.slot_b = create_visual_box(self, sapien.Pose(slot_poses["B"][:3]), (0.035, 0.035, 0.002), color=(0.2, 0.7, 0.2), name="f4_slot_b")
+        self.slot_c = create_visual_box(self, sapien.Pose(slot_poses["C"][:3]), (0.035, 0.035, 0.002), color=(0.2, 0.2, 0.7), name="f4_slot_c")
         self.role_actors = {"common_x": self.common_x, "A": self.a, "B": self.b, "C": self.c, "common_tray": self.tray, "slot_A": self.slot_a, "slot_B": self.slot_b, "slot_C": self.slot_c}
 
 

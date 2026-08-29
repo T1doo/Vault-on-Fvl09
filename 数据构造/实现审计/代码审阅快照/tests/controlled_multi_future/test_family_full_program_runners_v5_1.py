@@ -101,9 +101,9 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
             "gripper_below_eef_envelope_m": 0.05,
         }
         with mock.patch(
-            "controlled_multi_future.family_runners_v3_1._left_gripper_below_eef_envelope",
+            "controlled_multi_future.family_runners_v3_1._gripper_below_eef_envelope",
             return_value=envelope,
-        ), mock.patch("controlled_multi_future.family_runners_v3_1._arm_tag_left", return_value="left"):
+        ), mock.patch("controlled_multi_future.family_runners_v3_1._arm_tag", side_effect=lambda arm: arm):
             for program in F4SubtaskOrder().checked_provisional_programs():
                 targets, extra = runner.build_targets(
                     scene,
@@ -150,6 +150,24 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
                 route2_by_id["common_lift"][2],
             )
             self.assertTrue(route2_extra["carry_envelope"]["selected_height_not_below_lift"])
+
+            scene._cmf_planned_root_slot_spec = {
+                "arm": "right",
+                "scene_layout": {
+                    "branch_neutral_pose": [0.15, -0.02, 0.95, 0.7, 0.0, 0.0, 0.7141428429],
+                },
+            }
+            right_targets, right_extra = runner.build_targets(
+                scene,
+                F4SubtaskOrder().checked_provisional_programs()[0],
+                {
+                    "variant_id": "route1_minimum_height_segmented",
+                    "execution_scope": "common_x_route_repair",
+                },
+            )
+            self.assertEqual(right_extra["execution_arm"], "right")
+            self.assertEqual(right_extra["gripper_envelope_evidence"]["gripper_below_eef_envelope_m"], 0.05)
+            self.assertEqual(right_targets[-1]["pose"][:3].tolist(), [0.15, -0.02, 0.95])
 
     def test_final_state_comparison_is_pose_aware_and_fail_closed(self):
         base = {
