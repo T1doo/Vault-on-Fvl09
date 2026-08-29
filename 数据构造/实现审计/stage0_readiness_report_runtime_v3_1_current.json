@@ -1,7 +1,8 @@
 {
   "a0_execution_budget_exhausted": true,
-  "a0_pass": false,
-  "a0_real_execution_count": 2,
+  "a0_gate_status": "passed_nonformal_A0",
+  "a0_pass": true,
+  "a0_real_execution_count": 3,
   "a0_runs": [
     {
       "cleanup_pass": true,
@@ -20,13 +21,30 @@
       "namespace": "probe_outputs/nonformal_A0_F1_seed20260829_run2",
       "orphan_count": 0,
       "status": "failed_zero_post_setup_activity"
+    },
+    {
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_files_rehashed": 16,
+      "cleanup_pass": true,
+      "current_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "four_scene_same_current_pass": true,
+      "four_scene_same_physical_anchor_pass": true,
+      "gpu_release_pass": true,
+      "namespace": "probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation",
+      "orphan_count": 0,
+      "post_setup_planner_control_physics": [
+        0,
+        0,
+        0
+      ],
+      "status": "passed_nonformal_A0"
     }
   ],
   "compression_run": false,
   "cpu_status": {
     "active_tests": "158/158 passed",
-    "postmortem_native_planner_ledger_fix": "implemented_cpu_only_unverified_on_gpu",
-    "postmortem_timestep_float_representation_fix": "implemented_cpu_only_unverified_on_gpu",
+    "postmortem_native_planner_ledger_fix": "implemented_and_verified_by_real_A0",
+    "postmortem_timestep_float_representation_fix": "implemented_and_verified_by_real_A0",
     "vault_snapshot_tests": "158/158 passed"
   },
   "decision": "BLOCKED_WITH_REASONS",
@@ -37,19 +55,21 @@
   "generated_at": "2026-08-29",
   "h_reveal": null,
   "hard_blockers": [
-    "A0 failed after both authorized executions",
-    "four-scene same-current/anchor A0 evidence is incomplete",
-    "F1-F4 real full-program evidence was not run because A0 Gate failed",
+    "F1-F4 real full-program evidence has not been run",
     "real root pipeline was not run",
     "Stage 0 manifest and attempt budget cannot be frozen from missing family probes"
   ],
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "new_gpu_launch_authorized": false,
   "pi05_run": false,
   "policy_transfer_run": false,
   "pre_stage0_parent_authorized": true,
-  "reviewed_postmortem_content_commit": "28cfb46cf14be9c5850efd1af00489acc5e8b8ee",
+  "postmortem_a0_authorization_sha256": "122896069bf65963fab872a068d00ac42286e8149703c75d5a3690954cd2b68e",
+  "postmortem_a0_guard_status": "completed",
+  "postmortem_a0_reviewed_vault_commit": "d56a7f8de1784d116ce169fcce1d192387992bfc",
+  "postmortem_a0_scope_request_sha256": "d8368a2d6fc7996b24528eaccada4ded9bdd7b75c93938860b2ecdde8df8b938",
+  "reviewed_postmortem_content_commit": "d56a7f8de1784d116ce169fcce1d192387992bfc",
   "schema_version": "cmf_stage0_readiness_runtime_v3_1_v1_1",
   "scientific_invariants_unchanged": true,
   "stage0_authorized": false,

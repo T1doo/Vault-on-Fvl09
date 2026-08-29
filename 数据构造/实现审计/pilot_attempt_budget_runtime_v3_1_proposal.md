@@ -1,7 +1,7 @@
 # runtime-v3_1 finite GPU budget proposal
 
 ```yaml
-status: blocked_a0_budget_exhausted_before_family_probe
+status: proposed_not_frozen_family_probes_not_run
 approved: false
 frozen: false
 gpu_probe_authorized: false
@@ -34,4 +34,6 @@ A0 budget 现在由 `runtime_v3_1_budget_v1_1.py` 与 `A0CurrentAnchorOrchestrat
 
 用户随后批准pre-Stage-0 nonformal budget；A0按`1 initial + 1 versioned repair`执行两次并均terminal fail，预算已耗尽。Run1为SAPIEN sleep-state API兼容；run2为4ms exact-float validator/native-ledger初始化。两次cleanup/orphan/GPU release安全，family probes未启动。
 
-因此Stage-0 pilot attempt budget仍不能根据真实family耗时冻结：`approved=false / frozen=false / stage0_authorized=false`。Pre-Stage-0 scope budget的执行历史见`PRE_STAGE0_GPU_SCOPE_BUDGET_V1.*`与完整执行报告；若要验证postmortem CPU修复，必须另批新A0预算。
+GPT审阅postmortem修复后，用户单独批准一个全新namespace的A0-only one-shot。Run3完成pristine+fresh1/2/3四场景并通过same-current、physical-anchor、zero planner/control/physics、cleanup/orphan、artifact hash和GPU release Gate。A0当前为`passed_nonformal_A0`，新授权已消费且不可重放。
+
+Stage-0 pilot attempt budget仍不能根据真实family耗时冻结：`approved=false / frozen=false / gpu_probe_authorized=false / stage0_authorized=false`。A0 pass不自动批准family scopes；F1–F4与真实root仍需单独审阅和授权。

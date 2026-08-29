@@ -1,0 +1,377 @@
+{
+  "a0_execution_authorized_by_receipt": true,
+  "activity_schema_version": "cmf_a0_activity_audit_v2",
+  "all_four_scenes_created": true,
+  "approval_request_sha256": "d8368a2d6fc7996b24528eaccada4ded9bdd7b75c93938860b2ecdde8df8b938",
+  "approved_scope": "A0_current_anchor_smoke",
+  "authorization_consumption_receipt_sha256": "0e6177cbaa66921250173189d5164a884742482facb224b5a7b81167fe0672ba",
+  "authorization_id": "a0-f1-seed20260829-postmortem-validation-v1-auth1",
+  "authorization_receipt_sha256": "7bd47f4259bf7e51d2c53900c440b12d0604a08d7bd451ae555d2d35adaf46bf",
+  "authorized_run_id": "a0-f1-seed20260829-postmortem-validation-v1-run1",
+  "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+  "budget_validation": {
+    "budget": {
+      "automatic_retry": false,
+      "execution_limit": 0,
+      "family": "F1",
+      "max_invocations": 1,
+      "maximum_implementation_repair_revisions": 1,
+      "post_setup_controlled_action_limit": 0,
+      "post_setup_physics_step_limit": 0,
+      "post_setup_planner_query_limit": 0,
+      "scene_count": 4,
+      "scene_pattern": [
+        "A0_pristine",
+        "A0_fresh_1",
+        "A0_fresh_2",
+        "A0_fresh_3"
+      ],
+      "scope": "A0_current_anchor_smoke",
+      "scope_budget_sha256": "9b077c1959796540dd94096000dabc9ff13dee79175c4d2d9307b83518c6ec54",
+      "timeout_seconds": 600,
+      "user_authorized": true
+    },
+    "checks": {
+      "controlled_executions": true,
+      "no_recovery": true,
+      "planner_queries": true,
+      "post_setup_physics_steps": true,
+      "scene_count": true
+    },
+    "pass": true,
+    "scope": "A0_current_anchor_smoke"
+  },
+  "controlled_action_limit": 0,
+  "elapsed_seconds": 110.3634307384491,
+  "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "family": "F1",
+  "formal_data": false,
+  "gpu_guard_binding": {
+    "approval_request_sha256": "d8368a2d6fc7996b24528eaccada4ded9bdd7b75c93938860b2ecdde8df8b938",
+    "approved_scope": "A0_current_anchor_smoke",
+    "authorization_id": "a0-f1-seed20260829-postmortem-validation-v1-auth1",
+    "authorization_receipt_sha256": "7bd47f4259bf7e51d2c53900c440b12d0604a08d7bd451ae555d2d35adaf46bf",
+    "authorized_run_id": "a0-f1-seed20260829-postmortem-validation-v1-run1",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "command_sha256": "b66aee00edef19fc41055778afe80d7a08839587c2330ed021a58ca6f1e3096a",
+    "consumption_receipt_sha256": "0e6177cbaa66921250173189d5164a884742482facb224b5a7b81167fe0672ba",
+    "controlled_action_limit": 0,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 1057161,
+    "implementation_source_sha256": "c1fb06f062d0753910c96df690ce1bb68d06a3b71a786e3e43b5a1af59baa286",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation",
+    "parent_user_authorization_sha256": "122896069bf65963fab872a068d00ac42286e8149703c75d5a3690954cd2b68e",
+    "physical_gpu_index": 0,
+    "physics_step_limit": 0,
+    "planned_root_slot_spec_sha256": "20bb86d5af8435c19e1298549970c60010b8cbd4755370b61fc21614f56f0d6b",
+    "planner_query_limit": 0,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "528830926c454e5e8aac952d70b9a14469c49d4c4c7384657d2cdc0acc2d9193",
+    "timeout_seconds": 600
+  },
+  "gpu_postcheck": {
+    "captured_at": "2026-08-29T14:05:16.128935+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "gpu_probe_authorized": true,
+  "guard_binding": {
+    "approval_request_sha256": "d8368a2d6fc7996b24528eaccada4ded9bdd7b75c93938860b2ecdde8df8b938",
+    "approved_scope": "A0_current_anchor_smoke",
+    "authorization_id": "a0-f1-seed20260829-postmortem-validation-v1-auth1",
+    "authorization_receipt_sha256": "7bd47f4259bf7e51d2c53900c440b12d0604a08d7bd451ae555d2d35adaf46bf",
+    "authorized_run_id": "a0-f1-seed20260829-postmortem-validation-v1-run1",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "command_sha256": "b66aee00edef19fc41055778afe80d7a08839587c2330ed021a58ca6f1e3096a",
+    "consumption_receipt_sha256": "0e6177cbaa66921250173189d5164a884742482facb224b5a7b81167fe0672ba",
+    "controlled_action_limit": 0,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 1057161,
+    "implementation_source_sha256": "c1fb06f062d0753910c96df690ce1bb68d06a3b71a786e3e43b5a1af59baa286",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation",
+    "parent_user_authorization_sha256": "122896069bf65963fab872a068d00ac42286e8149703c75d5a3690954cd2b68e",
+    "physical_gpu_index": 0,
+    "physics_step_limit": 0,
+    "planned_root_slot_spec_sha256": "20bb86d5af8435c19e1298549970c60010b8cbd4755370b61fc21614f56f0d6b",
+    "planner_query_limit": 0,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "528830926c454e5e8aac952d70b9a14469c49d4c4c7384657d2cdc0acc2d9193",
+    "timeout_seconds": 600
+  },
+  "guard_precheck": {
+    "captured_at": "2026-08-29T14:03:21.900843+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "guard_process_group_orphan_count": 0,
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation.guard.json",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
+  "implementation_source_sha256": "c1fb06f062d0753910c96df690ce1bb68d06a3b71a786e3e43b5a1af59baa286",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "orchestrator_version": "A0CurrentAnchorOrchestratorV1_2",
+  "orphan_process_count": 0,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation",
+  "parent_user_authorization_sha256": "122896069bf65963fab872a068d00ac42286e8149703c75d5a3690954cd2b68e",
+  "physical_gpu_index": 0,
+  "physics_step_limit": 0,
+  "planned_root_slot_spec_sha256": "20bb86d5af8435c19e1298549970c60010b8cbd4755370b61fc21614f56f0d6b",
+  "planner_query_limit": 0,
+  "post_setup_controlled_action_count": 0,
+  "post_setup_physics_step_count": 0,
+  "post_setup_planner_query_count": 0,
+  "purpose": "implementation_audit",
+  "reference_anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+  "reference_current_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "scene_orphan_process_count": 0,
+  "scene_pattern": [
+    "A0_pristine",
+    "A0_fresh_1",
+    "A0_fresh_2",
+    "A0_fresh_3"
+  ],
+  "scene_seed": 20260829,
+  "scenes": [
+    {
+      "activity_receipt_sha256": "7bfd6140e0c00648ffae6fc30ded69c0192ff563de02b53c279f14b88b9787a2",
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_directory": "scenes/00_A0_pristine",
+      "artifact_hashes": {
+        "artifact_hashes_path": "artifact_hashes.json",
+        "artifact_hashes_sha256": "1c8e182107c97514e8a81d7ec0679e8db4d4b07715a84ca1493deda949bbe890",
+        "files": {
+          "activity": {
+            "path": "activity.json",
+            "sha256": "116ca910865a0cb80de5991f0c3813bcae2431fc4a11b9b29e960efac8cd1496"
+          },
+          "anchor": {
+            "path": "anchor.json",
+            "sha256": "ae5fa4ca0a3ba8f61f61d0a9a886b0a22fe7fa07fd83905d1698384f75c77ff6"
+          },
+          "cleanup": {
+            "path": "cleanup.json",
+            "sha256": "4f00dbbec0d3c4ab4cccc2d196f4cdb2c156bee1378934983a032ea870edc59c"
+          },
+          "current": {
+            "path": "current.json",
+            "sha256": "3e86ab43ef87fea74044aff568e75de2187e66e7b4b724bfacd3c8655b0b68fd"
+          }
+        }
+      },
+      "cleanup_safety_pass": true,
+      "current_aggregate_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "orphan_process_count": 0,
+      "phase": "A0_pristine",
+      "post_setup_activity": {
+        "controlled_action_delta": 0,
+        "instrumented_control_call_delta": 0,
+        "instrumented_planner_wrapper_delta": 0,
+        "native_planner_query_count_delta_if_available": 0,
+        "native_planner_record_delta_if_available": 0,
+        "physics_step_delta": 0,
+        "planner_query_delta": 0,
+        "planner_query_record_delta": 0,
+        "renderer_update_delta": 2,
+        "take_action_count_delta": 0,
+        "trace_counter_available": false,
+        "trace_row_delta": null
+      },
+      "scene_created": true,
+      "scene_instance_id": "f1-A0_pristine-v1_2-000001",
+      "status": "validated"
+    },
+    {
+      "activity_receipt_sha256": "f0504499ba7a4339ae4b4e99d0e2ce606543372eb2edd51051c3509f227a5d23",
+      "anchor_equivalence": {
+        "candidate_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d"
+      },
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_directory": "scenes/01_A0_fresh_1",
+      "artifact_hashes": {
+        "artifact_hashes_path": "artifact_hashes.json",
+        "artifact_hashes_sha256": "515366bace0a46758efc049eb74cbb1701f6eb55a74fcc59ca6b064e45144d7f",
+        "files": {
+          "activity": {
+            "path": "activity.json",
+            "sha256": "d1e0eeebd825f1d7b34286d07704bd3b89e66f9618c825e6372b3822af90dfc7"
+          },
+          "anchor": {
+            "path": "anchor.json",
+            "sha256": "ae5fa4ca0a3ba8f61f61d0a9a886b0a22fe7fa07fd83905d1698384f75c77ff6"
+          },
+          "cleanup": {
+            "path": "cleanup.json",
+            "sha256": "78e3599e1ba7b0b1d39b0afff61c193a6ddf343e120d3a3557e627b4b638b3e8"
+          },
+          "current": {
+            "path": "current.json",
+            "sha256": "3e86ab43ef87fea74044aff568e75de2187e66e7b4b724bfacd3c8655b0b68fd"
+          }
+        }
+      },
+      "cleanup_safety_pass": true,
+      "current_aggregate_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "orphan_process_count": 0,
+      "phase": "A0_fresh_1",
+      "post_setup_activity": {
+        "controlled_action_delta": 0,
+        "instrumented_control_call_delta": 0,
+        "instrumented_planner_wrapper_delta": 0,
+        "native_planner_query_count_delta_if_available": 0,
+        "native_planner_record_delta_if_available": 0,
+        "physics_step_delta": 0,
+        "planner_query_delta": 0,
+        "planner_query_record_delta": 0,
+        "renderer_update_delta": 2,
+        "take_action_count_delta": 0,
+        "trace_counter_available": false,
+        "trace_row_delta": null
+      },
+      "scene_created": true,
+      "scene_instance_id": "f1-A0_fresh_1-v1_2-000002",
+      "status": "validated"
+    },
+    {
+      "activity_receipt_sha256": "6bfeec2fa0fc13c196c0149fe36e55bffcd6bb81c64b1021b941384fbd7f1057",
+      "anchor_equivalence": {
+        "candidate_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d"
+      },
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_directory": "scenes/02_A0_fresh_2",
+      "artifact_hashes": {
+        "artifact_hashes_path": "artifact_hashes.json",
+        "artifact_hashes_sha256": "c5becd34530a679ca25ca77b550ff13c1b5167a07ef4ffab1c4c60ce162e7999",
+        "files": {
+          "activity": {
+            "path": "activity.json",
+            "sha256": "4af7abacb72cdba0a8a17a92b9c5bd1ecc86dd1825c4a110ec08b1a24bb2d2a7"
+          },
+          "anchor": {
+            "path": "anchor.json",
+            "sha256": "ae5fa4ca0a3ba8f61f61d0a9a886b0a22fe7fa07fd83905d1698384f75c77ff6"
+          },
+          "cleanup": {
+            "path": "cleanup.json",
+            "sha256": "8c4231afc205101d5302065d3c73c1d8f88c40445b897849c00e2a43ece18151"
+          },
+          "current": {
+            "path": "current.json",
+            "sha256": "3e86ab43ef87fea74044aff568e75de2187e66e7b4b724bfacd3c8655b0b68fd"
+          }
+        }
+      },
+      "cleanup_safety_pass": true,
+      "current_aggregate_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "orphan_process_count": 0,
+      "phase": "A0_fresh_2",
+      "post_setup_activity": {
+        "controlled_action_delta": 0,
+        "instrumented_control_call_delta": 0,
+        "instrumented_planner_wrapper_delta": 0,
+        "native_planner_query_count_delta_if_available": 0,
+        "native_planner_record_delta_if_available": 0,
+        "physics_step_delta": 0,
+        "planner_query_delta": 0,
+        "planner_query_record_delta": 0,
+        "renderer_update_delta": 2,
+        "take_action_count_delta": 0,
+        "trace_counter_available": false,
+        "trace_row_delta": null
+      },
+      "scene_created": true,
+      "scene_instance_id": "f1-A0_fresh_2-v1_2-000003",
+      "status": "validated"
+    },
+    {
+      "activity_receipt_sha256": "31c89816f3929cb7415df8a823427e4fc4f3345cc0da09b25bf319b51cf65bfc",
+      "anchor_equivalence": {
+        "candidate_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d"
+      },
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_directory": "scenes/03_A0_fresh_3",
+      "artifact_hashes": {
+        "artifact_hashes_path": "artifact_hashes.json",
+        "artifact_hashes_sha256": "cd10338b7f0b6ea58b83fd921ae0b75cfc0f713528e5934995c3ba7a2e821bb1",
+        "files": {
+          "activity": {
+            "path": "activity.json",
+            "sha256": "418809ae5f7ecb56ed33dff8172c2e943e494430687fd4413050c5a720341a34"
+          },
+          "anchor": {
+            "path": "anchor.json",
+            "sha256": "ae5fa4ca0a3ba8f61f61d0a9a886b0a22fe7fa07fd83905d1698384f75c77ff6"
+          },
+          "cleanup": {
+            "path": "cleanup.json",
+            "sha256": "c70d5bae7150160f7d14d0b9ccbcf413b38c1eae59d9ff90d21e0cf1603d0f4c"
+          },
+          "current": {
+            "path": "current.json",
+            "sha256": "3e86ab43ef87fea74044aff568e75de2187e66e7b4b724bfacd3c8655b0b68fd"
+          }
+        }
+      },
+      "cleanup_safety_pass": true,
+      "current_aggregate_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "orphan_process_count": 0,
+      "phase": "A0_fresh_3",
+      "post_setup_activity": {
+        "controlled_action_delta": 0,
+        "instrumented_control_call_delta": 0,
+        "instrumented_planner_wrapper_delta": 0,
+        "native_planner_query_count_delta_if_available": 0,
+        "native_planner_record_delta_if_available": 0,
+        "physics_step_delta": 0,
+        "planner_query_delta": 0,
+        "planner_query_record_delta": 0,
+        "renderer_update_delta": 2,
+        "take_action_count_delta": 0,
+        "trace_counter_available": false,
+        "trace_row_delta": null
+      },
+      "scene_created": true,
+      "scene_instance_id": "f1-A0_fresh_3-v1_2-000004",
+      "status": "validated"
+    }
+  ],
+  "schema_version": "cmf_runtime_v3_1_a0_smoke_v1_2",
+  "source_lock_receipt_sha256": "528830926c454e5e8aac952d70b9a14469c49d4c4c7384657d2cdc0acc2d9193",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "passed_nonformal_A0",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 600
+}

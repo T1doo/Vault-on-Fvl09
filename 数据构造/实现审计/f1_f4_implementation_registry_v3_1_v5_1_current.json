@@ -1,11 +1,11 @@
 {
   "a0": {
     "budget_exhausted": true,
-    "execution_count": 2,
-    "pass": false,
+    "execution_count": 3,
+    "pass": true,
     "postmortem_cpu_fix": {
       "native_planner_ledger_initialized_before_monitor": true,
-      "real_gpu_verified": false,
+      "real_gpu_verified": true,
       "timestep_atol_seconds": 1e-09
     },
     "run1": {
@@ -28,11 +28,25 @@
         0
       ],
       "status": "failed_zero_post_setup_activity"
+    },
+    "run3_postmortem_validation": {
+      "anchor_sha256": "0f8444b2ffa243ed1a2bfd40e39ad047fe1fd1b05ce64664b1cc1c7bc2d9540d",
+      "artifact_hashes_recomputed": "16/16 passed",
+      "cleanup_pass": true,
+      "current_sha256": "10d9c15aa3740cd1abc9cbb6f2d4d345dfd97f47e66d2119af3c00d5210271c8",
+      "four_scene_anchor_equivalence": true,
+      "four_scene_same_current": true,
+      "gpu_release_pass": true,
+      "orphan_count": 0,
+      "post_setup_planner_control_physics": [
+        0,
+        0,
+        0
+      ],
+      "status": "passed_nonformal_A0"
     }
   },
   "blockers": [
-    "A0 two-run budget exhausted without pass",
-    "fresh1/fresh2/fresh3 current-anchor evidence missing",
     "F1-F4 complete real scopes not run",
     "real root integration not run",
     "Stage 0 manifest and attempt budget not frozen"
@@ -55,53 +69,54 @@
   },
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "evidence": {
-    "log": "../正式数据构造日志.md sections 77-79",
+    "log": "../正式数据构造日志.md sections 77-82",
     "run1": "probe_outputs/nonformal_A0_F1_seed20260829_run1",
-    "run2": "probe_outputs/nonformal_A0_F1_seed20260829_run2"
+    "run2": "probe_outputs/nonformal_A0_F1_seed20260829_run2",
+    "run3_postmortem_validation": "probe_outputs/nonformal_A0_F1_seed20260829_run3_postmortem_validation"
   },
   "families": {
     "F1": {
       "historical_runtime_v2": "red-only passed",
-      "real_scope": "not_run_due_A0_gate",
+      "real_scope": "not_run_A0_passed_requires_separate_authorization",
       "three_branch_pass": false
     },
     "F2": {
       "historical_runtime_v2": "inside/on passed; beside failed",
-      "real_scope": "not_run_due_A0_gate",
+      "real_scope": "not_run_A0_passed_requires_separate_authorization",
       "three_branch_pass": false
     },
     "F3": {
       "historical_runtime_v2": "V/H passed; return failed",
-      "real_scope": "not_run_due_A0_gate",
+      "real_scope": "not_run_A0_passed_requires_separate_authorization",
       "three_full_program_pass": false
     },
     "F4": {
       "historical_runtime_v2": "single A passed; common-X failed",
-      "real_scope": "not_run_due_A0_gate",
+      "real_scope": "not_run_A0_passed_requires_separate_authorization",
       "three_full_program_pass": false
     }
   },
   "formal_data": false,
   "generated_at": "2026-08-29",
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "new_gpu_launch_authorized": false,
   "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
   "pre_stage0_parent_authorized": true,
   "readiness": "BLOCKED_WITH_REASONS",
-  "registry_sha256": "d19890167407c6cd7210071863c7d6eff3061773cb344363bfe4b84687d43a1a",
-  "reviewed_postmortem_content_commit": "28cfb46cf14be9c5850efd1af00489acc5e8b8ee",
+  "registry_sha256": "db3b54e250693b14ea99996aeab9257adbb7b397f88bf361e3fa3f8efbb21cea",
+  "reviewed_postmortem_content_commit": "d56a7f8de1784d116ce169fcce1d192387992bfc",
   "schema_version": "f1_f4_implementation_registry_v3_1_v5_1_current",
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "a0_attempted_twice_budget_exhausted_family_runtime_not_run",
+  "status": "a0_passed_family_runtime_not_run",
   "validation": {
-    "a0_artifact_hashes": "run1 2/2 available; run2 4/4 available",
+    "a0_artifact_hashes": "run1 2/2 available; run2 4/4 available; run3 16/16 independently rehashed",
     "active_snapshot_byte_equal": true,
     "active_tests": "158/158 passed",
     "import_side_effect_audit": "7 current modules imported; no sapien/torch/cuda additions",
     "json_parse": "23/23 passed",
-    "postmortem_gpu_evidence": false,
+    "postmortem_gpu_evidence": true,
     "python_files_compiled": 87,
     "snapshot_tests": "158/158 passed"
   },
@@ -122,4 +137,3 @@
     "source_lock": "cmf_runtime_source_lock_v1"
   }
 }
-

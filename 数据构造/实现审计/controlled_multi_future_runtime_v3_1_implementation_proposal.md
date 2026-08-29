@@ -1,6 +1,6 @@
 # controlled_multi_future_runtime_v3_1 implementation proposal
 
-状态：`a0_attempted_twice_budget_exhausted_postmortem_cpu_fixed_real_unverified`。
+状态：`a0_passed_nonformal_family_scopes_not_run`。
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
@@ -81,14 +81,14 @@ CPU current：active/snapshot 131/131 tests passed，76 Python files compile pas
 
 上述V5段是历史pre-run状态，已由下面V5.1 terminal update取代。
 
-## runtime-v3_1 v5.1 terminal update
+## runtime-v3_1 v5.1 postmortem-validation update
 
 - 用户批准全部pre-Stage-0 nonformal scopes；parent authorization与六个request/budget已机器化；
 - authorization v1.2绑定parent/request/source-lock/content/budget/command，guard v2.2在消费前重新验证source lock；
 - F3/F4完整三程序runner、block/noninterference与root final-state equivalence已实现；
-- 真实A0执行2次：run1因SAPIEN sleep-state API差异失败；run2在生成pristine current/anchor后因4ms exact-float validator/native-ledger问题失败；
-- 两次cleanup/orphan/GPU release均通过，planner/control/physics均为0；
-- A0预算耗尽，F1–F4及real-root均未运行；
-- postmortem CPU修复已通过active/snapshot 158/158 tests，但无新增GPU验证。
+- 历史run1因SAPIEN sleep-state API差异失败；run2在生成pristine current/anchor后因4ms exact-float validator/native-ledger问题失败，旧证据保持不变；
+- GPT审阅postmortem修复后，用户单独批准了全新namespace下的一次A0-only验证；
+- run3完成pristine+fresh1/2/3四场景，same-current和physical-anchor均通过；planner/control/post-setup physics均为0；cleanup/orphan/GPU release和16/16 artifact重哈希均通过；
+- A0 Gate现在pass，但该授权已消费且不自动开放F1–F4；F1–F4及real-root仍未运行。
 
 Current decision=`BLOCKED_WITH_REASONS`，`new_gpu_launch_authorized=false`，`stage0_authorized=false`。

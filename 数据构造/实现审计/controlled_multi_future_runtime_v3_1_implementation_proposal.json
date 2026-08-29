@@ -1,5 +1,5 @@
 {
-  "a0_user_approval_readiness": "BLOCKED_A0_BUDGET_EXHAUSTED",
+  "a0_user_approval_readiness": "A0_PASSED_NONFORMAL",
   "approved": false,
   "cpu_validation": {
     "active_snapshot_byte_equal": true,
@@ -109,17 +109,17 @@
   },
   "hardening_v5_1_terminal": {
     "a0_budget_exhausted": true,
-    "a0_execution_count": 2,
-    "a0_pass": false,
+    "a0_execution_count": 3,
+    "a0_pass": true,
     "authorization_schema": "cmf_runtime_v3_1_gpu_authorization_v1_2",
     "family_scopes_executed": false,
     "gpu_guard_schema": "cmf_gpu_guard_v2_2",
-    "postmortem_cpu_fix_real_gpu_verified": false,
+    "postmortem_cpu_fix_real_gpu_verified": true,
     "source_lock_schema": "cmf_runtime_source_lock_v1"
   },
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
-  "next_decision": "user/GPT review of two terminal A0 failures and whether to approve a new versioned A0 budget",
+  "next_decision": "separate user/GPT review of bounded F1-F4 nonformal scopes; Stage 0 remains blocked",
   "physical_anchor_version": "physical_anchor_v2",
   "primary_action_layout": "controller_effective_setpoint_v1_layout_v2_1",
   "raw_repairs": {
@@ -137,14 +137,14 @@
     "a0_activity_schema": "cmf_a0_activity_audit_v2",
     "a0_entry_point": "controlled_multi_future/probes/a0_real_sapien_adapter_smoke.py",
     "a0_orchestrator": "A0CurrentAnchorOrchestratorV1_2",
-    "authorization_receipt_required": "cmf_runtime_v3_1_gpu_authorization_v1_1",
+    "authorization_receipt_required": "cmf_runtime_v3_1_gpu_authorization_v1_2",
     "class": "RoboTwinRealSapienPilotRootAdapterV1_2",
     "context": "RoboTwinSceneContextV1_2",
     "f1_root_entry_point": "controlled_multi_future/probes/runtime_v3_1_root_runner.py",
     "f2_f3_f4_repair_entry_point": "controlled_multi_future/probes/runtime_v3_1_family_repair_runner.py",
-    "gpu_guard_required": "cmf_gpu_guard_v2_1",
+    "gpu_guard_required": "cmf_gpu_guard_v2_2",
     "lazy_sapien_import": true,
-    "status": "concrete_static_implemented_not_run"
+    "status": "concrete_real_A0_passed_family_scopes_not_run"
   },
   "root_orchestrator_version": "real_sapien_pilot_root_orchestrator_v1_1",
   "root_p0_repairs": {
@@ -161,5 +161,5 @@
   "scientific_design_changed": false,
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "a0_attempted_twice_budget_exhausted_postmortem_cpu_fixed_real_unverified"
+  "status": "a0_passed_nonformal_family_scopes_not_run"
 }

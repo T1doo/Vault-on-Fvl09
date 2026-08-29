@@ -7,7 +7,8 @@
     "post_setup_controlled_action_limit": 0,
     "post_setup_physics_step_limit": 0,
     "post_setup_planner_query_limit": 0,
-    "real_sapien_executed": false,
+    "real_sapien_executed": true,
+    "real_sapien_pass": true,
     "scene_count": 4,
     "scene_pattern": [
       "A0_pristine",
@@ -72,15 +73,17 @@
     "timeout_seconds_per_route": 1800
   },
   "a0_user_approval_request": {
-    "approved": false,
+    "approved": true,
+    "consumed": true,
     "gpu_probe_authorized": false,
-    "path": "A0_USER_APPROVAL_REQUEST_RUNTIME_V3_1_V5.json",
-    "readiness": "READY_FOR_USER_REVIEW_BEFORE_A0"
+    "path": "USER_AUTHORIZATION_A0_POSTMORTEM_VALIDATION_20260829.json",
+    "readiness": "A0_PASSED_NONFORMAL"
   },
   "a0_execution_budget_exhausted": true,
-  "a0_real_execution_count": 2,
+  "a0_pass": true,
+  "a0_real_execution_count": 3,
   "approved": false,
-  "authorization_mechanism": "future user-approved cmf_runtime_v3_1_gpu_authorization_v1_1 receipt with atomic one-shot consumption",
+  "authorization_mechanism": "cmf_runtime_v3_1_gpu_authorization_v1_2 receipt with atomic one-shot consumption",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "device_scope_if_later_approved": "one independently fresh-idle physical fvl05 GPU0-7 per sequential job",
   "execution_guard": {
@@ -91,7 +94,7 @@
     "post_release_required": true,
     "precheck_max_age_seconds": 60,
     "scene_and_process_group_orphans_accumulated": true,
-    "schema": "cmf_gpu_guard_v2_1",
+    "schema": "cmf_gpu_guard_v2_2",
     "top_level_child_receipt_required": true,
     "uuid_and_physical_index_bound": true
   },
@@ -100,7 +103,7 @@
   "full_f3_f4_program_budget": "unresolved_and_unapproved_after_repair_gates",
   "family_gpu_probes_executed": false,
   "gpu_probe_authorized": false,
-  "implementation_revision": "runtime_v3_1_cpu_hardening_v5",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1_postmortem_validation",
   "implementation_version": "controlled_multi_future_runtime_v3_1",
   "machine_scope_budget": {
     "approved": false,
@@ -192,5 +195,5 @@
   "schema_version": "cmf_runtime_v3_1_probe_budget_proposal_v1_1",
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "blocked_a0_budget_exhausted_before_family_probe"
+  "status": "proposed_not_frozen_family_probes_not_run"
 }
