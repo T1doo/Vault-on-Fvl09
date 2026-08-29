@@ -21,6 +21,7 @@ from controlled_multi_future.real_sapien_adapter_v1_2 import (
     procedural_asset_spec_sha256,
     _runtime_sleep_state,
 )
+from controlled_multi_future.runtime_v3_1_contracts import F3_PAD_HALF_SIZE_M
 
 
 def camera_configuration(source="runtime"):
@@ -146,6 +147,13 @@ def zero_activity(timestep=0.004):
 
 
 class RealSapienAdapterV1_2StaticTest(unittest.TestCase):
+    def test_f3_pad_impact_revision_is_bound_into_asset_registry(self):
+        self.assertEqual(F3_PAD_HALF_SIZE_M, (0.11, 0.145, 0.005))
+        self.assertEqual(
+            ROLE_ASSETS_V1_2["F3"]["original_pad"]["procedural_creation"]["half_size"],
+            list(F3_PAD_HALF_SIZE_M),
+        )
+
     def test_a0_native_planner_ledger_is_initialized_without_trace(self):
         scene = type("Scene", (), {})()
         receipt = _initialize_a0_native_planner_counters(scene)

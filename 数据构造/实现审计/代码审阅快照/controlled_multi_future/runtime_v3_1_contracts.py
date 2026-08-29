@@ -37,6 +37,7 @@ STAGE0_DATA = False
 F1_TARGET_ORDER = ("red", "green", "blue")
 F1_IMPLEMENTATION_VERSION = "f1_three_branch_coverage_v3_1"
 F1_PREFIX_ID = "f1_cluster_common_pregrasp_v1_1"
+F3_PAD_HALF_SIZE_M = (0.11, 0.145, 0.005)
 
 
 def f1_branch_spec_v3_1(target_role: str) -> dict:

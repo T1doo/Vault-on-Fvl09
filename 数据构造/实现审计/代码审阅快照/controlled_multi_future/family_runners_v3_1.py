@@ -30,6 +30,7 @@ from .probes.runtime_trace import _rigid_velocity, trace_rows_to_raw_streams
 from .runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, TRAY_BASE0_SUPPORT_REGION
 from .runtime_v3_1_contracts import (
     F2_CANDIDATE_IDS,
+    F3_PAD_HALF_SIZE_M,
     F4_ROUTE_ORDER,
     classify_f3_release_dynamics_v3_1,
     minimum_f4_safe_carry_height,
@@ -804,8 +805,8 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             _pose(scene.bottle),
             _actor_half_extents(scene.bottle),
             _pose(scene.pad),
-            [-0.07, -0.07, -0.01],
-            [0.07, 0.07, 0.02],
+            [-F3_PAD_HALF_SIZE_M[0], -F3_PAD_HALF_SIZE_M[1], -0.01],
+            [F3_PAD_HALF_SIZE_M[0], F3_PAD_HALF_SIZE_M[1], 0.02],
             (0, 1),
         )
         checks = {
@@ -941,8 +942,8 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             pose,
             _actor_half_extents(scene.bottle),
             _pose(scene.pad),
-            [-0.07, -0.07, -0.01],
-            [0.07, 0.07, 0.02],
+            [-F3_PAD_HALF_SIZE_M[0], -F3_PAD_HALF_SIZE_M[1], -0.01],
+            [F3_PAD_HALF_SIZE_M[0], F3_PAD_HALF_SIZE_M[1], 0.02],
             (0, 1),
         )["pass_support_footprint"]
         if eef_target is None:

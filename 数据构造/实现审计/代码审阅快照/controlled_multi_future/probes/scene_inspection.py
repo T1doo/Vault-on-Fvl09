@@ -17,6 +17,7 @@ import yaml
 from envs._GLOBAL_CONFIGS import CONFIGS_PATH
 from envs._base_task import Base_Task
 from envs.utils import create_actor, create_box, create_visual_box, rand_create_sapien_urdf_obj
+from ..runtime_v3_1_contracts import F3_PAD_HALF_SIZE_M
 from .lifecycle import cleanup_status, initialize_cleanup_fields, managed_scene
 
 
@@ -141,7 +142,7 @@ class F3Scene(AuditScene):
     family_id = "F3"
 
     def load_actors(self):
-        self.pad = create_box(self, sapien.Pose([-0.18, -0.06, 0.745]), (0.07, 0.07, 0.005), color=(0.4, 0.4, 0.4), is_static=True, name="f3_original_pad")
+        self.pad = create_box(self, sapien.Pose([-0.18, -0.06, 0.745]), F3_PAD_HALF_SIZE_M, color=(0.4, 0.4, 0.4), is_static=True, name="f3_original_pad")
         self.bottle = create_actor(self, sapien.Pose([-0.18, -0.06, 0.785], [0, 0, 1, 0]), "001_bottle", convex=True, model_id=13)
         self.bottle.set_name("f3_main_bottle")
         self.bottle.set_mass(0.01)

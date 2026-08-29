@@ -1,0 +1,65 @@
+{
+  "attempts": [
+    {
+      "attempt_kind": "diagnosis",
+      "phase": "diagnosis",
+      "receipt": "diagnosis/receipt.json",
+      "rollout_planner_query_count": 0,
+      "status": "failed_task_physical_feasibility"
+    }
+  ],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-repair_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "repair_task_physical",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-repair_task_physical-v1_2-000002"
+    }
+  ],
+  "correction_execution_count": 0,
+  "diagnosis": {},
+  "diagnostic_execution_count": 1,
+  "elapsed_seconds": 68.27855777740479,
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "maximum_correction_execution_count": 1,
+  "next_gate": null,
+  "orphan_process_count": 0,
+  "planner_query_count_by_run": [
+    {
+      "attempt_kind": "diagnosis",
+      "planner_solvability_query_count": 0,
+      "rollout_planner_query_count": 0
+    }
+  ],
+  "program_id": "F3-VHVH",
+  "repair_probe_pass": false,
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "schema_version": "cmf_f3_conditional_repair_orchestrator_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_task_physical_feasibility"
+}

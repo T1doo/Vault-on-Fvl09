@@ -35,6 +35,7 @@ from .real_sapien_adapter_v1_1 import (
     implementation_source_sha256,
 )
 from .root_orchestrator_v1_1 import SceneHandleV1_1
+from .runtime_v3_1_contracts import F3_PAD_HALF_SIZE_M
 
 
 ADAPTER_VERSION = "RoboTwinRealSapienPilotRootAdapterV1_2"
@@ -91,7 +92,7 @@ for family, role, color in (
 
 ROLE_ASSETS_V1_2["F3"]["original_pad"]["procedural_creation"] = _procedural(
     creation_api="envs.utils.create_box",
-    half_size=(0.07, 0.07, 0.005),
+    half_size=F3_PAD_HALF_SIZE_M,
     color=(0.4, 0.4, 0.4),
     collision_enabled=True,
     visual_only=False,
