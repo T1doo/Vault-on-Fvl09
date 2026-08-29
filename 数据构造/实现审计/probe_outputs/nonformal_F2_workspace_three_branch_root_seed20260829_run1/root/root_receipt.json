@@ -1,0 +1,138 @@
+{
+  "branch_receipts": [],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-inside",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-inside-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-on",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-on-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-beside",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-beside-v1_2-000004"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 114.56001591682434,
+  "error": "not all candidates passed task/physical feasibility",
+  "error_type": "TaskPhysicalFeasibilityError",
+  "formal_data": false,
+  "freeze_call_count": 0,
+  "gpu_probe_authorized": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "planned_root_slot_spec_sha256": "39e1f56d35667b0a8c9773f4a2f669bc2688d1b7e0c3dc8a419c1e6f839cb639",
+  "planner_solvability_query_count_total": 0,
+  "planner_solvability_receipts": [],
+  "reference_capture_order": [
+    "capture_pristine_current",
+    "capture_pristine_anchor",
+    "build_declarative_programs"
+  ],
+  "schema_version": "cmf_real_sapien_root_orchestrator_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_task_physical_feasibility",
+  "task_physical_feasibility_receipts": [
+    {
+      "evidence": {
+        "beside_targets_clear_box_scale": true,
+        "beside_targets_on_table": true,
+        "can_fits_box_cavity": false,
+        "left_arm_fixed": true,
+        "relation": true,
+        "roles": true,
+        "same_object": true,
+        "scale_functional_point_exists": true
+      },
+      "failure_type": "f2_task_physical_contract",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-inside",
+      "status": "failed",
+      "task_feasible": false
+    },
+    {
+      "evidence": {
+        "beside_targets_clear_box_scale": true,
+        "beside_targets_on_table": true,
+        "can_fits_box_cavity": false,
+        "left_arm_fixed": true,
+        "relation": true,
+        "roles": true,
+        "same_object": true,
+        "scale_functional_point_exists": true
+      },
+      "failure_type": "f2_task_physical_contract",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-on",
+      "status": "failed",
+      "task_feasible": false
+    },
+    {
+      "evidence": {
+        "beside_targets_clear_box_scale": true,
+        "beside_targets_on_table": true,
+        "can_fits_box_cavity": false,
+        "left_arm_fixed": true,
+        "relation": true,
+        "roles": true,
+        "same_object": true,
+        "scale_functional_point_exists": true
+      },
+      "failure_type": "f2_task_physical_contract",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-beside",
+      "status": "failed",
+      "task_feasible": false
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 598, in run_nonformal_root\n    raise TaskPhysicalFeasibilityError(\"not all candidates passed task/physical feasibility\")\ncontrolled_multi_future.root_orchestrator_v1_1.TaskPhysicalFeasibilityError: not all candidates passed task/physical feasibility\n"
+}
