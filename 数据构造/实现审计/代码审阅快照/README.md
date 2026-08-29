@@ -8,7 +8,7 @@
 - 科学设计：`controlled_multi_future_f1_f4_v1_2`
 - 当前实现：`controlled_multi_future_runtime_v3_3`
 - 当前状态：CPU/static baseline passed；真实 runtime-v3_3 GPU scope 尚未执行；accepted roots=0；Stage 0 未授权。
-- 2026-08-29 active 与本快照各 `236/236 tests passed`，两棵 source/test 目录 `diff -qr` 无差异。
+- 2026-08-29 active 与本快照各 `237/237 tests passed`，两棵 source/test 目录 `diff -qr` 无差异。
 
 本快照不是 active source，不得从这里运行 GPU、Stage 0 或 formal collection。所有实现修改必须先发生在 active RoboTwin additive source，验证后再同步。
 

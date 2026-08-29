@@ -54,8 +54,8 @@ reference scene规划/执行一次
 ```text
 official tracked baseline = c3ddfa8b97d5519efa828b075999bd0006778e5e
 official tracked worktree = clean
-active source tests = 236/236 passed
-Vault snapshot tests = 236/236 passed
+active source tests = 237/237 passed
+Vault snapshot tests = 237/237 passed
 active/snapshot diff = byte-equal
 implementation source SHA-256 = fb51b9d4c2404fcaf130743640e9068019a22ae9a072bdc0d9cf9d1cdc4453ac
 budget SHA-256 = 31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544

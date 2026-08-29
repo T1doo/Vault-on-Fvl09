@@ -11,7 +11,7 @@ CPU/static基线已经通过，但目前仍不能启动Stage 0：runtime-v3_3尚
 - current/anchor、raw、verifier、cleanup与3/3 root finalizer；
 - F1公平planner evidence、F2动态inside与互斥layout、F3 shared-V物理Gate、F4 no-action IK与staged blocks；
 - 与冻结JSON一致的有限预算及one-shot/revision/GPU guard链；
-- active和byte-equal snapshot各`236/236 tests passed`。
+- active和byte-equal snapshot各`237/237 tests passed`。
 
 仍缺的真实证据：
 

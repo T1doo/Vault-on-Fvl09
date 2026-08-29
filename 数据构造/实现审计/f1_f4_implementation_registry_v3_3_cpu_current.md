@@ -20,4 +20,4 @@
 - GPU Guard v2_4 source-lock 后二次 fresh snapshot；
 - raw 26-D/250 Hz/N+1、actual per-role pose/velocity/contact、失败与cleanup receipts。
 
-Active与byte-equal snapshot各`236/236 tests passed`。当前 runtime-v3_3 GPU evidence=0，accepted real roots=0，Stage 0 仍未授权。
+Active与byte-equal snapshot各`237/237 tests passed`。当前 runtime-v3_3 GPU evidence=0，accepted real roots=0，Stage 0 仍未授权。
