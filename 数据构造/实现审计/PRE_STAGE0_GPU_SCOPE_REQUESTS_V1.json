@@ -1,0 +1,149 @@
+{
+  "formal_data": false,
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
+  "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+  "request_count": 6,
+  "reviewed_content_commit": "66451020575b54e90a4a06d4dd86cf783ea172d5",
+  "runs": [
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/A0_F1_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.a0_real_sapien_adapter_smoke",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/A0_F1_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "2c43d55561e8c57f5023db0e406c23e546c4d485ef483e25e07b9d67a999fc3c",
+      "family": "F1",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_A0_F1_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_A0_F1_seed20260829_run1",
+      "precondition": "CPU_v5_1_pass",
+      "scene_seed": 20260829,
+      "scope": "A0_current_anchor_smoke",
+      "scope_request_file_sha256": "1bd8553b030a4ff0875737ade0ccc0a19c98299e752a01a062a676ae816771bd",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/A0_F1_seed20260829_run1.request.json",
+      "scope_request_sha256": "e62236fae39dfcaaed1405ff47e9153b81815b85d9050474abf67366fbce10bb",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/A0_F1_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 600
+    },
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F1_real_root_integration_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.runtime_v3_1_root_runner",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F1_real_root_integration_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "81a272f79126bc9ba4bef9423a33f3116eec5a26a2a14f814d5b1ea118a05364",
+      "family": "F1",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_real_root_integration_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_real_root_integration_seed20260829_run1",
+      "precondition": "A0_pass",
+      "scene_seed": 20260829,
+      "scope": "real_sapien_root_integration_nonformal_probe",
+      "scope_request_file_sha256": "1f81bb9b3cc33cf857ed00e07a6066a96e0db28bf3d9f3e78130e70abf5e0dc7",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/F1_real_root_integration_seed20260829_run1.request.json",
+      "scope_request_sha256": "1586e14ede7082aa5bb0cfee849f3d64f795be11c9b81ac8f21f7c6ad6bb9ac5",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F1_real_root_integration_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 3600
+    },
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F1_three_branch_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F1_three_branch_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "c702ccec31901d1d34fbef81dc26fdb27646757589fe92cb844cd1e4f19d0b74",
+      "family": "F1",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_seed20260829_run1",
+      "precondition": "A0_pass",
+      "scene_seed": 20260829,
+      "scope": "F1_three_branch_nonformal_probe",
+      "scope_request_file_sha256": "b93723969e87d34524caefb3861d2a86e9c588391c0373f15d47614d6c85b4b5",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/F1_three_branch_seed20260829_run1.request.json",
+      "scope_request_sha256": "4ff361c648c1f40f65f1800da25905d5006cd85764dbc6aa4209f36f4f0306fd",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F1_three_branch_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 3600
+    },
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F2_workspace_three_branch_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F2_workspace_three_branch_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "923c34d6f5d2c85a888629d6177dc4d347e746bfc28aaf1417813bf85ee79af5",
+      "family": "F2",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F2_workspace_three_branch_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F2_workspace_three_branch_seed20260829_run1",
+      "precondition": "A0_pass",
+      "scene_seed": 20260829,
+      "scope": "F2_workspace_and_three_branch_nonformal_probe",
+      "scope_request_file_sha256": "a3a70e0e73f8bea70d696ff0b1faa64c443410262b4689a69b21f0b9be43cb95",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/F2_workspace_three_branch_seed20260829_run1.request.json",
+      "scope_request_sha256": "b8cde99e473a2bfac05d0123c19287c129107604b472f91f8d2f498563dde17c",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F2_workspace_three_branch_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 4800
+    },
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F3_release_full_program_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F3_release_full_program_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "23c89658d4be1bf949ba7ed75194a1db293b524b0032de02e9e876919323d427",
+      "family": "F3",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F3_release_full_program_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F3_release_full_program_seed20260829_run1",
+      "precondition": "A0_pass",
+      "scene_seed": 20260829,
+      "scope": "F3_release_and_full_program_nonformal_probe",
+      "scope_request_file_sha256": "9c2f4ebec47f3ee8d6ce79e32b3c64dd39029c0a8e24e311f3ed4707e098fc78",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/F3_release_full_program_seed20260829_run1.request.json",
+      "scope_request_sha256": "051e9d62ae782249b0d359debbaad8cd4aae86b1f5fb401e2226dd07712f4887",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F3_release_full_program_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 9000
+    },
+    {
+      "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.authorization.json",
+      "exact_child_command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+        "--authorization-receipt",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.authorization.json"
+      ],
+      "exact_child_command_sha256": "86c9a933287661ee3eafe339b02a50ad3ff0c3b2b26d34ffc055a52816833cab",
+      "family": "F4",
+      "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F4_common_full_program_seed20260829_run1.guard.json",
+      "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F4_common_full_program_seed20260829_run1",
+      "precondition": "A0_pass",
+      "scene_seed": 20260829,
+      "scope": "F4_common_carry_and_full_program_nonformal_probe",
+      "scope_request_file_sha256": "1587802f59957ddc8b8e47618d853c1781f54d5c7787e89143f19d1b3fbbde4e",
+      "scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.request.json",
+      "scope_request_sha256": "b1e5bf5a742861b5538bb2daeba9201cebf8a47f2643d417a18f26ef456a8205",
+      "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.source_lock.json",
+      "timeout_seconds": 20400
+    }
+  ],
+  "schema_version": "cmf_pre_stage0_gpu_scope_requests_v1",
+  "scope_requests_bundle_sha256": "7712bdec5d96789f03bc78dcb343390d6a9dc2844fa16b8a982cf4b214ea0098",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "superseded_after_A0_run1_versioned_source_repair",
+  "superseded_by": "PRE_STAGE0_GPU_SCOPE_REQUESTS_V1_1",
+  "superseded_reason": "A0 run1 exposed SAPIEN is_sleeping bool-property compatibility bug; active source changed and every unconsumed V1 request now fails source binding"
+}
+

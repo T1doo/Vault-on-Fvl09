@@ -38,7 +38,7 @@
 - `probes/action_feasibility.py`：旧 bounded repair v1，只保留历史实现，CLI 已 fail-closed 禁止重跑；
 - `probes/action_feasibility_v2.py`：runtime-v2 的 F1/F2/F3/F4 单 gate runner；runtime-v2 budget 已在 GPU1 执行并耗尽，不得重跑；
 - `probes/` 其他模块：cleanup-safe lifecycle、scene inspection、真实 trace/raw adapter、atomic GPU guard 与 synthetic pipeline dry-run；
-- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 155 tests）。
+- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 156 tests）。
 
 在 Vault 根目录复核快照测试时，需要把本目录加入 import path：
 

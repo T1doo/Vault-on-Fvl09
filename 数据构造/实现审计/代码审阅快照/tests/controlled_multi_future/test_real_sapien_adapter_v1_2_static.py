@@ -18,6 +18,7 @@ from controlled_multi_future.real_sapien_adapter_v1_2 import (
     RoboTwinSceneContextV1_2,
     _asset_hash_v1_2,
     procedural_asset_spec_sha256,
+    _runtime_sleep_state,
 )
 
 
@@ -144,6 +145,16 @@ def zero_activity(timestep=0.004):
 
 
 class RealSapienAdapterV1_2StaticTest(unittest.TestCase):
+    def test_sleep_state_supports_fvl05_bool_property_and_callable(self):
+        property_component = type("PropertyComponent", (), {"is_sleeping": True})()
+        callable_component = type("CallableComponent", (), {"is_sleeping": lambda self: False})()
+        self.assertTrue(_runtime_sleep_state(property_component))
+        self.assertFalse(_runtime_sleep_state(callable_component))
+        self.assertEqual(_runtime_sleep_state(None), "not_dynamic")
+        invalid_component = type("InvalidComponent", (), {"is_sleeping": "unknown"})()
+        with self.assertRaises(TypeError):
+            _runtime_sleep_state(invalid_component)
+
     def test_import_is_lazy_and_context_orders_monitor_after_setup_settle(self):
         module_source = inspect.getsource(inspect.getmodule(RoboTwinRealSapienPilotRootAdapterV1_2))
         prefix = module_source.split("class RoboTwinSceneContextV1_2", 1)[0]

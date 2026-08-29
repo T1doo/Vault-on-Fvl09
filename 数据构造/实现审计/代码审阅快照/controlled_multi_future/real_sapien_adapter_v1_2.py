@@ -125,6 +125,18 @@ def procedural_asset_spec_sha256(spec: Mapping[str, Any]) -> str | None:
     return hash_json(value) if isinstance(value, Mapping) else None
 
 
+def _runtime_sleep_state(dynamic: Any) -> bool | str:
+    """Normalize SAPIEN variants exposing ``is_sleeping`` as method/property."""
+
+    if dynamic is None:
+        return "not_dynamic"
+    value = getattr(dynamic, "is_sleeping", None)
+    value = value() if callable(value) else value
+    if not isinstance(value, (bool, np.bool_)):
+        raise TypeError("runtime rigid component is_sleeping must be a bool or zero-argument callable")
+    return bool(value)
+
+
 def _asset_hash_v1_2(spec: Mapping[str, Any], kind: str) -> str:
     procedural = spec.get("procedural_creation")
     if isinstance(procedural, Mapping):
@@ -391,7 +403,7 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
                 "pose": _pose(actor),
                 "linear_velocity": linear.tolist(),
                 "angular_velocity": angular.tolist(),
-                "sleep_state": bool(dynamic.is_sleeping()) if dynamic is not None else "not_dynamic",
+                "sleep_state": _runtime_sleep_state(dynamic),
                 "velocity_source": {"linear_measured": linear_measured, "angular_measured": angular_measured},
             }
         return payloads

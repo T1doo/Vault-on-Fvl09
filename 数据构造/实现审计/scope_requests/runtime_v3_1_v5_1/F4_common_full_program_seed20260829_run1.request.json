@@ -1,0 +1,91 @@
+{
+  "allowed_gpu_uuid_policy": "fresh_idle_exact_uuid_selected_by_atomic_guard",
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.authorization.json",
+  "automatic_retry": false,
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorization_consumed/runtime_v3_1_v5_1",
+  "controlled_action_limit": 9,
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.authorization.json"
+  ],
+  "exact_child_command_sha256": "86c9a933287661ee3eafe339b02a50ad3ff0c3b2b26d34ffc055a52816833cab",
+  "family": "F4",
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F4_common_full_program_seed20260829_run1.guard.json",
+  "max_invocations": 1,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F4_common_full_program_seed20260829_run1",
+  "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "family": "F4",
+    "origin": "pre_stage0_nonformal_user_authorized",
+    "seed": 20260829,
+    "slot_id": "runtime_v3_1_v5_1_F4_common_full_program_seed20260829_run1"
+  },
+  "planned_root_slot_spec_sha256": "e982fa0c2fe76f6e730165f4b8e73a0b375e671f9eb7b14dd927049780758776",
+  "planner_query_limit": 256,
+  "reviewed_content_commit": "66451020575b54e90a4a06d4dd86cf783ea172d5",
+  "scene_seed": 20260829,
+  "schema_version": "cmf_pre_stage0_gpu_scope_request_v1",
+  "scope": "F4_common_carry_and_full_program_nonformal_probe",
+  "scope_budget": {
+    "automatic_retry": false,
+    "execution_limit_per_route": 1,
+    "family": "F4",
+    "maximum_implementation_repair_revisions": 2,
+    "planner_query_limit_per_route": 16,
+    "post_common_execution_limit_per_item": 1,
+    "post_common_gate_order": [
+      "A_only",
+      "B_only",
+      "C_only",
+      "common_X_A_B_noninterference",
+      "common_X_ABC",
+      "common_X_ACB",
+      "common_X_BAC"
+    ],
+    "post_common_planner_query_limit_per_item": 32,
+    "post_common_timeout_seconds_per_item": 2400,
+    "recovery_attempt_limit": 0,
+    "route_limit": 2,
+    "route_order": [
+      "route1_minimum_height_segmented",
+      "route2_carry_neutral_fallback"
+    ],
+    "scope": "F4_common_carry_and_full_program_nonformal_probe",
+    "scope_budget_sha256": "0fbf1294deec21f22b13bfb5bf989dae0a05a750b26f79ccfa5335ecc9fe48dc",
+    "timeout_seconds_per_route": 1800,
+    "user_authorized": true
+  },
+  "scope_budget_sha256": "0fbf1294deec21f22b13bfb5bf989dae0a05a750b26f79ccfa5335ecc9fe48dc",
+  "scope_request_sha256": "b1e5bf5a742861b5538bb2daeba9201cebf8a47f2643d417a18f26ef456a8205",
+  "source_bindings": {
+    "a0_activity_monitor_sha256": "ca471bc417e68d9cab2230e5c0a2c4c78376774317d1ccfd3bbc17135f9463de",
+    "a0_orchestrator_sha256": "f73304626ba9a86e252fd9ead71a4a9a5ee36bf7b3e100b2e3d0e4814c33ff03",
+    "authorization_validator_sha256": "80c756d515990a5517e0897c4de044f6cbc02e7cec3e2c0124ef77ce2402e6fb",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "gpu_guard_sha256": "1f63292e6cf01f9bf0d4f7ba023a8b8df31cb822610f5bc93723a2f91d4f3d24",
+    "implementation_source_sha256": "e2f55555c65bbe6df61808c82f18a450fb8e3b9658872b50155e9a7e5b1bc787",
+    "real_adapter_sha256": "e25e0b64624e7c40ee30141c42f9e1de646bfe749b253f283d35f9c3742c61f7",
+    "runtime_source_lock_module_sha256": "2fc83c75e652b0d756b62b8e6382db7ed104d189901238515642ada2b45c62d6"
+  },
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1/F4_common_full_program_seed20260829_run1.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "approved_by_parent_user_authorization_pending_one_shot_issue",
+  "timeout_seconds": 20400
+}
+

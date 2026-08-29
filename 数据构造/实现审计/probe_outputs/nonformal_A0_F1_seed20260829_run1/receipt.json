@@ -1,0 +1,204 @@
+{
+  "a0_execution_authorized_by_receipt": true,
+  "activity_schema_version": "cmf_a0_activity_audit_v2",
+  "all_four_scenes_created": false,
+  "approval_request_sha256": "e62236fae39dfcaaed1405ff47e9153b81815b85d9050474abf67366fbce10bb",
+  "approved_scope": "A0_current_anchor_smoke",
+  "authorization_consumption_receipt_sha256": "63e3aa02af0b6c1ea9b6809a10322297701863c8da6365dae07806a3f0215ff0",
+  "authorization_id": "a0-f1-seed20260829-v5-1-auth1",
+  "authorization_receipt_sha256": "db3073afc544073dd3f9fd74fedb2e2b1fc4ce23aaca7656c303de9bd2a02c65",
+  "authorized_run_id": "a0-f1-seed20260829-v5-1-run1",
+  "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+  "budget_validation": {
+    "budget": {
+      "automatic_retry": false,
+      "execution_limit": 0,
+      "family": "F1",
+      "max_invocations": 1,
+      "maximum_implementation_repair_revisions": 1,
+      "post_setup_controlled_action_limit": 0,
+      "post_setup_physics_step_limit": 0,
+      "post_setup_planner_query_limit": 0,
+      "scene_count": 4,
+      "scene_pattern": [
+        "A0_pristine",
+        "A0_fresh_1",
+        "A0_fresh_2",
+        "A0_fresh_3"
+      ],
+      "scope": "A0_current_anchor_smoke",
+      "scope_budget_sha256": "9b077c1959796540dd94096000dabc9ff13dee79175c4d2d9307b83518c6ec54",
+      "timeout_seconds": 600,
+      "user_authorized": true
+    },
+    "checks": {
+      "controlled_executions": true,
+      "no_recovery": true,
+      "planner_queries": true,
+      "post_setup_physics_steps": true,
+      "scene_count": true
+    },
+    "pass": true,
+    "scope": "A0_current_anchor_smoke"
+  },
+  "controlled_action_limit": 0,
+  "elapsed_seconds": 48.19376850128174,
+  "error": "'bool' object is not callable",
+  "error_type": "TypeError",
+  "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "family": "F1",
+  "formal_data": false,
+  "gpu_guard_binding": {
+    "approval_request_sha256": "e62236fae39dfcaaed1405ff47e9153b81815b85d9050474abf67366fbce10bb",
+    "approved_scope": "A0_current_anchor_smoke",
+    "authorization_id": "a0-f1-seed20260829-v5-1-auth1",
+    "authorization_receipt_sha256": "db3073afc544073dd3f9fd74fedb2e2b1fc4ce23aaca7656c303de9bd2a02c65",
+    "authorized_run_id": "a0-f1-seed20260829-v5-1-run1",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "command_sha256": "2c43d55561e8c57f5023db0e406c23e546c4d485ef483e25e07b9d67a999fc3c",
+    "consumption_receipt_sha256": "63e3aa02af0b6c1ea9b6809a10322297701863c8da6365dae07806a3f0215ff0",
+    "controlled_action_limit": 0,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 972257,
+    "implementation_source_sha256": "e2f55555c65bbe6df61808c82f18a450fb8e3b9658872b50155e9a7e5b1bc787",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run1",
+    "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+    "physical_gpu_index": 0,
+    "physics_step_limit": 0,
+    "planned_root_slot_spec_sha256": "9e0c340e556ac5294222fed74de19c47d150843dc779e03c9d734d3dcb8b29f6",
+    "planner_query_limit": 0,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "ad9c5657e84101ed596179b625e8111a55fb610e14d7f9c9fea46b69b2eb9fa5",
+    "timeout_seconds": 600
+  },
+  "gpu_postcheck": {
+    "captured_at": "2026-08-29T12:44:40.206747+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P0",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P0",
+    "verified": true
+  },
+  "gpu_probe_authorized": true,
+  "guard_binding": {
+    "approval_request_sha256": "e62236fae39dfcaaed1405ff47e9153b81815b85d9050474abf67366fbce10bb",
+    "approved_scope": "A0_current_anchor_smoke",
+    "authorization_id": "a0-f1-seed20260829-v5-1-auth1",
+    "authorization_receipt_sha256": "db3073afc544073dd3f9fd74fedb2e2b1fc4ce23aaca7656c303de9bd2a02c65",
+    "authorized_run_id": "a0-f1-seed20260829-v5-1-run1",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "command_sha256": "2c43d55561e8c57f5023db0e406c23e546c4d485ef483e25e07b9d67a999fc3c",
+    "consumption_receipt_sha256": "63e3aa02af0b6c1ea9b6809a10322297701863c8da6365dae07806a3f0215ff0",
+    "controlled_action_limit": 0,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 972257,
+    "implementation_source_sha256": "e2f55555c65bbe6df61808c82f18a450fb8e3b9658872b50155e9a7e5b1bc787",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run1",
+    "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+    "physical_gpu_index": 0,
+    "physics_step_limit": 0,
+    "planned_root_slot_spec_sha256": "9e0c340e556ac5294222fed74de19c47d150843dc779e03c9d734d3dcb8b29f6",
+    "planner_query_limit": 0,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "ad9c5657e84101ed596179b625e8111a55fb610e14d7f9c9fea46b69b2eb9fa5",
+    "timeout_seconds": 600
+  },
+  "guard_precheck": {
+    "captured_at": "2026-08-29T12:43:48.025512+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "guard_process_group_orphan_count": 0,
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run1.guard.json",
+  "implementation_revision": "runtime_v3_1_cpu_hardening_v5_1",
+  "implementation_source_sha256": "e2f55555c65bbe6df61808c82f18a450fb8e3b9658872b50155e9a7e5b1bc787",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "orchestrator_version": "A0CurrentAnchorOrchestratorV1_2",
+  "orphan_process_count": 0,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_A0_F1_seed20260829_run1",
+  "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+  "physical_gpu_index": 0,
+  "physics_step_limit": 0,
+  "planned_root_slot_spec_sha256": "9e0c340e556ac5294222fed74de19c47d150843dc779e03c9d734d3dcb8b29f6",
+  "planner_query_limit": 0,
+  "post_setup_controlled_action_count": 0,
+  "post_setup_physics_step_count": 0,
+  "post_setup_planner_query_count": 0,
+  "purpose": "implementation_audit",
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "scene_orphan_process_count": 0,
+  "scene_pattern": [
+    "A0_pristine",
+    "A0_fresh_1",
+    "A0_fresh_2",
+    "A0_fresh_3"
+  ],
+  "scene_seed": 20260829,
+  "scenes": [
+    {
+      "activity_receipt_sha256": "238e0a829f0868ed9032bc940fec2c37892bd05abbbc393e4b1e8ca84701d2cb",
+      "anchor_sha256": null,
+      "artifact_directory": "scenes/00_A0_pristine",
+      "artifact_hashes": {
+        "artifact_hashes_path": "artifact_hashes.json",
+        "artifact_hashes_sha256": "ffcf03ed2b7cfc6a8d9c3e9bd24f9b72282b9ec205b9f66ea0b8266fac04d185",
+        "files": {
+          "activity": {
+            "path": "activity.json",
+            "sha256": "cc5392936628125022c98d68c8259cdd936408d8268e0c45b35d0275d42c56c1"
+          },
+          "anchor": {
+            "path": null,
+            "sha256": null,
+            "status": "unavailable_partial_failure"
+          },
+          "cleanup": {
+            "path": "cleanup.json",
+            "sha256": "4f00dbbec0d3c4ab4cccc2d196f4cdb2c156bee1378934983a032ea870edc59c"
+          },
+          "current": {
+            "path": null,
+            "sha256": null,
+            "status": "unavailable_partial_failure"
+          }
+        }
+      },
+      "cleanup_safety_pass": true,
+      "current_aggregate_sha256": null,
+      "orphan_process_count": 0,
+      "phase": "A0_pristine",
+      "scene_created": true,
+      "scene_instance_id": "f1-A0_pristine-v1_2-000001",
+      "status": "failed_TypeError"
+    }
+  ],
+  "schema_version": "cmf_runtime_v3_1_a0_smoke_v1_2",
+  "source_lock_receipt_sha256": "ad9c5657e84101ed596179b625e8111a55fb610e14d7f9c9fea46b69b2eb9fa5",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_A0",
+  "task_owned_orphan_pids": [],
+  "timeout_seconds": 600,
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/a0_orchestrator_v1_2.py\", line 241, in _capture_one_scene\n    current = dict(self.adapter.capture_current(handle.scene))\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/real_sapien_adapter_v1_2.py\", line 469, in capture_current\n    physical_entities = self._entity_payloads(scene)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/real_sapien_adapter_v1_2.py\", line 394, in _entity_payloads\n    \"sleep_state\": bool(dynamic.is_sleeping()) if dynamic is not None else \"not_dynamic\",\nTypeError: 'bool' object is not callable\n"
+}
