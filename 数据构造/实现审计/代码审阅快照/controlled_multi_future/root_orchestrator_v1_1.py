@@ -107,9 +107,26 @@ class RealSapienPilotRootAdapterV1_1(ABC):
         raise NotImplementedError
 
 
+def _json_compatible(value: Any) -> Any:
+    """Normalize runtime NumPy values before sealing audit JSON."""
+
+    if isinstance(value, np.ndarray):
+        return [_json_compatible(item) for item in value.tolist()]
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, Mapping):
+        return {str(key): _json_compatible(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_json_compatible(item) for item in value]
+    return value
+
+
 def _write_json(path: Path, value: Mapping[str, Any] | Sequence[Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(_json_compatible(value), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def _immutable_copy(value: Any) -> Any:

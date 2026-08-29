@@ -14,6 +14,7 @@ from controlled_multi_future.root_orchestrator_v1_1 import (
     RealSapienPilotRootAdapterV1_1,
     RealSapienPilotRootOrchestratorV1_1,
     SceneHandleV1_1,
+    _write_json,
 )
 
 
@@ -199,6 +200,28 @@ class SyntheticRootAdapterV1_1(RealSapienPilotRootAdapterV1_1):
 
 
 class RootOrchestratorV1_1Test(unittest.TestCase):
+    def test_receipt_writer_normalizes_numpy_values(self):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        path = Path(directory.name) / "receipt.json"
+        _write_json(
+            path,
+            {
+                "bool": np.bool_(True),
+                "integer": np.int64(7),
+                "float": np.float32(0.5),
+                "array": np.asarray([1, 2, 3], dtype=np.int32),
+                "nested": [np.bool_(False)],
+            },
+        )
+        import json
+
+        value = json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            value,
+            {"array": [1, 2, 3], "bool": True, "float": 0.5, "integer": 7, "nested": [False]},
+        )
+
     def run_root(self, adapter):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)

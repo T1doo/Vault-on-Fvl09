@@ -418,9 +418,9 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
             "roles": set(scene.role_actors) == expected,
             "target_role": role in ("red", "green", "blue"),
             "same_block_half_extents": all(np.allclose(_actor_half_extents(getattr(scene, name)), BLOCK_HALF_EXTENTS) for name in ("red", "green", "blue")),
-            "box_cavity_larger_than_block": np.all(
+            "box_cavity_larger_than_block": bool(np.all(
                 np.asarray(PLASTICBOX_BASE3_CAVITY["upper_m"]) - np.asarray(PLASTICBOX_BASE3_CAVITY["lower_m"]) > 2 * BLOCK_HALF_EXTENTS
-            ),
+            )),
             "initial_blocks_pairwise_separated": all(
                 np.linalg.norm(block_positions[left] - block_positions[right]) >= 0.08
                 for left in range(3)
