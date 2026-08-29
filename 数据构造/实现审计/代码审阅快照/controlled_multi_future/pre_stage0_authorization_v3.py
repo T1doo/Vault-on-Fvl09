@@ -14,6 +14,8 @@ from .probes.runtime_v3_3_authorization_v1 import (
     ALLOWED_UUID_POLICY,
     AUTHORIZATION_SCHEMA_VERSION,
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
+    CANONICAL_GPU_LEASE_DIRECTORY,
+    CANONICAL_JOB_CACHE_DIRECTORY,
     CANONICAL_REVISION_LEDGER_DIRECTORY,
     authorization_receipt_sha256,
     canonical_sha256,
@@ -28,8 +30,8 @@ from .runtime_v3_3_budget_v1 import (
 )
 
 
-PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1"
-SCOPE_REQUEST_SCHEMA_VERSION = "cmf_pre_stage0_gpu_scope_request_v3"
+PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1_1"
+SCOPE_REQUEST_SCHEMA_VERSION = "cmf_pre_stage0_gpu_scope_request_v3_1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE_PREFIX = "/nfs_share/lijunhui/"
 
@@ -63,7 +65,8 @@ def validate_parent_user_authorization(value: Mapping[str, Any]) -> dict:
         "recovery_attempts": 0,
         "maximum_new_implementation_revisions_per_family": 2,
         "maximum_full_root_execution_per_revision": 1,
-        "allowed_physical_gpu_indices": [0],
+        "allowed_physical_gpu_indices": list(range(8)),
+        "parallel_independent_jobs": True,
     }
     for key, expected in fixed.items():
         if value.get(key) != expected:
@@ -100,11 +103,30 @@ def build_scope_request(
     guard_receipt_path: str,
     output_namespace: str,
     exact_child_command: Sequence[str],
-    allowed_physical_gpu_indices: Sequence[int] = (0,),
+    allowed_physical_gpu_indices: Sequence[int] = tuple(range(8)),
+    reviewed_publication: Mapping[str, Any] | None = None,
 ) -> dict:
     parent = validate_parent_user_authorization(parent_user_authorization)
     if HEX40.fullmatch(reviewed_content_commit) is None:
         raise ValueError("reviewed_content_commit must be a full Git SHA")
+    if not isinstance(reviewed_publication, Mapping):
+        raise ValueError("scope request requires a reviewed publication receipt")
+    publication = json.loads(
+        json.dumps(
+            reviewed_publication,
+            ensure_ascii=False,
+            sort_keys=True,
+            allow_nan=False,
+        )
+    )
+    if (
+        publication.get("reviewed_content_commit") != reviewed_content_commit
+        or publication.get("origin_main") != reviewed_content_commit
+        or publication.get("vault_worktree_clean") is not True
+        or publication.get("active_snapshot_source_sha256")
+        != current_source_bindings_v3_3()["implementation_source_sha256"]
+    ):
+        raise ValueError("scope request reviewed publication binding is invalid")
     for label, value in (
         ("authorization_receipt_path", authorization_receipt_path),
         ("source_lock_receipt_path", source_lock_receipt_path),
@@ -126,8 +148,11 @@ def build_scope_request(
     elif family_revision_index is not None or revision_ledger_directory is not None:
         raise ValueError("non-root scopes cannot consume a family revision slot")
     indices = list(allowed_physical_gpu_indices)
-    if indices != [0]:
-        raise ValueError("runtime-v3_3 scope requests are restricted to physical GPU0")
+    if indices != list(range(8)):
+        raise ValueError(
+            "runtime-v3_3 scope requests must allow exactly physical GPU0-7; "
+            "the atomic Guard selects one independently fresh-idle card"
+        )
     budget = scope_budget(scope)
     if budget["family"] != family:
         raise ValueError("scope request family differs from budget")
@@ -149,6 +174,7 @@ def build_scope_request(
         "family": family,
         "scene_seed": int(scene_seed),
         "reviewed_content_commit": reviewed_content_commit,
+        "reviewed_publication": publication,
         "source_bindings": current_source_bindings_v3_3(),
         "planned_root_slot_spec": planned,
         "planned_root_slot_spec_sha256": hash_json(planned),
@@ -165,6 +191,8 @@ def build_scope_request(
         "authorization_receipt_path": authorization_receipt_path,
         "source_lock_receipt_path": source_lock_receipt_path,
         "consumption_ledger_directory": consumption_ledger_directory,
+        "gpu_lease_directory": CANONICAL_GPU_LEASE_DIRECTORY,
+        "job_cache_root_directory": CANONICAL_JOB_CACHE_DIRECTORY,
         "revision_ledger_directory": revision_ledger_directory,
         "family_revision_index": family_revision_index,
         "maximum_new_implementation_revisions_per_family": parent[
@@ -200,10 +228,25 @@ def validate_scope_request(value: Mapping[str, Any], parent: Mapping[str, Any]) 
         raise ValueError("scope request budget mismatch")
     if value.get("source_bindings") != current_source_bindings_v3_3():
         raise ValueError("scope request source bindings no longer match active source")
+    publication = value.get("reviewed_publication")
+    if (
+        not isinstance(publication, Mapping)
+        or publication.get("reviewed_content_commit")
+        != value.get("reviewed_content_commit")
+        or publication.get("origin_main") != value.get("reviewed_content_commit")
+        or publication.get("vault_worktree_clean") is not True
+        or publication.get("active_snapshot_source_sha256")
+        != value.get("source_bindings", {}).get("implementation_source_sha256")
+    ):
+        raise ValueError("scope request reviewed publication binding is invalid")
     if value.get("exact_child_command_sha256") != command_sha256(value.get("exact_child_command", [])):
         raise ValueError("scope request command hash mismatch")
     if value.get("consumption_ledger_directory") != CANONICAL_CONSUMPTION_LEDGER_DIRECTORY:
         raise ValueError("scope request consumption ledger is not canonical")
+    if value.get("gpu_lease_directory") != CANONICAL_GPU_LEASE_DIRECTORY:
+        raise ValueError("scope request GPU lease directory is not canonical")
+    if value.get("job_cache_root_directory") != CANONICAL_JOB_CACHE_DIRECTORY:
+        raise ValueError("scope request job cache root is not canonical")
     scope = value.get("scope")
     if scope in ROOT_SCOPES:
         if value.get("family_revision_index") not in (1, 2):
@@ -270,6 +313,7 @@ def issue_authorization_from_scope_request(
         "implementation_version": "controlled_multi_future_runtime_v3_3",
         "implementation_revision": "runtime_v3_3_strict_prefix_common_v1",
         "reviewed_content_commit": request["reviewed_content_commit"],
+        "reviewed_publication": request.get("reviewed_publication"),
         **request["source_bindings"],
         "parent_user_authorization_sha256": parent["parent_user_authorization_sha256"],
         "approval_request_schema_version": request["schema_version"],
@@ -281,6 +325,8 @@ def issue_authorization_from_scope_request(
         "consumption_ledger_directory": request[
             "consumption_ledger_directory"
         ],
+        "gpu_lease_directory": request["gpu_lease_directory"],
+        "job_cache_root_directory": request["job_cache_root_directory"],
         "source_lock_receipt_sha256": source_lock["source_lock_receipt_sha256"],
         "approved": True,
         "approved_scopes": [request["scope"]],

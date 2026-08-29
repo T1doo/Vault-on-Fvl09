@@ -1,31 +1,40 @@
 {
   "accepted_real_roots": 0,
-  "budget_receipt_sha256": "31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544",
+  "budget_receipt_sha256": "68cee0949ccb6d87bef5255560bf32737d0d79dc803dfd92ac71d1098cad5d2c",
   "common_runtime": {
     "adapter": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
     "canonical_prefix_artifact": "cmf_canonical_prefix_artifact_v1",
     "canonical_prefix_array_schema": "cmf_canonical_prefix_arrays_v1_1",
     "canonical_prefix_replay": "cmf_canonical_prefix_replay_v1",
     "frozen_suffix_artifact": "cmf_frozen_suffix_artifact_v1",
-    "gpu_guard": "cmf_gpu_guard_v2_4",
+    "gpu_guard": "cmf_gpu_guard_v2_4_1",
+    "gpu_policy": "physical_GPU0_7_each_fresh_idle_one_job_per_card_parallel_independent_namespaces",
+    "planner_api_accounting": "official_batch_API_calls_and_chain_calls_all_receipted",
     "root_orchestrator": "cmf_real_sapien_strict_prefix_root_orchestrator_v1_2",
     "scope_runner": "cmf_runtime_v3_3_guarded_scope_receipt_v1"
   },
   "current_family_status": {
     "F1": {
+      "accepted_root": false,
       "arm": "left",
       "assets": [
         "project RGB blocks red/green/blue",
         "062_plasticbox/base3"
       ],
-      "cpu_status": "implemented_and_tested_gpu_planner_root_pending",
+      "cpu_status": "revision2_uniform_carry_hub_and_complete_planner_accounting_implemented_tested",
+      "latest_runtime_namespace": "nonformal_runtime_v3_3_f1_strict_prefix_root_seed20260829_revision1_run1",
+      "latest_runtime_receipt": "probe_outputs/nonformal_runtime_v3_3_f1_strict_prefix_root_seed20260829_revision1_run1/root/root_receipt.json",
+      "latest_runtime_receipt_file_sha256": "d009c7b9df22892fb32c343c7b60754ce72c4dde28b258445eb7707dd4c88112",
+      "revision1_runtime_status": "consumed_failed_blue_safe_vertical_red_green_planner_pass_execution_zero",
+      "revision1_recorded_vs_posthoc_planner_api_calls": "26_recorded_38_posthoc_after_hidden_batch_audit",
       "programs": [
         "F1-red",
         "F1-green",
         "F1-blue"
       ],
-      "repair": "one uniform top-down grasp and 4cm+4cm lift rule",
-      "runtime_gate": "3/3 planner suffixes with terminal qpos/joint margin/waypoint clearance, then 3/3 execution"
+      "repair": "same planner-assisted top-down grasp and 4cm+4cm lift; uniform frozen-cluster carry hub before unchanged 1.02m height; no blue-specific branch",
+      "revision2_remaining_runs": 1,
+      "runtime_gate": "source-distinct revision2 only; 3/3 planner suffixes with fully accounted API calls, then 3/3 fresh execution; any failure makes F1 terminal"
     },
     "F2": {
       "arm": "left",
@@ -87,17 +96,23 @@
   },
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "formal_data": false,
-  "implementation_source_sha256": "fd26a46fbb631e060b3ccb19359c4cfb11fdbd1d04425c0af452db08610ebe0c",
+  "cpu_tests": {
+    "active": "256/256 passed",
+    "snapshot": "256/256 passed",
+    "source_and_tests_byte_equal": true
+  },
+  "implementation_source_sha256": "40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "latest_runtime_evidence": "F4_CUBE_GRASP_NO_ACTION_IK_RUNTIME_V3_3_FINAL_PASS_REPORT_20260829.json",
+  "latest_runtime_evidence": "F1_STRICT_PREFIX_ROOT_RUNTIME_V3_3_REVISION1_FAILURE_REPORT_20260829.json",
   "runtime_milestones": [
     "CANONICAL_PREFIX_REAL_SMOKE_RUNTIME_V3_3_EXECUTION_REPORT_20260829.json",
-    "F4_CUBE_GRASP_NO_ACTION_IK_RUNTIME_V3_3_FINAL_PASS_REPORT_20260829.json"
+    "F4_CUBE_GRASP_NO_ACTION_IK_RUNTIME_V3_3_FINAL_PASS_REPORT_20260829.json",
+    "F1_STRICT_PREFIX_ROOT_RUNTIME_V3_3_REVISION1_FAILURE_REPORT_20260829.json"
   ],
   "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
   "schema_version": "cmf_f1_f4_implementation_registry_v3_3_cpu_current",
   "stage0_authorized": false,
   "stage0_data": false,
-  "status": "canonical_prefix_smoke_and_f4_final_layout_no_action_ik_passed_family_roots_pending",
+  "status": "f1_revision1_failed_revision2_cpu_ready_f2_f3_f4_roots_pending",
   "supersedes_current_status_only": "f1_f4_implementation_registry_v3_2_current.json"
 }

@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 from pathlib import Path
+import subprocess
 from typing import Sequence
 
 from .pre_stage0_authorization_v3 import (
@@ -14,6 +17,7 @@ from .pre_stage0_authorization_v3 import (
 from .probes.runtime_v3_3_authorization_v1 import (
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
     CANONICAL_REVISION_LEDGER_DIRECTORY,
+    current_source_bindings_v3_3,
 )
 from .runtime_source_lock_v1 import capture_runtime_source_lock, write_runtime_source_lock
 from .runtime_v3_3_budget_v1 import ROOT_SCOPES, SCOPE_FAMILIES, scope_budget
@@ -23,7 +27,8 @@ from .runtime_v3_3_scope_specs_v1 import planned_scope_spec
 VAULT_ROOT = Path("/nfs_share/lijunhui/Vault-on-Fvl09")
 AUDIT_ROOT = VAULT_ROOT / "数据构造/实现审计"
 PARENT_AUTHORIZATION = (
-    AUDIT_ROOT / "USER_AUTHORIZATION_RUNTIME_V3_3_PRE_STAGE0_WORK_20260829.json"
+    AUDIT_ROOT
+    / "USER_AUTHORIZATION_RUNTIME_V3_3_PRE_STAGE0_WORK_GPU0_7_20260829.json"
 )
 PYTHON_EXECUTABLE = Path("/nfs_share/lijunhui/Robotwin2/env/bin/python")
 
@@ -33,10 +38,61 @@ def _write_new(path: Path, value) -> None:
     if path.exists():
         raise FileExistsError(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    data = (
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    ).encode("utf-8")
+    fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    with os.fdopen(fd, "wb") as handle:
+        os.fchmod(fd, 0o600)
+        handle.write(data)
+        handle.flush()
+        os.fsync(fd)
+
+
+def _git(*args: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(VAULT_ROOT), *args],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
     )
+    return completed.stdout.strip()
+
+
+def _python_tree_sha256(root: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(root.rglob("*.py")):
+        relative = path.relative_to(root).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def _validate_reviewed_publication(reviewed_content_commit: str) -> dict:
+    head = _git("rev-parse", "HEAD")
+    origin = _git("rev-parse", "origin/main")
+    status = _git("status", "--porcelain")
+    if reviewed_content_commit != head or head != origin or status:
+        raise ValueError(
+            "reviewed content commit must equal clean published Vault HEAD and origin/main"
+        )
+    _git("cat-file", "-e", f"{reviewed_content_commit}^{{commit}}")
+    snapshot = AUDIT_ROOT / "代码审阅快照/controlled_multi_future"
+    if not snapshot.is_dir():
+        raise ValueError("byte-equal controlled_multi_future review snapshot is missing")
+    snapshot_sha = _python_tree_sha256(snapshot)
+    active_sha = current_source_bindings_v3_3()["implementation_source_sha256"]
+    if snapshot_sha != active_sha:
+        raise ValueError("published review snapshot differs from active implementation source")
+    return {
+        "reviewed_content_commit": reviewed_content_commit,
+        "origin_main": origin,
+        "vault_worktree_clean": True,
+        "active_snapshot_source_sha256": active_sha,
+    }
 
 
 def build_scope_bundle(
@@ -49,13 +105,14 @@ def build_scope_bundle(
     revision_index: int | None = None,
     validity_seconds: int = 3600,
 ) -> dict:
+    publication = _validate_reviewed_publication(reviewed_content_commit)
     family = SCOPE_FAMILIES[scope]
     if scope in ROOT_SCOPES and revision_index not in (1, 2):
         raise ValueError("root scope bundle requires revision_index 1 or 2")
     if scope not in ROOT_SCOPES and revision_index is not None:
         raise ValueError("non-root scope bundle cannot consume a revision")
     parent = load_parent_user_authorization(PARENT_AUTHORIZATION)
-    group = "runtime_v3_3_v1_gpu0"
+    group = "runtime_v3_3_v1_1_gpu0_7"
     request_path = AUDIT_ROOT / "scope_requests" / group / f"{namespace_id}.request.json"
     lock_path = AUDIT_ROOT / "source_locks" / group / f"{namespace_id}.source_lock.json"
     auth_path = AUDIT_ROOT / "authorizations" / group / f"{namespace_id}.authorization.json"
@@ -95,7 +152,8 @@ def build_scope_bundle(
         guard_receipt_path=str(guard_path),
         output_namespace=str(output_namespace),
         exact_child_command=child_command,
-        allowed_physical_gpu_indices=[0],
+        allowed_physical_gpu_indices=list(range(8)),
+        reviewed_publication=publication,
     )
     source_lock = capture_runtime_source_lock(family=family)
     _write_new(request_path, request)
@@ -115,6 +173,7 @@ def build_scope_bundle(
         "family": family,
         "namespace_id": namespace_id,
         "reviewed_content_commit": reviewed_content_commit,
+        "reviewed_publication": publication,
         "request_path": str(request_path),
         "request_sha256": request["scope_request_sha256"],
         "source_lock_path": str(lock_path),
@@ -124,7 +183,7 @@ def build_scope_bundle(
         "guard_path": str(guard_path),
         "output_namespace": str(output_namespace),
         "child_command": list(child_command),
-        "physical_gpu_indices": [0],
+        "physical_gpu_indices": list(range(8)),
         "timeout_seconds": scope_budget(scope)["timeout_seconds"],
         "formal_data": False,
         "stage0_data": False,

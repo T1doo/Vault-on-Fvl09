@@ -9,11 +9,14 @@ from controlled_multi_future.pre_stage0_authorization_v3 import (
     build_scope_request,
     issue_authorization_from_scope_request,
     load_parent_user_authorization,
+    validate_scope_request,
 )
 from controlled_multi_future.probes.runtime_v3_3_authorization_v1 import (
     AuthorizationBindingError,
     authorization_receipt_sha256,
+    canonical_sha256,
     consume_authorization_once,
+    current_source_bindings_v3_3,
     validate_authorization_v3_3,
 )
 from controlled_multi_future.runtime_source_lock_v1 import (
@@ -24,9 +27,20 @@ from controlled_multi_future.runtime_source_lock_v1 import (
 
 PARENT = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_PRE_STAGE0_WORK_20260829.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_PRE_STAGE0_WORK_GPU0_7_20260829.json"
 )
 TMP_ROOT = Path("/nfs_share/lijunhui/Robotwin2/tmp")
+
+
+def reviewed_publication(commit="a" * 40):
+    return {
+        "reviewed_content_commit": commit,
+        "origin_main": commit,
+        "vault_worktree_clean": True,
+        "active_snapshot_source_sha256": current_source_bindings_v3_3()[
+            "implementation_source_sha256"
+        ],
+    }
 
 
 def root_authorization(*, auth_id, source_hash, seed=17, revision=1):
@@ -54,7 +68,7 @@ def root_authorization(*, auth_id, source_hash, seed=17, revision=1):
 
 
 class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
-    def test_parent_and_scope_request_bind_gpu0_budget_source_and_revision(self):
+    def test_parent_and_scope_request_bind_gpu0_7_budget_source_and_revision(self):
         parent = load_parent_user_authorization(PARENT)
         planned = {
             "slot_id": "f1-root-a",
@@ -83,15 +97,23 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
             output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
             exact_child_command=["python", "-m", "controlled_multi_future.probes.runtime_v3_3_scope_runner"],
-            allowed_physical_gpu_indices=[0],
+            allowed_physical_gpu_indices=list(range(8)),
+            reviewed_publication=reviewed_publication(),
         )
         self.assertEqual(request["family_revision_index"], 1)
-        self.assertEqual(request["allowed_physical_gpu_indices"], [0])
+        self.assertEqual(request["allowed_physical_gpu_indices"], list(range(8)))
         self.assertEqual(request["scope_budget"]["planner_query_limit"], 64)
         self.assertIn("root_orchestrator_sha256", request["source_bindings"])
-        for changed in ([1], [0, 1]):
+        tampered_publication = copy.deepcopy(request)
+        tampered_publication["reviewed_publication"]["origin_main"] = "b" * 40
+        unsigned = dict(tampered_publication)
+        unsigned.pop("scope_request_sha256")
+        tampered_publication["scope_request_sha256"] = canonical_sha256(unsigned)
+        with self.assertRaisesRegex(ValueError, "reviewed publication"):
+            validate_scope_request(tampered_publication, parent)
+        for changed in ([0], [1], list(range(7)), list(range(9))):
             with self.subTest(changed=changed), self.assertRaisesRegex(
-                ValueError, "GPU0"
+                ValueError, "GPU0-7"
             ):
                 build_scope_request(
                     parent_user_authorization=parent,
@@ -113,6 +135,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
                     exact_child_command=["python", "child.py"],
                     allowed_physical_gpu_indices=changed,
+                    reviewed_publication=reviewed_publication(),
                 )
 
     def test_canonical_one_shot_and_two_revision_ledger_are_fail_closed(self):
@@ -200,7 +223,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 guard_receipt_path=str(directory / "guard.json"),
                 output_namespace=str(directory / "output"),
                 exact_child_command=["python", "child.py"],
-                allowed_physical_gpu_indices=[0],
+                allowed_physical_gpu_indices=list(range(8)),
+                reviewed_publication=reviewed_publication("d" * 40),
             )
             request_path.write_text(
                 json.dumps(request, indent=2, sort_keys=True) + "\n",

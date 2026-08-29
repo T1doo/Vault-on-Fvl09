@@ -7,7 +7,7 @@ import json
 from typing import Any, Mapping
 
 
-BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1"
+BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1_1"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
 SUPPORTED_SCOPES = (
     "canonical_prefix_real_smoke",
@@ -83,19 +83,19 @@ STATIC_SCOPE_ACTIVITY_ENVELOPES = {
         "execution_attempt_count": 0,
     },
     "F1_planner_root_per_revision": {
-        "planner_query_count": 31,
+        "planner_query_count": 46,
         "execution_attempt_count": 3,
     },
     "F2_diagnosis_root_per_revision": {
-        "planner_query_count": 19,
+        "planner_query_count": 35,
         "execution_attempt_count": 3,
     },
     "F3_prefix_root_per_revision": {
-        "planner_query_count": 47,
+        "planner_query_count": 55,
         "execution_attempt_count": 3,
     },
     "F4_block_root_per_revision": {
-        "planner_query_count": 102,
+        "planner_query_count": 138,
         "execution_attempt_count": 7,
     },
 }
@@ -119,7 +119,7 @@ def budget_artifact() -> dict:
         "stage0_authorized": False,
         "formal_data": False,
         "stage0_data": False,
-        "allowed_physical_gpu_indices": [0],
+        "allowed_physical_gpu_indices": list(range(8)),
         "automatic_retry": False,
         "recovery_attempts": 0,
         "maximum_new_implementation_revisions_per_family": 2,
@@ -227,9 +227,25 @@ def validate_runtime_receipt_against_budget(
         <= execution_limit,
         "no_recovery": normalized_counts["recovery_attempt_count"] == 0,
     }
+    static = validate_static_scope_activity_envelope(scope)[
+        "source_bound_static_envelope"
+    ]
+    checks.update(
+        {
+            "planner_within_source_bound_static_envelope": normalized_counts[
+                "planner_query_count"
+            ]
+            <= static["planner_query_count"],
+            "execution_within_source_bound_static_envelope": normalized_counts[
+                "execution_attempt_count"
+            ]
+            <= static["execution_attempt_count"],
+        }
+    )
     result = {
         "scope": scope,
         "budget": scope_budget(scope),
+        "source_bound_static_envelope": static,
         "checks": checks,
         "pass": all(checks.values()),
     }

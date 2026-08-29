@@ -1,0 +1,100 @@
+{
+  "accepted_root": false,
+  "authorization": {
+    "authorization_file_sha256": "c65f7c17db26db9042c64718eb71d6a2c49bf6cb673761611cc03dbdf0f37a96",
+    "authorization_receipt_sha256": "b45652f07b8c85d0718bb826895850b2836bdb7a299305a4bbe7cae590ceec99",
+    "consumption_receipt_sha256": "ea43577a05308900a057258f148a9ffe6d4939b0e310ae8e476a3bc0b96108ff",
+    "family_revision_receipt_sha256": "29a840883e958864262aacafbd1713780f554f6716717ef3c6a8145603433d09",
+    "reviewed_content_commit": "7243c104544190dc10b9189844c4aea90bc6e05a"
+  },
+  "blue_failure": {
+    "end_qpos_sha256": "6187143e8d5cfda6a3c8dbdc134b42008b3ef0db80349fe8f48ec44b942ddf1d",
+    "failure_type": "chained_suffix_planner_failure",
+    "goal_eef_pose": [
+      -0.020001438791848725,
+      0.008022647205277091,
+      1.02,
+      0.5243617621969696,
+      -0.4743934205355519,
+      0.47438779701596556,
+      0.5243585061201992
+    ],
+    "planner_query_count": 5,
+    "segment_id": "safe_vertical",
+    "start_qpos_sha256": "6187143e8d5cfda6a3c8dbdc134b42008b3ef0db80349fe8f48ec44b942ddf1d",
+    "successful_segments_before_failure": [
+      "target_pregrasp",
+      "target_grasp",
+      "target_lift_mid",
+      "target_lift"
+    ]
+  },
+  "budget": {
+    "automatic_retry": false,
+    "branch_suffix_execution_attempt_count": 0,
+    "canonical_prefix_reference_execution_count": 1,
+    "internal_grasp_pose_candidate_slots_posthoc": 120,
+    "planner_api_calls_posthoc_total": 38,
+    "planner_query_limit": 64,
+    "recorded_planner_query_count": 26,
+    "recovery_attempt_count": 0,
+    "unrecorded_grasp_selection_batch_api_calls_posthoc": 12
+  },
+  "common_prefix": {
+    "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+    "artifact_sha256": "8d3fb06d707ce3755647e2dbfae791c47ba89aeaa786cb428470190dc2b9ec12",
+    "current_sha256": "fc5ae89f00263184591e3bb3121eb84c1038ce44156f948f0b41a0872195661c",
+    "prefix_action_sha256": "22f8c7c2f1066672c715df94abc79636915b6406dd6046e6fbb6a8d132395069",
+    "prefix_step_count": 793,
+    "replay_planner_delta": 0,
+    "target_role_visible_during_prefix": false
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "evidence_file_sha256": {
+    "blue_receipt": "aa517105b34a31240f167ef6e0e3a61bd1aac918413b924349b7ce6e77d7f2b3",
+    "guard": "d3cb74cb74c0841995450bc96f114b19fae8f6cfb3ad5c4c03dac9c378cf373c",
+    "outer_receipt": "7b015783d5a54e27596a4681ebda58d1483f3e2c3a78900f141311aa730bc2b7",
+    "request": "8e45eae7b8e558821aee043680e6b0ac2eae884bb48f2dc4a70f51702551fe57",
+    "root_receipt": "d009c7b9df22892fb32c343c7b60754ce72c4dde28b258445eb7707dd4c88112",
+    "source_lock": "d9054d271f044da2e4e949a39cab99070d850e64aa7e763b140bd2264bee5fcb"
+  },
+  "formal_data": false,
+  "guard": {
+    "child_exit_code": 1,
+    "cleanup_scene_count": 8,
+    "cleanup_safety_pass": true,
+    "orphan_process_count": 0,
+    "physical_gpu_index": 0,
+    "post_release_verified": true,
+    "timed_out": false,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "implementation_source_sha256": "fd26a46fbb631e060b3ccb19359c4cfb11fdbd1d04425c0af452db08610ebe0c",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "namespace": "nonformal_runtime_v3_3_f1_strict_prefix_root_seed20260829_revision1_run1",
+  "per_role": {
+    "blue": {
+      "planner_query_count_recorded": 5,
+      "planner_solvable": false,
+      "status": "failed"
+    },
+    "green": {
+      "minimum_terminal_joint_limit_margin_rad": 0.0026252232491970062,
+      "planner_query_count_recorded": 10,
+      "planner_solvable": true,
+      "status": "passed",
+      "terminal_qpos_sha256": "f77122a48dd6816f96e1d3b1df54dd6906875516ae6b278768d4f32846307938"
+    },
+    "red": {
+      "minimum_terminal_joint_limit_margin_rad": 0.0026252232491970062,
+      "planner_query_count_recorded": 10,
+      "planner_solvable": true,
+      "status": "passed",
+      "terminal_qpos_sha256": "f77122a48dd6816f96e1d3b1df54dd6906875516ae6b278768d4f32846307938"
+    }
+  },
+  "schema_version": "cmf_f1_strict_prefix_root_revision1_failure_report_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "FAILED_PLANNER_BLUE_SAFE_VERTICAL"
+}

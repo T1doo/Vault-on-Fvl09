@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import signal
 import subprocess
+import tempfile
 import time
 from typing import Any, Mapping, Sequence
 
@@ -64,7 +65,26 @@ def command_sha256(command: Sequence[str]) -> str:
 
 def write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    data = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    fd, temporary = tempfile.mkstemp(
+        prefix=f".{path.name}.tmp.", dir=str(path.parent)
+    )
+    temporary_path = Path(temporary)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            os.fchmod(handle.fileno(), 0o600)
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, path)
+        directory_fd = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+    finally:
+        if temporary_path.exists():
+            temporary_path.unlink()
 
 
 def build_guard_binding(
@@ -218,6 +238,7 @@ def update_child_receipt_v2_1(
     orphan_pids: Sequence[int],
     post_release: Mapping[str, Any],
     post_error: Mapping[str, Any] | None = None,
+    additional_cleanup_audit: Mapping[str, Any] | None = None,
 ) -> bool:
     child_path = Path(output_dir) / "receipt.json"
     if not child_path.is_file():
@@ -233,11 +254,21 @@ def update_child_receipt_v2_1(
     payload["orphan_process_count"] = scene_orphans + len(orphan_pids)
     payload["task_owned_orphan_pids"] = list(orphan_pids)
     payload["guard_receipt"] = str(guard_path)
+    payload["guard_additional_cleanup_audit"] = (
+        dict(additional_cleanup_audit)
+        if isinstance(additional_cleanup_audit, Mapping)
+        else None
+    )
+    additional_cleanup_pass = bool(
+        additional_cleanup_audit is None
+        or additional_cleanup_audit.get("pass") is True
+    )
     if (
         payload["orphan_process_count"]
         or post_error is not None
         or post_release.get("verified") is not True
         or (payload.get("scene_created") and not payload.get("scene_cleanup_succeeded"))
+        or not additional_cleanup_pass
     ):
         payload["status"] = "failed_cleanup_uncertain"
     write_json(child_path, payload)

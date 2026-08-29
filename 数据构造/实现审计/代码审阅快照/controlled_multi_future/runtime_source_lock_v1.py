@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 import hashlib
 import importlib.metadata
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -311,10 +312,22 @@ def write_runtime_source_lock(path: Path, receipt: Mapping[str, Any]) -> None:
     if not path.is_absolute() or not str(path).startswith(str(WORKSPACE_ROOT) + "/"):
         raise SourceLockError("source lock output must stay in the workspace")
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(receipt, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + "\n",
-        encoding="utf-8",
-    )
+    data = (
+        json.dumps(
+            receipt,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+            allow_nan=False,
+        )
+        + "\n"
+    ).encode("utf-8")
+    fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    with os.fdopen(fd, "wb") as handle:
+        os.fchmod(fd, 0o600)
+        handle.write(data)
+        handle.flush()
+        os.fsync(fd)
 
 
 def load_runtime_source_lock(path: Path, *, expected_family: str) -> dict:

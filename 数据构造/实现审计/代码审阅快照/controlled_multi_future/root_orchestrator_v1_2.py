@@ -315,6 +315,12 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     prefix_runtime["planner_query_count"] = int(
                         getattr(scene, "planner_query_count", 0)
                     ) - planner_before
+                if len(result["planner_query_receipts"]) != int(
+                    prefix_runtime["planner_query_count"]
+                ):
+                    raise PrefixArtifactError(
+                        "canonical-prefix planner API count differs from its receipt table"
+                    )
                 if hasattr(scene, "save_trace"):
                     trace_path = output_dir / "canonical_prefix_reference_trace.npz"
                     info = dict(scene.save_trace(trace_path))
@@ -474,6 +480,12 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         suffix_runtime["planner_query_count"] = int(
                             getattr(scene, "planner_query_count", 0)
                         ) - planner_before
+                    if suffix["planner_query_count"] != int(
+                        suffix_runtime["planner_query_count"]
+                    ):
+                        raise SuffixPlannerError(
+                            "suffix planner API count differs from its reported count"
+                        )
                     if (
                         suffix["actual_prefix_end_qpos_sha256"]
                         != replay["actual_prefix_end_qpos_sha256"]
@@ -563,11 +575,6 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         output_dir / "suffix_artifacts" / program_id
                     )
 
-            if not suffix_all_pass:
-                terminal = "failed_planner"
-                raise SuffixPlannerError(
-                    "not all three suffix planners passed from actual replay-end qpos"
-                )
             family_suffix_gate = dict(
                 self.adapter.validate_family_suffix_gate(
                     receipt["suffix_planner_receipts"]
@@ -575,6 +582,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             )
             receipt["family_suffix_gate"] = family_suffix_gate
             _write_json(output_dir / "family_suffix_gate.json", family_suffix_gate)
+            if not suffix_all_pass:
+                terminal = "failed_planner"
+                raise SuffixPlannerError(
+                    "not all three suffix planners passed from actual replay-end qpos"
+                )
             if family_suffix_gate.get("pass") is not True:
                 terminal = "failed_family_suffix_gate"
                 raise SuffixPlannerError("family comparative suffix Gate failed")
@@ -931,6 +943,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             ),
             "recovery_attempt_count": 0,
         }
+        self._append_event(
+            {
+                "event": "root_terminal",
+                "status": terminal,
+                "budget_counts": receipt["budget_counts"],
+                "branch_receipt_count": len(receipt["branch_receipts"]),
+            }
+        )
+        if self._event_log_path.is_file():
+            receipt["append_only_event_log_sha256"] = hashlib.sha256(
+                self._event_log_path.read_bytes()
+            ).hexdigest()
         receipt["elapsed_seconds"] = time.time() - started
         _write_json(output_dir / "root_receipt.json", receipt)
         return receipt

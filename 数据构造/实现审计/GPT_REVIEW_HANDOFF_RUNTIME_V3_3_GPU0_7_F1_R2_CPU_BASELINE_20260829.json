@@ -1,0 +1,54 @@
+{
+  "accepted_nonformal_roots": {
+    "F1": 0,
+    "F2": 0,
+    "F3": 0,
+    "F4": 0
+  },
+  "cpu_tests": {
+    "active": "256/256 passed",
+    "active_snapshot_byte_equal": true,
+    "snapshot": "256/256 passed"
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "f1_revision1": {
+    "branch_suffix_execution_count": 0,
+    "failure_segment": "blue.safe_vertical",
+    "posthoc_complete_planner_api_calls": 38,
+    "recorded_planner_calls": 26,
+    "status": "failed_planner"
+  },
+  "f1_revision2": {
+    "gpu_run_count": 0,
+    "planner_api_call_envelope": 46,
+    "remaining_full_root_runs": 1,
+    "repair_version": "f1_uniform_carry_hub_v2",
+    "status": "cpu_implemented_tested_not_yet_authorized"
+  },
+  "formal_data": false,
+  "gpu_policy": {
+    "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+    "budget_receipt_sha256": "68cee0949ccb6d87bef5255560bf32737d0d79dc803dfd92ac71d1098cad5d2c",
+    "one_job_per_card": true,
+    "parallel_independent_jobs": true,
+    "per_gpu_atomic_lease": true,
+    "per_job_mutable_cache_isolation": true
+  },
+  "implementation_source_sha256": "40e2ef209ba407e44cdf952637d4725b57daa8194f9cde0cd7ab6d6b2cfaf037",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "next_scopes_after_publication": [
+    "F1 revision-2",
+    "F2 revision-1",
+    "F3 revision-1",
+    "F4 staged Gate + revision-1"
+  ],
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "pi0_5_started": false,
+  "schema_version": "cmf_gpt_review_handoff_runtime_v3_3_gpu0_7_f1_r2_cpu_baseline_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "training_started": false
+}

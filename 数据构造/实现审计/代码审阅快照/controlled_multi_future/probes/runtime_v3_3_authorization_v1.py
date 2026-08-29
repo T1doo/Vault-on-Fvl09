@@ -22,8 +22,8 @@ from ..runtime_v3_3_budget_v1 import (
 )
 
 
-AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1"
-CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1"
+AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_1"
+CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_1"
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
 IMPLEMENTATION_REVISION = "runtime_v3_3_strict_prefix_common_v1"
@@ -34,6 +34,12 @@ CANONICAL_CONSUMPTION_LEDGER_DIRECTORY = (
 )
 CANONICAL_REVISION_LEDGER_DIRECTORY = (
     "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
+)
+CANONICAL_GPU_LEASE_DIRECTORY = (
+    "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases"
+)
+CANONICAL_JOB_CACHE_DIRECTORY = (
+    "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches"
 )
 SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
@@ -213,6 +219,16 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("reviewed_content_commit must be a full Git SHA")
     if expected_reviewed_content_commit is not None and reviewed_commit != expected_reviewed_content_commit:
         raise AuthorizationBindingError("reviewed content commit mismatch")
+    publication = receipt.get("reviewed_publication")
+    if (
+        not isinstance(publication, Mapping)
+        or publication.get("reviewed_content_commit") != reviewed_commit
+        or publication.get("origin_main") != reviewed_commit
+        or publication.get("vault_worktree_clean") is not True
+        or publication.get("active_snapshot_source_sha256")
+        != receipt.get("implementation_source_sha256")
+    ):
+        raise AuthorizationBindingError("reviewed publication binding is invalid")
     for key in (
         "parent_user_authorization_sha256",
         "approval_request_sha256",
@@ -232,6 +248,7 @@ def validate_authorization_v3_3(
 
     request_receipt_bindings = {
         "family": "family",
+        "reviewed_publication": "reviewed_publication",
         "scene_seed": "scene_seed",
         "planned_root_slot_spec": "planned_root_slot_spec",
         "planned_root_slot_spec_sha256": "planned_root_slot_spec_sha256",
@@ -248,6 +265,8 @@ def validate_authorization_v3_3(
         "source_lock_receipt_path": "source_lock_receipt_path",
         "guard_receipt_path": "guard_receipt_path",
         "consumption_ledger_directory": "consumption_ledger_directory",
+        "gpu_lease_directory": "gpu_lease_directory",
+        "job_cache_root_directory": "job_cache_root_directory",
         "revision_ledger_directory": "revision_ledger_directory",
         "family_revision_index": "family_revision_index",
         "maximum_new_implementation_revisions_per_family": "maximum_new_implementation_revisions_per_family",
@@ -260,6 +279,10 @@ def validate_authorization_v3_3(
             )
     if receipt.get("consumption_ledger_directory") != CANONICAL_CONSUMPTION_LEDGER_DIRECTORY:
         raise AuthorizationBindingError("authorization consumption ledger is not canonical")
+    if receipt.get("gpu_lease_directory") != CANONICAL_GPU_LEASE_DIRECTORY:
+        raise AuthorizationBindingError("authorization GPU lease directory is not canonical")
+    if receipt.get("job_cache_root_directory") != CANONICAL_JOB_CACHE_DIRECTORY:
+        raise AuthorizationBindingError("authorization job cache root is not canonical")
 
     bindings = current_source_bindings_v3_3()
     for key, expected in bindings.items():
@@ -330,8 +353,10 @@ def validate_authorization_v3_3(
     ):
         raise AuthorizationBindingError("authorization common limits differ from scope budget")
     indices = receipt.get("allowed_physical_gpu_indices")
-    if indices != [0]:
-        raise AuthorizationBindingError("runtime-v3_3 is restricted to physical GPU0")
+    if indices != list(range(8)):
+        raise AuthorizationBindingError(
+            "runtime-v3_3 authorization must allow exactly physical GPU0-7"
+        )
     if receipt.get("allowed_gpu_uuid_policy") != ALLOWED_UUID_POLICY:
         raise AuthorizationBindingError("authorization GPU UUID policy mismatch")
     output = receipt.get("output_namespace")
@@ -384,6 +409,8 @@ def authorization_summary(value: Mapping[str, Any]) -> dict:
         "family_revision_index": value.get("family_revision_index"),
         "revision_ledger_directory": value.get("revision_ledger_directory"),
         "consumption_ledger_directory": value["consumption_ledger_directory"],
+        "gpu_lease_directory": value["gpu_lease_directory"],
+        "job_cache_root_directory": value["job_cache_root_directory"],
         "guard_receipt_path": value["guard_receipt_path"],
         "stage0_authorized": False,
         "formal_data": False,

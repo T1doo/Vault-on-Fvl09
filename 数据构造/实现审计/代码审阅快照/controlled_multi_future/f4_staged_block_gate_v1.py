@@ -108,6 +108,12 @@ class F4StagedBlockExecutionGateV1:
                     prefix_runtime["queries"] = int(
                         getattr(scene, "planner_query_count", 0)
                     ) - before
+                if len(result["planner_query_receipts"]) != int(
+                    prefix_runtime["queries"]
+                ):
+                    raise ValueError(
+                        "F4 staged prefix planner API count differs from receipt table"
+                    )
                 if hasattr(scene, "save_trace"):
                     path = output_dir / "prefix_reference_trace.npz"
                     info = dict(scene.save_trace(path))
@@ -227,6 +233,10 @@ class F4StagedBlockExecutionGateV1:
                         runtime["queries"] = int(
                             getattr(scene, "planner_query_count", 0)
                         ) - before
+                    if suffix["planner_query_count"] != int(runtime["queries"]):
+                        raise ValueError(
+                            f"F4 {gate_id} planner API count differs from receipt"
+                        )
                     controls = suffix.pop("_execution_controls", None)
                     qpos = suffix.pop("_actual_prefix_end_qpos", None)
                     if suffix["planner_solvable"] is not True:

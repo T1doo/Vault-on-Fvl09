@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import numpy as np
 
@@ -51,6 +51,11 @@ from .geometry import (
     world_axis_offset_pose,
     world_z_yaw_pose,
 )
+from .f1_uniform_carry_hub_v2 import (
+    F1_CARRY_HUB_VERSION,
+    REVISION2_SEGMENT_ORDER as F1_REVISION2_SEGMENT_ORDER,
+    build_uniform_carry_hub_targets,
+)
 from .planner_dtype_v3_2 import planner_array
 from .runtime_v2_contracts import (
     PLASTICBOX_BASE3_CAVITY,
@@ -87,8 +92,17 @@ def _sha256_file(path: Path) -> str:
 def planner_source_hash_v3_3() -> str:
     return hash_json(
         {
+            "envs/_base_task.py": _sha256_file(
+                PROJECT_ROOT / "envs/_base_task.py"
+            ),
+            "envs/robot/robot.py": _sha256_file(
+                PROJECT_ROOT / "envs/robot/robot.py"
+            ),
             "envs/robot/planner.py": _sha256_file(
                 PROJECT_ROOT / "envs/robot/planner.py"
+            ),
+            "f1_uniform_carry_hub_v2.py": _sha256_file(
+                Path(__file__).with_name("f1_uniform_carry_hub_v2.py")
             ),
             "family_runners_v3_1.py": _sha256_file(
                 Path(__file__).with_name("family_runners_v3_1.py")
@@ -96,6 +110,156 @@ def planner_source_hash_v3_3() -> str:
             "family_runners_v3_3.py": _sha256_file(Path(__file__)),
         }
     )
+
+
+def _audited_planner_assisted_target_construction(
+    scene,
+    actor,
+    *,
+    arm: str,
+    variant_id: str,
+    callback: Callable[[], Any],
+) -> tuple[Any, dict]:
+    """Count and receipt every official batch-planner call used to select a grasp."""
+
+    if arm not in ("left", "right"):
+        raise ValueError("target-construction arm must be left or right")
+    if not hasattr(scene, "_reserve_planner_query") or not hasattr(
+        scene, "planner_queries"
+    ):
+        raise RuntimeError("target construction requires initialized planner audit state")
+    contact_point_ids = [int(index) for index, _ in actor.iter_contact_points()]
+    if not contact_point_ids:
+        raise RuntimeError("planner-assisted target construction has no contact points")
+    target_reset = _planner_reset(
+        scene,
+        planner_seed=PLANNER_SEED,
+        variant_id=variant_id,
+        arm=arm,
+    )
+    robot = scene.robot
+    method_name = f"{arm}_plan_multi_path"
+    original = getattr(robot, method_name)
+    had_instance_override = method_name in vars(robot)
+    prior_instance_value = vars(robot).get(method_name)
+    batch_receipts = []
+
+    def audited_batch(target_list, *args, **kwargs):
+        call_index = len(batch_receipts)
+        if call_index >= len(contact_point_ids):
+            raise RuntimeError("grasp target construction made excess batch-planner calls")
+        candidate_poses = [
+            np.asarray(pose, dtype=np.float64).reshape(7).tolist()
+            for pose in target_list
+        ]
+        query_id = scene._reserve_planner_query()
+        start_qpos = np.asarray(
+            getattr(robot, f"{arm}_entity").get_qpos(), dtype=np.float64
+        )
+        base_receipt = {
+            "query_id": int(query_id),
+            "arm": arm,
+            "query_type": "batched_grasp_target_selection",
+            "source": f"Base_Task.choose_grasp_pose->{method_name}",
+            "contact_point_id": contact_point_ids[call_index],
+            "batch_call_index": call_index,
+            "batch_size": len(candidate_poses),
+            "ordered_goal_pose_sha256": hash_json(candidate_poses),
+            "start_qpos_sha256": hash_array(start_qpos),
+            "start_step": None,
+            "end_step": None,
+        }
+        try:
+            result = original(target_list, *args, **kwargs)
+        except BaseException as exc:
+            receipt = {
+                **base_receipt,
+                "candidate_statuses": [],
+                "successful_candidate_indices": [],
+                "selected_candidate_index_within_batch": None,
+                "status": "Exception",
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+            }
+            batch_receipts.append(receipt)
+            scene.planner_queries.append(dict(receipt))
+            raise
+        statuses = (
+            [str(value) for value in result.get("status", [])]
+            if isinstance(result, Mapping)
+            else []
+        )
+        if len(statuses) != len(candidate_poses):
+            receipt = {
+                **base_receipt,
+                "candidate_statuses": statuses,
+                "successful_candidate_indices": [],
+                "selected_candidate_index_within_batch": None,
+                "status": "InvalidStatusCount",
+                "error": {
+                    "expected": len(candidate_poses),
+                    "actual": len(statuses),
+                },
+            }
+            batch_receipts.append(receipt)
+            scene.planner_queries.append(dict(receipt))
+            raise RuntimeError("batch grasp planner status count differs from candidate count")
+        successful = [index for index, value in enumerate(statuses) if value == "Success"]
+        receipt = {
+            **base_receipt,
+            "candidate_statuses": statuses,
+            "successful_candidate_indices": successful,
+            "selected_candidate_index_within_batch": (
+                successful[0] if successful else None
+            ),
+            "status": "Success" if successful else "Fail",
+        }
+        batch_receipts.append(receipt)
+        scene.planner_queries.append(dict(receipt))
+        return result
+
+    setattr(robot, method_name, audited_batch)
+    restoration_error = None
+    callback_error = None
+    value = None
+    try:
+        value = callback()
+    except BaseException as exc:
+        callback_error = exc
+    finally:
+        try:
+            if had_instance_override:
+                setattr(robot, method_name, prior_instance_value)
+            else:
+                delattr(robot, method_name)
+        except BaseException as exc:
+            restoration_error = f"{type(exc).__name__}: {exc}"
+    if restoration_error is not None:
+        raise RuntimeError(
+            f"target-construction planner wrapper restoration failed: {restoration_error}"
+        ) from callback_error
+    if callback_error is not None:
+        raise callback_error
+    if len(batch_receipts) != len(contact_point_ids):
+        raise RuntimeError(
+            "planner-assisted grasp target construction did not audit every contact point"
+        )
+    if any(item["batch_size"] != 10 for item in batch_receipts):
+        raise RuntimeError("runtime-v3_3 requires frozen ROTATE_NUM=10 batch size")
+    return value, {
+        "schema_version": "cmf_planner_assisted_target_construction_audit_v1",
+        "variant_id": variant_id,
+        "arm": arm,
+        "actor_name": _entity(actor).get_name(),
+        "planner_reset_receipt": target_reset,
+        "contact_point_ids": contact_point_ids,
+        "batch_call_count": len(batch_receipts),
+        "internal_pose_candidate_count": sum(
+            item["batch_size"] for item in batch_receipts
+        ),
+        "planner_counting_unit": "one official batch planner API call",
+        "batch_receipts": batch_receipts,
+        "wrapper_restoration_succeeded": True,
+    }
 
 
 def _prefix_arrays(scene, *, start_action: int, semantic_end_action: int) -> dict:
@@ -744,27 +908,40 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         for role in ("red", "green", "blue"):
             item = roles.get(role, {})
             spec = item.get("execution_spec", {})
+            if not isinstance(spec, Mapping):
+                spec = {}
+            evidence = item.get("evidence", {})
+            if not isinstance(evidence, Mapping):
+                evidence = {}
             comparative[role] = {
                 "planner_solvable": item.get("planner_solvable"),
-                "terminal_qpos": spec.get("terminal_qpos"),
-                "terminal_qpos_sha256": spec.get("terminal_qpos_sha256"),
+                "terminal_qpos": spec.get(
+                    "terminal_qpos", evidence.get("terminal_qpos")
+                ),
+                "terminal_qpos_sha256": spec.get(
+                    "terminal_qpos_sha256", evidence.get("terminal_qpos_sha256")
+                ),
                 "terminal_joint_limit_margin_rad": spec.get(
-                    "terminal_joint_limit_margin_rad"
+                    "terminal_joint_limit_margin_rad",
+                    evidence.get("terminal_joint_limit_margin_rad"),
                 ),
                 "minimum_terminal_joint_limit_margin_rad": spec.get(
-                    "minimum_terminal_joint_limit_margin_rad"
+                    "minimum_terminal_joint_limit_margin_rad",
+                    evidence.get("minimum_terminal_joint_limit_margin_rad"),
                 ),
                 "terminal_qpos_within_joint_limits": spec.get(
-                    "terminal_qpos_within_joint_limits"
+                    "terminal_qpos_within_joint_limits",
+                    evidence.get("terminal_qpos_within_joint_limits"),
                 ),
-                "planner_collision_check_source": item.get("evidence", {}).get(
+                "planner_collision_check_source": evidence.get(
                     "planner_collision_check_source"
                 ),
-                "quantitative_collision_clearance_available": item.get(
-                    "evidence", {}
-                ).get("quantitative_collision_clearance_available"),
+                "quantitative_collision_clearance_available": evidence.get(
+                    "quantitative_collision_clearance_available"
+                ),
                 "comparative_reachability": spec.get(
-                    "comparative_reachability"
+                    "comparative_reachability",
+                    evidence.get("comparative_reachability"),
                 ),
             }
         checks = {
@@ -809,7 +986,7 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         return {
             "schema_version": "cmf_f1_three_object_planner_comparative_gate_v1",
             "family": "F1",
-            "uniform_rule": "top-down grasp + common 4cm+4cm lift + common container target construction",
+            "uniform_rule": "official planner-assisted top-down grasp + common 4cm+4cm lift + frozen cluster-center carry hub + common container target construction",
             "role_order": ["red", "green", "blue"],
             "comparative": comparative,
             "checks": checks,
@@ -871,17 +1048,41 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-        all_targets, extra = self.legacy.build_targets(
-            scene, program, {"variant_id": "v3_3_uniform_8cm_lift"}
+        built, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                getattr(scene, program["target_role"]),
+                arm="left",
+                variant_id=f"f1_target_construction:{program['program_id']}",
+                callback=lambda: self.legacy.build_targets(
+                    scene,
+                    program,
+                    {"variant_id": "v3_3_uniform_8cm_lift"},
+                ),
+            )
+        )
+        legacy_targets, extra = built
+        all_targets, carry_hub_audit = build_uniform_carry_hub_targets(
+            legacy_targets
         )
         targets = all_targets[1:]
         role = program["target_role"]
         actor_pose = _pose(getattr(scene, role))
         grasp_pose = np.asarray(all_targets[2]["pose"], dtype=np.float64)
         eef_to_actor = relative_pose(grasp_pose, actor_pose)
+        carried_segment_ids = {
+            "target_lift_mid",
+            "target_lift",
+            "carry_hub_low",
+            "carry_hub_high",
+            "safe_horizontal",
+            "preplace",
+            "release",
+        }
         carried_actor_poses = {
             item["segment_id"]: compose_pose(item["pose"], eef_to_actor)
-            for item in all_targets[3:8]
+            for item in all_targets
+            if item["segment_id"] in carried_segment_ids
         }
         non_targets = {
             name: _pose(getattr(scene, name))
@@ -916,7 +1117,7 @@ class F1ControllerV3_3(FamilyControllerV3_3):
             "minimum_non_target_waypoint_clearance_m": minimum_waypoint_clearance,
             "clearance_scope": "carried block AABB at frozen transport waypoints; official CuRobo status covers full robot path collision",
         }
-        return _cache_suffix_controls(
+        result = _cache_suffix_controls(
             scene,
             program_id=program["program_id"],
             arm="left",
@@ -926,8 +1127,16 @@ class F1ControllerV3_3(FamilyControllerV3_3):
                 **extra,
                 "target_role": role,
                 "comparative_reachability": comparative,
+                "target_construction_planner_audit": target_construction_audit,
+                "carry_hub_audit": carry_hub_audit,
             },
         )
+        result["evidence"]["target_construction_planner_audit"] = (
+            target_construction_audit
+        )
+        result["evidence"]["comparative_reachability"] = comparative
+        result["evidence"]["carry_hub_audit"] = carry_hub_audit
+        return result
 
     def execute_frozen_suffix_spec(
         self, scene, program, spec, replay, realization_spec
@@ -943,6 +1152,12 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         baseline = _position_map(non_targets)
         stages = {"prefix_boundary": _position_map(non_targets)}
         controls = _cached_controls(scene, spec)
+        index_by_segment = {
+            item["segment_id"]: index for index, item in enumerate(spec["targets"])
+        }
+        expected = tuple(item["segment_id"] for item in spec["targets"])
+        if expected != F1_REVISION2_SEGMENT_ORDER[1:]:
+            raise RuntimeError("F1 frozen revision-2 suffix segment order changed")
         execution_receipts = []
         execution_receipts.append(_execute_cached_segment(scene, spec, controls, 0))
         execution_receipts.append(_execute_cached_segment(scene, spec, controls, 1))
@@ -952,9 +1167,19 @@ class F1ControllerV3_3(FamilyControllerV3_3):
             f"{role}_close_gripper",
         )
         stages["after_grasp"] = _position_map(non_targets)
-        for index in range(2, 8):
+        for segment_id in (
+            "target_lift_mid",
+            "target_lift",
+            "carry_hub_low",
+            "carry_hub_high",
+            "safe_horizontal",
+            "preplace",
+            "release",
+        ):
             execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, index)
+                _execute_cached_segment(
+                    scene, spec, controls, index_by_segment[segment_id]
+                )
             )
         stages["after_transport"] = _position_map(non_targets)
         _must_action(
@@ -962,9 +1187,11 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         )
         _wait_and_record(scene, 75)
         stages["after_release"] = _position_map(non_targets)
-        for index in range(8, 10):
+        for segment_id in ("retreat", "rest"):
             execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, index)
+                _execute_cached_segment(
+                    scene, spec, controls, index_by_segment[segment_id]
+                )
             )
         _wait_and_record(scene, 75)
         stages["after_rest"] = _position_map(non_targets)
@@ -1134,17 +1361,26 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         self._require_layout_v2(scene)
         self.initialize_prefix_replay_trace(scene)
         scene.planner_query_limit = 24
-        _planner_reset(
+        selected, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                scene.can,
+                arm="left",
+                variant_id="f2_prefix_target_construction",
+                callback=lambda: scene.choose_grasp_pose(
+                    scene.can,
+                    arm_tag=_arm_tag_left(),
+                    pre_dis=0.08,
+                    target_dis=0,
+                ),
+            )
+        )
+        pregrasp, grasp = selected
+        prefix_planner_reset = _planner_reset(
             scene,
             planner_seed=PLANNER_SEED,
             variant_id="f2_canonical_prefix_once",
             arm="left",
-        )
-        pregrasp, grasp = scene.choose_grasp_pose(
-            scene.can,
-            arm_tag=_arm_tag_left(),
-            pre_dis=0.08,
-            target_dis=0,
         )
         start = len(scene.trace) - 1
         _move_left(scene, pregrasp, "f2_prefix_pregrasp")
@@ -1205,6 +1441,8 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     "post_close": post_close,
                     "post_lift": post_lift,
                 },
+                "target_construction_planner_audit": target_construction_audit,
+                "prefix_planner_reset_receipt": prefix_planner_reset,
                 "prefix_physical_acceptance": prefix_acceptance,
             },
         )
@@ -1606,17 +1844,26 @@ class F3ControllerV3_3(FamilyControllerV3_3):
     ):
         self.initialize_prefix_replay_trace(scene)
         scene.planner_query_limit = 32
-        _planner_reset(
+        selected, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                scene.bottle,
+                arm="left",
+                variant_id="f3_prefix_target_construction",
+                callback=lambda: scene.choose_grasp_pose(
+                    scene.bottle,
+                    arm_tag=_arm_tag_left(),
+                    pre_dis=0.09,
+                    target_dis=0,
+                ),
+            )
+        )
+        pregrasp, grasp = selected
+        prefix_planner_reset = _planner_reset(
             scene,
             planner_seed=PLANNER_SEED,
             variant_id="f3_canonical_prefix_once",
             arm="left",
-        )
-        pregrasp, grasp = scene.choose_grasp_pose(
-            scene.bottle,
-            arm_tag=_arm_tag_left(),
-            pre_dis=0.09,
-            target_dis=0,
         )
         start = len(scene.trace) - 1
         _move_left(scene, pregrasp, "f3_prefix_pregrasp")
@@ -1741,6 +1988,8 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                     "post_shared_V": post_shared,
                 },
                 "reference_shared_first_v_metrics": first_v_metrics,
+                "target_construction_planner_audit": target_construction_audit,
+                "prefix_planner_reset_receipt": prefix_planner_reset,
                 "prefix_physical_acceptance": prefix_acceptance,
             },
         )
@@ -2069,22 +2318,31 @@ class F4ControllerV3_3(FamilyControllerV3_3):
 
     def _common_targets(self, scene):
         program = F4SubtaskOrder().checked_provisional_programs()[0]
-        targets, extra = self.legacy.build_targets(
-            scene,
-            program,
-            {
-                "variant_id": "route1_minimum_height_segmented",
-                "execution_scope": "common_x_route_repair",
-            },
+        built, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                scene.common_x,
+                arm="right",
+                variant_id="f4_common_prefix_target_construction",
+                callback=lambda: self.legacy.build_targets(
+                    scene,
+                    program,
+                    {
+                        "variant_id": "route1_minimum_height_segmented",
+                        "execution_scope": "common_x_route_repair",
+                    },
+                ),
+            )
         )
-        return targets, extra
+        targets, extra = built
+        return targets, extra, target_construction_audit
 
     def plan_and_execute_canonical_prefix(
         self, scene, prefix_contract, *, capture_anchor
     ):
         self.initialize_prefix_replay_trace(scene)
         scene.planner_query_limit = 24
-        targets, extra = self._common_targets(scene)
+        targets, extra, target_construction_audit = self._common_targets(scene)
         reset = _planner_reset(
             scene,
             planner_seed=PLANNER_SEED,
@@ -2158,6 +2416,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             settling_steps=settling,
             extra={
                 "planner_reset_receipt": reset,
+                "target_construction_planner_audit": target_construction_audit,
                 "prefix_segment_receipts": planned["segment_receipts"],
                 "common_execution_extra": extra,
                 "prefix_physical_acceptance": prefix_acceptance,
@@ -2165,13 +2424,22 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-        all_targets, extra = self.legacy.build_targets(
-            scene,
-            program,
-            {"variant_id": "route1_minimum_height_segmented"},
+        built, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                scene.common_x,
+                arm="right",
+                variant_id=f"f4_suffix_target_construction:{program['program_id']}",
+                callback=lambda: self.legacy.build_targets(
+                    scene,
+                    program,
+                    {"variant_id": "route1_minimum_height_segmented"},
+                ),
+            )
         )
+        all_targets, extra = built
         targets = all_targets[9:]
-        return _cache_suffix_controls(
+        result = _cache_suffix_controls(
             scene,
             program_id=program["program_id"],
             arm="right",
@@ -2181,8 +2449,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "object_order": extra["object_order"],
                 "object_target_groups": extra["object_target_groups"],
                 "common_prefix_artifact_required": True,
+                "target_construction_planner_audit": target_construction_audit,
             },
         )
+        result["evidence"]["target_construction_planner_audit"] = (
+            target_construction_audit
+        )
+        return result
 
     def plan_diagnostic_blocks_from_actual_prefix_end_state(
         self, scene, roles, replay
@@ -2193,11 +2466,20 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if len(set(roles)) != len(roles):
             raise ValueError("F4 diagnostic block roles must be unique")
         base_program = F4SubtaskOrder().checked_provisional_programs()[0]
-        all_targets, extra = self.legacy.build_targets(
-            scene,
-            base_program,
-            {"variant_id": "route1_minimum_height_segmented"},
+        built, target_construction_audit = (
+            _audited_planner_assisted_target_construction(
+                scene,
+                scene.common_x,
+                arm="right",
+                variant_id="f4_diagnostic_target_construction:" + "".join(roles),
+                callback=lambda: self.legacy.build_targets(
+                    scene,
+                    base_program,
+                    {"variant_id": "route1_minimum_height_segmented"},
+                ),
+            )
         )
+        all_targets, extra = built
         suffix_targets = all_targets[9:]
         group_by_role = {
             group["role"]: (index, group)
@@ -2210,7 +2492,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             start = source_index * 6
             targets.extend(suffix_targets[start : start + 6])
             groups.append({**source_group, "target_start_index": len(targets) - 6})
-        return _cache_suffix_controls(
+        result = _cache_suffix_controls(
             scene,
             program_id="F4-DIAG-" + "".join(roles),
             arm="right",
@@ -2221,8 +2503,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "object_target_groups": groups,
                 "common_prefix_artifact_required": True,
                 "diagnostic_block_gate": True,
+                "target_construction_planner_audit": target_construction_audit,
             },
         )
+        result["evidence"]["target_construction_planner_audit"] = (
+            target_construction_audit
+        )
+        return result
 
     def execute_frozen_suffix_spec(
         self, scene, program, spec, replay, realization_spec
