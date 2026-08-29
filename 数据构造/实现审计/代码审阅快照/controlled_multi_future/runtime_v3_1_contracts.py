@@ -348,6 +348,7 @@ def build_f3_deterministic_correction_spec(
 
 F4_IMPLEMENTATION_VERSION = "f4_common_carry_and_full_program_v3_2"
 F4_ROUTE_ORDER = ("route1_minimum_height_segmented", "route2_carry_neutral_fallback")
+F4_CARRY_ENVELOPE_VERSION = "common_x_plus_selected_gripper_v2"
 
 
 def minimum_f4_safe_carry_height(
@@ -366,7 +367,7 @@ def minimum_f4_safe_carry_height(
         "safe_actor_or_gripper_lowest_clearance_z": float(np.max(tops) + frozen_clearance_m),
         "safe_eef_or_actor_center_z": float(np.max(tops) + carried_envelope + frozen_clearance_m),
         "carry_envelope_half_height_m": carried_envelope,
-        "carry_envelope_version": "common_x_plus_selected_left_gripper_v1",
+        "carry_envelope_version": F4_CARRY_ENVELOPE_VERSION,
     }
 
 
@@ -383,7 +384,7 @@ def validate_f4_route_results(results: Sequence[Mapping[str, Any]]) -> dict:
         if not isinstance(item.get("scene_instance_id"), str):
             raise ValueError("each F4 route requires a fresh scene_instance_id")
         scene_ids.append(item["scene_instance_id"])
-        if item.get("carry_envelope_version") != "common_x_plus_selected_left_gripper_v1":
+        if item.get("carry_envelope_version") != F4_CARRY_ENVELOPE_VERSION:
             raise ValueError("F4 route must audit the combined object/gripper carry envelope")
         segments = item.get("segment_receipts")
         if not isinstance(segments, list) or not segments:

@@ -18,6 +18,7 @@ from controlled_multi_future.raw_writer import (
 from controlled_multi_future.runtime_v3_1_contracts import (
     GPU_PROBE_AUTHORIZED,
     IMPLEMENTATION_VERSION,
+    F4_CARRY_ENVELOPE_VERSION,
     RAW_LAYOUT_VERSION,
     RUNTIME_V3_1_BUDGET_PROPOSAL,
     STAGE0_AUTHORIZED,
@@ -209,7 +210,7 @@ def route(route_id, scene_id, *, success=False, cleanup=True, terminal="failed_p
             {"segment_id": "s0", "start_qpos_sha256": "q0", "end_qpos_sha256": "q1", "planner_status": "Success" if success else "Fail", "executed": success},
             {"segment_id": "s1", "start_qpos_sha256": "q1", "end_qpos_sha256": "q2", "planner_status": "Success" if success else "Fail", "executed": success},
         ],
-        "carry_envelope_version": "common_x_plus_selected_left_gripper_v1",
+        "carry_envelope_version": F4_CARRY_ENVELOPE_VERSION,
         "semantic_probe_pass": success,
         "cleanup_pass": cleanup,
         "terminal_status": terminal,

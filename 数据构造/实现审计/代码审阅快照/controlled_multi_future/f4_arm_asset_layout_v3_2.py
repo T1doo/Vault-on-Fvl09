@@ -15,7 +15,13 @@ ACTIVE_REPO_ROOT = Path("/nfs_share/lijunhui/Robotwin2/project/RoboTwin")
 REPO_ROOT = ACTIVE_REPO_ROOT if (ACTIVE_REPO_ROOT / "assets").is_dir() else Path(__file__).resolve().parents[1]
 TABLE_BOUNDS = {"x": [-0.45, 0.45], "y": [-0.35, 0.20]}
 TRAY_ORIENTATION_WXYZ = [0.706527, 0.706483, -0.0291356, -0.0291767]
-LAYOUT_VERSION = "f4_right_arm_mirror_base0_v1"
+RIGHT_ARM_COMMON_GRASP_ORIENTATION_WXYZ = [
+    0.5243570072481656,
+    -0.47439082845243685,
+    0.4743935067167858,
+    0.5243604405510669,
+]
+LAYOUT_VERSION = "f4_right_arm_mirror_base0_v2_grasp_neutral"
 
 
 def _sha256(path: Path) -> str:
@@ -62,7 +68,14 @@ def selected_layout() -> dict:
             "B": [-0.08, -0.18, 0.742, 1.0, 0.0, 0.0, 0.0],
             "C": [-0.23, -0.18, 0.742, 1.0, 0.0, 0.0, 0.0],
         },
-        "branch_neutral_pose": [0.15, -0.02, 0.95, 0.7, 0.0, 0.0, 0.7141428429],
+        "branch_neutral_pose": [0.15, -0.02, 0.95, *RIGHT_ARM_COMMON_GRASP_ORIENTATION_WXYZ],
+        "branch_neutral_orientation_policy": "fixed_same_as_realized_right_arm_common_grasp_orientation",
+        "branch_neutral_orientation_evidence": {
+            "source_namespace": "nonformal_F4_right_arm_layout_full_root_runtime_v3_2_seed20260829_gpu0_run2_layout_injection",
+            "source_segment": "common_grasp_and_successful_common_transport_segments",
+            "old_unverified_orientation_terminal_position_error_m": 0.15667375168950165,
+            "old_unverified_orientation_terminal_orientation_error_rad": 0.0808849326628831,
+        },
     }
 
 
@@ -109,13 +122,25 @@ def audit_layout(layout: dict) -> dict:
         ),
         "candidate_label_not_encoded_by_layout": True,
         "single_arm_for_all_programs": True,
+        "branch_neutral_orientation_is_unit_quaternion": bool(
+            np.isclose(np.linalg.norm(layout["branch_neutral_pose"][3:]), 1.0, rtol=0.0, atol=1e-9)
+        ),
+        "branch_neutral_orientation_is_right_arm_realized_grasp": bool(
+            np.allclose(
+                layout["branch_neutral_pose"][3:],
+                RIGHT_ARM_COMMON_GRASP_ORIENTATION_WXYZ,
+                rtol=0.0,
+                atol=1e-12,
+            )
+        ),
     }
     return {
         "checks": checks,
         "pass_cpu_geometry": all(checks.values()),
         "tray_world_aabb_xy": {"lower": lower.tolist(), "upper": upper.tolist()},
         "real_current_visibility_pending": True,
-        "real_planner_preflight_pending": True,
+        "common_route_real_planner_preflight_passed_in_v3_2_run2": True,
+        "full_program_real_planner_preflight_pending": True,
     }
 
 
@@ -124,7 +149,7 @@ def build_impact_review() -> dict:
     layout = selected_layout()
     audit = audit_layout(layout)
     return {
-        "schema_version": "cmf_f4_arm_asset_layout_impact_review_v5",
+        "schema_version": "cmf_f4_arm_asset_layout_impact_review_v6",
         "design_version": "controlled_multi_future_f1_f4_v1_2",
         "implementation_version": "controlled_multi_future_runtime_v3_2",
         "formal_data": False,
@@ -140,7 +165,9 @@ def build_impact_review() -> dict:
         "tray_records": records,
         "selected_layout": layout,
         "cpu_audit": audit,
-        "status": "cpu_geometry_pass_real_right_arm_preflight_pending" if audit["pass_cpu_geometry"] else "cpu_geometry_failed",
+        "status": "cpu_geometry_and_common_route_pass_neutral_orientation_repair_pending"
+        if audit["pass_cpu_geometry"]
+        else "cpu_geometry_failed",
     }
 
 

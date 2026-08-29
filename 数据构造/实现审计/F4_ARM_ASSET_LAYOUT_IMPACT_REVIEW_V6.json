@@ -1,0 +1,195 @@
+{
+  "cpu_audit": {
+    "checks": {
+      "branch_neutral_orientation_is_right_arm_realized_grasp": true,
+      "branch_neutral_orientation_is_unit_quaternion": true,
+      "candidate_label_not_encoded_by_layout": true,
+      "objects_pairwise_separated": true,
+      "right_arm_selected": true,
+      "single_arm_for_all_programs": true,
+      "slots_pairwise_separated": true,
+      "smallest_official_tray_selected": true,
+      "tray_clear_of_objects": true,
+      "tray_clear_of_slots": true,
+      "tray_inside_table": true
+    },
+    "common_route_real_planner_preflight_passed_in_v3_2_run2": true,
+    "full_program_real_planner_preflight_pending": true,
+    "pass_cpu_geometry": true,
+    "real_current_visibility_pending": true,
+    "tray_world_aabb_xy": {
+      "lower": [
+        0.11930534920005867,
+        -0.22582967214506589
+      ],
+      "upper": [
+        0.4406946507999414,
+        -0.014170327854934106
+      ]
+    }
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_2",
+  "ranking": [
+    "smallest compliant official tray model",
+    "single arm with larger IK/joint-limit margin",
+    "minimum common-X transport distance",
+    "slot visibility and positional balance",
+    "minimum occlusion and carried-path collision"
+  ],
+  "schema_version": "cmf_f4_arm_asset_layout_impact_review_v6",
+  "selected_layout": {
+    "arm": "right",
+    "branch_neutral_orientation_evidence": {
+      "old_unverified_orientation_terminal_orientation_error_rad": 0.0808849326628831,
+      "old_unverified_orientation_terminal_position_error_m": 0.15667375168950165,
+      "source_namespace": "nonformal_F4_right_arm_layout_full_root_runtime_v3_2_seed20260829_gpu0_run2_layout_injection",
+      "source_segment": "common_grasp_and_successful_common_transport_segments"
+    },
+    "branch_neutral_orientation_policy": "fixed_same_as_realized_right_arm_common_grasp_orientation",
+    "branch_neutral_pose": [
+      0.15,
+      -0.02,
+      0.95,
+      0.5243570072481656,
+      -0.47439082845243685,
+      0.4743935067167858,
+      0.5243604405510669
+    ],
+    "common_x_pose": [
+      0.28,
+      0.1,
+      0.762,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "layout_version": "f4_right_arm_mirror_base0_v2_grasp_neutral",
+    "object_poses": {
+      "A": [
+        0.07,
+        0.08,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        -0.08,
+        0.08,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        -0.23,
+        0.08,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "slot_poses": {
+      "A": [
+        0.07,
+        -0.18,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        -0.08,
+        -0.18,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        -0.23,
+        -0.18,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "tray": {
+      "model_id": 0,
+      "modelname": "008_tray",
+      "pose": [
+        0.28,
+        -0.12,
+        0.76,
+        0.706527,
+        0.706483,
+        -0.0291356,
+        -0.0291767
+      ]
+    }
+  },
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_geometry_and_common_route_pass_neutral_orientation_repair_pending",
+  "tray_records": [
+    {
+      "collision_sha256": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+      "half_extents_model_m": [
+        0.15351184479494853,
+        0.015619882371793379,
+        0.09349790575339594
+      ],
+      "horizontal_footprint_area_proxy_m2": 0.057412143986672166,
+      "model_data_sha256": "d5ed105c12c12f7e2be3b2be2305c21badbd11da3a10f4f00dac0bf7d44b469f",
+      "model_id": 0,
+      "visual_sha256": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+    },
+    {
+      "collision_sha256": "e17dc4bb5a369871f0fad22e38558ef029ca5199edfa1e465881ad1e7d3a5c47",
+      "half_extents_model_m": [
+        0.15343683100328723,
+        0.019179793616418358,
+        0.09635669058667233
+      ],
+      "horizontal_footprint_area_proxy_m2": 0.05913866099833312,
+      "model_data_sha256": "258c3199dbfc2d2e4e04daa5a9a9c181c922e971b372c96dbd11683f86dea1bc",
+      "model_id": 1,
+      "visual_sha256": "6555b081d580e47949d9c6d4a50574da7d7f3786d92df1921c89d50fc55fe18d"
+    },
+    {
+      "collision_sha256": "dee43ee27ac6d263cdaa0cdc01bd765f79a3613c7e96d1cd9ca106c090ee8641",
+      "half_extents_model_m": [
+        0.15343584232862167,
+        0.01904563455586461,
+        0.11168348781571853
+      ],
+      "horizontal_footprint_area_proxy_m2": 0.06854500010881251,
+      "model_data_sha256": "331a78784663b8e7c30ced0820e87acab53635eceff3cac29e4930f2e64424da",
+      "model_id": 2,
+      "visual_sha256": "b4f46c3780fc698dca3d792934fb0bc1e10707fa09d2c931fd3e99433d6f63b1"
+    },
+    {
+      "collision_sha256": "af71eda3a3e06c0303814afe96840e09606f8cc7f16e15c566bd0f7ca9705aca",
+      "half_extents_model_m": [
+        0.15341281735094042,
+        0.020554550084054792,
+        0.11754834271141278
+      ],
+      "horizontal_footprint_area_proxy_m2": 0.07213368972116686,
+      "model_data_sha256": "c15f131c984f59851a2c378347ee53c575f8360d4b2e2fbdbee6a6268b10adca",
+      "model_id": 3,
+      "visual_sha256": "95d73e9272dfc7b2065aa1ba099ec7fe3c18b3f37d78a96379239ef6a1e2247a"
+    }
+  ]
+}
