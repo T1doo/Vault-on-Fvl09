@@ -81,9 +81,11 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
             def __init__(self):
                 self.left_planner = Planner()
                 self.left_entity = Entity()
+                self.last_qpos_dtypes = []
 
             def left_plan_path(self, pose, last_qpos=None):
-                start = np.asarray(last_qpos, dtype=float)
+                self.last_qpos_dtypes.append(np.asarray(last_qpos).dtype)
+                start = np.asarray(last_qpos, dtype=np.float32)
                 return {"status": "Success", "position": np.stack((start, start + 1.0))}
 
         class Scene:
@@ -105,6 +107,10 @@ class RealSapienAdapterV1_1StaticTest(unittest.TestCase):
         self.assertTrue(result["planner_solvable"])
         self.assertEqual(result["planner_query_count"], 2)
         self.assertTrue(result["execution_spec"]["chain_continuity_pass"])
+        self.assertEqual(Scene().robot.left_entity.get_qpos().dtype, np.float64)
+        scene = Scene()
+        runner.audit_planner_solvability(scene, {"program_id": "F2-beside"}, {"variant_id": "f2_pose_0"})
+        self.assertEqual(scene.robot.last_qpos_dtypes, [np.dtype(np.float32), np.dtype(np.float32)])
 
     def test_arm_terminal_qpos_is_merged_into_full_articulation_state(self):
         class Joint:

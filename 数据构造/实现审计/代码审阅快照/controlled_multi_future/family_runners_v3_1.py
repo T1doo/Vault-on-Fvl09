@@ -151,7 +151,8 @@ def _plan_left(scene, pose, *, last_qpos, source):
     _ensure_planner_trace_fields(scene, getattr(scene, "planner_query_limit", 16))
     query_id = scene._reserve_planner_query()
     pose = np.asarray(pose, dtype=np.float64).reshape(7)
-    result = scene.robot.left_plan_path(pose.tolist(), last_qpos=last_qpos)
+    planner_qpos = np.asarray(last_qpos, dtype=np.float32).reshape(-1)
+    result = scene.robot.left_plan_path(pose.tolist(), last_qpos=planner_qpos)
     status = result.get("status") if isinstance(result, Mapping) else "Fail"
     item = {
         "query_id": query_id,
@@ -169,8 +170,8 @@ def _plan_left(scene, pose, *, last_qpos, source):
 
 
 def _merge_left_arm_terminal_qpos(scene, full_start_qpos, terminal_arm_qpos):
-    full = np.asarray(full_start_qpos, dtype=np.float64).reshape(-1).copy()
-    terminal = np.asarray(terminal_arm_qpos, dtype=np.float64).reshape(-1)
+    full = np.asarray(full_start_qpos, dtype=np.float32).reshape(-1).copy()
+    terminal = np.asarray(terminal_arm_qpos, dtype=np.float32).reshape(-1)
     if terminal.size == full.size:
         return terminal.copy()
     active_joints = list(scene.robot.left_entity.get_active_joints())
@@ -185,7 +186,10 @@ def _merge_left_arm_terminal_qpos(scene, full_start_qpos, terminal_arm_qpos):
 
 def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int) -> dict:
     _ensure_planner_trace_fields(scene, query_limit)
-    last_qpos = np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float64).reshape(-1)
+    # RoboTwin's CuRobo worker builds a tensor directly from these NumPy
+    # scalars.  Preserve float32 so it cannot infer a Double start state
+    # against a Float motion-generation model.
+    last_qpos = np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float32).reshape(-1)
     segment_receipts = []
     controls = []
     for target in targets:
@@ -193,7 +197,7 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
         control = _plan_left(scene, target["pose"], last_qpos=last_qpos, source=target["segment_id"])
         status = control.get("status") if isinstance(control, Mapping) else "Fail"
         if status == "Success":
-            positions = np.asarray(control["position"], dtype=np.float64)
+            positions = np.asarray(control["position"], dtype=np.float32)
             if positions.ndim != 2 or positions.shape[0] < 1:
                 raise PlannerChainFailure(f"planner returned no qpos path at {target['segment_id']}")
             end_qpos = _merge_left_arm_terminal_qpos(scene, last_qpos, positions[-1])
