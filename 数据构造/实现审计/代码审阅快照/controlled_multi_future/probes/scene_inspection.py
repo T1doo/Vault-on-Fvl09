@@ -61,6 +61,8 @@ class AuditScene(Base_Task):
     def _box(self, name, xyz, color, half=0.022, static=False):
         actor = create_box(self, sapien.Pose(xyz), (half, half, half), color=color, is_static=static, name=name)
         actor.set_name(name)
+        actor._cmf_half_extents = np.asarray([half, half, half], dtype=np.float64)
+        actor._cmf_geometry_source = "AuditScene._box create_box half_size argument"
         return actor
 
     def runtime_actor_info(self):

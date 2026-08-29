@@ -5,7 +5,7 @@ from unittest import mock
 import numpy as np
 
 from controlled_multi_future.families import F3MotionOrder, F4SubtaskOrder
-from controlled_multi_future.family_runners_v3_1 import get_family_runner
+from controlled_multi_future.family_runners_v3_1 import _actor_half_extents, get_family_runner
 from controlled_multi_future.root_orchestrator_v1_1 import compare_three_branch_final_state_payloads
 
 
@@ -48,6 +48,16 @@ class Scene:
 
 
 class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
+    def test_project_procedural_half_extents_override_create_box_config_scaling(self):
+        actor = Actor([0.0, 0.0, 0.0])
+        actor.config = {
+            "extents": [0.022, 0.022, 0.022],
+            "scale": [0.022, 0.022, 0.022],
+        }
+        actor._cmf_half_extents = np.asarray([0.022, 0.022, 0.022])
+        actor._cmf_geometry_source = "AuditScene._box create_box half_size argument"
+        np.testing.assert_allclose(_actor_half_extents(actor), [0.022, 0.022, 0.022])
+
     def test_f3_builds_frozen_full_orders_and_separate_diagnosis(self):
         scene = Scene()
         runner = get_family_runner("F3")

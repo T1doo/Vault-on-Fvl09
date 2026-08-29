@@ -299,6 +299,12 @@ def _raw_result(scene, *, program, realization_spec, executed_prefix, semantic_v
 
 
 def _actor_half_extents(actor, fallback=BLOCK_HALF_EXTENTS):
+    declared = getattr(actor, "_cmf_half_extents", None)
+    if declared is not None:
+        value = np.asarray(declared, dtype=np.float64).reshape(3)
+        if np.all(np.isfinite(value)) and np.all(value > 0):
+            return value.copy()
+        raise ValueError("project procedural actor has invalid declared half extents")
     config = getattr(actor, "config", None) or {}
     if "extents" in config and "scale" in config:
         return np.asarray(config["extents"], dtype=np.float64) * np.asarray(config["scale"], dtype=np.float64) / 2.0
@@ -414,10 +420,16 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
         role = program.get("target_role")
         expected = {"red", "green", "blue", "common_box"}
         block_positions = [np.asarray(getattr(scene, name).get_pose().p[:2], dtype=np.float64) for name in ("red", "green", "blue")]
+        block_half_extents = {
+            name: _actor_half_extents(getattr(scene, name)) for name in ("red", "green", "blue")
+        }
         checks = {
             "roles": set(scene.role_actors) == expected,
             "target_role": role in ("red", "green", "blue"),
-            "same_block_half_extents": all(np.allclose(_actor_half_extents(getattr(scene, name)), BLOCK_HALF_EXTENTS) for name in ("red", "green", "blue")),
+            "same_block_half_extents": all(
+                np.allclose(block_half_extents[name], BLOCK_HALF_EXTENTS)
+                for name in ("red", "green", "blue")
+            ),
             "box_cavity_larger_than_block": bool(np.all(
                 np.asarray(PLASTICBOX_BASE3_CAVITY["upper_m"]) - np.asarray(PLASTICBOX_BASE3_CAVITY["lower_m"]) > 2 * BLOCK_HALF_EXTENTS
             )),
@@ -428,7 +440,21 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
             ),
         }
         passed = base["task_feasible"] and all(checks.values())
-        base.update({"task_feasible": passed, "physical_feasible": passed, "failure_type": None if passed else "f1_task_physical_contract", "evidence": checks})
+        base.update({
+            "task_feasible": passed,
+            "physical_feasible": passed,
+            "failure_type": None if passed else "f1_task_physical_contract",
+            "evidence": {
+                **checks,
+                "block_half_extents_m": {
+                    name: value.tolist() for name, value in block_half_extents.items()
+                },
+                "block_geometry_source": {
+                    name: getattr(getattr(scene, name), "_cmf_geometry_source", "actor config extents/scale")
+                    for name in ("red", "green", "blue")
+                },
+            },
+        })
         return base
 
     def build_targets(self, scene, program, planner_variant):
