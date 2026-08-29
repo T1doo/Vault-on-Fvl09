@@ -1,0 +1,317 @@
+{
+  "carry_envelope": {
+    "carry_envelope_half_height_m": 0.030104904174804686,
+    "carry_envelope_version": "common_x_plus_selected_gripper_v2",
+    "common_lift_height_m": 0.9814011020263819,
+    "computed_obstacle_clearance_height_m": 0.8441054649353028,
+    "safe_actor_or_gripper_lowest_clearance_z": 0.8140005607604981,
+    "safe_eef_or_actor_center_z": 0.8441054649353028,
+    "selected_height_not_below_lift": true,
+    "selected_safe_carry_height_m": 0.9814011020263819
+  },
+  "carry_envelope_version": "common_x_plus_selected_gripper_v2",
+  "common_target_actor_pose": [
+    0.2057551450248606,
+    -0.11385970524911586,
+    0.7900041259451925,
+    1.0,
+    -1.2603825780388433e-05,
+    3.0295507258415455e-06,
+    5.15557417202217e-07
+  ],
+  "execution_arm": "right",
+  "execution_scope": "f4_common_x_route_repair_only",
+  "gripper_envelope_evidence": {
+    "arm": "right",
+    "conservative_link_margin_m": 0.03,
+    "eef_world_z_m": 0.940998375415802,
+    "gripper_below_eef_envelope_m": 0.030104904174804686,
+    "link_world_z_m": {
+      "fr_link7": 0.9408934712409973,
+      "fr_link8": 0.9408954977989197
+    },
+    "selected_gripper_links": [
+      "fr_link7",
+      "fr_link8"
+    ],
+    "source": "runtime selected right-gripper link poses plus frozen conservative link margin"
+  },
+  "object_order": [
+    "A",
+    "B",
+    "C"
+  ],
+  "object_target_groups": [],
+  "planner_reset_receipt": {
+    "arm": "right",
+    "planner_instance_id": "inprocess:CuroboPlanner:140588723067664",
+    "planner_seed": 20260828,
+    "reset_evidence": {
+      "planner_seed": 20260828,
+      "reset_seed_argument": true,
+      "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+    },
+    "reset_performed": true,
+    "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+    "variant_id": "route1_minimum_height_segmented"
+  },
+  "preflight_segment_receipts": [
+    {
+      "end_qpos_sha256": "536a953162c943b08ff1c6e881937e8c523f5c1fb462685ff28e313ad757facf",
+      "executed": false,
+      "goal_eef_pose": [
+        0.2800012690388053,
+        0.07904078606259635,
+        0.9709517038097046,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_pregrasp",
+      "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+    },
+    {
+      "end_qpos_sha256": "42bf63dfd4863c75cb45f4357a1329def08d625f9a4b437040a5f3e9b7116000",
+      "executed": false,
+      "goal_eef_pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.8814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_grasp",
+      "start_qpos_sha256": "536a953162c943b08ff1c6e881937e8c523f5c1fb462685ff28e313ad757facf"
+    },
+    {
+      "end_qpos_sha256": "52ae3f2f54c9612e28344dff72c242af28647af51aa1a837dbf85fa8645c6993",
+      "executed": false,
+      "goal_eef_pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_lift",
+      "start_qpos_sha256": "42bf63dfd4863c75cb45f4357a1329def08d625f9a4b437040a5f3e9b7116000"
+    },
+    {
+      "end_qpos_sha256": "9418824e23d5f7a6ec07c4d9c3b45094872e532fc7f76f9d51b7ce2a7706040e",
+      "executed": false,
+      "goal_eef_pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_safe_vertical",
+      "start_qpos_sha256": "52ae3f2f54c9612e28344dff72c242af28647af51aa1a837dbf85fa8645c6993"
+    },
+    {
+      "end_qpos_sha256": "b8a0a7151dead89320530db0c2da6d2049592f3a0aceb313d0497744014aef63",
+      "executed": false,
+      "goal_eef_pose": [
+        0.2428783031069579,
+        -0.018906589848607318,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_center_high",
+      "start_qpos_sha256": "9418824e23d5f7a6ec07c4d9c3b45094872e532fc7f76f9d51b7ce2a7706040e"
+    },
+    {
+      "end_qpos_sha256": "6562ebbadd08d06c93250671b6bdf01cb969f75956c2d0c53a63ef5cad727af8",
+      "executed": false,
+      "goal_eef_pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        0.9814011020263819,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_above_tray",
+      "start_qpos_sha256": "b8a0a7151dead89320530db0c2da6d2049592f3a0aceb313d0497744014aef63"
+    },
+    {
+      "end_qpos_sha256": "972981109f83d424679034e5d161b74ef825e771005997919314388a990d98cc",
+      "executed": false,
+      "goal_eef_pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        1.0094049056296555,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_preplace",
+      "start_qpos_sha256": "6562ebbadd08d06c93250671b6bdf01cb969f75956c2d0c53a63ef5cad727af8"
+    },
+    {
+      "end_qpos_sha256": "a8f5012252ca5bd978ec0f2412f00f4349286557ee14261d755c5be06251fb93",
+      "executed": false,
+      "goal_eef_pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        0.9094049056296555,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_release",
+      "start_qpos_sha256": "972981109f83d424679034e5d161b74ef825e771005997919314388a990d98cc"
+    },
+    {
+      "end_qpos_sha256": "0b68a074f95a0274fdf494aea3e905e0c1a6b25a404f07f5e783f1c5213da6df",
+      "executed": false,
+      "goal_eef_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "planner_status": "Success",
+      "segment_id": "common_neutral",
+      "start_qpos_sha256": "a8f5012252ca5bd978ec0f2412f00f4349286557ee14261d755c5be06251fb93"
+    }
+  ],
+  "route_id": "route1_minimum_height_segmented",
+  "targets": [
+    {
+      "pose": [
+        0.2800012690388053,
+        0.07904078606259635,
+        0.9709517038097046,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_pregrasp"
+    },
+    {
+      "pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.8814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_grasp"
+    },
+    {
+      "pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_lift"
+    },
+    {
+      "pose": [
+        0.28000071628941287,
+        0.08802353174191015,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_safe_vertical"
+    },
+    {
+      "pose": [
+        0.2428783031069579,
+        -0.018906589848607318,
+        0.9814011020263819,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_center_high"
+    },
+    {
+      "pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        0.9814011020263819,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "segment_id": "common_above_tray"
+    },
+    {
+      "pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        1.0094049056296555,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "segment_id": "common_preplace"
+    },
+    {
+      "pose": [
+        0.20575588992450294,
+        -0.12583671143912478,
+        0.9094049056296555,
+        0.5243570072481653,
+        -0.4743908284524368,
+        0.47439350671678593,
+        0.5243604405510671
+      ],
+      "segment_id": "common_release"
+    },
+    {
+      "pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "segment_id": "common_neutral"
+    }
+  ],
+  "tray_pose_changed": false,
+  "variant_id": "route1_minimum_height_segmented"
+}

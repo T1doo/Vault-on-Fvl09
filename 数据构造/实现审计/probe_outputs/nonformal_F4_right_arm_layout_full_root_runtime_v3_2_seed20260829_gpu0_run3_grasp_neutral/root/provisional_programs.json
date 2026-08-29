@@ -1,0 +1,99 @@
+{
+  "planned_root_slot_spec_sha256": "d4f859cfc71f6aa2f234a82f849d3c55420912b54ba7ba4871136c05f29615e5",
+  "program_sha256": {
+    "F4-ABC": "1ff8b7c88387722b66c76f6e774c55ac93bff62af4beb7ee97fa14f959ec5fb4",
+    "F4-ACB": "fc1cdac0440307c427f9b6747e646840c5e0475145a858a6e688bcb42a1941ad",
+    "F4-BAC": "7fa9de2369c01c3764b52897ca3e02a4c46dcfc9925ba61b6fd76ae2ed970158"
+  },
+  "programs": [
+    {
+      "program_id": "F4-ABC",
+      "steps": [
+        {
+          "object": "common_X",
+          "op": "place",
+          "reference": "common_tray",
+          "relation": "inside"
+        },
+        {
+          "object": "A",
+          "op": "place",
+          "reference": "slot_A",
+          "relation": "at_slot"
+        },
+        {
+          "object": "B",
+          "op": "place",
+          "reference": "slot_B",
+          "relation": "at_slot"
+        },
+        {
+          "object": "C",
+          "op": "place",
+          "reference": "slot_C",
+          "relation": "at_slot"
+        }
+      ]
+    },
+    {
+      "program_id": "F4-ACB",
+      "steps": [
+        {
+          "object": "common_X",
+          "op": "place",
+          "reference": "common_tray",
+          "relation": "inside"
+        },
+        {
+          "object": "A",
+          "op": "place",
+          "reference": "slot_A",
+          "relation": "at_slot"
+        },
+        {
+          "object": "C",
+          "op": "place",
+          "reference": "slot_C",
+          "relation": "at_slot"
+        },
+        {
+          "object": "B",
+          "op": "place",
+          "reference": "slot_B",
+          "relation": "at_slot"
+        }
+      ]
+    },
+    {
+      "program_id": "F4-BAC",
+      "steps": [
+        {
+          "object": "common_X",
+          "op": "place",
+          "reference": "common_tray",
+          "relation": "inside"
+        },
+        {
+          "object": "B",
+          "op": "place",
+          "reference": "slot_B",
+          "relation": "at_slot"
+        },
+        {
+          "object": "A",
+          "op": "place",
+          "reference": "slot_A",
+          "relation": "at_slot"
+        },
+        {
+          "object": "C",
+          "op": "place",
+          "reference": "slot_C",
+          "relation": "at_slot"
+        }
+      ]
+    }
+  ],
+  "provisional_programs_sha256": "cc48f76b172918e225a6ad1ad8cc077a929e4c3f1e3b52a188c8ab684272100b",
+  "schema_version": "cmf_provisional_programs_v1_1"
+}
