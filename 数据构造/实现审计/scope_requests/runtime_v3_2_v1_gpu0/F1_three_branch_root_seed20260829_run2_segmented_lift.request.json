@@ -1,0 +1,80 @@
+{
+  "allowed_gpu_uuid_policy": "fresh_idle_exact_uuid_selected_by_atomic_guard",
+  "allowed_physical_gpu_indices": [
+    0
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_2_v1_gpu0/F1_three_branch_root_seed20260829_run2_segmented_lift.authorization.json",
+  "automatic_retry": false,
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorization_consumed/runtime_v3_2_v1_gpu0",
+  "controlled_action_limit": 3,
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_2_complete_family_scope",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_2_v1_gpu0/F1_three_branch_root_seed20260829_run2_segmented_lift.authorization.json"
+  ],
+  "exact_child_command_sha256": "9976b08a972f2482b8df4f90b16c1bd4803a447c081ab7ae0fae5adc31c435b1",
+  "family": "F1",
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run2_segmented_lift.guard.json",
+  "max_invocations": 1,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run2_segmented_lift",
+  "parent_user_authorization_sha256": "1f2eececacda0fce745709f29ad57385b3261dc958b96e0374713780d4d06e8c",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "arm": "left",
+    "branch_order": [
+      "red",
+      "green",
+      "blue"
+    ],
+    "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+    "container": "062_plasticbox/base3",
+    "family": "F1",
+    "origin": "runtime_v3_2_new_implementation_work_package",
+    "seed": 20260829,
+    "slot_id": "runtime_v3_2_F1_pre_stage0_root_seed20260829"
+  },
+  "planned_root_slot_spec_sha256": "2d1ee2130d93b9a1e861d6112b01d97920907fdc578a592c6c07f2aee4ba621b",
+  "planner_query_limit": 36,
+  "reviewed_content_commit": "f86cf4f1088ff1075e6f91bad5eaf162980d1e4e",
+  "scene_seed": 20260829,
+  "schema_version": "cmf_pre_stage0_gpu_scope_request_v2",
+  "scope": "F1_three_branch_nonformal_probe_v3_2",
+  "scope_budget": {
+    "automatic_retry": false,
+    "branch_order": [
+      "red",
+      "green",
+      "blue"
+    ],
+    "execution_limit_per_branch": 1,
+    "family": "F1",
+    "maximum_new_repair_revisions": 1,
+    "planner_query_limit_per_branch": 12,
+    "recovery_attempt_limit": 0,
+    "scope": "F1_three_branch_nonformal_probe_v3_2",
+    "scope_budget_sha256": "7d00a8487f4646d307e69764bf512145889a9f04f7177c8fe179cc30af79ec92",
+    "timeout_seconds_per_branch": 1200
+  },
+  "scope_budget_sha256": "7d00a8487f4646d307e69764bf512145889a9f04f7177c8fe179cc30af79ec92",
+  "scope_request_sha256": "91c3177d7fe85f23917e5d38e6082af6e17bf2bc5864a8cb5199eb23a5101408",
+  "source_bindings": {
+    "authorization_validator_sha256": "59807cbf28574f4658f70e3b188fcb251b2a9cbca0407d80d0d6b5ec192d00a0",
+    "budget_module_sha256": "266705088eb46cbd55329e5652e1aa1f3454ae4fc2ca1a0677f3aa8ea666eb55",
+    "budget_receipt_sha256": "20c25c1c348e691bdd24ed69e47b7e0c534dc3c590819442c7b014bb21f2bf1a",
+    "complete_family_scope_sha256": "63d5cc24a9dc34fd428a0fbcfa7fefd2d31fd67d0639d04c3fbbc1308a4aac36",
+    "gpu_guard_sha256": "4fa49f9f5f90dca393c4823de5fe3192f39781f44d80c9150efb8fe65d2abdf5",
+    "implementation_source_sha256": "c7ab48964ecdbec08be9822ab0701a86c09e4f85a717b8a68e60c8c90f26a053",
+    "planner_dtype_sha256": "5313eb01343153fa4bcea6be25db134aa419297482735a27fe3b414c4d3321b2",
+    "real_adapter_sha256": "458f8a92d10d4e7560be0c9f037d7471ff8fdb9453ae9f66c969c7e6ce213a9d",
+    "root_orchestrator_sha256": "956b96db6c0f64e5c5d9ae4acfb0cf1676a6b92ad03eb433aa7a92d053cdf804",
+    "runtime_source_lock_module_sha256": "4f2a59f67b38500d8e192cea92eea3d646fa99a3ac52e599e1bd1421769acd2a"
+  },
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_2_v1_gpu0/F1_three_branch_root_seed20260829_run2_segmented_lift.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "approved_by_parent_user_authorization_pending_one_shot_issue",
+  "timeout_seconds": 3600
+}

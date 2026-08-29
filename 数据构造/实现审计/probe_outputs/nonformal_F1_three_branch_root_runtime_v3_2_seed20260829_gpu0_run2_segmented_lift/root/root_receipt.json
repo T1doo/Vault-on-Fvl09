@@ -1,0 +1,1444 @@
+{
+  "append_only_event_log": "root_events.jsonl",
+  "branch_receipts": [],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-red",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-red-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-green",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-green-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-blue",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-blue-v1_2-000004"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-red:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-red_default-v1_2-000005"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-green:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-green_default-v1_2-000006"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-blue:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-blue_default-v1_2-000007"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 186.87826681137085,
+  "error": "not all frozen candidates passed planner solvability",
+  "error_type": "PlannerSolvabilityError",
+  "formal_data": false,
+  "freeze_call_count": 1,
+  "gpu_probe_authorized": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_2",
+  "planned_root_slot_spec_sha256": "2d1ee2130d93b9a1e861d6112b01d97920907fdc578a592c6c07f2aee4ba621b",
+  "planner_solvability_query_count_total": 27,
+  "planner_solvability_receipts": [
+    {
+      "evidence": {
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:140701521760496",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "default"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_cluster_neutral",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "d7473d9a8e7e42e749a69f96e9094996f8f2af51a264d5e2d2731a8affaa7b04",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.2000022828578949,
+              0.020004412159323692,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_pregrasp",
+            "start_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc"
+          },
+          {
+            "end_qpos_sha256": "d3f7acce3584ace2d6d276e94328068f8ea14bd7c03cb6e6e37feea2c8b37a21",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.8820004797186369,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_grasp",
+            "start_qpos_sha256": "d7473d9a8e7e42e749a69f96e9094996f8f2af51a264d5e2d2731a8affaa7b04"
+          },
+          {
+            "end_qpos_sha256": "f92a8e18ef807f3647a292db62883debb7f1c9c605724089002e1706bd7a03a5",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.942000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift_mid",
+            "start_qpos_sha256": "d3f7acce3584ace2d6d276e94328068f8ea14bd7c03cb6e6e37feea2c8b37a21"
+          },
+          {
+            "end_qpos_sha256": "2a9a1b9617fd02accc4add1a469768b3a9e21028f42c35d4dd5e8250aa03f165",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.002000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift",
+            "start_qpos_sha256": "f92a8e18ef807f3647a292db62883debb7f1c9c605724089002e1706bd7a03a5"
+          },
+          {
+            "end_qpos_sha256": "0d8781ae2f4a9d1deac3b07e7dde7d86ccbfa092a45fac260f9f2af58d3c5b25",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_vertical",
+            "start_qpos_sha256": "2a9a1b9617fd02accc4add1a469768b3a9e21028f42c35d4dd5e8250aa03f165"
+          },
+          {
+            "end_qpos_sha256": "2beac6f1a86055fcd842bca5fb8d128b75960315ff63f7a4521620afc10f315e",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.02,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_horizontal",
+            "start_qpos_sha256": "0d8781ae2f4a9d1deac3b07e7dde7d86ccbfa092a45fac260f9f2af58d3c5b25"
+          },
+          {
+            "end_qpos_sha256": "89c41fe86194ca1c6fa5ba3a13c244f298da32e93ecf148023c24347c3ef0fba",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "preplace",
+            "start_qpos_sha256": "2beac6f1a86055fcd842bca5fb8d128b75960315ff63f7a4521620afc10f315e"
+          },
+          {
+            "end_qpos_sha256": "1e6604799d0aa64f5bd03965a6b0054f6181a3b02846e724610bb23f69c96b1b",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              0.9469999499525541,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "release",
+            "start_qpos_sha256": "89c41fe86194ca1c6fa5ba3a13c244f298da32e93ecf148023c24347c3ef0fba"
+          },
+          {
+            "end_qpos_sha256": "185793e64b2120f71d57a154e6e186c665a7cf9ce2d1cd39a0dbed4d4ad5785b",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "retreat",
+            "start_qpos_sha256": "1e6604799d0aa64f5bd03965a6b0054f6181a3b02846e724610bb23f69c96b1b"
+          },
+          {
+            "end_qpos_sha256": "303a72fe072867b891471b08f52e93057a2baa1f1f8913356aa1e3aa13c39eac",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "rest",
+            "start_qpos_sha256": "185793e64b2120f71d57a154e6e186c665a7cf9ce2d1cd39a0dbed4d4ad5785b"
+          }
+        ]
+      },
+      "execution_spec": {
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:140701521760496",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "default"
+        },
+        "preflight_segment_receipts": [
+          {
+            "end_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_cluster_neutral",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "d7473d9a8e7e42e749a69f96e9094996f8f2af51a264d5e2d2731a8affaa7b04",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.2000022828578949,
+              0.020004412159323692,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_pregrasp",
+            "start_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc"
+          },
+          {
+            "end_qpos_sha256": "d3f7acce3584ace2d6d276e94328068f8ea14bd7c03cb6e6e37feea2c8b37a21",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.8820004797186369,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_grasp",
+            "start_qpos_sha256": "d7473d9a8e7e42e749a69f96e9094996f8f2af51a264d5e2d2731a8affaa7b04"
+          },
+          {
+            "end_qpos_sha256": "f92a8e18ef807f3647a292db62883debb7f1c9c605724089002e1706bd7a03a5",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.942000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift_mid",
+            "start_qpos_sha256": "d3f7acce3584ace2d6d276e94328068f8ea14bd7c03cb6e6e37feea2c8b37a21"
+          },
+          {
+            "end_qpos_sha256": "2a9a1b9617fd02accc4add1a469768b3a9e21028f42c35d4dd5e8250aa03f165",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.002000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift",
+            "start_qpos_sha256": "f92a8e18ef807f3647a292db62883debb7f1c9c605724089002e1706bd7a03a5"
+          },
+          {
+            "end_qpos_sha256": "0d8781ae2f4a9d1deac3b07e7dde7d86ccbfa092a45fac260f9f2af58d3c5b25",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_vertical",
+            "start_qpos_sha256": "2a9a1b9617fd02accc4add1a469768b3a9e21028f42c35d4dd5e8250aa03f165"
+          },
+          {
+            "end_qpos_sha256": "2beac6f1a86055fcd842bca5fb8d128b75960315ff63f7a4521620afc10f315e",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.02,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_horizontal",
+            "start_qpos_sha256": "0d8781ae2f4a9d1deac3b07e7dde7d86ccbfa092a45fac260f9f2af58d3c5b25"
+          },
+          {
+            "end_qpos_sha256": "89c41fe86194ca1c6fa5ba3a13c244f298da32e93ecf148023c24347c3ef0fba",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "preplace",
+            "start_qpos_sha256": "2beac6f1a86055fcd842bca5fb8d128b75960315ff63f7a4521620afc10f315e"
+          },
+          {
+            "end_qpos_sha256": "1e6604799d0aa64f5bd03965a6b0054f6181a3b02846e724610bb23f69c96b1b",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              0.9469999499525541,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "release",
+            "start_qpos_sha256": "89c41fe86194ca1c6fa5ba3a13c244f298da32e93ecf148023c24347c3ef0fba"
+          },
+          {
+            "end_qpos_sha256": "185793e64b2120f71d57a154e6e186c665a7cf9ce2d1cd39a0dbed4d4ad5785b",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "planner_status": "Success",
+            "segment_id": "retreat",
+            "start_qpos_sha256": "1e6604799d0aa64f5bd03965a6b0054f6181a3b02846e724610bb23f69c96b1b"
+          },
+          {
+            "end_qpos_sha256": "303a72fe072867b891471b08f52e93057a2baa1f1f8913356aa1e3aa13c39eac",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "rest",
+            "start_qpos_sha256": "185793e64b2120f71d57a154e6e186c665a7cf9ce2d1cd39a0dbed4d4ad5785b"
+          }
+        ],
+        "target_actor_pose": [
+          -0.07999999821186066,
+          -0.1599999964237213,
+          0.8269999713897705,
+          1.0,
+          -9.675848559709266e-06,
+          -4.47153479399276e-06,
+          9.818520538829034e-07
+        ],
+        "target_role": "red",
+        "targets": [
+          {
+            "pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "segment_id": "common_cluster_neutral"
+          },
+          {
+            "pose": [
+              -0.2000022828578949,
+              0.020004412159323692,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "segment_id": "target_pregrasp"
+          },
+          {
+            "pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.8820004797186369,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "segment_id": "target_grasp"
+          },
+          {
+            "pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              0.942000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "segment_id": "target_lift_mid"
+          },
+          {
+            "pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.002000479718637,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "segment_id": "target_lift"
+          },
+          {
+            "pose": [
+              -0.20000147551123154,
+              0.020002671406453322,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934136867523
+            ],
+            "segment_id": "safe_vertical"
+          },
+          {
+            "pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.02,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "segment_id": "safe_horizontal"
+          },
+          {
+            "pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "segment_id": "preplace"
+          },
+          {
+            "pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              0.9469999499525541,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "segment_id": "release"
+          },
+          {
+            "pose": [
+              -0.08000106841150774,
+              -0.15999767288487607,
+              1.0469999499525542,
+              0.49999690798034657,
+              -0.5000075772119198,
+              0.5000020935845189,
+              0.49999342110857536
+            ],
+            "segment_id": "retreat"
+          },
+          {
+            "pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "segment_id": "rest"
+          }
+        ],
+        "variant_id": "default"
+      },
+      "failure_type": null,
+      "planner_query_count": 11,
+      "planner_solvable": true,
+      "program_id": "F1-red",
+      "scene_anchor_equivalence": {
+        "candidate_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf"
+      },
+      "scene_current_sha256": "d8f93f018e3b26c5a179464d525d4a157c9e12148687c122db278bf84ab32b81",
+      "status": "passed",
+      "variant_id": "default"
+    },
+    {
+      "evidence": {
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:140701525849088",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "default"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_cluster_neutral",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "44b199ebed444257d424b1a01e5308dc8a969e0f3723784780dbaaf0ed8e4119",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11000227183103561,
+              0.020004402846097946,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_pregrasp",
+            "start_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc"
+          },
+          {
+            "end_qpos_sha256": "9f1477a5ce9413e6e0d4ec4b00446a1e2e2454dc7975628b3e2b278dbb42a3e8",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.882000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_grasp",
+            "start_qpos_sha256": "44b199ebed444257d424b1a01e5308dc8a969e0f3723784780dbaaf0ed8e4119"
+          },
+          {
+            "end_qpos_sha256": "30d8822627ee7bf21f2a2120dd71858836f4211610444a8a6b4ee94c79c93b46",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.942000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift_mid",
+            "start_qpos_sha256": "9f1477a5ce9413e6e0d4ec4b00446a1e2e2454dc7975628b3e2b278dbb42a3e8"
+          },
+          {
+            "end_qpos_sha256": "833d455a1299729301be643871ef32526be0ff69229d80f1aaedb0da4e4e4578",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.002000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift",
+            "start_qpos_sha256": "30d8822627ee7bf21f2a2120dd71858836f4211610444a8a6b4ee94c79c93b46"
+          },
+          {
+            "end_qpos_sha256": "a89d692f729dbbd1adc8abcc1359189f16ede1422c9dd7c18020aa7c3cc136d7",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_vertical",
+            "start_qpos_sha256": "833d455a1299729301be643871ef32526be0ff69229d80f1aaedb0da4e4e4578"
+          },
+          {
+            "end_qpos_sha256": "ce13ed6a31d9ead918caf6d4b1052c5b7d4beca39c1f37ae7f57d6a29190f76e",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.02,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_horizontal",
+            "start_qpos_sha256": "a89d692f729dbbd1adc8abcc1359189f16ede1422c9dd7c18020aa7c3cc136d7"
+          },
+          {
+            "end_qpos_sha256": "a45350f258d6ee525e36d160078fbf7c47c3248ba6a6976140d84e13700644a4",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "preplace",
+            "start_qpos_sha256": "ce13ed6a31d9ead918caf6d4b1052c5b7d4beca39c1f37ae7f57d6a29190f76e"
+          },
+          {
+            "end_qpos_sha256": "f1730ab7ec274b6520ecbf4d7af6d0d86a675c63f61034776dbb420604fceb5a",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              0.9469999499524784,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "release",
+            "start_qpos_sha256": "a45350f258d6ee525e36d160078fbf7c47c3248ba6a6976140d84e13700644a4"
+          },
+          {
+            "end_qpos_sha256": "abc527c0c4174c5ba39c40101f3e5c5c8f46b9ed140bd096e39701bd301933db",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "retreat",
+            "start_qpos_sha256": "f1730ab7ec274b6520ecbf4d7af6d0d86a675c63f61034776dbb420604fceb5a"
+          },
+          {
+            "end_qpos_sha256": "303a72fe072867b891471b08f52e93057a2baa1f1f8913356aa1e3aa13c39eac",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "rest",
+            "start_qpos_sha256": "abc527c0c4174c5ba39c40101f3e5c5c8f46b9ed140bd096e39701bd301933db"
+          }
+        ]
+      },
+      "execution_spec": {
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:140701525849088",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "default"
+        },
+        "preflight_segment_receipts": [
+          {
+            "end_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_cluster_neutral",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "44b199ebed444257d424b1a01e5308dc8a969e0f3723784780dbaaf0ed8e4119",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11000227183103561,
+              0.020004402846097946,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_pregrasp",
+            "start_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc"
+          },
+          {
+            "end_qpos_sha256": "9f1477a5ce9413e6e0d4ec4b00446a1e2e2454dc7975628b3e2b278dbb42a3e8",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.882000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_grasp",
+            "start_qpos_sha256": "44b199ebed444257d424b1a01e5308dc8a969e0f3723784780dbaaf0ed8e4119"
+          },
+          {
+            "end_qpos_sha256": "30d8822627ee7bf21f2a2120dd71858836f4211610444a8a6b4ee94c79c93b46",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.942000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift_mid",
+            "start_qpos_sha256": "9f1477a5ce9413e6e0d4ec4b00446a1e2e2454dc7975628b3e2b278dbb42a3e8"
+          },
+          {
+            "end_qpos_sha256": "833d455a1299729301be643871ef32526be0ff69229d80f1aaedb0da4e4e4578",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.002000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift",
+            "start_qpos_sha256": "30d8822627ee7bf21f2a2120dd71858836f4211610444a8a6b4ee94c79c93b46"
+          },
+          {
+            "end_qpos_sha256": "a89d692f729dbbd1adc8abcc1359189f16ede1422c9dd7c18020aa7c3cc136d7",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_vertical",
+            "start_qpos_sha256": "833d455a1299729301be643871ef32526be0ff69229d80f1aaedb0da4e4e4578"
+          },
+          {
+            "end_qpos_sha256": "ce13ed6a31d9ead918caf6d4b1052c5b7d4beca39c1f37ae7f57d6a29190f76e",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.02,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "safe_horizontal",
+            "start_qpos_sha256": "a89d692f729dbbd1adc8abcc1359189f16ede1422c9dd7c18020aa7c3cc136d7"
+          },
+          {
+            "end_qpos_sha256": "a45350f258d6ee525e36d160078fbf7c47c3248ba6a6976140d84e13700644a4",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "preplace",
+            "start_qpos_sha256": "ce13ed6a31d9ead918caf6d4b1052c5b7d4beca39c1f37ae7f57d6a29190f76e"
+          },
+          {
+            "end_qpos_sha256": "f1730ab7ec274b6520ecbf4d7af6d0d86a675c63f61034776dbb420604fceb5a",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              0.9469999499524784,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "release",
+            "start_qpos_sha256": "a45350f258d6ee525e36d160078fbf7c47c3248ba6a6976140d84e13700644a4"
+          },
+          {
+            "end_qpos_sha256": "abc527c0c4174c5ba39c40101f3e5c5c8f46b9ed140bd096e39701bd301933db",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "planner_status": "Success",
+            "segment_id": "retreat",
+            "start_qpos_sha256": "f1730ab7ec274b6520ecbf4d7af6d0d86a675c63f61034776dbb420604fceb5a"
+          },
+          {
+            "end_qpos_sha256": "303a72fe072867b891471b08f52e93057a2baa1f1f8913356aa1e3aa13c39eac",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "rest",
+            "start_qpos_sha256": "abc527c0c4174c5ba39c40101f3e5c5c8f46b9ed140bd096e39701bd301933db"
+          }
+        ],
+        "target_actor_pose": [
+          -0.07999999821186066,
+          -0.1599999964237213,
+          0.8269999713897705,
+          1.0,
+          -9.650841093389317e-06,
+          -4.458844159671571e-06,
+          1.004443106467079e-06
+        ],
+        "target_role": "green",
+        "targets": [
+          {
+            "pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "segment_id": "common_cluster_neutral"
+          },
+          {
+            "pose": [
+              -0.11000227183103561,
+              0.020004402846097946,
+              0.9720004796981812,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "segment_id": "target_pregrasp"
+          },
+          {
+            "pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.882000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "segment_id": "target_grasp"
+          },
+          {
+            "pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              0.942000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "segment_id": "target_lift_mid"
+          },
+          {
+            "pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.002000479718561,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "segment_id": "target_lift"
+          },
+          {
+            "pose": [
+              -0.1100014671665701,
+              0.020002664775471843,
+              1.02,
+              0.4999969005584717,
+              -0.5000075697898865,
+              0.5000020861625671,
+              0.4999934434890747
+            ],
+            "segment_id": "safe_vertical"
+          },
+          {
+            "pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.02,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "segment_id": "safe_horizontal"
+          },
+          {
+            "pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "segment_id": "preplace"
+          },
+          {
+            "pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              0.9469999499524784,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "segment_id": "release"
+          },
+          {
+            "pose": [
+              -0.08000106364312498,
+              -0.15999768137850268,
+              1.0469999499524785,
+              0.4999969005299098,
+              -0.500007569761324,
+              0.500002086134005,
+              0.49999344346051317
+            ],
+            "segment_id": "retreat"
+          },
+          {
+            "pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "segment_id": "rest"
+          }
+        ],
+        "variant_id": "default"
+      },
+      "failure_type": null,
+      "planner_query_count": 11,
+      "planner_solvable": true,
+      "program_id": "F1-green",
+      "scene_anchor_equivalence": {
+        "candidate_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf"
+      },
+      "scene_current_sha256": "d8f93f018e3b26c5a179464d525d4a157c9e12148687c122db278bf84ab32b81",
+      "status": "passed",
+      "variant_id": "default"
+    },
+    {
+      "evidence": {
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:140701521194784",
+          "planner_seed": 20260828,
+          "reset_evidence": {
+            "planner_seed": 20260828,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+          "variant_id": "default"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.11,
+              0.02,
+              0.95,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "planner_status": "Success",
+            "segment_id": "common_cluster_neutral",
+            "start_qpos_sha256": "39c29a0efffeae94d50b5cdfd8d27c9ddc14f1c4180c76cec04a398080ce9be5"
+          },
+          {
+            "end_qpos_sha256": "5b13aa3ad7d0159a215720859aca8500550b736584f0561611cd694f2518f758",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.020002226310160517,
+              -0.0009606309037001604,
+              0.9709517593364805,
+              0.5243617621969696,
+              -0.4743934205355519,
+              0.47438779701596556,
+              0.5243585061201992
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_pregrasp",
+            "start_qpos_sha256": "c6ab95c4a5cddb6ad1df83ba2b0c9f5d62039c64fba88b86099aa9c6ff9283dc"
+          },
+          {
+            "end_qpos_sha256": "7d3580a5ffbe4a848421a7304f59c6af011938fc6c74ea78fbe34c0d381f8e68",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.020001438791848725,
+              0.008022647205277091,
+              0.8814012109640859,
+              0.5243617621969696,
+              -0.4743934205355519,
+              0.47438779701596556,
+              0.5243585061201992
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_grasp",
+            "start_qpos_sha256": "5b13aa3ad7d0159a215720859aca8500550b736584f0561611cd694f2518f758"
+          },
+          {
+            "end_qpos_sha256": "b72f15a5c6c8b2d4466817b94be05fbbeb563f5f3cba440eb7aa30b51ba9c911",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.020001438791848725,
+              0.008022647205277091,
+              0.9414012109640859,
+              0.5243617621969696,
+              -0.4743934205355519,
+              0.47438779701596556,
+              0.5243585061201992
+            ],
+            "planner_status": "Success",
+            "segment_id": "target_lift_mid",
+            "start_qpos_sha256": "7d3580a5ffbe4a848421a7304f59c6af011938fc6c74ea78fbe34c0d381f8e68"
+          },
+          {
+            "end_qpos_sha256": "b72f15a5c6c8b2d4466817b94be05fbbeb563f5f3cba440eb7aa30b51ba9c911",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.020001438791848725,
+              0.008022647205277091,
+              1.0014012109640857,
+              0.5243617621969696,
+              -0.4743934205355519,
+              0.47438779701596556,
+              0.5243585061201992
+            ],
+            "planner_status": "Fail",
+            "segment_id": "target_lift",
+            "start_qpos_sha256": "b72f15a5c6c8b2d4466817b94be05fbbeb563f5f3cba440eb7aa30b51ba9c911"
+          }
+        ]
+      },
+      "execution_spec": null,
+      "failure_type": "chained_planner_failure",
+      "planner_query_count": 5,
+      "planner_solvable": false,
+      "program_id": "F1-blue",
+      "scene_anchor_equivalence": {
+        "candidate_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "b4e242aa608ebf481d9cc80f3d9e8bceccad4368b4a4da7c123f616f390cfbaf"
+      },
+      "scene_current_sha256": "d8f93f018e3b26c5a179464d525d4a157c9e12148687c122db278bf84ab32b81",
+      "status": "failed",
+      "variant_id": "default"
+    }
+  ],
+  "reference_capture_order": [
+    "capture_pristine_current",
+    "capture_pristine_anchor",
+    "build_declarative_programs"
+  ],
+  "schema_version": "cmf_real_sapien_root_orchestrator_v1_1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_planner",
+  "task_physical_feasibility_receipts": [
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-red",
+      "status": "passed",
+      "task_feasible": true
+    },
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-green",
+      "status": "passed",
+      "task_feasible": true
+    },
+    {
+      "evidence": {
+        "block_geometry_source": {
+          "blue": "AuditScene._box create_box half_size argument",
+          "green": "AuditScene._box create_box half_size argument",
+          "red": "AuditScene._box create_box half_size argument"
+        },
+        "block_half_extents_m": {
+          "blue": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "green": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "red": [
+            0.022,
+            0.022,
+            0.022
+          ]
+        },
+        "box_cavity_larger_than_block": true,
+        "initial_blocks_pairwise_separated": true,
+        "roles": true,
+        "same_block_half_extents": true,
+        "target_role": true
+      },
+      "failure_type": null,
+      "physical_feasible": true,
+      "planner_solvable": null,
+      "program_id": "F1-blue",
+      "status": "passed",
+      "task_feasible": true
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 726, in run_nonformal_root\n    raise PlannerSolvabilityError(\"not all frozen candidates passed planner solvability\")\ncontrolled_multi_future.root_orchestrator_v1_1.PlannerSolvabilityError: not all frozen candidates passed planner solvability\n"
+}
