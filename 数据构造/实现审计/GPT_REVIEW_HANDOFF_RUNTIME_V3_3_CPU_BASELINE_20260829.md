@@ -10,7 +10,7 @@ Stage 0 = not authorized / 0 trajectories
 
 CPU baseline content commit：`be7855e51288d1f977e5eba62660c9056f264242`（已push至`origin/main`）。后续runtime-v3_3 scope request必须绑定该提交或包含本发布回执的后续closeout提交，并同时绑定active source SHA。
 
-GPU前v1.1加固content commit：`e14b47648043f8145ba989bfa4d8002b446b3abb`。当前v1.2 source已通过测试，publication commit将在本文件后续回执中记录；任何新scope必须绑定v1.2而非旧commit/source lock。
+GPU前v1.2加固content commit：`7187fcb11e707dda2d6d9636fd238ea54a4530d2`。任何新scope必须绑定该版本或其publication closeout commit及source SHA=`399ccab...`，不得使用run1/run2旧source lock。
 
 ## 这轮完成了什么
 
