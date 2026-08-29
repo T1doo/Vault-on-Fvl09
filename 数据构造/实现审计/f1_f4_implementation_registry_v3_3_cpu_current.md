@@ -7,7 +7,7 @@
 | F1 | RGB red/green/blue + plasticbox/base3；left | 三色同一 top-down 与 4 cm+4 cm lift；terminal qpos、joint margin、waypoint clearance | implemented/tested | 3/3 suffix planner 后才执行三fresh branches |
 | F2 | 071_can/base1 + box/base2 + scale/base0 + stand/base3；left | 互斥layout v2、staged inside、release dynamics、beside support z | implemented/tested | same-can 3/3 inside/on/beside verifier |
 | F3 | bottle/base13 + original pad；left | grasp/lift/central/shared-first-V exact artifact；reference/replay motion/contact/grasp Gate | implemented/tested | VVHH/VHVH/VHHV 3/3 + return/final equivalence |
-| F4 | common-X、A/B/C、tray/base0、visible slots；right | explicit cube grasp；A/B/C/AB staged Gate；连续稳定completion与noninterference | implemented/tested | no-action IK→A→B→C→AB→ABC/ACB/BAC |
+| F4 | common-X、A/B/C、tray/base0、visible slots；right | explicit cube grasp；A/B/C/AB staged Gate；连续稳定completion与noninterference | final-layout no-action IK 3/3 passed | A→B→C→AB→ABC/ACB/BAC |
 
 公共实现已经包含：
 
@@ -20,4 +20,4 @@
 - GPU Guard v2_4 source-lock 后二次 fresh snapshot；
 - raw 26-D/250 Hz/N+1、actual per-role pose/velocity/contact、失败与cleanup receipts。
 
-Active与byte-equal snapshot各`247/247 tests passed`。真实canonical-prefix smoke已通过；F4最终共同x/y workspace layout修复已通过CPU geometry、等待最后real IK；accepted roots仍为0，Stage 0未授权。
+Active与byte-equal snapshot各`247/247 tests passed`。真实canonical-prefix smoke已通过；F4最终共同x/y workspace layout的A/B/C pregrasp+grasp no-action IK已在三个fresh scene中3/3通过，execution=0、cleanup/release安全。该证据只放行F4 staged A/B/C/AB；accepted roots仍为0，Stage 0未授权。

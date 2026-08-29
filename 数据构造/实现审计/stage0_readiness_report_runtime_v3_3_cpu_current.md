@@ -2,7 +2,7 @@
 
 ## BLOCKED_WITH_REASONS
 
-CPU/static基线和真实canonical-prefix smoke已经通过。F4在old/layout-v3两次no-action IK均3/3 pregrasp失败；最后统一x/y workspace layout v4已通过CPU geometry，等待最终real IK。在F1–F4完整roots前仍不能启动Stage 0。
+CPU/static基线、真实canonical-prefix smoke，以及F4 final layout v4的A/B/C no-action IK 3/3已经通过。该F4结果只证明共同right-arm cube grasp endpoints可规划，不证明staged blocks或完整程序。在F1–F4完整roots前仍不能启动Stage 0。
 
 已经具备的部分：
 
@@ -16,7 +16,6 @@ CPU/static基线和真实canonical-prefix smoke已经通过。F4在old/layout-v3
 仍缺的真实证据：
 
 ```text
-F4 A/B/C no-action right-arm IK
 F1 accepted root
 F2 accepted root
 F3 accepted root
@@ -25,10 +24,10 @@ F4 staged A/B/C/AB Gate + accepted root
 
 当前计数：Stage 0=0、Stage 1=0、formal F1–F4=0；没有训练、H-reveal、compression或π0.5。
 
-下一步只能先发布CPU baseline v1.2，再按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
+下一步按fresh source lock和≤1h one-shot authorization逐scope执行有限nonformal验证；先运行F1 strict-prefix root，再运行F2/F3，最后运行F4 staged/full。四个family全部accepted以前，不生成Stage 0 manifest/budget/request。
 
-补充：prefix-smoke run1/run2均在GPU0 busy时保持未消费，随后两轮source hardening使其source lock失效，现均明确superseded。任何真实launch必须使用v1.2 baseline之后生成的全新run3 source-lock/request/authorization。
+补充：prefix-smoke run1/run2均在GPU0 busy时保持未消费，随后两轮source hardening使其source lock失效，现均明确superseded。后续每个真实launch都必须绑定当前published Vault HEAD、当前source lock与全新namespace。
 
-Run3已在GPU0恢复后原子消费并成功完成；Guard post-release和独立GPU0 postcheck均通过。下一scope仍须新建one-shot authorization并现场复核。
+Canonical-prefix smoke及F4 final-layout no-action IK均已由Guard原子消费并成功完成；Guard post-release和独立GPU0 postcheck均通过。下一scope仍须新建one-shot authorization并现场复核。
 
 此前外部GPU0 blocker已经解除，执行目标恢复active；科学readiness仍为`BLOCKED_WITH_REASONS`，因为四个accepted roots尚未形成。
