@@ -18,6 +18,9 @@ def _write(path: Path, payload: dict) -> None:
 
 
 def main() -> int:
+    raise RuntimeError(
+        "historical GPU environment-certification CLI is disabled; current GPU access requires gpu_guard_v2_1"
+    )
     parser = argparse.ArgumentParser()
     parser.add_argument("--physical-index", type=int, required=True, choices=(4, 5, 6, 7))
     parser.add_argument("--expected-uuid", required=True)

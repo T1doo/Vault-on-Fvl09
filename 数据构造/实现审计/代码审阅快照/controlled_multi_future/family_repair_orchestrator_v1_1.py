@@ -97,6 +97,7 @@ class FamilyRepairOrchestratorV1_1:
             "planner_variant_receipts": [],
             "planner_solvability_query_count_total": 0,
             "rollout_planner_query_count": None,
+            "execution_attempt_count": 0,
             "raw_manifest": None,
             "verifier": None,
             "partial_output_status": "none",
@@ -210,6 +211,7 @@ class FamilyRepairOrchestratorV1_1:
             _write(output_dir / "selected_execution_spec.json", selected["execution_spec"])
 
             def rollout_callback(scene, candidate):
+                receipt["execution_attempt_count"] += 1
                 current = self.adapter.capture_current(scene)
                 require_same_current(reference_current, current)
                 anchor = compare_anchors(reference_anchor, self.adapter.capture_anchor(scene))

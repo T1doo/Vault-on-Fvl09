@@ -699,6 +699,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--approved-runtime-v2-probe", action="store_true")
     args = parser.parse_args()
+    parser.error("runtime-v2 probe budget is exhausted and this historical CLI is disabled; use a newly reviewed runtime-v3_1 scope")
     if not args.approved_runtime_v2_probe:
         parser.error("runtime-v2 GPU probe requires a new explicit user authorization")
     if args.variant not in RUNTIME_V2_PROBE_VARIANTS[args.family]:

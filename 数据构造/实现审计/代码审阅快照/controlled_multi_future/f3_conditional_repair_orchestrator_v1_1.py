@@ -41,6 +41,7 @@ class F3ConditionalRepairOrchestratorV1_1:
             "maximum_correction_execution_count": 1,
             "status": "running",
             "attempts": [],
+            "planner_query_count_by_run": [],
             "cleanup_records": [],
         }
         try:
@@ -51,7 +52,18 @@ class F3ConditionalRepairOrchestratorV1_1:
                 repair_mode="diagnosis",
             )
             aggregate["diagnostic_execution_count"] = 1
-            aggregate["attempts"].append({"phase": "diagnosis", "receipt": "diagnosis/receipt.json", "status": diagnosis_receipt["status"]})
+            aggregate["attempts"].append({
+                "phase": "diagnosis",
+                "attempt_kind": "diagnosis",
+                "receipt": "diagnosis/receipt.json",
+                "status": diagnosis_receipt["status"],
+                "rollout_planner_query_count": int(diagnosis_receipt.get("rollout_planner_query_count") or 0),
+            })
+            aggregate["planner_query_count_by_run"].append({
+                "attempt_kind": "diagnosis",
+                "planner_solvability_query_count": int(diagnosis_receipt.get("planner_solvability_query_count_total") or 0),
+                "rollout_planner_query_count": int(diagnosis_receipt.get("rollout_planner_query_count") or 0),
+            })
             aggregate["cleanup_records"].extend(diagnosis_receipt.get("cleanup_records", []))
             semantic = diagnosis_receipt.get("semantic_verifier", {})
             diagnosis = semantic.get("diagnosis", {})
@@ -74,7 +86,18 @@ class F3ConditionalRepairOrchestratorV1_1:
                 )
                 aggregate["correction_execution_count"] = 1
                 aggregate["correction_spec_sha256"] = correction_spec["correction_spec_sha256"]
-                aggregate["attempts"].append({"phase": "deterministic_correction", "receipt": "correction/receipt.json", "status": correction_receipt["status"]})
+                aggregate["attempts"].append({
+                    "phase": "deterministic_correction",
+                    "attempt_kind": "correction",
+                    "receipt": "correction/receipt.json",
+                    "status": correction_receipt["status"],
+                    "rollout_planner_query_count": int(correction_receipt.get("rollout_planner_query_count") or 0),
+                })
+                aggregate["planner_query_count_by_run"].append({
+                    "attempt_kind": "correction",
+                    "planner_solvability_query_count": int(correction_receipt.get("planner_solvability_query_count_total") or 0),
+                    "rollout_planner_query_count": int(correction_receipt.get("rollout_planner_query_count") or 0),
+                })
                 aggregate["cleanup_records"].extend(correction_receipt.get("cleanup_records", []))
                 same_current = (
                     diagnosis_receipt.get("reference_current_sha256") is not None

@@ -87,6 +87,10 @@ def validate_camera_configuration(value: Mapping[str, Any]) -> dict:
         normalized = {field: _jsonable(item[field]) for field in CAMERA_REQUIRED_FIELDS}
         normalized["resolution"] = resolution.tolist()
         normalized["near_far"] = near_far.tolist()
+        if "field_sources" in item:
+            if not isinstance(item["field_sources"], Mapping):
+                raise ValueError(f"camera {name} field_sources must be a mapping")
+            normalized["field_sources"] = _jsonable(item["field_sources"])
         normalized_cameras[name] = normalized
     renderer_version = value.get("renderer_version")
     if not isinstance(renderer_version, str) or not renderer_version:
@@ -94,12 +98,16 @@ def validate_camera_configuration(value: Mapping[str, Any]) -> dict:
     render_settings = value.get("render_settings")
     if not isinstance(render_settings, Mapping):
         raise ValueError("camera configuration requires render_settings")
-    return {
+    normalized = {
         "camera_names": sorted(camera_names),
         "cameras": normalized_cameras,
         "renderer_version": renderer_version,
         "render_settings": _jsonable(render_settings),
     }
+    for field in ("renderer_version_source", "render_settings_source"):
+        if field in value:
+            normalized[field] = _jsonable(value[field])
+    return normalized
 
 
 def validate_physical_entities(value: Mapping[str, Mapping[str, Any]]) -> dict:
@@ -132,6 +140,15 @@ def validate_physical_entities(value: Mapping[str, Mapping[str, Any]]) -> dict:
                 "scale": scale.tolist(),
             }
         )
+        for field in (
+            "mass_source",
+            "friction_source",
+            "procedural_asset_spec_sha256",
+            "procedural_creation",
+            "velocity_source",
+        ):
+            if field in item:
+                normalized_item[field] = _jsonable(item[field])
         normalized[role] = normalized_item
     return normalized
 

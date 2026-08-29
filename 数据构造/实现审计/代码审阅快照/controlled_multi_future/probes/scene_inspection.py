@@ -173,6 +173,7 @@ def main():
     parser.add_argument("--expected-uuid", required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    parser.error("historical scene-inspection CLI is disabled; current real scene work requires one-shot runtime-v3_1 authorization")
     started = time.time()
     receipt = {"schema_version": "cmf_scene_inspection_v2", "purpose": "implementation_audit", "formal_data": False, "stage0_data": False, "attempt_limit": 1, "timeout_seconds": 600, "family": args.family, "physical_gpu_index": args.physical_index, "expected_gpu_uuid": args.expected_uuid, "pid": os.getpid(), "status": "running"}
     initialize_cleanup_fields(receipt)

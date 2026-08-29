@@ -1,0 +1,89 @@
+{
+  "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "frozen_spec_sha256": "931ff479512a4525638733203f376b9f067e7209944af27c4e850191ed729db5",
+  "implementation_version": "controlled_multi_future_runtime_v3_1",
+  "observable_task_tree": {
+    "root": {
+      "compatible": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ]
+    }
+  },
+  "observable_task_tree_sha256": "13e3a3edeeb43ebbde2fd0f6370cfb24a0f1485c976bf3546ba26e6200911d1c",
+  "oracle_task_tree": {
+    "root": {
+      "compatible": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ]
+    }
+  },
+  "oracle_task_tree_sha256": "13e3a3edeeb43ebbde2fd0f6370cfb24a0f1485c976bf3546ba26e6200911d1c",
+  "planned_root_slot_spec": {
+    "family": "F1",
+    "generator": "synthetic_root_pipeline_dry_run_v1_1",
+    "origin": "nonformal_cpu_integration",
+    "rank": 0,
+    "seed": 20260829,
+    "slot_id": "synthetic_runtime_v3_1_root",
+    "stop_condition": "one_root"
+  },
+  "programs": [
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-red",
+      "steps": [
+        {
+          "object": "red",
+          "op": "pick"
+        },
+        {
+          "object": "red",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "red"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-green",
+      "steps": [
+        {
+          "object": "green",
+          "op": "pick"
+        },
+        {
+          "object": "green",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "green"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-blue",
+      "steps": [
+        {
+          "object": "blue",
+          "op": "pick"
+        },
+        {
+          "object": "blue",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "blue"
+    }
+  ],
+  "schema_version": "candidate_frozen_root_spec_v1"
+}

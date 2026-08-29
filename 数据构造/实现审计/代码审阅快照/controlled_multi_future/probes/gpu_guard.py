@@ -181,6 +181,9 @@ def classify_terminal_status(*, child_started, receipt_updated, receipt_update_e
 
 
 def main():
+    raise RuntimeError(
+        "cmf_gpu_guard_v2 CLI is superseded and disabled; current runs require gpu_guard_v2_1 plus one-shot authorization"
+    )
     parser = argparse.ArgumentParser()
     parser.add_argument("--physical-index", type=int, choices=ALLOWED_PHYSICAL_GPU_INDICES, required=True)
     parser.add_argument("--expected-uuid", required=True)
