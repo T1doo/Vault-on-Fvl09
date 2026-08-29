@@ -9,6 +9,12 @@ Stage 0 = BLOCKED_WITH_REASONS
 stage0_authorized = false
 ```
 
+Terminal content commit：
+
+```text
+19d6fd310d19fce42ff5075cf854d540646665f5
+```
+
 请依次审阅：
 
 1. `COMPLETE_PRE_STAGE0_FAMILY_EXECUTION_REPORT_20260829.md/json`
