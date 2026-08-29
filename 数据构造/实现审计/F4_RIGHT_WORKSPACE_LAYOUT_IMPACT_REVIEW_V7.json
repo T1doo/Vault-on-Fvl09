@@ -1,0 +1,138 @@
+{
+  "checks": {
+    "all_dynamic_centers_inside_table_with_cube_margin": true,
+    "all_object_x_in_right_workspace_candidate_band": true,
+    "all_slots_inside_table_with_visual_margin": true,
+    "branch_neutral_orientation_is_right_arm_realized_grasp": true,
+    "branch_neutral_orientation_is_unit_quaternion": true,
+    "candidate_label_not_encoded_by_layout": true,
+    "common_clear_of_initial_objects": true,
+    "common_clear_of_visible_slots": true,
+    "common_x_pose_unchanged_from_successful_v3_2": true,
+    "objects_pairwise_separated": true,
+    "right_arm_selected": true,
+    "single_arm_for_all_programs": true,
+    "slots_pairwise_separated": true,
+    "smallest_official_tray_selected": true,
+    "tray_clear_of_objects": true,
+    "tray_clear_of_slots": true,
+    "tray_inside_table": true,
+    "tray_pose_unchanged_from_successful_v3_2": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "layout": {
+    "branch_neutral_pose": [
+      0.15,
+      -0.02,
+      0.95,
+      0.5243570072481656,
+      -0.47439082845243685,
+      0.4743935067167858,
+      0.5243604405510669
+    ],
+    "common_x_pose": [
+      0.28,
+      0.1,
+      0.762,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "layout_version": "f4_right_arm_workspace_base0_v3",
+    "object_poses": {
+      "A": [
+        0.18,
+        0.175,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        0.29,
+        0.175,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        0.4,
+        0.175,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "slot_poses": {
+      "A": [
+        0.15,
+        0.032,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        0.3,
+        0.032,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        0.41,
+        0.032,
+        0.742,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "tray": {
+      "model_id": 0,
+      "modelname": "008_tray",
+      "pose": [
+        0.28,
+        -0.12,
+        0.76,
+        0.706527,
+        0.706483,
+        -0.0291356,
+        -0.0291767
+      ]
+    }
+  },
+  "layout_sha256": "c0378c073e435f8a0772ce03890bb872150c228aee29067a2a0686f4153f9925",
+  "object_pairwise_minimum_m": 0.10999999999999999,
+  "pass": true,
+  "schema_version": "cmf_f4_right_workspace_layout_impact_review_v7",
+  "slot_pairwise_minimum_m": 0.10999999999999999,
+  "source_failure": "A/B/C all failed their first pregrasp at x=0.07/-0.08/-0.23",
+  "source_failure_namespace": "nonformal_runtime_v3_3_f4_cube_grasp_no_action_ik_seed20260829_run2_v1_2",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_geometry_pass_real_three_role_ik_pending",
+  "tray_world_aabb_xy": {
+    "lower": [
+      0.11930534920005867,
+      -0.22582967214506589
+    ],
+    "upper": [
+      0.4406946507999414,
+      -0.014170327854934106
+    ]
+  },
+  "uniform_repair": "move all A/B/C and their visible slots into one common right-workspace band; grasp transform remains identical"
+}

@@ -5,47 +5,12 @@ from __future__ import annotations
 import json
 
 from .f2_mutually_exclusive_region_layout_v2 import LAYOUT as F2_LAYOUT
+from .f4_right_workspace_layout_v3 import LAYOUT as F4_LAYOUT
 from .runtime_v3_3_budget_v1 import ROOT_SCOPES, SCOPE_FAMILIES, scope_budget
 
 
 SCHEMA_VERSION = "cmf_runtime_v3_3_planned_scope_spec_v1"
 SCENE_SEED = 20260829
-F4_LAYOUT = {
-    "layout_version": "f4_right_arm_mirror_base0_v2_grasp_neutral",
-    "branch_neutral_pose": [
-        0.15,
-        -0.02,
-        0.95,
-        0.5243570072481656,
-        -0.47439082845243685,
-        0.4743935067167858,
-        0.5243604405510669,
-    ],
-    "common_x_pose": [0.28, 0.1, 0.762, 1.0, 0.0, 0.0, 0.0],
-    "object_poses": {
-        "A": [0.07, 0.08, 0.762, 1.0, 0.0, 0.0, 0.0],
-        "B": [-0.08, 0.08, 0.762, 1.0, 0.0, 0.0, 0.0],
-        "C": [-0.23, 0.08, 0.762, 1.0, 0.0, 0.0, 0.0],
-    },
-    "slot_poses": {
-        "A": [0.07, -0.18, 0.742, 1.0, 0.0, 0.0, 0.0],
-        "B": [-0.08, -0.18, 0.742, 1.0, 0.0, 0.0, 0.0],
-        "C": [-0.23, -0.18, 0.742, 1.0, 0.0, 0.0, 0.0],
-    },
-    "tray": {
-        "model_id": 0,
-        "modelname": "008_tray",
-        "pose": [
-            0.28,
-            -0.12,
-            0.76,
-            0.706527,
-            0.706483,
-            -0.0291356,
-            -0.0291767,
-        ],
-    },
-}
 
 
 def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict:

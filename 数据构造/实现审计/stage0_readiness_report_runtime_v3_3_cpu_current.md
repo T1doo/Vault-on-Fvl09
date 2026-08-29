@@ -2,7 +2,7 @@
 
 ## BLOCKED_WITH_REASONS
 
-CPU/static基线和真实canonical-prefix smoke已经通过，但目前仍不能启动Stage 0：F1–F4 accepted real roots仍为0。
+CPU/static基线和真实canonical-prefix smoke已经通过。F4首次no-action IK三角色均在旧layout pregrasp失败，现已形成统一right-workspace layout v3 CPU修复；在real IK复验和F1–F4完整roots前仍不能启动Stage 0。
 
 已经具备的部分：
 
@@ -11,7 +11,7 @@ CPU/static基线和真实canonical-prefix smoke已经通过，但目前仍不能
 - current/anchor、raw、verifier、cleanup与3/3 root finalizer；
 - F1公平planner evidence、F2动态inside与互斥layout、F3 shared-V物理Gate、F4 no-action IK与staged blocks；
 - 与冻结JSON一致的有限预算及one-shot/revision/GPU guard链；
-- active和byte-equal snapshot各`243/243 tests passed`。
+- active和byte-equal snapshot各`245/245 tests passed`。
 
 仍缺的真实证据：
 

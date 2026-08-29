@@ -52,17 +52,17 @@ reference scene规划/执行一次
 | F1 | 三色统一4+4 cm lift；terminal qpos/joint margin/waypoint clearance | 3/3 planner→3/3 branch root |
 | F2 | official box2；互斥layout；staged inside；release多时点诊断；beside support z | same-can inside/on/beside root |
 | F3 | shared grasp/lift/central/first-V artifact与每replay physical Gate | VVHH/VHVH/VHHV root |
-| F4 | explicit right cube grasp、no-action IK、A/B/C/AB staged Gate | staged Gate→ABC/ACB/BAC root |
+| F4 | explicit right cube grasp；首次no-action IK三角色均在旧左侧layout失败；统一right-workspace layout v3 CPU通过 | 重跑A/B/C IK→staged Gate→ABC/ACB/BAC root |
 
 ## 验证
 
 ```text
 official tracked baseline = c3ddfa8b97d5519efa828b075999bd0006778e5e
 official tracked worktree = clean
-active source tests = 243/243 passed
-Vault snapshot tests = 243/243 passed
+active source tests = 245/245 passed
+Vault snapshot tests = 245/245 passed
 active/snapshot diff = byte-equal
-implementation source SHA-256 = 399ccab5377d867af5ac39597d018b5e1c6115a45a8b28ea6cff79291de0756a
+implementation source SHA-256 = b539e81b5377ad28d06a5081e277f2f3d9420f32b928703a37b5547001e25beb
 budget SHA-256 = 31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544
 ```
 

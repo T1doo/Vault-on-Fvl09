@@ -105,6 +105,7 @@ def current_source_bindings_v3_3() -> dict:
         "canonical_prefix_smoke_sha256": root / "canonical_prefix_smoke_v1.py",
         "f4_cube_grasp_ik_audit_sha256": root / "f4_cube_grasp_ik_audit_v1.py",
         "f4_staged_block_gate_sha256": root / "f4_staged_block_gate_v1.py",
+        "f4_right_workspace_layout_sha256": root / "f4_right_workspace_layout_v3.py",
         "scope_specs_sha256": root / "runtime_v3_3_scope_specs_v1.py",
         "scope_bundle_builder_sha256": root / "runtime_v3_3_scope_bundle_v1.py",
         "gpu_guard_sha256": root / "probes/gpu_guard_v2_4.py",
