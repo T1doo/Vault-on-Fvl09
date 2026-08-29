@@ -10,4 +10,6 @@ Final layout `f4_right_arm_workspace_base0_v4_final`在真实GPU0/SAPIEN中通�
 
 四scene current/anchor一致、cleanup安全、orphan=0；总planner=6、budget通过。Guard无timeout、post-release verified；独立GPU0 postcheck=P8/14 MiB/0%。
 
+可追溯性中，authorization canonical receipt SHA为`2817698…`，authorization文件字节SHA为`7ffa44e4…`；request、source-lock、Guard、outer/child receipt的文件SHA均保存于同名JSON报告，避免混用两种hash语义。
+
 该证据只证明共同right-arm cube grasp endpoints可规划，放行`A-only→B-only→C-only→A+B` staged execution Gate。它不证明staged blocks、ABC/ACB/BAC、noninterference或F4 accepted root。
