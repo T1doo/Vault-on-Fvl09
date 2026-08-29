@@ -17,6 +17,7 @@ from controlled_multi_future.real_sapien_adapter_v1_2 import (
     RoboTwinRealSapienPilotRootAdapterV1_2,
     RoboTwinSceneContextV1_2,
     _asset_hash_v1_2,
+    _initialize_a0_native_planner_counters,
     procedural_asset_spec_sha256,
     _runtime_sleep_state,
 )
@@ -145,6 +146,16 @@ def zero_activity(timestep=0.004):
 
 
 class RealSapienAdapterV1_2StaticTest(unittest.TestCase):
+    def test_a0_native_planner_ledger_is_initialized_without_trace(self):
+        scene = type("Scene", (), {})()
+        receipt = _initialize_a0_native_planner_counters(scene)
+        self.assertEqual(scene.planner_query_count, 0)
+        self.assertEqual(scene.planner_queries, [])
+        self.assertFalse(receipt["trace_initialized"])
+        scene.planner_query_count = 1
+        with self.assertRaises(ActivityMonitorError):
+            _initialize_a0_native_planner_counters(scene)
+
     def test_sleep_state_supports_fvl05_bool_property_and_callable(self):
         property_component = type("PropertyComponent", (), {"is_sleeping": True})()
         callable_component = type("CallableComponent", (), {"is_sleeping": lambda self: False})()

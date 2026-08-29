@@ -22,6 +22,7 @@ from typing import Any, Mapping, Sequence
 
 ACTIVITY_SCHEMA_VERSION = "cmf_a0_activity_audit_v2"
 SOURCE_COMMIT = "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
 
 
 class ActivityMonitorError(RuntimeError):
@@ -554,12 +555,15 @@ def validate_activity_receipt_v2(
         raise ActivityMonitorError("canonical settle must not be classified as controlled action", receipt=receipt)
     if int(setup.get("canonical_settle_steps", -1)) != 60:
         raise ActivityMonitorError("A0 canonical settle must contain exactly 60 steps", receipt=receipt)
-    if float(setup.get("simulator_timestep_seconds", -1)) != 0.004:
-        raise ActivityMonitorError("A0 simulator timestep must equal 0.004 seconds", receipt=receipt)
+    if abs(float(setup.get("simulator_timestep_seconds", -1)) - 0.004) > TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS:
+        raise ActivityMonitorError("A0 simulator timestep must represent 0.004 seconds", receipt=receipt)
     if int(setup.get("control_steps_per_action", -1)) != 1:
         raise ActivityMonitorError("A0 control_steps_per_action must equal one", receipt=receipt)
-    if abs(float(setup.get("effective_action_interval_seconds", -1)) - 0.004) > 1e-12:
-        raise ActivityMonitorError("A0 effective action interval must equal 0.004 seconds", receipt=receipt)
+    if (
+        abs(float(setup.get("effective_action_interval_seconds", -1)) - 0.004)
+        > TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS
+    ):
+        raise ActivityMonitorError("A0 effective action interval must represent 0.004 seconds", receipt=receipt)
     if instrumentation.get("wrapper_installation_pass") is not True:
         raise ActivityMonitorInstallationError("A0 wrapper installation failed", receipt=receipt)
     if instrumentation.get("wrapper_restoration_pass") is not True:

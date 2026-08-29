@@ -1,0 +1,79 @@
+{
+  "allowed_gpu_uuid_policy": "fresh_idle_exact_uuid_selected_by_atomic_guard",
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1_r1/F1_three_branch_seed20260829_run1_r1.authorization.json",
+  "automatic_retry": false,
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorization_consumed/runtime_v3_1_v5_1_r1",
+  "controlled_action_limit": 3,
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_1_complete_family_scope",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_1_v5_1_r1/F1_three_branch_seed20260829_run1_r1.authorization.json"
+  ],
+  "exact_child_command_sha256": "02d14dd7113cbd44513b34c9c7204a50842f29b763a864a0dd8a54869c5ea0a2",
+  "family": "F1",
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_seed20260829_run1_r1.guard.json",
+  "max_invocations": 1,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F1_three_branch_seed20260829_run1_r1",
+  "parent_user_authorization_sha256": "8b93677781037fe172cd83c55e5ff45f731230e816b9ba60f38f04a49317cd83",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "family": "F1",
+    "origin": "pre_stage0_nonformal_user_authorized_after_A0_run1_repair",
+    "seed": 20260829,
+    "slot_id": "runtime_v3_1_v5_1_r1_F1_three_branch_seed20260829_run1_r1"
+  },
+  "planned_root_slot_spec_sha256": "e5ded7884d510bb929344040fd835ec002390b936f47301e39fe0ad86572167e",
+  "planner_query_limit": 36,
+  "reviewed_content_commit": "02e00f9e3f753586eb16d7369bb48e75049ce05e",
+  "scene_seed": 20260829,
+  "schema_version": "cmf_pre_stage0_gpu_scope_request_v1",
+  "scope": "F1_three_branch_nonformal_probe",
+  "scope_budget": {
+    "automatic_retry": false,
+    "branch_order": [
+      "red",
+      "green",
+      "blue"
+    ],
+    "execution_limit_per_branch": 1,
+    "family": "F1",
+    "maximum_implementation_repair_revisions": 2,
+    "planner_query_limit_per_branch": 12,
+    "recovery_attempt_limit": 0,
+    "scope": "F1_three_branch_nonformal_probe",
+    "scope_budget_sha256": "5955edcbf981db2faf52ea883ea99fd22e42fbe133ca6169326c030927d54da8",
+    "timeout_seconds_per_branch": 1200,
+    "user_authorized": true
+  },
+  "scope_budget_sha256": "5955edcbf981db2faf52ea883ea99fd22e42fbe133ca6169326c030927d54da8",
+  "scope_request_sha256": "bb014f33def51db554b17ec6eaca8b741a8fa5d50262ad7a07c05253d12916bf",
+  "source_bindings": {
+    "a0_activity_monitor_sha256": "ca471bc417e68d9cab2230e5c0a2c4c78376774317d1ccfd3bbc17135f9463de",
+    "a0_orchestrator_sha256": "f73304626ba9a86e252fd9ead71a4a9a5ee36bf7b3e100b2e3d0e4814c33ff03",
+    "authorization_validator_sha256": "80c756d515990a5517e0897c4de044f6cbc02e7cec3e2c0124ef77ce2402e6fb",
+    "budget_receipt_sha256": "aad018b72cf0f8af32af93283a35ffea908832048569682ee671eef0a790fd97",
+    "gpu_guard_sha256": "1f63292e6cf01f9bf0d4f7ba023a8b8df31cb822610f5bc93723a2f91d4f3d24",
+    "implementation_source_sha256": "f200de7366136ab8feb6211c941d2072eb25f2526cc8492b393568ba85bc77c1",
+    "real_adapter_sha256": "6f5fd35fd6d360f9cc3298ddeb0f20c016d4d477c3d90c167acf7a21a576bb04",
+    "runtime_source_lock_module_sha256": "2fc83c75e652b0d756b62b8e6382db7ed104d189901238515642ada2b45c62d6"
+  },
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_1_v5_1_r1/F1_three_branch_seed20260829_run1_r1.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "approved_by_parent_user_authorization_pending_one_shot_issue",
+  "timeout_seconds": 3600
+}
+

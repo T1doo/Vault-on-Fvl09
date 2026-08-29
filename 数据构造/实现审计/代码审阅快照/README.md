@@ -38,7 +38,7 @@
 - `probes/action_feasibility.py`：旧 bounded repair v1，只保留历史实现，CLI 已 fail-closed 禁止重跑；
 - `probes/action_feasibility_v2.py`：runtime-v2 的 F1/F2/F3/F4 单 gate runner；runtime-v2 budget 已在 GPU1 执行并耗尽，不得重跑；
 - `probes/` 其他模块：cleanup-safe lifecycle、scene inspection、真实 trace/raw adapter、atomic GPU guard 与 synthetic pipeline dry-run；
-- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 156 tests）。
+- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 158 tests）。
 
 在 Vault 根目录复核快照测试时，需要把本目录加入 import path：
 
@@ -50,4 +50,4 @@ PYTHONPATH='数据构造/实现审计/代码审阅快照' \
   -p 'test_*.py'
 ```
 
-运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。Runtime-v2 实际结果见 `../runtime_v2_bounded_probe_execution_report_20260828.md/json`；runtime-v3_1 current synthetic evidence 为 `../probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10/`。本轮总授权见 `../USER_AUTHORIZATION_COMPLETE_PRE_STAGE0_WORK_20260829.md/json`；每个真实 scope 仍需独立 request/source-lock/one-shot authorization/guard。正式 Stage 0 仍未授权。
+运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。Runtime-v2 实际结果见 `../runtime_v2_bounded_probe_execution_report_20260828.md/json`；runtime-v3_1 current synthetic evidence 为 `../probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10/`。本轮总授权见 `../USER_AUTHORIZATION_COMPLETE_PRE_STAGE0_WORK_20260829.md/json`。真实A0已运行两次并分别因sleep-state API与4ms float/native-ledger validator问题terminal；两次均cleanup/orphan/GPU-release安全，但A0 execution budget已耗尽，后续family scopes未启动。当前postmortem CPU修复已通过158 tests但没有新的真实GPU授权。正式Stage 0仍未授权。

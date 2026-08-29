@@ -137,6 +137,26 @@ def _runtime_sleep_state(dynamic: Any) -> bool | str:
     return bool(value)
 
 
+def _initialize_a0_native_planner_counters(scene: Any) -> dict:
+    """Create the RuntimeTraceMixin planner ledger without initializing trace."""
+
+    query_count = getattr(scene, "planner_query_count", 0)
+    records = getattr(scene, "planner_queries", [])
+    if query_count not in (0, None):
+        raise ActivityMonitorError("A0 native planner query counter was nonzero before monitor")
+    if records not in (None, []) and len(records) != 0:
+        raise ActivityMonitorError("A0 native planner record ledger was nonempty before monitor")
+    scene.planner_query_count = 0
+    scene.planner_queries = []
+    return {
+        "initialized": True,
+        "query_count": 0,
+        "record_count": 0,
+        "trace_initialized": hasattr(scene, "trace"),
+        "source": "A0 adapter initializes RuntimeTraceMixin-compatible planner ledger only",
+    }
+
+
 def _asset_hash_v1_2(spec: Mapping[str, Any], kind: str) -> str:
     procedural = spec.get("procedural_creation")
     if isinstance(procedural, Mapping):
@@ -170,6 +190,7 @@ def _setup_activity_summary(scene, args: Mapping[str, Any]) -> dict:
         "native_planner_counter_source": (
             "RuntimeTraceMixin planner_query_count and planner_queries; both are required for real A0"
         ),
+        "native_planner_counter_initialization": dict(scene._cmf_a0_native_planner_counter_initialization),
         "setup_dense_action_known_from_call_graph": [
             "Base_Task.together_open_gripper",
             "Base_Task.set_gripper",
@@ -232,6 +253,7 @@ class RoboTwinSceneContextV1_2:
             scene._cmf_adapter_version = ADAPTER_VERSION
             scene._cmf_scene_context_v1_2 = self
             if self._a0_phase:
+                scene._cmf_a0_native_planner_counter_initialization = _initialize_a0_native_planner_counters(scene)
                 self._monitor = A0PostSetupActivityMonitorV2(
                     scene,
                     scene_instance_id=self.scene_instance_id,

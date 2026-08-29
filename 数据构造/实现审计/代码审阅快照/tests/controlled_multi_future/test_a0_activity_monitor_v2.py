@@ -252,6 +252,23 @@ class A0ActivityMonitorV2Test(unittest.TestCase):
                 expected_phase="A0_pristine",
             )
 
+    def test_sapien_float_timestep_representation_is_accepted_but_real_mismatch_fails(self):
+        receipt = self.stopped_receipt()
+        receipt["setup_activity"]["simulator_timestep_seconds"] = 0.004000000189989805
+        receipt["setup_activity"]["effective_action_interval_seconds"] = 0.004000000189989805
+        validate_activity_receipt_v2(
+            reseal(receipt),
+            expected_scene_instance_id="scene-1",
+            expected_phase="A0_pristine",
+        )
+        receipt["setup_activity"]["simulator_timestep_seconds"] = 0.004001
+        with self.assertRaisesRegex(ActivityMonitorError, "represent 0.004"):
+            validate_activity_receipt_v2(
+                reseal(receipt),
+                expected_scene_instance_id="scene-1",
+                expected_phase="A0_pristine",
+            )
+
     def test_missing_old_unbound_and_incomplete_receipts_fail(self):
         with self.assertRaises(ActivityMonitorError):
             validate_activity_receipt_v2(None, expected_scene_instance_id="scene-1", expected_phase="A0_pristine")
