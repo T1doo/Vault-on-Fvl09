@@ -1,0 +1,91 @@
+{
+  "accepted_real_roots": 0,
+  "budget_receipt_sha256": "31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544",
+  "common_runtime": {
+    "adapter": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+    "canonical_prefix_artifact": "cmf_canonical_prefix_artifact_v1",
+    "canonical_prefix_replay": "cmf_canonical_prefix_replay_v1",
+    "frozen_suffix_artifact": "cmf_frozen_suffix_artifact_v1",
+    "gpu_guard": "cmf_gpu_guard_v2_4",
+    "root_orchestrator": "cmf_real_sapien_strict_prefix_root_orchestrator_v1_2",
+    "scope_runner": "cmf_runtime_v3_3_guarded_scope_receipt_v1"
+  },
+  "current_family_status": {
+    "F1": {
+      "arm": "left",
+      "assets": [
+        "project RGB blocks red/green/blue",
+        "062_plasticbox/base3"
+      ],
+      "cpu_status": "implemented_and_tested_gpu_planner_root_pending",
+      "programs": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "repair": "one uniform top-down grasp and 4cm+4cm lift rule",
+      "runtime_gate": "3/3 planner suffixes with terminal qpos/joint margin/waypoint clearance, then 3/3 execution"
+    },
+    "F2": {
+      "arm": "left",
+      "assets": [
+        "071_can/base1",
+        "062_plasticbox/base2",
+        "072_electronicscale/base0",
+        "074_displaystand/base3"
+      ],
+      "cpu_status": "layout_and_dynamic_diagnostics_implemented_gpu_root_pending",
+      "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+      "programs": [
+        "inside(plastic_box)",
+        "on(electronic_scale)",
+        "beside(display_stand)"
+      ],
+      "repair": "frozen mutually exclusive regions; staged inside descent; support-height beside target; release samples",
+      "runtime_gate": "same can/arm, 3/3 exact prefix replay, full-OBB/exclusive predicate/verifier"
+    },
+    "F3": {
+      "arm": "left",
+      "assets": [
+        "001_bottle/base13",
+        "project original pad"
+      ],
+      "cpu_status": "shared_prefix_physical_gate_implemented_gpu_root_pending",
+      "programs": [
+        "VVHH",
+        "VHVH",
+        "VHHV"
+      ],
+      "repair": "grasp/lift/central/shared-first-V artifact; uniform 55mm V; replay motion/contact/grasp Gate",
+      "runtime_gate": "3/3 shared-V realized motion and grasp stability plus final return equivalence"
+    },
+    "F4": {
+      "arm": "right",
+      "assets": [
+        "project common-X and RGB A/B/C cubes",
+        "008_tray/base0",
+        "project visible slots A/B/C"
+      ],
+      "cpu_status": "procedural_grasp_and_staged_gate_implemented_gpu_validation_pending",
+      "layout_version": "f4_right_arm_mirror_base0_v2_grasp_neutral",
+      "programs": [
+        "common-X+ABC",
+        "common-X+ACB",
+        "common-X+BAC"
+      ],
+      "repair": "single explicit right-arm cube transform; A/B/C/AB staged Gate; frozen targets",
+      "runtime_gate": "no-action IK then A-only/B-only/C-only/AB, then 3/3 full root with completion/noninterference"
+    }
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "implementation_source_sha256": "a3e417e46e6f65434cfbb014827790ffe8d89c38e61150a2123b323d13a0a783",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "latest_runtime_evidence": "none_for_runtime_v3_3_cpu_baseline",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_cpu_current",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_implemented_real_runtime_validation_pending",
+  "supersedes_current_status_only": "f1_f4_implementation_registry_v3_2_current.json"
+}

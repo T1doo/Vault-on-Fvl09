@@ -1,0 +1,208 @@
+{
+  "checks": {
+    "all_old_shared_v_negative_amplitude_below_40mm": true,
+    "all_old_shared_v_negative_amplitude_within_1mm_of_gate": true,
+    "all_selected_gripper_contact_fraction_one": true,
+    "three_program_records": true,
+    "v_h_v_h_grasp_transform_unstable": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "pass_diagnosis": true,
+  "records": [
+    {
+      "bottle_end_angular_speed_rps": 0.25022994832667306,
+      "bottle_end_linear_speed_mps": 0.0598521897926812,
+      "bottle_metrics": {
+        "max_off_axis": 0.00531877413344455,
+        "negative_amplitude": 0.04192209243774414,
+        "positive_amplitude": 0.048058271408081055,
+        "return_error": 0.006785794802682375,
+        "start_error": 0.0
+      },
+      "diagnosis": {
+        "actor_to_eef_correction_allowed": true,
+        "before_release_accurate": false,
+        "classification": "pre_release_systematic_offset",
+        "eef_tracking_ok": true,
+        "final_return_equivalence": true,
+        "grasp_transform_stable": true,
+        "next_gate": "one_deterministic_actor_to_eef_correction",
+        "transient_tolerance_exceeded": true
+      },
+      "eef_metrics": {
+        "max_off_axis": 0.004234599473581467,
+        "negative_amplitude": 0.039661526679992676,
+        "positive_amplitude": 0.04798245429992676,
+        "return_error": 0.008306109841958004,
+        "start_error": 0.0
+      },
+      "grasp_transform": {
+        "before_release_T_eef_actor": [
+          0.12424648762630275,
+          -0.0012287202219026516,
+          -0.12374835422801161,
+          0.49620206461364363,
+          0.48596144427375226,
+          0.5093244870036695,
+          0.508147176210766
+        ],
+        "grasp_transform_orientation_drift": 0.010411393057147432,
+        "grasp_transform_stable": true,
+        "grasp_transform_translation_drift": 0.0010831354365678921,
+        "initial_T_eef_actor": [
+          0.12484837107343694,
+          -0.0003677428251568221,
+          -0.12348446672867192,
+          0.49207386012211696,
+          0.48676548897289784,
+          0.5123877128496421,
+          0.5083124104821833
+        ]
+      },
+      "program_id": "F3-VHHV",
+      "selected_gripper_contact_fraction": 1.0,
+      "shared_first_v_step_count": 473,
+      "shared_v_eef_negative_gate_pass": false
+    },
+    {
+      "bottle_end_angular_speed_rps": 0.23609182609905136,
+      "bottle_end_linear_speed_mps": 0.058163966619166174,
+      "bottle_metrics": {
+        "max_off_axis": 0.005993168491217521,
+        "negative_amplitude": 0.04319310188293457,
+        "positive_amplitude": 0.048265039920806885,
+        "return_error": 0.004509155174834747,
+        "start_error": 0.0
+      },
+      "diagnosis": {
+        "actor_to_eef_correction_allowed": false,
+        "before_release_accurate": false,
+        "classification": "grasp_slip_or_contact_change",
+        "eef_tracking_ok": true,
+        "final_return_equivalence": false,
+        "grasp_transform_stable": false,
+        "next_gate": "grasp_slip_or_contact_impact_review",
+        "transient_tolerance_exceeded": true
+      },
+      "eef_metrics": {
+        "max_off_axis": 0.004503515917163134,
+        "negative_amplitude": 0.03963857889175415,
+        "positive_amplitude": 0.047971129417419434,
+        "return_error": 0.008397735482853722,
+        "start_error": 0.0
+      },
+      "grasp_transform": {
+        "before_release_T_eef_actor": [
+          0.1269038014766738,
+          8.012040731457393e-05,
+          -0.12283706354813673,
+          0.5052680148615535,
+          0.4786547611575221,
+          0.4956356828665495,
+          0.519556659709516
+        ],
+        "grasp_transform_orientation_drift": 0.07535149399384528,
+        "grasp_transform_stable": false,
+        "grasp_transform_translation_drift": 0.0024402573768561443,
+        "initial_T_eef_actor": [
+          0.12509317234416473,
+          0.001372006127468628,
+          -0.12384081127335075,
+          0.47687909076347157,
+          0.48336286099776954,
+          0.5199175996233855,
+          0.5182975660781292
+        ]
+      },
+      "program_id": "F3-VHVH",
+      "selected_gripper_contact_fraction": 1.0,
+      "shared_first_v_step_count": 464,
+      "shared_v_eef_negative_gate_pass": false
+    },
+    {
+      "bottle_end_angular_speed_rps": 0.10086505010438825,
+      "bottle_end_linear_speed_mps": 0.05598828296765207,
+      "bottle_metrics": {
+        "max_off_axis": 0.008327164199271713,
+        "negative_amplitude": 0.04091751575469971,
+        "positive_amplitude": 0.048306167125701904,
+        "return_error": 0.007782247876295466,
+        "start_error": 0.0
+      },
+      "diagnosis": {
+        "actor_to_eef_correction_allowed": true,
+        "before_release_accurate": false,
+        "classification": "pre_release_systematic_offset",
+        "eef_tracking_ok": true,
+        "final_return_equivalence": true,
+        "grasp_transform_stable": true,
+        "next_gate": "one_deterministic_actor_to_eef_correction",
+        "transient_tolerance_exceeded": true
+      },
+      "eef_metrics": {
+        "max_off_axis": 0.0044195903059572545,
+        "negative_amplitude": 0.03966820240020752,
+        "positive_amplitude": 0.04799699783325195,
+        "return_error": 0.008337034949139325,
+        "start_error": 0.0
+      },
+      "grasp_transform": {
+        "before_release_T_eef_actor": [
+          0.12588839784867978,
+          0.00010724224030174423,
+          -0.12405777522086958,
+          0.49446475722081334,
+          0.4841047945628035,
+          0.5057845980535058,
+          0.5151010503966396
+        ],
+        "grasp_transform_orientation_drift": 0.04714832781333,
+        "grasp_transform_stable": true,
+        "grasp_transform_translation_drift": 0.001695879688628742,
+        "initial_T_eef_actor": [
+          0.12479316325474699,
+          0.0013829275252243423,
+          -0.12383619869596602,
+          0.4762072545849232,
+          0.4842012693203128,
+          0.5204935107913858,
+          0.517554138900797
+        ]
+      },
+      "program_id": "F3-VVHH",
+      "selected_gripper_contact_fraction": 1.0,
+      "shared_first_v_step_count": 464,
+      "shared_v_eef_negative_gate_pass": false
+    }
+  ],
+  "schema_version": "cmf_f3_shared_prefix_diagnosis_v3_3_v1",
+  "selected_uniform_repair": {
+    "canonical_prefix": [
+      "pregrasp",
+      "grasp",
+      "close",
+      "two_segment_lift",
+      "central",
+      "shared_first_V"
+    ],
+    "exact_action_bytes_replayed": true,
+    "grasp_boundary_measurements": [
+      "post_close",
+      "post_lift",
+      "post_central",
+      "post_shared_V",
+      "before_release"
+    ],
+    "h_nominal_amplitude_m": 0.05,
+    "program_specific_correction_allowed": false,
+    "settling_excluded_from_semantic_P": true,
+    "shared_v_nominal_amplitude_m": 0.055,
+    "verifier_threshold_relaxed": false
+  },
+  "source_branch_root": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F3_grasp_lift_full_root_runtime_v3_2_seed20260829_gpu0_run3_shared_8cm/root/branches",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_diagnosis_pass_exact_prefix_gpu_gate_pending"
+}

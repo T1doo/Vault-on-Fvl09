@@ -1,53 +1,50 @@
 # F1–F4 additive 代码审阅快照
 
-该目录是为外部 GPT 通过 GitHub 审阅而创建的只读快照。
+该目录是 active RoboTwin additive source 的 byte-equal 审阅副本，供外部 GPT 通过 GitHub 只读审阅。
 
-- 快照来源：`/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/`
-- 测试来源：`/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/`
-- official baseline：RoboTwin `c3ddfa8b97d5519efa828b075999bd0006778e5e`
-- 当前快照日期：2026-08-29
-- 当前 pre-Stage-0 实现版本：`controlled_multi_future_runtime_v3_1`，current revision=`runtime_v3_1_cpu_hardening_v5_1`；科学设计版本仍为 `controlled_multi_future_f1_f4_v1_2`。
-- Git 状态：active additive source 仍是 RoboTwin 工作树中的 untracked directories；官方 tracked baseline 零修改。
+- active source：`/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/`
+- active tests：`/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/`
+- official baseline：`c3ddfa8b97d5519efa828b075999bd0006778e5e`
+- 科学设计：`controlled_multi_future_f1_f4_v1_2`
+- 当前实现：`controlled_multi_future_runtime_v3_3`
+- 当前状态：CPU/static baseline passed；真实 runtime-v3_3 GPU scope 尚未执行；accepted roots=0；Stage 0 未授权。
+- 2026-08-29 active 与本快照各 `236/236 tests passed`，两棵 source/test 目录 `diff -qr` 无差异。
 
-本快照不是 active source，不应直接用于运行、Stage 0 或 formal collection。审阅意见应先应用到 active RoboTwin source，重新测试并生成新快照；不要在 Vault 副本中独立演化实现。
+本快照不是 active source，不得从这里运行 GPU、Stage 0 或 formal collection。所有实现修改必须先发生在 active RoboTwin additive source，验证后再同步。
 
-目录内容：
+## runtime-v3_3 主要入口
 
-- `controlled_multi_future/base.py`：统一 fail-closed lifecycle interface；
-- `schemas.py`：最小 schema/contract checks；
-- `candidate_freezer.py`、`current_hasher.py`、`anchor.py`：candidate/current/anchor freeze 与 equivalence；
-- `geometry.py`、`runtime_v2_contracts.py`：actor→EEF、真实 cavity/footprint、swept-path 与 runtime-v2 历史 repair 合同；
-- `runtime_v3_contracts.py`：F1 三分支、F2 固定 workspace candidates、F3 release diagnostics 与 F4 segmented routes 的当前 CPU contracts；
-- `runtime_v3_1_contracts.py`：executed-prefix、chained planner、grasp-slip、fresh-route 与 A0 budget 的 GPU 前加固合同；
-- `probe_contracts.py`：无 RoboTwin runtime 依赖的 current/historical variant 与 semantic-result contracts；
-- `raw_writer.py`、`receipts.py`、`attempt_state_machine.py`、`finalizer.py`：250 Hz 26-D、N actions/N+1 states 的 raw-v2_1 attempt pipeline；
-- `pilot_pipeline.py`：正式采集关闭状态下的 Stage-0-shaped nonformal integration orchestrator；
-- `root_orchestrator.py`：保留的 runtime-v3 历史 synthetic root contract；其中 real adapter 未实现，不能作为 current v3_1 入口；
-- `root_orchestrator_v1_1.py`：task/physical 与 planner 分账、唯一 scene cleanup receipt、immutable program/spec、provisional artifacts、actual-prefix 与独立 root finalizer；
-- `a0_orchestrator_v1_1.py`：V4历史 A0 Gate；current CLI不再引用；
-- `a0_activity_monitor_v2.py`、`a0_orchestrator_v1_2.py`：post-setup 独立 entry-point/native-planner/physics hard Gate、per-scene artifact/hash 与 mismatch diagnostics；
-- `real_sapien_adapter_v1_2.py`：current lazy real adapter/context；在 setup+60 settle后启动 monitor，保存 timestep/camera/procedural asset/physics来源；
-- `runtime_source_lock_v1.py`：每次 authorization consumption 前重新核对官方 commit/clean worktree、critical source、asset/model_data/config、additive source、activation 与依赖环境；
-- `runtime_v3_1_budget_v1_2.py`：用户已批准的六个有限 pre-Stage-0 nonformal scope 预算；始终保持 `stage0_authorized=false`；
-- `pre_stage0_authorization_v1.py`、`probes/runtime_v3_1_authorization_v1_2.py`、`probes/gpu_guard_v2_2.py`：parent authorization、frozen request、source-lock、代码/预算/family/seed/spec/output/command绑定、≤1h expiry、one-shot consumption与 atomic GPU lifecycle；
-- `real_sapien_adapter_v1_1.py`、旧 authorization/guard/A0 v1_1：只作历史/兼容 helper，不是 current execution entry；
-- `family_runners_v3_1.py`、`family_repair_orchestrator_v1_1.py`：F1/F2 完整 root、F3/F4 repair 与完整三程序 runner；F3/F4 final-state payload 进入 root finalizer；尚未获得本 revision 的 GPU runtime evidence；
-- `f3_conditional_repair_orchestrator_v1_1.py`：一次 diagnosis 后仅在严格分类允许时生成哈希 correction spec，并以 fresh current/anchor 最多执行一次 deterministic correction；
-- `families/`：F1–F4 frozen program skeletons；
-- `signals.py` 与 `verifiers/`：pure signal/verifier adapters；
-- `probes/action_feasibility.py`：旧 bounded repair v1，只保留历史实现，CLI 已 fail-closed 禁止重跑；
-- `probes/action_feasibility_v2.py`：runtime-v2 的 F1/F2/F3/F4 单 gate runner；runtime-v2 budget 已在 GPU1 执行并耗尽，不得重跑；
-- `probes/` 其他模块：cleanup-safe lifecycle、scene inspection、真实 trace/raw adapter、atomic GPU guard 与 synthetic pipeline dry-run；
-- `tests/controlled_multi_future/`：CPU static/pipeline contract tests（当前 158 tests）。
+- `canonical_prefix_artifact_v1.py`：封存一次规划得到的 26-D/250 Hz canonical prefix、requested/mask、reference trace、physical-acceptance 和 semantic/settling 边界。
+- `canonical_prefix_replay_v1.py`：fresh scene 中逐 step 重放完全相同的 effective-setpoint bytes，并复核 requested/mask/current/anchor/end state；不调用 planner。
+- `frozen_suffix_artifact_v1.py`：把实际 replay-end qpos 后规划出的 suffix control arrays、planner receipts、目标与链式 qpos 封成不可变 artifact。
+- `root_orchestrator_v1_2.py`：pristine→3 task/physical scenes→freeze once→prefix once→3 suffix preflights→3 fresh executions→3/3 finalizer。
+- `real_sapien_adapter_v1_3.py`、`family_runners_v3_3.py`：真实 SAPIEN strict-prefix adapter 与 F1–F4 family controllers。
+- `canonical_prefix_smoke_v1.py`：一次 prefix generation 加三 fresh exact replays 的非正式架构 smoke。
+- `f4_cube_grasp_ik_audit_v1.py`：A/B/C procedural cube 的 right-arm no-action/IK Gate。
+- `f4_staged_block_gate_v1.py`：`A-only → B-only → C-only → A+B noninterference`，通过后才允许 F4 full root。
+- `runtime_v3_3_budget_v1.py`：与 Vault 冻结 budget JSON 逐字段一致，hash=`31e9c891bfc49db871f5743debd247ad4d0d6f93a4439e83b2742a99c492e544`。
+- `pre_stage0_authorization_v3.py`、`probes/runtime_v3_3_authorization_v1.py`：parent/request/source/code/budget/family/seed/spec/output/command one-shot binding，以及每 family 最多两个 source-distinct revisions 的 canonical ledger。
+- `probes/gpu_guard_v2_4.py`：GPU0-only fresh-idle UUID guard；source-lock 后再次 snapshot，随后才消费 authorization 并启动 child。
+- `probes/runtime_v3_3_scope_runner.py`：唯一 current GPU child entrypoint；始终 `formal_data=false/stage0_data=false/stage0_authorized=false`。
+- `runtime_v3_3_scope_specs_v1.py`、`runtime_v3_3_scope_bundle_v1.py`：冻结 planned specs 与 CPU-only request/source-lock/authorization bundle builder。
 
-在 Vault 根目录复核快照测试时，需要把本目录加入 import path：
+## Family 当前 CPU 修复
+
+- F1：red/green/blue 共用 top-down + 4 cm + 4 cm lift；planner Gate保存 terminal qpos、joint margin、统一 waypoint clearance 与官方 CuRobo collision status，3/3 后才执行。
+- F2：固定同一 `071_can/base1`、left arm、official plasticbox/base2；联合布局 v2 的 inside/on/beside 区域经 5 mm 网格证明互斥；beside z 由冻结桌面支撑高度决定；inside 保存 release 前后动态样本且 full-OBB verifier 不放宽。
+- F3：prefix 固定 grasp/lift/central/shared-first-V；reference 和每次 replay 都硬检 realized EEF/bottle V、off-axis/return、速度、selected contact 与 grasp-transform drift。
+- F4：同一显式 right-arm cube grasp generator用于 A/B/C；每 block 检查指定夹爪接触、连续稳定 slot completion、table support、non-target/prior-slot/common-X preservation 和 neutral boundary。
+
+## 验证命令
+
+在本快照目录执行：
 
 ```bash
-PYTHONPATH='数据构造/实现审计/代码审阅快照' \
+PYTHONDONTWRITEBYTECODE=1 \
   /nfs_share/lijunhui/Robotwin2/env/bin/python \
   -m unittest discover \
-  -s '数据构造/实现审计/代码审阅快照/tests/controlled_multi_future' \
-  -p 'test_*.py'
+  -s tests/controlled_multi_future \
+  -p 'test_*.py' -v
 ```
 
-运行证据、截图、receipts 和 realized NPZ traces 不复制到本目录，统一位于相邻的 `../probe_outputs/`。Runtime-v2 实际结果见 `../runtime_v2_bounded_probe_execution_report_20260828.md/json`；runtime-v3_1 current synthetic evidence 为 `../probe_outputs/nonformal_root_pipeline_dry_run_runtime_v3_1_20260829_cpu10/`。本轮总授权见 `../USER_AUTHORIZATION_COMPLETE_PRE_STAGE0_WORK_20260829.md/json`。真实A0已运行两次并分别因sleep-state API与4ms float/native-ledger validator问题terminal；两次均cleanup/orphan/GPU-release安全，但A0 execution budget已耗尽，后续family scopes未启动。当前postmortem CPU修复已通过158 tests但没有新的真实GPU授权。正式Stage 0仍未授权。
+真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。当前尚无 runtime-v3_3 GPU evidence；任何后续 evidence 都必须经 fresh one-shot authorization 和 guard 产生。

@@ -28,6 +28,7 @@ from .geometry import (
 )
 from .probes.runtime_trace import _rigid_velocity, trace_rows_to_raw_streams
 from .planner_dtype_v3_2 import normalize_planner_control, planner_array, planner_dtype_receipt
+from .project_cube_grasp_pose_v1 import build_project_cube_grasp_poses
 from .runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, TRAY_BASE0_SUPPORT_REGION
 from .runtime_v3_1_contracts import (
     F2_CANDIDATE_IDS,
@@ -55,6 +56,8 @@ BLOCK_HALF_EXTENTS = np.asarray([0.022, 0.022, 0.022], dtype=np.float64)
 FAMILY_PLANNER_LIMITS = {"F1": 12, "F2": 16, "F3": 16, "F4": 16}
 FAMILY_FULL_PROGRAM_PLANNER_LIMITS = {"F3": 32, "F4": 32}
 MINIMUM_NEUTRAL_CONFIRMATION_STEPS = 1
+F3_V_NOMINAL_AMPLITUDE_M_V3_3 = 0.055
+F3_H_NOMINAL_AMPLITUDE_M_V3_3 = 0.05
 
 
 class FamilyRunnerError(RuntimeError):
@@ -287,6 +290,8 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
                 "segment_id": target["segment_id"],
                 "start_qpos_sha256": start_hash,
                 "end_qpos_sha256": end_hash,
+                "start_qpos": np.asarray(last_qpos, dtype=np.float32).tolist(),
+                "end_qpos": np.asarray(end_qpos, dtype=np.float32).tolist(),
                 "planner_status": status,
                 "executed": False,
                 "goal_eef_pose": np.asarray(target["pose"], dtype=np.float64).tolist(),
@@ -294,7 +299,14 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
         )
         controls.append(control)
         if status != "Success":
-            return {"pass": False, "segment_receipts": segment_receipts, "controls": controls, "planner_query_count": scene.planner_query_count}
+            return {
+                "pass": False,
+                "segment_receipts": segment_receipts,
+                "controls": controls,
+                "planner_query_count": scene.planner_query_count,
+                "terminal_qpos": np.asarray(last_qpos, dtype=np.float32).tolist(),
+                "terminal_qpos_sha256": hash_array(last_qpos),
+            }
         last_qpos = end_qpos
     chain = all(
         segment_receipts[index]["start_qpos_sha256"] == segment_receipts[index - 1]["end_qpos_sha256"]
@@ -305,6 +317,7 @@ def _plan_chain(scene, targets: Sequence[Mapping[str, Any]], *, query_limit: int
         "segment_receipts": segment_receipts,
         "controls": controls,
         "planner_query_count": scene.planner_query_count,
+        "terminal_qpos": np.asarray(last_qpos, dtype=np.float32).tolist(),
         "terminal_qpos_sha256": hash_array(last_qpos),
     }
 
@@ -344,7 +357,16 @@ def _prefix_evidence(
     }
 
 
-def _raw_result(scene, *, program, realization_spec, executed_prefix, semantic_verifier, extra=None):
+def _raw_result(
+    scene,
+    *,
+    program,
+    realization_spec,
+    executed_prefix,
+    semantic_verifier,
+    extra=None,
+    implementation_version="controlled_multi_future_runtime_v3_1",
+):
     streams, audit_streams = trace_rows_to_raw_streams(scene.trace)
     executed_prefix = dict(executed_prefix)
     prefix_end = int(executed_prefix["canonical_prefix_end_step"])
@@ -360,7 +382,7 @@ def _raw_result(scene, *, program, realization_spec, executed_prefix, semantic_v
             "program_id": program["program_id"],
             "family": program["program_id"].split("-", 1)[0],
             "realization_spec": dict(realization_spec),
-            "implementation_version": "controlled_multi_future_runtime_v3_1",
+            "implementation_version": implementation_version,
         }
     )
     if extra and "rollout_planner_reset_receipt" in extra:
@@ -425,8 +447,33 @@ def _left_gripper_below_eef_envelope(scene, *, conservative_link_margin_m=0.03):
 def _stable_and_support(scene, actor, support, frames=None):
     frames = int(frames or PROVISIONAL_RUNTIME_THRESHOLDS["stable_window_frames"])
     rows = scene.trace[-frames:]
-    speeds = [float(np.linalg.norm(row["actor_linear_velocity"])) for row in rows]
     actor_name = _entity(actor).get_name()
+    role = next(
+        (
+            key
+            for key, role_actor in getattr(scene, "trace_role_actors", {}).items()
+            if _entity(role_actor).get_name() == actor_name
+        ),
+        None,
+    )
+    if role is not None:
+        if any(
+            role not in row.get("role_actor_linear_velocities", {})
+            for row in rows
+        ):
+            raise ValueError(f"trace lacks velocity history for role {role}")
+        speeds = [
+            float(np.linalg.norm(row["role_actor_linear_velocities"][role]))
+            for row in rows
+        ]
+    elif _entity(scene.trace_actor).get_name() == actor_name:
+        speeds = [
+            float(np.linalg.norm(row["actor_linear_velocity"])) for row in rows
+        ]
+    else:
+        raise ValueError(
+            f"stable verifier cannot identify trace velocity stream for {actor_name}"
+        )
     support_name = str(support) if isinstance(support, str) else _entity(support).get_name()
     contacts = []
     for row in rows:
@@ -558,8 +605,8 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
         target_actor[:3] = transform_local_point(_pose(scene.box), PLASTICBOX_BASE3_CAVITY["target_center_local_m"])
         release = actor_target_to_eef_pose(grasp, actor_pose, target_actor)
         preplace = world_axis_offset_pose(release, 0.10)
-        lift_mid = world_axis_offset_pose(grasp, 0.06)
-        lift = world_axis_offset_pose(grasp, 0.12)
+        lift_mid = world_axis_offset_pose(grasp, 0.04)
+        lift = world_axis_offset_pose(grasp, 0.08)
         safe = lift.copy()
         safe[2] = max(float(lift[2]), 1.02)
         above = preplace.copy()
@@ -613,8 +660,8 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
         )
         _must_action(scene, scene.grasp_actor(actor, arm_tag=_arm_tag_left(), pre_grasp_dis=0.09), f"grasp_{role}")
         stages["after_grasp"] = _position_map(non_targets)
-        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.06), f"lift_mid_{role}")
-        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.06), f"lift_final_{role}")
+        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.04), f"lift_mid_{role}")
+        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.04), f"lift_final_{role}")
         stages["after_lift"] = _position_map(non_targets)
         targets = _targets_by_segment_id(spec["targets"])
         for segment_id in ("safe_vertical", "safe_horizontal", "preplace", "release"):
@@ -848,7 +895,12 @@ class F2RunnerV3_1(BaseFamilyRunnerV3_1):
         scale_target = np.asarray(scene.scale.get_functional_point(0), dtype=np.float64)
         on = top_surface_region(can_pose[:3], scale_target[:3], [0.07, 0.07], 0.06)
         radial = float(np.linalg.norm(can_pose[:2] - np.asarray(scene.stand.get_pose().p[:2])))
-        beside = bool(0.12 <= radial <= 0.23 and can_pose[2] <= 0.83)
+        beside = bool(
+            0.12 <= radial <= 0.23
+            and can_pose[2] <= 0.83
+            and not inside
+            and not on
+        )
         _, speeds, support = _stable_and_support(scene, scene.can, scene.box if inside else scene.scale if on else "table")
         relation = spec["relation"]
         exclusive = {"inside": inside, "on": on, "beside": beside}
@@ -969,7 +1021,11 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
             if axes not in ("VVHH", "VHVH", "VHHV"):
                 raise ValueError("F3 full program order is outside the frozen universe")
         for event_index, axis in enumerate(axes):
-            vector = np.asarray([0.05, 0, 0]) if axis == "H" else np.asarray([0, 0, 0.05])
+            vector = (
+                np.asarray([F3_H_NOMINAL_AMPLITUDE_M_V3_3, 0, 0])
+                if axis == "H"
+                else np.asarray([0, 0, F3_V_NOMINAL_AMPLITUDE_M_V3_3])
+            )
             targets.extend(
                 [
                     {"segment_id": f"event_{event_index}_{axis}_positive", "pose": np.concatenate((central[:3] + vector, central[3:]))},
@@ -1013,7 +1069,11 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         center_eef = np.asarray(scene.robot.get_left_ee_pose()[:3], dtype=np.float64)
         center_actor = _pose(scene.bottle)[:3]
         scene.mark(f"event_{event_index}_{axis}_start")
-        vector = (0.05, 0, 0) if axis == "H" else (0, 0, 0.05)
+        vector = (
+            (F3_H_NOMINAL_AMPLITUDE_M_V3_3, 0, 0)
+            if axis == "H"
+            else (0, 0, F3_V_NOMINAL_AMPLITUDE_M_V3_3)
+        )
         _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), x=vector[0], y=vector[1], z=vector[2]), f"{axis}_positive")
         _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), x=-2 * vector[0], y=-2 * vector[1], z=-2 * vector[2]), f"{axis}_negative")
         _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), x=vector[0], y=vector[1], z=vector[2]), f"{axis}_return")
@@ -1279,7 +1339,12 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
         return base
 
     def _object_place_targets(self, scene, actor, slot, prefix, *, arm):
-        pregrasp, grasp = scene.choose_grasp_pose(actor, arm_tag=_arm_tag(arm), pre_dis=0.09, target_dis=0)
+        pregrasp, grasp, grasp_contract = build_project_cube_grasp_poses(
+            _pose(actor),
+            cube_half_extents_m=_actor_half_extents(actor),
+            arm=arm,
+            pregrasp_distance_m=0.09,
+        )
         lift = world_axis_offset_pose(grasp, 0.10)
         target_actor = _pose(actor)
         target_actor[:3] = np.asarray(slot.get_pose().p, dtype=np.float64) + np.asarray([0, 0, BLOCK_HALF_EXTENTS[2]])
@@ -1291,7 +1356,7 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             {"segment_id": f"{prefix}_lift", "pose": lift},
             {"segment_id": f"{prefix}_preplace", "pose": preplace},
             {"segment_id": f"{prefix}_release", "pose": release},
-        ]
+        ], grasp_contract
 
     def build_targets(self, scene, program, planner_variant):
         execution_scope = planner_variant.get("execution_scope", "full_three_program_root")
@@ -1363,7 +1428,9 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
             for role in order:
                 actor = getattr(scene, role.lower())
                 slot = getattr(scene, f"slot_{role.lower()}")
-                group = self._object_place_targets(scene, actor, slot, role, arm=arm)
+                group, grasp_contract = self._object_place_targets(
+                    scene, actor, slot, role, arm=arm
+                )
                 group.append({"segment_id": f"{role}_neutral", "pose": neutral.copy()})
                 targets.extend(group)
                 object_target_groups.append(
@@ -1373,6 +1440,7 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
                             {"segment_id": item["segment_id"], "pose": np.asarray(item["pose"], dtype=np.float64).tolist()}
                             for item in group
                         ],
+                        "grasp_contract": grasp_contract,
                     }
                 )
         return targets, {
@@ -1521,8 +1589,29 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
                     (0, 1),
                 )["pass_support_footprint"]
 
-                _must_action(scene, scene.grasp_actor(actor, arm_tag=_arm_tag(arm), pre_grasp_dis=0.09), f"{role}_grasp")
-                _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag(arm), z=0.10), f"{role}_lift")
+                _move_arm(
+                    scene,
+                    group_targets[0]["pose"],
+                    group_targets[0]["segment_id"],
+                    arm=arm,
+                )
+                _move_arm(
+                    scene,
+                    group_targets[1]["pose"],
+                    group_targets[1]["segment_id"],
+                    arm=arm,
+                )
+                _must_action(
+                    scene,
+                    scene.close_gripper(_arm_tag(arm), pos=0.0),
+                    f"{role}_close_gripper",
+                )
+                _move_arm(
+                    scene,
+                    group_targets[2]["pose"],
+                    group_targets[2]["segment_id"],
+                    arm=arm,
+                )
                 _move_arm(scene, group_targets[3]["pose"], group_targets[3]["segment_id"], arm=arm)
                 _move_arm(scene, group_targets[4]["pose"], group_targets[4]["segment_id"], arm=arm)
                 _must_action(scene, scene.open_gripper(_arm_tag(arm), pos=1.0), f"{role}_release")

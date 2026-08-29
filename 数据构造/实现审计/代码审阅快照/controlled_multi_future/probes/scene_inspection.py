@@ -108,9 +108,9 @@ class F2Scene(AuditScene):
         self.can.set_mass(0.05)
         self.box = create_actor(self, sapien.Pose(layout.get("box_xyz", [-0.17, -0.17, 0.78]), q), "062_plasticbox", convex=True, is_static=True, model_id=box_model_id)
         self.box.set_name("f2_plasticbox")
-        self.scale = create_actor(self, sapien.Pose([0.00, -0.17, 0.77], q), "072_electronicscale", convex=True, is_static=True, model_id=0)
+        self.scale = create_actor(self, sapien.Pose(layout.get("scale_xyz", [0.00, -0.17, 0.77]), q), "072_electronicscale", convex=True, is_static=True, model_id=0)
         self.scale.set_name("f2_scale")
-        self.stand = create_actor(self, sapien.Pose([0.17, -0.17, 0.77], [0.707, 0.707, 0, 0]), "074_displaystand", convex=True, is_static=True, model_id=3)
+        self.stand = create_actor(self, sapien.Pose(layout.get("stand_xyz", [0.17, -0.17, 0.77]), layout.get("stand_q_wxyz", [0.707, 0.707, 0, 0])), "074_displaystand", convex=True, is_static=True, model_id=3)
         self.stand.set_name("f2_stand")
         self.role_actors = {"main_can": self.can, "box": self.box, "scale": self.scale, "stand": self.stand}
 

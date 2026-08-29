@@ -209,14 +209,50 @@ def trace_rows_to_raw_streams(rows):
     }
     role_names = sorted({role for row in rows for role in row.get("role_actor_poses", {})})
     for role in role_names:
-        field = f"role_object_pose__{role}"
         if any(role not in row.get("role_actor_poses", {}) for row in rows):
             raise ValueError(f"role actor {role} is not present in every trace row")
-        audit_streams[field] = np.asarray([row["role_actor_poses"][role] for row in rows], dtype=np.float64)
-        audit_streams["field_metadata"][field] = {
-            "status": "measured",
-            "source": f"runtime SAPIEN pose API for scene role {role}",
+        role_fields = {
+            f"role_object_pose__{role}": (
+                "role_actor_poses",
+                np.float64,
+                "measured",
+                "pose",
+            ),
+            f"role_object_linear_velocity__{role}": (
+                "role_actor_linear_velocities",
+                np.float64,
+                "mixed",
+                "linear velocity",
+            ),
+            f"role_object_angular_velocity__{role}": (
+                "role_actor_angular_velocities",
+                np.float64,
+                "mixed",
+                "angular velocity",
+            ),
+            f"role_object_linear_velocity_measured__{role}": (
+                "role_actor_linear_velocity_measured",
+                bool,
+                "derived",
+                "linear velocity measured mask",
+            ),
+            f"role_object_angular_velocity_measured__{role}": (
+                "role_actor_angular_velocity_measured",
+                bool,
+                "derived",
+                "angular velocity measured mask",
+            ),
         }
+        for field, (row_key, dtype, status, description) in role_fields.items():
+            if any(role not in row.get(row_key, {}) for row in rows):
+                raise ValueError(f"role actor {role} lacks {row_key} in a trace row")
+            audit_streams[field] = np.asarray(
+                [row[row_key][role] for row in rows], dtype=dtype
+            )
+            audit_streams["field_metadata"][field] = {
+                "status": status,
+                "source": f"runtime SAPIEN/250 Hz {description} for scene role {role}",
+            }
     return streams, audit_streams
 
 
@@ -371,6 +407,41 @@ class DenseTraceMixin:
         actor_angular, actor_angular_measured = _rigid_velocity(self.trace_actor, "angular_velocity")
         if not actor_angular_measured:
             actor_angular = actor_angular_fallback
+        role_actor_poses = {
+            role: _pose_array(role_actor.get_pose())
+            for role, role_actor in self.trace_role_actors.items()
+        }
+        role_actor_linear_velocities = {}
+        role_actor_angular_velocities = {}
+        role_actor_linear_velocity_measured = {}
+        role_actor_angular_velocity_measured = {}
+        for role, role_actor in self.trace_role_actors.items():
+            role_pose = role_actor_poses[role]
+            if self.trace and role in self.trace[-1].get("role_actor_poses", {}):
+                previous_pose = self.trace[-1]["role_actor_poses"][role]
+                role_linear_fallback = (
+                    role_pose[:3] - previous_pose[:3]
+                ) / self.simulator_timestep_seconds
+                role_angular_fallback = quaternion_angular_velocity(
+                    previous_pose[3:], role_pose[3:], self.simulator_timestep_seconds
+                )
+            else:
+                role_linear_fallback = np.zeros(3, dtype=np.float64)
+                role_angular_fallback = np.zeros(3, dtype=np.float64)
+            role_linear, role_linear_measured = _rigid_velocity(
+                role_actor, "linear_velocity"
+            )
+            role_angular, role_angular_measured = _rigid_velocity(
+                role_actor, "angular_velocity"
+            )
+            role_actor_linear_velocities[role] = (
+                role_linear if role_linear_measured else role_linear_fallback
+            )
+            role_actor_angular_velocities[role] = (
+                role_angular if role_angular_measured else role_angular_fallback
+            )
+            role_actor_linear_velocity_measured[role] = bool(role_linear_measured)
+            role_actor_angular_velocity_measured[role] = bool(role_angular_measured)
         self.trace.append({
             "step_index": self._step_index,
             "timestamp": self._step_index * self.simulator_timestep_seconds,
@@ -414,7 +485,11 @@ class DenseTraceMixin:
             "selected_gripper_contact_count": selected_contact_count,
             "selected_gripper_contact_impulse": selected_impulse,
             "contact_pairs": pairs,
-            "role_actor_poses": {role: _pose_array(actor.get_pose()) for role, actor in self.trace_role_actors.items()},
+            "role_actor_poses": role_actor_poses,
+            "role_actor_linear_velocities": role_actor_linear_velocities,
+            "role_actor_angular_velocities": role_actor_angular_velocities,
+            "role_actor_linear_velocity_measured": role_actor_linear_velocity_measured,
+            "role_actor_angular_velocity_measured": role_actor_angular_velocity_measured,
             "initial_state": bool(initial_state),
         })
         self._step_index += 1
@@ -518,6 +593,45 @@ class DenseTraceMixin:
         self._component_mask = np.zeros(26, dtype=bool)
         self._active_planner_query = {"left": None, "right": None}
         return True
+
+    def replay_effective_setpoint_step(
+        self,
+        effective_setpoint,
+        *,
+        requested_command,
+        component_mask,
+    ):
+        """Apply one exact 26-D artifact action without invoking a planner."""
+
+        effective = np.ascontiguousarray(
+            np.asarray(effective_setpoint, dtype=np.float64).reshape(26)
+        )
+        requested = np.ascontiguousarray(
+            np.asarray(requested_command, dtype=np.float64).reshape(26)
+        )
+        mask = np.ascontiguousarray(np.asarray(component_mask, dtype=bool).reshape(26))
+        if not np.all(np.isfinite(effective)) or not np.all(np.isfinite(requested)):
+            raise ValueError("canonical prefix replay commands must be finite")
+        if not hasattr(self, "_requested_gripper"):
+            raise RuntimeError("canonical prefix replay requires initialized dense trace")
+        self._requested_position["left"] = requested[0:6].copy()
+        self._requested_position["right"] = requested[6:12].copy()
+        self._requested_velocity["left"] = requested[12:18].copy()
+        self._requested_velocity["right"] = requested[18:24].copy()
+        self._requested_gripper = [float(requested[24]), float(requested[25])]
+        self._component_mask = mask.copy()
+        self._active_planner_query = {"left": None, "right": None}
+        self.robot.set_arm_joints(effective[0:6], effective[12:18], "left")
+        self.robot.set_arm_joints(effective[6:12], effective[18:24], "right")
+        self.robot.set_gripper(float(effective[24]), "left", 0.0)
+        self.robot.set_gripper(float(effective[25]), "right", 0.0)
+        self.scene.step()
+        self._record()
+        recorded = np.asarray(self.trace[-1]["effective_setpoint"], dtype=np.float64)
+        if not np.array_equal(recorded, effective):
+            raise RuntimeError("replayed effective setpoint did not survive drive-target readback")
+        self._component_mask = np.zeros(26, dtype=bool)
+        return dict(self.trace[-1])
 
     def trace_provenance(self):
         streams, audit_streams = trace_rows_to_raw_streams(self.trace)

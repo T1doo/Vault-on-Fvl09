@@ -61,8 +61,8 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
                 by_id = {item["segment_id"]: item["pose"] for item in targets}
                 self.assertEqual(len(targets), 11)
                 self.assertLessEqual(len(targets), 12)
-                self.assertAlmostEqual(by_id["target_lift_mid"][2] - by_id["target_grasp"][2], 0.06)
-                self.assertAlmostEqual(by_id["target_lift"][2] - by_id["target_lift_mid"][2], 0.06)
+                self.assertAlmostEqual(by_id["target_lift_mid"][2] - by_id["target_grasp"][2], 0.04)
+                self.assertAlmostEqual(by_id["target_lift"][2] - by_id["target_lift_mid"][2], 0.04)
 
     def test_project_procedural_half_extents_override_create_box_config_scaling(self):
         actor = Actor([0.0, 0.0, 0.0])
@@ -95,6 +95,20 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
 
     def test_f4_full_targets_follow_each_program_and_repair_is_common_only(self):
         scene = Scene()
+        scene._cmf_planned_root_slot_spec = {
+            "arm": "right",
+            "scene_layout": {
+                "branch_neutral_pose": [
+                    0.15,
+                    -0.02,
+                    0.95,
+                    0.5243570072481656,
+                    -0.47439082845243685,
+                    0.4743935067167858,
+                    0.5243604405510669,
+                ],
+            },
+        }
         runner = get_family_runner("F4")
         envelope = {
             "selected_gripper_links": ["finger"],
@@ -151,12 +165,6 @@ class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
             )
             self.assertTrue(route2_extra["carry_envelope"]["selected_height_not_below_lift"])
 
-            scene._cmf_planned_root_slot_spec = {
-                "arm": "right",
-                "scene_layout": {
-                    "branch_neutral_pose": [0.15, -0.02, 0.95, 0.7, 0.0, 0.0, 0.7141428429],
-                },
-            }
             right_targets, right_extra = runner.build_targets(
                 scene,
                 F4SubtaskOrder().checked_provisional_programs()[0],

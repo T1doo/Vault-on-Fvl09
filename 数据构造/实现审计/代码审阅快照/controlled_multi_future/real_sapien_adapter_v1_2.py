@@ -492,7 +492,8 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
             "default_restitution": float(setup.get("restitution", 0.0)),
             "default_material_source": "declared setup config passed to Base_Task.setup_scene",
             "implementation_source_sha256": implementation_source_sha256(),
-            "adapter_version": ADAPTER_VERSION,
+            "adapter_version": getattr(scene, "_cmf_adapter_version", ADAPTER_VERSION),
+            "scene_context_version": CONTEXT_VERSION,
         }
 
     def capture_current(self, scene):
@@ -527,7 +528,11 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
             camera_configuration=self._camera_configuration(scene, rgb),
             physical_entities=physical_entities,
             scene_seed=int(scene._cmf_setup_kwargs["seed"]),
-            generator_version="controlled_multi_future_joint_scene_v3_1_adapter_v1_2",
+            generator_version=getattr(
+                scene,
+                "_cmf_generator_version",
+                "controlled_multi_future_joint_scene_v3_1_adapter_v1_2",
+            ),
             simulation_configuration=self._simulation_configuration(scene),
             source_commit=SOURCE_COMMIT,
         )
@@ -594,7 +599,12 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
             metadata={
                 "family": self.family,
                 "seed": int(scene._cmf_setup_kwargs["seed"]),
-                "generator_version": "controlled_multi_future_joint_scene_v3_1_adapter_v1_2",
-                "adapter_version": ADAPTER_VERSION,
+                "generator_version": getattr(
+                    scene,
+                    "_cmf_generator_version",
+                    "controlled_multi_future_joint_scene_v3_1_adapter_v1_2",
+                ),
+                "adapter_version": getattr(scene, "_cmf_adapter_version", ADAPTER_VERSION),
+                "scene_context_version": CONTEXT_VERSION,
             },
         )

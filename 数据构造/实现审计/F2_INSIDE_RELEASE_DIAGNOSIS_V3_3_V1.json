@@ -1,0 +1,792 @@
+{
+  "classification": "box_wall_collision_and_ejection_before_gripper_release",
+  "classification_checks": {
+    "before_release_high_speed": true,
+    "before_release_not_inside": true,
+    "before_release_outside_table": true,
+    "contact_lost_during_release_descent": true,
+    "left_table_during_release_descent": true,
+    "preplace_still_grasped": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "first_can_center_outside_table_state": 2268,
+  "first_selected_gripper_contact_loss_state": 2252,
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "pass_diagnosis": true,
+  "release_event": {
+    "open_complete_action": 2635,
+    "open_start_action": 2437,
+    "preplace_end_state": 1789,
+    "release_descent_end_state": 2436,
+    "rest_end_state": 3861,
+    "retreat_end_state": 3430
+  },
+  "samples": {
+    "after_release_1": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.0337158739566803
+      ],
+      "can_angular_velocity_rps": [
+        -1.2319560050964355,
+        10.684455871582031,
+        14.081354141235352
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.3421242833137512,
+        -0.5698136687278748,
+        -0.0732283741235733
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.7970019649041157,
+          -0.7073679804414854,
+          -0.8013724704982372
+        ],
+        "local_corner_min": [
+          -0.9018545378672618,
+          -0.8082999758809462,
+          -0.8966495672462849
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.0190110206604004,
+        -1.0194282531738281,
+        0.022165993228554726,
+        0.38409343361854553,
+        0.0032301279716193676,
+        -0.9219253659248352,
+        -0.0501561276614666
+      ],
+      "can_speed_mps": 0.6686546470928398,
+      "eef_pose": [
+        -0.16853412985801697,
+        -0.315763920545578,
+        0.9237402081489563,
+        0.4871813651347277,
+        -0.12642312160148014,
+        -0.3222519253206101,
+        0.8017638108677393
+      ],
+      "eef_release_target_orientation_error_rad": 0.2793665423402225,
+      "eef_release_target_position_error_m": 0.09250042009119593,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2636,
+      "table_edge_clearance_m": -0.7218545396554011
+    },
+    "after_release_10": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.03638129681348801
+      ],
+      "can_angular_velocity_rps": [
+        -3.433284044265747,
+        7.988204479217529,
+        13.073148727416992
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.2824722230434418,
+        -0.46057823300361633,
+        0.014563793316483498
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8018392189188078,
+          -0.714102626332284,
+          -0.7798057428562536
+        ],
+        "local_corner_min": [
+          -0.9259458021478577,
+          -0.7998246769223203,
+          -0.8987134166991817
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.009259581565857,
+        -1.0338925123214722,
+        0.023036319762468338,
+        0.5364695191383362,
+        0.1848449856042862,
+        -0.8145089149475098,
+        0.12086472660303116
+      ],
+      "can_speed_mps": 0.540495115226403,
+      "eef_pose": [
+        -0.17175720632076263,
+        -0.315390408039093,
+        0.9237045645713806,
+        0.4812243350413982,
+        -0.1256232762798841,
+        -0.3277427898206413,
+        0.8032599800446022
+      ],
+      "eef_release_target_orientation_error_rad": 0.28355012062514884,
+      "eef_release_target_position_error_m": 0.09265111275794916,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2645,
+      "table_edge_clearance_m": -0.7459458039359971
+    },
+    "after_release_125": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.04508932679891586
+      ],
+      "can_angular_velocity_rps": [
+        1.2540169954299927,
+        -0.11245233565568924,
+        3.09198260307312
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.008252943865954876,
+        -0.037802208214998245,
+        -0.0016137659549713135
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8368887502629192,
+          -0.7130971162553507,
+          -0.8909180916787092
+        ],
+        "local_corner_min": [
+          -0.933579872183141,
+          -0.8008513801757616,
+          -0.9954913400172289
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.1132047176361084,
+        -1.0552343130111694,
+        0.023025723174214363,
+        -0.5737758874893188,
+        0.3855982720851898,
+        0.35029441118240356,
+        0.6319724917411804
+      ],
+      "can_speed_mps": 0.03872624780355189,
+      "eef_pose": [
+        -0.1852816790342331,
+        -0.3120589554309845,
+        0.9241737127304077,
+        0.45655393275807143,
+        -0.11787473500358278,
+        -0.32740284073694603,
+        0.8188232002137897
+      ],
+      "eef_release_target_orientation_error_rad": 0.28731094363342113,
+      "eef_release_target_position_error_m": 0.09592382249955649,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2760,
+      "table_edge_clearance_m": -0.7535798739712803
+    },
+    "after_release_25": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.03983033820986748
+      ],
+      "can_angular_velocity_rps": [
+        -3.7035670280456543,
+        1.6151186227798462,
+        13.140581130981445
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.21542537212371826,
+        -0.3321479856967926,
+        0.004134798888117075
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8128383132274248,
+          -0.7234599761665192,
+          -0.7739806859091478
+        ],
+        "local_corner_min": [
+          -0.9079498377983473,
+          -0.7904151171445521,
+          -0.8871818395062727
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.0005812644958496,
+        -1.0303940773010254,
+        0.02306242473423481,
+        0.5685391426086426,
+        0.41548144817352295,
+        -0.5841560959815979,
+        0.4036090672016144
+      ],
+      "can_speed_mps": 0.39591346519021603,
+      "eef_pose": [
+        -0.17774218320846558,
+        -0.3150205612182617,
+        0.923646867275238,
+        0.47017594444715205,
+        -0.12626784627414425,
+        -0.34009041031674947,
+        0.8045679120317333
+      ],
+      "eef_release_target_orientation_error_rad": 0.2934290428580899,
+      "eef_release_target_position_error_m": 0.09307612161638004,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2660,
+      "table_edge_clearance_m": -0.7279498395864866
+    },
+    "after_release_250": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.04575803130865097
+      ],
+      "can_angular_velocity_rps": [
+        1.1930134296417236,
+        0.038748763501644135,
+        0.00042988796485587955
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        0.000889994902536273,
+        -0.02737097069621086,
+        0.0011691250838339329
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8632813455786543,
+          -0.7138457997408213,
+          -0.8934575153322555
+        ],
+        "local_corner_min": [
+          -0.9526997146878404,
+          -0.8003525891635118,
+          -0.9928718077211045
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.1131646633148193,
+        -1.0779905319213867,
+        0.02290077693760395,
+        -0.7022759914398193,
+        0.1468375325202942,
+        0.15275704860687256,
+        0.6796416640281677
+      ],
+      "can_speed_mps": 0.027410380902881008,
+      "eef_pose": [
+        -0.19528521597385406,
+        -0.3147554397583008,
+        0.931768536567688,
+        0.42017147921244347,
+        -0.19565822360364857,
+        -0.4073482846491382,
+        0.7869187776296208
+      ],
+      "eef_release_target_orientation_error_rad": 0.3746026329159393,
+      "eef_release_target_position_error_m": 0.1031053716588807,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2885,
+      "table_edge_clearance_m": -0.7726997164759798
+    },
+    "after_release_5": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.0349670946598053
+      ],
+      "can_angular_velocity_rps": [
+        -4.4274749755859375,
+        9.971302032470703,
+        13.895419120788574
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.3350987434387207,
+        -0.5348796248435974,
+        -0.1113242506980896
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8016960271027455,
+          -0.7095132424856352,
+          -0.7915103985447602
+        ],
+        "local_corner_min": [
+          -0.9135314874026408,
+          -0.8054026894842459,
+          -0.8977929101805968
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.0146516561508179,
+        -1.0276137590408325,
+        0.02254200540482998,
+        0.46209922432899475,
+        0.09138059616088867,
+        -0.8819458484649658,
+        0.016904881224036217
+      ],
+      "can_speed_mps": 0.6409215784481969,
+      "eef_pose": [
+        -0.16997355222702026,
+        -0.31561902165412903,
+        0.9235997796058655,
+        0.4845578199412432,
+        -0.1260287038679608,
+        -0.32494167331371393,
+        0.8023299781755852
+      ],
+      "eef_release_target_orientation_error_rad": 0.2813317010269609,
+      "eef_release_target_position_error_m": 0.09243463364382368,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2640,
+      "table_edge_clearance_m": -0.7335314891907802
+    },
+    "after_release_50": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.042767543345689774
+      ],
+      "can_angular_velocity_rps": [
+        -0.8191136717796326,
+        -0.8237130045890808,
+        10.952016830444336
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.07644814997911453,
+        -0.2086036056280136,
+        0.0003368173784110695
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.7753935066290222,
+          -0.7180087790513338,
+          -0.7972231309540388
+        ],
+        "local_corner_min": [
+          -0.8995181414060271,
+          -0.7959323934590518,
+          -0.9190641541354538
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.0281436443328857,
+        -1.007455825805664,
+        0.02302938513457775,
+        0.2685813307762146,
+        0.5868833065032959,
+        -0.21424144506454468,
+        0.7331663966178894
+      ],
+      "can_speed_mps": 0.22217087424364027,
+      "eef_pose": [
+        -0.1838616132736206,
+        -0.3131808042526245,
+        0.9242679476737976,
+        0.4589112292652318,
+        -0.1239001308399233,
+        -0.33613006669712375,
+        0.813059542404067
+      ],
+      "eef_release_target_orientation_error_rad": 0.29352828697912303,
+      "eef_release_target_position_error_m": 0.09521865992879397,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2685,
+      "table_edge_clearance_m": -0.7195181431941665
+    },
+    "after_rest": {
+      "actual_left_gripper_joint_qpos": [
+        0.04505673423409462,
+        0.04459976777434349
+      ],
+      "can_angular_velocity_rps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8891714517610794,
+          -0.7110433028238465,
+          -0.8924859497055804
+        ],
+        "local_corner_min": [
+          -0.9842808838350052,
+          -0.8031337438923667,
+          -0.9919202890887464
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.1122031211853027,
+        -1.1067261695861816,
+        0.022911448031663895,
+        -0.6574949622154236,
+        -0.2799885869026184,
+        -0.28898361325263977,
+        0.6370207667350769
+      ],
+      "can_speed_mps": 0.0,
+      "eef_pose": [
+        -0.29767560958862305,
+        -0.3138291835784912,
+        0.9431913495063782,
+        0.700394702114163,
+        0.0013286993594876142,
+        -0.0003355234569983878,
+        0.7137544278198451
+      ],
+      "eef_release_target_orientation_error_rad": 0.07589379068949054,
+      "eef_release_target_position_error_m": 0.16877406162339434,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 3861,
+      "table_edge_clearance_m": -0.8042808856231446
+    },
+    "after_retreat": {
+      "actual_left_gripper_joint_qpos": [
+        0.04533015564084053,
+        0.03544013574719429
+      ],
+      "can_angular_velocity_rps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          -0.8891714517610794,
+          -0.7110433028238465,
+          -0.8924859497055804
+        ],
+        "local_corner_min": [
+          -0.9842808838350052,
+          -0.8031337438923667,
+          -0.9919202890887464
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -1.1122031211853027,
+        -1.1067261695861816,
+        0.022911448031663895,
+        -0.6574949622154236,
+        -0.2799885869026184,
+        -0.28898361325263977,
+        0.6370207667350769
+      ],
+      "can_speed_mps": 0.0,
+      "eef_pose": [
+        -0.1680135279893875,
+        -0.36131665110588074,
+        0.9509442448616028,
+        0.6602402458754958,
+        0.25710304862085775,
+        0.24995857243063524,
+        0.6599254141072038
+      ],
+      "eef_release_target_orientation_error_rad": 0.00035033361151382003,
+      "eef_release_target_position_error_m": 0.10770173120188112,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 3430,
+      "table_edge_clearance_m": -0.8042808856231446
+    },
+    "before_release": {
+      "actual_left_gripper_joint_qpos": [
+        0.0,
+        0.00024709574063308537
+      ],
+      "can_angular_velocity_rps": [
+        50.073116302490234,
+        -12.453789710998535,
+        15.886984825134277
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        -0.574475109577179,
+        -0.9264872670173645,
+        -2.8110876083374023
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          0.018212153173480572,
+          0.8890395479644901,
+          -0.37632722742249136
+        ],
+        "local_corner_min": [
+          -0.09009490773776585,
+          0.8020569963012569,
+          -0.452147562435373
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -0.5842373967170715,
+        -0.20594137907028198,
+        1.625548243522644,
+        -0.041435353457927704,
+        0.658283531665802,
+        -0.06808401644229889,
+        0.7485392093658447
+      ],
+      "can_speed_mps": 3.015064485084376,
+      "eef_pose": [
+        -0.11023692786693573,
+        -0.3201015591621399,
+        0.9219399094581604,
+        0.5729919043194499,
+        -0.0864353153708407,
+        -0.18739770704922343,
+        0.7931527679040195
+      ],
+      "eef_release_target_orientation_error_rad": 0.1816216354265583,
+      "eef_release_target_position_error_m": 0.1071897521504546,
+      "selected_gripper_contact": false,
+      "selected_gripper_contact_impulse": 0.0,
+      "state_index": 2437,
+      "table_edge_clearance_m": -0.17214756422351235
+    },
+    "preplace_end": {
+      "actual_left_gripper_joint_qpos": [
+        0.023821083828806877,
+        0.021253403276205063
+      ],
+      "can_angular_velocity_rps": [
+        -0.23573216795921326,
+        0.11172739416360855,
+        -0.20551447570323944
+      ],
+      "can_box_contact_impulse": 0.0,
+      "can_box_contact_normals": [],
+      "can_box_contact_pair_count": 0,
+      "can_linear_velocity_mps": [
+        0.0024944953620433807,
+        0.005750518292188644,
+        0.004332289099693298
+      ],
+      "can_obb_inside_true_cavity": false,
+      "can_obb_relative_cavity": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          0.049406500186578356,
+          0.1969279343424103,
+          0.031365094506576985
+        ],
+        "local_corner_min": [
+          -0.047457130279199206,
+          0.1314693396749237,
+          -0.03439208658917281
+        ],
+        "pass_true_cavity_obb": false
+      },
+      "can_pose": [
+        -0.17151349782943726,
+        -0.16902531683444977,
+        0.9441986083984375,
+        -0.0003816267126239836,
+        0.7082414627075195,
+        0.001593430177308619,
+        0.7059684991836548
+      ],
+      "can_speed_mps": 0.007619691370611641,
+      "eef_pose": [
+        -0.1697913110256195,
+        -0.36071252822875977,
+        0.9436221122741699,
+        0.6520468332984217,
+        0.27135826046957356,
+        0.2722564778116412,
+        0.6535105446356829
+      ],
+      "eef_release_target_orientation_error_rad": 2.4525898005833824e-06,
+      "eef_release_target_position_error_m": 0.10035969519192295,
+      "selected_gripper_contact": true,
+      "selected_gripper_contact_impulse": 0.25954166856771665,
+      "state_index": 1789,
+      "table_edge_clearance_m": 0.13254286793266143
+    }
+  },
+  "schema_version": "cmf_f2_inside_release_diagnosis_v3_3_v1",
+  "selected_global_repair": {
+    "branch_specific_retry": false,
+    "descent_offsets_m_above_release": [
+      0.1,
+      0.06,
+      0.03,
+      0.0
+    ],
+    "full_obb_inside_verifier_relaxed": false,
+    "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "retreat": "world-z reverse through the same staged poses",
+    "rule": "inside suffix uses frozen actor-to-EEF target with staged world-z descent and intermediate OBB/contact Gates"
+  },
+  "source_branch": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_F2_asset_mapping_root_runtime_v3_2_seed20260829_gpu0_run2_raw_timing_repair/root/branches/F2-inside",
+  "stage0_authorized": false,
+  "stage0_data": false
+}

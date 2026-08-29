@@ -1,0 +1,53 @@
+{
+  "accepted_nonformal_pre_stage0_roots": {
+    "F1": 0,
+    "F2": 0,
+    "F3": 0,
+    "F4": 0,
+    "total": 0
+  },
+  "cpu_baseline": {
+    "active_tests": "236/236 passed",
+    "active_vault_snapshot_byte_equal": true,
+    "snapshot_tests": "236/236 passed",
+    "status": "passed"
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "gates": {
+    "canonical_prefix_real_smoke": "pending",
+    "f1_accepted_root": "pending",
+    "f2_accepted_root": "pending",
+    "f3_accepted_root": "pending",
+    "f4_cube_ik_and_staged_blocks": "pending",
+    "f4_accepted_root": "pending"
+  },
+  "gpu_parent_scope_authorized": true,
+  "implementation_source_sha256": "a3e417e46e6f65434cfbb014827790ffe8d89c38e61150a2123b323d13a0a783",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "new_gpu_launch_authorized": false,
+  "reason": "CPU baseline passed, but no runtime-v3_3 one-shot authorization has been issued or executed and no family has an accepted real root.",
+  "runtime_v3_3_gpu_scope_count": 0,
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_cpu_current",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stage0_execution_manifest_status": "not_created_four_root_gate_pending",
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null,
+  "training_started": false,
+  "compression_started": false,
+  "pi0_5_started": false,
+  "next_safe_sequence": [
+    "publish immutable CPU baseline",
+    "canonical-prefix real smoke",
+    "F4 procedural cube no-action/IK",
+    "F1 revision-1 root",
+    "F2 revision-1 root",
+    "F3 revision-1 root",
+    "F4 staged Gate and revision-1 root",
+    "only if four roots accepted: generate approved=false Stage0 package"
+  ]
+}

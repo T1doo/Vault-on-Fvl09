@@ -1,0 +1,123 @@
+{
+  "beside_region": {
+    "candidate_relative_xy_m": [
+      [
+        0.0,
+        0.15
+      ],
+      [
+        -0.08,
+        0.13
+      ],
+      [
+        -0.12,
+        0.1
+      ]
+    ],
+    "candidate_world_xy_m": [
+      [
+        0.2,
+        0.12
+      ],
+      [
+        0.12000000000000001,
+        0.1
+      ],
+      [
+        0.08000000000000002,
+        0.07
+      ]
+    ],
+    "explicitly_excludes": [
+      "inside_region",
+      "on_region"
+    ],
+    "inner_radius_m": 0.12,
+    "outer_radius_m": 0.23
+  },
+  "checks": {
+    "all_beside_candidates_exclude_inside_on": true,
+    "all_beside_candidates_inside_table": true,
+    "grid_has_beside_points": true,
+    "grid_has_inside_points": true,
+    "grid_has_on_points": true,
+    "grid_overlap_count_zero": true,
+    "scale_top_outside_raw_stand_annulus": true
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "facility_center_distances_m": {
+    "box_scale_center_m": 0.18999999999999997,
+    "box_stand_center_m": 0.5186520991955975,
+    "scale_stand_center_m": 0.3448187929913334
+  },
+  "formal_data": false,
+  "grid_proof": {
+    "overlap_count": 0,
+    "overlap_examples": [],
+    "point_count": 20091,
+    "region_point_counts": {
+      "beside": 4832,
+      "inside": 961,
+      "on": 784
+    },
+    "step_m": 0.005
+  },
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "inside_region": {
+    "center_offset_world_m": [
+      -0.00023097908496848,
+      -0.00024613654613485,
+      0.0632653667032719
+    ],
+    "half_xy_m": [
+      0.078,
+      0.078
+    ]
+  },
+  "layout": {
+    "box_xyz": [
+      -0.29,
+      -0.2,
+      0.78
+    ],
+    "can_xyz": [
+      -0.28,
+      0.04,
+      0.79
+    ],
+    "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "scale_xyz": [
+      -0.1,
+      -0.2,
+      0.77
+    ],
+    "stand_q_wxyz": [
+      0.70710678,
+      0.70710678,
+      0.0,
+      0.0
+    ],
+    "stand_xyz": [
+      0.2,
+      -0.03,
+      0.77
+    ]
+  },
+  "on_region": {
+    "center_offset_world_m": [
+      -0.015994399785995483,
+      -0.00017600178718567,
+      0.0404071807861328
+    ],
+    "half_xy_m": [
+      0.07,
+      0.07
+    ]
+  },
+  "pass": true,
+  "predicate_version": "f2_facility_local_mutually_exclusive_predicates_v2",
+  "schema_version": "cmf_f2_mutually_exclusive_region_layout_v2",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "cpu_geometry_pass_gpu_suffix_gate_pending"
+}
