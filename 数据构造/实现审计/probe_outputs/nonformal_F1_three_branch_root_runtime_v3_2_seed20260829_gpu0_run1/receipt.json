@@ -1,0 +1,264 @@
+{
+  "authorization": {
+    "approval_request_sha256": "624fb4de1b20b937625fe8c5c76906fd5ca75ac4ad3cc2740605bf2f1e1029ff",
+    "approved_scope": "F1_three_branch_nonformal_probe_v3_2",
+    "authorization_id": "f1-runtime-v3-2-gpu0-seed20260829-auth1",
+    "authorization_receipt_sha256": "8f9954ab73d42cabb015a4bc1d5ecbb6eb4ad1068eb5cbdc273c37ece064dbd2",
+    "authorized_run_id": "f1-runtime-v3-2-gpu0-seed20260829-run1",
+    "budget_receipt_sha256": "20c25c1c348e691bdd24ed69e47b7e0c534dc3c590819442c7b014bb21f2bf1a",
+    "family": "F1",
+    "formal_data": false,
+    "implementation_source_sha256": "72c379605360595a748a3ab608caee5f7435ac97b36dc8193e26c9ed2110c60e",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run1",
+    "parent_user_authorization_sha256": "1f2eececacda0fce745709f29ad57385b3261dc958b96e0374713780d4d06e8c",
+    "planned_root_slot_spec_sha256": "2d1ee2130d93b9a1e861d6112b01d97920907fdc578a592c6c07f2aee4ba621b",
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "1fb1157f88d9993a36a19864bf9b7239102d0ca9c82aa8595998a727171e9012",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "timeout_seconds": 3600
+  },
+  "authorization_consumption_receipt_sha256": "de2383f4345f46cb7f7cc0ae877f3f4bdf1b80c28a84322f256f145a44c72a92",
+  "branch_receipts": [],
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 24,
+    "recovery_attempt_count": 0
+  },
+  "budget_validation": {
+    "budget": {
+      "automatic_retry": false,
+      "branch_order": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "execution_limit_per_branch": 1,
+      "family": "F1",
+      "maximum_new_repair_revisions": 1,
+      "planner_query_limit_per_branch": 12,
+      "recovery_attempt_limit": 0,
+      "scope": "F1_three_branch_nonformal_probe_v3_2",
+      "scope_budget_sha256": "7d00a8487f4646d307e69764bf512145889a9f04f7177c8fe179cc30af79ec92",
+      "timeout_seconds_per_branch": 1200
+    },
+    "checks": {
+      "controlled_executions": true,
+      "no_recovery": true,
+      "planner_queries": true
+    },
+    "pass": true,
+    "scope": "F1_three_branch_nonformal_probe_v3_2"
+  },
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-red",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-red-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-green",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-green-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F1-blue",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-task_physical_feasibility_F1-blue-v1_2-000004"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-red:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-red_default-v1_2-000005"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-green:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-green_default-v1_2-000006"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "planner_solvability:F1-blue:default",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-planner_solvability_F1-blue_default-v1_2-000007"
+    }
+  ],
+  "family": "F1",
+  "formal_data": false,
+  "gpu_guard_binding": {
+    "approval_request_sha256": "624fb4de1b20b937625fe8c5c76906fd5ca75ac4ad3cc2740605bf2f1e1029ff",
+    "approved_scope": "F1_three_branch_nonformal_probe_v3_2",
+    "authorization_id": "f1-runtime-v3-2-gpu0-seed20260829-auth1",
+    "authorization_receipt_sha256": "8f9954ab73d42cabb015a4bc1d5ecbb6eb4ad1068eb5cbdc273c37ece064dbd2",
+    "authorized_run_id": "f1-runtime-v3-2-gpu0-seed20260829-run1",
+    "budget_receipt_sha256": "20c25c1c348e691bdd24ed69e47b7e0c534dc3c590819442c7b014bb21f2bf1a",
+    "command_sha256": "1083b2db9c38e26e626fb2af2051f9fd11c4d26344441caa716589fc3d5c7638",
+    "consumption_receipt_sha256": "de2383f4345f46cb7f7cc0ae877f3f4bdf1b80c28a84322f256f145a44c72a92",
+    "controlled_action_limit": 3,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 1221957,
+    "implementation_source_sha256": "72c379605360595a748a3ab608caee5f7435ac97b36dc8193e26c9ed2110c60e",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run1",
+    "parent_user_authorization_sha256": "1f2eececacda0fce745709f29ad57385b3261dc958b96e0374713780d4d06e8c",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "2d1ee2130d93b9a1e861d6112b01d97920907fdc578a592c6c07f2aee4ba621b",
+    "planner_query_limit": 36,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "1fb1157f88d9993a36a19864bf9b7239102d0ca9c82aa8595998a727171e9012",
+    "timeout_seconds": 3600
+  },
+  "gpu_postcheck": {
+    "captured_at": "2026-08-29T15:56:50.509310+08:00",
+    "compute_processes": [
+      {
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "pid": 1221667,
+        "used_memory_mib": 16462
+      }
+    ],
+    "memory_used_mib": 16479,
+    "physical_index": 0,
+    "pstate": "P2",
+    "utilization_percent": 52,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": false,
+      "no_compute_process": false,
+      "utilization_idle": false
+    },
+    "new_compute_processes": [
+      {
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "pid": 1221667,
+        "used_memory_mib": 16462
+      }
+    ],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P2",
+    "verified": false
+  },
+  "guard_binding": {
+    "approval_request_sha256": "624fb4de1b20b937625fe8c5c76906fd5ca75ac4ad3cc2740605bf2f1e1029ff",
+    "approved_scope": "F1_three_branch_nonformal_probe_v3_2",
+    "authorization_id": "f1-runtime-v3-2-gpu0-seed20260829-auth1",
+    "authorization_receipt_sha256": "8f9954ab73d42cabb015a4bc1d5ecbb6eb4ad1068eb5cbdc273c37ece064dbd2",
+    "authorized_run_id": "f1-runtime-v3-2-gpu0-seed20260829-run1",
+    "budget_receipt_sha256": "20c25c1c348e691bdd24ed69e47b7e0c534dc3c590819442c7b014bb21f2bf1a",
+    "command_sha256": "1083b2db9c38e26e626fb2af2051f9fd11c4d26344441caa716589fc3d5c7638",
+    "consumption_receipt_sha256": "de2383f4345f46cb7f7cc0ae877f3f4bdf1b80c28a84322f256f145a44c72a92",
+    "controlled_action_limit": 3,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F1",
+    "guard_pid": 1221957,
+    "implementation_source_sha256": "72c379605360595a748a3ab608caee5f7435ac97b36dc8193e26c9ed2110c60e",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run1",
+    "parent_user_authorization_sha256": "1f2eececacda0fce745709f29ad57385b3261dc958b96e0374713780d4d06e8c",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "2d1ee2130d93b9a1e861d6112b01d97920907fdc578a592c6c07f2aee4ba621b",
+    "planner_query_limit": 36,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "1fb1157f88d9993a36a19864bf9b7239102d0ca9c82aa8595998a727171e9012",
+    "timeout_seconds": 3600
+  },
+  "guard_precheck": {
+    "captured_at": "2026-08-29T15:53:26.697522+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "guard_process_group_orphan_count": 0,
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_F1_three_branch_root_runtime_v3_2_seed20260829_gpu0_run1.guard.json",
+  "orphan_process_count": 0,
+  "repair_gate": null,
+  "root_finalization": null,
+  "root_receipt": {
+    "path": "root/root_receipt.json",
+    "status": "failed_planner"
+  },
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "scene_orphan_process_count": 0,
+  "schema_version": "cmf_complete_pre_stage0_family_scope_v3_2_v1",
+  "scope": "F1_three_branch_nonformal_probe_v3_2",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_cleanup_uncertain",
+  "task_owned_orphan_pids": []
+}

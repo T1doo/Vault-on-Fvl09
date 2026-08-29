@@ -4,7 +4,7 @@ from unittest import mock
 
 import numpy as np
 
-from controlled_multi_future.families import F3MotionOrder, F4SubtaskOrder
+from controlled_multi_future.families import F1ObjectSelection, F3MotionOrder, F4SubtaskOrder
 from controlled_multi_future.family_runners_v3_1 import _actor_half_extents, get_family_runner
 from controlled_multi_future.root_orchestrator_v1_1 import compare_three_branch_final_state_payloads
 
@@ -48,6 +48,22 @@ class Scene:
 
 
 class FamilyFullProgramRunnersV5_1Test(unittest.TestCase):
+    def test_f1_v3_2_uses_one_fair_segmented_lift_for_all_roles(self):
+        scene = Scene()
+        scene.red = Actor([-0.20, 0.02, 0.762])
+        scene.green = Actor([-0.11, 0.02, 0.762])
+        scene.blue = Actor([-0.02, 0.02, 0.762])
+        scene.box = Actor([-0.08, -0.16, 0.78])
+        runner = get_family_runner("F1")
+        with mock.patch("controlled_multi_future.family_runners_v3_1._arm_tag_left", return_value="left"):
+            for program in F1ObjectSelection().checked_provisional_programs():
+                targets, _ = runner.build_targets(scene, program, {"variant_id": "default"})
+                by_id = {item["segment_id"]: item["pose"] for item in targets}
+                self.assertEqual(len(targets), 11)
+                self.assertLessEqual(len(targets), 12)
+                self.assertAlmostEqual(by_id["target_lift_mid"][2] - by_id["target_grasp"][2], 0.06)
+                self.assertAlmostEqual(by_id["target_lift"][2] - by_id["target_lift_mid"][2], 0.06)
+
     def test_project_procedural_half_extents_override_create_box_config_scaling(self):
         actor = Actor([0.0, 0.0, 0.0])
         actor.config = {

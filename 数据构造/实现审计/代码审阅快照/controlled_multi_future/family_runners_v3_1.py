@@ -80,6 +80,13 @@ def _position_map(actors):
     return {name: np.asarray(actor.get_pose().p, dtype=np.float64).copy() for name, actor in actors.items()}
 
 
+def _targets_by_segment_id(targets):
+    result = {item["segment_id"]: item for item in targets}
+    if len(result) != len(targets):
+        raise ValueError("planner execution targets require unique segment IDs")
+    return result
+
+
 def _settle(scene, frames=60):
     for _ in range(frames):
         scene.scene.step()
@@ -482,6 +489,7 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
         target_actor[:3] = transform_local_point(_pose(scene.box), PLASTICBOX_BASE3_CAVITY["target_center_local_m"])
         release = actor_target_to_eef_pose(grasp, actor_pose, target_actor)
         preplace = world_axis_offset_pose(release, 0.10)
+        lift_mid = world_axis_offset_pose(grasp, 0.06)
         lift = world_axis_offset_pose(grasp, 0.12)
         safe = lift.copy()
         safe[2] = max(float(lift[2]), 1.02)
@@ -491,6 +499,7 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
             {"segment_id": "common_cluster_neutral", "pose": neutral},
             {"segment_id": "target_pregrasp", "pose": pregrasp},
             {"segment_id": "target_grasp", "pose": grasp},
+            {"segment_id": "target_lift_mid", "pose": lift_mid},
             {"segment_id": "target_lift", "pose": lift},
             {"segment_id": "safe_vertical", "pose": safe},
             {"segment_id": "safe_horizontal", "pose": above},
@@ -535,23 +544,26 @@ class F1RunnerV3_1(BaseFamilyRunnerV3_1):
         )
         _must_action(scene, scene.grasp_actor(actor, arm_tag=_arm_tag_left(), pre_grasp_dis=0.09), f"grasp_{role}")
         stages["after_grasp"] = _position_map(non_targets)
-        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.12), f"lift_{role}")
+        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.06), f"lift_mid_{role}")
+        _must_action(scene, scene.move_by_displacement(arm_tag=_arm_tag_left(), z=0.06), f"lift_final_{role}")
         stages["after_lift"] = _position_map(non_targets)
-        for target in spec["targets"][4:8]:
+        targets = _targets_by_segment_id(spec["targets"])
+        for segment_id in ("safe_vertical", "safe_horizontal", "preplace", "release"):
+            target = targets[segment_id]
             _move_left(scene, target["pose"], target["segment_id"])
         stages["after_transport"] = _position_map(non_targets)
         _must_action(scene, scene.open_gripper(_arm_tag_left(), pos=1.0), "release")
         _wait_and_record(scene, 75)
         stages["after_release"] = _position_map(non_targets)
-        _move_left(scene, spec["targets"][8]["pose"], "retreat")
+        _move_left(scene, targets["retreat"]["pose"], "retreat")
         stages["after_retreat"] = _position_map(non_targets)
-        _move_left(scene, spec["targets"][9]["pose"], "rest")
+        _move_left(scene, targets["rest"]["pose"], "rest")
         _wait_and_record(scene, 75)
         stages["after_rest"] = _position_map(non_targets)
         inside = verify_true_cavity_obb(_pose(actor), BLOCK_HALF_EXTENTS, _pose(scene.box), PLASTICBOX_BASE3_CAVITY)
         non_target = verify_staged_non_target_displacement(baseline, stages, PROVISIONAL_RUNTIME_THRESHOLDS["non_target_displacement_m"])
         _, speeds, contacts = _stable_and_support(scene, actor, scene.box)
-        rest = np.asarray(spec["targets"][9]["pose"], dtype=np.float64)
+        rest = np.asarray(targets["rest"]["pose"], dtype=np.float64)
         realized_eef = np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64)
         rest_position_error = float(np.linalg.norm(realized_eef[:3] - rest[:3]))
         rest_orientation_error = quaternion_orientation_error(realized_eef[3:], rest[3:])
