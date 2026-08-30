@@ -14,7 +14,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
 
 VAULT_BUDGET = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_3.json"
+    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_4.json"
 )
 
 
@@ -23,8 +23,8 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
         self.assertEqual(
             budget_artifact(), json.loads(VAULT_BUDGET.read_text(encoding="utf-8"))
         )
-        self.assertEqual(len(SUPPORTED_SCOPES), 6)
-        self.assertEqual(len(ROOT_SCOPES), 4)
+        self.assertEqual(len(SUPPORTED_SCOPES), 7)
+        self.assertEqual(len(ROOT_SCOPES), 5)
         self.assertFalse(budget_artifact()["stage0_authorized"])
         self.assertEqual(
             budget_artifact()["allowed_physical_gpu_indices"], list(range(8))
@@ -66,7 +66,8 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
             "F1_planner_root_per_revision": 46,
             "F2_diagnosis_root_per_revision": 32,
             "F3_prefix_root_per_revision": 96,
-            "F4_block_root_per_revision": 116,
+            "F4_block_root_per_revision": 118,
+            "F4_micro_lift_diagnosis_per_revision": 13,
         }
         for scope, expected in expected_static_planner.items():
             self.assertEqual(
@@ -81,6 +82,7 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
             "F3_prefix_root_per_revision": 32 + 3 * 42,
             "F4_block_root_per_revision": 24 + 3 * 64,
             "F4_cube_grasp_no_action_ik": 3 * 8,
+            "F4_micro_lift_diagnosis_per_revision": 13,
         }
         for scope, total in totals.items():
             with self.subTest(scope=scope):

@@ -37,6 +37,9 @@ from .f2_beside_historical_safe_route_v4 import (
     build_historical_safe_beside_route,
     target_facility_clearance_audit,
 )
+from .f2_gripper_assembly_topology_v5 import (
+    build_f2_gripper_assembly_topology_receipt,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -81,6 +84,17 @@ from .f3_pre_v_evidence_v4 import (
     build_f3_pre_v_evidence_v4,
     require_f3_pre_v_gate,
 )
+from .f3_return_release_v5 import (
+    ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
+    DISENGAGEMENT_CONFIRM_FRAMES,
+    DISENGAGEMENT_SEARCH_MAX_EXTRA_FRAMES,
+    POST_RELEASE_SAMPLE_STEPS,
+    PRE_OPEN_STABLE_FRAMES,
+    build_pre_open_gate_v5,
+    contact_free_release_actor_pose,
+    first_confirmed_disengagement_index,
+    transform_f3_return_controls_v5,
+)
 from .geometry import (
     actor_target_to_eef_pose,
     compose_pose,
@@ -108,6 +122,22 @@ from .f4_uniform_tilted_grasp_v4 import (
     ROUTE_VERSION as F4_TILTED_ROUTE_VERSION,
     audit_uniform_tilted_f4_geometry,
     build_uniform_tilted_f4_block_groups,
+)
+from .f4_boundary_micro_lift_v5 import (
+    ACTUAL_GRIPPER_OPEN_MIN_QPOS_M as F4_ACTUAL_OPEN_MIN_QPOS_M,
+    A_DIAGNOSTIC_SEGMENT_IDS,
+    BOUNDARY_FRAME_COUNT,
+    COMMON_PREFIX_REPAIRED_IDS,
+    GRASP_BOUNDARY_ANGULAR_SPEED_RPS,
+    GRASP_BOUNDARY_LINEAR_SPEED_MPS,
+    GRASP_BOUNDARY_ORIENTATION_ATOL_RAD,
+    GRASP_BOUNDARY_POSITION_ATOL_M,
+    MICRO_LIFT_FRAME_COUNT,
+    build_a_micro_lift_gate_receipt_v5,
+    build_a_top_down_micro_lift_targets_v5,
+    build_actual_open_contact_boundary_receipt_v5,
+    build_micro_lift_noninterference_receipt_v5,
+    build_repaired_common_prefix_targets_v5,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -166,17 +196,26 @@ def planner_source_hash_v3_3() -> str:
             "f2_beside_historical_safe_route_v4.py": _sha256_file(
                 Path(__file__).with_name("f2_beside_historical_safe_route_v4.py")
             ),
+            "f2_gripper_assembly_topology_v5.py": _sha256_file(
+                Path(__file__).with_name("f2_gripper_assembly_topology_v5.py")
+            ),
             "f3_clearance_route_v3.py": _sha256_file(
                 Path(__file__).with_name("f3_clearance_route_v3.py")
             ),
             "f3_pre_v_evidence_v4.py": _sha256_file(
                 Path(__file__).with_name("f3_pre_v_evidence_v4.py")
             ),
+            "f3_return_release_v5.py": _sha256_file(
+                Path(__file__).with_name("f3_return_release_v5.py")
+            ),
             "f4_uniform_block_carry_midpoint_v3.py": _sha256_file(
                 Path(__file__).with_name("f4_uniform_block_carry_midpoint_v3.py")
             ),
             "f4_uniform_tilted_grasp_v4.py": _sha256_file(
                 Path(__file__).with_name("f4_uniform_tilted_grasp_v4.py")
+            ),
+            "f4_boundary_micro_lift_v5.py": _sha256_file(
+                Path(__file__).with_name("f4_boundary_micro_lift_v5.py")
             ),
             "project_cube_grasp_pose_v1.py": _sha256_file(
                 Path(__file__).with_name("project_cube_grasp_pose_v1.py")
@@ -436,6 +475,36 @@ def _prefix_arrays(scene, *, start_action: int, semantic_end_action: int) -> dic
     }
 
 
+def _f2_left_gripper_assembly_topology(scene) -> dict:
+    """Bind the pure F2-r5 palm/finger contract to the live Aloha topology."""
+
+    robot = scene.robot
+    articulation_links = [
+        link.get_name() for link in robot.left_entity.get_links()
+    ]
+    topology = []
+    for entry in robot.left_gripper:
+        joint = entry[0]
+        topology.append(
+            {
+                "joint_name": joint.get_name(),
+                "parent_link_name": joint.parent_link.get_name(),
+                "child_link_name": joint.child_link.get_name(),
+            }
+        )
+    selected = _gripper_below_eef_envelope(scene, arm="left")[
+        "selected_gripper_links"
+    ]
+    return build_f2_gripper_assembly_topology_receipt(
+        arm="left",
+        move_group_link_name=robot.left_move_group,
+        gripper_joint_topology=topology,
+        articulation_link_names=articulation_links,
+        selected_contact_signal_link_names=selected,
+        fixed_gripper_link_names=list(robot.left_fix_gripper_name),
+    )
+
+
 def _settle_prefix_with_replay_operator(scene, steps: int) -> None:
     if not hasattr(scene, "replay_effective_setpoint_step"):
         raise RuntimeError("prefix settling requires the exact replay transition operator")
@@ -625,6 +694,11 @@ def _cache_suffix_controls(
     targets: Sequence[Mapping[str, Any]],
     query_limit: int,
     extra: Mapping[str, Any] | None = None,
+    control_transformer: Callable[
+        [Sequence[Mapping[str, Any]], Sequence[Mapping[str, Any]]],
+        tuple[list[dict], list[dict]],
+    ]
+    | None = None,
 ) -> dict:
     raw_actual_qpos = np.ascontiguousarray(
         np.asarray(
@@ -647,6 +721,18 @@ def _cache_suffix_controls(
     planner_query_count = int(getattr(scene, "planner_query_count", 0)) - before
     if planner_query_count != len(planned["segment_receipts"]):
         raise RuntimeError("suffix live planner delta differs from segment receipts")
+    sealed_extra = dict(extra or {})
+    if control_transformer is not None:
+        if planned["pass"] is not True:
+            raise RuntimeError("suffix execution controls cannot be transformed after planner failure")
+        transformed_controls, transform_receipts = control_transformer(
+            planned["controls"], targets
+        )
+        if len(transformed_controls) != len(planned["controls"]):
+            raise RuntimeError("suffix control transformer changed the segment count")
+        planned = dict(planned)
+        planned["controls"] = transformed_controls
+        sealed_extra["execution_control_transforms"] = transform_receipts
     return _cache_preplanned_suffix_controls(
         scene,
         program_id=program_id,
@@ -657,7 +743,7 @@ def _cache_suffix_controls(
         reset=reset,
         planned=planned,
         planner_query_count=planner_query_count,
-        extra=extra,
+        extra=sealed_extra,
     )
 
 
@@ -2557,6 +2643,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 "selected_gripper_links"
             ]
         )
+        gripper_assembly_topology = _f2_left_gripper_assembly_topology(scene)
         relation_support_bodies = (
             {_entity(scene.scale).get_name()}
             if spec["relation"] == "on"
@@ -2576,10 +2663,16 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             relation=spec["relation"],
             can_actor_name=can_name,
             selected_gripper_body_names=selected_gripper_bodies,
+            allowed_gripper_assembly_body_names=gripper_assembly_topology[
+                "allowed_gripper_assembly_body_names"
+            ],
             named_facility_body_names=facility_names,
             relation_support_body_names=relation_support_bodies,
             support_contact_start_relative_row=support_contact_start_relative_row,
             held_segment_trace_windows=held_segment_trace_windows,
+        )
+        transport_contact_gate["gripper_assembly_topology"] = (
+            gripper_assembly_topology
         )
         if transport_contact_gate["pass"] is not True:
             raise RuntimeError("F2 held transport contact/identity Gate failed")
@@ -3322,8 +3415,11 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             replay["start_anchor"]["actor_states"]["bottle"]["pose"],
             dtype=np.float64,
         )
+        clearance_actor = contact_free_release_actor_pose(start_actor)
         current_actor = _pose(scene.bottle)
-        release = actor_target_to_eef_pose(center, current_actor, start_actor)
+        release = actor_target_to_eef_pose(
+            center, current_actor, clearance_actor
+        )
         preplace = world_axis_offset_pose(release, 0.10)
         return_start = len(targets)
         targets.extend(
@@ -3350,8 +3446,10 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "event_groups": event_groups,
                 "return_start_index": return_start,
                 "target_bottle_pose": start_actor.tolist(),
+                "contact_free_release_bottle_pose": clearance_actor.tolist(),
                 "closed_loop_primitive_version": F3_CLOSED_LOOP_PRIMITIVE_VERSION,
             },
+            control_transformer=transform_f3_return_controls_v5,
         )
 
     @staticmethod
@@ -3431,26 +3529,229 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         execution_receipts.append(
             _execute_cached_segment(scene, spec, controls, return_start + 1)
         )
+        _wait_and_record(scene, PRE_OPEN_STABLE_FRAMES)
         before_eef = _arm_eef_pose(scene, "left")
         before_actor = _pose(scene.bottle)
         target_pose = np.asarray(spec["target_bottle_pose"], dtype=np.float64)
+        clearance_target_pose = np.asarray(
+            spec["contact_free_release_bottle_pose"], dtype=np.float64
+        )
+        initial_grasp_transform = self._boundary_transform(
+            scene, replay, "post_close"
+        )
+        before_release_transform = relative_pose(before_eef, before_actor)
+        post_close_trace_index = int(
+            replay["trace_replay_start_row"]
+            + replay["reference_event_boundaries"]["post_close"]
+            - 1
+        )
+        expected_closed_gripper_qpos = np.asarray(
+            scene.trace[post_close_trace_index][
+                "realized_left_gripper_joint_qpos"
+            ],
+            dtype=np.float64,
+        )
+        bottle_actor_name = _entity(scene.bottle).get_name()
+        gripper_assembly_names = set(
+            gripper_evidence["selected_gripper_links"]
+        )
+        gripper_assembly_names.add(scene.robot.left_move_group)
+        pre_open_gate = build_pre_open_gate_v5(
+            scene.trace[-PRE_OPEN_STABLE_FRAMES:],
+            bottle_actor_name=_entity(scene.bottle).get_name(),
+            support_actor_names=("table", _entity(scene.pad).get_name()),
+            target_actor_pose=clearance_target_pose,
+            release_eef_pose=spec["targets"][return_start + 1]["pose"],
+            initial_eef_actor_transform=initial_grasp_transform,
+            final_eef_actor_transform=before_release_transform,
+            expected_closed_gripper_qpos=expected_closed_gripper_qpos,
+            gripper_assembly_link_names=sorted(gripper_assembly_names),
+        )
+        scene._cmf_f3_pre_open_gate_v5 = pre_open_gate
+        if pre_open_gate["pass"] is not True:
+            raise RuntimeError("F3 contact-free pre-open Gate failed")
         samples = {
             "before_release": self.legacy._release_sample(
                 scene,
-                target_pose,
+                clearance_target_pose,
                 eef_target=spec["targets"][return_start + 1]["pose"],
             )
         }
+        scene.mark("f3_open_command_start")
+        open_start_trace_index = len(scene.trace)
+        def assembly_contact(row):
+            return any(
+                bottle_actor_name in (pair["body_a"], pair["body_b"])
+                and bool(
+                    set((pair["body_a"], pair["body_b"]))
+                    & gripper_assembly_names
+                )
+                for pair in row["contact_pairs"]
+            )
+
         _must_action(
             scene, scene.open_gripper(_arm_tag_left(), pos=1.0), "f3_release"
         )
-        sample_steps = {1, 5, 10, 25, 50, 125, 250}
-        for step in range(1, 251):
+        scene.mark("f3_open_command_end")
+        extra_waited = 0
+        physical_release_relative = first_confirmed_disengagement_index(
+            [
+                bool(assembly_contact(row))
+                for row in scene.trace[open_start_trace_index:]
+            ],
+            [
+                row["realized_left_gripper_joint_qpos"]
+                for row in scene.trace[open_start_trace_index:]
+            ],
+        )
+        while (
+            physical_release_relative is None
+            and extra_waited < DISENGAGEMENT_SEARCH_MAX_EXTRA_FRAMES
+        ):
             _wait_and_record(scene, 1)
-            if step in sample_steps:
-                samples[f"after_release_{step}"] = self.legacy._release_sample(
-                    scene, target_pose
+            extra_waited += 1
+            physical_release_relative = first_confirmed_disengagement_index(
+                [
+                    bool(assembly_contact(row))
+                    for row in scene.trace[open_start_trace_index:]
+                ],
+                [
+                    row["realized_left_gripper_joint_qpos"]
+                    for row in scene.trace[open_start_trace_index:]
+                ],
+            )
+        if physical_release_relative is None:
+            searched_rows = scene.trace[open_start_trace_index:]
+            failed_release_boundary = {
+                "schema_version": "cmf_f3_physical_release_boundary_v5",
+                "status": "failed_release_disengagement",
+                "formal_data": False,
+                "stage0_data": False,
+                "open_start_trace_index": int(open_start_trace_index),
+                "searched_frame_count": len(searched_rows),
+                "extra_wait_frames_after_open_command": int(extra_waited),
+                "selected_contact_fraction": float(
+                    np.mean(
+                        [
+                            bool(row["selected_gripper_contact"])
+                            for row in searched_rows
+                        ]
+                    )
+                ),
+                "gripper_assembly_contact_fraction": float(
+                    np.mean([bool(assembly_contact(row)) for row in searched_rows])
+                ),
+                "gripper_assembly_body_names": sorted(gripper_assembly_names),
+                "final_actual_gripper_joint_qpos": np.asarray(
+                    searched_rows[-1]["realized_left_gripper_joint_qpos"],
+                    dtype=np.float64,
+                ).tolist(),
+            }
+            failed_release_boundary["receipt_sha256"] = hash_json(
+                failed_release_boundary
+            )
+            scene._cmf_f3_release_boundary_v5 = failed_release_boundary
+            raise RuntimeError("F3 failed_release_disengagement")
+        physical_release_trace_index = (
+            open_start_trace_index + int(physical_release_relative)
+        )
+        scene.mark("f3_physical_release_confirmed")
+        required_last_index = physical_release_trace_index + max(
+            POST_RELEASE_SAMPLE_STEPS
+        )
+        while len(scene.trace) - 1 < required_last_index:
+            _wait_and_record(scene, 1)
+        physical_release_step0_sample = self.legacy._release_sample(
+            scene,
+            target_pose,
+            trace_index=physical_release_trace_index,
+        )
+        for step in POST_RELEASE_SAMPLE_STEPS:
+            if step == 0:
+                continue
+            samples[f"after_release_{step}"] = self.legacy._release_sample(
+                scene,
+                target_pose,
+                trace_index=physical_release_trace_index + int(step),
+            )
+        physical_release_window = scene.trace[
+            physical_release_trace_index : required_last_index + 1
+        ]
+        no_recontact_through_250 = all(
+            not bool(row["selected_gripper_contact"])
+            for row in physical_release_window
+        )
+        no_assembly_recontact_through_250 = all(
+            not bool(assembly_contact(row))
+            for row in physical_release_window
+        )
+        actual_gripper_open_through_250 = all(
+            bool(
+                np.all(
+                    np.asarray(
+                        row["realized_left_gripper_joint_qpos"],
+                        dtype=np.float64,
+                    )
+                    >= ACTUAL_OPEN_MIN_GRIPPER_QPOS_M
                 )
+            )
+            for row in physical_release_window
+        )
+        release_boundary_receipt = {
+            "schema_version": "cmf_f3_physical_release_boundary_v5",
+            "formal_data": False,
+            "stage0_data": False,
+            "open_start_trace_index": int(open_start_trace_index),
+            "open_command_end_trace_index": int(
+                scene.markers["f3_open_command_end"]
+            ),
+            "physical_release_trace_index": int(
+                physical_release_trace_index
+            ),
+            "physical_release_relative_to_open_start": int(
+                physical_release_relative
+            ),
+            "extra_wait_frames_after_open_command": int(extra_waited),
+            "disengagement_confirm_frames": int(
+                DISENGAGEMENT_CONFIRM_FRAMES
+            ),
+            "selected_contact_false_at_physical_release": not bool(
+                scene.trace[physical_release_trace_index][
+                    "selected_gripper_contact"
+                ]
+            ),
+            "gripper_assembly_contact_false_at_physical_release": not bool(
+                assembly_contact(scene.trace[physical_release_trace_index])
+            ),
+            "gripper_assembly_body_names": sorted(gripper_assembly_names),
+            "actual_gripper_joint_qpos_at_physical_release": np.asarray(
+                scene.trace[physical_release_trace_index][
+                    "realized_left_gripper_joint_qpos"
+                ],
+                dtype=np.float64,
+            ).tolist(),
+            "post_release_samples_are_relative_to_physical_contact_break": True,
+            "physical_release_step0_sample": physical_release_step0_sample,
+            "no_recontact_through_after_release_250": bool(
+                no_recontact_through_250
+            ),
+            "no_gripper_assembly_recontact_through_after_release_250": bool(
+                no_assembly_recontact_through_250
+            ),
+            "actual_gripper_open_through_after_release_250": bool(
+                actual_gripper_open_through_250
+            ),
+        }
+        release_boundary_receipt["receipt_sha256"] = hash_json(
+            release_boundary_receipt
+        )
+        scene._cmf_f3_release_boundary_v5 = release_boundary_receipt
+        if (
+            not no_recontact_through_250
+            or not no_assembly_recontact_through_250
+            or not actual_gripper_open_through_250
+        ):
+            raise RuntimeError("F3 physical release recontact/open Gate failed")
         execution_receipts.append(
             _execute_cached_segment(scene, spec, controls, return_start + 2)
         )
@@ -3559,7 +3860,29 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 item["pass"] for item in event_contact_audits.values()
             ),
             "grasp_transform_stable": grasp["grasp_transform_stable"],
+            "contact_free_pre_open_gate": pre_open_gate["pass"],
+            "physical_release_disengagement": release_boundary_receipt[
+                "selected_contact_false_at_physical_release"
+            ],
+            "no_recontact_through_after_release_250": release_boundary_receipt[
+                "no_recontact_through_after_release_250"
+            ],
+            "no_gripper_assembly_recontact_through_after_release_250": release_boundary_receipt[
+                "no_gripper_assembly_recontact_through_after_release_250"
+            ],
+            "actual_gripper_open_through_after_release_250": release_boundary_receipt[
+                "actual_gripper_open_through_after_release_250"
+            ],
             "gripper_open": _arm_gripper_open(scene, "left"),
+            "actual_gripper_open_after_rest": bool(
+                np.all(
+                    np.asarray(
+                        scene.trace[-1]["realized_left_gripper_joint_qpos"],
+                        dtype=np.float64,
+                    )
+                    >= ACTUAL_OPEN_MIN_GRIPPER_QPOS_M
+                )
+            ),
             "rest_position": np.linalg.norm(
                 realized_rest[:3] - rest_target[:3]
             )
@@ -3591,6 +3914,8 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "event_metrics": metrics,
             "event_free_space_contact_audits": event_contact_audits,
             "selected_gripper_envelope_evidence": gripper_evidence,
+            "pre_open_gate": pre_open_gate,
+            "physical_release_boundary": release_boundary_receipt,
             "final_checks": final_checks,
             "suffix_segment_execution_receipts": execution_receipts,
             "preflight_rollout_same_control_cache": True,
@@ -3616,17 +3941,50 @@ class F3ControllerV3_3(FamilyControllerV3_3):
 class F4ControllerV3_3(FamilyControllerV3_3):
     family = "F4"
     arm = "right"
-    COMMON_SEGMENT_IDS = (
-        "common_pregrasp",
-        "common_grasp",
-        "common_lift",
-        "common_safe_vertical",
-        "common_center_high",
-        "common_above_tray",
-        "common_preplace",
-        "common_release",
-        "common_neutral",
-    )
+    COMMON_SEGMENT_IDS = COMMON_PREFIX_REPAIRED_IDS
+    COMMON_SEGMENT_COUNT = len(COMMON_PREFIX_REPAIRED_IDS)
+
+    @staticmethod
+    def _actual_open_boundary_receipt(scene, *, target_pose, phase):
+        rows = scene.trace[-BOUNDARY_FRAME_COUNT:]
+        if len(rows) != BOUNDARY_FRAME_COUNT:
+            raise ValueError("F4 actual-open boundary lacks 50 trace frames")
+        adapted = []
+        for row in rows:
+            adapted.append(
+                {
+                    "step_index": int(row["step_index"]),
+                    "timestamp": float(row["timestamp"]),
+                    "realized_right_gripper_joint_qpos": np.asarray(
+                        row["realized_right_gripper_joint_qpos"],
+                        dtype=np.float64,
+                    ).tolist(),
+                    "right_gripper_command": float(row["gripper_command"][1]),
+                    "right_gripper_drive_target_readback": float(
+                        row["gripper_drive_target_readback"][1]
+                    ),
+                    "eef_pose": np.asarray(row["eef"], dtype=np.float64).tolist(),
+                    "eef_linear_velocity": np.asarray(
+                        row["eef_linear_velocity"], dtype=np.float64
+                    ).tolist(),
+                    "eef_angular_velocity": np.asarray(
+                        row["eef_angular_velocity"], dtype=np.float64
+                    ).tolist(),
+                    "contact_pairs": row["contact_pairs"],
+                }
+            )
+        allowed = [
+            [_entity(scene.common_x).get_name(), _entity(scene.tray).get_name()],
+            [_entity(scene.a).get_name(), "table"],
+            [_entity(scene.b).get_name(), "table"],
+            [_entity(scene.c).get_name(), "table"],
+        ]
+        return build_actual_open_contact_boundary_receipt_v5(
+            phase=phase,
+            rows=adapted,
+            target_neutral_pose=target_pose,
+            allowed_nonzero_contact_pairs=allowed,
+        )
 
     @staticmethod
     def _slot_state_receipt(scene, *, role, actor, slot):
@@ -3678,7 +4036,8 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         cls, targets, extra, *, require_three_groups: bool
     ):
         ids = tuple(item.get("segment_id") for item in targets)
-        if ids[:9] != cls.COMMON_SEGMENT_IDS:
+        common_count = cls.COMMON_SEGMENT_COUNT
+        if ids[:common_count] != cls.COMMON_SEGMENT_IDS:
             raise ValueError("F4 common target segment structure changed")
         if extra.get("execution_arm") != "right":
             raise ValueError("F4 execution arm must remain right")
@@ -3692,8 +4051,10 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if not isinstance(groups, list):
             raise ValueError("F4 object target groups are missing")
         if not require_three_groups:
-            if len(targets) != 9 or groups:
-                raise ValueError("F4 common-prefix target scope must contain exactly 9 targets")
+            if len(targets) != common_count or groups:
+                raise ValueError(
+                    "F4 common-prefix target scope must contain exactly the repaired targets"
+                )
             return
         order = list(extra.get("object_order", []))
         if len(groups) != 3 or [group.get("role") for group in groups] != order:
@@ -3714,7 +4075,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             ):
                 raise ValueError(f"F4 {role} target group structure changed")
             flattened.extend(expected)
-        if len(targets) != 9 + 3 * len(F4_SEGMENTED_BLOCK_SUFFIXES) or ids[9:] != tuple(flattened):
+        if (
+            len(targets)
+            != common_count + 3 * len(F4_SEGMENTED_BLOCK_SUFFIXES)
+            or ids[common_count:] != tuple(flattened)
+        ):
             raise ValueError("F4 flattened target sequence differs from grouped targets")
 
     def validate_replayed_prefix_physical(self, scene, replay):
@@ -3729,7 +4094,14 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         _, speeds, contacts = _stable_and_support(
             scene, scene.common_x, scene.tray
         )
-        return _prefix_physical_acceptance(
+        boundary = self._actual_open_boundary_receipt(
+            scene,
+            target_pose=replay["reference_prefix_physical_acceptance"][
+                "actual_open_contact_boundary_v5"
+            ]["target_neutral_pose"],
+            phase="f4_replayed_prefix_acceptance",
+        )
+        result = _prefix_physical_acceptance(
             scene,
             roles=("common_x",),
             require_selected_contact=False,
@@ -3743,15 +4115,20 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 and max(speeds)
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
                 "right_gripper_open": _arm_gripper_open(scene, "right"),
+                "actual_open_collision_free_boundary": boundary["pass"],
             },
         )
+        result["actual_open_contact_boundary_v5"] = boundary
+        return result
 
     def canonical_prefix_contract(self, programs):
         return {
-            "prefix_id": "f4_common_x_tray_neutral_v3_3",
+            "prefix_id": "f4_common_x_tray_withdraw_high_neutral_v5",
             "family": "F4",
             "arm": "right",
             "ops": ["common_X_to_tray", "branch_neutral"],
+            "release_boundary": "vertical_withdraw_then_common_center_high",
+            "actual_open_contact_gate": "cmf_f4_actual_open_contact_boundary_v5",
             "target_role_read": False,
             "settling_excluded_from_semantic_P": True,
         }
@@ -3772,9 +4149,12 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_grasp_mode": "project_cube_grasp_v1",
             },
         )
-        self._validate_f4_target_structure(
-            targets, extra, require_three_groups=False
+        targets, repair_audit = build_repaired_common_prefix_targets_v5(
+            targets
         )
+        extra = dict(extra)
+        extra["common_prefix_boundary_repair_v5"] = repair_audit
+        self._validate_f4_target_structure(targets, extra, require_three_groups=False)
         return targets, extra
 
     def _tilted_full_targets(self, scene, program):
@@ -3786,8 +4166,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_grasp_mode": "project_cube_grasp_v1",
             },
         )
+        repaired_common, common_repair = build_repaired_common_prefix_targets_v5(
+            legacy_targets[:9]
+        )
         self._validate_f4_target_structure(
-            legacy_targets[:9],
+            repaired_common,
             {**extra, "object_target_groups": []},
             require_three_groups=False,
         )
@@ -3796,9 +4179,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             raise ValueError("F4 tilted route program order differs from legacy common build")
         planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
         layout = planned.get("scene_layout", {}) if isinstance(planned, Mapping) else {}
-        neutral = np.asarray(layout.get("branch_neutral_pose"), dtype=np.float64)
+        neutral = np.asarray(repaired_common[-1]["pose"], dtype=np.float64)
         if neutral.shape != (7,):
-            raise ValueError("F4 tilted route requires the frozen branch-neutral pose")
+            raise ValueError("F4 repaired high branch-neutral pose is invalid")
         object_poses = {
             role: _pose(getattr(scene, role.lower())).tolist()
             for role in ("A", "B", "C")
@@ -3842,9 +4225,10 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "tray_pose_changed": False,
                 "program_changed": False,
                 "verifier_changed": False,
+                "common_prefix_boundary_repair_v5": common_repair,
             }
         )
-        all_targets = list(legacy_targets[:9]) + list(tilted["flattened_targets"])
+        all_targets = list(repaired_common) + list(tilted["flattened_targets"])
         self._validate_f4_target_structure(
             all_targets, revised_extra, require_three_groups=True
         )
@@ -3885,9 +4269,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             scene.open_gripper(_arm_tag("right"), pos=1.0),
             "f4_common_release",
         )
-        _execute_control(
-            scene, controls[8], targets[8]["segment_id"], arm="right"
-        )
+        for index in (8, 9):
+            _execute_control(
+                scene,
+                controls[index],
+                targets[index]["segment_id"],
+                arm="right",
+            )
         semantic_end = len(scene.trace) - 1
         semantic_anchor = capture_anchor(scene)
         settling = 75
@@ -3908,6 +4296,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             float(np.linalg.norm(row["actor_angular_velocity"]))
             for row in common_rows
         ]
+        boundary = self._actual_open_boundary_receipt(
+            scene,
+            target_pose=targets[-1]["pose"],
+            phase="f4_reference_prefix_acceptance",
+        )
         prefix_acceptance = _prefix_physical_acceptance(
             scene,
             roles=("common_x",),
@@ -3922,8 +4315,10 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 and max(common_speeds)
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"],
                 "right_gripper_open": _arm_gripper_open(scene, "right"),
+                "actual_open_collision_free_boundary": boundary["pass"],
             },
         )
+        prefix_acceptance["actual_open_contact_boundary_v5"] = boundary
         return _prefix_reference_result(
             scene,
             start_action=start,
@@ -3941,7 +4336,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
         all_targets, extra = self._tilted_full_targets(scene, program)
-        targets = all_targets[9:]
+        targets = all_targets[self.COMMON_SEGMENT_COUNT :]
         result = _cache_suffix_controls(
             scene,
             program_id=program["program_id"],
@@ -3972,7 +4367,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             raise ValueError("F4 diagnostic block roles must be unique")
         base_program = F4SubtaskOrder().checked_provisional_programs()[0]
         all_targets, extra = self._tilted_full_targets(scene, base_program)
-        suffix_targets = all_targets[9:]
+        suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
         group_by_role = {
             group["role"]: group for group in extra["object_target_groups"]
         }
@@ -4004,6 +4399,285 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             },
         )
         return result
+
+    def plan_a_micro_lift_from_actual_prefix_end_state(self, scene, replay):
+        targets, target_audit = build_a_top_down_micro_lift_targets_v5(
+            actor_pose=_pose(scene.a), arm="right"
+        )
+        result = _cache_suffix_controls(
+            scene,
+            program_id="F4-DIAG-A-MICRO-LIFT",
+            arm="right",
+            targets=targets,
+            query_limit=3,
+            extra={
+                "diagnostic_micro_lift_gate_v5": True,
+                "micro_lift_target_audit": target_audit,
+                "common_prefix_artifact_required": True,
+            },
+        )
+        return result
+
+    def execute_a_micro_lift_diagnostic(
+        self, scene, program, spec, replay, realization_spec
+    ):
+        controls = _cached_controls(scene, spec)
+        if tuple(item["segment_id"] for item in spec["targets"]) != tuple(
+            A_DIAGNOSTIC_SEGMENT_IDS
+        ):
+            raise ValueError("F4 A micro-lift execution spec changed")
+        scene.set_trace_contact_actor(scene.a)
+        non_target_actors = {
+            "common_x": (scene.common_x, scene.tray),
+            "B": (scene.b, "table"),
+            "C": (scene.c, "table"),
+        }
+        non_target_baseline = {
+            role: _pose(actor).tolist()
+            for role, (actor, _support) in non_target_actors.items()
+        }
+        noninterference_stages = []
+
+        def capture_noninterference(stage_id):
+            poses = {}
+            stability_and_support = {}
+            for role, (actor, support) in non_target_actors.items():
+                poses[role] = _pose(actor).tolist()
+                rows, linear_speeds, support_contacts = _stable_and_support(
+                    scene, actor, support
+                )
+                angular_speeds = [
+                    float(
+                        np.linalg.norm(
+                            row["role_actor_angular_velocities"][role]
+                        )
+                    )
+                    for row in rows
+                ]
+                stability_and_support[role] = bool(linear_speeds) and max(
+                    linear_speeds
+                ) <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "stable_linear_speed_mps"
+                ] and bool(angular_speeds) and max(
+                    angular_speeds
+                ) <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                    "eef_stationary_angular_speed_rps"
+                ] and bool(support_contacts) and all(support_contacts)
+            common_footprint = footprint_inside_local_region(
+                _pose(scene.common_x),
+                BLOCK_HALF_EXTENTS,
+                _pose(scene.tray),
+                TRAY_BASE0_SUPPORT_REGION["lower_m"],
+                TRAY_BASE0_SUPPORT_REGION["upper_m"],
+                TRAY_BASE0_SUPPORT_REGION["horizontal_axes"],
+            )["pass_support_footprint"]
+            noninterference_stages.append(
+                {
+                    "stage_id": stage_id,
+                    "poses": poses,
+                    "stability_and_support": stability_and_support,
+                    "common_x_tray_predicate": bool(common_footprint),
+                }
+            )
+            noninterference = build_micro_lift_noninterference_receipt_v5(
+                baseline_poses=non_target_baseline,
+                stage_states=noninterference_stages,
+            )
+            scene._cmf_f4_micro_noninterference_v5 = noninterference
+            if noninterference["pass"] is not True:
+                raise RuntimeError(
+                    f"F4 A micro-lift noninterference Gate failed at {stage_id}"
+                )
+            return noninterference
+
+        execution_receipts = []
+        execution_receipts.append(
+            _execute_cached_segment(scene, spec, controls, 0)
+        )
+        _wait_and_record(scene, BOUNDARY_FRAME_COUNT)
+        pregrasp_pose = _arm_eef_pose(scene, "right")
+        pregrasp_linear = np.asarray(
+            scene.trace[-1]["eef_linear_velocity"], dtype=np.float64
+        )
+        pregrasp_angular = np.asarray(
+            scene.trace[-1]["eef_angular_velocity"], dtype=np.float64
+        )
+        pregrasp_boundary = self._actual_open_boundary_receipt(
+            scene,
+            target_pose=spec["targets"][0]["pose"],
+            phase="f4_A_pregrasp_open_collision_free_boundary",
+        )
+        capture_noninterference("after_A_pregrasp")
+        if pregrasp_boundary["pass"] is not True:
+            scene._cmf_f4_a_preclose_boundary_v5 = {
+                "schema_version": "cmf_f4_a_preclose_boundary_v5",
+                "pregrasp_boundary": pregrasp_boundary,
+                "grasp_boundary": None,
+                "pass": False,
+            }
+            raise RuntimeError("F4 A pregrasp realized-boundary Gate failed")
+        execution_receipts.append(
+            _execute_cached_segment(scene, spec, controls, 1)
+        )
+        _wait_and_record(scene, BOUNDARY_FRAME_COUNT)
+        grasp_pose = _arm_eef_pose(scene, "right")
+        grasp_linear = np.asarray(
+            scene.trace[-1]["eef_linear_velocity"], dtype=np.float64
+        )
+        grasp_angular = np.asarray(
+            scene.trace[-1]["eef_angular_velocity"], dtype=np.float64
+        )
+        grasp_boundary = self._actual_open_boundary_receipt(
+            scene,
+            target_pose=spec["targets"][1]["pose"],
+            phase="f4_A_grasp_open_collision_free_boundary",
+        )
+        preclose_qpos = np.asarray(
+            scene.trace[-1]["realized_right_gripper_joint_qpos"],
+            dtype=np.float64,
+        )
+        pregrasp_target = np.asarray(spec["targets"][0]["pose"], dtype=np.float64)
+        grasp_target = np.asarray(spec["targets"][1]["pose"], dtype=np.float64)
+        preclose_checks = {
+            "pregrasp_position": float(
+                np.linalg.norm(pregrasp_pose[:3] - pregrasp_target[:3])
+            )
+            <= GRASP_BOUNDARY_POSITION_ATOL_M,
+            "pregrasp_orientation": quaternion_angular_error(
+                pregrasp_pose[3:], pregrasp_target[3:]
+            )
+            <= GRASP_BOUNDARY_ORIENTATION_ATOL_RAD,
+            "grasp_position": float(
+                np.linalg.norm(grasp_pose[:3] - grasp_target[:3])
+            )
+            <= GRASP_BOUNDARY_POSITION_ATOL_M,
+            "grasp_orientation": quaternion_angular_error(
+                grasp_pose[3:], grasp_target[3:]
+            )
+            <= GRASP_BOUNDARY_ORIENTATION_ATOL_RAD,
+            "pregrasp_linear_stationary": float(np.linalg.norm(pregrasp_linear))
+            <= GRASP_BOUNDARY_LINEAR_SPEED_MPS,
+            "pregrasp_angular_stationary": float(np.linalg.norm(pregrasp_angular))
+            <= GRASP_BOUNDARY_ANGULAR_SPEED_RPS,
+            "grasp_linear_stationary": float(np.linalg.norm(grasp_linear))
+            <= GRASP_BOUNDARY_LINEAR_SPEED_MPS,
+            "grasp_angular_stationary": float(np.linalg.norm(grasp_angular))
+            <= GRASP_BOUNDARY_ANGULAR_SPEED_RPS,
+            "actual_both_fingers_open": bool(
+                np.all(preclose_qpos >= F4_ACTUAL_OPEN_MIN_QPOS_M)
+            ),
+            "pregrasp_full_window_boundary": pregrasp_boundary["pass"],
+            "grasp_full_window_boundary": grasp_boundary["pass"],
+        }
+        preclose_receipt = {
+            "schema_version": "cmf_f4_a_preclose_boundary_v5",
+            "checks": preclose_checks,
+            "actual_right_gripper_joint_qpos": preclose_qpos.tolist(),
+            "pregrasp_boundary": pregrasp_boundary,
+            "grasp_boundary": grasp_boundary,
+            "pass": all(preclose_checks.values()),
+        }
+        scene._cmf_f4_a_preclose_boundary_v5 = preclose_receipt
+        capture_noninterference("after_A_grasp")
+        if preclose_receipt["pass"] is not True:
+            raise RuntimeError("F4 A preclose realized-boundary Gate failed")
+        _must_action(
+            scene,
+            scene.close_gripper(_arm_tag("right"), pos=0.0),
+            "A_micro_lift_close_gripper",
+        )
+        micro_start = len(scene.trace)
+        execution_receipts.append(
+            _execute_cached_segment(scene, spec, controls, 2)
+        )
+        micro_end = len(scene.trace)
+        if micro_end - micro_start < MICRO_LIFT_FRAME_COUNT:
+            raise RuntimeError(
+                "F4 A micro-lift execution produced fewer than 50 trace frames"
+            )
+        source_indices = np.arange(micro_start, micro_end, dtype=np.int64)
+        actor_name = _entity(scene.a).get_name()
+        selected_links = set(
+            _gripper_below_eef_envelope(scene, arm="right")[
+                "selected_gripper_links"
+            ]
+        )
+        selected_links.add(scene.robot.right_move_group)
+        allowed_pairs = [
+            [actor_name, name] for name in sorted(selected_links)
+        ] + [
+            [actor_name, "table"],
+            [_entity(scene.common_x).get_name(), _entity(scene.tray).get_name()],
+            [_entity(scene.b).get_name(), "table"],
+            [_entity(scene.c).get_name(), "table"],
+        ]
+        micro_rows = []
+        for source_index in source_indices:
+            row = scene.trace[int(source_index)]
+            actor_table_contact = any(
+                actor_name in (pair["body_a"], pair["body_b"])
+                and "table" in (pair["body_a"], pair["body_b"])
+                for pair in row["contact_pairs"]
+            )
+            micro_rows.append(
+                {
+                    "actor_pose": np.asarray(
+                        row["actor_pose"], dtype=np.float64
+                    ).tolist(),
+                    "selected_gripper_contact": bool(
+                        row["selected_gripper_contact"]
+                    ),
+                    "selected_gripper_contact_count": int(
+                        row["selected_gripper_contact_count"]
+                    ),
+                    "selected_contact_actor_name": str(
+                        row["selected_contact_actor_name"]
+                    ),
+                    "actor_table_contact": bool(actor_table_contact),
+                    "contact_pairs": row["contact_pairs"],
+                    "source_trace_index": int(source_index),
+                }
+            )
+        micro_gate = build_a_micro_lift_gate_receipt_v5(
+            targets=spec["targets"],
+            realized_pregrasp_pose=pregrasp_pose,
+            realized_grasp_pose=grasp_pose,
+            pregrasp_linear_velocity=pregrasp_linear,
+            pregrasp_angular_velocity=pregrasp_angular,
+            grasp_linear_velocity=grasp_linear,
+            grasp_angular_velocity=grasp_angular,
+            preclose_right_gripper_joint_qpos=preclose_qpos,
+            micro_lift_rows=micro_rows,
+            expected_actor_name=actor_name,
+            allowed_nonzero_contact_pairs=allowed_pairs,
+        )
+        noninterference = capture_noninterference("after_A_micro_lift")
+        semantic = {
+            "pass": preclose_receipt["pass"]
+            and micro_gate["pass"]
+            and noninterference["pass"],
+            "diagnostic_only": True,
+            "preclose_boundary": preclose_receipt,
+            "micro_lift_gate": micro_gate,
+            "noninterference_gate": noninterference,
+            "suffix_segment_execution_receipts": execution_receipts,
+            "micro_lift_source_trace_range": [
+                int(micro_start),
+                int(micro_end - 1),
+            ],
+            "micro_lift_full_source_trace_indices": source_indices.tolist(),
+            "common_prefix_replayed_from_artifact": True,
+            "preflight_rollout_same_control_cache": True,
+        }
+        scene._cmf_f4_a_micro_lift_gate_v5 = semantic
+        return _raw_result(
+            scene,
+            program=program,
+            realization_spec=realization_spec,
+            executed_prefix=replay,
+            semantic_verifier=semantic,
+            extra={"final_state_equivalence_payload": None},
+        )
 
     def execute_frozen_suffix_spec(
         self, scene, program, spec, replay, realization_spec

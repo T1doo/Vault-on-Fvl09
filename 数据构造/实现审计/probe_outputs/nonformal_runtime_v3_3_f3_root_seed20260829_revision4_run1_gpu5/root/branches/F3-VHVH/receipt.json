@@ -1,0 +1,16 @@
+{
+  "candidate_universe_sha256": "dc48bd558f4cad2488585e7ab321dd1caa0aae56e4c576327f370dad61907820",
+  "error": "fresh reconstruction failed same-current reconstruction_spec_aggregate_sha256",
+  "error_type": "ValueError",
+  "formal_data": false,
+  "partial_output_status": "none",
+  "prefix_artifact_sha256": "f1e0f15b97b5dd13a92c0a139456ae9e55e968d1b723c233aeac59d4df57d11d",
+  "prefix_sha256": "f1e0f15b97b5dd13a92c0a139456ae9e55e968d1b723c233aeac59d4df57d11d",
+  "program_id": "F3-VHVH",
+  "reference_current_sha256": "daaa795a008a1433ea248e2d393604a2034a5b388e8a51d5557e7c06e7d87a06",
+  "schema_version": "cmf_strict_prefix_branch_receipt_v1_2",
+  "stage0_data": false,
+  "status": "failed_execution",
+  "suffix_artifact_sha256": "d95750ea296598bfefa342e4edb88d45f65bbc4e661fe4d09c9ac5d9853d3c5c",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_2.py\", line 784, in branch_callback\n    require_same_current(reference_current, branch_current)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/current_hasher.py\", line 264, in require_same_current\n    raise ValueError(f\"fresh reconstruction failed same-current {key}\")\nValueError: fresh reconstruction failed same-current reconstruction_spec_aggregate_sha256\n"
+}

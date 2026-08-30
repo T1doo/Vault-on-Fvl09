@@ -1,0 +1,3132 @@
+{
+  "acceptance_prefix_end_anchor": {
+    "actor_states": {
+      "A": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.15999959409236908,
+          0.02000034973025322,
+          0.7620004415512085,
+          1.0,
+          -9.675601177150384e-06,
+          -4.463726781978039e-06,
+          9.824091193877393e-07
+        ],
+        "sleep_state": true
+      },
+      "B": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.2799999415874481,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "C": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.3999999463558197,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "common_x": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.20347309112548828,
+          -0.11390816420316696,
+          0.7883231043815613,
+          0.9999921321868896,
+          0.003978674300014973,
+          -7.055802416289225e-05,
+          2.264298382215202e-05
+        ],
+        "sleep_state": true
+      }
+    },
+    "anchor_sha256": "a34dec5919d3d915aac52cf728ad6fbc4fe5dd25b5613357a8545604f2510826",
+    "facility_poses": {
+      "common_tray": [
+        0.2800000011920929,
+        -0.11999999731779099,
+        0.7599999904632568,
+        0.7065274119377136,
+        0.7064834237098694,
+        -0.02913561649620533,
+        -0.02917671762406826
+      ],
+      "slot_A": [
+        0.15000000596046448,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_B": [
+        0.30000001192092896,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_C": [
+        0.4099999964237213,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "gripper_joint_qpos": [
+      0.044993139803409576,
+      0.04499306529760361,
+      0.0057799979113042355,
+      0.04445425793528557
+    ],
+    "metadata": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "family": "F4",
+      "generator_version": "controlled_multi_future_joint_scene_v3_3_adapter_v1_3",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "seed": 20260829
+    },
+    "model_visible": false,
+    "physics_config": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "canonical_settle_source": "RoboTwinSceneContextV1_2 explicit post-setup scene.step loop",
+      "canonical_settle_steps": 60,
+      "control_steps_per_action": 1,
+      "default_dynamic_friction": 0.5,
+      "default_material_source": "declared setup config passed to Base_Task.setup_scene",
+      "default_restitution": 0.0,
+      "default_static_friction": 0.5,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "entity_physics_registry": {
+        "A": {
+          "actor_name": "f4_object_a",
+          "collision_asset_hash": "55ba0cbf633fa44d64381a406295de70bf81e87693ce07c5ced6b4480bc80e74",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "red",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "1c9948816c6bdd28574394fe10673ea7d277922e3c7bf263c61adb3dd740cd55",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "A",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "d57bf77631c1cf004f8c19944e6c4b76d6d37f51751212cbf125ae8b32cba6cf"
+        },
+        "B": {
+          "actor_name": "f4_object_b",
+          "collision_asset_hash": "7eefe3b5d599285d6b560a8fb25674f9a6accc8aeaf43e8c4f7a8801d692e784",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "green",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "870969094759cedfddbd127732c105a6e0f3546a0fb595d69fb7090568ccc67f",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "B",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "e8182daadc8a38302857dabea99360e0180b311fbbb3ac3df3bad919991fca14"
+        },
+        "C": {
+          "actor_name": "f4_object_c",
+          "collision_asset_hash": "29c7e9d224004ab7b4c239820c272322cfaab89b5209ef87f50f253b4f897f60",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "blue",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "d091b9976505f014efced88dc1e19b652798251eadaf4fde1042a35d7d0175e4",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "C",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "0bb6c1197bc312a931c00014dde5406cfb501bb697f886df71be2b205abc0634"
+        },
+        "common_tray": {
+          "actor_name": "f4_common_tray",
+          "collision_asset_hash": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+          "collision_mode": "multiple_convex",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": 0,
+          "modelname": "008_tray",
+          "procedural_asset_spec_sha256": null,
+          "procedural_creation": null,
+          "role": "common_tray",
+          "scale": [
+            0.16,
+            0.16,
+            0.16
+          ],
+          "static_or_dynamic": "static",
+          "visual_asset_hash": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+        },
+        "common_x": {
+          "actor_name": "f4_common_x",
+          "collision_asset_hash": "5873b878ff06637f725aa04e9a0e00cfe3396be3abd10417042416964c2ba44c",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "yellow",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "52a9f8f348d65f902a5f91fd181f1f4781e2a4861bb218f9f7e3f4d0614766ba",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "common_x",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "658a02c42d7cc899dd454a6a8febd05a0ae5dc62f7e44c63349a537be9e628c5"
+        },
+        "slot_A": {
+          "actor_name": "f4_slot_a",
+          "collision_asset_hash": "72a5871a6496b414b5f99e2856333e694ce4b3da496525d6329708c574ec9fc5",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "A",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "da2516ee0a1290fdb2650955d862fe357cc466dc4b50a373cd0af13d474a552c",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.7,
+              0.2,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_A",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "00249554bec7c49e63175a914e394ac02ba6a3a03be86b479e71d83095b82969"
+        },
+        "slot_B": {
+          "actor_name": "f4_slot_b",
+          "collision_asset_hash": "0af5a0d66bb09d0a349251ed41cfbf40116e7d923fcdd9c1c101d6ce6f271c2f",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "B",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "1c096b4fd111ebb86e206a1cdc2bacbfa9fd10017b9d1a634fca982a05720b79",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.7,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_B",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "ee51536ee298f31a6485c40a6b0fb464bdd904615caced9e6ff7de078fbdb926"
+        },
+        "slot_C": {
+          "actor_name": "f4_slot_c",
+          "collision_asset_hash": "8abc86d805dd497de4143144ccf790da7fc6bfd1657ea375a2d3e09cccafec3e",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "C",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "6cd9953db08ba579aa52cc84c238f86cb482a2ee1f6d15c0ed8ec92e150e77d2",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.2,
+              0.7
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_C",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "3e92cecb4b41d729ba717fd2cf0747db743d2d8de887c98aa3be662fa045f1cd"
+        }
+      },
+      "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "simulator_timestep_seconds": 0.004000000189989805,
+      "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
+      "timestep_source": "runtime SAPIEN Scene.get_timestep after Base_Task.setup_scene"
+    },
+    "robot_drive_target": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934
+    ],
+    "robot_qpos": [
+      0.0,
+      0.0,
+      -1.3907919681424048e-16,
+      -1.3907919681424048e-16,
+      1.5064628689463733e-13,
+      1.5064628689463733e-13,
+      2.5087500077347613e-08,
+      0.3546781539916992,
+      -2.7806171254418643e-10,
+      -2.780231322940807e-10,
+      5.361868275810593e-18,
+      5.361868275810593e-18,
+      1.5403848356829862e-17,
+      1.5403848356829862e-17,
+      -3.5307045891386224e-06,
+      2.136348009109497,
+      -1.3968204939374118e-06,
+      -1.396820039190061e-06,
+      9.05973956832895e-06,
+      1.6291555166244507,
+      4.456972419575322e-06,
+      4.4569760575541295e-06,
+      2.1202527733521492e-08,
+      -1.1099932193756104,
+      8.595272937839127e-09,
+      8.588337152559689e-09,
+      7.53454276747334e-09,
+      0.046754803508520126,
+      5.2716551124376565e-09,
+      5.269831682142012e-09,
+      3.6400443548245676e-08,
+      0.344901442527771,
+      -1.1739438631266919e-12,
+      -1.2903329663430108e-12,
+      0.044993139803409576,
+      0.04499306529760361,
+      0.0057799979113042355,
+      0.04445425793528557
+    ],
+    "robot_qvel": [
+      0.0,
+      0.0,
+      -1.1100831318399616e-16,
+      -1.1100831318399616e-16,
+      1.1357580864288994e-13,
+      1.1357580864288994e-13,
+      -4.6448724333458813e-07,
+      0.0014396675396710634,
+      3.3028193513473525e-09,
+      3.301099837926813e-09,
+      9.882745331560973e-18,
+      9.882745331560973e-18,
+      -2.1924349343824094e-17,
+      -2.1924349343824094e-17,
+      2.5047725102922413e-06,
+      -0.0013980547664687037,
+      2.109214847223484e-06,
+      2.1092316728754668e-06,
+      -6.065897650842089e-06,
+      -0.002791314385831356,
+      -5.21764832228655e-06,
+      -5.217228590481682e-06,
+      5.557642168696475e-08,
+      0.007445850875228643,
+      -3.170920948036837e-08,
+      -3.244057111828624e-08,
+      4.290036486054305e-06,
+      0.005602739751338959,
+      -1.1418592293921392e-08,
+      -1.1416803502584116e-08,
+      -1.5997027276171139e-06,
+      0.0013583991676568985,
+      3.2900929203272256e-10,
+      3.2871996791250524e-10,
+      2.8685333290923154e-06,
+      8.160741344909184e-07,
+      -0.0005088667967356741,
+      -0.00015199961489997804
+    ],
+    "schema_version": "physical_anchor_v2",
+    "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+  },
+  "acceptance_prefix_end_anchor_sha256": "a34dec5919d3d915aac52cf728ad6fbc4fe5dd25b5613357a8545604f2510826",
+  "action_dim": 26,
+  "action_frequency_hz": 250,
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "array_hashes": {
+    "action_interval_end_timestamps": "bb3b03fbc47cfb33b13ad479ee28d23cd5f7bc8bf2bf88469a29839c5967d422",
+    "action_interval_start_timestamps": "0a1af968a95be36c0d3688ec1185ee9878400a08ac314ed0b1f1ec0d2b2bd588",
+    "component_masks": "af48dd690b1b8ded27cdde129f032954ee68af7b70e47645017254c5db85c627",
+    "effective_setpoint_actions": "e50a7b3ae3ecc434ff05cf421aaf43b1352b4c8dbef65760924a9a6ef204ea07",
+    "left_gripper_joint_drive_targets": "92ee0a925f8a916a6a8c7d4b72892b106eab7a93912ebc1d0748987e12eb13b3",
+    "left_gripper_joint_drive_velocity_targets": "bc4e8d42c9d9a36298c60fa2efd88250a8545d50941af67083dcbe63a773fed2",
+    "requested_commands": "85903ea55812c348c71b8e2850f1c3bd1a95c72a53e760ded30803ce06ec1908",
+    "right_gripper_joint_drive_targets": "1aeb826bc2da1c28584ed677735514a6ffad83e3e2ec89b09042a9943160fe43",
+    "right_gripper_joint_drive_velocity_targets": "aee8ab03a5c753826a185e6675a1213847ee4f5ab0fd7e4772f2572e54129d85"
+  },
+  "array_schema_version": "cmf_canonical_prefix_arrays_v1_1",
+  "artifact_sha256": "0f46d2694023d29edcb93c164904be1efe05be0fedaf37bcffd01a680a8a2b97",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "expected_prefix_end_object_state": {
+    "actor_states": {
+      "A": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.15999959409236908,
+          0.02000034973025322,
+          0.7620004415512085,
+          1.0,
+          -9.675601177150384e-06,
+          -4.463726781978039e-06,
+          9.824091193877393e-07
+        ],
+        "sleep_state": true
+      },
+      "B": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.2799999415874481,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "C": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.3999999463558197,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "common_x": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.20347309112548828,
+          -0.11390816420316696,
+          0.7883231043815613,
+          0.9999921321868896,
+          0.003978674300014973,
+          -7.055802416289225e-05,
+          2.264298382215202e-05
+        ],
+        "sleep_state": true
+      }
+    },
+    "facility_poses": {
+      "common_tray": [
+        0.2800000011920929,
+        -0.11999999731779099,
+        0.7599999904632568,
+        0.7065274119377136,
+        0.7064834237098694,
+        -0.02913561649620533,
+        -0.02917671762406826
+      ],
+      "slot_A": [
+        0.15000000596046448,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_B": [
+        0.30000001192092896,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_C": [
+        0.4099999964237213,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "expected_prefix_end_robot_state": {
+    "gripper_joint_qpos": [
+      0.044993139803409576,
+      0.04499306529760361,
+      0.0057799979113042355,
+      0.04445425793528557
+    ],
+    "robot_drive_target": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934
+    ],
+    "robot_qpos": [
+      0.0,
+      0.0,
+      -1.3907919681424048e-16,
+      -1.3907919681424048e-16,
+      1.5064628689463733e-13,
+      1.5064628689463733e-13,
+      2.5087500077347613e-08,
+      0.3546781539916992,
+      -2.7806171254418643e-10,
+      -2.780231322940807e-10,
+      5.361868275810593e-18,
+      5.361868275810593e-18,
+      1.5403848356829862e-17,
+      1.5403848356829862e-17,
+      -3.5307045891386224e-06,
+      2.136348009109497,
+      -1.3968204939374118e-06,
+      -1.396820039190061e-06,
+      9.05973956832895e-06,
+      1.6291555166244507,
+      4.456972419575322e-06,
+      4.4569760575541295e-06,
+      2.1202527733521492e-08,
+      -1.1099932193756104,
+      8.595272937839127e-09,
+      8.588337152559689e-09,
+      7.53454276747334e-09,
+      0.046754803508520126,
+      5.2716551124376565e-09,
+      5.269831682142012e-09,
+      3.6400443548245676e-08,
+      0.344901442527771,
+      -1.1739438631266919e-12,
+      -1.2903329663430108e-12,
+      0.044993139803409576,
+      0.04499306529760361,
+      0.0057799979113042355,
+      0.04445425793528557
+    ],
+    "robot_qvel": [
+      0.0,
+      0.0,
+      -1.1100831318399616e-16,
+      -1.1100831318399616e-16,
+      1.1357580864288994e-13,
+      1.1357580864288994e-13,
+      -4.6448724333458813e-07,
+      0.0014396675396710634,
+      3.3028193513473525e-09,
+      3.301099837926813e-09,
+      9.882745331560973e-18,
+      9.882745331560973e-18,
+      -2.1924349343824094e-17,
+      -2.1924349343824094e-17,
+      2.5047725102922413e-06,
+      -0.0013980547664687037,
+      2.109214847223484e-06,
+      2.1092316728754668e-06,
+      -6.065897650842089e-06,
+      -0.002791314385831356,
+      -5.21764832228655e-06,
+      -5.217228590481682e-06,
+      5.557642168696475e-08,
+      0.007445850875228643,
+      -3.170920948036837e-08,
+      -3.244057111828624e-08,
+      4.290036486054305e-06,
+      0.005602739751338959,
+      -1.1418592293921392e-08,
+      -1.1416803502584116e-08,
+      -1.5997027276171139e-06,
+      0.0013583991676568985,
+      3.2900929203272256e-10,
+      3.2871996791250524e-10,
+      2.8685333290923154e-06,
+      8.160741344909184e-07,
+      -0.0005088667967356741,
+      -0.00015199961489997804
+    ]
+  },
+  "family": "F4",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "planner_query_receipts": [
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              567,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              567,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 567,
+      "goal_eef_pose": [
+        0.28000253438949585,
+        0.0790465921163559,
+        0.970952570438385,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 5.930094744144299e-07,
+            "rotation_error": 2.296886577823898e-06,
+            "solve_time": 0.04185819625854492,
+            "status": null,
+            "success": true,
+            "total_time": 0.06625747680664062,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 1,
+      "source": "common_pregrasp",
+      "start_step": 0,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              178,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              178,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 745,
+      "goal_eef_pose": [
+        0.2800014317035675,
+        0.08802708238363266,
+        0.8814017176628113,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.4808921378062223e-06,
+            "rotation_error": 1.669513835622638e-06,
+            "solve_time": 0.041750192642211914,
+            "status": null,
+            "success": true,
+            "total_time": 0.06262922286987305,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 2,
+      "source": "common_grasp",
+      "start_step": 567,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              216,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              216,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 1261,
+      "goal_eef_pose": [
+        0.2800014317035675,
+        0.08802708238363266,
+        0.9814017415046692,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.8322749610888422e-06,
+            "rotation_error": 5.482958840730134e-06,
+            "solve_time": 0.04178929328918457,
+            "status": null,
+            "success": true,
+            "total_time": 0.06261754035949707,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 3,
+      "source": "common_lift",
+      "start_step": 1045,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              31,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              31,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 1292,
+      "goal_eef_pose": [
+        0.2800014317035675,
+        0.08802708238363266,
+        0.9814017415046692,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 8.432003255620657e-07,
+            "rotation_error": 4.853424115935923e-07,
+            "solve_time": 0.04247927665710449,
+            "status": null,
+            "success": true,
+            "total_time": 0.06279420852661133,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 4,
+      "source": "common_safe_vertical",
+      "start_step": 1261,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              321,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              321,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 1613,
+      "goal_eef_pose": [
+        0.2428790032863617,
+        -0.018903041258454323,
+        0.9814017415046692,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 6.822143063800468e-07,
+            "rotation_error": 2.1243656647129683e-06,
+            "solve_time": 0.041754961013793945,
+            "status": null,
+            "success": true,
+            "total_time": 0.06207919120788574,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 5,
+      "source": "common_center_high",
+      "start_step": 1292,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              221,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              221,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 1834,
+      "goal_eef_pose": [
+        0.20575658977031708,
+        -0.1258331686258316,
+        0.9814017415046692,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.1699067954396014e-06,
+            "rotation_error": 2.761561290753889e-06,
+            "solve_time": 0.041826725006103516,
+            "status": null,
+            "success": true,
+            "total_time": 0.06191205978393555,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 6,
+      "source": "common_above_tray",
+      "start_step": 1613,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              106,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              106,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 1940,
+      "goal_eef_pose": [
+        0.20575658977031708,
+        -0.1258331686258316,
+        1.009405493736267,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.2703844731731806e-06,
+            "rotation_error": 6.371647486957954e-06,
+            "solve_time": 0.04182124137878418,
+            "status": null,
+            "success": true,
+            "total_time": 0.06203413009643555,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 7,
+      "source": "common_preplace",
+      "start_step": 1834,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              208,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              208,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 2148,
+      "goal_eef_pose": [
+        0.20575658977031708,
+        -0.1258331686258316,
+        0.909405529499054,
+        0.5243493318557739,
+        -0.47439607977867126,
+        0.47440147399902344,
+        0.5243561863899231
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.255213760487095e-06,
+            "rotation_error": 5.413223220784857e-07,
+            "solve_time": 0.04177737236022949,
+            "status": null,
+            "success": true,
+            "total_time": 0.0621488094329834,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 8,
+      "source": "common_release",
+      "start_step": 1940,
+      "status": "Success"
+    },
+    {
+      "arm": "right",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              265,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              265,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": 2713,
+      "goal_eef_pose": [
+        0.15000000596046448,
+        -0.019999999552965164,
+        0.949999988079071,
+        0.52435702085495,
+        -0.47439083456993103,
+        0.4743935167789459,
+        0.5243604183197021
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 8.452248039247934e-07,
+            "rotation_error": 1.5687397763031186e-06,
+            "solve_time": 0.04177236557006836,
+            "status": null,
+            "success": true,
+            "total_time": 0.06232023239135742,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 9,
+      "source": "common_neutral",
+      "start_step": 2448,
+      "status": "Success"
+    }
+  ],
+  "planner_seed": 20260828,
+  "planner_source_hash": "e1bc0e43655a4000873fb65093d45ec8949f39458f63b98de191ef1c9db921aa",
+  "prefix_action_sha256": "e50a7b3ae3ecc434ff05cf421aaf43b1352b4c8dbef65760924a9a6ef204ea07",
+  "prefix_arrays_file": "prefix_arrays.npz",
+  "prefix_arrays_npz_sha256": "976bdd26473a4845a4c37fb25ef9f32289f9c3c1460be91d0aacc682c93d2ed5",
+  "prefix_contract": {
+    "arm": "right",
+    "family": "F4",
+    "ops": [
+      "common_X_to_tray",
+      "branch_neutral"
+    ],
+    "prefix_id": "f4_common_x_tray_neutral_v3_3",
+    "settling_excluded_from_semantic_P": true,
+    "target_role_read": false
+  },
+  "prefix_contract_sha256": "820d5b02df2ec44a478394007ae19b92c1160526d4b20181fec7cefc7ba11d90",
+  "prefix_end_tolerance_version": "cmf_prefix_end_tolerance_v1_provisional",
+  "prefix_physical_acceptance": {
+    "checks": {
+      "common_x_angular_stationary": true,
+      "common_x_linear_stationary": true,
+      "common_x_stable": true,
+      "common_x_support_contact": true,
+      "common_x_tray_footprint": true,
+      "eef_angular_stationary": true,
+      "eef_linear_stationary": true,
+      "right_gripper_open": true,
+      "stable_window_length": true
+    },
+    "pass": true,
+    "role_metrics": {
+      "common_x": {
+        "maximum_angular_speed_rps": 0.0,
+        "maximum_linear_speed_mps": 0.0
+      }
+    },
+    "schema_version": "cmf_prefix_physical_acceptance_v1",
+    "selected_gripper_contact_fraction": null,
+    "stable_window_frames": 50,
+    "thresholds": {
+      "selected_contact_fraction": 0.95,
+      "stable_linear_speed_mps": 0.02,
+      "stationary_angular_speed_rps": 0.05
+    }
+  },
+  "prefix_step_count": 2713,
+  "reference_anchor": {
+    "actor_states": {
+      "A": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.15999959409236908,
+          0.02000034973025322,
+          0.7620004415512085,
+          1.0,
+          -9.675601177150384e-06,
+          -4.463726781978039e-06,
+          9.824091193877393e-07
+        ],
+        "sleep_state": true
+      },
+      "B": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.2799999415874481,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "C": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.3999999463558197,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "common_x": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.2799999713897705,
+          0.1000005379319191,
+          0.762000322341919,
+          1.0,
+          -1.2603825780388433e-05,
+          3.0295507258415455e-06,
+          5.15557417202217e-07
+        ],
+        "sleep_state": true
+      }
+    },
+    "anchor_sha256": "3a35a2383ab12e7066027b103ba0d05f0a7b7a53d59fc8b600beba6b9e7bac2c",
+    "facility_poses": {
+      "common_tray": [
+        0.2800000011920929,
+        -0.11999999731779099,
+        0.7599999904632568,
+        0.7065274119377136,
+        0.7064834237098694,
+        -0.02913561649620533,
+        -0.02917671762406826
+      ],
+      "slot_A": [
+        0.15000000596046448,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_B": [
+        0.30000001192092896,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_C": [
+        0.4099999964237213,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "gripper_joint_qpos": [
+      0.044236842542886734,
+      0.044238295406103134,
+      0.04423683509230614,
+      0.044238295406103134
+    ],
+    "metadata": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "family": "F4",
+      "generator_version": "controlled_multi_future_joint_scene_v3_3_adapter_v1_3",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "seed": 20260829
+    },
+    "model_visible": false,
+    "physics_config": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "canonical_settle_source": "RoboTwinSceneContextV1_2 explicit post-setup scene.step loop",
+      "canonical_settle_steps": 60,
+      "control_steps_per_action": 1,
+      "default_dynamic_friction": 0.5,
+      "default_material_source": "declared setup config passed to Base_Task.setup_scene",
+      "default_restitution": 0.0,
+      "default_static_friction": 0.5,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "entity_physics_registry": {
+        "A": {
+          "actor_name": "f4_object_a",
+          "collision_asset_hash": "55ba0cbf633fa44d64381a406295de70bf81e87693ce07c5ced6b4480bc80e74",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "red",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "1c9948816c6bdd28574394fe10673ea7d277922e3c7bf263c61adb3dd740cd55",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "A",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "d57bf77631c1cf004f8c19944e6c4b76d6d37f51751212cbf125ae8b32cba6cf"
+        },
+        "B": {
+          "actor_name": "f4_object_b",
+          "collision_asset_hash": "7eefe3b5d599285d6b560a8fb25674f9a6accc8aeaf43e8c4f7a8801d692e784",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "green",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "870969094759cedfddbd127732c105a6e0f3546a0fb595d69fb7090568ccc67f",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "B",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "e8182daadc8a38302857dabea99360e0180b311fbbb3ac3df3bad919991fca14"
+        },
+        "C": {
+          "actor_name": "f4_object_c",
+          "collision_asset_hash": "29c7e9d224004ab7b4c239820c272322cfaab89b5209ef87f50f253b4f897f60",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "blue",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "d091b9976505f014efced88dc1e19b652798251eadaf4fde1042a35d7d0175e4",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "C",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "0bb6c1197bc312a931c00014dde5406cfb501bb697f886df71be2b205abc0634"
+        },
+        "common_tray": {
+          "actor_name": "f4_common_tray",
+          "collision_asset_hash": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+          "collision_mode": "multiple_convex",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": 0,
+          "modelname": "008_tray",
+          "procedural_asset_spec_sha256": null,
+          "procedural_creation": null,
+          "role": "common_tray",
+          "scale": [
+            0.16,
+            0.16,
+            0.16
+          ],
+          "static_or_dynamic": "static",
+          "visual_asset_hash": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+        },
+        "common_x": {
+          "actor_name": "f4_common_x",
+          "collision_asset_hash": "5873b878ff06637f725aa04e9a0e00cfe3396be3abd10417042416964c2ba44c",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "yellow",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "52a9f8f348d65f902a5f91fd181f1f4781e2a4861bb218f9f7e3f4d0614766ba",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "common_x",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "658a02c42d7cc899dd454a6a8febd05a0ae5dc62f7e44c63349a537be9e628c5"
+        },
+        "slot_A": {
+          "actor_name": "f4_slot_a",
+          "collision_asset_hash": "72a5871a6496b414b5f99e2856333e694ce4b3da496525d6329708c574ec9fc5",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "A",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "da2516ee0a1290fdb2650955d862fe357cc466dc4b50a373cd0af13d474a552c",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.7,
+              0.2,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_A",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "00249554bec7c49e63175a914e394ac02ba6a3a03be86b479e71d83095b82969"
+        },
+        "slot_B": {
+          "actor_name": "f4_slot_b",
+          "collision_asset_hash": "0af5a0d66bb09d0a349251ed41cfbf40116e7d923fcdd9c1c101d6ce6f271c2f",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "B",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "1c096b4fd111ebb86e206a1cdc2bacbfa9fd10017b9d1a634fca982a05720b79",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.7,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_B",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "ee51536ee298f31a6485c40a6b0fb464bdd904615caced9e6ff7de078fbdb926"
+        },
+        "slot_C": {
+          "actor_name": "f4_slot_c",
+          "collision_asset_hash": "8abc86d805dd497de4143144ccf790da7fc6bfd1657ea375a2d3e09cccafec3e",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "C",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "6cd9953db08ba579aa52cc84c238f86cb482a2ee1f6d15c0ed8ec92e150e77d2",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.2,
+              0.7
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_C",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "3e92cecb4b41d729ba717fd2cf0747db743d2d8de887c98aa3be662fa045f1cd"
+        }
+      },
+      "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "simulator_timestep_seconds": 0.004000000189989805,
+      "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
+      "timestep_source": "runtime SAPIEN Scene.get_timestep after Base_Task.setup_scene"
+    },
+    "robot_drive_target": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934
+    ],
+    "robot_qpos": [
+      0.0,
+      0.0,
+      -9.633261372242325e-17,
+      -9.633261372242325e-17,
+      1.0562962993437147e-13,
+      1.0562962993437147e-13,
+      -3.016615224282759e-08,
+      -3.258066882949606e-08,
+      -3.2333404842432856e-09,
+      -3.23495652487793e-09,
+      5.267530808490758e-18,
+      5.267530808490758e-18,
+      1.3821598255984342e-17,
+      1.3821598255984342e-17,
+      -5.666987590302597e-07,
+      -5.65274206110189e-07,
+      -4.906024386741592e-08,
+      -4.9084423636713836e-08,
+      -4.835828804061748e-06,
+      -4.838918357563671e-06,
+      -8.459834134555422e-06,
+      -8.459778655378614e-06,
+      7.701128623693876e-08,
+      7.693390813301448e-08,
+      -1.6475175002028664e-08,
+      -1.6467639696315928e-08,
+      4.63164752773082e-07,
+      4.6469963876916154e-07,
+      3.108373114457663e-09,
+      3.108284518660298e-09,
+      -8.158995683515968e-07,
+      -8.163781899384048e-07,
+      1.5176220002910412e-10,
+      1.5164668132339187e-10,
+      0.044236842542886734,
+      0.044238295406103134,
+      0.04423683509230614,
+      0.044238295406103134
+    ],
+    "robot_qvel": [
+      0.0,
+      0.0,
+      -1.1100831318399616e-16,
+      -1.1100831318399616e-16,
+      1.1357580186662636e-13,
+      1.1357580186662636e-13,
+      2.65039443547721e-06,
+      2.6605034690874163e-06,
+      1.1912234754163364e-08,
+      1.1914225162001912e-08,
+      1.009913743416607e-17,
+      1.009913743416607e-17,
+      2.4969588299158464e-18,
+      2.4969588299158464e-18,
+      -1.0050378477899358e-05,
+      -1.006854472507257e-05,
+      -6.772773303964641e-06,
+      -6.772727829229552e-06,
+      2.4748725991230458e-05,
+      2.4771599782980047e-05,
+      1.7557747924001887e-05,
+      1.7557653336552903e-05,
+      -4.255349267623387e-06,
+      -4.258563421899453e-06,
+      1.1740962690964807e-07,
+      1.1751868100873253e-07,
+      -1.595680987520609e-05,
+      -1.595234061824158e-05,
+      4.247943152790867e-08,
+      4.249358909191869e-08,
+      7.239235128508881e-05,
+      7.239227852551267e-05,
+      -1.2575751551224812e-09,
+      -1.2393224224638288e-09,
+      0.0010128479916602373,
+      0.0010222408454865217,
+      0.001012902706861496,
+      0.001022240030579269
+    ],
+    "schema_version": "physical_anchor_v2",
+    "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+  },
+  "reference_anchor_sha256": "3a35a2383ab12e7066027b103ba0d05f0a7b7a53d59fc8b600beba6b9e7bac2c",
+  "reference_current_sha256": "8a8aab1894919dab40cee96c14f9049e2c747f662ebf3b26cec5b0d091e2eaa9",
+  "reference_event_boundaries": {},
+  "reference_trace_source": {
+    "fields": [
+      "action_layout_dimensions_json",
+      "action_layout_version",
+      "component_masks",
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "dual_eef_pose",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "event_markers_json",
+      "field_sources_json",
+      "gripper_command",
+      "gripper_drive_target_readback",
+      "initial_state",
+      "joint_qpos",
+      "joint_qvel",
+      "left_gripper_joint_drive_target",
+      "left_gripper_joint_drive_velocity_target",
+      "object_angular_velocity",
+      "object_angular_velocity_measured",
+      "object_component_angular_velocity",
+      "object_component_angular_velocity_measured",
+      "object_component_linear_velocity",
+      "object_component_linear_velocity_measured",
+      "object_component_velocity_provenance_json",
+      "object_linear_velocity",
+      "object_linear_velocity_measured",
+      "object_pose",
+      "planner_goal_active",
+      "planner_goal_available",
+      "planner_goal_eef_pose",
+      "planner_goal_source",
+      "planner_queries_json",
+      "planner_query_id",
+      "realized_left_gripper_joint_qpos",
+      "realized_right_gripper_joint_qpos",
+      "requested_command",
+      "right_gripper_joint_drive_target",
+      "right_gripper_joint_drive_velocity_target",
+      "role_object_angular_velocity__A",
+      "role_object_angular_velocity__B",
+      "role_object_angular_velocity__C",
+      "role_object_angular_velocity__common_tray",
+      "role_object_angular_velocity__common_x",
+      "role_object_angular_velocity__slot_A",
+      "role_object_angular_velocity__slot_B",
+      "role_object_angular_velocity__slot_C",
+      "role_object_angular_velocity_measured__A",
+      "role_object_angular_velocity_measured__B",
+      "role_object_angular_velocity_measured__C",
+      "role_object_angular_velocity_measured__common_tray",
+      "role_object_angular_velocity_measured__common_x",
+      "role_object_angular_velocity_measured__slot_A",
+      "role_object_angular_velocity_measured__slot_B",
+      "role_object_angular_velocity_measured__slot_C",
+      "role_object_component_angular_velocity__A",
+      "role_object_component_angular_velocity__B",
+      "role_object_component_angular_velocity__C",
+      "role_object_component_angular_velocity__common_tray",
+      "role_object_component_angular_velocity__common_x",
+      "role_object_component_angular_velocity__slot_A",
+      "role_object_component_angular_velocity__slot_B",
+      "role_object_component_angular_velocity__slot_C",
+      "role_object_component_angular_velocity_measured__A",
+      "role_object_component_angular_velocity_measured__B",
+      "role_object_component_angular_velocity_measured__C",
+      "role_object_component_angular_velocity_measured__common_tray",
+      "role_object_component_angular_velocity_measured__common_x",
+      "role_object_component_angular_velocity_measured__slot_A",
+      "role_object_component_angular_velocity_measured__slot_B",
+      "role_object_component_angular_velocity_measured__slot_C",
+      "role_object_component_linear_velocity__A",
+      "role_object_component_linear_velocity__B",
+      "role_object_component_linear_velocity__C",
+      "role_object_component_linear_velocity__common_tray",
+      "role_object_component_linear_velocity__common_x",
+      "role_object_component_linear_velocity__slot_A",
+      "role_object_component_linear_velocity__slot_B",
+      "role_object_component_linear_velocity__slot_C",
+      "role_object_component_linear_velocity_measured__A",
+      "role_object_component_linear_velocity_measured__B",
+      "role_object_component_linear_velocity_measured__C",
+      "role_object_component_linear_velocity_measured__common_tray",
+      "role_object_component_linear_velocity_measured__common_x",
+      "role_object_component_linear_velocity_measured__slot_A",
+      "role_object_component_linear_velocity_measured__slot_B",
+      "role_object_component_linear_velocity_measured__slot_C",
+      "role_object_component_velocity_provenance_json__A",
+      "role_object_component_velocity_provenance_json__B",
+      "role_object_component_velocity_provenance_json__C",
+      "role_object_component_velocity_provenance_json__common_tray",
+      "role_object_component_velocity_provenance_json__common_x",
+      "role_object_component_velocity_provenance_json__slot_A",
+      "role_object_component_velocity_provenance_json__slot_B",
+      "role_object_component_velocity_provenance_json__slot_C",
+      "role_object_linear_velocity__A",
+      "role_object_linear_velocity__B",
+      "role_object_linear_velocity__C",
+      "role_object_linear_velocity__common_tray",
+      "role_object_linear_velocity__common_x",
+      "role_object_linear_velocity__slot_A",
+      "role_object_linear_velocity__slot_B",
+      "role_object_linear_velocity__slot_C",
+      "role_object_linear_velocity_measured__A",
+      "role_object_linear_velocity_measured__B",
+      "role_object_linear_velocity_measured__C",
+      "role_object_linear_velocity_measured__common_tray",
+      "role_object_linear_velocity_measured__common_x",
+      "role_object_linear_velocity_measured__slot_A",
+      "role_object_linear_velocity_measured__slot_B",
+      "role_object_linear_velocity_measured__slot_C",
+      "role_object_pose__A",
+      "role_object_pose__B",
+      "role_object_pose__C",
+      "role_object_pose__common_tray",
+      "role_object_pose__common_x",
+      "role_object_pose__slot_A",
+      "role_object_pose__slot_B",
+      "role_object_pose__slot_C",
+      "selected_contact_actor_name",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision4_run1_gpu6/f4_staged_gate/prefix_reference_trace.npz",
+    "sample_count": 2789,
+    "sha256": "8f0eaa3a7248d88bf185478b4a9ec78aa936b6a8c1bb3f4c9b9ebd240ffec33c"
+  },
+  "root_slot_id": "pilot-F4-A-prestage0",
+  "schema_version": "cmf_canonical_prefix_artifact_v1",
+  "semantic_prefix_end_anchor": {
+    "actor_states": {
+      "A": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.15999959409236908,
+          0.02000034973025322,
+          0.7620004415512085,
+          1.0,
+          -9.675601177150384e-06,
+          -4.463726781978039e-06,
+          9.824091193877393e-07
+        ],
+        "sleep_state": true
+      },
+      "B": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.2799999415874481,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "C": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.3999999463558197,
+          0.02000054344534874,
+          0.7620002627372742,
+          1.0,
+          -1.26142222143244e-05,
+          3.0031922051421134e-06,
+          4.6542916720682115e-07
+        ],
+        "sleep_state": true
+      },
+      "common_x": {
+        "angular_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "linear_velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pose": [
+          0.20347309112548828,
+          -0.11390816420316696,
+          0.7883231043815613,
+          0.9999921321868896,
+          0.003978674300014973,
+          -7.055802416289225e-05,
+          2.264298382215202e-05
+        ],
+        "sleep_state": true
+      }
+    },
+    "anchor_sha256": "1a44c9abc5cbe74f9e725330fc3a305ce7cd4e8b5920af9bd7f1a261f3b4c46f",
+    "facility_poses": {
+      "common_tray": [
+        0.2800000011920929,
+        -0.11999999731779099,
+        0.7599999904632568,
+        0.7065274119377136,
+        0.7064834237098694,
+        -0.02913561649620533,
+        -0.02917671762406826
+      ],
+      "slot_A": [
+        0.15000000596046448,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_B": [
+        0.30000001192092896,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "slot_C": [
+        0.4099999964237213,
+        0.1599999964237213,
+        0.7419999837875366,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "gripper_joint_qpos": [
+      0.044993139803409576,
+      0.04499306529760361,
+      0.005959573667496443,
+      0.044195037335157394
+    ],
+    "metadata": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "family": "F4",
+      "generator_version": "controlled_multi_future_joint_scene_v3_3_adapter_v1_3",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "seed": 20260829
+    },
+    "model_visible": false,
+    "physics_config": {
+      "adapter_version": "RoboTwinRealSapienStrictPrefixAdapterV1_3",
+      "canonical_settle_source": "RoboTwinSceneContextV1_2 explicit post-setup scene.step loop",
+      "canonical_settle_steps": 60,
+      "control_steps_per_action": 1,
+      "default_dynamic_friction": 0.5,
+      "default_material_source": "declared setup config passed to Base_Task.setup_scene",
+      "default_restitution": 0.0,
+      "default_static_friction": 0.5,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "entity_physics_registry": {
+        "A": {
+          "actor_name": "f4_object_a",
+          "collision_asset_hash": "55ba0cbf633fa44d64381a406295de70bf81e87693ce07c5ced6b4480bc80e74",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "red",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "1c9948816c6bdd28574394fe10673ea7d277922e3c7bf263c61adb3dd740cd55",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "A",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "d57bf77631c1cf004f8c19944e6c4b76d6d37f51751212cbf125ae8b32cba6cf"
+        },
+        "B": {
+          "actor_name": "f4_object_b",
+          "collision_asset_hash": "7eefe3b5d599285d6b560a8fb25674f9a6accc8aeaf43e8c4f7a8801d692e784",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "green",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "870969094759cedfddbd127732c105a6e0f3546a0fb595d69fb7090568ccc67f",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "B",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "e8182daadc8a38302857dabea99360e0180b311fbbb3ac3df3bad919991fca14"
+        },
+        "C": {
+          "actor_name": "f4_object_c",
+          "collision_asset_hash": "29c7e9d224004ab7b4c239820c272322cfaab89b5209ef87f50f253b4f897f60",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "blue",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "d091b9976505f014efced88dc1e19b652798251eadaf4fde1042a35d7d0175e4",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              0.0,
+              0.0,
+              1.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "C",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "0bb6c1197bc312a931c00014dde5406cfb501bb697f886df71be2b205abc0634"
+        },
+        "common_tray": {
+          "actor_name": "f4_common_tray",
+          "collision_asset_hash": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+          "collision_mode": "multiple_convex",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": 0,
+          "modelname": "008_tray",
+          "procedural_asset_spec_sha256": null,
+          "procedural_creation": null,
+          "role": "common_tray",
+          "scale": [
+            0.16,
+            0.16,
+            0.16
+          ],
+          "static_or_dynamic": "static",
+          "visual_asset_hash": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+        },
+        "common_x": {
+          "actor_name": "f4_common_x",
+          "collision_asset_hash": "5873b878ff06637f725aa04e9a0e00cfe3396be3abd10417042416964c2ba44c",
+          "collision_mode": "box",
+          "friction": {
+            "dynamic": 0.5,
+            "source": "scene_default_declared_config",
+            "static": 0.5
+          },
+          "mass": 0.009999999776482582,
+          "mass_source": "runtime_rigid_component",
+          "model_id": "yellow",
+          "modelname": "project_rgb_block",
+          "procedural_asset_spec_sha256": "52a9f8f348d65f902a5f91fd181f1f4781e2a4861bb218f9f7e3f4d0614766ba",
+          "procedural_creation": {
+            "collision_enabled": true,
+            "collision_material_source": "scene.default_physical_material",
+            "color_rgb": [
+              1.0,
+              1.0,
+              0.0
+            ],
+            "creation_api": "envs.utils.create_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "runtime rigid component mass",
+            "half_size": [
+              0.022,
+              0.022,
+              0.022
+            ],
+            "is_static": false,
+            "visual_only": false
+          },
+          "role": "common_x",
+          "scale": [
+            0.022,
+            0.022,
+            0.022
+          ],
+          "static_or_dynamic": "dynamic",
+          "visual_asset_hash": "658a02c42d7cc899dd454a6a8febd05a0ae5dc62f7e44c63349a537be9e628c5"
+        },
+        "slot_A": {
+          "actor_name": "f4_slot_a",
+          "collision_asset_hash": "72a5871a6496b414b5f99e2856333e694ce4b3da496525d6329708c574ec9fc5",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "A",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "da2516ee0a1290fdb2650955d862fe357cc466dc4b50a373cd0af13d474a552c",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.7,
+              0.2,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_A",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "00249554bec7c49e63175a914e394ac02ba6a3a03be86b479e71d83095b82969"
+        },
+        "slot_B": {
+          "actor_name": "f4_slot_b",
+          "collision_asset_hash": "0af5a0d66bb09d0a349251ed41cfbf40116e7d923fcdd9c1c101d6ce6f271c2f",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "B",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "1c096b4fd111ebb86e206a1cdc2bacbfa9fd10017b9d1a634fca982a05720b79",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.7,
+              0.2
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_B",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "ee51536ee298f31a6485c40a6b0fb464bdd904615caced9e6ff7de078fbdb926"
+        },
+        "slot_C": {
+          "actor_name": "f4_slot_c",
+          "collision_asset_hash": "8abc86d805dd497de4143144ccf790da7fc6bfd1657ea375a2d3e09cccafec3e",
+          "collision_mode": "visual_only",
+          "friction": {
+            "dynamic": null,
+            "source": "not_applicable_visual_only",
+            "static": null
+          },
+          "mass": 0.0,
+          "mass_source": "not_applicable_non_dynamic",
+          "model_id": "C",
+          "modelname": "project_visual_slot",
+          "procedural_asset_spec_sha256": "6cd9953db08ba579aa52cc84c238f86cb482a2ee1f6d15c0ed8ec92e150e77d2",
+          "procedural_creation": {
+            "collision_enabled": false,
+            "collision_material_source": "not_applicable",
+            "color_rgb": [
+              0.2,
+              0.2,
+              0.7
+            ],
+            "creation_api": "envs.utils.create_visual_box",
+            "creation_api_source": "envs/utils/create_actor.py",
+            "creation_api_source_sha256": "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be596a63c962dce6d",
+            "creation_contract_version": "project_procedural_asset_v2",
+            "density_or_mass_source": "not_applicable",
+            "half_size": [
+              0.035,
+              0.035,
+              0.002
+            ],
+            "is_static": null,
+            "visual_only": true
+          },
+          "role": "slot_C",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "static_or_dynamic": "kinematic",
+          "visual_asset_hash": "3e92cecb4b41d729ba717fd2cf0747db743d2d8de887c98aa3be662fa045f1cd"
+        }
+      },
+      "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+      "scene_context_version": "RoboTwinSceneContextV1_2",
+      "simulator_timestep_seconds": 0.004000000189989805,
+      "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
+      "timestep_source": "runtime SAPIEN Scene.get_timestep after Base_Task.setup_scene"
+    },
+    "robot_drive_target": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.35595273971557617,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.1575565338134766,
+      0.0,
+      0.0,
+      0.0,
+      1.7091891765594482,
+      0.0,
+      0.0,
+      0.0,
+      -1.0293312072753906,
+      0.0,
+      0.0,
+      0.0,
+      0.03926599770784378,
+      0.0,
+      0.0,
+      0.0,
+      0.3743152916431427,
+      0.0,
+      0.0,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934,
+      0.04500000178813934
+    ],
+    "robot_qpos": [
+      0.0,
+      0.0,
+      -1.3907423373056517e-16,
+      -1.3907423373056517e-16,
+      1.506432104709729e-13,
+      1.506432104709729e-13,
+      2.5087024013714654e-08,
+      0.3537519872188568,
+      -2.780617958109133e-10,
+      -2.780213004260901e-10,
+      5.362143313364267e-18,
+      5.362143313364267e-18,
+      1.4582792189532177e-17,
+      1.4582792189532177e-17,
+      -3.5306984500493854e-06,
+      2.135873794555664,
+      -1.3968210623716004e-06,
+      -1.3968202665637364e-06,
+      9.059511285158806e-06,
+      1.628513216972351,
+      4.456973783817375e-06,
+      4.456975148059428e-06,
+      2.1259763727243808e-08,
+      -1.109568476676941,
+      8.59863824587137e-09,
+      8.589196909269958e-09,
+      7.535071233633062e-09,
+      0.04586712643504143,
+      5.2716759846305195e-09,
+      5.2697863850426074e-09,
+      3.64090873006262e-08,
+      0.3445078432559967,
+      -1.2342805813872482e-12,
+      -1.2102342782441267e-12,
+      0.044993139803409576,
+      0.04499306529760361,
+      0.005959573667496443,
+      0.044195037335157394
+    ],
+    "robot_qvel": [
+      0.0,
+      0.0,
+      -1.1100831318399616e-16,
+      -1.1100831318399616e-16,
+      1.1357580186662636e-13,
+      1.1357580186662636e-13,
+      -4.6447686941064603e-07,
+      0.0006126461084932089,
+      3.3030058688154895e-09,
+      3.3010874034289373e-09,
+      9.887352727572894e-18,
+      9.887352727572894e-18,
+      3.8256375411638483e-17,
+      3.8256375411638483e-17,
+      2.5047386316146003e-06,
+      -0.00016950257122516632,
+      2.1092419046908617e-06,
+      2.109238948833081e-06,
+      -6.065767138352385e-06,
+      0.0008392487652599812,
+      -5.217247689870419e-06,
+      -5.217244506638963e-06,
+      5.6036792983604755e-08,
+      -7.952935993671417e-05,
+      -3.2003988792439486e-08,
+      -3.1975616821000585e-08,
+      4.290257948014187e-06,
+      -0.0008296924643218517,
+      -1.1418723744327508e-08,
+      -1.1415080436449898e-08,
+      -1.599582560629642e-06,
+      -0.0008830276783555746,
+      3.2949429296103006e-10,
+      3.2980437825180786e-10,
+      2.868557203328237e-06,
+      8.160873221640941e-07,
+      0.00037910143146291375,
+      0.000791299098636955
+    ],
+    "schema_version": "physical_anchor_v2",
+    "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+  },
+  "semantic_prefix_end_anchor_sha256": "1a44c9abc5cbe74f9e725330fc3a305ce7cd4e8b5920af9bd7f1a261f3b4c46f",
+  "semantic_prefix_step_count": 2713,
+  "settling_is_part_of_semantic_prefix": false,
+  "settling_policy": {
+    "component_mask_policy": "all_false_no_new_control_command",
+    "mode": "hold_last_effective_setpoint",
+    "reason": "physical prefix-end acceptance window",
+    "semantic": false,
+    "transition_operator": "replay_effective_setpoint_step_v1_1"
+  },
+  "settling_step_count_excluded_from_semantic_prefix": 75,
+  "stage0_authorized": false,
+  "stage0_data": false
+}

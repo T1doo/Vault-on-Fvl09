@@ -1293,9 +1293,14 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         eef_target=None,
         stable_window_pass=False,
         support_window_pass=None,
+        trace_index=None,
     ):
-        row = scene.trace[-1]
-        pose = _pose(scene.bottle)
+        row_index = -1 if trace_index is None else int(trace_index)
+        if not scene.trace or row_index >= len(scene.trace) or row_index < -len(scene.trace):
+            raise ValueError("F3 release sample trace index is outside the recorded trace")
+        row = scene.trace[row_index]
+        pose = np.asarray(row["actor_pose"], dtype=np.float64).reshape(7)
+        eef_pose = np.asarray(row["eef"], dtype=np.float64).reshape(7)
         bottle_name = _entity(scene.bottle).get_name()
         pad_name = _entity(scene.pad).get_name()
         pad_pairs = [
@@ -1320,18 +1325,18 @@ class F3RunnerV3_1(BaseFamilyRunnerV3_1):
         else:
             eef_tracking_error = float(
                 np.linalg.norm(
-                    np.asarray(scene.robot.get_left_ee_pose()[:3], dtype=np.float64)
+                    eef_pose[:3]
                     - np.asarray(eef_target[:3], dtype=np.float64)
                 )
             )
             eef_tracking_applicable = True
         return {
-            "sample_step": int(len(scene.trace) - 2),
+            "sample_step": int(row.get("step_index", row_index)),
             "bottle_position_error_m": float(np.linalg.norm(pose[:3] - target_pose[:3])),
             "bottle_orientation_error_rad": quaternion_angular_error(pose[3:], target_pose[3:]),
             "eef_tracking_error_m": eef_tracking_error,
             "eef_tracking_applicable": eef_tracking_applicable,
-            "eef_pose": np.asarray(scene.robot.get_left_ee_pose(), dtype=np.float64).tolist(),
+            "eef_pose": eef_pose.tolist(),
             "bottle_pose": pose.tolist(),
             "target_bottle_pose": np.asarray(target_pose, dtype=np.float64).tolist(),
             "commanded_release_eef_pose": None if eef_target is None else np.asarray(eef_target, dtype=np.float64).tolist(),

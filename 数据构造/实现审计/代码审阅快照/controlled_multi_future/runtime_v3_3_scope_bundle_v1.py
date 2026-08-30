@@ -28,7 +28,7 @@ VAULT_ROOT = Path("/nfs_share/lijunhui/Vault-on-Fvl09")
 AUDIT_ROOT = VAULT_ROOT / "数据构造/实现审计"
 PARENT_AUTHORIZATION = (
     AUDIT_ROOT
-    / "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION4_REPAIRS_GPU0_7_20260830.json"
+    / "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION5_REPAIRS_GPU0_7_20260830.json"
 )
 PYTHON_EXECUTABLE = Path("/nfs_share/lijunhui/Robotwin2/env/bin/python")
 
@@ -107,12 +107,14 @@ def build_scope_bundle(
 ) -> dict:
     publication = _validate_reviewed_publication(reviewed_content_commit)
     family = SCOPE_FAMILIES[scope]
-    if scope in ROOT_SCOPES and revision_index not in (1, 2, 3, 4):
-        raise ValueError("root scope bundle requires revision_index 1, 2, 3, or 4")
+    if scope in ROOT_SCOPES and revision_index not in (1, 2, 3, 4, 5):
+        raise ValueError(
+            "root scope bundle requires revision_index 1, 2, 3, 4, or 5"
+        )
     if scope not in ROOT_SCOPES and revision_index is not None:
         raise ValueError("non-root scope bundle cannot consume a revision")
     parent = load_parent_user_authorization(PARENT_AUTHORIZATION)
-    group = "runtime_v3_3_v1_3_gpu0_7"
+    group = "runtime_v3_3_v1_4_gpu0_7"
     request_path = AUDIT_ROOT / "scope_requests" / group / f"{namespace_id}.request.json"
     lock_path = AUDIT_ROOT / "source_locks" / group / f"{namespace_id}.source_lock.json"
     auth_path = AUDIT_ROOT / "authorizations" / group / f"{namespace_id}.authorization.json"

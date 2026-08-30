@@ -16,13 +16,16 @@ SCENE_SEED = 20260829
 def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict:
     family = SCOPE_FAMILIES[scope]
     if scope in ROOT_SCOPES:
-        if revision_index not in (1, 2, 3, 4):
-            raise ValueError("root scope revision_index must be 1, 2, 3, or 4")
+        if revision_index not in (1, 2, 3, 4, 5):
+            raise ValueError(
+                "root scope revision_index must be 1, 2, 3, 4, or 5"
+            )
     elif revision_index is not None:
         raise ValueError("non-root scope cannot declare a revision index")
     slot_ids = {
         "canonical_prefix_real_smoke": "runtime-v3-3-prefix-smoke-f1",
         "F4_cube_grasp_no_action_ik": "runtime-v3-3-f4-cube-ik",
+        "F4_micro_lift_diagnosis_per_revision": "pilot-F4-A-prestage0",
         "F1_planner_root_per_revision": "pilot-F1-A-prestage0",
         "F2_diagnosis_root_per_revision": "pilot-F2-A-prestage0",
         "F3_prefix_root_per_revision": "pilot-F3-A-prestage0",
@@ -51,10 +54,14 @@ def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict
             f"{family.lower()}-runtime-v3-3-revision-{revision_index}"
         )
         value["maximum_full_root_execution_per_revision"] = 1
-        value["maximum_new_implementation_revisions_per_family"] = 4
+        value["maximum_new_implementation_revisions_per_family"] = 5
     if family == "F2":
         value["plasticbox_model_id"] = 2
         value["scene_layout"] = json.loads(json.dumps(F2_LAYOUT, sort_keys=True))
     if family == "F4":
         value["scene_layout"] = json.loads(json.dumps(F4_LAYOUT, sort_keys=True))
+        if scope == "F4_micro_lift_diagnosis_per_revision":
+            value["branch_neutral_runtime_policy"] = (
+                "common_vertical_withdraw_then_common_center_high_v5"
+            )
     return value

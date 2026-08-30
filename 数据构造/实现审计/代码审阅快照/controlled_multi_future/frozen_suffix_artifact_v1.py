@@ -145,6 +145,23 @@ def validate_frozen_suffix_artifact(
         manifest.get("segments", [])
     ):
         raise ValueError("frozen suffix segment receipts are misaligned")
+    execution_transforms = spec.get("execution_control_transforms", [])
+    if not isinstance(execution_transforms, list):
+        raise ValueError("frozen suffix execution transforms must be a list")
+    transform_by_segment = {}
+    if execution_transforms:
+        from .f3_return_release_v5 import (
+            validate_f3_return_control_transform_receipt,
+        )
+
+        for transform in execution_transforms:
+            validated_transform = validate_f3_return_control_transform_receipt(
+                transform
+            )
+            segment_id = validated_transform["segment_id"]
+            if segment_id in transform_by_segment:
+                raise ValueError("duplicate frozen suffix execution transform")
+            transform_by_segment[segment_id] = validated_transform
     controls = []
     for index, segment in enumerate(manifest.get("segments", [])):
         position = np.asarray(normalized[segment["position_array_key"]], dtype=np.float32)
@@ -159,6 +176,22 @@ def validate_frozen_suffix_artifact(
             or receipt.get("planner_status") != "Success"
         ):
             raise ValueError("frozen suffix segment receipt linkage mismatch")
+        transform = transform_by_segment.get(segment.get("segment_id"))
+        if transform is not None:
+            executed = transform["executed_control"]
+            if (
+                executed.get("position_shape") != list(position.shape)
+                or executed.get("velocity_shape") != list(velocity.shape)
+                or executed.get("position_sha256") != array_sha256(position)
+                or executed.get("velocity_sha256") != array_sha256(velocity)
+                or segment.get("planner_query", {}).get(
+                    "execution_control_transform"
+                )
+                != transform
+            ):
+                raise ValueError(
+                    "frozen suffix transformed-control provenance differs from arrays"
+                )
         control = {
                 "status": "Success",
                 "position": position,
@@ -169,6 +202,13 @@ def validate_frozen_suffix_artifact(
         controls.append(control)
     if len(controls) != len(manifest.get("execution_spec", {}).get("targets", [])):
         raise ValueError("frozen suffix control count mismatch")
+    if set(transform_by_segment) != {
+        item.get("segment_id")
+        for item in manifest.get("segments", [])
+        if item.get("planner_query", {}).get("execution_control_transform")
+        is not None
+    }:
+        raise ValueError("frozen suffix execution transform linkage is incomplete")
     return dict(manifest), normalized, controls
 
 

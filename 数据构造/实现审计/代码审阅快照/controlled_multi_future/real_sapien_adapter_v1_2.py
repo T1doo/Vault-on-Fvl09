@@ -48,6 +48,10 @@ CREATE_ACTOR_SOURCE_SHA256 = "6bababee8e70da2460b2bbf47d3b5fbb20ccf73368782a7be5
 ROLE_ASSETS_V1_2 = deepcopy(ROLE_ASSETS)
 
 
+class ImplementationSourceIntegrityError(RuntimeError):
+    """The active additive source changed after the child sealed its hash."""
+
+
 def _procedural(
     *,
     creation_api: str,
@@ -217,7 +221,17 @@ class RoboTwinSceneContextV1_2:
 
     counter = 0
 
-    def __init__(self, *, family: str, planned_spec: Mapping[str, Any], phase: str, program, output_root: Path):
+    def __init__(
+        self,
+        *,
+        family: str,
+        planned_spec: Mapping[str, Any],
+        phase: str,
+        program,
+        output_root: Path,
+        sealed_implementation_source_sha256: str,
+        sealed_source_binding: str,
+    ):
         type(self).counter += 1
         self.family = family
         self.phase = phase
@@ -230,6 +244,17 @@ class RoboTwinSceneContextV1_2:
         self.activity_receipt = None
         self._scene = None
         self._monitor: A0PostSetupActivityMonitorV2 | None = None
+        if (
+            not isinstance(sealed_implementation_source_sha256, str)
+            or len(sealed_implementation_source_sha256) != 64
+        ):
+            raise ValueError("scene context requires one sealed implementation source SHA")
+        self.sealed_implementation_source_sha256 = (
+            sealed_implementation_source_sha256
+        )
+        if not isinstance(sealed_source_binding, str) or not sealed_source_binding:
+            raise ValueError("scene context requires a source-seal binding label")
+        self.sealed_source_binding = sealed_source_binding
 
     @property
     def _a0_phase(self) -> bool:
@@ -253,6 +278,10 @@ class RoboTwinSceneContextV1_2:
             scene._cmf_canonical_settle_steps = CANONICAL_SETTLE_STEPS
             scene._cmf_scene_instance_id = self.scene_instance_id
             scene._cmf_adapter_version = ADAPTER_VERSION
+            scene._cmf_sealed_implementation_source_sha256 = (
+                self.sealed_implementation_source_sha256
+            )
+            scene._cmf_sealed_source_binding = self.sealed_source_binding
             scene._cmf_scene_context_v1_2 = self
             if self._a0_phase:
                 scene._cmf_a0_native_planner_counter_initialization = _initialize_a0_native_planner_counters(scene)
@@ -361,6 +390,32 @@ class RoboTwinSceneContextV1_2:
 class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV1_1):
     """Current concrete adapter with v2 A0 activity and metadata semantics."""
 
+    def __init__(
+        self,
+        *,
+        family: str,
+        output_root: Path,
+        expected_implementation_source_sha256: str | None = None,
+    ):
+        super().__init__(family=family, output_root=output_root)
+        live_source_sha = implementation_source_sha256()
+        if expected_implementation_source_sha256 is not None:
+            if (
+                not isinstance(expected_implementation_source_sha256, str)
+                or len(expected_implementation_source_sha256) != 64
+            ):
+                raise ValueError(
+                    "authorization-bound implementation source SHA is invalid"
+                )
+            if live_source_sha != expected_implementation_source_sha256:
+                raise ImplementationSourceIntegrityError(
+                    "active source differs from authorization-bound implementation SHA"
+                )
+            self._sealed_source_binding = "validated_authorization_receipt"
+        else:
+            self._sealed_source_binding = "legacy_unbound_adapter_construction"
+        self._sealed_implementation_source_sha256 = live_source_sha
+
     def scene(self, planned_root_slot_spec, *, phase, program=None):
         if planned_root_slot_spec.get("family") != self.family:
             raise ValueError("planned root family does not match adapter")
@@ -370,6 +425,10 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
             phase=phase,
             program=program,
             output_root=self.output_root,
+            sealed_implementation_source_sha256=(
+                self._sealed_implementation_source_sha256
+            ),
+            sealed_source_binding=self._sealed_source_binding,
         )
 
     def finish_a0_activity_monitor(self, scene, *, phase: str, scene_instance_id: str) -> dict:
@@ -479,6 +538,18 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
     def _simulation_configuration(scene) -> dict:
         setup = scene._cmf_setup_kwargs
         timestep = float(scene.scene.get_timestep())
+        sealed_source_sha = getattr(
+            scene, "_cmf_sealed_implementation_source_sha256", None
+        )
+        if not isinstance(sealed_source_sha, str) or len(sealed_source_sha) != 64:
+            raise ImplementationSourceIntegrityError(
+                "scene lacks its child-start sealed implementation source SHA"
+            )
+        live_source_sha = implementation_source_sha256()
+        if live_source_sha != sealed_source_sha:
+            raise ImplementationSourceIntegrityError(
+                "active controlled_multi_future source changed after child-start seal"
+            )
         return {
             "simulator_timestep_seconds": timestep,
             "control_steps_per_action": 1,
@@ -491,7 +562,12 @@ class RoboTwinRealSapienPilotRootAdapterV1_2(RoboTwinRealSapienPilotRootAdapterV
             "default_dynamic_friction": float(setup.get("dynamic_friction", 0.5)),
             "default_restitution": float(setup.get("restitution", 0.0)),
             "default_material_source": "declared setup config passed to Base_Task.setup_scene",
-            "implementation_source_sha256": implementation_source_sha256(),
+            "implementation_source_sha256": sealed_source_sha,
+            "implementation_source_live_check_equal": True,
+            "implementation_source_seal_scope": "adapter child lifetime",
+            "implementation_source_seal_binding": getattr(
+                scene, "_cmf_sealed_source_binding", "unavailable"
+            ),
             "adapter_version": getattr(scene, "_cmf_adapter_version", ADAPTER_VERSION),
             "scene_context_version": CONTEXT_VERSION,
         }

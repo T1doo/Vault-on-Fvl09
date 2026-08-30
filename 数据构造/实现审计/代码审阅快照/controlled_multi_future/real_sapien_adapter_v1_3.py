@@ -18,8 +18,20 @@ class RoboTwinRealSapienStrictPrefixAdapterV1_3(
 ):
     """Bind real scenes to one-prefix generation and exact replay APIs."""
 
-    def __init__(self, *, family, output_root):
-        super().__init__(family=family, output_root=output_root)
+    def __init__(
+        self,
+        *,
+        family,
+        output_root,
+        expected_implementation_source_sha256,
+    ):
+        super().__init__(
+            family=family,
+            output_root=output_root,
+            expected_implementation_source_sha256=(
+                expected_implementation_source_sha256
+            ),
+        )
         self.controller_v3_3 = get_family_controller_v3_3(family)
 
     @staticmethod

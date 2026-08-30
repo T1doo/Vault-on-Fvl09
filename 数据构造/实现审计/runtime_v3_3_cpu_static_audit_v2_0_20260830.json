@@ -1,0 +1,49 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v2_0",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision5_impact_addendum_v1",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "implementation_source_sha256": "0d19e5d0ace6f3115c686a77485f72b12858023e18dd0cab3fc49f610aa0b33b",
+  "budget_receipt_sha256": "ec79e21abc2a2e4c71f47a49df59f6c37c6a8db2bbaf752ac3b28c6af482b535",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {
+    "active": "339/339 passed",
+    "vault_snapshot": "339/339 passed",
+    "active_snapshot_source_byte_equal": true,
+    "active_snapshot_tests_byte_equal": true,
+    "diff_qr_excluding_pycache": "zero"
+  },
+  "independent_p0_audits": {
+    "F2_F3": "no_remaining_deterministic_pre_gpu_p0",
+    "F4_micro": "no_remaining_deterministic_pre_gpu_p0",
+    "authorization_budget_source_integrity": "no_remaining_deterministic_pre_gpu_p0"
+  },
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 5},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 5},
+    "F4_micro_lift_diagnosis_per_revision": {"family": "F4", "family_revision_index": 5}
+  },
+  "source_bound_static_envelopes": {
+    "F2": {"planner_query_count": 32, "execution_attempt_count": 3, "recovery_attempt_count": 0},
+    "F3": {"planner_query_count": 96, "execution_attempt_count": 3, "recovery_attempt_count": 0},
+    "F4_micro": {"planner_query_count": 13, "execution_attempt_count": 1, "recovery_attempt_count": 0}
+  },
+  "revision4_evidence_trees": {
+    "F2": "1237797e8851cf47b10521f448041255028fb597fc17659ec1c1121fd848cfd8",
+    "F3": "d5022576a06829956111232106b5654aaa0d4af9b0081ec02a03bb833f7f06dd",
+    "F4": "9359aad07fa4a5f04f9b25c3d7b3426710985b3bfb6e99b071e2e776436366b8"
+  },
+  "revision5_runtime_state": {
+    "F2_revision5_ledger_exists": false,
+    "F3_revision5_ledger_exists": false,
+    "F4_revision5_ledger_exists": false,
+    "scope_bundles_created": false,
+    "gpu_runs_started": false,
+    "output_namespaces_created": false
+  },
+  "decision": "CPU_STATIC_READY_FOR_CLEAN_PUBLICATION_AND_BUNDLE_ISSUE",
+  "accepted_nonformal_pre_stage0_roots": 1
+}

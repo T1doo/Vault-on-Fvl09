@@ -734,6 +734,7 @@ def audit_f2_held_transport_contacts(
     can_actor_name: str,
     selected_gripper_body_names: Sequence[str],
     named_facility_body_names: Sequence[str],
+    allowed_gripper_assembly_body_names: Sequence[str] | None = None,
     relation_support_body_names: Sequence[str] = (),
     support_contact_start_relative_row: int | None = None,
     held_segment_trace_windows: Sequence[Mapping[str, Any]] = (),
@@ -747,10 +748,29 @@ def audit_f2_held_transport_contacts(
         raise ValueError("F2 held transport relation is invalid")
     can_name = str(can_actor_name)
     grippers = {str(name) for name in selected_gripper_body_names}
+    assembly = (
+        set(grippers)
+        if allowed_gripper_assembly_body_names is None
+        else {str(name) for name in allowed_gripper_assembly_body_names}
+    )
     facilities = {str(name) for name in named_facility_body_names}
     supports = {str(name) for name in relation_support_body_names}
     if not can_name or not grippers:
         raise ValueError("F2 held transport roles must be nonempty")
+    if not grippers.issubset(assembly):
+        raise ValueError(
+            "F2 allowed gripper assembly must include every selected-contact link"
+        )
+    assembly_extras = assembly - grippers
+    if (
+        can_name in assembly
+        or assembly_extras & facilities
+        or assembly_extras & supports
+        or any("table" in name.lower() or "support" in name.lower() for name in assembly_extras)
+    ):
+        raise ValueError(
+            "F2 additional gripper assembly bodies overlap actor/facility/support roles"
+        )
     if relation in ("on", "beside"):
         if not supports or not isinstance(support_contact_start_relative_row, int):
             raise ValueError(
@@ -787,7 +807,7 @@ def audit_f2_held_transport_contacts(
             and row_index >= support_contact_start_relative_row
             else set()
         )
-        allowed = grippers | allowed_supports
+        allowed = assembly | allowed_supports
         for pair in pairs:
             bodies = {pair.get("body_a"), pair.get("body_b")}
             if can_name not in bodies:
@@ -826,7 +846,11 @@ def audit_f2_held_transport_contacts(
         "schema_version": "cmf_f2_held_transport_contact_gate_v1",
         "relation": relation,
         "evaluated_trace_row_count": len(rows),
-        "selected_gripper_body_names": sorted(grippers),
+        "selected_contact_signal_link_names": sorted(grippers),
+        "allowed_gripper_assembly_body_names": sorted(assembly),
+        "additional_allowed_gripper_assembly_body_names": sorted(
+            assembly_extras
+        ),
         "relation_support_body_names": sorted(supports),
         "named_facility_body_names": sorted(facilities),
         "support_contact_allowed_from_relative_trace_row": (
@@ -838,7 +862,8 @@ def audit_f2_held_transport_contacts(
         "unintended_facility_contacts": unintended,
         "policy": (
             "while held, can must remain continuously attached to the selected "
-            "left gripper and may contact only selected gripper links plus an "
+            "left gripper by the unchanged finger-only signal and may contact "
+            "only the topology-validated gripper assembly plus an "
             "explicit relation support from the frozen release-segment boundary"
         ),
         "checks": checks,

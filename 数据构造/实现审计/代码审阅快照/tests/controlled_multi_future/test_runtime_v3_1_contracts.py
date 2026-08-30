@@ -6,7 +6,11 @@ import hashlib
 import numpy as np
 
 from controlled_multi_future.anchor import capture_physical_anchor_v2, compare_anchors
-from controlled_multi_future.current_hasher import build_current_hashes_v2, require_same_current
+from controlled_multi_future.current_hasher import (
+    SameCurrentMismatch,
+    build_current_hashes_v2,
+    require_same_current,
+)
 from controlled_multi_future.families import F1ObjectSelection
 from controlled_multi_future.probes.pipeline_dry_run import SyntheticAdapter
 from controlled_multi_future.raw_writer import (
@@ -382,8 +386,22 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
             simulation_configuration={"timestep": 0.004, "solver": "changed"},
             source_commit="c3ddfa8b97d5519efa828b075999bd0006778e5e",
         )
-        with self.assertRaisesRegex(ValueError, "reconstruction_spec"):
+        with self.assertRaisesRegex(
+            SameCurrentMismatch, "reconstruction_spec"
+        ) as captured:
             require_same_current(reference, changed)
+        receipt = captured.exception.receipt
+        self.assertEqual(
+            receipt["failure_code"],
+            "same_current_reconstruction_spec_aggregate_sha256_mismatch",
+        )
+        self.assertIn(
+            "simulation_configuration_sha256",
+            receipt["component_differences"][
+                "reconstruction_spec_components"
+            ],
+        )
+        self.assertFalse(receipt["pass"])
 
     def test_f1_requires_actual_equal_prefix_and_minimum_hold(self):
         branches = [

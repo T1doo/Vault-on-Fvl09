@@ -27,7 +27,7 @@ from controlled_multi_future.runtime_source_lock_v1 import (
 
 PARENT = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION4_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION5_REPAIRS_GPU0_7_20260830.json"
 )
 TMP_ROOT = Path("/nfs_share/lijunhui/Robotwin2/tmp")
 
@@ -69,21 +69,73 @@ def root_authorization(*, auth_id, source_hash, seed=17, revision=1):
 
 
 class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
+    def test_parent_scope_revision_map_rejects_unapproved_work(self):
+        parent = load_parent_user_authorization(PARENT)
+        cases = (
+            ("F1_planner_root_per_revision", "F1", 5),
+            ("F4_block_root_per_revision", "F4", 5),
+            ("F4_cube_grasp_no_action_ik", "F4", None),
+            ("canonical_prefix_real_smoke", "F1", None),
+            ("F2_diagnosis_root_per_revision", "F2", 4),
+            ("F3_prefix_root_per_revision", "F3", 6),
+        )
+        for scope, family, revision in cases:
+            planned = {
+                "slot_id": "negative-scope",
+                "family": family,
+                "arm": "right" if family == "F4" else "left",
+                "seed": 17,
+            }
+            if revision is not None:
+                planned.update(
+                    {
+                        "implementation_revision_index": revision,
+                        "implementation_revision": f"{family.lower()}-r{revision}",
+                    }
+                )
+            with self.subTest(scope=scope, revision=revision), self.assertRaisesRegex(
+                ValueError, "authorization.*map"
+            ):
+                build_scope_request(
+                    parent_user_authorization=parent,
+                    scope=scope,
+                    family=family,
+                    scene_seed=17,
+                    planned_root_slot_spec=planned,
+                    reviewed_content_commit="a" * 40,
+                    authorization_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/auth.json",
+                    source_lock_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/lock.json",
+                    consumption_ledger_directory=(
+                        "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations"
+                    ),
+                    revision_ledger_directory=(
+                        "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
+                        if revision is not None
+                        else None
+                    ),
+                    family_revision_index=revision,
+                    guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
+                    output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
+                    exact_child_command=["python", "child.py"],
+                    allowed_physical_gpu_indices=list(range(8)),
+                    reviewed_publication=reviewed_publication(),
+                )
+
     def test_parent_and_scope_request_bind_gpu0_7_budget_source_and_revision(self):
         parent = load_parent_user_authorization(PARENT)
         planned = {
-            "slot_id": "f1-root-a",
-            "family": "F1",
+            "slot_id": "f2-root-a",
+            "family": "F2",
             "arm": "left",
             "seed": 17,
             "origin": "runtime_v3_3_nonformal",
-            "implementation_revision_index": 1,
-            "implementation_revision": "f1-v3-3-r1",
+            "implementation_revision_index": 5,
+            "implementation_revision": "f2-v3-3-r5",
         }
         request = build_scope_request(
             parent_user_authorization=parent,
-            scope="F1_planner_root_per_revision",
-            family="F1",
+            scope="F2_diagnosis_root_per_revision",
+            family="F2",
             scene_seed=17,
             planned_root_slot_spec=planned,
             reviewed_content_commit="a" * 40,
@@ -95,16 +147,16 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             revision_ledger_directory=(
                 "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
             ),
-            family_revision_index=1,
+            family_revision_index=5,
             guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
             output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
             exact_child_command=["python", "-m", "controlled_multi_future.probes.runtime_v3_3_scope_runner"],
             allowed_physical_gpu_indices=list(range(8)),
             reviewed_publication=reviewed_publication(),
         )
-        self.assertEqual(request["family_revision_index"], 1)
+        self.assertEqual(request["family_revision_index"], 5)
         self.assertEqual(request["allowed_physical_gpu_indices"], list(range(8)))
-        self.assertEqual(request["scope_budget"]["planner_query_limit"], 64)
+        self.assertEqual(request["scope_budget"]["planner_query_limit"], 96)
         self.assertIn("root_orchestrator_sha256", request["source_bindings"])
         tampered_publication = copy.deepcopy(request)
         tampered_publication["reviewed_publication"]["origin_main"] = "b" * 40
@@ -119,8 +171,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             ):
                 build_scope_request(
                     parent_user_authorization=parent,
-                    scope="F1_planner_root_per_revision",
-                    family="F1",
+                    scope="F2_diagnosis_root_per_revision",
+                    family="F2",
                     scene_seed=17,
                     planned_root_slot_spec=planned,
                     reviewed_content_commit="a" * 40,
@@ -132,7 +184,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     revision_ledger_directory=(
                         "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
                     ),
-                    family_revision_index=1,
+                    family_revision_index=5,
                     guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
                     output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
                     exact_child_command=["python", "child.py"],
@@ -140,7 +192,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     reviewed_publication=reviewed_publication(),
                 )
 
-    def test_canonical_one_shot_and_four_revision_ledger_are_fail_closed(self):
+    def test_canonical_one_shot_and_five_revision_ledger_are_fail_closed(self):
         TMP_ROOT.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=TMP_ROOT) as directory:
             directory = Path(directory)
@@ -208,6 +260,16 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 self.assertTrue(
                     Path(fourth_receipt["revision_consumption_path"]).is_file()
                 )
+                fifth = root_authorization(
+                    auth_id="auth-r5", source_hash="5" * 64, revision=5
+                )
+                fifth["revision_ledger_directory"] = str(revision_ledger)
+                fifth_receipt = consume_authorization_once(
+                    fifth, ledger_directory=auth_ledger
+                )
+                self.assertTrue(
+                    Path(fifth_receipt["revision_consumption_path"]).is_file()
+                )
 
     def test_noncanonical_ledger_is_rejected_before_write(self):
         value = root_authorization(
@@ -227,15 +289,17 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             auth_path = directory / "authorization.json"
             parent = load_parent_user_authorization(PARENT)
             planned = {
-                "slot_id": "f4-ik-audit",
+                "slot_id": "pilot-F4-A-prestage0",
                 "family": "F4",
                 "arm": "right",
                 "seed": 17,
                 "origin": "test",
+                "implementation_revision_index": 5,
+                "implementation_revision": "f4-v3-3-r5-micro",
             }
             request = build_scope_request(
                 parent_user_authorization=parent,
-                scope="F4_cube_grasp_no_action_ik",
+                scope="F4_micro_lift_diagnosis_per_revision",
                 family="F4",
                 scene_seed=17,
                 planned_root_slot_spec=planned,
@@ -245,8 +309,10 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 consumption_ledger_directory=(
                     "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations"
                 ),
-                revision_ledger_directory=None,
-                family_revision_index=None,
+                revision_ledger_directory=(
+                    "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
+                ),
+                family_revision_index=5,
                 guard_receipt_path=str(directory / "guard.json"),
                 output_namespace=str(directory / "output"),
                 exact_child_command=["python", "child.py"],
@@ -263,8 +329,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 scope_request_path=request_path,
                 parent_user_authorization_path=PARENT,
                 source_lock_receipt=source_lock,
-                authorization_id="test-f4-ik-auth",
-                authorized_run_id="test-f4-ik-run",
+                authorization_id="test-f4-micro-auth",
+                authorized_run_id="test-f4-micro-run",
                 validity_seconds=3600,
             )
             auth_path.write_text(
@@ -273,7 +339,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             )
             validated = validate_authorization_v3_3(
                 authorization,
-                requested_scope="F4_cube_grasp_no_action_ik",
+                requested_scope="F4_micro_lift_diagnosis_per_revision",
                 expected_family="F4",
                 expected_seed=17,
                 expected_output_namespace=str(directory / "output"),
@@ -288,7 +354,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             ):
                 validate_authorization_v3_3(
                     tampered,
-                    requested_scope="F4_cube_grasp_no_action_ik",
+                    requested_scope="F4_micro_lift_diagnosis_per_revision",
                 )
             tampered_guard = copy.deepcopy(authorization)
             tampered_guard["guard_receipt_path"] = str(
@@ -302,7 +368,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             ):
                 validate_authorization_v3_3(
                     tampered_guard,
-                    requested_scope="F4_cube_grasp_no_action_ik",
+                    requested_scope="F4_micro_lift_diagnosis_per_revision",
                 )
 
 

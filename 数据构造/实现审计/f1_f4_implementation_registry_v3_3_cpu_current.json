@@ -1,47 +1,52 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision4_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision5_cpu_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
+  "implementation_revision": "runtime_v3_3_revision5_impact_addendum_v1",
   "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
-  "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
-  "budget_receipt_sha256": "8d82460bdf943a7a797399ac8c9788c7f30cede522f9c3f65f38cdc2aafc2c4f",
+  "implementation_source_sha256": "0d19e5d0ace6f3115c686a77485f72b12858023e18dd0cab3fc49f610aa0b33b",
+  "budget_receipt_sha256": "ec79e21abc2a2e4c71f47a49df59f6c37c6a8db2bbaf752ac3b28c6af482b535",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "accepted_real_roots": 1,
-  "status": "f1_accepted_f2_f3_f4_revision4_byte_equal_cpu_ready_publication_pending",
-  "cpu_tests": {"active": "309/309 passed", "snapshot": "309/309 passed", "source_and_tests_byte_equal": true},
+  "status": "f1_accepted_revision5_byte_equal_cpu_ready_publication_pending",
+  "cpu_tests": {"active": "339/339 passed", "snapshot": "339/339 passed", "source_and_tests_byte_equal": true},
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 5},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 5},
+    "F4_micro_lift_diagnosis_per_revision": {"family": "F4", "family_revision_index": 5}
+  },
   "current_family_status": {
     "F1": {"accepted_root": true, "arm": "left", "programs": ["F1-red", "F1-green", "F1-blue"], "runtime_status": "accepted_revision2_three_of_three"},
     "F2": {
       "accepted_root": false,
       "arm": "left",
       "programs": ["inside(plastic_box)", "on(electronic_scale)", "beside(display_stand)"],
-      "revision3_status": "inside_on_planner_pass_beside_six_candidates_exhausted_execution_zero",
-      "revision4": "single_historical_safe_sector_center_aware_support_z_no_stand_move",
+      "revision4_status": "all_suffix_planners_and_three_executions_reached_false_positive_palm_contact_gate",
+      "revision5": "topology_validated_move_group_palm_body_allowance_preserving_finger_only_continuity",
       "source_bound_envelope": {"planner_query_count": 32, "execution_attempt_count": 3, "recovery_attempt_count": 0},
-      "revision4_gpu_status": "not_run"
+      "revision5_gpu_status": "not_run"
     },
     "F3": {
       "accepted_root": false,
       "arm": "left",
       "programs": ["VVHH", "VHVH", "VHHV"],
-      "revision3_status": "failed_pre_shared_V_gate_exact_predicate_unresolved_due_missing_partial_receipt",
-      "revision4": "same_physical_actions_evidence_complete_pre_V_diagnosis_and_replay_failure_persistence",
-      "source_bound_envelope": {"planner_query_count": 96, "branch_execution_attempt_count": 3, "canonical_reference_execution_count": 1, "recovery_attempt_count": 0},
-      "revision4_gpu_status": "not_run"
+      "revision4_status": "realized_events_pass_return_release_and_one_source_integrity_failure",
+      "revision5": "return_time_dilation_contact_free_clearance_full_assembly_physical_disengagement_and_sealed_source",
+      "source_bound_envelope": {"planner_query_count": 96, "branch_execution_attempt_count": 3, "recovery_attempt_count": 0},
+      "revision5_gpu_status": "not_run"
     },
     "F4": {
       "accepted_root": false,
       "arm": "right",
       "programs": ["common-X+ABC", "common-X+ACB", "common-X+BAC"],
       "layout_version": "f4_right_arm_workspace_base0_v4_final",
-      "revision3_status": "common_prefix_passed_A_carry_mid_failed_execution_zero",
-      "revision4": "uniform_60_degree_inward_tilted_block_transform_with_motiongen_side_channel",
-      "source_bound_envelope": {"planner_query_count": 116, "execution_attempt_count": 7, "recovery_attempt_count": 0},
-      "revision4_gpu_status": "not_run"
+      "revision4_status": "A_planner_7_of_7_but_physical_grasp_and_common_X_noninterference_failed",
+      "revision5": "common_withdraw_high_neutral_actual_open_boundary_top_down_A_micro_lift_and_noninterference",
+      "source_bound_envelope": {"planner_query_count": 13, "execution_attempt_count": 1, "recovery_attempt_count": 0},
+      "revision5_gpu_status": "not_run_micro_only"
     }
   },
-  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION3_TERMINAL_AUDIT_AND_R4_IMPACT_REVIEW_20260830.json"
+  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION4_TERMINAL_AUDIT_AND_R5_IMPACT_REVIEW_20260830.json"
 }

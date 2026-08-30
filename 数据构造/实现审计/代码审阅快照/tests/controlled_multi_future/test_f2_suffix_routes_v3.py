@@ -242,6 +242,53 @@ class F2SuffixRoutesV3Test(unittest.TestCase):
                 support_contact_start_relative_row=2,
             )
 
+    def test_validated_palm_is_body_allowance_not_grasp_signal(self):
+        palm_pair = {"body_a": "can", "body_b": "left_palm"}
+        rows = [
+            self.held_row(extra_pair=palm_pair)
+            for _ in range(4)
+        ]
+        result = audit_f2_held_transport_contacts(
+            rows,
+            relation="inside",
+            can_actor_name="can",
+            selected_gripper_body_names=["left_finger"],
+            allowed_gripper_assembly_body_names=["left_finger", "left_palm"],
+            named_facility_body_names=["box", "scale", "stand"],
+        )
+        self.assertTrue(result["pass"])
+        self.assertEqual(
+            result["additional_allowed_gripper_assembly_body_names"],
+            ["left_palm"],
+        )
+
+        palm_only_signal = [
+            self.held_row(contact=False, extra_pair=palm_pair)
+            for _ in range(4)
+        ]
+        self.assertFalse(
+            audit_f2_held_transport_contacts(
+                palm_only_signal,
+                relation="inside",
+                can_actor_name="can",
+                selected_gripper_body_names=["left_finger"],
+                allowed_gripper_assembly_body_names=[
+                    "left_finger",
+                    "left_palm",
+                ],
+                named_facility_body_names=["box", "scale", "stand"],
+            )["pass"]
+        )
+        with self.assertRaisesRegex(ValueError, "overlap"):
+            audit_f2_held_transport_contacts(
+                rows,
+                relation="inside",
+                can_actor_name="can",
+                selected_gripper_body_names=["left_finger"],
+                allowed_gripper_assembly_body_names=["left_finger", "box"],
+                named_facility_body_names=["box", "scale", "stand"],
+            )
+
     def test_inside_gravity_drop_route_is_rim_clear_and_strict(self):
         route = build_inside_gravity_drop_route(
             current_eef_pose=CURRENT_EEF_POSE,

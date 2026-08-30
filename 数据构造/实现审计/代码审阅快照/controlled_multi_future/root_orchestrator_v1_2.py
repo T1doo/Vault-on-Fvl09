@@ -19,7 +19,11 @@ from .canonical_prefix_artifact_v1 import (
     write_canonical_prefix_artifact,
 )
 from .canonical_prefix_replay_v1 import replay_canonical_prefix
-from .current_hasher import hash_json, require_same_current
+from .current_hasher import (
+    SameCurrentMismatch,
+    hash_json,
+    require_same_current,
+)
 from .family_runners_v3_3 import install_frozen_suffix_controls
 from .frozen_suffix_artifact_v1 import (
     build_frozen_suffix_artifact,
@@ -77,6 +81,33 @@ def _write_json_atomic(path: Path, value: Mapping[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def _require_same_current_and_persist(
+    reference: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+    *,
+    receipt_path: Path,
+    phase: str,
+    program_id: str | None,
+    scene_instance_id: str | None,
+) -> None:
+    try:
+        require_same_current(reference, candidate)
+    except SameCurrentMismatch as exc:
+        payload = dict(exc.receipt)
+        payload.pop("receipt_sha256", None)
+        payload.update(
+            {
+                "phase": phase,
+                "program_id": program_id,
+                "scene_instance_id": scene_instance_id,
+                "saved_before_scene_cleanup": True,
+            }
+        )
+        payload["receipt_sha256"] = hash_json(payload)
+        _write_json_atomic(receipt_path, payload)
+        raise
+
+
 def _persist_prefix_gate_failure(
     scene,
     *,
@@ -92,6 +123,7 @@ def _persist_prefix_gate_failure(
         "schema_version": "cmf_prefix_replay_failure_receipt_v1",
         "status": "failed_prefix_replay_gate",
         "phase": phase,
+        "scene_instance_id": getattr(scene, "_cmf_scene_instance_id", None),
         "error_type": error_type,
         "error": error,
         "prefix_end_equivalent": None
@@ -293,8 +325,19 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 program_id = program["program_id"]
 
                 def task_callback(scene, candidate):
-                    require_same_current(
-                        reference_current, dict(self.adapter.capture_current(scene))
+                    task_current = dict(self.adapter.capture_current(scene))
+                    _require_same_current_and_persist(
+                        reference_current,
+                        task_current,
+                        receipt_path=output_dir
+                        / "task_physical_feasibility"
+                        / program_id
+                        / "same_current_mismatch_receipt.json",
+                        phase=f"task_physical_feasibility:{program_id}",
+                        program_id=program_id,
+                        scene_instance_id=getattr(
+                            scene, "_cmf_scene_instance_id", None
+                        ),
                     )
                     anchor_result = compare_anchors(
                         reference_anchor, dict(self.adapter.capture_anchor(scene))
@@ -360,7 +403,17 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
 
             def prefix_reference_callback(scene, _program):
                 current = dict(self.adapter.capture_current(scene))
-                require_same_current(reference_current, current)
+                _require_same_current_and_persist(
+                    reference_current,
+                    current,
+                    receipt_path=output_dir
+                    / "canonical_prefix_same_current_mismatch_receipt.json",
+                    phase="canonical_prefix_reference",
+                    program_id=None,
+                    scene_instance_id=getattr(
+                        scene, "_cmf_scene_instance_id", None
+                    ),
+                )
                 start_anchor = dict(self.adapter.capture_anchor(scene))
                 start_result = compare_anchors(reference_anchor, start_anchor)
                 if not start_result["equivalent"]:
@@ -553,7 +606,17 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
 
                 def suffix_preflight_callback(scene, candidate):
                     preflight_current = dict(self.adapter.capture_current(scene))
-                    require_same_current(reference_current, preflight_current)
+                    _require_same_current_and_persist(
+                        reference_current,
+                        preflight_current,
+                        receipt_path=preflight_dir
+                        / "same_current_mismatch_receipt.json",
+                        phase=f"suffix_preflight:{program_id}",
+                        program_id=program_id,
+                        scene_instance_id=getattr(
+                            scene, "_cmf_scene_instance_id", None
+                        ),
+                    )
                     preflight_anchor = dict(self.adapter.capture_anchor(scene))
                     start_anchor_result = compare_anchors(
                         reference_anchor, preflight_anchor
@@ -781,7 +844,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
 
                 def branch_callback(scene, candidate):
                     branch_current = dict(self.adapter.capture_current(scene))
-                    require_same_current(reference_current, branch_current)
+                    branch["branch_current"] = branch_current
+                    _require_same_current_and_persist(
+                        reference_current,
+                        branch_current,
+                        receipt_path=branch_dir
+                        / "same_current_mismatch_receipt.json",
+                        phase=f"strict_prefix_branch:{program_id}",
+                        program_id=program_id,
+                        scene_instance_id=getattr(
+                            scene, "_cmf_scene_instance_id", None
+                        ),
+                    )
                     branch_anchor = dict(self.adapter.capture_anchor(scene))
                     branch_anchor_result = compare_anchors(
                         reference_anchor, branch_anchor
@@ -897,6 +971,33 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 "anchor_equivalence": branch_anchor_result,
                                 "prefix_replay": replay,
                                 "suffix_planner": suffix_public_receipts[program_id],
+                                "structured_family_failure_evidence": {
+                                    "f3_pre_open_gate_v5": getattr(
+                                        scene,
+                                        "_cmf_f3_pre_open_gate_v5",
+                                        None,
+                                    ),
+                                    "f3_release_boundary_v5": getattr(
+                                        scene,
+                                        "_cmf_f3_release_boundary_v5",
+                                        None,
+                                    ),
+                                    "f4_preclose_boundary_v5": getattr(
+                                        scene,
+                                        "_cmf_f4_a_preclose_boundary_v5",
+                                        None,
+                                    ),
+                                    "f4_micro_lift_gate_v5": getattr(
+                                        scene,
+                                        "_cmf_f4_a_micro_lift_gate_v5",
+                                        None,
+                                    ),
+                                    "f4_micro_noninterference_v5": getattr(
+                                        scene,
+                                        "_cmf_f4_micro_noninterference_v5",
+                                        None,
+                                    ),
+                                },
                             }
                         )
                         _save_partial_trace_if_available(
@@ -1028,6 +1129,17 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 except (CleanupUncertain, CandidateMutationError):
                     raise
                 except BaseException as exc:
+                    mismatch_path = (
+                        branch_dir / "same_current_mismatch_receipt.json"
+                    )
+                    if mismatch_path.is_file():
+                        branch["same_current_mismatch_receipt"] = {
+                            "relative_path": mismatch_path.name,
+                            "sha256": hashlib.sha256(
+                                mismatch_path.read_bytes()
+                            ).hexdigest(),
+                            "saved_before_scene_cleanup": True,
+                        }
                     branch.update(
                         {
                             "error_type": type(exc).__name__,

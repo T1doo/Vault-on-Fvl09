@@ -1,24 +1,24 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision4_cpu_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision5_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision4_impact_addendum_v1",
-  "implementation_source_sha256": "3b572172e3a1e5631720ecdc525edbb319d9b980536c2d258be94962e393e416",
+  "implementation_revision": "runtime_v3_3_revision5_impact_addendum_v1",
+  "implementation_source_sha256": "0d19e5d0ace6f3115c686a77485f72b12858023e18dd0cab3fc49f610aa0b33b",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
   "gpu_parent_scope_authorized": true,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "cpu_baseline": {"active_tests": "309/309 passed", "snapshot_tests": "309/309 passed", "active_vault_snapshot_byte_equal": true, "status": "revision4_cpu_pass_publication_pending"},
+  "cpu_baseline": {"active_tests": "339/339 passed", "snapshot_tests": "339/339 passed", "active_vault_snapshot_byte_equal": true, "status": "revision5_cpu_pass_publication_pending"},
   "gates": {
     "F1": "accepted_nonformal_revision2_three_of_three",
-    "F2": "revision3_failed_revision4_cpu_ready_not_run",
-    "F3": "revision3_failed_evidence_gap_revision4_diagnosis_cpu_ready_not_run",
-    "F4": "revision3_common_prefix_passed_A_mid_failed_revision4_tilted_cpu_ready_not_run"
+    "F2": "revision4_false_positive_palm_gate_revision5_cpu_ready_not_run",
+    "F3": "revision4_return_release_failed_revision5_cpu_ready_not_run",
+    "F4": "revision4_physical_grasp_noninterference_failed_revision5_micro_cpu_ready_not_run"
   },
-  "reason": "F2/F3/F4 revision4 have not yet produced real accepted roots and final real-SAPIEN pipeline audit is pending.",
+  "reason": "F2 and F3 revision5 have not produced accepted roots; F4 revision5 micro has not run and cannot itself qualify as an accepted root.",
   "stage0_execution_manifest_status": "not_created_four_root_gate_pending",
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
@@ -27,5 +27,5 @@
   "training_started": false,
   "compression_started": false,
   "pi0_5_started": false,
-  "next_safe_sequence": ["publish revision4 byte-equal CPU baseline", "issue three revision4 one-shot scopes", "run on separate fresh-idle GPUs", "audit and update readiness"]
+  "next_safe_sequence": ["publish revision5 byte-equal CPU baseline", "issue exact-scope revision5 single-use bundles", "run on separate fresh-idle GPUs", "audit evidence and continue source-distinct repair"]
 }

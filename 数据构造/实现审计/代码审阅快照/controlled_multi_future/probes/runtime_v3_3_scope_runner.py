@@ -11,6 +11,7 @@ import traceback
 from ..canonical_prefix_smoke_v1 import CanonicalPrefixRealSmokeV1
 from ..f4_cube_grasp_ik_audit_v1 import F4CubeGraspIKAuditV1
 from ..f4_staged_block_gate_v1 import F4StagedBlockExecutionGateV1
+from ..f4_micro_lift_gate_v5 import F4CommonBoundaryAndMicroLiftGateV5
 from ..families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
 from ..real_sapien_adapter_v1_3 import RoboTwinRealSapienStrictPrefixAdapterV1_3
 from ..root_orchestrator_v1_2 import RealSapienStrictPrefixRootOrchestratorV1_2
@@ -30,6 +31,7 @@ from .runtime_v3_3_authorization_v1 import (
 SCOPE_FAMILIES = {
     "canonical_prefix_real_smoke": "F1",
     "F4_cube_grasp_no_action_ik": "F4",
+    "F4_micro_lift_diagnosis_per_revision": "F4",
     "F1_planner_root_per_revision": "F1",
     "F2_diagnosis_root_per_revision": "F2",
     "F3_prefix_root_per_revision": "F3",
@@ -85,6 +87,12 @@ def _result_budget_counts(scope: str, result) -> dict:
             "planner_query_count": int(result["planner_query_count"]),
             "execution_attempt_count": int(result["execution_attempt_count"]),
             "recovery_attempt_count": 0,
+        }
+    if scope == "F4_micro_lift_diagnosis_per_revision":
+        return {
+            "planner_query_count": int(result["planner_query_count"]),
+            "execution_attempt_count": int(result["execution_attempt_count"]),
+            "recovery_attempt_count": int(result["recovery_attempt_count"]),
         }
     raise ValueError(f"unsupported runtime-v3_3 scope {scope}")
 
@@ -160,7 +168,11 @@ def main() -> int:
         )
         _write(output / "receipt.json", aggregate)
         adapter = RoboTwinRealSapienStrictPrefixAdapterV1_3(
-            family=family, output_root=output / "scene_work"
+            family=family,
+            output_root=output / "scene_work",
+            expected_implementation_source_sha256=authorization[
+                "implementation_source_sha256"
+            ],
         )
         execution_dispatched = True
         if scope == "canonical_prefix_real_smoke":
@@ -177,6 +189,15 @@ def main() -> int:
                 planned_root_slot_spec=planned,
             )
             passed = result.get("status") == "passed_f4_cube_grasp_no_action_ik"
+        elif scope == "F4_micro_lift_diagnosis_per_revision":
+            relative_receipt = "f4_micro_lift_gate/receipt.json"
+            result = F4CommonBoundaryAndMicroLiftGateV5(adapter).run(
+                output_dir=output / "f4_micro_lift_gate",
+                planned_root_slot_spec=planned,
+            )
+            passed = result.get("status") == (
+                "passed_f4_r5_common_boundary_a_micro_lift_gate"
+            )
         else:
             programs = FAMILY_CLASSES[family]().checked_provisional_programs()
             realization_specs = {

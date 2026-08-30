@@ -10,6 +10,78 @@ import numpy as np
 
 
 CURRENT_CONTEXT_SCHEMA_VERSION = "current_context_hash_v2"
+
+
+class SameCurrentMismatch(ValueError):
+    """Structured fail-closed mismatch preserving component-level hashes."""
+
+    def __init__(self, message: str, receipt: Mapping[str, Any]):
+        super().__init__(message)
+        self.receipt = dict(receipt)
+
+
+def _same_current_mismatch_receipt(
+    reference: Mapping[str, Any],
+    candidate: Mapping[str, Any],
+    *,
+    failure_code: str,
+) -> dict:
+    component_groups = (
+        "model_visible_components",
+        "reconstruction_spec_components",
+    )
+    component_differences = {}
+    for group in component_groups:
+        left = reference.get(group)
+        right = candidate.get(group)
+        if isinstance(left, Mapping) and isinstance(right, Mapping):
+            keys = sorted(set(left) | set(right))
+            differences = {
+                key: {
+                    "reference": left.get(key),
+                    "candidate": right.get(key),
+                }
+                for key in keys
+                if left.get(key) != right.get(key)
+            }
+            if differences:
+                component_differences[group] = differences
+    receipt = {
+        "schema_version": "cmf_same_current_mismatch_receipt_v1",
+        "formal_data": False,
+        "stage0_data": False,
+        "failure_code": failure_code,
+        "reference_schema_version": reference.get("schema_version"),
+        "candidate_schema_version": candidate.get("schema_version"),
+        "reference_hashes": {
+            key: reference.get(key)
+            for key in (
+                "aggregate_sha256",
+                "model_visible_aggregate_sha256",
+                "hidden_physical_aggregate_sha256",
+                "reconstruction_spec_aggregate_sha256",
+            )
+        },
+        "candidate_hashes": {
+            key: candidate.get(key)
+            for key in (
+                "aggregate_sha256",
+                "model_visible_aggregate_sha256",
+                "hidden_physical_aggregate_sha256",
+                "reconstruction_spec_aggregate_sha256",
+            )
+        },
+        "reference_reconstruction_spec_audit": reference.get(
+            "reconstruction_spec_audit"
+        ),
+        "candidate_reconstruction_spec_audit": candidate.get(
+            "reconstruction_spec_audit"
+        ),
+        "component_differences": component_differences,
+        "pass": False,
+    }
+    receipt["receipt_sha256"] = hash_json(receipt)
+    return receipt
 CAMERA_REQUIRED_FIELDS = ("resolution", "intrinsics_or_fov", "extrinsics", "mount_link", "near_far")
 PHYSICAL_ENTITY_REQUIRED_FIELDS = (
     "role",
@@ -211,6 +283,14 @@ def build_current_hashes_v2(
         "hidden_physical_aggregate_sha256": hash_json(hidden_physical_components),
         "reconstruction_spec_components": reconstruction_spec_components,
         "reconstruction_spec_aggregate_sha256": hash_json(reconstruction_spec_components),
+        "reconstruction_spec_audit": {
+            "scene_seed": int(scene_seed),
+            "generator_version": generator_version,
+            "source_commit": source_commit,
+            "simulation_configuration": _jsonable(
+                simulation_configuration
+            ),
+        },
         "model_input_allows_hidden_physical_components": False,
     }
     result["aggregate_sha256"] = hash_json(
@@ -258,10 +338,30 @@ def build_current_hashes(
 def require_same_current(reference: Mapping[str, Any], candidate: Mapping[str, Any]) -> None:
     if reference.get("schema_version") == CURRENT_CONTEXT_SCHEMA_VERSION or candidate.get("schema_version") == CURRENT_CONTEXT_SCHEMA_VERSION:
         if reference.get("schema_version") != candidate.get("schema_version"):
-            raise ValueError("fresh reconstruction changed current hash schema")
+            message = "fresh reconstruction changed current hash schema"
+            raise SameCurrentMismatch(
+                message,
+                _same_current_mismatch_receipt(
+                    reference, candidate, failure_code="current_hash_schema_mismatch"
+                ),
+            )
         for key in ("model_visible_aggregate_sha256", "reconstruction_spec_aggregate_sha256"):
             if reference.get(key) != candidate.get(key):
-                raise ValueError(f"fresh reconstruction failed same-current {key}")
+                message = f"fresh reconstruction failed same-current {key}"
+                raise SameCurrentMismatch(
+                    message,
+                    _same_current_mismatch_receipt(
+                        reference,
+                        candidate,
+                        failure_code=f"same_current_{key}_mismatch",
+                    ),
+                )
         return
     if reference.get("aggregate_sha256") != candidate.get("aggregate_sha256"):
-        raise ValueError("fresh reconstruction failed same-current aggregate hash")
+        message = "fresh reconstruction failed same-current aggregate hash"
+        raise SameCurrentMismatch(
+            message,
+            _same_current_mismatch_receipt(
+                reference, candidate, failure_code="legacy_current_aggregate_mismatch"
+            ),
+        )

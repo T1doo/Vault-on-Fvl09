@@ -1,0 +1,2960 @@
+{
+  "actual_prefix_end_qpos_sha256": "9bb09fcdaf0ee0ac7ac6701e34795fb61b21dc6abc97c71bf3b35b3701eb75bd",
+  "array_hashes": {
+    "actual_prefix_end_qpos": "1f59d08b1533614c61b13db9bf80cac3f76162bf38bcd88cb23769f6da25703c",
+    "segment_000_position": "53a273c48a6c9062b50cb4815d56bf9699b39bab7005320644c952cd075f4afb",
+    "segment_000_velocity": "9af567e96319ac89a04ed277752a634f5a6b54c2698a4970d62421516943965b",
+    "segment_001_position": "7b848bf20f930d14f9e561d15faf5c9a9e760b4a56cbceda5a23de8c06a8eb86",
+    "segment_001_velocity": "ef8bf1423845563e6304effa2fdd00117afb7264aea8f8efb3119d14d881eca0",
+    "segment_002_position": "474f40657221fe430edb5d84f9f4e6ea8cf8f648c2e2134fddde5e2a3c9f4f19",
+    "segment_002_velocity": "1ddf1b086080e8ad115d35072919d6529f3457ef58ca8814c0f34c16eab005f6",
+    "segment_003_position": "f52889618df24b24f9d8e634e084333728a930a39f50a6a30468d56169020bae",
+    "segment_003_velocity": "2e9d6b0822103278af151e3de9c8a904d104698eed469202aaa35bcc4b8ca923",
+    "segment_004_position": "d09b359ebfc9566acdbb35df8c949034bb7ffbd3c60d773183433c90f02192c2",
+    "segment_004_velocity": "2e658419e7169439a01afbe2c3d4a1dedd49ad183cbbcd5652e611ddd5928e1c",
+    "segment_005_position": "547979c27f6d7c497618ff0ee18eddad281595584dc3a3eef40ceb663c95a19b",
+    "segment_005_velocity": "d280cdc70f616fef2697b6e1fd55942f801106fe3cbc6e335879a6581b0ce95c"
+  },
+  "arrays_file": "suffix_controls.npz",
+  "arrays_file_sha256": "b4cdd5bf7c52f05d30af0dedb1e0a7a9d5012095237717eedb36bd59ebf2a960",
+  "artifact_sha256": "fb8ec6905f96395779799b6b49a94eeff22ab536048f6b4b89808b5c06d71f20",
+  "candidate_universe_sha256": "3261c4fb228a7fd6f3654d32d04fc23e4e4d6595654295d4bfc855f0dd66dcbc",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "execution_spec": {
+    "actual_prefix_end_qpos_dtype": "float64",
+    "actual_prefix_end_qpos_sha256": "9bb09fcdaf0ee0ac7ac6701e34795fb61b21dc6abc97c71bf3b35b3701eb75bd",
+    "arm": "left",
+    "candidate_search_enabled": false,
+    "historical_safe_beside_route": {
+      "actual_held_transport_contact_gate_required": true,
+      "arm": "left",
+      "audit": {
+        "checks": {
+          "center_aware_table_support": true,
+          "exact_segment_order": true,
+          "exact_target_poses": true,
+          "fixed_eight_cm_preplace": true,
+          "identity": true,
+          "no_stand_move": true,
+          "one_reciprocal_hub": true,
+          "reciprocal_preplace": true,
+          "relation_beside": true,
+          "release_at_third_target": true,
+          "runtime_collision_gates_retained": true,
+          "sampled_exact_obb_held_envelope": true,
+          "single_historical_route_no_search": true,
+          "strict_exclusive_beside_predicate": true,
+          "strict_relation_verifier_retained": true,
+          "target_actor_exact": true,
+          "target_facility_clearance": true,
+          "upright_orientation_exact": true
+        },
+        "held_waypoint_envelope_audit": {
+          "actual_execution_contact_gate_required": true,
+          "collisions": [],
+          "curved_planned_path_covered": false,
+          "margin_m": 0.005,
+          "method": "normalized-linear EEF interpolation on declared straight waypoint segments; fixed grasp transform; exact can OBB corners; conservative facility world AABBs",
+          "minimum_separating_clearance_m": {
+            "box": 0.05344915178940255,
+            "scale": 0.039070261837214855,
+            "stand": 0.02074814978182421
+          },
+          "official_curobo_whole_robot_collision_still_required": true,
+          "pass": true,
+          "samples_per_segment": 41,
+          "schema_version": "cmf_f2_sampled_exact_obb_held_waypoint_envelope_v1",
+          "segment_count": 3,
+          "segments": [
+            {
+              "facility_collisions": [],
+              "segment_index": 0
+            },
+            {
+              "facility_collisions": [],
+              "segment_index": 1
+            },
+            {
+              "facility_collisions": [],
+              "segment_index": 2
+            }
+          ]
+        },
+        "pass": true,
+        "predicate_audit": {
+          "beside": true,
+          "exclusive_beside": true,
+          "inside": false,
+          "on": false,
+          "radial_distance_m": 0.15524174696260024,
+          "within_table": true
+        },
+        "schema_version": "cmf_f2_beside_historical_safe_route_v4_audit",
+        "target_facility_clearance_audit": {
+          "checks": {
+            "box": true,
+            "scale": true,
+            "stand": true
+          },
+          "facility_clearances": {
+            "box": {
+              "axis_separation_m": [
+                0.2105657462283991,
+                0.0006929283428311755,
+                -0.05830612985956973
+              ],
+              "separating_clearance_m": 0.2105657462283991
+            },
+            "scale": {
+              "axis_separation_m": [
+                0.039070261837215015,
+                0.03893405221282685,
+                -0.06807536790385105
+              ],
+              "separating_clearance_m": 0.039070261837215015
+            },
+            "stand": {
+              "axis_separation_m": [
+                0.020748149781824196,
+                -0.023695159397688473,
+                -0.06840295280753395
+              ],
+              "separating_clearance_m": 0.020748149781824196
+            }
+          },
+          "margin_m": 0.005,
+          "method": "exact target OBB corners, conservative facility world AABBs",
+          "pass": true,
+          "schema_version": "cmf_f2_target_exact_obb_aabb_clearance_v1",
+          "target_obb_aabb_lower": [
+            0.017300975076437436,
+            -0.1025464780689891,
+            0.74
+          ],
+          "target_obb_aabb_upper": [
+            0.08257969441968167,
+            -0.03746250584651124,
+            0.836570166420503
+          ]
+        },
+        "target_geometry": {
+          "support_error_m": 0.0,
+          "table_plane_z_m": 0.74,
+          "target_obb_bottom_z_m": 0.74
+        }
+      },
+      "can_half_extents_m": [
+        0.03254198611123893,
+        0.04828508321025152,
+        0.03263935967162212
+      ],
+      "can_local_geometry_center_m": [
+        -4.492628302420404e-06,
+        0.04756748877763528,
+        -5.966823217269159e-05
+      ],
+      "candidate_search_enabled": false,
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "facility_aabbs": {
+        "box": {
+          "lower": [
+            -0.3867366615532792,
+            -0.2967524444804943,
+            0.7782640365609332
+          ],
+          "upper": [
+            -0.19326477115196167,
+            -0.10323940641182028,
+            0.8902039954675898
+          ]
+        },
+        "scale": {
+          "lower": [
+            -0.17783340246447576,
+            -0.2585192468935225,
+            0.7684947985166519
+          ],
+          "upper": [
+            -0.02176928676077758,
+            -0.14148053028181595,
+            0.8091258285265568
+          ]
+        },
+        "stand": {
+          "lower": [
+            0.10332784420150587,
+            -0.061157665244199716,
+            0.768167213612969
+          ],
+          "upper": [
+            0.2966662074960559,
+            0.001157561351189499,
+            0.8130094874900812
+          ]
+        }
+      },
+      "formal_data": false,
+      "frozen_other_facilities": [
+        "062_plasticbox/base2",
+        "072_electronicscale/base0"
+      ],
+      "historical_variant_id": "f2_pose_4",
+      "implementation_proposal": "f2_historical_safe_sector_support_route_v4",
+      "implementation_version": "controlled_multi_future_runtime_v3_3",
+      "main_object": "071_can/base1",
+      "official_curobo_whole_robot_collision_required": true,
+      "preplace_offset_m": 0.08,
+      "reference": "074_displaystand/base3",
+      "relation": "beside",
+      "release_target_index": 2,
+      "rest_eef_pose": [
+        -0.297923743724823,
+        -0.31380218267440796,
+        0.9419903755187988,
+        0.7000005275036495,
+        -1.6168087520099104e-05,
+        6.607174355632852e-06,
+        0.7141423255833186
+      ],
+      "route_count": 1,
+      "schema_version": "cmf_f2_beside_historical_safe_route_v4",
+      "selection_basis": "immutable accepted same-layout runtime-v3_2 beside rollout; not selected from revision-4 planner results",
+      "source_actor_pose": [
+        -0.2819601893424988,
+        0.04147086292505264,
+        0.8612548112869263,
+        0.4988860341431655,
+        0.5008146017424658,
+        0.5000541061929704,
+        0.5002432913073288
+      ],
+      "source_eef_pose": [
+        -0.2811676859855652,
+        0.03975348919630051,
+        1.0527299642562866,
+        0.6526077356891702,
+        -0.26986360096429685,
+        0.6534860697301625,
+        0.272456853211407
+      ],
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stand_pose": [
+        0.20000000298023224,
+        -0.029999999329447746,
+        0.7699999809265137,
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0,
+        0.0
+      ],
+      "stand_relative_xy_m": [
+        -0.15,
+        -0.04
+      ],
+      "strict_final_relation_verifier_relaxed": false,
+      "table_plane_z_m": 0.74,
+      "target_actor_pose": [
+        0.050000002980232244,
+        -0.06999999932944775,
+        0.7407175944326162,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "targets": [
+        {
+          "pose": [
+            -0.1153545681102337,
+            -0.015779377589564172,
+            1.012197043425244,
+            0.6529709687965086,
+            -0.27059633214524637,
+            0.653286880159463,
+            0.27133520072044454
+          ],
+          "segment_id": "beside_historical_carry_hub"
+        },
+        {
+          "pose": [
+            0.050458549765097775,
+            -0.07131224437542885,
+            1.012197043425244,
+            0.6529709687965086,
+            -0.27059633214524637,
+            0.653286880159463,
+            0.27133520072044454
+          ],
+          "segment_id": "beside_historical_preplace"
+        },
+        {
+          "pose": [
+            0.050458549765097775,
+            -0.07131224437542885,
+            0.932197043425244,
+            0.6529709687965086,
+            -0.27059633214524637,
+            0.653286880159463,
+            0.27133520072044454
+          ],
+          "segment_id": "beside_historical_release"
+        },
+        {
+          "pose": [
+            0.050458549765097775,
+            -0.07131224437542885,
+            1.012197043425244,
+            0.6529709687965086,
+            -0.27059633214524637,
+            0.653286880159463,
+            0.27133520072044454
+          ],
+          "segment_id": "beside_historical_retreat"
+        },
+        {
+          "pose": [
+            -0.1153545681102337,
+            -0.015779377589564172,
+            1.012197043425244,
+            0.6529709687965086,
+            -0.27059633214524637,
+            0.653286880159463,
+            0.27133520072044454
+          ],
+          "segment_id": "beside_historical_carry_hub_return"
+        },
+        {
+          "pose": [
+            -0.297923743724823,
+            -0.31380218267440796,
+            0.9419903755187988,
+            0.7000005275036495,
+            -1.6168087520099104e-05,
+            6.607174355632852e-06,
+            0.7141423255833186
+          ],
+          "segment_id": "f2_rest"
+        }
+      ]
+    },
+    "inside_full_obb_verifier_relaxed": false,
+    "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "minimum_terminal_joint_limit_margin_rad": 0.002669963985681534,
+    "planner_input_prefix_end_qpos_dtype": "float32",
+    "planner_input_prefix_end_qpos_sha256": "22691acb646f66840ba88ca731b217bd789db96d2895b42d028fb5a230d0b80d",
+    "planner_query_receipts": [
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                229,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                229,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.11535456776618958,
+          -0.01577937789261341,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 4.912609711027471e-06,
+              "rotation_error": 7.129664481908549e-06,
+              "solve_time": 0.04529428482055664,
+              "status": null,
+              "success": true,
+              "total_time": 0.06964659690856934,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 1,
+        "source": "beside_historical_carry_hub",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                286,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                286,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 0.0025601317174732685,
+              "rotation_error": 0.0011785218957811594,
+              "solve_time": 0.04534792900085449,
+              "status": null,
+              "success": true,
+              "total_time": 0.06617426872253418,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 2,
+        "source": "beside_historical_preplace",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                299,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                299,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          0.9321970343589783,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 3,
+              "position_error": 3.2984355584630975e-06,
+              "rotation_error": 1.74086790138972e-06,
+              "solve_time": 0.0726468563079834,
+              "status": null,
+              "success": true,
+              "total_time": 0.11506342887878418,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 3,
+        "source": "beside_historical_release",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                254,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                254,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 0.0025887861847877502,
+              "rotation_error": 0.0009765980066731572,
+              "solve_time": 0.04498791694641113,
+              "status": null,
+              "success": true,
+              "total_time": 0.06563735008239746,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 4,
+        "source": "beside_historical_retreat",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                290,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                290,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.11535456776618958,
+          -0.01577937789261341,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.4382451354322257e-06,
+              "rotation_error": 5.970597612758866e-06,
+              "solve_time": 0.042376041412353516,
+              "status": null,
+              "success": true,
+              "total_time": 0.06270170211791992,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 5,
+        "source": "beside_historical_carry_hub_return",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                510,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                510,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.700000524520874,
+          -1.6168087313417345e-05,
+          6.60717432765523e-06,
+          0.7141423225402832
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.1771293202400557e-06,
+              "rotation_error": 2.1050727809779346e-06,
+              "solve_time": 0.04242658615112305,
+              "status": null,
+              "success": true,
+              "total_time": 0.06278634071350098,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 6,
+        "source": "f2_rest",
+        "start_step": null,
+        "status": "Success"
+      }
+    ],
+    "planner_reset_receipt": {
+      "arm": "left",
+      "planner_instance_id": "inprocess:CuroboPlanner:140673690583344",
+      "planner_seed": 20260828,
+      "reset_evidence": {
+        "planner_seed": 20260828,
+        "reset_seed_argument": true,
+        "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+      },
+      "reset_performed": true,
+      "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+      "variant_id": "v3_3_suffix:F2-beside"
+    },
+    "program_id": "F2-beside",
+    "relation": "beside",
+    "release_target_index": 2,
+    "schema_version": "cmf_frozen_suffix_execution_spec_v1",
+    "segment_receipts": [
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.4559091031551361,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.248277187347412,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.100895643234253,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.4229615926742554,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.0024676048196852207,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          0.3583640456199646,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "fe647633e89b2b8884135aa37467c4b043264101db7858b6ee18b078df25a9e2",
+        "executed": false,
+        "goal_eef_pose": [
+          -0.1153545681102337,
+          -0.015779377589564172,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  229,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  229,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            -0.11535456776618958,
+            -0.01577937789261341,
+            1.0121970176696777,
+            0.6529709696769714,
+            -0.27059632539749146,
+            0.653286874294281,
+            0.2713352143764496
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 4.912609711027471e-06,
+                "rotation_error": 7.129664481908549e-06,
+                "solve_time": 0.04529428482055664,
+                "status": null,
+                "success": true,
+                "total_time": 0.06964659690856934,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 1,
+          "source": "beside_historical_carry_hub",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "beside_historical_carry_hub",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.06976669281721115,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.4346120357513428,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.592700481414795,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.7260091304779053,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.002926944987848401,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          0.7460640668869019,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "22691acb646f66840ba88ca731b217bd789db96d2895b42d028fb5a230d0b80d"
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8194020390510559,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.68605637550354,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.90388560295105,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.786299467086792,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.008351976051926613,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.0007970212609507143,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "8e1c93ae851262ce2f9a03d10b251ceef96601fb7d94a400c91cc9b985939861",
+        "executed": false,
+        "goal_eef_pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  286,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  286,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.050458550453186035,
+            -0.07131224125623703,
+            1.0121970176696777,
+            0.6529709696769714,
+            -0.27059632539749146,
+            0.653286874294281,
+            0.2713352143764496
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 0.0025601317174732685,
+                "rotation_error": 0.0011785218957811594,
+                "solve_time": 0.04534792900085449,
+                "status": null,
+                "success": true,
+                "total_time": 0.06617426872253418,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 2,
+          "source": "beside_historical_preplace",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "beside_historical_preplace",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.4559091031551361,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.248277187347412,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.100895643234253,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.4229615926742554,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.0024676048196852207,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          0.3583640456199646,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "fe647633e89b2b8884135aa37467c4b043264101db7858b6ee18b078df25a9e2"
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8173929452896118,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.5142722129821777,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.251178741455078,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.3076516389846802,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.005450361408293247,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.00021217270113993436,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "4bbbfd092b9cf1fd029afb47435b6c587ad4a9be464c77bafb24736b62f1f800",
+        "executed": false,
+        "goal_eef_pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          0.932197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  299,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  299,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.050458550453186035,
+            -0.07131224125623703,
+            0.9321970343589783,
+            0.6529709696769714,
+            -0.27059632539749146,
+            0.653286874294281,
+            0.2713352143764496
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 3,
+                "position_error": 3.2984355584630975e-06,
+                "rotation_error": 1.74086790138972e-06,
+                "solve_time": 0.0726468563079834,
+                "status": null,
+                "success": true,
+                "total_time": 0.11506342887878418,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 3,
+          "source": "beside_historical_release",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "beside_historical_release",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8194020390510559,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.68605637550354,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.90388560295105,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.786299467086792,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.008351976051926613,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.0007970212609507143,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "8e1c93ae851262ce2f9a03d10b251ceef96601fb7d94a400c91cc9b985939861"
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8193684220314026,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.6857283115386963,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.9024415016174316,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.7855204343795776,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.007845132611691952,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.0007504534441977739,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "d0c8d1db52b00eb8a10b4112e73e9be2c4e266c5e5011aa13b09b3928712ec6b",
+        "executed": false,
+        "goal_eef_pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  254,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  254,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.050458550453186035,
+            -0.07131224125623703,
+            1.0121970176696777,
+            0.6529709696769714,
+            -0.27059632539749146,
+            0.653286874294281,
+            0.2713352143764496
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 0.0025887861847877502,
+                "rotation_error": 0.0009765980066731572,
+                "solve_time": 0.04498791694641113,
+                "status": null,
+                "success": true,
+                "total_time": 0.06563735008239746,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 4,
+          "source": "beside_historical_retreat",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "beside_historical_retreat",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8173929452896118,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.5142722129821777,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.251178741455078,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.3076516389846802,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.005450361408293247,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.00021217270113993436,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "4bbbfd092b9cf1fd029afb47435b6c587ad4a9be464c77bafb24736b62f1f800"
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.4559144675731659,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.248291254043579,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.10093355178833,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.4229824542999268,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.002444454003125429,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          0.3583637475967407,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "317680b49227565ae5a75853d1b7dcf29ae7f430fa874b980f33d05f45e491a9",
+        "executed": false,
+        "goal_eef_pose": [
+          -0.1153545681102337,
+          -0.015779377589564172,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  290,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  290,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            -0.11535456776618958,
+            -0.01577937789261341,
+            1.0121970176696777,
+            0.6529709696769714,
+            -0.27059632539749146,
+            0.653286874294281,
+            0.2713352143764496
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 1.4382451354322257e-06,
+                "rotation_error": 5.970597612758866e-06,
+                "solve_time": 0.042376041412353516,
+                "status": null,
+                "success": true,
+                "total_time": 0.06270170211791992,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 5,
+          "source": "beside_historical_carry_hub_return",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "beside_historical_carry_hub_return",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.8193684220314026,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.6857283115386963,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.9024415016174316,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.7855204343795776,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.007845132611691952,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          -0.0007504534441977739,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "d0c8d1db52b00eb8a10b4112e73e9be2c4e266c5e5011aa13b09b3928712ec6b"
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          4.093903044122271e-06,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          -1.4542436474584974e-05,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          -2.878103441616986e-05,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.4052721780899446e-05,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          5.385054464568384e-06,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          1.7233976450370392e-06,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "end_qpos_sha256": "9a3b2b0b1e2e12cc8570a850be241528c68a8819c6bcce6806d3dd21f3fcf676",
+        "executed": false,
+        "goal_eef_pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.7000005275036495,
+          -1.6168087520099104e-05,
+          6.607174355632852e-06,
+          0.7141423255833186
+        ],
+        "planner_query_receipt": {
+          "arm": "left",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  510,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  510,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            -0.297923743724823,
+            -0.31380218267440796,
+            0.9419903755187988,
+            0.700000524520874,
+            -1.6168087313417345e-05,
+            6.60717432765523e-06,
+            0.7141423225402832
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 1.1771293202400557e-06,
+                "rotation_error": 2.1050727809779346e-06,
+                "solve_time": 0.04242658615112305,
+                "status": null,
+                "success": true,
+                "total_time": 0.06278634071350098,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 6,
+          "source": "f2_rest",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "segment_id": "f2_rest",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3803845801986097e-16,
+          -1.3803845801986097e-16,
+          1.498829272500446e-13,
+          1.498829272500446e-13,
+          -0.4559144675731659,
+          5.645803469178645e-08,
+          -2.780367880372836e-10,
+          -2.780049801476281e-10,
+          5.362292619464833e-18,
+          5.362292619464833e-18,
+          1.4388743889633362e-17,
+          1.4388743889633362e-17,
+          2.248291254043579,
+          -3.5168436625099275e-06,
+          -1.3968170833322802e-06,
+          -1.3968141274744994e-06,
+          2.10093355178833,
+          9.05754404811887e-06,
+          4.456926490092883e-06,
+          4.456918304640567e-06,
+          -1.4229824542999268,
+          1.8129920675846734e-08,
+          8.613973534465913e-09,
+          8.601832135468612e-09,
+          0.002444454003125429,
+          -1.509527578491543e-07,
+          5.2717052945183696e-09,
+          5.269878755598256e-09,
+          0.3583637475967407,
+          7.375697208544807e-08,
+          -1.0636895010629477e-12,
+          -1.1165462001153093e-12,
+          0.02369583025574684,
+          0.021387748420238495,
+          0.044977784156799316,
+          0.04498003423213959
+        ],
+        "start_qpos_sha256": "317680b49227565ae5a75853d1b7dcf29ae7f430fa874b980f33d05f45e491a9"
+      }
+    ],
+    "target_actor_pose": [
+      0.050000002980232244,
+      -0.06999999932944775,
+      0.7407175944326162,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "targets": [
+      {
+        "pose": [
+          -0.1153545681102337,
+          -0.015779377589564172,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "segment_id": "beside_historical_carry_hub"
+      },
+      {
+        "pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "segment_id": "beside_historical_preplace"
+      },
+      {
+        "pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          0.932197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "segment_id": "beside_historical_release"
+      },
+      {
+        "pose": [
+          0.050458549765097775,
+          -0.07131224437542885,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "segment_id": "beside_historical_retreat"
+      },
+      {
+        "pose": [
+          -0.1153545681102337,
+          -0.015779377589564172,
+          1.012197043425244,
+          0.6529709687965086,
+          -0.27059633214524637,
+          0.653286880159463,
+          0.27133520072044454
+        ],
+        "segment_id": "beside_historical_carry_hub_return"
+      },
+      {
+        "pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.7000005275036495,
+          -1.6168087520099104e-05,
+          6.607174355632852e-06,
+          0.7141423255833186
+        ],
+        "segment_id": "f2_rest"
+      }
+    ],
+    "terminal_joint_limit_margin_rad": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      9.999995906096956,
+      9.999999943541965,
+      9.999999999721963,
+      9.999999999721995,
+      null,
+      null,
+      null,
+      null,
+      9.999985457563525,
+      9.999996483156337,
+      9.999998603182917,
+      9.999998603185873,
+      9.999971218965584,
+      9.999990942455952,
+      9.99999554307351,
+      9.999995543081695,
+      9.999985947278219,
+      9.99999998187008,
+      9.999999991386026,
+      9.999999991398168,
+      9.999994614945535,
+      9.999999849047242,
+      9.999999994728295,
+      9.999999994730121,
+      9.999998276602355,
+      9.999999926243028,
+      9.999999999998936,
+      9.999999999998883,
+      0.02369583025574684,
+      0.021387748420238495,
+      0.002672214061021805,
+      0.002669963985681534
+    ],
+    "terminal_qpos": [
+      0.0,
+      0.0,
+      -1.3803845801986097e-16,
+      -1.3803845801986097e-16,
+      1.498829272500446e-13,
+      1.498829272500446e-13,
+      4.093903044122271e-06,
+      5.645803469178645e-08,
+      -2.780367880372836e-10,
+      -2.780049801476281e-10,
+      5.362292619464833e-18,
+      5.362292619464833e-18,
+      1.4388743889633362e-17,
+      1.4388743889633362e-17,
+      -1.4542436474584974e-05,
+      -3.5168436625099275e-06,
+      -1.3968170833322802e-06,
+      -1.3968141274744994e-06,
+      -2.878103441616986e-05,
+      9.05754404811887e-06,
+      4.456926490092883e-06,
+      4.456918304640567e-06,
+      -1.4052721780899446e-05,
+      1.8129920675846734e-08,
+      8.613973534465913e-09,
+      8.601832135468612e-09,
+      5.385054464568384e-06,
+      -1.509527578491543e-07,
+      5.2717052945183696e-09,
+      5.269878755598256e-09,
+      1.7233976450370392e-06,
+      7.375697208544807e-08,
+      -1.0636895010629477e-12,
+      -1.1165462001153093e-12,
+      0.02369583025574684,
+      0.021387748420238495,
+      0.044977784156799316,
+      0.04498003423213959
+    ],
+    "terminal_qpos_sha256": "1cb031a6f91418f208f2b3e0d112f6e16b36a8f3285659e8b4326fe2acf482d2",
+    "terminal_qpos_within_joint_limits": true,
+    "variant_id": "beside_historical_safe_support_route_v4"
+  },
+  "execution_spec_sha256": "8924720ebbb6275caef6267c6aa0af7d571fff7ca9c8897a0acb4b0997ccf497",
+  "family": "F2",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "planner_query_receipts": [
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              229,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              229,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        -0.11535456776618958,
+        -0.01577937789261341,
+        1.0121970176696777,
+        0.6529709696769714,
+        -0.27059632539749146,
+        0.653286874294281,
+        0.2713352143764496
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 4.912609711027471e-06,
+            "rotation_error": 7.129664481908549e-06,
+            "solve_time": 0.04529428482055664,
+            "status": null,
+            "success": true,
+            "total_time": 0.06964659690856934,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 1,
+      "source": "beside_historical_carry_hub",
+      "start_step": null,
+      "status": "Success"
+    },
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              286,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              286,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        0.050458550453186035,
+        -0.07131224125623703,
+        1.0121970176696777,
+        0.6529709696769714,
+        -0.27059632539749146,
+        0.653286874294281,
+        0.2713352143764496
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 0.0025601317174732685,
+            "rotation_error": 0.0011785218957811594,
+            "solve_time": 0.04534792900085449,
+            "status": null,
+            "success": true,
+            "total_time": 0.06617426872253418,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 2,
+      "source": "beside_historical_preplace",
+      "start_step": null,
+      "status": "Success"
+    },
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              299,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              299,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        0.050458550453186035,
+        -0.07131224125623703,
+        0.9321970343589783,
+        0.6529709696769714,
+        -0.27059632539749146,
+        0.653286874294281,
+        0.2713352143764496
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 3,
+            "position_error": 3.2984355584630975e-06,
+            "rotation_error": 1.74086790138972e-06,
+            "solve_time": 0.0726468563079834,
+            "status": null,
+            "success": true,
+            "total_time": 0.11506342887878418,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 3,
+      "source": "beside_historical_release",
+      "start_step": null,
+      "status": "Success"
+    },
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              254,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              254,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        0.050458550453186035,
+        -0.07131224125623703,
+        1.0121970176696777,
+        0.6529709696769714,
+        -0.27059632539749146,
+        0.653286874294281,
+        0.2713352143764496
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 0.0025887861847877502,
+            "rotation_error": 0.0009765980066731572,
+            "solve_time": 0.04498791694641113,
+            "status": null,
+            "success": true,
+            "total_time": 0.06563735008239746,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 4,
+      "source": "beside_historical_retreat",
+      "start_step": null,
+      "status": "Success"
+    },
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              290,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              290,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        -0.11535456776618958,
+        -0.01577937789261341,
+        1.0121970176696777,
+        0.6529709696769714,
+        -0.27059632539749146,
+        0.653286874294281,
+        0.2713352143764496
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.4382451354322257e-06,
+            "rotation_error": 5.970597612758866e-06,
+            "solve_time": 0.042376041412353516,
+            "status": null,
+            "success": true,
+            "total_time": 0.06270170211791992,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 5,
+      "source": "beside_historical_carry_hub_return",
+      "start_step": null,
+      "status": "Success"
+    },
+    {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {
+          "position": {
+            "dtype": "float32",
+            "shape": [
+              510,
+              6
+            ]
+          },
+          "velocity": {
+            "dtype": "float32",
+            "shape": [
+              510,
+              6
+            ]
+          }
+        },
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        -0.297923743724823,
+        -0.31380218267440796,
+        0.9419903755187988,
+        0.700000524520874,
+        -1.6168087313417345e-05,
+        6.60717432765523e-06,
+        0.7141423225402832
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 1.1771293202400557e-06,
+            "rotation_error": 2.1050727809779346e-06,
+            "solve_time": 0.04242658615112305,
+            "status": null,
+            "success": true,
+            "total_time": 0.06278634071350098,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 6,
+      "source": "f2_rest",
+      "start_step": null,
+      "status": "Success"
+    }
+  ],
+  "prefix_artifact_sha256": "c406ff5059ad0c8632b3f0c3e58ffee80668aed08648413d956e155ada4140da",
+  "program_id": "F2-beside",
+  "root_slot_id": "pilot-F2-A-prestage0",
+  "schema_version": "cmf_frozen_suffix_artifact_v1",
+  "segments": [
+    {
+      "control_step_count": 229,
+      "goal_pose": [
+        -0.1153545681102337,
+        -0.015779377589564172,
+        1.012197043425244,
+        0.6529709687965086,
+        -0.27059633214524637,
+        0.653286880159463,
+        0.27133520072044454
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                229,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                229,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.11535456776618958,
+          -0.01577937789261341,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 4.912609711027471e-06,
+              "rotation_error": 7.129664481908549e-06,
+              "solve_time": 0.04529428482055664,
+              "status": null,
+              "success": true,
+              "total_time": 0.06964659690856934,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 1,
+        "source": "beside_historical_carry_hub",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_000_position",
+      "position_sha256": "53a273c48a6c9062b50cb4815d56bf9699b39bab7005320644c952cd075f4afb",
+      "segment_id": "beside_historical_carry_hub",
+      "segment_index": 0,
+      "velocity_array_key": "segment_000_velocity",
+      "velocity_sha256": "9af567e96319ac89a04ed277752a634f5a6b54c2698a4970d62421516943965b"
+    },
+    {
+      "control_step_count": 286,
+      "goal_pose": [
+        0.050458549765097775,
+        -0.07131224437542885,
+        1.012197043425244,
+        0.6529709687965086,
+        -0.27059633214524637,
+        0.653286880159463,
+        0.27133520072044454
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                286,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                286,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 0.0025601317174732685,
+              "rotation_error": 0.0011785218957811594,
+              "solve_time": 0.04534792900085449,
+              "status": null,
+              "success": true,
+              "total_time": 0.06617426872253418,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 2,
+        "source": "beside_historical_preplace",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_001_position",
+      "position_sha256": "7b848bf20f930d14f9e561d15faf5c9a9e760b4a56cbceda5a23de8c06a8eb86",
+      "segment_id": "beside_historical_preplace",
+      "segment_index": 1,
+      "velocity_array_key": "segment_001_velocity",
+      "velocity_sha256": "ef8bf1423845563e6304effa2fdd00117afb7264aea8f8efb3119d14d881eca0"
+    },
+    {
+      "control_step_count": 299,
+      "goal_pose": [
+        0.050458549765097775,
+        -0.07131224437542885,
+        0.932197043425244,
+        0.6529709687965086,
+        -0.27059633214524637,
+        0.653286880159463,
+        0.27133520072044454
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                299,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                299,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          0.9321970343589783,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 3,
+              "position_error": 3.2984355584630975e-06,
+              "rotation_error": 1.74086790138972e-06,
+              "solve_time": 0.0726468563079834,
+              "status": null,
+              "success": true,
+              "total_time": 0.11506342887878418,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 3,
+        "source": "beside_historical_release",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_002_position",
+      "position_sha256": "474f40657221fe430edb5d84f9f4e6ea8cf8f648c2e2134fddde5e2a3c9f4f19",
+      "segment_id": "beside_historical_release",
+      "segment_index": 2,
+      "velocity_array_key": "segment_002_velocity",
+      "velocity_sha256": "1ddf1b086080e8ad115d35072919d6529f3457ef58ca8814c0f34c16eab005f6"
+    },
+    {
+      "control_step_count": 254,
+      "goal_pose": [
+        0.050458549765097775,
+        -0.07131224437542885,
+        1.012197043425244,
+        0.6529709687965086,
+        -0.27059633214524637,
+        0.653286880159463,
+        0.27133520072044454
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                254,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                254,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.050458550453186035,
+          -0.07131224125623703,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 0.0025887861847877502,
+              "rotation_error": 0.0009765980066731572,
+              "solve_time": 0.04498791694641113,
+              "status": null,
+              "success": true,
+              "total_time": 0.06563735008239746,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 4,
+        "source": "beside_historical_retreat",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_003_position",
+      "position_sha256": "f52889618df24b24f9d8e634e084333728a930a39f50a6a30468d56169020bae",
+      "segment_id": "beside_historical_retreat",
+      "segment_index": 3,
+      "velocity_array_key": "segment_003_velocity",
+      "velocity_sha256": "2e9d6b0822103278af151e3de9c8a904d104698eed469202aaa35bcc4b8ca923"
+    },
+    {
+      "control_step_count": 290,
+      "goal_pose": [
+        -0.1153545681102337,
+        -0.015779377589564172,
+        1.012197043425244,
+        0.6529709687965086,
+        -0.27059633214524637,
+        0.653286880159463,
+        0.27133520072044454
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                290,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                290,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.11535456776618958,
+          -0.01577937789261341,
+          1.0121970176696777,
+          0.6529709696769714,
+          -0.27059632539749146,
+          0.653286874294281,
+          0.2713352143764496
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.4382451354322257e-06,
+              "rotation_error": 5.970597612758866e-06,
+              "solve_time": 0.042376041412353516,
+              "status": null,
+              "success": true,
+              "total_time": 0.06270170211791992,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 5,
+        "source": "beside_historical_carry_hub_return",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_004_position",
+      "position_sha256": "d09b359ebfc9566acdbb35df8c949034bb7ffbd3c60d773183433c90f02192c2",
+      "segment_id": "beside_historical_carry_hub_return",
+      "segment_index": 4,
+      "velocity_array_key": "segment_004_velocity",
+      "velocity_sha256": "2e658419e7169439a01afbe2c3d4a1dedd49ad183cbbcd5652e611ddd5928e1c"
+    },
+    {
+      "control_step_count": 510,
+      "goal_pose": [
+        -0.297923743724823,
+        -0.31380218267440796,
+        0.9419903755187988,
+        0.7000005275036495,
+        -1.6168087520099104e-05,
+        6.607174355632852e-06,
+        0.7141423255833186
+      ],
+      "planner_query": {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                510,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                510,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.700000524520874,
+          -1.6168087313417345e-05,
+          6.60717432765523e-06,
+          0.7141423225402832
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.1771293202400557e-06,
+              "rotation_error": 2.1050727809779346e-06,
+              "solve_time": 0.04242658615112305,
+              "status": null,
+              "success": true,
+              "total_time": 0.06278634071350098,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 6,
+        "source": "f2_rest",
+        "start_step": null,
+        "status": "Success"
+      },
+      "position_array_key": "segment_005_position",
+      "position_sha256": "547979c27f6d7c497618ff0ee18eddad281595584dc3a3eef40ceb663c95a19b",
+      "segment_id": "f2_rest",
+      "segment_index": 5,
+      "velocity_array_key": "segment_005_velocity",
+      "velocity_sha256": "d280cdc70f616fef2697b6e1fd55942f801106fe3cbc6e335879a6581b0ce95c"
+    }
+  ],
+  "stage0_authorized": false,
+  "stage0_data": false
+}

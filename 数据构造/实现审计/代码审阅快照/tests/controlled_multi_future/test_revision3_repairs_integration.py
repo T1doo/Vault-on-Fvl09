@@ -31,7 +31,7 @@ from controlled_multi_future.runtime_v3_3_scope_specs_v1 import (
 
 PARENT = (
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION4_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION5_REPAIRS_GPU0_7_20260830.json"
 )
 
 
@@ -107,13 +107,14 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
                 "common_above_tray",
                 "common_preplace",
                 "common_release",
+                "common_withdraw",
                 "common_neutral",
             ),
         )
 
     def test_revision3_budget_parent_and_source_bindings_are_closed(self):
         budget = budget_artifact()
-        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 4)
+        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 5)
         self.assertFalse(budget["automatic_retry"])
         self.assertFalse(budget["stage0_authorized"])
         self.assertEqual(
@@ -132,19 +133,19 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             validate_static_scope_activity_envelope(
                 "F4_block_root_per_revision"
             )["source_bound_static_envelope"]["planner_query_count"],
-            116,
+            118,
         )
         for family, scope in (
             ("F2", "F2_diagnosis_root_per_revision"),
             ("F3", "F3_prefix_root_per_revision"),
             ("F4", "F4_block_root_per_revision"),
         ):
-            spec = planned_scope_spec(scope, revision_index=4)
+            spec = planned_scope_spec(scope, revision_index=5)
             self.assertEqual(spec["family"], family)
-            self.assertEqual(spec["implementation_revision_index"], 4)
+            self.assertEqual(spec["implementation_revision_index"], 5)
             self.assertEqual(spec["maximum_full_root_execution_per_revision"], 1)
         parent = load_parent_user_authorization(PARENT)
-        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 4)
+        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 5)
         self.assertEqual(parent["allowed_physical_gpu_indices"], list(range(8)))
         self.assertFalse(parent["formal_stage0_authorized"])
         bindings = current_source_bindings_v3_3()
@@ -155,6 +156,10 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             "f2_historical_safe_route_sha256",
             "f3_pre_v_evidence_sha256",
             "f4_uniform_tilted_grasp_sha256",
+            "f2_gripper_assembly_topology_sha256",
+            "f3_return_release_sha256",
+            "f4_boundary_micro_lift_sha256",
+            "f4_micro_lift_gate_sha256",
         ):
             self.assertEqual(len(bindings[key]), 64)
 
