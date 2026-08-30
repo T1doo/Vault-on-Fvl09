@@ -1,0 +1,117 @@
+{
+  "schema_version": "cmf_runtime_v3_3_revision8_terminal_and_r9_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision8_impact_addendum_v1",
+  "implementation_source_sha256": "4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21",
+  "budget_receipt_sha256": "bd62453d41b214a54eea045a9b9d6f641c8802cf2f384143a9e7b71d7e61b14a",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "families": {
+    "F2": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 32,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "program_status": {
+        "inside": "failed_verifier",
+        "on": "accepted",
+        "beside": "accepted"
+      },
+      "inside_pre_release": {
+        "actor_position_error_m": 0.0026743701395051515,
+        "actor_orientation_error_rad": 0.09338571140610907,
+        "eef_position_error_m": 0.015185677667460248,
+        "eef_orientation_error_rad": 0.09313176967465651,
+        "settle_gate_pass": true,
+        "rim_clearance_m": 0.024203231851543952,
+        "selected_finger_contact_fraction": 1.0
+      },
+      "inside_opening_dynamics": {
+        "open_start_trace_index": 1994,
+        "first_selected_finger_disconnect_trace_index": 2151,
+        "selected_finger_contact_frames_after_open": 157,
+        "actor_displacement_during_contact_m": [-0.02560749650001526, -0.0019488632678985596, -0.07230114936828613],
+        "velocity_vector_mps_before_disconnect": [-0.21059811115264893, -0.014375895261764526, -1.122206449508667],
+        "linear_speed_mps_before_disconnect": 1.1418868359450025,
+        "angular_speed_rps_before_disconnect": 5.159692730899969,
+        "maximum_linear_speed_mps_after_open": 1.489688381871149,
+        "maximum_angular_speed_rps_after_open": 14.775461109133428,
+        "final_box_contact_record_count": 47,
+        "final_true_cavity_obb": false
+      },
+      "failure_classification": "inside release dynamics eject and wedge the can after an otherwise passing pre-release gate",
+      "next_source_distinct_repair": "instrument actual finger effort/drive gain/target error and test one fixed two-stage balanced-preload release; no target, asset, arm, container, or fallback search change"
+    },
+    "F3": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 96,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "family_suffix_gate_three_of_three_pass": true,
+      "all_program_VH_realized_motion_pass": true,
+      "real_shape_identity_signed_separation_signal_pass": true,
+      "program_status": {
+        "VVHH": "failed_verifier",
+        "VHVH": "accepted",
+        "VHHV": "failed_verifier"
+      },
+      "before_release": {
+        "position_error_m": {"VVHH": 0.001958987103947866, "VHVH": 0.0021641775888062813, "VHHV": 0.002145847023786573},
+        "orientation_error_rad": {"VVHH": 0.02528734592903762, "VHVH": 0.04136103178059225, "VHHV": 0.041408645820457606},
+        "eef_tracking_ok": true,
+        "grasp_transform_stable": true
+      },
+      "after_rest": {
+        "position_error_m": {"VVHH": 0.012623683140798564, "VHVH": 0.0032949885145529857, "VHHV": 0.009828006668983397},
+        "orientation_error_rad": {"VVHH": 0.2569213178851564, "VHVH": 0.016406812543562767, "VHHV": 0.19086573891478006},
+        "footprint_support_stable_all_three": true
+      },
+      "diagnosis_contract_issue": "all three branches, including accepted VHVH, are classified pre_release_systematic_offset and correction_allowed; final-equivalent branches must not request correction and post-release roll must be separated from final failure",
+      "failure_classification": "post-release roll/settling is not reliably final-state equivalent; one of three programs returned by chance",
+      "next_source_distinct_repair": "fix diagnosis gating and perform post-release roll impact review; preserve bottle/pad/arm/VH/programs and permit at most one preregistered controller-only symmetric staged-release hypothesis"
+    },
+    "F4": {
+      "terminal_status": "failed_f4_staged_block_gate",
+      "planner_query_count": 10,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "reference_current_anchor_captured": true,
+      "common_X_prefix_reference_generated": true,
+      "failed_gate": "A_preflight_target_contract_construction",
+      "error_type": "TypeError",
+      "error": "Object of type ndarray is not JSON serializable",
+      "staged_execution_started": false,
+      "full_program_execution_started": false,
+      "failure_classification": "additive implementation serialization defect before block execution; not physical infeasibility",
+      "next_source_distinct_repair": "canonicalize numpy ndarray/scalar inputs to JSON-safe primitives and add staged callback-shape CPU regression; no scene/program/verifier change"
+    }
+  },
+  "gpu_and_cleanup": {
+    "physical_gpu_index": 0,
+    "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "all_three_no_timeout": true,
+    "all_scene_cleanup_safe": true,
+    "all_task_owned_orphan_count_zero": true,
+    "all_post_source_lock_pass": true,
+    "all_gpu_release_verified": true,
+    "post_memory_used_mib": 14
+  },
+  "evidence_manifests": {
+    "F2": {"path": "F2_ROOT_RUNTIME_V3_3_REVISION8_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 48, "tree_sha256": "767ded27e13a3e691220c5d1ce0b34ba1f98faae75e7978d9187703aba4a0ccb"},
+    "F3": {"path": "F3_ROOT_RUNTIME_V3_3_REVISION8_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 48, "tree_sha256": "e4e88965529e1678ac4aba47fd33bcb693f456c77ab64c10e5b5e5c56fb67455"},
+    "F4": {"path": "F4_ROOT_RUNTIME_V3_3_REVISION8_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 11, "tree_sha256": "09bc9b374d6001fff82292b17da053a055db4f6c2ee6c5a6736e395af97f08cb"}
+  },
+  "github_snapshot_boundary": {
+    "files_over_100_mb_kept_local": 7,
+    "policy": "byte-identical local files remain immutable; complete byte counts and sha256 are in the evidence manifest; GitHub receives all remaining receipts/artifacts"
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "next_phase": "runtime_v3_3_revision9_cpu_source_distinct_repairs",
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision8_cpu_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision8_terminal_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
@@ -7,21 +7,27 @@
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
-  "new_gpu_launch_authorized": true,
+  "new_gpu_launch_authorized": false,
   "cpu_baseline_publication_status": "published",
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
   "accepted_nonroot_gates": {"F4_A_only_micro": true},
   "revision8_cpu_ready": true,
-  "revision8_gpu_started": false,
+  "revision8_gpu_started": true,
+  "revision8_gpu_terminal": true,
+  "revision8_family_results": {
+    "F2": {"inside": "failed_verifier", "on": "accepted", "beside": "accepted", "root": "failed_verifier"},
+    "F3": {"VVHH": "failed_verifier", "VHVH": "accepted", "VHHV": "failed_verifier", "root": "failed_verifier"},
+    "F4": {"staged_A_preflight": "failed_ndarray_json_serialization", "execution_attempt_count": 0, "full_root": "not_started"}
+  },
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
   "next_safe_sequence": [
-    "take a fresh all-card GPU snapshot",
-    "consume exact F2/F3 full and F4 block-root single-use bundles only under Guard",
-    "select independently fresh-idle physical GPU0-7 per job subject to active safety layer",
-    "audit real shape identity/separation availability and all terminal receipts",
+    "publish and lock revision8 terminal evidence",
+    "implement source-distinct revision9 CPU repairs without changing frozen science",
+    "run complete active and byte-equal snapshot CPU tests",
+    "prepare new finite single-use GPU scopes only after clean publication",
     "update readiness without starting Stage0"
   ]
 }

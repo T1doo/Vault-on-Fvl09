@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision8_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision8_terminal_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "implementation_revision": "runtime_v3_3_revision8_impact_addendum_v1",
@@ -9,16 +9,16 @@
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
-  "new_gpu_launch_authorized": true,
+  "new_gpu_launch_authorized": false,
   "accepted_real_roots": 1,
   "accepted_nonroot_gates": {"F4_A_only_micro": true},
-  "status": "revision8_exact_bundles_published_gpu_not_run",
+  "status": "revision8_terminal_evidence_locked_revision9_cpu_repairs_required",
   "cpu_tests": {"active": "412/412 passed", "snapshot": "412/412 passed", "byte_equal": true},
   "current_family_status": {
     "F1": {"accepted_root": true, "status": "accepted_revision2"},
-    "F2": {"accepted_root": false, "revision8": "fixed_XY_only_inside_target0_plus_normal_planner_false_evidence", "envelope": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F3": {"accepted_root": false, "revision8": "signed_separation_shape_identity_and_fail_closed_physical_contact_release", "envelope": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F4": {"accepted_root": false, "revision8": "top_down_staged_A_B_C_AB_then_full_ABC_ACB_BAC", "envelope": {"planner": 118, "execution": 7, "recovery": 0}, "gpu": "not_run"}
+    "F2": {"accepted_root": false, "revision8": "fixed_XY_only_inside_target0_plus_normal_planner_false_evidence", "actual": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"inside": "failed_verifier", "on": "accepted", "beside": "accepted"}, "next": "single two-stage balanced-preload release hypothesis"},
+    "F3": {"accepted_root": false, "revision8": "signed_separation_shape_identity_and_fail_closed_physical_contact_release", "actual": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"VVHH": "failed_verifier", "VHVH": "accepted", "VHHV": "failed_verifier"}, "next": "post-release roll impact review and diagnosis gate correction"},
+    "F4": {"accepted_root": false, "revision8": "top_down_staged_A_B_C_AB_then_full_ABC_ACB_BAC", "actual": {"planner": 10, "execution": 0, "recovery": 0}, "gpu": "terminal", "failure": "ndarray_json_serialization_during_A_preflight", "next": "JSON-safe numpy canonicalization only"}
   },
-  "latest_runtime_evidence": "F2_F3_RUNTIME_V3_3_REVISION7_TERMINAL_F4_MICRO_ACCEPTED_AND_R8_IMPACT_REVIEW_20260830.json"
+  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION8_TERMINAL_AND_R9_IMPACT_REVIEW_20260830.json"
 }

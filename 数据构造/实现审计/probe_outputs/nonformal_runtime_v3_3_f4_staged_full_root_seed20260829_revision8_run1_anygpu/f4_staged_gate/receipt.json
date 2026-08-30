@@ -1,0 +1,80 @@
+{
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_preflight:A",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_preflight_A-v1_2-000003"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 216.85291695594788,
+  "error": "Object of type ndarray is not JSON serializable",
+  "error_type": "TypeError",
+  "execution_attempt_count": 0,
+  "formal_data": false,
+  "gate_receipts": [],
+  "gate_sequence": [
+    [
+      "A"
+    ],
+    [
+      "B"
+    ],
+    [
+      "C"
+    ],
+    [
+      "A",
+      "B"
+    ]
+  ],
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "orphan_process_count": 0,
+  "planner_query_count": 10,
+  "prefix_replay_count": 1,
+  "recovery_attempt_count": 0,
+  "reference_prefix_generation_count": 1,
+  "scene_cleanup_succeeded": true,
+  "schema_version": "cmf_f4_staged_block_execution_gate_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_staged_block_gate",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 274, in run\n    suffix_receipt, _ = self.helper._scene_call(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 502, in _scene_call\n    raise body_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 209, in preflight_callback\n    self.adapter.controller_v3_3.plan_diagnostic_blocks_from_actual_prefix_end_state(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 4679, in plan_diagnostic_blocks_from_actual_prefix_end_state\n    all_targets, extra = self._top_down_full_targets_v8(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 4510, in _top_down_full_targets_v8\n    top_down = build_f4_top_down_block_carry_v8(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_top_down_block_carry_v8.py\", line 459, in build_f4_top_down_block_carry_v8\n    original_inputs = _json_clone(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_top_down_block_carry_v8.py\", line 135, in _json_clone\n    json.dumps(\n  File \"/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/json/__init__.py\", line 238, in dumps\n    **kw).encode(obj)\n  File \"/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/json/encoder.py\", line 199, in encode\n    chunks = self.iterencode(o, _one_shot=True)\n  File \"/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/json/encoder.py\", line 257, in iterencode\n    return _iterencode(o, 0)\n  File \"/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/json/encoder.py\", line 179, in default\n    raise TypeError(f'Object of type {o.__class__.__name__} '\nTypeError: Object of type ndarray is not JSON serializable\n"
+}
