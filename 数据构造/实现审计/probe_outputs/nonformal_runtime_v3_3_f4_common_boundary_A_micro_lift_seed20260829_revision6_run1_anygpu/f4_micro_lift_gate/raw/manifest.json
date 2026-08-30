@@ -1,0 +1,793 @@
+{
+  "action_count": 3753,
+  "action_dim": 26,
+  "action_layout_dimensions": [
+    "left_joint_0_position_target",
+    "left_joint_1_position_target",
+    "left_joint_2_position_target",
+    "left_joint_3_position_target",
+    "left_joint_4_position_target",
+    "left_joint_5_position_target",
+    "right_joint_0_position_target",
+    "right_joint_1_position_target",
+    "right_joint_2_position_target",
+    "right_joint_3_position_target",
+    "right_joint_4_position_target",
+    "right_joint_5_position_target",
+    "left_joint_0_velocity_target",
+    "left_joint_1_velocity_target",
+    "left_joint_2_velocity_target",
+    "left_joint_3_velocity_target",
+    "left_joint_4_velocity_target",
+    "left_joint_5_velocity_target",
+    "right_joint_0_velocity_target",
+    "right_joint_1_velocity_target",
+    "right_joint_2_velocity_target",
+    "right_joint_3_velocity_target",
+    "right_joint_4_velocity_target",
+    "right_joint_5_velocity_target",
+    "left_gripper_normalized_target",
+    "right_gripper_normalized_target"
+  ],
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "audit_field_metadata": {
+    "contact_count": {
+      "source": "runtime all SAPIEN scene contact-pair count",
+      "status": "measured"
+    },
+    "contact_pairs_json": {
+      "source": "runtime all SAPIEN scene contact body pairs",
+      "status": "measured"
+    },
+    "eef_angular_velocity": {
+      "source": "runtime 250 Hz EEF quaternion difference",
+      "status": "derived"
+    },
+    "eef_linear_velocity": {
+      "source": "runtime 250 Hz EEF position difference",
+      "status": "derived"
+    },
+    "gripper_drive_target_readback": {
+      "source": "runtime normalized gripper joint drive targets; not physical aperture",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_target": {
+      "source": "runtime exact left gripper joint drive targets",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact left gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "object_angular_velocity": {
+      "source": "250 Hz quaternion difference of the same saved actor pose",
+      "status": "derived"
+    },
+    "object_angular_velocity_measured": {
+      "source": "false: primary gate velocity is pose-derived",
+      "status": "derived"
+    },
+    "object_component_angular_velocity": {
+      "source": "audit-only runtime PhysX rigid-component native angular_velocity property",
+      "status": "measured"
+    },
+    "object_component_angular_velocity_measured": {
+      "source": "runtime component-property availability mask",
+      "status": "derived"
+    },
+    "object_component_linear_velocity": {
+      "source": "audit-only runtime PhysX rigid-component native linear_velocity property",
+      "status": "measured"
+    },
+    "object_component_linear_velocity_measured": {
+      "source": "runtime component-property availability mask",
+      "status": "derived"
+    },
+    "object_component_velocity_provenance_json": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "object_linear_velocity": {
+      "source": "250 Hz finite difference of the same saved actor pose origin",
+      "status": "derived"
+    },
+    "object_linear_velocity_measured": {
+      "source": "false: primary gate velocity is pose-derived",
+      "status": "derived"
+    },
+    "object_pose": {
+      "source": "runtime SAPIEN actor pose API",
+      "status": "measured"
+    },
+    "planner_goal_active": {
+      "source": "runtime planner control active on each action interval",
+      "status": "derived"
+    },
+    "planner_goal_available": {
+      "source": "runtime per-arm direct planner-goal presence",
+      "status": "derived"
+    },
+    "planner_goal_end_step": {
+      "source": "exclusive last action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_goal_source": {
+      "source": "runtime move API that produced the active planner control",
+      "status": "derived"
+    },
+    "planner_goal_start_step": {
+      "source": "first action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_query_id": {
+      "source": "runtime planner query ID active on each action interval",
+      "status": "derived"
+    },
+    "realized_left_gripper_joint_qpos": {
+      "source": "runtime left articulation active-joint qpos",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qpos": {
+      "source": "runtime right articulation active-joint qpos",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_target": {
+      "source": "runtime exact right gripper joint drive targets",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact right gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "role_object_angular_velocity__A": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role A",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__B": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role B",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__C": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role C",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__common_tray": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__common_x": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__slot_A": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__slot_B": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__slot_C": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__A": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role A",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__B": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role B",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__C": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role C",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__common_tray": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__common_x": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__slot_A": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__slot_B": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__slot_C": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity__A": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role A",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__B": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role B",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__C": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role C",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__common_tray": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role common_tray",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__common_x": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role common_x",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__slot_A": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role slot_A",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__slot_B": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role slot_B",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__slot_C": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role slot_C",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity_measured__A": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role A",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__B": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role B",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__C": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role C",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__common_tray": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__common_x": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__slot_A": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__slot_B": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__slot_C": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity__A": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role A",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__B": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role B",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__C": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role C",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__common_tray": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role common_tray",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__common_x": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role common_x",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__slot_A": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role slot_A",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__slot_B": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role slot_B",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__slot_C": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role slot_C",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity_measured__A": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role A",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__B": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role B",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__C": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role C",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__common_tray": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__common_x": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__slot_A": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__slot_B": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__slot_C": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__A": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__B": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__C": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__common_tray": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__common_x": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__slot_A": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__slot_B": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__slot_C": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__A": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role A",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__B": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role B",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__C": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role C",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__common_tray": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__common_x": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__slot_A": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__slot_B": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__slot_C": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__A": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role A",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__B": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role B",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__C": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role C",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__common_tray": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role common_tray",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__common_x": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role common_x",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__slot_A": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role slot_A",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__slot_B": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role slot_B",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__slot_C": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role slot_C",
+      "status": "derived"
+    },
+    "role_object_pose__A": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role A",
+      "status": "measured"
+    },
+    "role_object_pose__B": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role B",
+      "status": "measured"
+    },
+    "role_object_pose__C": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role C",
+      "status": "measured"
+    },
+    "role_object_pose__common_tray": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role common_tray",
+      "status": "measured"
+    },
+    "role_object_pose__common_x": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role common_x",
+      "status": "measured"
+    },
+    "role_object_pose__slot_A": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role slot_A",
+      "status": "measured"
+    },
+    "role_object_pose__slot_B": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role slot_B",
+      "status": "measured"
+    },
+    "role_object_pose__slot_C": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role slot_C",
+      "status": "measured"
+    },
+    "selected_contact_actor_name": {
+      "source": "runtime verifier contact-subject actor name",
+      "status": "derived"
+    },
+    "selected_gripper_contact": {
+      "source": "runtime SAPIEN contact restricted to selected arm gripper links",
+      "status": "measured"
+    },
+    "selected_gripper_contact_count": {
+      "source": "runtime selected-arm SAPIEN contact-pair count",
+      "status": "measured"
+    },
+    "selected_gripper_contact_impulse": {
+      "source": "runtime selected-arm SAPIEN contact point impulse sum",
+      "status": "measured"
+    }
+  },
+  "formal_data": false,
+  "frequency_hz": 250,
+  "manifest_payload_sha256": "4b858ff2edc567b70bfd59685c555156d97bc82d3deb34209598800e24e766de",
+  "manifest_sha256": "4b858ff2edc567b70bfd59685c555156d97bc82d3deb34209598800e24e766de",
+  "primary_action_stream": "controller_effective_setpoint_v1",
+  "provenance": {
+    "family": "F4",
+    "implementation_version": "controlled_multi_future_runtime_v3_3",
+    "planner_queries": [
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                163,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                163,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3088,
+        "goal_eef_pose": [
+          0.1599990427494049,
+          -0.0009548207162879407,
+          0.986952543258667,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 6.597049377887743e-07,
+              "rotation_error": 5.104921569909493e-07,
+              "solve_time": 0.0462651252746582,
+              "status": null,
+              "success": true,
+              "total_time": 0.07100868225097656,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 1,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "A_pregrasp",
+        "start_step": 2925,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                178,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                178,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3316,
+        "goal_eef_pose": [
+          0.15999926626682281,
+          0.008026191964745522,
+          0.897401750087738,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.132373427026323e-06,
+              "rotation_error": 3.0372111723409034e-06,
+              "solve_time": 0.05027151107788086,
+              "status": null,
+              "success": true,
+              "total_time": 0.07490229606628418,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 2,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "A_grasp",
+        "start_step": 3138,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                87,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                87,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3753,
+        "goal_eef_pose": [
+          0.15999926626682281,
+          0.008026191964745522,
+          0.9174017906188965,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 2.2473027456726413e-06,
+              "rotation_error": 2.7624892027233727e-06,
+              "solve_time": 0.05110526084899902,
+              "status": null,
+              "success": true,
+              "total_time": 0.07568907737731934,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 3,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "A_micro_lift",
+        "start_step": 3666,
+        "status": "Success"
+      }
+    ],
+    "program_id": "F4-DIAG-A-MICRO-LIFT",
+    "realization_spec": {
+      "formal_data": false,
+      "realization": "diagnostic",
+      "stage0_data": false
+    },
+    "simulator_timing": {
+      "control_steps_per_action": 1,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+      "simulator_timestep_seconds": 0.004000000189989805
+    },
+    "synthetic": false,
+    "trace_role_names": [
+      "A",
+      "B",
+      "C",
+      "common_tray",
+      "common_x",
+      "slot_A",
+      "slot_B",
+      "slot_C"
+    ],
+    "trace_schema_version": "cmf_runtime_trace_pose_consistent_velocity_v2",
+    "trace_source_relative_path": "../trace_source.npz",
+    "trace_source_sha256": "5b5fe26c3ab74ccc834952715f415cc4ceceefbc68363ec35a34a8f388572948"
+  },
+  "raw_streams_npz_sha256": "d607d03d8bb9234f1ed878431c25bd169d66ca7951f1200d5563ae9195ed7c7f",
+  "schema_version": "cmf_raw_attempt_v2_1_1",
+  "simulator_timing": {
+    "control_steps_per_action": 1,
+    "effective_action_interval_seconds": 0.004000000189989805,
+    "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+    "simulator_timestep_seconds": 0.004000000189989805
+  },
+  "stage0_data": false,
+  "state_count": 3754,
+  "stream_field_metadata": {
+    "action_interval_end_timestamps": {
+      "source": "runtime state_timestamps[1:]",
+      "status": "derived"
+    },
+    "action_interval_start_timestamps": {
+      "source": "runtime state_timestamps[:-1]",
+      "status": "derived"
+    },
+    "component_masks": {
+      "source": "runtime commanded component availability",
+      "status": "derived"
+    },
+    "controller_effective_setpoint": {
+      "source": "runtime joint drive targets plus normalized gripper drive targets",
+      "status": "measured"
+    },
+    "gripper_command": {
+      "source": "runtime normalized gripper command",
+      "status": "commanded"
+    },
+    "planner_goal_eef_pose": {
+      "source": "runtime left/right move_to_pose direct EEF goal arguments",
+      "status": "commanded"
+    },
+    "realized_eef": {
+      "source": "runtime dual-arm EEF pose API",
+      "status": "measured"
+    },
+    "realized_qpos": {
+      "source": "runtime complete dual-arm articulation get_qpos",
+      "status": "measured"
+    },
+    "realized_qvel": {
+      "source": "runtime complete dual-arm articulation get_qvel",
+      "status": "measured"
+    },
+    "requested_command": {
+      "source": "runtime Base_Task.take_dense_action control_seq",
+      "status": "commanded"
+    },
+    "state_timestamps": {
+      "source": "runtime 250 Hz state step index",
+      "status": "derived"
+    }
+  },
+  "timestamp_semantics": "state[k] -- action[k] on [start,end) --> state[k+1]",
+  "trace_source_sha256": "5b5fe26c3ab74ccc834952715f415cc4ceceefbc68363ec35a34a8f388572948"
+}

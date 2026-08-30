@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision6_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision6_terminal_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "implementation_revision": "runtime_v3_3_revision6_impact_addendum_v1",
@@ -8,14 +8,38 @@
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
+  "new_gpu_launch_authorized": false,
   "accepted_real_roots": 1,
-  "status": "revision6_exact_bundles_published_gpu_not_run",
-  "cpu_tests": {"active": "359/359 passed", "snapshot": "359/359 passed", "byte_equal": true},
-  "current_family_status": {
-    "F1": {"accepted_root": true, "status": "accepted_revision2"},
-    "F2": {"accepted_root": false, "revision6": "inside_10_warmup_plus_final50_full60_safety", "envelope": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F3": {"accepted_root": false, "revision6": "live_full_assembly_target_projection_and_compound_clearance", "envelope": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F4": {"accepted_root": false, "revision6": "uniform_top_down_plus16mm_A_only_micro", "envelope": {"planner": 13, "execution": 1, "recovery": 0}, "gpu": "not_run"}
+  "status": "revision6_terminal_revision7_cpu_repair_required",
+  "cpu_tests_at_revision6_publication": {
+    "active": "359/359 passed",
+    "snapshot": "359/359 passed",
+    "byte_equal": true
   },
-  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION5_TERMINAL_AUDIT_AND_R6_IMPACT_REVIEW_20260830.json"
+  "current_family_status": {
+    "F1": {
+      "accepted_root": true,
+      "status": "accepted_revision2"
+    },
+    "F2": {
+      "accepted_root": false,
+      "revision6_status": "inside_failed_full_obb_on_and_beside_accepted",
+      "budget_counts": {"planner": 32, "execution": 3, "recovery": 0},
+      "next": "inside_only_frozen_tracking_compensation"
+    },
+    "F3": {
+      "accepted_root": false,
+      "revision6_status": "implementation_key_error_before_suffix_planner",
+      "budget_counts": {"planner": 21, "suffix_planner": 0, "execution": 0, "recovery": 0},
+      "next": "projection_key_wiring_and_exception_evidence_fix"
+    },
+    "F4": {
+      "accepted_root": false,
+      "revision6_status": "micro_false_negative_and_external_gpu_contention",
+      "budget_counts": {"planner": 13, "execution": 1, "recovery": 0},
+      "posthoc_role_A_rise_m": 0.01730656623840332,
+      "next": "role_A_trace_and_nonzero_impulse_contact_fix_then_fresh_A_only_micro"
+    }
+  },
+  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION6_TERMINAL_AUDIT_AND_R7_IMPACT_REVIEW_20260830.json"
 }

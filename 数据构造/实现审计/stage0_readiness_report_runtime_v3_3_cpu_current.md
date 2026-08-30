@@ -1,15 +1,16 @@
-# Stage 0 readiness：runtime-v3_3 revision-6 CPU current
+# Stage 0 readiness：runtime-v3_3 revision-6 terminal current
 
 ## BLOCKED_WITH_REASONS
 
-Revision-6 active/snapshot各359/359、byte-equal且独立P0审计通过，但尚未真实运行。F1仍是唯一accepted root，当前`1/4`。
-
-下一步仅允许已经发布的F2-r6完整root、F3-r6完整root、F4-r6 A-only micro single-use bundles。每项仍需fresh-idle GPU、Guard、source-lock和cleanup；F4 micro即使通过也不是accepted root。Stage0继续禁止。
+F1仍是唯一accepted nonformal root，当前`1/4`。F2的`on/beside`局部成功不能拼成root；F3尚未真正测试r6 release clearance；F4 A-only micro的raw支持物理微抬，但运行时verifier接线错误且Guard保持fail-closed，不能retroactive accept。
 
 ```yaml
-revision6_cpu_ready: true
-revision6_gpu_started: false
+revision6_gpu_scopes_terminal: true
+revision7_cpu_repairs_required: true
+new_gpu_launch_authorized: false
 accepted_roots: 1/4
 stage0_trajectories: 0
 formal_trajectories: 0
 ```
+
+下一安全动作是先发布r6 immutable evidence，再完成r7 CPU/source-distinct修复、全测试、byte-equal快照和新预算/授权。Stage0继续禁止。

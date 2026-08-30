@@ -1,0 +1,128 @@
+{
+  "schema_version": "cmf_runtime_v3_3_revision6_terminal_audit_and_r7_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision6_impact_addendum_v1",
+  "implementation_source_sha256": "3b771f97a5b2b53db53bf71ec9f1fe15727614a1303e2f415197e65655580a7d",
+  "budget_receipt_sha256": "9f0fb00bf7a9d1c4317be2233e53f18ee670c65b29eb08e56c7d7a5c3b9930cb",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "families": {
+    "F2": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 32,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "relation_status": {
+        "inside": "failed_verifier",
+        "on": "accepted",
+        "beside": "accepted"
+      },
+      "inside_evidence": {
+        "revision6_settle_gate_pass": true,
+        "evaluated_max_linear_speed_mps": 0.008879,
+        "evaluated_max_angular_speed_rps": 0.048442,
+        "opening_projection_inside": true,
+        "rim_clearance_m": 0.021844,
+        "preopen_eef_position_error_m": 0.011822,
+        "preopen_eef_orientation_error_rad": 0.092578,
+        "preopen_actor_position_error_m": 0.011823,
+        "preopen_actor_orientation_error_rad": 0.092832,
+        "grasp_transform_translation_drift_m": 0.000122,
+        "grasp_transform_orientation_drift_rad": 0.000018,
+        "final_full_obb_inside": false,
+        "final_cavity_lower_violation_m": {
+          "local_y": 0.014940,
+          "local_z": 0.013764
+        },
+        "final_target_position_error_m": 0.062382,
+        "final_target_orientation_error_rad": 1.56875,
+        "root_cause": "systematic pre-open tracking offset followed by high-angular release while finger contact remains; the can wedges against the box before becoming fully inside"
+      },
+      "same_current_prefix_and_cleanup_pass": true,
+      "next_source_distinct_repair": "deterministic inside-only pre-release tracking compensation plus realized pre-open alignment Gate; preserve object, arm, box, layout, desired actor target, on/beside, cavity and verifier"
+    },
+    "F3": {
+      "reported_terminal_status": "failed_planner",
+      "actual_failure_type": "implementation_key_error_before_suffix_planner",
+      "exception": "KeyError('gripper_below_eef_envelope_m')",
+      "planner_query_count": 21,
+      "canonical_prefix_planner_query_count": 21,
+      "suffix_planner_query_count": 0,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "program_status": {
+        "VVHH": "failed_implementation_error_before_suffix_planner",
+        "VHVH": "failed_implementation_error_before_suffix_planner",
+        "VHHV": "failed_implementation_error_before_suffix_planner"
+      },
+      "canonical_prefix": {
+        "passed": true,
+        "step_count": 3168,
+        "action_sha256": "fbf008a0eff442f818ce25ecd8f3338c0d2190d065e3b16b70caf83919b1e570"
+      },
+      "revision6_10mm_release_clearance_tested": false,
+      "root_cause": "consumer reads obsolete projection key gripper_below_eef_envelope_m while revision6 helper returns gripper_assembly_below_eef_m",
+      "evidence_gap": "exception path did not persist per-program successful current/anchor/prefix-replay/actual-prefix-end and partial geometry artifacts",
+      "cleanup_source_lock_and_gpu_release_pass": true,
+      "next_source_distinct_repair": "replace obsolete key with one typed local, add consumer-level integration test, persist pre-planner partial evidence and classify implementation exceptions separately"
+    },
+    "F4_micro": {
+      "semantic_terminal_status": "failed_f4_r5_common_boundary_a_micro_lift_gate",
+      "guard_terminal_status": "failed_cleanup_uncertain",
+      "planner_query_count": 13,
+      "execution_attempt_count": 1,
+      "recovery_attempt_count": 0,
+      "pregrasp_and_grasp_boundary_pass": true,
+      "actual_both_fingers_open_before_close": true,
+      "bilateral_selected_contact_pass": true,
+      "noninterference_pass": true,
+      "forbidden_nonzero_contact_count": 0,
+      "recorded_verifier_actor_rise_m": 0.0,
+      "posthoc_role_A_actor_rise_m": 0.01730656623840332,
+      "minimum_required_actor_rise_m": 0.015,
+      "tail_A_table_pair_impulse_norm_sum": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "verifier_root_cause": "micro rows use the primary trace actor_pose stream, which remains common-X, instead of role_actor_poses['A']; actor-table clearance also treats zero-impulse speculative pairs as physical contact",
+      "retroactive_acceptance_allowed": false,
+      "guard_postcheck": {
+        "task_child_pid": 2628816,
+        "task_child_process_group_id": 2628816,
+        "task_owned_orphan_count": 0,
+        "scene_cleanup_succeeded": true,
+        "external_process_pid": 2634964,
+        "external_process_name_sha256": "d9b723d1d144493ede2de61bf8704a3646d4f5a8d41105b2bcaa4a384bd007ef",
+        "external_process_outside_user_workspace": true,
+        "external_memory_mib": 16748,
+        "immutable_guard_status_preserved": "failed_cleanup_uncertain",
+        "further_gpu0_runs_stopped": true
+      },
+      "external_contention_classification_path": "F4_RUNTIME_V3_3_REVISION6_EXTERNAL_GPU_CONTENTION_CLASSIFICATION_20260830.json",
+      "next_source_distinct_repair": "use role-specific A pose/velocity stream and nonzero-impulse contact semantics already used by the same Gate; rerun fresh A-only micro before any B/C/full F4"
+    }
+  },
+  "evidence_manifests": {
+    "F2": {
+      "path": "F2_ROOT_RUNTIME_V3_3_REVISION6_FAILURE_EVIDENCE_MANIFEST_20260830.json",
+      "file_count": 42,
+      "tree_sha256": "3e23874fc20c7fa7bacaa2d5ed3ce84e9d13fd4c53415671863b06809f2ec487"
+    },
+    "F3": {
+      "path": "F3_ROOT_RUNTIME_V3_3_REVISION6_FAILURE_EVIDENCE_MANIFEST_20260830.json",
+      "file_count": 18,
+      "tree_sha256": "ddd478898170cc300c3bb5af291f1afb766bee2ed9ab89d815ccca2f351e831a"
+    },
+    "F4": {
+      "path": "F4_MICRO_RUNTIME_V3_3_REVISION6_FAILURE_EVIDENCE_MANIFEST_20260830.json",
+      "file_count": 17,
+      "tree_sha256": "54394267f603febc78359d456877fcd7ea47f9fc76ea0659831acdd622afc842"
+    }
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "next_phase": "runtime_v3_3_revision7_cpu_source_distinct_repairs",
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null
+}
