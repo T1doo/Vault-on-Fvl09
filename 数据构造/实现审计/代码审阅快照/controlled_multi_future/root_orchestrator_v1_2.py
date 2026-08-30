@@ -972,6 +972,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 "prefix_replay": replay,
                                 "suffix_planner": suffix_public_receipts[program_id],
                                 "structured_family_failure_evidence": {
+                                    "f2_inside_pre_release_settle_v6": getattr(
+                                        scene,
+                                        "_cmf_f2_inside_pre_release_settle_v6",
+                                        None,
+                                    ),
                                     "f3_pre_open_gate_v5": getattr(
                                         scene,
                                         "_cmf_f3_pre_open_gate_v5",
@@ -980,6 +985,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                     "f3_release_boundary_v5": getattr(
                                         scene,
                                         "_cmf_f3_release_boundary_v5",
+                                        None,
+                                    ),
+                                    "f3_release_geometry_v6": getattr(
+                                        scene,
+                                        "_cmf_f3_release_geometry_v6",
                                         None,
                                     ),
                                     "f4_preclose_boundary_v5": getattr(

@@ -1,0 +1,23 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v2_1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision6_impact_addendum_v1",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "implementation_source_sha256": "3b771f97a5b2b53db53bf71ec9f1fe15727614a1303e2f415197e65655580a7d",
+  "budget_receipt_sha256": "9f0fb00bf7a9d1c4317be2233e53f18ee670c65b29eb08e56c7d7a5c3b9930cb",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {"active": "359/359 passed", "vault_snapshot": "359/359 passed", "active_snapshot_byte_equal": true, "diff_qr_excluding_pycache": "zero"},
+  "independent_p0_audits": {"F2": "pass", "F3": "pass", "F4_micro": "pass"},
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 6},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 6},
+    "F4_micro_lift_diagnosis_per_revision": {"family": "F4", "family_revision_index": 6}
+  },
+  "source_bound_static_envelopes": {"F2": {"planner": 32, "execution": 3, "recovery": 0}, "F3": {"planner": 96, "execution": 3, "recovery": 0}, "F4_micro": {"planner": 13, "execution": 1, "recovery": 0}},
+  "revision6_ledgers_exist": {"F2": false, "F3": false, "F4": false},
+  "decision": "CPU_STATIC_READY_FOR_CLEAN_PUBLICATION_AND_BUNDLE_ISSUE",
+  "accepted_nonformal_pre_stage0_roots": 1
+}

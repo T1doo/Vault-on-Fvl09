@@ -22,11 +22,11 @@ from ..runtime_v3_3_budget_v1 import (
 )
 
 
-AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_4"
-CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_4"
+AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_5"
+CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_5"
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
-IMPLEMENTATION_REVISION = "runtime_v3_3_revision5_impact_addendum_v1"
+IMPLEMENTATION_REVISION = "runtime_v3_3_revision6_impact_addendum_v1"
 ALLOWED_UUID_POLICY = "fresh_idle_exact_uuid_selected_by_atomic_guard"
 MAX_AUTHORIZATION_VALIDITY_SECONDS = 3600
 CANONICAL_CONSUMPTION_LEDGER_DIRECTORY = (
@@ -115,9 +115,13 @@ def current_source_bindings_v3_3() -> dict:
         / "f2_beside_historical_safe_route_v4.py",
         "f2_gripper_assembly_topology_sha256": root
         / "f2_gripper_assembly_topology_v5.py",
+        "f2_inside_pre_release_settle_sha256": root
+        / "f2_inside_pre_release_settle_v6.py",
         "f3_clearance_route_sha256": root / "f3_clearance_route_v3.py",
         "f3_pre_v_evidence_sha256": root / "f3_pre_v_evidence_v4.py",
         "f3_return_release_sha256": root / "f3_return_release_v5.py",
+        "f3_release_geometry_clearance_sha256": root
+        / "f3_release_geometry_clearance_v6.py",
         "f4_uniform_block_carry_sha256": root
         / "f4_uniform_block_carry_midpoint_v3.py",
         "f4_uniform_tilted_grasp_sha256": root
@@ -128,6 +132,8 @@ def current_source_bindings_v3_3() -> dict:
         "f4_staged_block_gate_sha256": root / "f4_staged_block_gate_v1.py",
         "f4_boundary_micro_lift_sha256": root
         / "f4_boundary_micro_lift_v5.py",
+        "f4_top_down_clearance_sha256": root
+        / "f4_top_down_clearance_v6.py",
         "f4_micro_lift_gate_sha256": root / "f4_micro_lift_gate_v5.py",
         "f4_right_workspace_layout_sha256": root / "f4_right_workspace_layout_v3.py",
         "f4_right_workspace_final_layout_sha256": root / "f4_right_workspace_layout_v4.py",
@@ -331,9 +337,9 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("authorization family/seed differ from planned spec")
     if requested_scope in ROOT_SCOPES:
         revision_index = receipt.get("family_revision_index")
-        if revision_index not in (1, 2, 3, 4, 5):
+        if revision_index not in (1, 2, 3, 4, 5, 6):
             raise AuthorizationBindingError(
-                "root authorization revision index must be 1, 2, 3, 4, or 5"
+                "root authorization revision index must be 1, 2, 3, 4, 5, or 6"
             )
         if planned.get("implementation_revision_index") != revision_index:
             raise AuthorizationBindingError("root authorization/planned revision mismatch")
@@ -349,7 +355,7 @@ def validate_authorization_v3_3(
             raise AuthorizationBindingError("root authorization revision ledger is invalid")
         if revision_directory != CANONICAL_REVISION_LEDGER_DIRECTORY:
             raise AuthorizationBindingError("root authorization revision ledger is not canonical")
-        if receipt.get("maximum_new_implementation_revisions_per_family") != 5:
+        if receipt.get("maximum_new_implementation_revisions_per_family") != 6:
             raise AuthorizationBindingError("root authorization revision limit mismatch")
         if receipt.get("maximum_full_root_execution_per_revision") != 1:
             raise AuthorizationBindingError("root authorization root-per-revision limit mismatch")

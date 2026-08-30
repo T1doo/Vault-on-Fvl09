@@ -51,6 +51,18 @@ class Revision5IntegrationTest(unittest.TestCase):
         self.assertIn("_f2_left_gripper_assembly_topology", source)
         self.assertIn("allowed_gripper_assembly_body_names", source)
         self.assertIn("selected_gripper_body_names", source)
+        self.assertIn(
+            "audit_f2_inside_pre_release_settle_window_v6", source
+        )
+        self.assertIn("F2_INSIDE_R6_TOTAL_SETTLE_STEPS", source)
+        self.assertIn("_cmf_f2_inside_pre_release_settle_v6", source)
+        orchestrator = inspect.getsource(
+            __import__(
+                "controlled_multi_future.root_orchestrator_v1_2",
+                fromlist=["RealSapienStrictPrefixRootOrchestratorV1_2"],
+            ).RealSapienStrictPrefixRootOrchestratorV1_2.run_nonformal_root
+        )
+        self.assertIn("f2_inside_pre_release_settle_v6", orchestrator)
 
     def test_f2_live_topology_adapter_binds_palm_and_two_fingers(self):
         class Link:
@@ -111,7 +123,8 @@ class Revision5IntegrationTest(unittest.TestCase):
         execution = inspect.getsource(
             F3ControllerV3_3.execute_frozen_suffix_spec
         )
-        self.assertIn("contact_free_release_actor_pose", planning)
+        self.assertIn("build_f3_release_geometry_clearance_v6", planning)
+        self.assertIn("release_geometry_clearance_v6", execution)
         self.assertIn("control_transformer=transform_f3_return_controls_v5", planning)
         self.assertIn("F3 contact-free pre-open Gate failed", execution)
         self.assertIn("F3 failed_release_disengagement", execution)
@@ -136,7 +149,7 @@ class Revision5IntegrationTest(unittest.TestCase):
             static["source_bound_static_envelope"],
             {"planner_query_count": 13, "execution_attempt_count": 1},
         )
-        spec = planned_scope_spec(scope, revision_index=5)
+        spec = planned_scope_spec(scope, revision_index=6)
         self.assertEqual(spec["slot_id"], "pilot-F4-A-prestage0")
         self.assertFalse(spec["stage0_authorized"])
         self.assertIn("common_vertical_withdraw", spec["branch_neutral_runtime_policy"])
@@ -144,6 +157,12 @@ class Revision5IntegrationTest(unittest.TestCase):
         self.assertIn("plan_a_micro_lift_from_actual_prefix_end_state", source)
         self.assertIn("execute_a_micro_lift_diagnostic", source)
         self.assertNotIn("F4StagedBlockExecutionGateV1", source)
+        planning = inspect.getsource(
+            F4ControllerV3_3.plan_a_micro_lift_from_actual_prefix_end_state
+        )
+        self.assertIn(
+            "build_uniform_f4_top_down_clearance_contract_v6", planning
+        )
 
     def test_f4_failed_pregrasp_boundary_never_closes_or_lifts(self):
         controller = F4ControllerV3_3()

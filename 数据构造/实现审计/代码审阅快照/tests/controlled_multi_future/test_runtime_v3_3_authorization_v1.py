@@ -27,7 +27,7 @@ from controlled_multi_future.runtime_source_lock_v1 import (
 
 PARENT = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION5_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION6_REPAIRS_GPU0_7_20260830.json"
 )
 TMP_ROOT = Path("/nfs_share/lijunhui/Robotwin2/tmp")
 
@@ -76,8 +76,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             ("F4_block_root_per_revision", "F4", 5),
             ("F4_cube_grasp_no_action_ik", "F4", None),
             ("canonical_prefix_real_smoke", "F1", None),
-            ("F2_diagnosis_root_per_revision", "F2", 4),
-            ("F3_prefix_root_per_revision", "F3", 6),
+            ("F2_diagnosis_root_per_revision", "F2", 5),
+            ("F3_prefix_root_per_revision", "F3", 7),
         )
         for scope, family, revision in cases:
             planned = {
@@ -129,8 +129,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             "arm": "left",
             "seed": 17,
             "origin": "runtime_v3_3_nonformal",
-            "implementation_revision_index": 5,
-            "implementation_revision": "f2-v3-3-r5",
+            "implementation_revision_index": 6,
+            "implementation_revision": "f2-v3-3-r6",
         }
         request = build_scope_request(
             parent_user_authorization=parent,
@@ -147,14 +147,14 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
             revision_ledger_directory=(
                 "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
             ),
-            family_revision_index=5,
+            family_revision_index=6,
             guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
             output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
             exact_child_command=["python", "-m", "controlled_multi_future.probes.runtime_v3_3_scope_runner"],
             allowed_physical_gpu_indices=list(range(8)),
             reviewed_publication=reviewed_publication(),
         )
-        self.assertEqual(request["family_revision_index"], 5)
+        self.assertEqual(request["family_revision_index"], 6)
         self.assertEqual(request["allowed_physical_gpu_indices"], list(range(8)))
         self.assertEqual(request["scope_budget"]["planner_query_limit"], 96)
         self.assertIn("root_orchestrator_sha256", request["source_bindings"])
@@ -184,7 +184,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     revision_ledger_directory=(
                         "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
                     ),
-                    family_revision_index=5,
+                    family_revision_index=6,
                     guard_receipt_path="/nfs_share/lijunhui/Robotwin2/tmp/guard.json",
                     output_namespace="/nfs_share/lijunhui/Robotwin2/tmp/output",
                     exact_child_command=["python", "child.py"],
@@ -192,7 +192,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                     reviewed_publication=reviewed_publication(),
                 )
 
-    def test_canonical_one_shot_and_five_revision_ledger_are_fail_closed(self):
+    def test_canonical_one_shot_and_six_revision_ledger_are_fail_closed(self):
         TMP_ROOT.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=TMP_ROOT) as directory:
             directory = Path(directory)
@@ -270,6 +270,16 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 self.assertTrue(
                     Path(fifth_receipt["revision_consumption_path"]).is_file()
                 )
+                sixth = root_authorization(
+                    auth_id="auth-r6", source_hash="6" * 64, revision=6
+                )
+                sixth["revision_ledger_directory"] = str(revision_ledger)
+                sixth_receipt = consume_authorization_once(
+                    sixth, ledger_directory=auth_ledger
+                )
+                self.assertTrue(
+                    Path(sixth_receipt["revision_consumption_path"]).is_file()
+                )
 
     def test_noncanonical_ledger_is_rejected_before_write(self):
         value = root_authorization(
@@ -294,8 +304,8 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 "arm": "right",
                 "seed": 17,
                 "origin": "test",
-                "implementation_revision_index": 5,
-                "implementation_revision": "f4-v3-3-r5-micro",
+                "implementation_revision_index": 6,
+                "implementation_revision": "f4-v3-3-r6-micro",
             }
             request = build_scope_request(
                 parent_user_authorization=parent,
@@ -312,7 +322,7 @@ class RuntimeV3_3AuthorizationV1Test(unittest.TestCase):
                 revision_ledger_directory=(
                     "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/family_revisions"
                 ),
-                family_revision_index=5,
+                family_revision_index=6,
                 guard_receipt_path=str(directory / "guard.json"),
                 output_namespace=str(directory / "output"),
                 exact_child_command=["python", "child.py"],

@@ -40,6 +40,10 @@ from .f2_beside_historical_safe_route_v4 import (
 from .f2_gripper_assembly_topology_v5 import (
     build_f2_gripper_assembly_topology_receipt,
 )
+from .f2_inside_pre_release_settle_v6 import (
+    TOTAL_SETTLE_STEPS as F2_INSIDE_R6_TOTAL_SETTLE_STEPS,
+    audit_f2_inside_pre_release_settle_window_v6,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -91,9 +95,16 @@ from .f3_return_release_v5 import (
     POST_RELEASE_SAMPLE_STEPS,
     PRE_OPEN_STABLE_FRAMES,
     build_pre_open_gate_v5,
-    contact_free_release_actor_pose,
     first_confirmed_disengagement_index,
     transform_f3_return_controls_v5,
+)
+from .f3_release_geometry_clearance_v6 import (
+    FROZEN_ASSEMBLY_CONSERVATIVE_MARGIN_M,
+    FROZEN_FULL_ASSEMBLY_LINK_NAMES,
+    build_f3_release_geometry_clearance_v6,
+    build_runtime_live_release_geometry_audit_v6,
+    build_target_specific_full_assembly_projection_v6,
+    validate_target_specific_full_assembly_projection_v6,
 )
 from .geometry import (
     actor_target_to_eef_pose,
@@ -134,10 +145,12 @@ from .f4_boundary_micro_lift_v5 import (
     GRASP_BOUNDARY_POSITION_ATOL_M,
     MICRO_LIFT_FRAME_COUNT,
     build_a_micro_lift_gate_receipt_v5,
-    build_a_top_down_micro_lift_targets_v5,
     build_actual_open_contact_boundary_receipt_v5,
     build_micro_lift_noninterference_receipt_v5,
     build_repaired_common_prefix_targets_v5,
+)
+from .f4_top_down_clearance_v6 import (
+    build_uniform_f4_top_down_clearance_contract_v6,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -199,6 +212,9 @@ def planner_source_hash_v3_3() -> str:
             "f2_gripper_assembly_topology_v5.py": _sha256_file(
                 Path(__file__).with_name("f2_gripper_assembly_topology_v5.py")
             ),
+            "f2_inside_pre_release_settle_v6.py": _sha256_file(
+                Path(__file__).with_name("f2_inside_pre_release_settle_v6.py")
+            ),
             "f3_clearance_route_v3.py": _sha256_file(
                 Path(__file__).with_name("f3_clearance_route_v3.py")
             ),
@@ -208,6 +224,9 @@ def planner_source_hash_v3_3() -> str:
             "f3_return_release_v5.py": _sha256_file(
                 Path(__file__).with_name("f3_return_release_v5.py")
             ),
+            "f3_release_geometry_clearance_v6.py": _sha256_file(
+                Path(__file__).with_name("f3_release_geometry_clearance_v6.py")
+            ),
             "f4_uniform_block_carry_midpoint_v3.py": _sha256_file(
                 Path(__file__).with_name("f4_uniform_block_carry_midpoint_v3.py")
             ),
@@ -216,6 +235,9 @@ def planner_source_hash_v3_3() -> str:
             ),
             "f4_boundary_micro_lift_v5.py": _sha256_file(
                 Path(__file__).with_name("f4_boundary_micro_lift_v5.py")
+            ),
+            "f4_top_down_clearance_v6.py": _sha256_file(
+                Path(__file__).with_name("f4_top_down_clearance_v6.py")
             ),
             "project_cube_grasp_pose_v1.py": _sha256_file(
                 Path(__file__).with_name("project_cube_grasp_pose_v1.py")
@@ -503,6 +525,29 @@ def _f2_left_gripper_assembly_topology(scene) -> dict:
         selected_contact_signal_link_names=selected,
         fixed_gripper_link_names=list(robot.left_fix_gripper_name),
     )
+
+
+def _f3_full_assembly_link_poses(scene) -> dict:
+    links = {
+        link.get_name(): link for link in scene.robot.left_entity.get_links()
+    }
+    selected = set(
+        _gripper_below_eef_envelope(scene, arm="left")[
+            "selected_gripper_links"
+        ]
+    )
+    names = selected | {scene.robot.left_move_group}
+    if names != set(FROZEN_FULL_ASSEMBLY_LINK_NAMES):
+        raise RuntimeError(
+            "F3 full assembly must be exactly fl_link6/fl_link7/fl_link8"
+        )
+    missing = names - set(links)
+    if missing:
+        raise RuntimeError(f"F3 full assembly links are missing: {sorted(missing)}")
+    return {
+        name: _pose(links[name]).tolist()
+        for name in FROZEN_FULL_ASSEMBLY_LINK_NAMES
+    }
 
 
 def _settle_prefix_with_replay_operator(scene, steps: int) -> None:
@@ -2678,63 +2723,25 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             raise RuntimeError("F2 held transport contact/identity Gate failed")
         if spec["relation"] == "inside":
             if inside_drop_route is not None:
-                _wait_and_record(scene, 50)
-                hold_rows = scene.trace[-50:]
-                hold_linear = [
-                    float(np.linalg.norm(row["actor_linear_velocity"]))
-                    for row in hold_rows
-                ]
-                hold_angular = [
-                    float(np.linalg.norm(row["actor_angular_velocity"]))
-                    for row in hold_rows
-                ]
-                hold_contacts = [
-                    bool(row["selected_gripper_contact"]) for row in hold_rows
-                ]
-                hold_actor_names = [
-                    str(row["selected_contact_actor_name"]) for row in hold_rows
-                ]
+                _wait_and_record(scene, F2_INSIDE_R6_TOTAL_SETTLE_STEPS)
+                hold_rows = scene.trace[-F2_INSIDE_R6_TOTAL_SETTLE_STEPS:]
                 release_geometry_gate = current_inside_drop_opening_gate()
-                pre_release_hold = {
-                    "schema_version": "cmf_f2_inside_pre_release_hold_gate_v1",
-                    "step_count": 50,
-                    "maximum_linear_speed_mps": max(hold_linear),
-                    "maximum_angular_speed_rps": max(hold_angular),
-                    "selected_gripper_contact_fraction": float(
-                        np.mean(hold_contacts)
+                pre_release_hold = audit_f2_inside_pre_release_settle_window_v6(
+                    hold_rows,
+                    can_actor_name=can_name,
+                    selected_contact_signal_link_names=sorted(
+                        selected_gripper_bodies
                     ),
-                    "selected_contact_actor_names": hold_actor_names,
-                    "release_frame_geometry_gate": release_geometry_gate,
-                    "checks": {
-                        "linear_stationary": max(hold_linear)
-                        <= PROVISIONAL_RUNTIME_THRESHOLDS[
-                            "stable_linear_speed_mps"
-                        ],
-                        "angular_stationary": max(hold_angular)
-                        <= PROVISIONAL_RUNTIME_THRESHOLDS[
-                            "eef_stationary_angular_speed_rps"
-                        ],
-                        "selected_gripper_contact_continuous": all(
-                            hold_contacts
-                        ),
-                        "selected_contact_actor_identity": all(
-                            name == _entity(scene.can).get_name()
-                            for name in hold_actor_names
-                        ),
-                        "release_frame_opening_projection_inside": (
-                            release_geometry_gate["opening_projection_inside"]
-                        ),
-                        "release_frame_rim_clearance": release_geometry_gate[
-                            "rim_clearance_pass"
-                        ],
-                    },
-                }
-                pre_release_hold["pass"] = all(
-                    pre_release_hold["checks"].values()
+                    allowed_gripper_assembly_body_names=(
+                        gripper_assembly_topology[
+                            "allowed_gripper_assembly_body_names"
+                        ]
+                    ),
+                    final_geometry_gate=release_geometry_gate,
                 )
                 staged_inside_gates.append(
                     {
-                        "segment_id": "inside_drop_pre_release_hold_50",
+                        "segment_id": "inside_drop_pre_release_settle_10_plus_50_v6",
                         "pre_release_hold_gate": pre_release_hold,
                         "pass": pre_release_hold["pass"],
                     }
@@ -2742,6 +2749,9 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 inside_release_samples[
                     "pre_release_hold_gate"
                 ] = pre_release_hold
+                scene._cmf_f2_inside_pre_release_settle_v6 = (
+                    pre_release_hold
+                )
                 if pre_release_hold["pass"] is not True:
                     raise RuntimeError(
                         "F2 inside gravity-drop pre-release stability/contact Gate failed"
@@ -3415,10 +3425,48 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             replay["start_anchor"]["actor_states"]["bottle"]["pose"],
             dtype=np.float64,
         )
-        clearance_actor = contact_free_release_actor_pose(start_actor)
         current_actor = _pose(scene.bottle)
-        release = actor_target_to_eef_pose(
-            center, current_actor, clearance_actor
+        unshifted_release = actor_target_to_eef_pose(
+            center, current_actor, start_actor
+        )
+        support_top_z = max(
+            float(0.74 + scene.table_z_bias),
+            float(_pose(scene.pad)[2] + F3_PAD_HALF_EXTENTS_M[2]),
+        )
+        release_full_assembly_projection = (
+            build_target_specific_full_assembly_projection_v6(
+                current_eef_pose=center,
+                live_assembly_link_poses=_f3_full_assembly_link_poses(scene),
+                release_eef_pose=unshifted_release,
+                conservative_margin_m=(
+                    FROZEN_ASSEMBLY_CONSERVATIVE_MARGIN_M
+                ),
+            )
+        )
+        release_geometry_clearance = build_f3_release_geometry_clearance_v6(
+            original_actor_pose=start_actor,
+            unshifted_release_eef_pose=unshifted_release,
+            support_top_z_m=support_top_z,
+            gripper_assembly_below_eef_m=release_full_assembly_projection[
+                "gripper_below_eef_envelope_m"
+            ],
+        )
+        if (
+            release_geometry_clearance["gripper_assembly_below_eef_m"]
+            != release_full_assembly_projection[
+                "gripper_assembly_below_eef_m"
+            ]
+        ):
+            raise RuntimeError(
+                "F3 release clearance differs from full-assembly projection"
+            )
+        clearance_actor = np.asarray(
+            release_geometry_clearance["release_actor_pose"],
+            dtype=np.float64,
+        )
+        release = np.asarray(
+            release_geometry_clearance["release_eef_pose"],
+            dtype=np.float64,
         )
         preplace = world_axis_offset_pose(release, 0.10)
         return_start = len(targets)
@@ -3447,6 +3495,10 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "return_start_index": return_start,
                 "target_bottle_pose": start_actor.tolist(),
                 "contact_free_release_bottle_pose": clearance_actor.tolist(),
+                "release_geometry_clearance_v6": release_geometry_clearance,
+                "release_full_assembly_projection_v6": (
+                    release_full_assembly_projection
+                ),
                 "closed_loop_primitive_version": F3_CLOSED_LOOP_PRIMITIVE_VERSION,
             },
             control_transformer=transform_f3_return_controls_v5,
@@ -3567,8 +3619,48 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             expected_closed_gripper_qpos=expected_closed_gripper_qpos,
             gripper_assembly_link_names=sorted(gripper_assembly_names),
         )
+        clearance_spec = spec["release_geometry_clearance_v6"]
+        planning_projection = validate_target_specific_full_assembly_projection_v6(
+            spec["release_full_assembly_projection_v6"]
+        )
+        if (
+            planning_projection["gripper_assembly_below_eef_m"]
+            != clearance_spec["gripper_assembly_below_eef_m"]
+        ):
+            raise RuntimeError(
+                "F3 planning projection/clearance assembly envelope mismatch"
+            )
+        bottle_config = dict(scene.bottle.config or {})
+        live_scale = np.asarray(
+            bottle_config["scale"], dtype=np.float64
+        ).reshape(-1)
+        if live_scale.size == 1:
+            live_scale = np.repeat(live_scale, 3)
+        live_support_top_z = max(
+            float(0.74 + scene.table_z_bias),
+            float(_pose(scene.pad)[2] + F3_PAD_HALF_EXTENTS_M[2]),
+        )
+        runtime_geometry_clearance = build_runtime_live_release_geometry_audit_v6(
+            planning_clearance_receipt=clearance_spec,
+            live_actor_pose=before_actor,
+            live_release_eef_pose=before_eef,
+            live_assembly_link_poses=_f3_full_assembly_link_poses(scene),
+            live_support_top_z_m=live_support_top_z,
+            live_model_center=bottle_config["center"],
+            live_model_extents=bottle_config["extents"],
+            live_model_scale=live_scale,
+            conservative_margin_m=FROZEN_ASSEMBLY_CONSERVATIVE_MARGIN_M,
+        )
         scene._cmf_f3_pre_open_gate_v5 = pre_open_gate
-        if pre_open_gate["pass"] is not True:
+        scene._cmf_f3_release_geometry_v6 = {
+            "planning_projection": planning_projection,
+            "planning_clearance": clearance_spec,
+            "runtime_live": runtime_geometry_clearance,
+        }
+        if (
+            pre_open_gate["pass"] is not True
+            or runtime_geometry_clearance["pass"] is not True
+        ):
             raise RuntimeError("F3 contact-free pre-open Gate failed")
         samples = {
             "before_release": self.legacy._release_sample(
@@ -3915,6 +4007,11 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "event_free_space_contact_audits": event_contact_audits,
             "selected_gripper_envelope_evidence": gripper_evidence,
             "pre_open_gate": pre_open_gate,
+            "release_geometry_clearance_v6": {
+                "planning_projection": planning_projection,
+                "planning_clearance": clearance_spec,
+                "runtime_live": runtime_geometry_clearance,
+            },
             "physical_release_boundary": release_boundary_receipt,
             "final_checks": final_checks,
             "suffix_segment_execution_receipts": execution_receipts,
@@ -4401,8 +4498,19 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         return result
 
     def plan_a_micro_lift_from_actual_prefix_end_state(self, scene, replay):
-        targets, target_audit = build_a_top_down_micro_lift_targets_v5(
-            actor_pose=_pose(scene.a), arm="right"
+        target_audit = build_uniform_f4_top_down_clearance_contract_v6(
+            object_poses={
+                role: _pose(getattr(scene, role.lower())).tolist()
+                for role in ("A", "B", "C")
+            },
+            arm="right",
+        )
+        if target_audit["pass"] is not True:
+            raise ValueError("F4 r6 uniform top-down clearance audit failed")
+        targets = next(
+            group["targets"]
+            for group in target_audit["groups"]
+            if group["role"] == "A"
         )
         result = _cache_suffix_controls(
             scene,
