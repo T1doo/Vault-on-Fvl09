@@ -3,7 +3,7 @@
 | Family | 已完成的 CPU/code 修复 | 下一次非正式 Gate | 当前状态 |
 | --- | --- | --- | --- |
 | F1 | 4 target-construction + 11 control-chain 分账，三分支公用root runner | red/green/blue shared regression | **3/3 accepted, regression passed** |
-| F2 | PreloadEntryEvidenceV11；v10 safety/final 源文件不变；primary/cleanup回执传播 | inside targeted | pending GPU0 |
+| F2 | PreloadEntryEvidenceV11；v10 safety/final 源文件不变；primary/cleanup回执传播 | inside targeted | **Entry/Safety pass, final true-cavity fail; terminal** |
 | F3 | canonical F3-* IDs，3 fresh contexts，shared-V + first suffix，no release/nonroot finalizer | three-context targeted | pending GPU0 |
 | F4 | exact variable-length segments/hash、per-segment joint evidence、fixed c1→c4、A-only、B/C planner-only | exact corridor selection + A | pending GPU0 |
 
