@@ -1,0 +1,308 @@
+{
+  "authorization": {
+    "allowed_physical_gpu_indices": [
+      0
+    ],
+    "approved_scopes": [
+      "F4_exact_corridor_A_v11"
+    ],
+    "authorization_id": "runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "budget_receipt_sha256": "f671f8f9e5e498a43dc7bf77dcd1dae921878eddcecd3f6cb71bfc662d342bb9",
+    "family": "F4",
+    "implementation_source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0",
+    "receipt_sha256": "53db78f5adc525e12ef5a250e2f0e40f194715e407ef4eb5ddb283a6d44ad943",
+    "reviewed_content_commit": "8df097d2fc783518e9332fb0ef63077318d4b407",
+    "scene_seed": 20260829,
+    "timeout_seconds": 14400
+  },
+  "authorization_consumption_receipt_sha256": "1c903a09189246fe797d7e3a5769d226b1307fad7cf6882671750b6705252e56",
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 10,
+    "recovery_attempt_count": 0
+  },
+  "budget_validation": {
+    "budget": {
+      "allowed_physical_gpu_indices": [
+        0
+      ],
+      "automatic_retry": false,
+      "execution_limit": 1,
+      "family": "F4",
+      "planner_query_limit": 64,
+      "recovery_attempts": 0,
+      "scope": "F4_exact_corridor_A_v11",
+      "scope_budget_sha256": "37ac5f8b3332aa4f6033a091fb629f50c4d87fffe93e3932faa0602fdb2a6dc7",
+      "timeout_seconds": 14400
+    },
+    "checks": {
+      "execution_nonnegative_within_budget": true,
+      "execution_within_source_envelope": true,
+      "planner_nonnegative_within_budget": true,
+      "planner_within_source_envelope": true,
+      "recovery_zero": true
+    },
+    "pass": true,
+    "scope": "F4_exact_corridor_A_v11",
+    "source_bound_static_envelope": {
+      "execution_attempt_count": 1,
+      "planner_query_count": 58
+    }
+  },
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_candidate:r4_successful_carry_orientation_and_corridor",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_candidate_r4_successful_carry_orientation_and_corridor-v1_2-000003"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "execution_attempt_counts": {
+    "budget_count_field": "dispatch_started",
+    "controller_entered": 0,
+    "dispatch_is_counted_before_controller_call": true,
+    "dispatch_started": 0,
+    "finally_persistence_required": true,
+    "receipt_sha256": "a35c294c510399b566afdb9e2e4abb3558c42008533802d425d1e250a244be11",
+    "schema_version": "cmf_common_scope_counter_schema_runtime_v3_4_1",
+    "terminal_receipt_written": 0
+  },
+  "family": "F4",
+  "formal_data": false,
+  "gpu_guard_binding": {
+    "approval_request_sha256": "bdde420a11edea90165dbd71667b256c11d97399be8846e7b836d892c03553d5",
+    "approved_scope": "F4_exact_corridor_A_v11",
+    "authorization_id": "runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "authorization_receipt_sha256": "53db78f5adc525e12ef5a250e2f0e40f194715e407ef4eb5ddb283a6d44ad943",
+    "authorized_run_id": "runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "budget_receipt_sha256": "f671f8f9e5e498a43dc7bf77dcd1dae921878eddcecd3f6cb71bfc662d342bb9",
+    "command_sha256": "3334c1134eb4088582cb66f600f2ea37817c3890f8383e27543814f058aa834f",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "consumption_receipt_sha256": "1c903a09189246fe797d7e3a5769d226b1307fad7cf6882671750b6705252e56",
+    "controlled_action_limit": 1,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F4",
+    "family_revision_index": null,
+    "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+    "guard_pid": 3329712,
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0.guard.json",
+    "implementation_source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+    "job_cache_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "job_cache_environment": {
+      "CONDA_PKGS_DIRS": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/conda_pkgs",
+      "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/cuda",
+      "HF_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/huggingface",
+      "HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/home",
+      "HUGGINGFACE_HUB_CACHE": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/huggingface_hub",
+      "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/matplotlib",
+      "NUMBA_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/numba",
+      "PIP_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/pip",
+      "TMPDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/tmp",
+      "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/torch_extensions",
+      "TORCH_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/torch",
+      "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/triton",
+      "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/xdg"
+    },
+    "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0",
+    "parent_user_authorization_sha256": "b23fee6d86a35f8666ebbc4ad83229e550ba849b983e5a92a35c674450ca93f6",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "08e162824987eabf6f9e11c36dd4b8d1cc9caca79b85746f8c16c0bbbedd18f4",
+    "planner_query_limit": 64,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "db9159339d64ac5334343920d65c3a850dac2e5d3146903c6b4a454912d5430e",
+    "timeout_seconds": 14400
+  },
+  "gpu_postcheck": {
+    "captured_at": "2026-08-30T19:49:17.682025+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "gpu_postcheck_error": null,
+  "gpu_postcheck_release": {
+    "baseline_memory_limit_mib": 100,
+    "checks": {
+      "memory_returned_to_baseline": true,
+      "no_compute_process": true,
+      "utilization_idle": true
+    },
+    "new_compute_processes": [],
+    "pstate_note": "recorded but not a hard postcheck because driver cooldown may lag after process release",
+    "pstate_observed": "P8",
+    "verified": true
+  },
+  "guard_additional_cleanup_audit": {
+    "gpu_lease_release": {
+      "error": null,
+      "lease_path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases/physical_gpu_0.lock",
+      "physical_gpu_index": 0,
+      "released": true,
+      "released_at": "2026-08-30T11:49:18.597479+00:00",
+      "schema_version": "cmf_physical_gpu_lease_v1"
+    },
+    "job_cache_cleanup": {
+      "attempted": true,
+      "error": null,
+      "path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+      "succeeded": true
+    },
+    "pass": true
+  },
+  "guard_binding": {
+    "approval_request_sha256": "bdde420a11edea90165dbd71667b256c11d97399be8846e7b836d892c03553d5",
+    "approved_scope": "F4_exact_corridor_A_v11",
+    "authorization_id": "runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "authorization_receipt_sha256": "53db78f5adc525e12ef5a250e2f0e40f194715e407ef4eb5ddb283a6d44ad943",
+    "authorized_run_id": "runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "budget_receipt_sha256": "f671f8f9e5e498a43dc7bf77dcd1dae921878eddcecd3f6cb71bfc662d342bb9",
+    "command_sha256": "3334c1134eb4088582cb66f600f2ea37817c3890f8383e27543814f058aa834f",
+    "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+    "consumption_receipt_sha256": "1c903a09189246fe797d7e3a5769d226b1307fad7cf6882671750b6705252e56",
+    "controlled_action_limit": 1,
+    "expected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "family": "F4",
+    "family_revision_index": null,
+    "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+    "guard_pid": 3329712,
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0.guard.json",
+    "implementation_source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+    "job_cache_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0",
+    "job_cache_environment": {
+      "CONDA_PKGS_DIRS": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/conda_pkgs",
+      "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/cuda",
+      "HF_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/huggingface",
+      "HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/home",
+      "HUGGINGFACE_HUB_CACHE": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/huggingface_hub",
+      "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/matplotlib",
+      "NUMBA_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/numba",
+      "PIP_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/pip",
+      "TMPDIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/tmp",
+      "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/torch_extensions",
+      "TORCH_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/torch",
+      "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/triton",
+      "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/runtime-v3-4-1-f4-exact-corridor-A-v11-run1-gpu0/xdg"
+    },
+    "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/probe_outputs/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0",
+    "parent_user_authorization_sha256": "b23fee6d86a35f8666ebbc4ad83229e550ba849b983e5a92a35c674450ca93f6",
+    "physical_gpu_index": 0,
+    "physics_step_limit": -1,
+    "planned_root_slot_spec_sha256": "08e162824987eabf6f9e11c36dd4b8d1cc9caca79b85746f8c16c0bbbedd18f4",
+    "planner_query_limit": 64,
+    "scene_seed": 20260829,
+    "source_lock_receipt_sha256": "db9159339d64ac5334343920d65c3a850dac2e5d3146903c6b4a454912d5430e",
+    "timeout_seconds": 14400
+  },
+  "guard_precheck": {
+    "captured_at": "2026-08-30T19:46:02.758123+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 14,
+    "physical_index": 0,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "guard_process_group_orphan_count": 0,
+  "guard_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/\u6570\u636e\u6784\u9020/\u5b9e\u73b0\u5ba1\u8ba1/gpu_guards/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f4_exact_corridor_A_v11_seed20260829_run1_gpu0.guard.json",
+  "implementation_strategy": "one_shot_postmortem_hardening",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "orphan_process_count": 0,
+  "planner_query_counts": {
+    "budget_count_field": "scope_total",
+    "canonical_prefix": 0,
+    "diagnostic_only": 10,
+    "executable_control_cache_count_field": "suffix_control_chain",
+    "identity": "scope_total = canonical_prefix + target_construction + suffix_control_chain + diagnostic_only",
+    "receipt_sha256": "bfae5b550488f4b055d33a1058add81ae0e368bf9182d4fbabc7f568efcd329d",
+    "schema_version": "cmf_common_scope_counter_schema_runtime_v3_4_1",
+    "scope_total": 10,
+    "suffix_control_chain": 0,
+    "target_construction": 0
+  },
+  "primary_failure_cleanup": {
+    "cleanup_status": {
+      "attempted": true,
+      "passed": true,
+      "uncertainty": false
+    },
+    "primary_failure": {
+      "message": "targeted/full nonformal scope did not pass",
+      "stage": "scope_result",
+      "type": "failed_f4_exact_corridor_A_gate_v11"
+    },
+    "primary_failure_may_not_be_overwritten_by_cleanup": true,
+    "receipt_propagation_status": "no_child_terminal_receipt_available",
+    "receipt_sha256": "373c46756be7324060c7ed20bdca2b308b26721f1313adbf04fc281f67b62d25",
+    "schema_version": "cmf_primary_failure_cleanup_receipt_v3_4_1"
+  },
+  "result": {
+    "pass": false,
+    "relative_receipt_path": "F4_exact_corridor_A/receipt.json",
+    "status": "failed_f4_exact_corridor_A_gate_v11"
+  },
+  "scene_cleanup_succeeded": true,
+  "scene_created": true,
+  "scene_orphan_process_count": 0,
+  "schema_version": "cmf_runtime_v3_4_1_guarded_scope_receipt_v1",
+  "scope": "F4_exact_corridor_A_v11",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "static_activity_envelope": {
+    "checks": {
+      "execution_within_budget": true,
+      "planner_within_budget": true
+    },
+    "pass": true,
+    "scope": "F4_exact_corridor_A_v11",
+    "scope_budget_sha256": "37ac5f8b3332aa4f6033a091fb629f50c4d87fffe93e3932faa0602fdb2a6dc7",
+    "source_bound_static_envelope": {
+      "execution_attempt_count": 1,
+      "planner_query_count": 58
+    }
+  },
+  "status": "failed_f4_exact_corridor_A_gate_v11",
+  "task_owned_orphan_pids": []
+}

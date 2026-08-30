@@ -2,7 +2,7 @@
 
 ## BLOCKED_WITH_REASONS
 
-CPU/code hardening 已通过 active/snapshot 各`461/461` tests 和各`151/151` Python compile，active/snapshot byte-equal。F1 targeted shared regression已3/3 accepted；F2 targeted的Entry/Safety通过但最终true-cavity/exclusive-inside失败；F3 targeted在canonical-prefix pre-shared-V physical Gate失败。F2/F3 full roots都已永久关闭于本v3_4_1，F4尚待targeted GPU0 scope。
+CPU/code hardening 已通过 active/snapshot 各`461/461` tests 和各`151/151` Python compile，active/snapshot byte-equal。F1 targeted shared regression已3/3 accepted；F2 targeted最终true-cavity/exclusive-inside失败；F3 targeted在canonical-prefix pre-shared-V physical Gate失败；F4 targeted在第一次corridor query前的fresh-scene candidate hash Gate失败。所有conditional full roots关闭于本v3_4_1。
 
 当前 accepted nonformal pre-Stage0 roots 仍为1/4（仅历史F1）。Stage0 trajectory=0，Stage1=0，formal F1–F4=0，`H_reveal=null`，没有training/compression/π0.5。
 

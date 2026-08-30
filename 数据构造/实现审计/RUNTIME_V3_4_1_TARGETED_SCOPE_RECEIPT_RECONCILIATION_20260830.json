@@ -1,0 +1,22 @@
+{
+  "schema_version": "cmf_runtime_v3_4_1_targeted_scope_receipt_reconciliation_v1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+  "scopes": {
+    "F1_shared_regression_v3_4_1": {"top_status": "accepted", "inner_status": "accepted", "planner_query_count": 46, "execution_attempt_count": 3, "recovery_attempt_count": 0, "cleanup_pass": true, "orphan_process_count": 0, "failure_classification": null, "targeted_gate_pass": true, "conditional_next_scope": "none; regression does not add a new root"},
+    "F2_inside_targeted_v11": {"top_status": "failed_execution", "inner_status": "failed_verifier", "planner_query_count": 22, "execution_attempt_count": 1, "recovery_attempt_count": 0, "cleanup_pass": true, "orphan_process_count": 0, "failure_classification": "physical_final_verifier_failure", "targeted_gate_pass": false, "conditional_next_scope": null},
+    "F3_three_context_targeted_v11": {"top_status": "failed_f3_three_context_diagnostic_v11", "inner_status": "failed_f3_three_context_diagnostic_v11", "planner_query_count": 7, "execution_attempt_count": 0, "recovery_attempt_count": 0, "cleanup_pass": true, "orphan_process_count": 0, "failure_classification": "canonical_prefix_physical_gate_failure", "targeted_gate_pass": false, "conditional_next_scope": null},
+    "F4_exact_corridor_A_v11": {"top_status": "failed_f4_exact_corridor_A_gate_v11", "inner_status": "failed_f4_exact_corridor_A_gate_v11", "planner_query_count": 10, "execution_attempt_count": 0, "recovery_attempt_count": 0, "cleanup_pass": true, "orphan_process_count": 0, "failure_classification": "infrastructure_schema_failure_candidate_hash_changed", "targeted_gate_pass": false, "conditional_next_scope": null}
+  },
+  "total_counts": {"planner_query_count": 85, "execution_attempt_count": 4, "recovery_attempt_count": 0},
+  "targeted_gate_pass_count": 1,
+  "targeted_gate_total": 4,
+  "conditional_full_root_authorizations_issued": 0,
+  "accepted_root_count_before": 1,
+  "accepted_root_increment": 0,
+  "accepted_root_count_after": 1,
+  "stage0_approval_request_generated": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false
+}

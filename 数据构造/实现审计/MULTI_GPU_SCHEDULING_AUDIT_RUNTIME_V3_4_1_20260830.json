@@ -1,0 +1,23 @@
+{
+  "schema_version": "cmf_runtime_v3_4_1_gpu_scheduling_audit_v1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "current_workspace_gpu_rule": "physical GPU0 only",
+  "allowed_physical_gpu_indices": [0],
+  "parallel_execution_performed": false,
+  "execution_mode": "serial_one_project_job_on_gpu0",
+  "one_root_one_gpu": true,
+  "source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+  "jobs": [
+    {"scope": "F1_shared_regression_v3_4_1", "precheck": {"captured_at": "2026-08-30T19:14:21.197128+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "postcheck": {"captured_at": "2026-08-30T19:26:52.361247+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "elapsed_seconds": 754.6149380207062, "guard_status": "completed", "timed_out": false, "orphan_process_count": 0, "post_source_lock_pass": true},
+    {"scope": "F2_inside_targeted_v11", "precheck": {"captured_at": "2026-08-30T19:31:53.512911+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "postcheck": {"captured_at": "2026-08-30T19:38:10.088073+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "elapsed_seconds": 379.7295868396759, "guard_status": "completed_child_failed", "timed_out": false, "orphan_process_count": 0, "post_source_lock_pass": true},
+    {"scope": "F3_three_context_targeted_v11", "precheck": {"captured_at": "2026-08-30T19:41:20.161493+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "postcheck": {"captured_at": "2026-08-30T19:43:14.825916+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "elapsed_seconds": 117.53161358833313, "guard_status": "completed_child_failed", "timed_out": false, "orphan_process_count": 0, "post_source_lock_pass": true},
+    {"scope": "F4_exact_corridor_A_v11", "precheck": {"captured_at": "2026-08-30T19:46:02.758123+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "postcheck": {"captured_at": "2026-08-30T19:49:17.682025+08:00", "pstate": "P8", "memory_used_mib": 14, "utilization_percent": 0, "compute_processes": []}, "elapsed_seconds": 198.0189917087555, "guard_status": "completed_child_failed", "timed_out": false, "orphan_process_count": 0, "post_source_lock_pass": true}
+  ],
+  "no_job_overlap": true,
+  "all_prechecks_fresh_idle": true,
+  "all_postchecks_released": true,
+  "all_task_owned_orphan_counts_zero": true,
+  "pass": true,
+  "formal_data": false,
+  "stage0_authorized": false
+}

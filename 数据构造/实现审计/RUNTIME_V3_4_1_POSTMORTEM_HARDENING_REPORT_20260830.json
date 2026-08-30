@@ -1,0 +1,31 @@
+{
+  "schema_version": "cmf_runtime_v3_4_1_postmortem_hardening_terminal_report_v1",
+  "decision": "BLOCKED_WITH_REASONS",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "implementation_strategy": "one_shot_postmortem_hardening",
+  "source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+  "tests_sha256": "47c32b1767eb91a5a98a37a5d8658592504e69f8487a60950d039dd1f6e2fbf7",
+  "cpu_gate": {"active_tests": "461/461 passed", "snapshot_tests": "461/461 passed", "active_compile": "151/151 passed", "snapshot_compile": "151/151 passed", "byte_equal": true},
+  "families": {
+    "F1": {"targeted_pass": true, "branch_results": {"red": "accepted", "green": "accepted", "blue": "accepted"}, "counts": [46, 3, 0], "accepted_root_increment": 0, "claim": "shared harness regression passed"},
+    "F2": {"targeted_pass": false, "counts": [22, 1, 0], "entry_gate_v11": true, "release_safety_gate_v10": true, "final_inside_gate_v10": false, "failure": "true_cavity_obb and exclusive_inside false", "full_root_unlocked": false},
+    "F3": {"targeted_pass": false, "counts": [7, 0, 0], "canonical_ids_preserved": true, "failure": "canonical-prefix pre-shared-V physical Gate", "diagnostic_context_execution_count": 0, "full_root_unlocked": false},
+    "F4": {"targeted_pass": false, "counts": [10, 0, 0], "failure_type": "infrastructure_schema_failure", "failure": "fresh candidate application hash changed before first corridor query", "corridor_planner_query_count": 0, "A_execution_count": 0, "full_root_unlocked": false}
+  },
+  "aggregate_counts": {"planner_query_count": 85, "execution_attempt_count": 4, "recovery_attempt_count": 0},
+  "conditional_full_root_authorizations_issued": 0,
+  "stage0_approval_request_generated": false,
+  "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
+  "gpu_audit": {"allowed_indices": [0], "serial": true, "jobs": 4, "all_prechecks_fresh_idle": true, "all_postchecks_released": true, "timeouts": 0, "task_owned_orphans": 0, "source_lock_failures": 0},
+  "second_source_freeze_used": false,
+  "automatic_retry_used": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null,
+  "training_authorized": false,
+  "compression_authorized": false,
+  "pi05_authorized": false,
+  "stage0_authorized": false
+}

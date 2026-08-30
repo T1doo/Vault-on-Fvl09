@@ -14,3 +14,5 @@
 | F4 conditional full root | 96 | 3 | 20400 s |
 
 Static exact/source envelopes分别为 F1 46/3、F2-targeted 22/1、F3-targeted 42/3、F4-corridor+A 58/1；条件 full scopes为 F2 32/3、F3 96/3、F4-B/C 26/0、F4-full 82/3。前置 Gate 失败时必须保留更小的实际计数并终止该family。
+
+终端实际消耗：F1=`46/3/0`，F2=`22/1/0`，F3=`7/0/0`，F4=`10/0/0`，合计=`85 planner / 4 execution / 0 recovery`。F2/F3/F4 targeted均未通过，因此conditional scopes签发数=0。没有超预算、没有retry、没有recovery。

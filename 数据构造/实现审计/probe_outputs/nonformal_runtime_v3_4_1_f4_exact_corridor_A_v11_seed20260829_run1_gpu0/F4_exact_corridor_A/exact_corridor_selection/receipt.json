@@ -1,0 +1,68 @@
+{
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 10,
+    "recovery_attempt_count": 0
+  },
+  "candidate_receipts": [],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_exact_corridor_candidate:r4_successful_carry_orientation_and_corridor",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_exact_corridor_candidate_r4_successful_carry_orientation_and_corridor-v1_2-000003"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 188.55499505996704,
+  "error": "F4 v11 candidate application hash changed",
+  "error_type": "ValueError",
+  "execution_attempt_count": 0,
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "pass": false,
+  "planner_query_count": 10,
+  "receipt_sha256": "3d95f94148d6aea020fc256da43e919d32037d1a42c2eca2cf66ce656135b6b5",
+  "recovery_attempt_count": 0,
+  "schema_version": "cmf_f4_exact_corridor_selection_gate_v11",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_exact_corridor_selection_gate_v11",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_exact_corridor_selection_gate_v11.py\", line 256, in run\n    suffix = self.helper._scene_call(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 502, in _scene_call\n    raise body_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_exact_corridor_selection_gate_v11.py\", line 236, in candidate_callback\n    self.adapter.controller_v3_3.plan_a_exact_corridor_candidate_v11(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 5627, in plan_a_exact_corridor_candidate_v11\n    raise ValueError(\"F4 v11 candidate application hash changed\")\nValueError: F4 v11 candidate application hash changed\n"
+}
