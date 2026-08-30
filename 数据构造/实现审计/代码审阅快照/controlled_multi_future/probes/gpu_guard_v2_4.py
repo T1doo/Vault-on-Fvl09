@@ -1,4 +1,4 @@
-"""Source-lock/request-bound atomic single-card guard for runtime-v3_3."""
+"""Source-lock/request-bound atomic single-card guard for runtime-v3_3/v3_4."""
 
 from __future__ import annotations
 
@@ -39,6 +39,11 @@ from .runtime_v3_3_authorization_v1 import (
     load_authorization_v3_3,
     validate_consumption_receipt,
 )
+from .runtime_v3_4_authorization_v1 import (
+    consume_authorization_once as consume_authorization_once_v3_4,
+    load_authorization_v3_4,
+    validate_consumption_receipt as validate_consumption_receipt_v3_4,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -60,6 +65,41 @@ JOB_CACHE_ENVIRONMENT_SUBDIRECTORIES = {
     "TRITON_CACHE_DIR": "triton",
     "XDG_CACHE_HOME": "xdg",
 }
+
+
+def _authorization_implementation(path: Path) -> str:
+    try:
+        value = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise AuthorizationBindingError("authorization receipt is unreadable") from exc
+    return str(value.get("implementation_version"))
+
+
+def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
+    implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_runtime_v3_4":
+        return load_authorization_v3_4(
+            path, requested_scope=requested_scope, **kwargs
+        )
+    return load_authorization_v3_3(
+        path, requested_scope=requested_scope, **kwargs
+    )
+
+
+def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4":
+        return consume_authorization_once_v3_4(
+            authorization, ledger_directory=ledger_directory
+        )
+    return consume_authorization_once(
+        authorization, ledger_directory=ledger_directory
+    )
+
+
+def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4":
+        return validate_consumption_receipt_v3_4(consumption, authorization)
+    return validate_consumption_receipt(consumption, authorization)
 
 
 class GuardAuthorizationMismatch(PermissionError):
@@ -266,7 +306,7 @@ def build_guard_binding(
         raise GuardAuthorizationMismatch("guard physical GPU index is outside authorization")
     if not isinstance(expected_uuid, str) or not expected_uuid.startswith("GPU-"):
         raise GuardAuthorizationMismatch("guard requires an explicit GPU UUID")
-    validate_consumption_receipt(consumption, authorization)
+    _validate_runtime_consumption(consumption, authorization)
     actual_command_sha256 = command_sha256(command)
     if actual_command_sha256 != authorization["authorized_command_sha256"]:
         raise GuardAuthorizationMismatch("guard child command differs from authorization")
@@ -395,7 +435,7 @@ def validate_guard_binding(
         or precheck.get("compute_processes")
     ):
         raise GuardAuthorizationMismatch("guard precheck does not prove a matching fresh-idle GPU")
-    validate_consumption_receipt(consumption, authorization)
+    _validate_runtime_consumption(consumption, authorization)
     return {"binding": dict(binding), "precheck": dict(precheck), "precheck_age_seconds": age}
 
 
@@ -521,7 +561,7 @@ def main() -> int:
         if str(args.consumption_ledger_dir) != CANONICAL_CONSUMPTION_LEDGER_DIRECTORY:
             raise GuardAuthorizationMismatch("guard consumption ledger is not canonical")
         scope = _peek_scope(args.authorization_receipt)
-        authorization = load_authorization_v3_3(
+        authorization = _load_runtime_authorization(
             args.authorization_receipt,
             requested_scope=scope,
             expected_output_namespace=str(args.output_dir),
@@ -649,7 +689,7 @@ def main() -> int:
             raise GuardLaunchPrecheckNotIdle(
                 "GPU stopped being fresh-idle before authorization consumption"
             )
-        authorization = load_authorization_v3_3(
+        authorization = _load_runtime_authorization(
             args.authorization_receipt,
             requested_scope=authorization["approved_scopes"][0],
             expected_family=authorization["family"],
@@ -659,7 +699,9 @@ def main() -> int:
                 "reviewed_content_commit"
             ],
         )
-        consumption = consume_authorization_once(authorization, ledger_directory=args.consumption_ledger_dir)
+        consumption = _consume_runtime_authorization(
+            authorization, ledger_directory=args.consumption_ledger_dir
+        )
         binding = build_guard_binding(
             authorization,
             consumption,

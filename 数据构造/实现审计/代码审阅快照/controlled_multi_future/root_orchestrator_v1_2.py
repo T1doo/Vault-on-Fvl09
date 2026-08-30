@@ -361,8 +361,17 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
 ):
     """Freeze once, generate one prefix, replay it in three fresh branches."""
 
-    def __init__(self, adapter):
-        super().__init__(adapter, implementation_version=IMPLEMENTATION_VERSION)
+    def __init__(self, adapter, *, implementation_version=IMPLEMENTATION_VERSION):
+        if (
+            implementation_version == IMPLEMENTATION_VERSION
+            and type(adapter).__name__
+            in (
+                "RoboTwinRealSapienStrictPrefixAdapterV1_4",
+                "F3GraspDiagnosticAdapterV10",
+            )
+        ):
+            implementation_version = "controlled_multi_future_runtime_v3_4"
+        super().__init__(adapter, implementation_version=implementation_version)
 
     def run_nonformal_root(
         self,
@@ -379,7 +388,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
         receipt: dict[str, Any] = {
             "schema_version": ROOT_SCHEMA_VERSION,
             "design_version": "controlled_multi_future_f1_f4_v1_2",
-            "implementation_version": IMPLEMENTATION_VERSION,
+            "implementation_version": self.implementation_version,
             "formal_data": False,
             "stage0_data": False,
             "stage0_authorized": False,

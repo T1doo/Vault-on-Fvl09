@@ -173,6 +173,8 @@ def build_f3_clearance_height_audit(
 def build_f3_clearance_route_targets(
     post_lift_eef_pose: Sequence[float],
     clearance_audit: Mapping[str, Any],
+    *,
+    grasp_contract_sha256: str | None = None,
 ) -> dict:
     """Build the exact raise-then-horizontal carry route and hold contract."""
 
@@ -213,7 +215,11 @@ def build_f3_clearance_route_targets(
     payload = {
         "schema_version": SCHEMA_VERSION,
         "route_version": CARRY_ROUTE_VERSION,
-        "grasp_contract_sha256": frozen_f3_grasp_contract()["contract_sha256"],
+        "grasp_contract_sha256": (
+            frozen_f3_grasp_contract()["contract_sha256"]
+            if grasp_contract_sha256 is None
+            else str(grasp_contract_sha256)
+        ),
         "arm": FROZEN_ARM,
         "route_order": [item["segment_id"] for item in segments],
         "segments": segments,

@@ -45,13 +45,14 @@ class Revision9IntegrationTest(unittest.TestCase):
     def test_f2_balanced_gate_precedes_full_open_and_changes_no_planner_count(self):
         source = inspect.getsource(F2ControllerV3_3.execute_frozen_suffix_spec)
         balance = source.index("build_f2_balanced_preload_release_spec_v9")
-        gate = source.index("audit_f2_balanced_preload_release_gate_v9")
-        block = source.index("F2 balanced-preload release Gate blocked full-open")
+        gate = source.index("audit_f2_release_safety_gate_v10")
+        block = source.index("F2 release-safety Gate v10 blocked full-open")
         full_open = source.index("f2_{spec['relation']}_release")
         self.assertLess(balance, gate)
         self.assertLess(gate, block)
         self.assertLess(block, full_open)
-        self.assertIn("true_cavity_obb_pass=verify_true_cavity_obb", source)
+        self.assertIn("audit_f2_final_inside_success_gate_v10", source)
+        self.assertNotIn("true_cavity_obb_pass=verify_true_cavity_obb", source[gate:full_open])
         self.assertEqual(
             validate_static_scope_activity_envelope(
                 "F2_diagnosis_root_per_revision"

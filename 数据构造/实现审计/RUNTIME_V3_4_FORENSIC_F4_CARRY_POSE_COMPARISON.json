@@ -1,0 +1,149 @@
+{
+  "comparison": {
+    "collision_check_source": {
+      "revision4": "official CuRobo planner success/failure per frozen segment",
+      "revision9": "official CuRobo planner success/failure per frozen segment"
+    },
+    "height_delta_m": 0.07539932274160221,
+    "orientation_delta_rad": 0.9472228086832558,
+    "planner_status": {
+      "revision4": "Success",
+      "revision9": "Fail"
+    },
+    "position_delta_norm_m": 0.11890938928419534,
+    "position_delta_revision9_minus_revision4_m": [
+      5.337328162768884e-09,
+      0.09194772966228143,
+      0.07539932274160221
+    ],
+    "revision4_planned_end_qpos_sha256": "d18eb398ebf997f498001622a5f765605de01246d3777a93b02a00abe89e6988",
+    "revision4_successful_carry_mid_pose": [
+      0.1549994685589866,
+      -0.013921714285871883,
+      0.9240019948107627,
+      0.6830110770159924,
+      -0.18302253901568033,
+      0.18301608186480636,
+      0.6830107851744089
+    ],
+    "revision9_failed_carry_mid_pose": [
+      0.15499947389631477,
+      0.07802601537640955,
+      0.9994013175523649,
+      0.5243540196282083,
+      -0.4743987085448014,
+      0.4743957735598284,
+      0.5243542480607336
+    ],
+    "revision9_failed_endpoint_terminal_qpos_available": false,
+    "revision9_failure_record_end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+    "revision9_motiongen_failure": [
+      {
+        "fields": {
+          "attempts": 10,
+          "position_error": null,
+          "rotation_error": null,
+          "solve_time": 0.05737757682800293,
+          "status": "MotionGenStatus.IK_FAIL",
+          "success": false,
+          "total_time": 0.08422970771789551,
+          "used_graph": false,
+          "valid_query": true
+        },
+        "schema_version": "cmf_motiongen_result_side_channel_v1",
+        "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+      }
+    ],
+    "saved_chain_minimum_terminal_joint_limit_margin_rad": {
+      "revision4": 0.002656858414411545,
+      "revision9_successful_prefix_only": 0.002656858414411545
+    },
+    "start_qpos_l2_difference": 1.7189151727460303,
+    "start_qpos_sha256": {
+      "revision4": "12caf8040dc6f66c326f508574d89a574d532e86fd50a7faa6ea19dc9dfcd1b6",
+      "revision9": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+    }
+  },
+  "derived_metric_formula": {
+    "orientation_delta": "sign-invariant quaternion angular error",
+    "position_delta": "Revision9 xyz minus Revision4 xyz",
+    "position_norm": "Euclidean norm of carry-mid xyz delta",
+    "start_qpos_delta": "Euclidean norm over the saved complete articulation qpos"
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "fixed_order_corridor_candidates": [
+    {
+      "candidate_id": "r4_successful_carry_orientation_and_corridor",
+      "priority": 1,
+      "rule": "reuse Revision-4 successful carry-mid orientation and corridor geometry"
+    },
+    {
+      "candidate_id": "proven_branch_neutral_carry_pose",
+      "priority": 2,
+      "rule": "chain lift to the frozen branch-neutral carry pose before preplace"
+    },
+    {
+      "candidate_id": "lower_carry_height",
+      "priority": 3,
+      "rule": "retain current top-down orientation but use the minimum obstacle-derived carry height"
+    },
+    {
+      "candidate_id": "intermediate_corridor_waypoint",
+      "priority": 4,
+      "rule": "add one fixed intermediate waypoint; endpoint IK remains mandatory"
+    }
+  ],
+  "forensic_conclusion": "The frozen layout/right arm is not proven infeasible. Revision 9 changed carry height and orientation relative to the Revision-4 successful endpoint; its A_carry_mid endpoint itself had no IK solution.",
+  "formal_data": false,
+  "implementation_strategy": "diagnosis_first_multi_gpu_convergence",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "next_frozen_test": "planner-only fixed-order corridor list; choose the first chained candidate that proves endpoint IK, collision, joint margin, and qpos continuity",
+  "output_sha256": "48b1ec4ceada8c6875db983b7bf7237c0c1d48d41d9426103e639bbb4e05dd4c",
+  "output_sha256_scope": "canonical JSON of this artifact with output_sha256 removed",
+  "schema_version": "cmf_runtime_v3_4_forensic_f4_carry_pose_comparison_v1",
+  "selected_fields": [
+    "execution_spec.targets",
+    "segment_receipts.A_carry_mid.start_qpos/end_qpos",
+    "planner status and MotionGen side channel",
+    "minimum terminal joint-limit margin",
+    "planner collision-check source"
+  ],
+  "selected_row_indices": {
+    "revision4": {
+      "count": 5215,
+      "end_inclusive": 5214,
+      "start": 0
+    },
+    "revision9": {
+      "count": 2927,
+      "end_inclusive": 2926,
+      "start": 0
+    }
+  },
+  "source_manifest_path": {
+    "revision4": "数据构造/实现审计/F4_ROOT_RUNTIME_V3_3_REVISION4_FAILURE_EVIDENCE_MANIFEST_20260830.json",
+    "revision9": "数据构造/实现审计/F4_ROOT_RUNTIME_V3_3_REVISION9_FAILURE_EVIDENCE_MANIFEST_20260830.json"
+  },
+  "source_manifest_sha256": {
+    "revision4": "b626398b6bf23abc0b0df16715825ab356dd88c64691408e3fa0317c0fb0a62e",
+    "revision9": "059ce58bd1c13f56a34db842e211e78b1b64aa71e0378d016614e30321b51d38"
+  },
+  "source_raw_path": {
+    "revision4": "数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision4_run1_gpu6/f4_staged_gate/gate_A/trace_source.npz",
+    "revision9": "数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision9_run1_gpu0/f4_staged_gate/gate_A/preflight_trace_source.npz"
+  },
+  "source_raw_sha256": {
+    "revision4": "87319a0b79f955024ecc18539ef08e24cd377ba03b9f75b66d319df2bfe2bcca",
+    "revision9": "2b7ecf93d626bf0ec3650f14be02a0852bf1eb2847910e2cb58dc9f66235df5c"
+  },
+  "source_receipt_path": {
+    "revision4": "数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision4_run1_gpu6/f4_staged_gate/gate_A/preflight_receipt.json",
+    "revision9": "数据构造/实现审计/probe_outputs/nonformal_runtime_v3_3_f4_staged_full_root_seed20260829_revision9_run1_gpu0/f4_staged_gate/gate_A/preflight_receipt.json"
+  },
+  "source_receipt_sha256": {
+    "revision4": "a706546bb9161b10dd730a11a3b27316dd27590c845e10cc44050d7cbc656ca2",
+    "revision9": "91bbddac1a36ac45b28396b5be1ac8a4745a5b790fb6fe306c08aae5abb88b06"
+  },
+  "stage0_authorized": false,
+  "stage0_data": false
+}

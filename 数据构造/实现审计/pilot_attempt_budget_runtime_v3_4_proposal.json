@@ -1,0 +1,24 @@
+{
+  "schema_version": "cmf_runtime_v3_4_scope_budget_v1",
+  "status": "user_authorized_nonformal_runtime_v3_4",
+  "approved": true,
+  "frozen": true,
+  "budget_receipt_sha256": "99d017cc32fc07bf055ca18efbd2b943a62e385750c78820dd0437d77f393bfa",
+  "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "automatic_retry": false,
+  "recovery_attempts": 0,
+  "maximum_full_root_execution_per_family": 1,
+  "scopes": {
+    "F1_shared_regression_v3_4": {"planner_query_limit": 64, "execution_limit": 3, "timeout_seconds": 7200},
+    "F2_inside_targeted_v10": {"planner_query_limit": 32, "execution_limit": 1, "timeout_seconds": 7200},
+    "F2_full_root_v10": {"planner_query_limit": 32, "execution_limit": 3, "timeout_seconds": 7200},
+    "F3_grasp_three_context_v10": {"planner_query_limit": 96, "execution_limit": 3, "timeout_seconds": 10800},
+    "F3_full_root_v10": {"planner_query_limit": 96, "execution_limit": 3, "timeout_seconds": 10800},
+    "F4_corridor_A_v10": {"planner_query_limit": 64, "execution_limit": 1, "timeout_seconds": 10800},
+    "F4_BC_AB_v10": {"planner_query_limit": 64, "execution_limit": 3, "timeout_seconds": 14400},
+    "F4_full_root_v10": {"planner_query_limit": 96, "execution_limit": 3, "timeout_seconds": 20400}
+  },
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false
+}

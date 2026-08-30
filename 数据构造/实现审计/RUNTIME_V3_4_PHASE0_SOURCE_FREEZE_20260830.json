@@ -1,0 +1,43 @@
+{
+  "schema_version": "cmf_runtime_v3_4_phase0_source_freeze_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "implementation_strategy": "diagnosis_first_multi_gpu_convergence",
+  "official_baseline_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "official_tracked_worktree_clean": true,
+  "active_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+  "snapshot_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+  "active_tests_sha256": "c17bb067fa6a304ba0ca2e55fbee9772540ea3516a4f45367486af72db561eb8",
+  "snapshot_tests_sha256": "c17bb067fa6a304ba0ca2e55fbee9772540ea3516a4f45367486af72db561eb8",
+  "active_tests": "449/449 passed",
+  "snapshot_tests": "449/449 passed",
+  "python_files_compile_checked": 218,
+  "byte_equal_source_and_tests": true,
+  "budget_receipt_sha256": "99d017cc32fc07bf055ca18efbd2b943a62e385750c78820dd0437d77f393bfa",
+  "parent_user_authorization_sha256": "212e87c65440301b01dc78010eee8103767c068a26e2a378ce3feb6769e812eb",
+  "forensic_artifacts": {
+    "F2": {
+      "output_sha256": "2919e9844ae386f1a65faa58c4d975ad7e21435ee627eb190b3e9bd46306dab3",
+      "json_file_sha256": "603e9dca10d6f67c7d42106d154ecc8418702985b3b82ad5551adc86d770115a"
+    },
+    "F3": {
+      "output_sha256": "23024fd44dff71febf3736b6654eb431b6971ea5a258c7f9c3b4365c5cbfee4f",
+      "json_file_sha256": "916f9d3023974c1878834163a371043f1c627c63f36acb79246a497bf620e43a"
+    },
+    "F4": {
+      "output_sha256": "48b1ec4ceada8c6875db983b7bf7237c0c1d48d41d9426103e639bbb4e05dd4c",
+      "json_file_sha256": "a1588a6d010b3c014b683b00c469fa8254280e9a8fb1f8abb73d421cc9fbf427"
+    }
+  },
+  "shared_components_changed": [
+    "root_orchestrator implementation-version dispatch",
+    "common planner-assisted target-construction audit optional fixed-contact contract",
+    "GPU Guard authorization-version dispatch"
+  ],
+  "f1_shared_regression_required": true,
+  "gpu_execution_in_phase0": false,
+  "phase0_pass": true,
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false
+}

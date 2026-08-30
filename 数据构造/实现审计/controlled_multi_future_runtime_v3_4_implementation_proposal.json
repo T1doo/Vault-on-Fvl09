@@ -1,0 +1,36 @@
+{
+  "schema_version": "cmf_runtime_v3_4_implementation_proposal_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "implementation_strategy": "diagnosis_first_multi_gpu_convergence",
+  "status": "cpu_source_frozen_gpu_targeted_pending",
+  "implementation_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+  "budget_receipt_sha256": "99d017cc32fc07bf055ca18efbd2b943a62e385750c78820dd0437d77f393bfa",
+  "phase_dag": [
+    "offline_forensics",
+    "one_hypothesis_per_family",
+    "all_cpu_tests",
+    "source_and_snapshot_freeze",
+    "parallel_targeted_nonformal_gates",
+    "passing_families_only_full_nonformal_root",
+    "readiness_update_and_stop"
+  ],
+  "scopes": [
+    "F1_shared_regression_v3_4",
+    "F2_inside_targeted_v10",
+    "F3_grasp_three_context_v10",
+    "F4_corridor_A_v10",
+    "F2_full_root_v10_after_gate",
+    "F3_full_root_v10_after_gate",
+    "F4_BC_AB_v10_after_A_gate",
+    "F4_full_root_v10_after_all_F4_gates"
+  ],
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "stage1_authorized": false,
+  "training_authorized": false,
+  "h_reveal": null,
+  "compression_authorized": false,
+  "pi05_authorized": false
+}

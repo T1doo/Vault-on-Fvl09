@@ -55,6 +55,11 @@ from .f2_balanced_preload_release_v9 import (
     audit_f2_balanced_preload_release_gate_v9,
     build_f2_balanced_preload_release_spec_v9,
 )
+from .f2_release_gates_v10 import (
+    FINAL_SETTLE_FRAMES as F2_FINAL_SETTLE_FRAMES_V10,
+    audit_f2_final_inside_success_gate_v10,
+    audit_f2_release_safety_gate_v10,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -106,6 +111,11 @@ from .f3_symmetric_staged_release_v9 import (
     STAGE_HOLD_STEPS as F3_STAGED_RELEASE_HOLD_STEPS_V9,
     audit_f3_symmetric_staged_release_gate_v9,
     build_f3_symmetric_staged_release_spec_v9,
+)
+from .f3_grasp_robustness_v10 import (
+    POST_CLOSE_SETTLE_FRAMES as F3_POST_CLOSE_SETTLE_FRAMES_V10,
+    audit_f3_grasp_robustness_diagnostic_v10,
+    build_f3_common_grasp_contract_v10,
 )
 from .f3_return_release_v5 import (
     ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
@@ -169,6 +179,10 @@ from .f4_top_down_clearance_v6 import (
 from .f4_top_down_block_carry_v8 import (
     build_f4_top_down_block_carry_v8,
 )
+from .f4_carry_corridor_v10 import (
+    apply_f4_corridor_candidate_v10,
+    build_f4_fixed_order_corridors_v10,
+)
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
@@ -197,7 +211,13 @@ F3_CLOSED_LOOP_PRIMITIVE_VERSION = "f3_pose_consistent_time_dilated_closed_loop_
 
 
 def _raw_result(*args, **kwargs):
-    kwargs["implementation_version"] = "controlled_multi_future_runtime_v3_3"
+    scene = args[0] if args else kwargs.get("scene")
+    adapter_version = getattr(scene, "_cmf_adapter_version", "")
+    kwargs["implementation_version"] = (
+        "controlled_multi_future_runtime_v3_4"
+        if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_4"
+        else "controlled_multi_future_runtime_v3_3"
+    )
     return _legacy_raw_result(*args, **kwargs)
 
 
@@ -274,6 +294,7 @@ def _audited_planner_assisted_target_construction(
     arm: str,
     variant_id: str,
     callback: Callable[[], Any],
+    fixed_contact_point_ids: Sequence[int] | None = None,
 ) -> tuple[Any, dict]:
     """Count and receipt every official batch-planner call used to select a grasp."""
 
@@ -283,7 +304,18 @@ def _audited_planner_assisted_target_construction(
         scene, "planner_queries"
     ):
         raise RuntimeError("target construction requires initialized planner audit state")
-    contact_point_ids = [int(index) for index, _ in actor.iter_contact_points()]
+    available_contact_point_ids = [
+        int(index) for index, _ in actor.iter_contact_points()
+    ]
+    contact_point_ids = (
+        available_contact_point_ids
+        if fixed_contact_point_ids is None
+        else [int(index) for index in fixed_contact_point_ids]
+    )
+    if any(index not in available_contact_point_ids for index in contact_point_ids):
+        raise RuntimeError("fixed target-construction contact point is unavailable")
+    if len(contact_point_ids) != len(set(contact_point_ids)):
+        raise RuntimeError("fixed target-construction contact points must be unique")
     if not contact_point_ids:
         raise RuntimeError("planner-assisted target construction has no contact points")
     target_reset = _planner_reset(
@@ -444,6 +476,10 @@ def _audited_planner_assisted_target_construction(
         "actor_name": _entity(actor).get_name(),
         "planner_reset_receipt": target_reset,
         "contact_point_ids": contact_point_ids,
+        "available_contact_point_ids": available_contact_point_ids,
+        "fixed_contact_point_ids": None
+        if fixed_contact_point_ids is None
+        else contact_point_ids,
         "batch_call_count": len(batch_receipts),
         "internal_pose_candidate_count": sum(
             item["batch_size"] for item in batch_receipts
@@ -2625,10 +2661,35 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         controls = _cached_controls(scene, spec)
         release_index = int(spec["release_target_index"])
 
-        def current_inside_drop_opening_gate():
-            can_geometry_pose = _actor_geometry_center_pose(scene.can)
+        can_local_geometry_center, can_half_extents_for_release = (
+            _actor_local_geometry_bounds(scene.can)
+        )
+
+        def inside_drop_opening_geometry(
+            can_actor_pose=None, box_actor_pose=None
+        ):
+            can_origin_pose = (
+                _pose(scene.can)
+                if can_actor_pose is None
+                else np.asarray(can_actor_pose, dtype=np.float64).reshape(7)
+            )
+            box_pose_value = (
+                _pose(scene.box)
+                if box_actor_pose is None
+                else np.asarray(box_actor_pose, dtype=np.float64).reshape(7)
+            )
+            can_geometry_pose = compose_pose(
+                can_origin_pose,
+                [
+                    *np.asarray(can_local_geometry_center, dtype=np.float64),
+                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                ],
+            )
             can_corners_world = obb_corners(
-                can_geometry_pose, _actor_half_extents(scene.can)
+                can_geometry_pose, can_half_extents_for_release
             )
             homogeneous = np.concatenate(
                 (
@@ -2638,7 +2699,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 axis=1,
             )
             local = (
-                np.linalg.inv(pose_matrix(_pose(scene.box))) @ homogeneous.T
+                np.linalg.inv(pose_matrix(box_pose_value)) @ homogeneous.T
             ).T[:, :3]
             lower = np.asarray(
                 F2_PLASTICBOX_BASE2_CAVITY["lower_m"], dtype=np.float64
@@ -2658,16 +2719,72 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     <= upper[list(opening_axes)]
                 )
             )
+            center_local = relative_pose(box_pose_value, can_geometry_pose)
+            center_margins = np.concatenate(
+                (
+                    center_local[list(opening_axes)]
+                    - lower[list(opening_axes)],
+                    upper[list(opening_axes)]
+                    - center_local[list(opening_axes)],
+                )
+            )
+            projection_overlap = np.concatenate(
+                (
+                    np.max(local[:, opening_axes], axis=0)
+                    - lower[list(opening_axes)],
+                    upper[list(opening_axes)]
+                    - np.min(local[:, opening_axes], axis=0),
+                )
+            )
             return {
                 "opening_projection_inside": projection_inside,
+                "opening_projection_signed_margin_m": float(
+                    np.min(
+                        np.concatenate(
+                            (
+                                np.min(local[:, opening_axes], axis=0)
+                                - lower[list(opening_axes)],
+                                upper[list(opening_axes)]
+                                - np.max(local[:, opening_axes], axis=0),
+                            )
+                        )
+                    )
+                ),
+                "opening_center_inside": bool(np.min(center_margins) >= 0.0),
+                "opening_center_signed_margin_m": float(
+                    np.min(center_margins)
+                ),
+                "opening_projection_overlaps": bool(
+                    np.min(projection_overlap) > 0.0
+                ),
+                "opening_projection_overlap_signed_m": float(
+                    np.min(projection_overlap)
+                ),
                 "rim_clearance_m": rim_clearance,
                 "rim_clearance_pass": rim_clearance >= 0.02,
                 "can_geometry_center_pose": can_geometry_pose.tolist(),
+                "geometry_evidence_complete": True,
             }
+
+        def current_inside_drop_opening_gate():
+            return inside_drop_opening_geometry()
+
+        def complete_contact_signal(row):
+            try:
+                return all(
+                    classify_contact_pair_physical_hit_v8(pair)[
+                        "evidence_complete"
+                    ]
+                    is True
+                    for pair in row["contact_pairs"]
+                )
+            except (KeyError, TypeError, ValueError):
+                return False
 
         execution_receipts = []
         staged_inside_gates = []
         inside_release_samples = {}
+        f2_final_inside_settle_rows_v10 = None
         inside_drop_route = spec.get("inside_gravity_drop_route")
         held_transport_start_row = len(scene.trace) - 1
         held_segment_trace_windows = []
@@ -2905,23 +3022,42 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 )
                 scene.mark("f2_inside_balanced_preload_hold_end")
                 balanced_rows = scene.trace[balanced_start_row:]
-                balanced_gate = audit_f2_balanced_preload_release_gate_v9(
-                    balanced_rows,
+                safety_rows = [
+                    {
+                        "actor_linear_velocity": row[
+                            "actor_linear_velocity"
+                        ],
+                        "actor_angular_velocity": row[
+                            "actor_angular_velocity"
+                        ],
+                        "contact_pairs": row["contact_pairs"],
+                        "contact_signal_complete": complete_contact_signal(
+                            row
+                        ),
+                    }
+                    for row in balanced_rows
+                ]
+                opening_safety_records = [
+                    inside_drop_opening_geometry(
+                        row["role_actor_poses"]["main_can"],
+                        row["role_actor_poses"]["box"],
+                    )
+                    for row in balanced_rows
+                ]
+                balanced_gate = audit_f2_release_safety_gate_v10(
+                    safety_rows,
+                    opening_safety_records,
                     can_actor_name=can_name,
                     selected_finger_link_names=sorted(
                         selected_gripper_bodies
                     ),
                     box_actor_name=_entity(scene.box).get_name(),
-                    true_cavity_obb_pass=verify_true_cavity_obb(
-                        _actor_geometry_center_pose(scene.can),
-                        _actor_half_extents(scene.can),
-                        _pose(scene.box),
-                        F2_PLASTICBOX_BASE2_CAVITY,
-                    )["pass_true_cavity_obb"],
                 )
+                scene._cmf_f2_release_safety_gate_v10 = balanced_gate
                 scene._cmf_f2_balanced_preload_release_v9 = {
                     "spec": balanced_spec,
-                    "gate": balanced_gate,
+                    "revision9_gate": None,
+                    "release_safety_gate_v10": balanced_gate,
                 }
                 inside_release_samples[
                     "balanced_preload_release_v9"
@@ -2935,7 +3071,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 )
                 if balanced_gate["pass"] is not True:
                     raise RuntimeError(
-                        "F2 balanced-preload release Gate blocked full-open"
+                        "F2 release-safety Gate v10 blocked full-open"
                     )
                 inside_release_samples["before_full_open"] = (
                     release_sample("before_full_open")
@@ -2946,6 +3082,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             f"f2_{spec['relation']}_release",
         )
         if spec["relation"] == "inside":
+            full_open_settle_start_row = len(scene.trace) - 1
             configured_steps = (
                 set(inside_drop_route["sample_steps"])
                 if inside_drop_route is not None
@@ -2962,6 +3099,13 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     inside_release_samples[f"after_release_{step}"] = release_sample(
                         f"after_release_{step}"
                     )
+            f2_final_inside_settle_rows_v10 = scene.trace[
+                full_open_settle_start_row + 1 :
+            ]
+            if len(f2_final_inside_settle_rows_v10) != F2_FINAL_SETTLE_FRAMES_V10:
+                raise RuntimeError(
+                    "F2 v10 full-open settle window is not exactly 250 frames"
+                )
         else:
             _wait_and_record(scene, 100)
         for index in range(release_index + 1, len(spec["targets"]) - 1):
@@ -3028,6 +3172,63 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         relation = spec["relation"]
         rest = np.asarray(spec["targets"][-1]["pose"], dtype=np.float64)
         realized = _arm_eef_pose(scene, "left")
+        rest_position_pass = (
+            np.linalg.norm(realized[:3] - rest[:3])
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["rest_position_error_m"]
+        )
+        rest_orientation_pass = (
+            quaternion_orientation_error(realized[3:], rest[3:])
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"]
+        )
+        eef_linear_stationary_pass = (
+            np.linalg.norm(scene.trace[-1]["eef_linear_velocity"])
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_linear_speed_mps"
+            ]
+        )
+        eef_angular_stationary_pass = (
+            np.linalg.norm(scene.trace[-1]["eef_angular_velocity"])
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "eef_stationary_angular_speed_rps"
+            ]
+        )
+        final_inside_gate_v10 = None
+        if relation == "inside":
+            if f2_final_inside_settle_rows_v10 is None:
+                raise RuntimeError("F2 inside lacks v10 full-open settle evidence")
+            final_rows_v10 = [
+                {
+                    "actor_linear_velocity": row[
+                        "actor_linear_velocity"
+                    ],
+                    "actor_angular_velocity": row[
+                        "actor_angular_velocity"
+                    ],
+                    "contact_pairs": row["contact_pairs"],
+                    "contact_signal_complete": complete_contact_signal(row),
+                }
+                for row in f2_final_inside_settle_rows_v10
+            ]
+            final_inside_gate_v10 = audit_f2_final_inside_success_gate_v10(
+                final_rows_v10,
+                true_cavity_obb_pass=inside,
+                relation_predicates=exclusive,
+                gripper_full_open=_arm_gripper_open(scene, "left"),
+                arm_rest_pass=bool(
+                    rest_position_pass
+                    and rest_orientation_pass
+                    and eef_linear_stationary_pass
+                    and eef_angular_stationary_pass
+                ),
+                can_actor_name=can_name,
+                box_actor_name=_entity(scene.box).get_name(),
+            )
+            scene._cmf_f2_final_inside_success_gate_v10 = (
+                final_inside_gate_v10
+            )
+            inside_release_samples["final_inside_success_gate_v10"] = (
+                final_inside_gate_v10
+            )
         checks = {
             "target_relation": exclusive[relation],
             "exclusive_relation": sum(bool(value) for value in exclusive.values())
@@ -3042,21 +3243,16 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             ],
             "support_contact_window": bool(support) and all(support),
             "gripper_open": _arm_gripper_open(scene, "left"),
-            "rest_position": np.linalg.norm(realized[:3] - rest[:3])
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["rest_position_error_m"],
-            "rest_orientation": quaternion_orientation_error(
-                realized[3:], rest[3:]
-            )
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
-            "eef_linear_stationary": np.linalg.norm(
-                scene.trace[-1]["eef_linear_velocity"]
-            )
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_linear_speed_mps"],
-            "eef_angular_stationary": np.linalg.norm(
-                scene.trace[-1]["eef_angular_velocity"]
-            )
-            <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"],
+            "rest_position": rest_position_pass,
+            "rest_orientation": rest_orientation_pass,
+            "eef_linear_stationary": eef_linear_stationary_pass,
+            "eef_angular_stationary": eef_angular_stationary_pass,
             "held_transport_contact_gate": transport_contact_gate["pass"],
+            "final_inside_success_gate_v10": (
+                final_inside_gate_v10["pass"]
+                if relation == "inside"
+                else True
+            ),
         }
         semantic = {
             "pass": all(checks.values()),
@@ -3071,6 +3267,10 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             "preflight_rollout_same_control_cache": True,
             "inside_full_obb_verifier_relaxed": False,
             "inside_release_dynamics_samples": inside_release_samples,
+            "f2_release_safety_gate_v10": getattr(
+                scene, "_cmf_f2_release_safety_gate_v10", None
+            ),
+            "f2_final_inside_success_gate_v10": final_inside_gate_v10,
             "held_transport_contact_gate": transport_contact_gate,
             "final_can_actor_origin_pose": can_pose.tolist(),
             "final_can_geometry_center_pose": can_geometry_pose.tolist(),
@@ -3242,6 +3442,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 "pregrasp",
                 "grasp",
                 "close",
+                "post_close_settle_250_v10",
                 "lift_4cm",
                 "lift_8cm",
                 "clearance_raise",
@@ -3275,11 +3476,13 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                     arm_tag=_arm_tag_left(),
                     pre_dis=0.09,
                     target_dis=0,
+                    contact_point_id=0,
                 ),
+                fixed_contact_point_ids=(0,),
             )
         )
         pregrasp, grasp = selected
-        frozen_grasp = frozen_f3_grasp_contract()
+        frozen_grasp = build_f3_common_grasp_contract_v10()
         if (
             target_construction_audit["callback_selected_pose_match_count"] != 1
             or target_construction_audit["callback_selected_contact_point_id"]
@@ -3294,7 +3497,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             != "Success"
         ):
             raise RuntimeError(
-                "F3 official chooser no longer selects frozen contact3/candidate0"
+                "F3 official chooser no longer selects frozen contact0/candidate0"
             )
         target_construction_audit["frozen_grasp_contract"] = frozen_grasp
         target_construction_audit["frozen_selection_verified"] = True
@@ -3316,6 +3519,8 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             scene.close_gripper(_arm_tag_left(), pos=0.0),
             "f3_prefix_close",
         )
+        _wait_and_record(scene, F3_POST_CLOSE_SETTLE_FRAMES_V10)
+        scene.mark("f3_post_close_settle_v10_end")
         post_close = len(scene.trace) - 1 - start
         post_close_transform = relative_pose(
             _arm_eef_pose(scene, "left"), _pose(scene.bottle)
@@ -3352,7 +3557,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         if clearance_audit["pass"] is not True:
             raise RuntimeError("F3 held-envelope clearance audit failed")
         carry_route = build_f3_clearance_route_targets(
-            post_lift_eef, clearance_audit
+            post_lift_eef,
+            clearance_audit,
+            grasp_contract_sha256=frozen_grasp["contract_sha256"],
         )
         if carry_route["pass"] is not True:
             raise RuntimeError("F3 clearance carry route audit failed")
@@ -3741,6 +3948,128 @@ class F3ControllerV3_3(FamilyControllerV3_3):
     @staticmethod
     def _boundary_transform(scene, replay, name):
         return _replay_boundary_transform(scene, replay, name)
+
+    def execute_grasp_robustness_diagnostic_v10(
+        self, scene, program, spec, replay, realization_spec
+    ):
+        """Execute exactly one suffix event and stop before return/release."""
+
+        controls = _cached_controls(scene, spec)
+        groups = list(spec.get("event_groups", []))
+        if len(groups) != 3:
+            raise RuntimeError("F3 diagnostic requires the frozen three suffix events")
+        group = groups[0]
+        start_row = int(replay["trace_replay_start_row"])
+        v_start = int(replay["reference_event_boundaries"]["shared_first_v_start"])
+        v_end = int(replay["reference_event_boundaries"]["shared_first_v_end"])
+        shared_rows = scene.trace[
+            max(start_row, start_row + v_start - 1) : start_row + v_end
+        ]
+        shared_metrics = _realized_event_metrics(shared_rows, axis="V")
+        shared_gate = verify_realized_motion_metrics(
+            {"event_0_V": shared_metrics}, PROVISIONAL_RUNTIME_THRESHOLDS
+        )
+        index = int(group["target_start_index"])
+        axis = str(group["axis"])
+        event_index = int(group["event_index"])
+        target_count = int(group["target_count"])
+        hold_steps = int(group["endpoint_hold_steps"])
+        if target_count != 7 or hold_steps != F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2:
+            raise RuntimeError("F3 diagnostic event contract changed")
+        event_start_row = len(scene.trace) - 1
+        scene.mark(f"event_{event_index}_{axis}_start")
+        execution_receipts = []
+        for offset in range(target_count):
+            execution_receipts.append(
+                _execute_cached_segment(scene, spec, controls, index + offset)
+            )
+            _wait_and_record(scene, hold_steps)
+        scene.mark(f"event_{event_index}_{axis}_end")
+        scene.mark("f3_grasp_diagnostic_stop_preopen_v10")
+        event_rows = scene.trace[event_start_row:]
+        event_key = f"event_{event_index}_{axis}"
+        event_metrics = _realized_event_metrics(event_rows, axis=axis)
+        event_gate = verify_realized_motion_metrics(
+            {event_key: event_metrics}, PROVISIONAL_RUNTIME_THRESHOLDS
+        )
+        gripper_evidence = _gripper_below_eef_envelope(scene, arm="left")
+        support_names = ("table", _entity(scene.pad).get_name())
+        event_contact_audit = audit_f3_free_space_event_contacts(
+            [row["contact_pairs"] for row in event_rows],
+            bottle_actor_name=_entity(scene.bottle).get_name(),
+            selected_gripper_link_names=gripper_evidence[
+                "selected_gripper_links"
+            ],
+            support_actor_names=support_names,
+        )
+        combined_rows = list(shared_rows) + list(event_rows)
+        contacts = [bool(row["selected_gripper_contact"]) for row in combined_rows]
+        contact_fraction = float(np.mean(contacts)) if contacts else 0.0
+        contact_break_count = int(
+            sum(
+                previous and not current
+                for previous, current in zip(contacts, contacts[1:])
+            )
+        )
+        transforms = {
+            "post_close": self._boundary_transform(
+                scene, replay, "post_close"
+            ).tolist(),
+            "post_shared_V": self._boundary_transform(
+                scene, replay, "post_shared_V"
+            ).tolist(),
+            "post_first_suffix_event": relative_pose(
+                _arm_eef_pose(scene, "left"), _pose(scene.bottle)
+            ).tolist(),
+        }
+        eef_tracking_pass = all(
+            item["tracking_position_error_m"]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["rest_position_error_m"]
+            and item["tracking_orientation_error_rad"]
+            <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"]
+            for item in execution_receipts
+        )
+        expected_prefix_hash = spec.get(
+            "expected_canonical_prefix_action_sha256"
+        )
+        diagnostic = audit_f3_grasp_robustness_diagnostic_v10(
+            program="".join(step["axis"] for step in program["steps"]),
+            grasp_contract=build_f3_common_grasp_contract_v10(),
+            canonical_prefix_action_sha256=replay[
+                "executed_prefix_action_sha256"
+            ],
+            expected_canonical_prefix_action_sha256=expected_prefix_hash,
+            boundary_T_eef_actor=transforms,
+            selected_contact_fraction=contact_fraction,
+            selected_contact_break_count=contact_break_count,
+            shared_v_motion_pass=shared_gate["pass"],
+            first_suffix_event_motion_pass=event_gate["pass"],
+            eef_tracking_pass=eef_tracking_pass,
+            stopped_before_release=True,
+        )
+        scene._cmf_f3_grasp_robustness_diagnostic_v10 = diagnostic
+        semantic = {
+            "pass": bool(
+                diagnostic["pass"] and event_contact_audit["pass"]
+            ),
+            "checks": {
+                "grasp_robustness_diagnostic_v10": diagnostic["pass"],
+                "first_suffix_event_free_space": event_contact_audit["pass"],
+                "release_not_executed": True,
+            },
+            "grasp_robustness_diagnostic_v10": diagnostic,
+            "shared_v_metrics": shared_metrics,
+            "first_suffix_event_metrics": event_metrics,
+            "first_suffix_event_contact_audit": event_contact_audit,
+            "suffix_segment_execution_receipts": execution_receipts,
+        }
+        return _raw_result(
+            scene,
+            program=program,
+            realization_spec=realization_spec,
+            executed_prefix=replay,
+            semantic_verifier=semantic,
+        )
 
     def execute_frozen_suffix_spec(
         self, scene, program, spec, replay, realization_spec
@@ -4692,17 +5021,70 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         if top_down["pass"] is not True:
             raise ValueError("F4 r8 top-down block-carry audit failed")
+        selected_corridor = getattr(
+            scene, "_cmf_f4_selected_corridor_id", None
+        )
+        if selected_corridor is None and isinstance(planned, Mapping):
+            selected_corridor = planned.get("selected_f4_corridor_id")
+        selected_groups = top_down["object_target_groups"]
+        selected_flattened = top_down["flattened_targets"]
+        selected_route_version = top_down["route_version"]
+        selected_route_audit = top_down
+        if selected_corridor is not None:
+            reference_a = next(
+                group["targets"]
+                for group in top_down["object_target_groups"]
+                if group["role"] == "A"
+            )
+            corridor_contract = build_f4_fixed_order_corridors_v10(
+                reference_a
+            )
+            if selected_corridor not in {
+                item["candidate_id"]
+                for item in corridor_contract["candidates"]
+            }:
+                raise ValueError("F4 selected corridor is outside frozen v10")
+            selected_groups = []
+            selected_flattened = []
+            for group in top_down["object_target_groups"]:
+                targets = apply_f4_corridor_candidate_v10(
+                    group["targets"],
+                    selected_candidate_id=selected_corridor,
+                    reference_A_base_targets=reference_a,
+                )
+                selected_groups.append(
+                    {
+                        **group,
+                        "target_start_index": len(selected_flattened),
+                        "targets": targets,
+                        "selected_corridor_id": selected_corridor,
+                    }
+                )
+                selected_flattened.extend(targets)
+            selected_route_version = (
+                "f4_revision4_evidence_fixed_order_corridors_v10"
+            )
+            selected_route_audit = {
+                "schema_version": "cmf_f4_selected_corridor_application_v10",
+                "selected_corridor_id": selected_corridor,
+                "corridor_contract_sha256": corridor_contract[
+                    "contract_sha256"
+                ],
+                "base_top_down_route_sha256": top_down["receipt_sha256"],
+                "role_count": len(selected_groups),
+                "uniform_role_application": True,
+                "layout_changed": False,
+                "arm_changed": False,
+                "release_targets_changed": False,
+                "pass": len(selected_groups) == 3,
+            }
         revised_extra = dict(extra)
         revised_extra.update(
             {
                 "object_order": order,
-                "object_target_groups": top_down[
-                    "object_target_groups"
-                ],
-                "block_carry_route_version": top_down[
-                    "route_version"
-                ],
-                "block_carry_route_audit": top_down,
+                "object_target_groups": selected_groups,
+                "block_carry_route_version": selected_route_version,
+                "block_carry_route_audit": selected_route_audit,
                 "uniform_top_down_block_carry_contract_v8": top_down,
                 "scene_layout_changed": False,
                 "tray_pose_changed": False,
@@ -4711,9 +5093,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_prefix_boundary_repair_v5": common_repair,
             }
         )
-        all_targets = list(repaired_common) + list(
-            top_down["flattened_targets"]
-        )
+        all_targets = list(repaired_common) + list(selected_flattened)
         self._validate_f4_target_structure(
             all_targets, revised_extra, require_three_groups=True
         )
@@ -4886,6 +5266,47 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             },
         )
         return result
+
+    def plan_a_corridor_candidate_from_actual_prefix_end_state_v10(
+        self, scene, replay, candidate_id
+    ):
+        scene._cmf_f4_selected_corridor_id = str(candidate_id)
+        base_program = F4SubtaskOrder().checked_provisional_programs()[0]
+        all_targets, extra = self._top_down_full_targets_v8(
+            scene, base_program
+        )
+        suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
+        group = next(
+            item for item in extra["object_target_groups"] if item["role"] == "A"
+        )
+        start = int(group["target_start_index"])
+        width = len(F4_SEGMENTED_BLOCK_SUFFIXES)
+        targets = suffix_targets[start : start + width]
+        if len(targets) != width:
+            raise RuntimeError("F4 v10 A corridor target width changed")
+        return _cache_suffix_controls(
+            scene,
+            program_id=f"F4-DIAG-A-CORRIDOR-{candidate_id}",
+            arm="right",
+            targets=targets,
+            query_limit=16,
+            extra={
+                "object_order": ["A"],
+                "object_target_groups": [
+                    {**group, "target_start_index": 0}
+                ],
+                "block_carry_route_version": extra[
+                    "block_carry_route_version"
+                ],
+                "block_carry_route_audit": extra[
+                    "block_carry_route_audit"
+                ],
+                "selected_corridor_id": str(candidate_id),
+                "common_prefix_artifact_required": True,
+                "diagnostic_block_gate": True,
+                "planner_only_corridor_selection": True,
+            },
+        )
 
     def plan_a_micro_lift_from_actual_prefix_end_state(self, scene, replay):
         target_audit = build_uniform_f4_top_down_clearance_contract_v6(

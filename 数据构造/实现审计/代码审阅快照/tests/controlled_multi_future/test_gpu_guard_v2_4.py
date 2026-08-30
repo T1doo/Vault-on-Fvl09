@@ -263,7 +263,7 @@ class GpuGuardV2_4Test(unittest.TestCase):
         launch_snapshot_index = source.index(
             "launch_pre = snapshot", source_lock_index
         )
-        consume_index = source.index("consume_authorization_once")
+        consume_index = source.index("_consume_runtime_authorization")
         self.assertLess(source_lock_index, launch_snapshot_index)
         self.assertLess(source.index("signal.signal"), source.index("subprocess.Popen"))
         popen_index = source.index("subprocess.Popen")
@@ -284,7 +284,7 @@ class GpuGuardV2_4Test(unittest.TestCase):
             source.rindex("write_json(args.guard_receipt, guard)"),
         )
         self.assertLess(launch_snapshot_index, consume_index)
-        self.assertGreaterEqual(source.count("load_authorization_v3_3"), 2)
+        self.assertGreaterEqual(source.count("_load_runtime_authorization"), 2)
         self.assertIn("stdout/stderr paths must be new and immutable", source)
         self.assertIn("failed_guard_internal_prelaunch", source)
 

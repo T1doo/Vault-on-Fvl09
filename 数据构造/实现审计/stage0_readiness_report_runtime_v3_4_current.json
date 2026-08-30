@@ -1,0 +1,31 @@
+{
+  "schema_version": "cmf_stage0_readiness_runtime_v3_4_current",
+  "decision": "BLOCKED_WITH_REASONS",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "implementation_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+  "a0_pass": true,
+  "phase0_cpu_source_frozen": true,
+  "phase0_tests": {"active": "449/449 passed", "snapshot": "449/449 passed", "byte_equal": true},
+  "gpu_targeted_scopes_executed": false,
+  "current_gpu_launch_authorized": false,
+  "gpu_bundle_issuance_ready_after_clean_publication": true,
+  "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
+  "current_blockers": [
+    "F1 shared-component regression not yet run",
+    "F2 inside targeted safety/final Gate not yet run",
+    "F3 three-context grasp robustness Gate not yet run",
+    "F4 corridor+A Gate not yet run",
+    "F2/F3/F4 complete nonformal roots require their targeted Gates"
+  ],
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null,
+  "training_authorized": false,
+  "compression_authorized": false,
+  "pi05_authorized": false
+}

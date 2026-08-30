@@ -36,11 +36,28 @@ GATE_SEQUENCE = (("A",), ("B",), ("C",), ("A", "B"))
 
 
 class F4StagedBlockExecutionGateV1:
-    def __init__(self, adapter):
+    def __init__(
+        self,
+        adapter,
+        *,
+        gate_sequence=None,
+        implementation_version="controlled_multi_future_runtime_v3_3",
+    ):
         if adapter.family != "F4":
             raise ValueError("F4 staged Gate requires an F4 adapter")
         self.adapter = adapter
         self.helper = RealSapienStrictPrefixRootOrchestratorV1_2(adapter)
+        self.gate_sequence = tuple(
+            tuple(item) for item in (GATE_SEQUENCE if gate_sequence is None else gate_sequence)
+        )
+        if not self.gate_sequence or any(
+            not roles
+            or any(role not in ("A", "B", "C") for role in roles)
+            or len(set(roles)) != len(roles)
+            for roles in self.gate_sequence
+        ):
+            raise ValueError("F4 staged Gate sequence is invalid")
+        self.implementation_version = str(implementation_version)
 
     def run(self, *, output_dir: Path, planned_root_slot_spec) -> dict:
         output_dir = Path(output_dir)
@@ -51,12 +68,12 @@ class F4StagedBlockExecutionGateV1:
         receipt = {
             "schema_version": SCHEMA_VERSION,
             "design_version": "controlled_multi_future_f1_f4_v1_2",
-            "implementation_version": "controlled_multi_future_runtime_v3_3",
+            "implementation_version": self.implementation_version,
             "formal_data": False,
             "stage0_data": False,
             "stage0_authorized": False,
             "status": "running",
-            "gate_sequence": [list(item) for item in GATE_SEQUENCE],
+            "gate_sequence": [list(item) for item in self.gate_sequence],
             "planner_query_count": 0,
             "execution_attempt_count": 0,
             "reference_prefix_generation_count": 1,
@@ -166,7 +183,7 @@ class F4StagedBlockExecutionGateV1:
             )
             candidate_hash = hash_json(programs)
 
-            for roles in GATE_SEQUENCE:
+            for roles in self.gate_sequence:
                 gate_id = "".join(roles)
                 gate_dir = output_dir / f"gate_{gate_id}"
                 gate_dir.mkdir(parents=True, exist_ok=False)
@@ -420,7 +437,7 @@ class F4StagedBlockExecutionGateV1:
 
             receipt["status"] = (
                 "passed_f4_staged_block_gate"
-                if len(receipt["gate_receipts"]) == len(GATE_SEQUENCE)
+                if len(receipt["gate_receipts"]) == len(self.gate_sequence)
                 and all(item.get("status") == "passed" for item in receipt["gate_receipts"])
                 else "failed_f4_staged_block_gate"
             )
