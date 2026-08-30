@@ -1,0 +1,91 @@
+{
+  "budget_counts": {
+    "execution_attempt_count": 1,
+    "planner_query_count": 13,
+    "recovery_attempt_count": 0
+  },
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_r5_micro_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_r5_micro_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_r5_micro_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_r5_micro_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_r5_micro_preflight",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_r5_micro_preflight-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_r5_micro_execution",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_r5_micro_execution-v1_2-000004"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "diagnostic_only": true,
+  "elapsed_seconds": 169.20361638069153,
+  "error": "F4 A preclose realized-boundary Gate failed",
+  "error_type": "RuntimeError",
+  "execution_attempt_count": 1,
+  "failure_artifacts": [
+    {
+      "relative_path": "partial_trace_source.npz",
+      "sha256": "d3b192949c4c0d94e20374b9775f8fbbb0b07a894cc3aa70c2b5b757286a7923"
+    }
+  ],
+  "formal_data": false,
+  "full_f4_program_executed": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "orphan_process_count": 0,
+  "planner_query_count": 13,
+  "prefix_replay_count": 2,
+  "recovery_attempt_count": 0,
+  "reference_prefix_generation_count": 1,
+  "scene_cleanup_succeeded": true,
+  "schema_version": "cmf_f4_common_boundary_a_micro_lift_gate_v5",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_r5_common_boundary_a_micro_lift_gate",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_micro_lift_gate_v5.py\", line 456, in run\n    execution = self.helper._scene_call(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 502, in _scene_call\n    raise body_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_micro_lift_gate_v5.py\", line 387, in execution_callback\n    result = self.adapter.controller_v3_3.execute_a_micro_lift_diagnostic(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py\", line 4583, in execute_a_micro_lift_diagnostic\n    raise RuntimeError(\"F4 A preclose realized-boundary Gate failed\")\nRuntimeError: F4 A preclose realized-boundary Gate failed\n"
+}

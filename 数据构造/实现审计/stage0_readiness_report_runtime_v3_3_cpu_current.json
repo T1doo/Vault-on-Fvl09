@@ -1,31 +1,19 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision5_cpu_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision5_terminal_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision5_impact_addendum_v1",
-  "implementation_source_sha256": "0d19e5d0ace6f3115c686a77485f72b12858023e18dd0cab3fc49f610aa0b33b",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
-  "gpu_parent_scope_authorized": true,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "cpu_baseline": {"active_tests": "339/339 passed", "snapshot_tests": "339/339 passed", "active_vault_snapshot_byte_equal": true, "status": "revision5_cpu_pass_publication_pending"},
-  "gates": {
-    "F1": "accepted_nonformal_revision2_three_of_three",
-    "F2": "revision4_false_positive_palm_gate_revision5_cpu_ready_not_run",
-    "F3": "revision4_return_release_failed_revision5_cpu_ready_not_run",
-    "F4": "revision4_physical_grasp_noninterference_failed_revision5_micro_cpu_ready_not_run"
-  },
-  "reason": "F2 and F3 revision5 have not produced accepted roots; F4 revision5 micro has not run and cannot itself qualify as an accepted root.",
-  "stage0_execution_manifest_status": "not_created_four_root_gate_pending",
+  "revision5_gpu_scopes_terminal": true,
+  "gates": {"F1": "accepted", "F2": "inside_failed_pre_release_stationarity", "F3": "three_branches_failed_contact_free_clearance", "F4": "micro_failed_grasp_boundary_before_close"},
+  "reason": "No complete F2/F3/F4 accepted root exists; F4 micro is diagnostic-only.",
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
-  "training_started": false,
-  "compression_started": false,
-  "pi0_5_started": false,
-  "next_safe_sequence": ["publish revision5 byte-equal CPU baseline", "issue exact-scope revision5 single-use bundles", "run on separate fresh-idle GPUs", "audit evidence and continue source-distinct repair"]
+  "next_safe_sequence": ["complete revision6 CPU repairs", "run full active and snapshot tests", "publish byte-equal source", "issue exact revision6 scopes", "run finite nonformal GPU probes"]
 }

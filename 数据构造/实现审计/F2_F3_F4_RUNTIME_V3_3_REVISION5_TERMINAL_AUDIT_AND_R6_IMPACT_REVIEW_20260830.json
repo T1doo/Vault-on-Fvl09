@@ -1,0 +1,64 @@
+{
+  "schema_version": "cmf_runtime_v3_3_r5_terminal_audit_r6_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "accepted_nonformal_roots": 1,
+  "families": {
+    "F2": {
+      "status": "failed_inside_pre_release_stationarity",
+      "planner_query_count": 32,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "inside": "single_hold_relative_index2_angular_speed_0.056483651_above_0.05",
+      "on": "accepted",
+      "beside": "accepted",
+      "r6": "ten_frame_no_command_warmup_then_original_final_fifty_frame_velocity_gate_full_sixty_frame_safety"
+    },
+    "F3": {
+      "status": "three_of_three_failed_contact_free_pre_open_geometry",
+      "planner_query_count": 96,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "all_other_pre_open_predicates": "passed_three_of_three",
+      "actual_geometry_gap_m": [0.00434, 0.00471],
+      "contact_manifold_impulse": 0.0,
+      "root_cause": "fixed_actor_origin_plus_10mm_yields_only_4.94255mm_predicted_OBB_gap_inside_PhysX_contact_offset",
+      "r6": "center_aware_compound_bottle_and_gripper_assembly_envelope_with_frozen_10mm_geometric_clearance"
+    },
+    "F4": {
+      "status": "failed_A_grasp_boundary_before_close",
+      "planner_query_count": 13,
+      "execution_attempt_count": 1,
+      "recovery_attempt_count": 0,
+      "common_prefix": "passed_repaired_ten_segment_actual_open_high_neutral",
+      "pregrasp": "passed",
+      "noninterference": "passed_common_X_B_C",
+      "grasp_position_error_m": 0.013673,
+      "grasp_orientation_error_rad": 0.020929,
+      "finger_table_contact_frames": {"fr_link7": 50, "fr_link8": 50},
+      "close_or_micro_executed": false,
+      "r6": "uniform_plus_16mm_world_z_top_down_pregrasp_and_grasp_A_B_C_then_same_20mm_micro_lift"
+    }
+  },
+  "cleanup": {
+    "all_scenes_safe": true,
+    "all_task_owned_gpu_processes_released": true,
+    "orphan_process_count": 0,
+    "post_source_lock_errors": null,
+    "physical_gpu_used": 0
+  },
+  "evidence_trees": {
+    "F2": "98e6ea3f16735bf8a505358874a311815a0ef9adbe9dc1374a30aa20f0d911a1",
+    "F3": "94299900b78d1285256b6c6e0d1e786ad6a381e381ec6e9dd6441d1dc60bf3e0",
+    "F4": "93228220bc7d18d8b6e979adb2e4969631177c4fe43aee4b7535661c6a78dcf8"
+  },
+  "claim_boundary": {
+    "stage0_ready": false,
+    "stage0_authorized": false,
+    "formal_data_generated": false,
+    "model_training_started": false
+  }
+}
