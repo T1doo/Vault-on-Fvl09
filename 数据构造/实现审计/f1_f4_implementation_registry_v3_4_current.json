@@ -7,20 +7,23 @@
   "stage0_data": false,
   "stage0_authorized": false,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "phase0": {"cpu_tests_active": "449/449 passed", "cpu_tests_snapshot": "449/449 passed", "byte_equal": true, "gpu_executed": false},
+  "phase0": {"cpu_tests_active": "449/449 passed", "cpu_tests_snapshot": "449/449 passed", "byte_equal": true, "gpu_executed": true, "multi_gpu_audit_pass": true},
   "families": {
     "F1": {
       "historical_accepted_root_preserved": true,
       "shared_regression_required": true,
-      "reason": "root-orchestrator/planner-audit/Guard shared compatibility changed",
-      "next_scope": "F1_shared_regression_v3_4"
+      "runtime_v3_4_regression_status": "failed_implementation_error_46_planner_0_execution",
+      "reason": "target-construction batch queries omitted from controller-reported suffix count",
+      "next_scope": "external_review_required_no_auto_retry"
     },
     "F2": {
       "mapping": "071_can/base1 + left arm + plasticbox/base2 + scale/base0 + displaystand/base3",
       "forensic_output_sha256": "2919e9844ae386f1a65faa58c4d975ad7e21435ee627eb190b3e9bd46306dab3",
       "unique_hypothesis": "revision9 conflated safe full-open permission with final inside success",
       "implementation": "F2ReleaseSafetyGateV10 then full-open then exactly250 settle then F2FinalInsideSuccessGateV10",
-      "next_scope": "F2_inside_targeted_v10"
+      "targeted_status": "failed_old_pre_release_angular_gate_before_v10_safety_gate",
+      "reconciled_counts": {"planner": 22, "execution": 1, "recovery": 0},
+      "next_scope": "impact_review_required_no_full_root"
     },
     "F3": {
       "mapping": "001_bottle/base13 + left arm + table-z V/table-x H + original pad",
@@ -28,16 +31,20 @@
       "causal_classification": "A_input_or_control_changed",
       "unique_hypothesis": "upper-neck contact3 grasp is not robust to rotational perturbation",
       "implementation": "one official contact0/candidate0 midbody grasp + close0.0 + post-close250 + three pre-release contexts",
-      "next_scope": "F3_grasp_three_context_v10"
+      "targeted_status": "failed_program_alias_before_planner_or_diagnostic_execution",
+      "actual_counts": {"planner": 0, "execution": 0, "recovery": 0},
+      "next_scope": "external_review_of_zero_execution_replacement"
     },
     "F4": {
       "mapping": "yellow common-X + tray/base0 + RGB A/B/C + visible slots + right arm",
       "forensic_output_sha256": "48b1ec4ceada8c6875db983b7bf7237c0c1d48d41d9426103e639bbb4e05dd4c",
       "unique_hypothesis": "revision9 carry-mid height/orientation endpoint itself had no IK; layout/right arm remain unresolved, not infeasible",
       "implementation": "four fixed planner-only corridors then A-only then B/C/AB then full root",
-      "next_scope": "F4_corridor_A_v10"
+      "targeted_status": "four_carry_mid_pass_then_four_A_preplace_fail",
+      "actual_counts": {"planner": 30, "execution": 0, "recovery": 0},
+      "next_scope": "layout_impact_review_required_no_A_or_full_execution"
     }
   },
   "gpu_policy": "any independently fresh-idle physical GPU0-7; family-level parallel; one job/card; one root/GPU",
-  "current_status": "phase0_cpu_frozen_waiting_publication_and_targeted_gpu"
+  "current_status": "runtime_v3_4_targeted_terminal_blocked_waiting_external_review"
 }

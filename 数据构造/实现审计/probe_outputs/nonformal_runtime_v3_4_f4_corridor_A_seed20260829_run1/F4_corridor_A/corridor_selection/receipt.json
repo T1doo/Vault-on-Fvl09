@@ -1,0 +1,629 @@
+{
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 30,
+    "recovery_attempt_count": 0
+  },
+  "candidate_receipts": [
+    {
+      "candidate_id": "r4_successful_carry_orientation_and_corridor",
+      "cleanup_pass": true,
+      "execution_attempt_count": 0,
+      "fresh_scene": true,
+      "planner_query_count": 5,
+      "segment_receipts": [
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_pregrasp",
+          "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_grasp",
+          "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_lift",
+          "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_carry_mid",
+          "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": false,
+          "end_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b",
+          "endpoint_ik_pass": false,
+          "joint_margin_pass": false,
+          "planner_status": "Fail",
+          "segment_id": "A_preplace",
+          "start_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b"
+        }
+      ],
+      "source_suffix_receipt_sha256": "b81f4b02008691a41669ac983b2a5d4c990cceaab260050a5f17f03a846122aa"
+    },
+    {
+      "candidate_id": "proven_branch_neutral_carry_pose",
+      "cleanup_pass": true,
+      "execution_attempt_count": 0,
+      "fresh_scene": true,
+      "planner_query_count": 5,
+      "segment_receipts": [
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_pregrasp",
+          "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_grasp",
+          "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_lift",
+          "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_carry_mid",
+          "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": false,
+          "end_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b",
+          "endpoint_ik_pass": false,
+          "joint_margin_pass": false,
+          "planner_status": "Fail",
+          "segment_id": "A_preplace",
+          "start_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b"
+        }
+      ],
+      "source_suffix_receipt_sha256": "a1cc724c815d3dadbd60b48670c80729a5bf36eef24e0c46606bc797bd464bc0"
+    },
+    {
+      "candidate_id": "lower_carry_height",
+      "cleanup_pass": true,
+      "execution_attempt_count": 0,
+      "fresh_scene": true,
+      "planner_query_count": 5,
+      "segment_receipts": [
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_pregrasp",
+          "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_grasp",
+          "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_lift",
+          "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_carry_mid",
+          "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": false,
+          "end_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b",
+          "endpoint_ik_pass": false,
+          "joint_margin_pass": false,
+          "planner_status": "Fail",
+          "segment_id": "A_preplace",
+          "start_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b"
+        }
+      ],
+      "source_suffix_receipt_sha256": "af06f4f0620ffafa2cc4dac7ccfac1d5a2f28e0f2ab55bf158f99634a13be08e"
+    },
+    {
+      "candidate_id": "intermediate_corridor_waypoint",
+      "cleanup_pass": true,
+      "execution_attempt_count": 0,
+      "fresh_scene": true,
+      "planner_query_count": 5,
+      "segment_receipts": [
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_pregrasp",
+          "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_grasp",
+          "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_lift",
+          "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": true,
+          "end_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582",
+          "endpoint_ik_pass": true,
+          "joint_margin_pass": false,
+          "planner_status": "Success",
+          "segment_id": "A_carry_mid",
+          "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+        },
+        {
+          "chain_continuity_pass": true,
+          "collision_pass": false,
+          "end_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582",
+          "endpoint_ik_pass": false,
+          "joint_margin_pass": false,
+          "planner_status": "Fail",
+          "segment_id": "A_preplace",
+          "start_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582"
+        }
+      ],
+      "source_suffix_receipt_sha256": "a6207fe90e502a7cae09649f281afbd31c9999188effcaf732e784670e816fa1"
+    }
+  ],
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_candidate:r4_successful_carry_orientation_and_corridor",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_candidate_r4_successful_carry_orientation_and_corridor-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_candidate:proven_branch_neutral_carry_pose",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_candidate_proven_branch_neutral_carry_pose-v1_2-000004"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_candidate:lower_carry_height",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_candidate_lower_carry_height-v1_2-000005"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_corridor_candidate:intermediate_corridor_waypoint",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_corridor_candidate_intermediate_corridor_waypoint-v1_2-000006"
+    }
+  ],
+  "corridor_planner_audit": {
+    "A_execution_allowed": false,
+    "automatic_retry": false,
+    "candidate_receipts": [
+      {
+        "candidate_id": "r4_successful_carry_orientation_and_corridor",
+        "checks": {
+          "cleanup_pass": true,
+          "collision_all": false,
+          "endpoint_ik_all": false,
+          "execution_attempt_count_zero": true,
+          "fresh_scene": true,
+          "joint_margin_all": false,
+          "qpos_chain_continuous": true
+        },
+        "pass": false,
+        "segment_receipts": [
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_pregrasp",
+            "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_grasp",
+            "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_lift",
+            "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_carry_mid",
+            "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": false,
+            "end_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b",
+            "endpoint_ik_pass": false,
+            "joint_margin_pass": false,
+            "planner_status": "Fail",
+            "segment_id": "A_preplace",
+            "start_qpos_sha256": "e3b00b8e70a0fa312282037ddc21daa3822b6b1f1558080e0f627c1207efe53b"
+          }
+        ]
+      },
+      {
+        "candidate_id": "proven_branch_neutral_carry_pose",
+        "checks": {
+          "cleanup_pass": true,
+          "collision_all": false,
+          "endpoint_ik_all": false,
+          "execution_attempt_count_zero": true,
+          "fresh_scene": true,
+          "joint_margin_all": false,
+          "qpos_chain_continuous": true
+        },
+        "pass": false,
+        "segment_receipts": [
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_pregrasp",
+            "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_grasp",
+            "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_lift",
+            "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_carry_mid",
+            "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": false,
+            "end_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b",
+            "endpoint_ik_pass": false,
+            "joint_margin_pass": false,
+            "planner_status": "Fail",
+            "segment_id": "A_preplace",
+            "start_qpos_sha256": "34a12246b62ae5284fe17e492d7e91b58bbd9234fb42b10dc2e638e46dbc262b"
+          }
+        ]
+      },
+      {
+        "candidate_id": "lower_carry_height",
+        "checks": {
+          "cleanup_pass": true,
+          "collision_all": false,
+          "endpoint_ik_all": false,
+          "execution_attempt_count_zero": true,
+          "fresh_scene": true,
+          "joint_margin_all": false,
+          "qpos_chain_continuous": true
+        },
+        "pass": false,
+        "segment_receipts": [
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_pregrasp",
+            "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_grasp",
+            "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_lift",
+            "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_carry_mid",
+            "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": false,
+            "end_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b",
+            "endpoint_ik_pass": false,
+            "joint_margin_pass": false,
+            "planner_status": "Fail",
+            "segment_id": "A_preplace",
+            "start_qpos_sha256": "8dfeaab40285c7e47d4d72140a06cd2886de09cbeadf910d7b40548559bbbe6b"
+          }
+        ]
+      },
+      {
+        "candidate_id": "intermediate_corridor_waypoint",
+        "checks": {
+          "cleanup_pass": true,
+          "collision_all": false,
+          "endpoint_ik_all": false,
+          "execution_attempt_count_zero": true,
+          "fresh_scene": true,
+          "joint_margin_all": false,
+          "qpos_chain_continuous": true
+        },
+        "pass": false,
+        "segment_receipts": [
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_pregrasp",
+            "start_qpos_sha256": "30a9cf60e2860155e4ea153d63432cc6882ce13e1af891670f1764f7ed9c61b1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_grasp",
+            "start_qpos_sha256": "bc095ee93466ae0d86e20b5d7739f7997e0c351e0d654559a7d06f637cf3c1a1"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_lift",
+            "start_qpos_sha256": "78728eaa24d2bbb6f6302c89893b01d3e6f08a949b42088ec6ac2db584780053"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": true,
+            "end_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582",
+            "endpoint_ik_pass": true,
+            "joint_margin_pass": false,
+            "planner_status": "Success",
+            "segment_id": "A_carry_mid",
+            "start_qpos_sha256": "38655fcf57e4d3501d4553a0ac29278cfda227541e760c8ae9f159c74e2e0e24"
+          },
+          {
+            "chain_continuity_pass": true,
+            "collision_pass": false,
+            "end_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582",
+            "endpoint_ik_pass": false,
+            "joint_margin_pass": false,
+            "planner_status": "Fail",
+            "segment_id": "A_preplace",
+            "start_qpos_sha256": "5acf7eabbb4a2dd889c8cdcfbcd19c956cf27b62a70f0e27b5dfd179abdfe582"
+          }
+        ]
+      }
+    ],
+    "checks": {
+      "at_most_one_pass": true,
+      "first_pass_is_terminal": true,
+      "fixed_order": true,
+      "no_execution_selection": true
+    },
+    "contract_sha256": "9cc9097666c01d62505a5a4ae684250a77f0a1384a5ccd31bce059ca99de3f76",
+    "corridor_version": "f4_revision4_evidence_fixed_order_corridors_v10",
+    "layout_impact_review_required": true,
+    "pass": false,
+    "receipt_sha256": "1d07b07399195dcd22af7ecbd07bf27563f7ac82b1a705a0967249104ad3a335",
+    "recovery_attempts": 0,
+    "schema_version": "cmf_f4_carry_corridor_planner_audit_v10",
+    "selected_candidate_id": null
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 481.5274214744568,
+  "execution_attempt_count": 0,
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "pass": false,
+  "planner_query_count": 30,
+  "receipt_sha256": "6fc9e7d0e29e8a5e61b84001f396977bd16e9ee2d235b5f7d4531e8a0cd03750",
+  "recovery_attempt_count": 0,
+  "schema_version": "cmf_f4_corridor_selection_gate_v10",
+  "selected_corridor_id": null,
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_corridor_selection_gate_v10"
+}

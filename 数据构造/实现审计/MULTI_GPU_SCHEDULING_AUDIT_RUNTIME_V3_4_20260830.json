@@ -1,0 +1,47 @@
+{
+  "schema_version": "cmf_runtime_v3_4_multi_gpu_scheduling_audit_v1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "policy": "family-level parallel; one project job per independently fresh-idle GPU; no root sharding",
+  "initial_snapshot": {
+    "GPU0": "14 MiB / 0% / P8 / no compute",
+    "GPU1": "32789 MiB / 80% / P2 / external PID 3134971; not selected",
+    "GPU2": "14 MiB / 0% / P8 / no compute",
+    "GPU3": "15 MiB / 0% / P8 / no compute",
+    "GPU4": "12 MiB / 0% / P8 / no compute",
+    "GPU5": "14 MiB / 0% / P8 / no compute",
+    "GPU6": "14 MiB / 0% / P8 / no compute",
+    "GPU7": "14 MiB / 0% / P8 / no compute"
+  },
+  "assignments": [
+    {"scope": "F1_shared_regression_v3_4", "gpu": 0, "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769", "guard_status": "completed_child_failed", "elapsed_seconds": 297.71958923339844, "guard_receipt_sha256": "06f560e0b279ccd450d26a665c15509db2a0aa0f5424189aa80aff4f807f6bcb"},
+    {"scope": "F2_inside_targeted_v10", "gpu": 2, "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e", "guard_status": "failed_cleanup_uncertain", "elapsed_seconds": 238.82407593727112, "guard_receipt_sha256": "32ef9e4a15fbf8b7cd14dad72f778e34d47daaf0e09d726c63d072c96b06c453", "note": "outer child receipt was conservative; all four scene cleanup records and Guard post-release audit independently pass"},
+    {"scope": "F3_grasp_three_context_v10", "gpu": 3, "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338", "guard_status": "completed_child_failed", "elapsed_seconds": 133.06181693077087, "guard_receipt_sha256": "65dbcf26a6ed13777258d57b02156e3ebdc22d40de423ab1ef7133cf41a444c9"},
+    {"scope": "F4_corridor_A_v10", "gpu": 4, "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7", "guard_status": "completed_child_failed", "elapsed_seconds": 489.97180676460266, "guard_receipt_sha256": "57276d72c1d7df460013d6526839f586597ff48b1aa1e8174f048dec74517f92"}
+  ],
+  "checks": {
+    "all_admission_prechecks_fresh_idle": true,
+    "all_launch_prechecks_fresh_idle": true,
+    "unique_gpu_per_job": true,
+    "external_busy_GPU1_not_used": true,
+    "one_project_job_per_gpu": true,
+    "no_root_sharding": true,
+    "all_no_timeout": true,
+    "all_post_source_lock_pass": true,
+    "all_task_owned_orphan_count_zero": true,
+    "all_guard_post_release_verified": true
+  },
+  "final_snapshot": {
+    "GPU0": "14 MiB / 0% / P8 / no compute",
+    "GPU1": "37765 MiB / 72% / P2 / external PID 3134971; untouched",
+    "GPU2": "14 MiB / 0% / P8 / no compute",
+    "GPU3": "15 MiB / 0% / P8 / no compute",
+    "GPU4": "12 MiB / 0% / P8 / no compute",
+    "GPU5": "14 MiB / 0% / P8 / no compute",
+    "GPU6": "14 MiB / 0% / P8 / no compute",
+    "GPU7": "14 MiB / 0% / P8 / no compute"
+  },
+  "pass": true,
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false
+}

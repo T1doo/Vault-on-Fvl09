@@ -1,0 +1,102 @@
+{
+  "accepted_root_increment": 0,
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 0,
+    "recovery_attempt_count": 0
+  },
+  "checks": {
+    "diagnostic_not_accepted_root": true,
+    "diagnostic_three_context_gate": false,
+    "generic_three_fresh_branch_lifecycle": false,
+    "release_never_executed": false
+  },
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:D3-VVHH",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-task_physical_feasibility_D3-VVHH-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:D3-VHVH",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-task_physical_feasibility_D3-VHVH-v1_2-000003"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:D3-VHHV",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-task_physical_feasibility_D3-VHHV-v1_2-000004"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "diagnostic_group_receipt_sha256": "ce43e6a02760e45646711fd34f2bd59ba0678decc5c5d3ac66be33bef581fdd5",
+  "diagnostic_group_relative_path": "diagnostic_group",
+  "diagnostic_nonroot": true,
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "pass": false,
+  "receipt_sha256": "803c67a6fc35273c5dfeb6a47ccca7915762fecb451fd6760b47d595d0653b30",
+  "schema_version": "cmf_f3_grasp_three_context_gate_v10",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f3_grasp_three_context_gate_v10",
+  "three_context_gate": {
+    "automatic_retry": false,
+    "checks": {
+      "all_pass": false,
+      "all_stopped_before_release": false,
+      "exactly_three_contexts": false,
+      "fixed_program_order": false,
+      "one_grasp_contract": false,
+      "one_prefix_action_hash": false
+    },
+    "diagnostic_execution_count": 0,
+    "full_root_allowed": false,
+    "pass": false,
+    "program_order": [],
+    "receipt_sha256": "9c3d234803c586ac327bce0e12afed723df9f48dfd3f23ee49b7ce54dec02b87",
+    "recovery_attempts": 0,
+    "schema_version": "cmf_f3_three_context_grasp_gate_v10"
+  }
+}

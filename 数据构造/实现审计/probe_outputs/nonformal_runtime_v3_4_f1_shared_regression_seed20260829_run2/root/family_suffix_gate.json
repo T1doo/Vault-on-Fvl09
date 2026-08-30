@@ -1,0 +1,58 @@
+{
+  "checks": {
+    "actual_prefix_end_qpos_recorded": true,
+    "all_roles_present": true,
+    "all_terminal_qpos_within_limits": false,
+    "joint_limit_margin_available": false,
+    "non_target_waypoint_clearance_positive": false,
+    "official_planner_collision_pass": false,
+    "terminal_qpos_values_available": false,
+    "three_planner_solvable": false,
+    "three_programs": true
+  },
+  "comparative": {
+    "blue": {
+      "comparative_reachability": null,
+      "minimum_terminal_joint_limit_margin_rad": null,
+      "planner_collision_check_source": null,
+      "planner_solvable": false,
+      "quantitative_collision_clearance_available": null,
+      "terminal_joint_limit_margin_rad": null,
+      "terminal_qpos": null,
+      "terminal_qpos_sha256": null,
+      "terminal_qpos_within_joint_limits": null
+    },
+    "green": {
+      "comparative_reachability": null,
+      "minimum_terminal_joint_limit_margin_rad": null,
+      "planner_collision_check_source": null,
+      "planner_solvable": false,
+      "quantitative_collision_clearance_available": null,
+      "terminal_joint_limit_margin_rad": null,
+      "terminal_qpos": null,
+      "terminal_qpos_sha256": null,
+      "terminal_qpos_within_joint_limits": null
+    },
+    "red": {
+      "comparative_reachability": null,
+      "minimum_terminal_joint_limit_margin_rad": null,
+      "planner_collision_check_source": null,
+      "planner_solvable": false,
+      "quantitative_collision_clearance_available": null,
+      "terminal_joint_limit_margin_rad": null,
+      "terminal_qpos": null,
+      "terminal_qpos_sha256": null,
+      "terminal_qpos_within_joint_limits": null
+    }
+  },
+  "family": "F1",
+  "pass": false,
+  "quantitative_collision_clearance_status": "non-target carried-block waypoint AABB clearance recorded; full robot-path collision status from official CuRobo per segment",
+  "role_order": [
+    "red",
+    "green",
+    "blue"
+  ],
+  "schema_version": "cmf_f1_three_object_planner_comparative_gate_v1",
+  "uniform_rule": "official planner-assisted top-down grasp + common 4cm+4cm lift + frozen cluster-center carry hub + common container target construction"
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "cmf_complete_runtime_v3_4_diagnosis_first_execution_report_v1",
+  "decision": "BLOCKED_WITH_REASONS",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "implementation_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+  "phase0": {"active_tests": "449/449 passed", "snapshot_tests": "449/449 passed", "byte_equal": true, "forensics_complete": true},
+  "targeted_results": {
+    "F1": {
+      "scope": "F1_shared_regression_v3_4",
+      "status": "failed_implementation_error",
+      "planner_queries": 46,
+      "execution_attempts": 0,
+      "recovery_attempts": 0,
+      "cause": "four planner-assisted target-construction batch queries per branch were included in live API delta but omitted from controller-reported suffix count; all red/green/blue preflights therefore failed count consistency",
+      "historical_accepted_root_preserved": true,
+      "runtime_v3_4_regression_pass": false,
+      "evidence_tree_sha256": "d3a66abab52fefb1bffc4ad9c2ddbe8ad47b1ac62e85ed509c4bc3a8c4cdc813"
+    },
+    "F2": {
+      "scope": "F2_inside_targeted_v10",
+      "status": "failed_pre_release_angular_stability",
+      "reconciled_planner_queries": 22,
+      "reconciled_execution_attempts": 1,
+      "recovery_attempts": 0,
+      "failed_before_new_safety_gate": true,
+      "evaluated_angular_speed_max_rps": 0.07927758109713366,
+      "frozen_limit_rps": 0.05,
+      "new_safety_gate_exercised": false,
+      "full_open_executed": false,
+      "outer_receipt_cleanup_discrepancy": true,
+      "guard_and_all_scene_cleanup_safe": true,
+      "evidence_tree_sha256": "4374b8594153a17f1eaed50feb5c13f6a306bbe289e4187ebd852dcfde9871a4"
+    },
+    "F3": {
+      "scope": "F3_grasp_three_context_v10",
+      "status": "failed_implementation_alias_before_diagnostic",
+      "planner_queries": 0,
+      "diagnostic_execution_attempts": 0,
+      "recovery_attempts": 0,
+      "cause": "diagnostic D3 program aliases were rejected by the inherited F3 task-feasibility program-ID check although all reported physical checks were true",
+      "grasp_hypothesis_exercised": false,
+      "evidence_tree_sha256": "426555201bdee3dd097dfe160513306a470527a9ec19aa4df4ba7b8a709a48e8"
+    },
+    "F4": {
+      "scope": "F4_corridor_A_v10",
+      "status": "failed_f4_corridor_A_gate_v10",
+      "planner_queries": 30,
+      "execution_attempts": 0,
+      "recovery_attempts": 0,
+      "all_four_carry_mid_endpoints_planner_success": true,
+      "all_four_failed_at_A_preplace": true,
+      "A_execution_started": false,
+      "B_C_AB_full_started": false,
+      "layout_impact_review_required": true,
+      "implementation_audit_issue": "candidate 3/4 contract described lower preplace but runtime application replaced only carry-mid; per-segment joint-margin booleans were also unavailable",
+      "evidence_tree_sha256": "668da1720e00af44d90c9c5b93ec4ef49c78b13f912b67fa6c892063d2518267"
+    }
+  },
+  "full_root_results": {"F1": "not rerun after failed regression", "F2": "not authorized because targeted Gate failed", "F3": "not authorized because targeted Gate did not execute", "F4": "not authorized because corridor+A Gate failed"},
+  "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
+  "multi_gpu_audit_pass": true,
+  "stage0_authorized": false,
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "training_authorized": false,
+  "h_reveal": null,
+  "compression_authorized": false,
+  "pi05_authorized": false,
+  "next_state": "STOPPED_FOR_EXTERNAL_REVIEW_OF_RUNTIME_V3_4_TERMINAL_EVIDENCE"
+}

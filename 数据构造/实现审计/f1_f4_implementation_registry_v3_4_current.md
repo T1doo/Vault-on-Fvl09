@@ -2,9 +2,9 @@
 
 | Family | 当前冻结实现 | 下一Gate | accepted root |
 |---|---|---|---:|
-| F1 | 保留revision-2 accepted；因共享接线变化增加一次回归 | `F1_shared_regression_v3_4` | 1 |
-| F2 | safety Gate→full-open→250帧→final inside Gate | `F2_inside_targeted_v10` | 0 |
-| F3 | contact0/candidate0统一中段侧抓；三个pre-release上下文 | `F3_grasp_three_context_v10` | 0 |
-| F4 | 四个fixed-order planner corridor→A→B/C/AB→root | `F4_corridor_A_v10` | 0 |
+| F1 | 历史accepted保留；v3_4 regression在planner count一致性失败 | external review；0 execution | 1 |
+| F2 | 旧pre-release angular Gate先失败，新v10 safety Gate未到达 | impact review；不开放root | 0 |
+| F3 | D3 alias在task-feasibility失败，0 planner/0 diagnostic execution | 审阅是否允许replacement | 0 |
+| F4 | 四个carry-mid均pass，四个A_preplace均fail | layout impact review；不执行A/root | 0 |
 
-Phase0 active/snapshot各`449/449`，source byte-equal=`1cadd3e2…b316`。当前GPU尚未运行，accepted roots仍`1/4`，Stage0未授权。
+Phase0 active/snapshot各`449/449`，source byte-equal=`1cadd3e2…b316`。GPU0/2/3/4并行审计安全通过，但四个targeted scopes均未通过；accepted roots仍`1/4`，Stage0未授权。
