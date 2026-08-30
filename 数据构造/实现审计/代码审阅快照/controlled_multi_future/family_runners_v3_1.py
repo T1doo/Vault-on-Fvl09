@@ -523,6 +523,10 @@ def _raw_result(
             "family": program["program_id"].split("-", 1)[0],
             "realization_spec": dict(realization_spec),
             "implementation_version": implementation_version,
+            "formal_data": False,
+            "stage0_data": realization_spec.get("stage0_data") is True,
+            "stage0_authorized": realization_spec.get("stage0_authorized")
+            is True,
         }
     )
     if extra and "rollout_planner_reset_receipt" in extra:

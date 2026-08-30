@@ -123,6 +123,8 @@ def _persist_prefix_gate_failure(
     error: str,
     replay: Mapping[str, Any] | None,
     replay_physical: Mapping[str, Any] | None,
+    stage0_data: bool = False,
+    stage0_authorized: bool = False,
 ) -> dict:
     failure = {
         "schema_version": "cmf_prefix_replay_failure_receipt_v1",
@@ -144,8 +146,8 @@ def _persist_prefix_gate_failure(
         if replay_physical is None
         else dict(replay_physical),
         "formal_data": False,
-        "stage0_data": False,
-        "stage0_authorized": False,
+        "stage0_data": bool(stage0_data),
+        "stage0_authorized": bool(stage0_authorized),
     }
     if hasattr(scene, "save_trace"):
         try:
@@ -172,6 +174,8 @@ def _build_suffix_preflight_boundary_receipt(
     start_anchor_equivalence: Mapping[str, Any],
     replay: Mapping[str, Any],
     replay_physical: Mapping[str, Any],
+    stage0_data: bool = False,
+    stage0_authorized: bool = False,
 ) -> dict:
     """Seal positive current/anchor/prefix evidence before suffix planning."""
 
@@ -204,8 +208,8 @@ def _build_suffix_preflight_boundary_receipt(
             "saved_before_suffix_planner": True,
             "saved_before_scene_cleanup": True,
             "formal_data": False,
-            "stage0_data": False,
-            "stage0_authorized": False,
+            "stage0_data": bool(stage0_data),
+            "stage0_authorized": bool(stage0_authorized),
         }
     )
     payload["boundary_receipt_sha256"] = hash_json(payload)
@@ -223,6 +227,8 @@ def _persist_suffix_preflight_failure(
     planner_query_count: int,
     planner_query_start_index: int,
     boundary_receipt: Mapping[str, Any] | None,
+    stage0_data: bool = False,
+    stage0_authorized: bool = False,
 ) -> dict:
     """Persist suffix-construction/planner exceptions before scene cleanup."""
 
@@ -281,8 +287,8 @@ def _persist_suffix_preflight_failure(
         "partial_output_status": "evidence_saved_before_cleanup",
         "saved_before_scene_cleanup": True,
         "formal_data": False,
-        "stage0_data": False,
-        "stage0_authorized": False,
+        "stage0_data": bool(stage0_data),
+        "stage0_authorized": bool(stage0_authorized),
     }
     if hasattr(scene, "save_trace"):
         try:
@@ -369,10 +375,14 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 "RoboTwinRealSapienStrictPrefixAdapterV1_4",
                 "F3GraspDiagnosticAdapterV10",
                 "RoboTwinRealSapienStrictPrefixAdapterV1_5",
+                "RoboTwinRealSapienStage0SmokeAdapterV1_6",
             )
         ):
             implementation_version = (
-                "controlled_multi_future_runtime_v3_4_1"
+                "controlled_multi_future_stage0_smoke_v1"
+                if type(adapter).__name__
+                == "RoboTwinRealSapienStage0SmokeAdapterV1_6"
+                else "controlled_multi_future_runtime_v3_4_1"
                 if type(adapter).__name__
                 == "RoboTwinRealSapienStrictPrefixAdapterV1_5"
                 else "controlled_multi_future_runtime_v3_4"
@@ -385,7 +395,13 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
         output_dir: Path,
         planned_root_slot_spec: Mapping[str, Any],
         realization_spec_by_program: Mapping[str, Mapping[str, Any]],
+        stage0_data: bool = False,
+        stage0_authorized: bool = False,
     ) -> dict:
+        if stage0_data is not stage0_authorized:
+            raise ValueError(
+                "Stage 0 root data requires an explicit matching authorization"
+            )
         started = time.time()
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=False)
@@ -396,8 +412,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             "design_version": "controlled_multi_future_f1_f4_v1_2",
             "implementation_version": self.implementation_version,
             "formal_data": False,
-            "stage0_data": False,
-            "stage0_authorized": False,
+            "stage0_data": bool(stage0_data),
+            "stage0_authorized": bool(stage0_authorized),
             "status": "running",
             "planned_root_slot_spec_sha256": planned_hash,
             "freeze_call_count": 0,
@@ -419,7 +435,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
         self._append_event(
             {
                 "event": "root_started",
-                "implementation_version": IMPLEMENTATION_VERSION,
+                "implementation_version": self.implementation_version,
+                "stage0_data": bool(stage0_data),
                 "planned_root_slot_spec_sha256": planned_hash,
             }
         )
@@ -557,7 +574,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 programs=programs,
                 observable_task_tree=trees["observable"],
                 oracle_task_tree=trees["oracle"],
-                implementation_version=IMPLEMENTATION_VERSION,
+                implementation_version=self.implementation_version,
             )
             receipt["freeze_call_count"] = 1
             _write_json(output_dir / "candidate_frozen_root_spec.json", frozen)
@@ -611,8 +628,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 scene, "_cmf_prefix_failure_receipt", None
                             ),
                             "formal_data": False,
-                            "stage0_data": False,
-                            "stage0_authorized": False,
+                            "stage0_data": bool(stage0_data),
+                            "stage0_authorized": bool(stage0_authorized),
                         }
                         if hasattr(scene, "save_trace"):
                             partial_path = (
@@ -730,7 +747,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     "prefix_contract_sha256"
                 ],
                 "formal_data": False,
-                "stage0_data": False,
+                "stage0_data": bool(stage0_data),
             }
             candidate_prefix_link["link_receipt_sha256"] = hash_json(
                 candidate_prefix_link
@@ -830,6 +847,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             error="suffix preflight prefix-end state is not equivalent",
                             replay=replay,
                             replay_physical=None,
+                            stage0_data=stage0_data,
+                            stage0_authorized=stage0_authorized,
                         )
                         raise PrefixArtifactError(
                             "suffix preflight prefix-end state is not equivalent"
@@ -855,6 +874,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             error="suffix preflight replayed prefix physical Gate failed",
                             replay=replay,
                             replay_physical=replay_physical,
+                            stage0_data=stage0_data,
+                            stage0_authorized=stage0_authorized,
                         )
                         raise PrefixArtifactError(
                             "suffix preflight replayed prefix physical Gate failed"
@@ -872,6 +893,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         start_anchor_equivalence=start_anchor_result,
                         replay=replay,
                         replay_physical=replay_physical,
+                        stage0_data=stage0_data,
+                        stage0_authorized=stage0_authorized,
                     )
                     _write_json_atomic(
                         preflight_dir / "preflight_boundary_receipt.json",
@@ -997,6 +1020,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 ),
                                 planner_query_start_index=planner_before,
                                 boundary_receipt=boundary_receipt,
+                                stage0_data=stage0_data,
+                                stage0_authorized=stage0_authorized,
                             )
                         except BaseException as persistence_exc:
                             suffix_runtime[
@@ -1142,7 +1167,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     "schema_version": "cmf_strict_prefix_branch_receipt_v1_2",
                     "program_id": program_id,
                     "formal_data": False,
-                    "stage0_data": False,
+                    "stage0_data": bool(stage0_data),
+                    "stage0_authorized": bool(stage0_authorized),
                     "status": "failed_execution",
                     "partial_output_status": "none",
                     "reference_current_sha256": reference_current[
@@ -1200,6 +1226,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             error="branch prefix-end state is not equivalent",
                             replay=replay,
                             replay_physical=None,
+                            stage0_data=stage0_data,
+                            stage0_authorized=stage0_authorized,
                         )
                         raise PrefixArtifactError(
                             "branch prefix-end state is not equivalent"
@@ -1222,6 +1250,8 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             error="branch replayed prefix physical Gate failed",
                             replay=replay,
                             replay_physical=replay_physical,
+                            stage0_data=stage0_data,
+                            stage0_authorized=stage0_authorized,
                         )
                         raise PrefixArtifactError(
                             "branch replayed prefix physical Gate failed"

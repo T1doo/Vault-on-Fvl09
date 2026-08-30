@@ -1,0 +1,19 @@
+{
+  "schema_version": "cmf_f4_candidate_hash_fix_v12",
+  "failure_being_fixed": "fresh-scene unnormalized raw pose hash mismatch before first corridor query",
+  "semantic_identity_fields": ["candidate_id", "priority", "candidate_contract_segment_ids", "applied_planner_segment_ids", "release_segment_index", "neutral_segment_index", "arm", "layout_changed", "release_target_semantics_changed"],
+  "semantic_identity_comparison": "exact",
+  "position_atol_m": 0.00001,
+  "orientation_atol_rad": 0.00001,
+  "quaternion_comparison": "sign-invariant angular error",
+  "raw_pose_hash_role": "diagnostic_only",
+  "planner_target_source": "fresh-scene reconstructed candidate after equivalence Gate",
+  "layout_changed": false,
+  "arm_changed": false,
+  "release_target_changed": false,
+  "program_changed": false,
+  "verifier_changed": false,
+  "real_corridor_planner_query_required": true,
+  "formal_data": false,
+  "stage0_authorized": true
+}

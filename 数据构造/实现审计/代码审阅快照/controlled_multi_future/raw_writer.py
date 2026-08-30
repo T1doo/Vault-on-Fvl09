@@ -465,6 +465,14 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
     timing = validate_simulator_timing(provenance)
     validate_planner_goal_audit(streams, audit_streams, provenance)
     trace_source_sha256 = _require_sha256(provenance.get("trace_source_sha256"), "trace_source_sha256")
+    stage0_data = provenance.get("stage0_data") is True
+    stage0_authorized = provenance.get("stage0_authorized") is True
+    if stage0_data != stage0_authorized:
+        raise ValueError(
+            "raw Stage 0 data requires an explicit matching Stage 0 authorization"
+        )
+    if provenance.get("formal_data") not in (None, False):
+        raise ValueError("Stage 0 raw writer cannot create formal data")
     output_dir.mkdir(parents=True, exist_ok=False)
     arrays = {f"stream__{key}": np.asarray(value) for key, value in streams.items() if key != "field_metadata"}
     arrays.update({f"audit__{key}": np.asarray(value) for key, value in audit_streams.items() if key != "field_metadata"})
@@ -474,7 +482,8 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
     manifest = {
         "schema_version": RAW_SCHEMA_VERSION,
         "formal_data": False,
-        "stage0_data": False,
+        "stage0_data": stage0_data,
+        "stage0_authorized": stage0_authorized,
         "primary_action_stream": PRIMARY_STREAM_NAME,
         "frequency_hz": PRIMARY_FREQUENCY_HZ,
         "action_dim": PRIMARY_ACTION_DIM,

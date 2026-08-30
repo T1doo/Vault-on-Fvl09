@@ -195,6 +195,9 @@ from .f4_exact_corridor_application_v11 import (
     derive_role_corridor_v11,
     validate_f4_exact_candidate_application_v11,
 )
+from .f4_candidate_equivalence_v12 import (
+    audit_f4_candidate_equivalence_v12,
+)
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
@@ -226,7 +229,9 @@ def _raw_result(*args, **kwargs):
     scene = args[0] if args else kwargs.get("scene")
     adapter_version = getattr(scene, "_cmf_adapter_version", "")
     kwargs["implementation_version"] = (
-        "controlled_multi_future_runtime_v3_4_1"
+        "controlled_multi_future_stage0_smoke_v1"
+        if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_6"
+        else "controlled_multi_future_runtime_v3_4_1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_5"
         else
         "controlled_multi_future_runtime_v3_4"
@@ -5304,10 +5309,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             if len(current_candidates) != 1:
                 raise ValueError("F4 selected v11 corridor ID is not frozen")
             current_candidate = current_candidates[0]
-            if current_candidate["candidate_application_sha256"] != selected_v11.get(
-                "candidate_application_sha256"
-            ):
-                raise ValueError("F4 selected v11 corridor hash changed")
+            candidate_equivalence_v12 = audit_f4_candidate_equivalence_v12(
+                selected_v11, current_candidate
+            )
+            if candidate_equivalence_v12["pass"] is not True:
+                raise ValueError(
+                    "F4 selected corridor is not fresh-scene equivalent under v12"
+                )
             base_by_role = {
                 group["role"]: group
                 for group in top_down["object_target_groups"]
@@ -5342,6 +5350,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             selected_route_audit = {
                 "schema_version": "cmf_f4_selected_exact_corridor_v11",
                 "selected_candidate": current_candidate,
+                "fresh_scene_candidate_equivalence_v12": (
+                    candidate_equivalence_v12
+                ),
                 "exact_contract_receipt_sha256": exact_contract[
                     "receipt_sha256"
                 ],
@@ -5661,6 +5672,71 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         result["evidence"]["exact_candidate_preplanner_gate_v11"] = (
             preplanner_gate
+        )
+        result["evidence"]["selected_corridor_candidate_v11"] = candidate
+        return result
+
+    def plan_a_exact_corridor_candidate_v12(
+        self, scene, replay, frozen_candidate
+    ):
+        """Plan against fresh targets after a strict structural/tolerant pose Gate."""
+
+        if not isinstance(frozen_candidate, Mapping):
+            raise ValueError("F4 v12 frozen candidate must be a mapping")
+        current = self.build_exact_a_corridor_contract_v11(scene)
+        candidates = [
+            item
+            for item in current["candidates"]
+            if item["candidate_id"] == frozen_candidate.get("candidate_id")
+        ]
+        if len(candidates) != 1:
+            raise ValueError("F4 v12 candidate ID is not in reconstructed contract")
+        candidate = candidates[0]
+        equivalence = audit_f4_candidate_equivalence_v12(
+            frozen_candidate, candidate
+        )
+        scene._cmf_f4_candidate_equivalence_v12 = equivalence
+        if equivalence["pass"] is not True:
+            raise ValueError("F4 v12 fresh-scene candidate equivalence failed")
+        targets = list(candidate["applied_planner_targets"])
+        preplanner_gate = validate_f4_exact_candidate_application_v11(
+            candidate, targets
+        )
+        result = _cache_suffix_controls(
+            scene,
+            program_id=f"F4-STAGE0-INFRA-{candidate['candidate_id']}",
+            arm="right",
+            targets=targets,
+            query_limit=16,
+            extra={
+                "object_order": ["A"],
+                "object_target_groups": [
+                    {
+                        "role": "A",
+                        "target_start_index": 0,
+                        "target_count": len(targets),
+                        "targets": targets,
+                        "selected_corridor_id": candidate["candidate_id"],
+                        "exact_corridor_v11": True,
+                    }
+                ],
+                "block_carry_route_version": (
+                    "f4_stage0_candidate_equivalence_v12"
+                ),
+                "block_carry_route_audit": current,
+                "exact_candidate_preplanner_gate_v11": preplanner_gate,
+                "fresh_scene_candidate_equivalence_v12": equivalence,
+                "selected_corridor_candidate_v11": candidate,
+                "common_prefix_artifact_required": True,
+                "diagnostic_block_gate": True,
+                "planner_only_corridor_selection": True,
+            },
+        )
+        result["evidence"]["exact_candidate_preplanner_gate_v11"] = (
+            preplanner_gate
+        )
+        result["evidence"]["fresh_scene_candidate_equivalence_v12"] = (
+            equivalence
         )
         result["evidence"]["selected_corridor_candidate_v11"] = candidate
         return result

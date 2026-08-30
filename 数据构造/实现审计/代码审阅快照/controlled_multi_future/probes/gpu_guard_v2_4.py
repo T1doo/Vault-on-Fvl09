@@ -1,4 +1,4 @@
-"""Source-lock/request-bound atomic single-card guard for runtime-v3_3/v3_4/v3_4_1."""
+"""Atomic single-card guard through controlled Stage 0 smoke v1."""
 
 from __future__ import annotations
 
@@ -49,6 +49,11 @@ from .runtime_v3_4_1_authorization_v1 import (
     load_authorization_v3_4_1,
     validate_consumption_receipt as validate_consumption_receipt_v3_4_1,
 )
+from .stage0_smoke_authorization_v1 import (
+    consume_authorization_once as consume_stage0_smoke_authorization_once,
+    load_stage0_smoke_authorization,
+    validate_consumption_receipt as validate_stage0_smoke_consumption_receipt,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -82,6 +87,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_stage0_smoke_v1":
+        return load_stage0_smoke_authorization(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_runtime_v3_4_1":
         return load_authorization_v3_4_1(
             path, requested_scope=requested_scope, **kwargs
@@ -96,6 +105,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1":
+        return consume_stage0_smoke_authorization_once(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4_1":
         return consume_authorization_once_v3_4_1(
             authorization, ledger_directory=ledger_directory
@@ -110,6 +123,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1":
+        return validate_stage0_smoke_consumption_receipt(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4_1":
         return validate_consumption_receipt_v3_4_1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4":
@@ -563,12 +580,25 @@ def main() -> int:
     if args.output_dir.exists():
         raise FileExistsError("output namespace must be new and immutable")
     started = time.time()
+    raw_authorization = json.loads(
+        args.authorization_receipt.read_text(encoding="utf-8")
+    )
+    stage0_mode = raw_authorization.get("implementation_version") == (
+        "controlled_multi_future_stage0_smoke_v1"
+    )
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
-        "purpose": "pre_stage0_nonformal_validation",
+        "purpose": (
+            "controlled_stage0_smoke"
+            if stage0_mode and raw_authorization.get("stage0_data") is True
+            else "pre_stage0_infrastructure_validation"
+            if stage0_mode
+            else "pre_stage0_nonformal_validation"
+        ),
         "formal_data": False,
-        "stage0_data": False,
-        "stage0_authorized": False,
+        "stage0_data": stage0_mode
+        and raw_authorization.get("stage0_data") is True,
+        "stage0_authorized": stage0_mode,
         "status": "starting",
     }
     claim_guard_receipt(args.guard_receipt, guard)
