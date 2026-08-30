@@ -4,7 +4,7 @@
 
 Revision-6 active/snapshot各359/359、byte-equal且独立P0审计通过，但尚未真实运行。F1仍是唯一accepted root，当前`1/4`。
 
-下一步仅允许F2-r6完整root、F3-r6完整root、F4-r6 A-only micro。F4 micro即使通过也不是accepted root。Stage0继续禁止。
+下一步仅允许已经发布的F2-r6完整root、F3-r6完整root、F4-r6 A-only micro single-use bundles。每项仍需fresh-idle GPU、Guard、source-lock和cleanup；F4 micro即使通过也不是accepted root。Stage0继续禁止。
 
 ```yaml
 revision6_cpu_ready: true

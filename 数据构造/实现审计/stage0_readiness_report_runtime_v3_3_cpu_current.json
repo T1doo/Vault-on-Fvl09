@@ -7,13 +7,13 @@
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
-  "new_gpu_launch_authorized": false,
+  "new_gpu_launch_authorized": true,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "cpu_baseline": {"active_tests": "359/359 passed", "snapshot_tests": "359/359 passed", "byte_equal": true, "status": "content_published_closeout_pending"},
+  "cpu_baseline": {"active_tests": "359/359 passed", "snapshot_tests": "359/359 passed", "byte_equal": true, "status": "published"},
   "revision6_gpu_started": false,
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
-  "next_safe_sequence": ["publish revision6 closeout receipt", "issue exact revision6 bundles", "run only on independently fresh-idle permitted GPU0-7 devices with per-job isolation", "audit and update readiness"]
+  "next_safe_sequence": ["fresh live GPU snapshot", "consume each exact single-use revision6 bundle only under Guard", "audit immutable F2/F3/F4 evidence", "update readiness"]
 }
