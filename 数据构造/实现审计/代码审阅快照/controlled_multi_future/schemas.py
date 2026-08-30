@@ -10,6 +10,7 @@ VALID_FAMILIES = frozenset({"F1", "F2", "F3", "F4"})
 VALID_PROBE_PURPOSES = frozenset({"implementation_audit", "nonformal_feasibility"})
 TERMINAL_ATTEMPT_STATUSES = frozenset({
     "accepted",
+    "failed_implementation_error",
     "failed_planner",
     "failed_execution",
     "failed_verifier",

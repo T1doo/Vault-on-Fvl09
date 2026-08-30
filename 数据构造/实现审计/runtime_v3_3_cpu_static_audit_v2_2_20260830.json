@@ -1,0 +1,39 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v2_2",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision7_impact_addendum_v1",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
+  "budget_receipt_sha256": "1a3e2e18acc8af984dbb76e637ac140c930c332748202e7b61564b77c86f8d62",
+  "parent_user_authorization_sha256": "dc16de4ddd05481160713f97182206d60e54acb8b8a67cc886659d19b77739e1",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {
+    "active": "382/382 passed",
+    "vault_snapshot": "382/382 passed",
+    "active_snapshot_byte_equal": true,
+    "diff_qr_excluding_pycache": "zero"
+  },
+  "independent_p0_audits": {
+    "F2": "pass",
+    "F3_and_root_failure_evidence": "pass",
+    "F4_micro": "pass"
+  },
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 7},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 7},
+    "F4_micro_lift_diagnosis_per_revision": {"family": "F4", "family_revision_index": 7}
+  },
+  "source_bound_static_envelopes": {
+    "F2": {"planner": 32, "execution": 3, "recovery": 0},
+    "F3": {"planner": 96, "execution": 3, "recovery": 0},
+    "F4_micro": {"planner": 13, "execution": 1, "recovery": 0}
+  },
+  "revision7_ledgers_exist": {"F2": false, "F3": false, "F4": false},
+  "revision7_bundles_exist": {"F2": false, "F3": false, "F4": false},
+  "revision7_gpu_output_exists": {"F2": false, "F3": false, "F4": false},
+  "decision": "CPU_STATIC_READY_FOR_CLEAN_PUBLICATION_AND_BUNDLE_ISSUE",
+  "accepted_nonformal_pre_stage0_roots": 1
+}

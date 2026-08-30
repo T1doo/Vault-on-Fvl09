@@ -37,6 +37,7 @@ from .root_orchestrator_v1_1 import (
     RealSapienPilotRootOrchestratorV1_1,
     TaskPhysicalFeasibilityError,
     _immutable_copy,
+    _json_compatible,
     _require_unchanged,
     _save_partial_trace_if_available,
     _validate_task_physical_receipt,
@@ -56,6 +57,10 @@ class PrefixArtifactError(RuntimeError):
 
 
 class SuffixPlannerError(RuntimeError):
+    pass
+
+
+class SuffixImplementationError(RuntimeError):
     pass
 
 
@@ -152,6 +157,149 @@ def _persist_prefix_gate_failure(
                 "type": type(trace_exc).__name__,
                 "message": str(trace_exc),
             }
+    failure["failure_receipt_sha256"] = hash_json(failure)
+    _write_json_atomic(receipt_path, failure)
+    return failure
+
+
+def _build_suffix_preflight_boundary_receipt(
+    scene,
+    *,
+    phase: str,
+    program_id: str,
+    reference_current_sha256: str,
+    preflight_current_sha256: str,
+    start_anchor_equivalence: Mapping[str, Any],
+    replay: Mapping[str, Any],
+    replay_physical: Mapping[str, Any],
+) -> dict:
+    """Seal positive current/anchor/prefix evidence before suffix planning."""
+
+    payload = _json_compatible(
+        {
+            "schema_version": "cmf_suffix_preflight_boundary_receipt_v1",
+            "status": "passed_suffix_preflight_boundary",
+            "phase": phase,
+            "program_id": program_id,
+            "scene_instance_id": getattr(
+                scene, "_cmf_scene_instance_id", None
+            ),
+            "reference_current_sha256": reference_current_sha256,
+            "preflight_current_sha256": preflight_current_sha256,
+            "same_current_pass": (
+                preflight_current_sha256 == reference_current_sha256
+            ),
+            "preflight_start_anchor_equivalence": dict(
+                start_anchor_equivalence
+            ),
+            "prefix_replay": dict(replay),
+            "actual_prefix_end_qpos_sha256": replay.get(
+                "actual_prefix_end_qpos_sha256"
+            ),
+            "actual_dual_prefix_end_qpos_sha256": replay.get(
+                "actual_dual_prefix_end_qpos_sha256"
+            ),
+            "replayed_prefix_physical_acceptance": dict(replay_physical),
+            "planner_query_delta_before_suffix_planner": 0,
+            "saved_before_suffix_planner": True,
+            "saved_before_scene_cleanup": True,
+            "formal_data": False,
+            "stage0_data": False,
+            "stage0_authorized": False,
+        }
+    )
+    payload["boundary_receipt_sha256"] = hash_json(payload)
+    return payload
+
+
+def _persist_suffix_preflight_failure(
+    scene,
+    *,
+    receipt_path: Path,
+    trace_path: Path,
+    phase: str,
+    program_id: str,
+    error: BaseException,
+    planner_query_count: int,
+    planner_query_start_index: int,
+    boundary_receipt: Mapping[str, Any] | None,
+) -> dict:
+    """Persist suffix-construction/planner exceptions before scene cleanup."""
+
+    query_table = getattr(scene, "planner_queries", [])
+    planner_query_table_error = None
+    try:
+        planner_query_receipts = _json_compatible(
+            [
+                dict(item)
+                for item in list(query_table)[
+                    int(planner_query_start_index) :
+                ]
+            ]
+        )
+    except BaseException as query_exc:
+        planner_query_receipts = []
+        planner_query_table_error = {
+            "type": type(query_exc).__name__,
+            "message": str(query_exc),
+        }
+
+    controller_partial = getattr(
+        scene, "_cmf_suffix_preflight_partial_receipt", None
+    )
+    if isinstance(controller_partial, Mapping):
+        controller_partial = _json_compatible(dict(controller_partial))
+    elif controller_partial is not None:
+        controller_partial = {
+            "invalid_type": type(controller_partial).__name__,
+            "repr": repr(controller_partial),
+        }
+
+    boundary = (
+        None
+        if boundary_receipt is None
+        else _json_compatible(dict(boundary_receipt))
+    )
+    failure = {
+        "schema_version": "cmf_suffix_preflight_failure_receipt_v1",
+        "status": "failed_implementation_error",
+        "failure_stage": "suffix_implementation_error",
+        "phase": phase,
+        "program_id": program_id,
+        "scene_instance_id": getattr(scene, "_cmf_scene_instance_id", None),
+        "error_type": type(error).__name__,
+        "error": str(error),
+        "traceback": traceback.format_exc(),
+        "planner_query_count": int(planner_query_count),
+        "planner_query_receipts": planner_query_receipts,
+        "planner_query_table_error": planner_query_table_error,
+        "preflight_boundary_receipt": boundary,
+        "actual_prefix_end_qpos_sha256": None
+        if boundary is None
+        else boundary.get("actual_prefix_end_qpos_sha256"),
+        "controller_partial_evidence": controller_partial,
+        "partial_output_status": "evidence_saved_before_cleanup",
+        "saved_before_scene_cleanup": True,
+        "formal_data": False,
+        "stage0_data": False,
+        "stage0_authorized": False,
+    }
+    if hasattr(scene, "save_trace"):
+        try:
+            trace = dict(scene.save_trace(trace_path))
+            trace["sha256"] = hashlib.sha256(
+                trace_path.read_bytes()
+            ).hexdigest()
+            failure["partial_trace_source"] = _json_compatible(trace)
+            failure["partial_output_status"] = (
+                "partial_trace_and_evidence_saved_before_cleanup"
+            )
+        except BaseException as trace_exc:
+            failure["partial_trace_save_error"] = {
+                "type": type(trace_exc).__name__,
+                "message": str(trace_exc),
+            }
+    failure = _json_compatible(failure)
     failure["failure_receipt_sha256"] = hash_json(failure)
     _write_json_atomic(receipt_path, failure)
     return failure
@@ -602,10 +750,22 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 suffix_runtime = {
                     "planner_query_count": 0,
                     "prefix_replay_failure": None,
+                    "preflight_current_sha256": None,
+                    "same_current_pass": False,
+                    "preflight_start_anchor_equivalence": None,
+                    "prefix_replay": None,
+                    "actual_prefix_end_qpos_sha256": None,
+                    "replayed_prefix_physical_acceptance": None,
+                    "preflight_boundary_receipt": None,
+                    "failure_receipt": None,
+                    "failure_persistence_error": None,
                 }
 
                 def suffix_preflight_callback(scene, candidate):
                     preflight_current = dict(self.adapter.capture_current(scene))
+                    suffix_runtime["preflight_current_sha256"] = (
+                        preflight_current.get("aggregate_sha256")
+                    )
                     _require_same_current_and_persist(
                         reference_current,
                         preflight_current,
@@ -617,10 +777,14 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             scene, "_cmf_scene_instance_id", None
                         ),
                     )
+                    suffix_runtime["same_current_pass"] = True
                     preflight_anchor = dict(self.adapter.capture_anchor(scene))
                     start_anchor_result = compare_anchors(
                         reference_anchor, preflight_anchor
                     )
+                    suffix_runtime[
+                        "preflight_start_anchor_equivalence"
+                    ] = start_anchor_result
                     if not start_anchor_result["equivalent"]:
                         raise ValueError(
                             f"suffix preflight start anchor mismatch: {start_anchor_result['failures']}"
@@ -634,6 +798,10 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         reference_current=reference_current,
                         capture_current=self.adapter.capture_current,
                         capture_anchor=self.adapter.capture_anchor,
+                    )
+                    suffix_runtime["prefix_replay"] = replay
+                    suffix_runtime["actual_prefix_end_qpos_sha256"] = (
+                        replay.get("actual_prefix_end_qpos_sha256")
                     )
                     if replay["prefix_end_equivalent"] is not True:
                         suffix_runtime["prefix_replay_failure"] = _persist_prefix_gate_failure(
@@ -657,6 +825,9 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         )
                     )
                     replay["replayed_prefix_physical_acceptance"] = replay_physical
+                    suffix_runtime[
+                        "replayed_prefix_physical_acceptance"
+                    ] = replay_physical
                     if replay_physical.get("pass") is not True:
                         suffix_runtime["prefix_replay_failure"] = _persist_prefix_gate_failure(
                             scene,
@@ -673,69 +844,140 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         raise PrefixArtifactError(
                             "suffix preflight replayed prefix physical Gate failed"
                         )
+                    boundary_receipt = _build_suffix_preflight_boundary_receipt(
+                        scene,
+                        phase=f"suffix_preflight:{program_id}",
+                        program_id=program_id,
+                        reference_current_sha256=reference_current[
+                            "aggregate_sha256"
+                        ],
+                        preflight_current_sha256=preflight_current[
+                            "aggregate_sha256"
+                        ],
+                        start_anchor_equivalence=start_anchor_result,
+                        replay=replay,
+                        replay_physical=replay_physical,
+                    )
+                    _write_json_atomic(
+                        preflight_dir / "preflight_boundary_receipt.json",
+                        boundary_receipt,
+                    )
+                    suffix_runtime[
+                        "preflight_boundary_receipt"
+                    ] = boundary_receipt
+                    self._append_event(
+                        {
+                            "event": "suffix_preflight_boundary_sealed",
+                            "program_id": program_id,
+                            "boundary_receipt_sha256": boundary_receipt[
+                                "boundary_receipt_sha256"
+                            ],
+                            "actual_prefix_end_qpos_sha256": boundary_receipt[
+                                "actual_prefix_end_qpos_sha256"
+                            ],
+                        }
+                    )
                     planner_before = int(getattr(scene, "planner_query_count", 0))
                     try:
-                        suffix = _validate_suffix_planner_receipt(
-                            self.adapter.plan_suffix_from_actual_prefix_end_state(
-                                scene, candidate, replay
-                            ),
-                            program_id,
+                        try:
+                            suffix = _validate_suffix_planner_receipt(
+                                self.adapter.plan_suffix_from_actual_prefix_end_state(
+                                    scene, candidate, replay
+                                ),
+                                program_id,
+                            )
+                        finally:
+                            suffix_runtime["planner_query_count"] = int(
+                                getattr(scene, "planner_query_count", 0)
+                            ) - planner_before
+                        if suffix["planner_query_count"] != int(
+                            suffix_runtime["planner_query_count"]
+                        ):
+                            raise SuffixPlannerError(
+                                "suffix planner API count differs from its reported count"
+                            )
+                        if (
+                            suffix["actual_prefix_end_qpos_sha256"]
+                            != replay["actual_prefix_end_qpos_sha256"]
+                        ):
+                            raise SuffixPlannerError(
+                                "suffix planner did not start from actual replay-end qpos"
+                            )
+                        controls = suffix.pop("_execution_controls", None)
+                        actual_qpos = suffix.pop("_actual_prefix_end_qpos", None)
+                        suffix["preflight_current_sha256"] = preflight_current[
+                            "aggregate_sha256"
+                        ]
+                        suffix["preflight_start_anchor_equivalence"] = start_anchor_result
+                        suffix["preflight_boundary_receipt"] = boundary_receipt
+                        suffix["prefix_replay"] = replay
+                        suffix["failure_stage"] = (
+                            None
+                            if suffix["planner_solvable"] is True
+                            else "suffix_planner"
                         )
+                        if suffix["planner_solvable"] is True:
+                            suffix_manifest, suffix_arrays = build_frozen_suffix_artifact(
+                                root_slot_id=str(planned_spec["slot_id"]),
+                                family=str(planned_spec["family"]),
+                                program_id=program_id,
+                                candidate_universe_sha256=frozen[
+                                    "candidate_universe_sha256"
+                                ],
+                                prefix_artifact_sha256=manifest["artifact_sha256"],
+                                actual_prefix_end_qpos=actual_qpos,
+                                execution_spec=suffix["execution_spec"],
+                                controls=controls,
+                                planner_query_receipts=getattr(
+                                    scene, "planner_queries", []
+                                ),
+                            )
+                            written = write_frozen_suffix_artifact(
+                                output_dir / "suffix_artifacts" / program_id,
+                                suffix_manifest,
+                                suffix_arrays,
+                            )
+                            suffix["suffix_artifact_sha256"] = written[
+                                "artifact_sha256"
+                            ]
+                        if hasattr(scene, "save_trace"):
+                            trace_path = preflight_dir / "trace_source.npz"
+                            info = dict(scene.save_trace(trace_path))
+                            trace_hash = hashlib.sha256(trace_path.read_bytes()).hexdigest()
+                            suffix["trace_source"] = {**info, "sha256": trace_hash}
+                        _write_json(preflight_dir / "receipt.json", suffix)
+                        return suffix
+                    except BaseException as exc:
+                        try:
+                            suffix_runtime[
+                                "failure_receipt"
+                            ] = _persist_suffix_preflight_failure(
+                                scene,
+                                receipt_path=preflight_dir
+                                / "suffix_preflight_failure_receipt.json",
+                                trace_path=preflight_dir
+                                / "partial_trace_source.npz",
+                                phase=f"suffix_preflight:{program_id}",
+                                program_id=program_id,
+                                error=exc,
+                                planner_query_count=int(
+                                    suffix_runtime["planner_query_count"]
+                                ),
+                                planner_query_start_index=planner_before,
+                                boundary_receipt=boundary_receipt,
+                            )
+                        except BaseException as persistence_exc:
+                            suffix_runtime[
+                                "failure_persistence_error"
+                            ] = {
+                                "type": type(persistence_exc).__name__,
+                                "message": str(persistence_exc),
+                            }
+                        raise
                     finally:
                         suffix_runtime["planner_query_count"] = int(
                             getattr(scene, "planner_query_count", 0)
                         ) - planner_before
-                    if suffix["planner_query_count"] != int(
-                        suffix_runtime["planner_query_count"]
-                    ):
-                        raise SuffixPlannerError(
-                            "suffix planner API count differs from its reported count"
-                        )
-                    if (
-                        suffix["actual_prefix_end_qpos_sha256"]
-                        != replay["actual_prefix_end_qpos_sha256"]
-                    ):
-                        raise SuffixPlannerError(
-                            "suffix planner did not start from actual replay-end qpos"
-                        )
-                    controls = suffix.pop("_execution_controls", None)
-                    actual_qpos = suffix.pop("_actual_prefix_end_qpos", None)
-                    suffix["preflight_current_sha256"] = preflight_current[
-                        "aggregate_sha256"
-                    ]
-                    suffix["preflight_start_anchor_equivalence"] = start_anchor_result
-                    suffix["prefix_replay"] = replay
-                    if suffix["planner_solvable"] is True:
-                        suffix_manifest, suffix_arrays = build_frozen_suffix_artifact(
-                            root_slot_id=str(planned_spec["slot_id"]),
-                            family=str(planned_spec["family"]),
-                            program_id=program_id,
-                            candidate_universe_sha256=frozen[
-                                "candidate_universe_sha256"
-                            ],
-                            prefix_artifact_sha256=manifest["artifact_sha256"],
-                            actual_prefix_end_qpos=actual_qpos,
-                            execution_spec=suffix["execution_spec"],
-                            controls=controls,
-                            planner_query_receipts=getattr(
-                                scene, "planner_queries", []
-                            ),
-                        )
-                        written = write_frozen_suffix_artifact(
-                            output_dir / "suffix_artifacts" / program_id,
-                            suffix_manifest,
-                            suffix_arrays,
-                        )
-                        suffix["suffix_artifact_sha256"] = written[
-                            "artifact_sha256"
-                        ]
-                    if hasattr(scene, "save_trace"):
-                        trace_path = preflight_dir / "trace_source.npz"
-                        info = dict(scene.save_trace(trace_path))
-                        trace_hash = hashlib.sha256(trace_path.read_bytes()).hexdigest()
-                        suffix["trace_source"] = {**info, "sha256": trace_hash}
-                    _write_json(preflight_dir / "receipt.json", suffix)
-                    return suffix
 
                 try:
                     suffix_public = self._scene_call(
@@ -750,6 +992,14 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 except (CleanupUncertain, CandidateMutationError):
                     raise
                 except BaseException as exc:
+                    prefix_failure = suffix_runtime[
+                        "prefix_replay_failure"
+                    ]
+                    failure_stage = (
+                        "prefix_replay_gate"
+                        if prefix_failure is not None
+                        else "suffix_implementation_error"
+                    )
                     suffix_public = {
                         "program_id": program_id,
                         "status": "failed",
@@ -758,16 +1008,41 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             suffix_runtime["planner_query_count"]
                         ),
                         "failure_type": type(exc).__name__,
-                        "failure_stage": "prefix_replay_gate"
-                        if suffix_runtime["prefix_replay_failure"] is not None
-                        else "suffix_planner_or_preflight",
+                        "failure_stage": failure_stage,
                         "evidence": {
                             "error": str(exc),
-                            "prefix_replay_failure": suffix_runtime[
-                                "prefix_replay_failure"
+                            "prefix_replay_failure": prefix_failure,
+                            "suffix_preflight_failure": suffix_runtime[
+                                "failure_receipt"
+                            ],
+                            "failure_persistence_error": suffix_runtime[
+                                "failure_persistence_error"
                             ],
                         },
-                        "actual_prefix_end_qpos_sha256": None,
+                        "preflight_current_sha256": suffix_runtime[
+                            "preflight_current_sha256"
+                        ],
+                        "same_current_pass": suffix_runtime[
+                            "same_current_pass"
+                        ],
+                        "preflight_start_anchor_equivalence": suffix_runtime[
+                            "preflight_start_anchor_equivalence"
+                        ],
+                        "preflight_boundary_receipt": suffix_runtime[
+                            "preflight_boundary_receipt"
+                        ],
+                        "prefix_replay": suffix_runtime["prefix_replay"],
+                        "replayed_prefix_physical_acceptance": suffix_runtime[
+                            "replayed_prefix_physical_acceptance"
+                        ],
+                        "actual_prefix_end_qpos_sha256": suffix_runtime[
+                            "actual_prefix_end_qpos_sha256"
+                        ],
+                        "partial_output_status": (
+                            "suffix_preflight_failure_evidence_saved"
+                            if suffix_runtime["failure_receipt"] is not None
+                            else "suffix_preflight_failure_evidence_incomplete"
+                        ),
                     }
                     _write_json(preflight_dir / "receipt.json", suffix_public)
                 receipt["suffix_planner_receipts"].append(suffix_public)
@@ -796,14 +1071,21 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             receipt["family_suffix_gate"] = family_suffix_gate
             _write_json(output_dir / "family_suffix_gate.json", family_suffix_gate)
             if not suffix_all_pass:
-                terminal = (
-                    "failed_prefix_replay_gate"
-                    if any(
-                        item.get("failure_stage") == "prefix_replay_gate"
-                        for item in receipt["suffix_planner_receipts"]
+                stages = {
+                    item.get("failure_stage")
+                    for item in receipt["suffix_planner_receipts"]
+                }
+                if "prefix_replay_gate" in stages:
+                    terminal = "failed_prefix_replay_gate"
+                    raise SuffixPlannerError(
+                        "at least one suffix preflight failed its prefix replay Gate"
                     )
-                    else "failed_planner"
-                )
+                if "suffix_implementation_error" in stages:
+                    terminal = "failed_implementation_error"
+                    raise SuffixImplementationError(
+                        "at least one suffix preflight raised an implementation error"
+                    )
+                terminal = "failed_planner"
                 raise SuffixPlannerError(
                     "not all three suffix planners passed from actual replay-end qpos"
                 )
@@ -977,6 +1259,16 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                         "_cmf_f2_inside_pre_release_settle_v6",
                                         None,
                                     ),
+                                    "f2_inside_tracking_compensation_v7": getattr(
+                                        scene,
+                                        "_cmf_f2_inside_tracking_compensation_v7",
+                                        None,
+                                    ),
+                                    "f2_inside_alignment_diagnostic_v7": getattr(
+                                        scene,
+                                        "_cmf_f2_inside_alignment_diagnostic_v7",
+                                        None,
+                                    ),
                                     "f3_pre_open_gate_v5": getattr(
                                         scene,
                                         "_cmf_f3_pre_open_gate_v5",
@@ -1000,6 +1292,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                     "f4_micro_lift_gate_v5": getattr(
                                         scene,
                                         "_cmf_f4_a_micro_lift_gate_v5",
+                                        None,
+                                    ),
+                                    "f4_micro_lift_role_input_v7": getattr(
+                                        scene,
+                                        "_cmf_f4_micro_lift_role_input_v7",
                                         None,
                                     ),
                                     "f4_micro_noninterference_v5": getattr(

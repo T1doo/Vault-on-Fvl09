@@ -406,6 +406,11 @@ class F4CommonBoundaryAndMicroLiftGateV5:
                         "micro_lift_gate": getattr(
                             scene, "_cmf_f4_a_micro_lift_gate_v5", None
                         ),
+                        "micro_lift_role_input_v7": getattr(
+                            scene,
+                            "_cmf_f4_micro_lift_role_input_v7",
+                            None,
+                        ),
                         "noninterference_gate": getattr(
                             scene, "_cmf_f4_micro_noninterference_v5", None
                         ),

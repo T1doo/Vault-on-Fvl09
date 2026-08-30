@@ -30,22 +30,22 @@ from .runtime_v3_3_budget_v1 import (
 )
 
 
-PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1_5"
+PARENT_SCHEMA_VERSION = "cmf_pre_stage0_user_authorization_v3_3_v1_6"
 SCOPE_REQUEST_SCHEMA_VERSION = "cmf_pre_stage0_gpu_scope_request_v3_3"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE_PREFIX = "/nfs_share/lijunhui/"
 APPROVED_SCOPE_REVISION_MAP = {
     "F2_diagnosis_root_per_revision": {
         "family": "F2",
-        "family_revision_index": 6,
+        "family_revision_index": 7,
     },
     "F3_prefix_root_per_revision": {
         "family": "F3",
-        "family_revision_index": 6,
+        "family_revision_index": 7,
     },
     "F4_micro_lift_diagnosis_per_revision": {
         "family": "F4",
-        "family_revision_index": 6,
+        "family_revision_index": 7,
     },
 }
 
@@ -77,7 +77,7 @@ def validate_parent_user_authorization(value: Mapping[str, Any]) -> dict:
         "stage0_data": False,
         "automatic_retry": False,
         "recovery_attempts": 0,
-        "maximum_new_implementation_revisions_per_family": 6,
+        "maximum_new_implementation_revisions_per_family": 7,
         "maximum_full_root_execution_per_revision": 1,
         "allowed_physical_gpu_indices": list(range(8)),
         "parallel_independent_jobs": True,
@@ -162,9 +162,9 @@ def build_scope_request(
     if consumption_ledger_directory != CANONICAL_CONSUMPTION_LEDGER_DIRECTORY:
         raise ValueError("scope request consumption ledger is not canonical")
     if scope in ROOT_SCOPES:
-        if family_revision_index not in (1, 2, 3, 4, 5, 6):
+        if family_revision_index not in (1, 2, 3, 4, 5, 6, 7):
             raise ValueError(
-                "root scope family_revision_index must be 1, 2, 3, 4, 5, or 6"
+                "root scope family_revision_index must be 1, 2, 3, 4, 5, 6, or 7"
             )
         if not isinstance(revision_ledger_directory, str):
             raise ValueError("root scope requires revision_ledger_directory")
@@ -293,7 +293,7 @@ def validate_scope_request(value: Mapping[str, Any], parent: Mapping[str, Any]) 
         raise ValueError("scope request job cache root is not canonical")
     scope = value.get("scope")
     if scope in ROOT_SCOPES:
-        if value.get("family_revision_index") not in (1, 2, 3, 4, 5, 6):
+        if value.get("family_revision_index") not in (1, 2, 3, 4, 5, 6, 7):
             raise ValueError("root scope request revision index is invalid")
         revision_dir = value.get("revision_ledger_directory")
         if not isinstance(revision_dir, str):
@@ -355,7 +355,7 @@ def issue_authorization_from_scope_request(
         "expires_at": expires.isoformat(),
         "design_version": "controlled_multi_future_f1_f4_v1_2",
         "implementation_version": "controlled_multi_future_runtime_v3_3",
-        "implementation_revision": "runtime_v3_3_revision6_impact_addendum_v1",
+        "implementation_revision": "runtime_v3_3_revision7_impact_addendum_v1",
         "reviewed_content_commit": request["reviewed_content_commit"],
         "reviewed_publication": request.get("reviewed_publication"),
         **request["source_bindings"],

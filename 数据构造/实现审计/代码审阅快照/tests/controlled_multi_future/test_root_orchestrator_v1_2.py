@@ -555,12 +555,146 @@ class RootOrchestratorV1_2Test(unittest.TestCase):
 
     def test_suffix_planner_failure_runs_all_preflights_and_zero_execution(self):
         adapter = StrictPrefixSyntheticAdapter(suffix_fail_program="F1-green")
-        receipt, _ = self.run_root(adapter)
+        receipt, output = self.run_root(adapter)
         self.assertEqual(receipt["status"], "failed_planner")
         self.assertEqual(len(receipt["suffix_planner_receipts"]), 3)
         self.assertEqual(receipt["branch_execution_attempt_count"], 0)
         self.assertEqual(adapter.suffix_execution_count, 0)
         self.assertEqual(receipt["budget_counts"]["planner_query_count"], 6)
+        green = next(
+            item
+            for item in receipt["suffix_planner_receipts"]
+            if item["program_id"] == "F1-green"
+        )
+        self.assertEqual(green["failure_stage"], "suffix_planner")
+        self.assertIsNotNone(green["actual_prefix_end_qpos_sha256"])
+        self.assertTrue(
+            (
+                output
+                / "suffix_preflight/F1-green/preflight_boundary_receipt.json"
+            ).is_file()
+        )
+
+    def test_suffix_implementation_error_persists_boundary_partial_and_trace(self):
+        class ImplementationFailAdapter(StrictPrefixSyntheticAdapter):
+            def plan_suffix_from_actual_prefix_end_state(
+                self, scene, program, replay
+            ):
+                partial = {
+                    "schema_version": "synthetic-f3-planning-partial-v1",
+                    "program_id": program["program_id"],
+                    "phase": "release_projection_built",
+                    "release_full_assembly_projection_v6": {
+                        "gripper_assembly_below_eef_m": 0.12,
+                    },
+                }
+                partial["partial_receipt_sha256"] = hash_json(partial)
+                scene._cmf_suffix_preflight_partial_receipt = partial
+                raise KeyError("gripper_below_eef_envelope_m")
+
+        receipt, output = self.run_root(ImplementationFailAdapter())
+        self.assertEqual(receipt["status"], "failed_implementation_error")
+        self.assertEqual(receipt["error_type"], "SuffixImplementationError")
+        self.assertEqual(len(receipt["suffix_planner_receipts"]), 3)
+        self.assertEqual(receipt["suffix_planner_query_count_total"], 0)
+        self.assertEqual(receipt["branch_execution_attempt_count"], 0)
+
+        for item in receipt["suffix_planner_receipts"]:
+            program_id = item["program_id"]
+            preflight = output / "suffix_preflight" / program_id
+            boundary_path = preflight / "preflight_boundary_receipt.json"
+            failure_path = (
+                preflight / "suffix_preflight_failure_receipt.json"
+            )
+            trace_path = preflight / "partial_trace_source.npz"
+            self.assertTrue(boundary_path.is_file())
+            self.assertTrue(failure_path.is_file())
+            self.assertTrue(trace_path.is_file())
+
+            boundary = json.loads(boundary_path.read_text(encoding="utf-8"))
+            boundary_digest = boundary.pop("boundary_receipt_sha256")
+            self.assertEqual(boundary_digest, hash_json(boundary))
+            self.assertTrue(boundary["same_current_pass"])
+            self.assertTrue(
+                boundary["preflight_start_anchor_equivalence"]["equivalent"]
+            )
+            self.assertTrue(boundary["prefix_replay"]["prefix_end_equivalent"])
+            self.assertIsNotNone(
+                boundary["actual_prefix_end_qpos_sha256"]
+            )
+
+            failure = json.loads(failure_path.read_text(encoding="utf-8"))
+            failure_digest = failure.pop("failure_receipt_sha256")
+            self.assertEqual(failure_digest, hash_json(failure))
+            self.assertEqual(failure["error_type"], "KeyError")
+            self.assertEqual(failure["planner_query_count"], 0)
+            self.assertEqual(failure["planner_query_receipts"], [])
+            self.assertEqual(
+                failure["controller_partial_evidence"]["phase"],
+                "release_projection_built",
+            )
+            self.assertEqual(
+                failure["partial_trace_source"]["sha256"],
+                hashlib.sha256(trace_path.read_bytes()).hexdigest(),
+            )
+
+            self.assertEqual(
+                item["failure_stage"], "suffix_implementation_error"
+            )
+            self.assertEqual(
+                item["actual_prefix_end_qpos_sha256"],
+                failure["actual_prefix_end_qpos_sha256"],
+            )
+            self.assertIsNotNone(item["preflight_boundary_receipt"])
+            self.assertEqual(
+                item["partial_output_status"],
+                "suffix_preflight_failure_evidence_saved",
+            )
+
+    def test_cleanup_uncertainty_overrides_suffix_implementation_error(self):
+        class UncertainSuffixContext(SceneContext):
+            def __exit__(self, exc_type, exc, tb):
+                self.cleanup_receipt = {
+                    "scene_instance_id": self.handle.scene_instance_id,
+                    "scene_created": True,
+                    "scene_cleanup_attempted": True,
+                    "scene_cleanup_succeeded": False,
+                    "cleanup_safety_pass": False,
+                    "orphan_process_count": 0,
+                    "cleanup_error": "synthetic cleanup uncertainty",
+                }
+                self.handle.cleanup_receipt = dict(self.cleanup_receipt)
+                return False
+
+        class CleanupPriorityAdapter(StrictPrefixSyntheticAdapter):
+            def scene(self, planned_root_slot_spec, *, phase, program=None):
+                if phase.startswith("suffix_preflight:"):
+                    return UncertainSuffixContext(self, phase, program)
+                return SceneContext(self, phase, program)
+
+            def plan_suffix_from_actual_prefix_end_state(
+                self, scene, program, replay
+            ):
+                scene._cmf_suffix_preflight_partial_receipt = {
+                    "schema_version": "synthetic-partial-v1",
+                    "program_id": program["program_id"],
+                }
+                raise KeyError("synthetic implementation error")
+
+        receipt, output = self.run_root(CleanupPriorityAdapter())
+        self.assertEqual(receipt["status"], "failed_cleanup_uncertain")
+        failure_path = (
+            output
+            / "suffix_preflight/F1-red/suffix_preflight_failure_receipt.json"
+        )
+        trace_path = (
+            output / "suffix_preflight/F1-red/partial_trace_source.npz"
+        )
+        self.assertTrue(failure_path.is_file())
+        self.assertTrue(trace_path.is_file())
+        failure = json.loads(failure_path.read_text(encoding="utf-8"))
+        self.assertTrue(failure["saved_before_scene_cleanup"])
+        self.assertEqual(failure["error_type"], "KeyError")
 
     def test_verifier_exception_preserves_raw_manifest_and_root_incomplete(self):
         adapter = StrictPrefixSyntheticAdapter(

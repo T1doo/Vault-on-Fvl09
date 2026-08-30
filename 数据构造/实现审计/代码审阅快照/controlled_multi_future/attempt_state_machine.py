@@ -8,13 +8,53 @@ from .schemas import TERMINAL_ATTEMPT_STATUSES
 
 
 TRANSITIONS = {
-    "planned": {"scene_built", "aborted_with_reason"},
-    "scene_built": {"candidates_frozen", "failed_planner", "failed_cleanup", "timeout"},
-    "candidates_frozen": {"anchor_reconstructed", "failed_current_hash", "failed_anchor_equivalence", "failed_cleanup", "timeout"},
-    "anchor_reconstructed": {"rolling_out", "failed_current_hash", "failed_anchor_equivalence", "failed_cleanup", "timeout"},
-    "rolling_out": {"raw_saved", "failed_planner", "failed_execution", "failed_cleanup", "timeout"},
-    "raw_saved": {"verified", "failed_verifier", "failed_cleanup"},
-    "verified": {"accepted", "failed_cleanup"},
+    "planned": {
+        "scene_built",
+        "failed_implementation_error",
+        "aborted_with_reason",
+    },
+    "scene_built": {
+        "candidates_frozen",
+        "failed_implementation_error",
+        "failed_planner",
+        "failed_cleanup",
+        "timeout",
+    },
+    "candidates_frozen": {
+        "anchor_reconstructed",
+        "failed_implementation_error",
+        "failed_current_hash",
+        "failed_anchor_equivalence",
+        "failed_cleanup",
+        "timeout",
+    },
+    "anchor_reconstructed": {
+        "rolling_out",
+        "failed_implementation_error",
+        "failed_current_hash",
+        "failed_anchor_equivalence",
+        "failed_cleanup",
+        "timeout",
+    },
+    "rolling_out": {
+        "raw_saved",
+        "failed_implementation_error",
+        "failed_planner",
+        "failed_execution",
+        "failed_cleanup",
+        "timeout",
+    },
+    "raw_saved": {
+        "verified",
+        "failed_implementation_error",
+        "failed_verifier",
+        "failed_cleanup",
+    },
+    "verified": {
+        "accepted",
+        "failed_implementation_error",
+        "failed_cleanup",
+    },
 }
 
 

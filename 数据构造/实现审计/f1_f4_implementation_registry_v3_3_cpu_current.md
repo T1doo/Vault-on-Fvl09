@@ -1,18 +1,18 @@
-# F1–F4 implementation registry：runtime-v3_3 revision-6 terminal current
+# F1–F4 implementation registry：runtime-v3_3 revision-7 CPU current
 
 ```yaml
 design_version: controlled_multi_future_f1_f4_v1_2
-implementation_revision: runtime_v3_3_revision6_impact_addendum_v1
+implementation_revision: runtime_v3_3_revision7_impact_addendum_v1
 accepted_nonformal_roots: 1/4
 stage0_authorized: false
 new_gpu_launch_authorized: false
 ```
 
-| Family | revision-6真实结果 | 计数 planner/execution/recovery | 下一source-distinct修复 |
+| Family | revision-7实现 | Envelope | 状态 |
 |---|---|---:|---|
-| F1 | revision-2 3/3 accepted，未重跑 | 46/3/0 historical | 无 |
-| F2 | `on`、`beside` accepted；`inside`在开夹后卡于盒外 | 32/3/0 | 固定证据驱动的inside-only tracking compensation |
-| F3 | canonical prefix通过；三个program在suffix planner前触发旧键`KeyError` | 21/0/0 | projection consumer接线、partial evidence与异常分类 |
-| F4 | +16 mm解决碰桌，A实际微抬17.3066 mm；旧verifier读错actor且把零冲量pair当接触 | 13/1/0 | role-A stream + nonzero-impulse接触语义后fresh A-only micro |
+| F1 | 无变化；revision-2 3/3 accepted | 46/3/0 historical | `accepted_nonformal_root` |
+| F2 | r6-evidence固定SE(3) compensation仅替换inside target0；alignment只诊断 | 32/3/0 | `r7_cpu_ready_not_run` |
+| F3 | 修正确projection key；planner前boundary/partial trace；implementation-error分账 | 96/3/0 | `r7_cpu_ready_not_run` |
+| F4 | 强制role-A pose；零冲量pair只audit，物理接触仍用既有`>1e-10` | 13/1/0 | `r7_micro_cpu_ready_not_run` |
 
-F4结束时外部非本任务进程占用GPU0，Guard按设计保持`failed_cleanup_uncertain`；task-owned orphan=0，但本轮不会改写Guard终态或retroactive accept。完整机器审计见`F2_F3_F4_RUNTIME_V3_3_REVISION6_TERMINAL_AUDIT_AND_R7_IMPACT_REVIEW_20260830.*`。
+Active/snapshot均382/382、diff零；source=`2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8`，budget=`1a3e2e18acc8af984dbb76e637ac140c930c332748202e7b61564b77c86f8d62`。三family P0审计通过；r7 bundle/ledger/GPU output均不存在。

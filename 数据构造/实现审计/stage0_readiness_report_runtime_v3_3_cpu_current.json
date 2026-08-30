@@ -1,31 +1,25 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision6_terminal_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision7_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_source_sha256": "3b771f97a5b2b53db53bf71ec9f1fe15727614a1303e2f415197e65655580a7d",
+  "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
-  "revision6_gpu_scopes_terminal": true,
-  "revision7_cpu_repairs_required": true,
+  "revision7_cpu_ready": true,
+  "revision7_gpu_started": false,
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
-  "current_blockers": [
-    "F2 inside full-OBB failure after release",
-    "F3 projection consumer KeyError before suffix planning",
-    "F4 micro verifier role-stream and zero-impulse contact false negative",
-    "F4 complete B/C and ABC/ACB/BAC remain untested"
-  ],
   "next_safe_sequence": [
-    "publish immutable revision6 evidence",
-    "implement source-distinct revision7 CPU repairs",
-    "rerun active and byte-equal snapshot tests",
-    "publish a new source/budget baseline",
-    "issue fresh finite single-use scopes only after review"
+    "publish revision7 CPU baseline",
+    "issue exact single-use revision7 bundles",
+    "select any independently fresh-idle physical GPU0-7 per job",
+    "run F2/F3/F4 micro scopes with isolated Guard",
+    "audit immutable evidence and update readiness"
   ]
 }

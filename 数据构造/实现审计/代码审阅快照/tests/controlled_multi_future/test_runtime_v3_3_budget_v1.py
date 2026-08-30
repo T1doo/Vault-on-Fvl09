@@ -14,7 +14,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
 
 VAULT_BUDGET = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_5.json"
+    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_6.json"
 )
 
 

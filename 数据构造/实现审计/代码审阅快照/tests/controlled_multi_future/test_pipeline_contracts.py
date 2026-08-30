@@ -683,6 +683,46 @@ class PipelineContractsTest(unittest.TestCase):
         result = finalize_nonformal_integration({"same_current_pass": True})
         self.assertFalse(result["accepted"])
 
+    def test_implementation_error_is_terminal_from_each_attempt_phase(self):
+        for phase_path in (
+            (),
+            ("scene_built",),
+            ("scene_built", "candidates_frozen"),
+            (
+                "scene_built",
+                "candidates_frozen",
+                "anchor_reconstructed",
+            ),
+            (
+                "scene_built",
+                "candidates_frozen",
+                "anchor_reconstructed",
+                "rolling_out",
+            ),
+            (
+                "scene_built",
+                "candidates_frozen",
+                "anchor_reconstructed",
+                "rolling_out",
+                "raw_saved",
+            ),
+            (
+                "scene_built",
+                "candidates_frozen",
+                "anchor_reconstructed",
+                "rolling_out",
+                "raw_saved",
+                "verified",
+            ),
+        ):
+            machine = AttemptStateMachine()
+            for state in phase_path:
+                machine.transition(state)
+            machine.transition("failed_implementation_error")
+            self.assertTrue(machine.terminal)
+            with self.assertRaises(RuntimeError):
+                machine.transition("accepted")
+
 
 if __name__ == "__main__":
     unittest.main()

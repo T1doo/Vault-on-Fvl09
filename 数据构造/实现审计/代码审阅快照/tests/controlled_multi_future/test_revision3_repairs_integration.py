@@ -31,7 +31,7 @@ from controlled_multi_future.runtime_v3_3_scope_specs_v1 import (
 
 PARENT = (
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION6_REPAIRS_GPU0_7_20260830.json"
+    "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION7_REPAIRS_GPU0_7_20260830.json"
 )
 
 
@@ -114,7 +114,7 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
 
     def test_revision3_budget_parent_and_source_bindings_are_closed(self):
         budget = budget_artifact()
-        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 6)
+        self.assertEqual(budget["maximum_new_implementation_revisions_per_family"], 7)
         self.assertFalse(budget["automatic_retry"])
         self.assertFalse(budget["stage0_authorized"])
         self.assertEqual(
@@ -140,12 +140,12 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             ("F3", "F3_prefix_root_per_revision"),
             ("F4", "F4_block_root_per_revision"),
         ):
-            spec = planned_scope_spec(scope, revision_index=6)
+            spec = planned_scope_spec(scope, revision_index=7)
             self.assertEqual(spec["family"], family)
-            self.assertEqual(spec["implementation_revision_index"], 6)
+            self.assertEqual(spec["implementation_revision_index"], 7)
             self.assertEqual(spec["maximum_full_root_execution_per_revision"], 1)
         parent = load_parent_user_authorization(PARENT)
-        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 6)
+        self.assertEqual(parent["maximum_new_implementation_revisions_per_family"], 7)
         self.assertEqual(parent["allowed_physical_gpu_indices"], list(range(8)))
         self.assertFalse(parent["formal_stage0_authorized"])
         bindings = current_source_bindings_v3_3()
@@ -163,6 +163,8 @@ class Revision3RepairsIntegrationTest(unittest.TestCase):
             "f2_inside_pre_release_settle_sha256",
             "f3_release_geometry_clearance_sha256",
             "f4_top_down_clearance_sha256",
+            "f2_inside_tracking_compensation_sha256",
+            "f4_micro_lift_role_pose_sha256",
         ):
             self.assertEqual(len(bindings[key]), 64)
 

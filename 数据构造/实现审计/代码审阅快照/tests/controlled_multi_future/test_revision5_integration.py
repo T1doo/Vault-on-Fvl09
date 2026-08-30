@@ -56,6 +56,8 @@ class Revision5IntegrationTest(unittest.TestCase):
         )
         self.assertIn("F2_INSIDE_R6_TOTAL_SETTLE_STEPS", source)
         self.assertIn("_cmf_f2_inside_pre_release_settle_v6", source)
+        self.assertIn("build_f2_inside_alignment_diagnostic_v7", source)
+        self.assertIn("_cmf_f2_inside_alignment_diagnostic_v7", source)
         orchestrator = inspect.getsource(
             __import__(
                 "controlled_multi_future.root_orchestrator_v1_2",
@@ -63,6 +65,8 @@ class Revision5IntegrationTest(unittest.TestCase):
             ).RealSapienStrictPrefixRootOrchestratorV1_2.run_nonformal_root
         )
         self.assertIn("f2_inside_pre_release_settle_v6", orchestrator)
+        self.assertIn("f2_inside_tracking_compensation_v7", orchestrator)
+        self.assertIn("f2_inside_alignment_diagnostic_v7", orchestrator)
 
     def test_f2_live_topology_adapter_binds_palm_and_two_fingers(self):
         class Link:
@@ -149,7 +153,7 @@ class Revision5IntegrationTest(unittest.TestCase):
             static["source_bound_static_envelope"],
             {"planner_query_count": 13, "execution_attempt_count": 1},
         )
-        spec = planned_scope_spec(scope, revision_index=6)
+        spec = planned_scope_spec(scope, revision_index=7)
         self.assertEqual(spec["slot_id"], "pilot-F4-A-prestage0")
         self.assertFalse(spec["stage0_authorized"])
         self.assertIn("common_vertical_withdraw", spec["branch_neutral_runtime_policy"])

@@ -44,6 +44,10 @@ from .f2_inside_pre_release_settle_v6 import (
     TOTAL_SETTLE_STEPS as F2_INSIDE_R6_TOTAL_SETTLE_STEPS,
     audit_f2_inside_pre_release_settle_window_v6,
 )
+from .f2_inside_tracking_compensation_v7 import (
+    build_f2_inside_alignment_diagnostic_v7,
+    build_f2_inside_tracking_compensation_v7,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -144,10 +148,13 @@ from .f4_boundary_micro_lift_v5 import (
     GRASP_BOUNDARY_ORIENTATION_ATOL_RAD,
     GRASP_BOUNDARY_POSITION_ATOL_M,
     MICRO_LIFT_FRAME_COUNT,
-    build_a_micro_lift_gate_receipt_v5,
     build_actual_open_contact_boundary_receipt_v5,
     build_micro_lift_noninterference_receipt_v5,
     build_repaired_common_prefix_targets_v5,
+)
+from .f4_micro_lift_role_pose_v7 import (
+    build_a_role_pose_micro_lift_gate_receipt_v7,
+    build_a_role_pose_micro_lift_rows_v7,
 )
 from .f4_top_down_clearance_v6 import (
     build_uniform_f4_top_down_clearance_contract_v6,
@@ -767,9 +774,7 @@ def _cache_suffix_controls(
     if planner_query_count != len(planned["segment_receipts"]):
         raise RuntimeError("suffix live planner delta differs from segment receipts")
     sealed_extra = dict(extra or {})
-    if control_transformer is not None:
-        if planned["pass"] is not True:
-            raise RuntimeError("suffix execution controls cannot be transformed after planner failure")
+    if control_transformer is not None and planned["pass"] is True:
         transformed_controls, transform_receipts = control_transformer(
             planned["controls"], targets
         )
@@ -2409,11 +2414,44 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             )
             if route["audit"]["pass"] is not True:
                 raise ValueError("F2 inside gravity-drop CPU route audit failed")
+            compensated_targets, compensation_receipt = (
+                build_f2_inside_tracking_compensation_v7(
+                    program_id=program["program_id"],
+                    original_targets=route["targets"],
+                    desired_route=route,
+                )
+            )
+            scene._cmf_f2_inside_tracking_compensation_v7 = (
+                compensation_receipt
+            )
+            compensation_partial = {
+                "schema_version": "cmf_f2_suffix_preflight_partial_v7",
+                "phase": "f2_inside_compensated_planner_input_frozen",
+                "formal_data": False,
+                "stage0_data": False,
+                "program_id": program["program_id"],
+                "inside_tracking_compensation_v7": (
+                    compensation_receipt
+                ),
+                "target_segment_ids": [
+                    item["segment_id"] for item in compensated_targets
+                ],
+                "target_poses": [
+                    np.asarray(item["pose"], dtype=np.float64).tolist()
+                    for item in compensated_targets
+                ],
+            }
+            compensation_partial["receipt_sha256"] = hash_json(
+                compensation_partial
+            )
+            scene._cmf_suffix_preflight_partial_receipt = (
+                compensation_partial
+            )
             return _cache_suffix_controls(
                 scene,
                 program_id=program["program_id"],
                 arm="left",
-                targets=route["targets"],
+                targets=compensated_targets,
                 query_limit=24,
                 extra={
                     "relation": relation,
@@ -2422,6 +2460,9 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     "release_target_index": route["release_target_index"],
                     "layout_version": F2_LAYOUT_VERSION_V2,
                     "inside_gravity_drop_route": route,
+                    "inside_tracking_compensation_v7": (
+                        compensation_receipt
+                    ),
                     "inside_full_obb_verifier_relaxed": False,
                 },
             )
@@ -2759,6 +2800,31 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             inside_release_samples["before_release"] = release_sample(
                 "before_release"
             )
+            if inside_drop_route is not None:
+                compensation = spec.get(
+                    "inside_tracking_compensation_v7"
+                )
+                if not isinstance(compensation, Mapping):
+                    raise RuntimeError(
+                        "F2 inside r7 compensation receipt is missing"
+                    )
+                alignment = build_f2_inside_alignment_diagnostic_v7(
+                    realized_eef_pose=_arm_eef_pose(scene, "left"),
+                    realized_actor_pose=_pose(scene.can),
+                    desired_eef_pose=inside_drop_route["targets"][0][
+                        "pose"
+                    ],
+                    desired_actor_pose=inside_drop_route[
+                        "pre_release_actor_pose"
+                    ],
+                    compensation_receipt_sha256=compensation[
+                        "receipt_sha256"
+                    ],
+                )
+                inside_release_samples[
+                    "pre_release_alignment_diagnostic_v7"
+                ] = alignment
+                scene._cmf_f2_inside_alignment_diagnostic_v7 = alignment
         _must_action(
             scene,
             scene.open_gripper(_arm_tag_left(), pos=1.0),
@@ -3443,19 +3509,39 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 ),
             )
         )
+        projection_partial = {
+            "schema_version": "cmf_f3_suffix_preflight_partial_v7",
+            "phase": "f3_release_projection_built",
+            "formal_data": False,
+            "stage0_data": False,
+            "program_id": program["program_id"],
+            "event_order": list(axes),
+            "support_top_z_m": float(support_top_z),
+            "start_actor_pose": start_actor.tolist(),
+            "current_actor_pose": current_actor.tolist(),
+            "unshifted_release_eef_pose": np.asarray(
+                unshifted_release, dtype=np.float64
+            ).tolist(),
+            "release_full_assembly_projection_v6": (
+                release_full_assembly_projection
+            ),
+        }
+        projection_partial["receipt_sha256"] = hash_json(projection_partial)
+        scene._cmf_suffix_preflight_partial_receipt = projection_partial
+        assembly_below_eef_m = float(
+            release_full_assembly_projection[
+                "gripper_assembly_below_eef_m"
+            ]
+        )
         release_geometry_clearance = build_f3_release_geometry_clearance_v6(
             original_actor_pose=start_actor,
             unshifted_release_eef_pose=unshifted_release,
             support_top_z_m=support_top_z,
-            gripper_assembly_below_eef_m=release_full_assembly_projection[
-                "gripper_below_eef_envelope_m"
-            ],
+            gripper_assembly_below_eef_m=assembly_below_eef_m,
         )
         if (
             release_geometry_clearance["gripper_assembly_below_eef_m"]
-            != release_full_assembly_projection[
-                "gripper_assembly_below_eef_m"
-            ]
+            != assembly_below_eef_m
         ):
             raise RuntimeError(
                 "F3 release clearance differs from full-assembly projection"
@@ -3483,6 +3569,39 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 },
             ]
         )
+        planner_input_partial = {
+            "schema_version": "cmf_f3_suffix_preflight_partial_v7",
+            "phase": "f3_release_planner_input_frozen",
+            "formal_data": False,
+            "stage0_data": False,
+            "program_id": program["program_id"],
+            "event_order": list(axes),
+            "support_top_z_m": float(support_top_z),
+            "assembly_below_eef_m": assembly_below_eef_m,
+            "release_full_assembly_projection_v6": (
+                release_full_assembly_projection
+            ),
+            "release_geometry_clearance_v6": release_geometry_clearance,
+            "release_actor_pose": clearance_actor.tolist(),
+            "release_eef_pose": release.tolist(),
+            "preplace_eef_pose": preplace.tolist(),
+            "return_start_index": int(return_start),
+            "query_limit": 42,
+            "control_transformer": "transform_f3_return_controls_v5",
+            "targets": [
+                {
+                    "segment_id": item["segment_id"],
+                    "pose": np.asarray(
+                        item["pose"], dtype=np.float64
+                    ).tolist(),
+                }
+                for item in targets
+            ],
+        }
+        planner_input_partial["receipt_sha256"] = hash_json(
+            planner_input_partial
+        )
+        scene._cmf_suffix_preflight_partial_receipt = planner_input_partial
         return _cache_suffix_controls(
             scene,
             program_id=program["program_id"],
@@ -4719,34 +4838,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             [_entity(scene.b).get_name(), "table"],
             [_entity(scene.c).get_name(), "table"],
         ]
-        micro_rows = []
-        for source_index in source_indices:
-            row = scene.trace[int(source_index)]
-            actor_table_contact = any(
-                actor_name in (pair["body_a"], pair["body_b"])
-                and "table" in (pair["body_a"], pair["body_b"])
-                for pair in row["contact_pairs"]
-            )
-            micro_rows.append(
-                {
-                    "actor_pose": np.asarray(
-                        row["actor_pose"], dtype=np.float64
-                    ).tolist(),
-                    "selected_gripper_contact": bool(
-                        row["selected_gripper_contact"]
-                    ),
-                    "selected_gripper_contact_count": int(
-                        row["selected_gripper_contact_count"]
-                    ),
-                    "selected_contact_actor_name": str(
-                        row["selected_contact_actor_name"]
-                    ),
-                    "actor_table_contact": bool(actor_table_contact),
-                    "contact_pairs": row["contact_pairs"],
-                    "source_trace_index": int(source_index),
-                }
-            )
-        micro_gate = build_a_micro_lift_gate_receipt_v5(
+        micro_trace_rows = [
+            scene.trace[int(source_index)] for source_index in source_indices
+        ]
+        role_input_provenance = build_a_role_pose_micro_lift_rows_v7(
+            trace_rows=micro_trace_rows,
+            source_trace_indices=source_indices.tolist(),
+            expected_actor_name=actor_name,
+        )
+        scene._cmf_f4_micro_lift_role_input_v7 = role_input_provenance
+        noninterference = capture_noninterference("after_A_micro_lift")
+        role_pose_gate = build_a_role_pose_micro_lift_gate_receipt_v7(
             targets=spec["targets"],
             realized_pregrasp_pose=pregrasp_pose,
             realized_grasp_pose=grasp_pose,
@@ -4755,19 +4857,33 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             grasp_linear_velocity=grasp_linear,
             grasp_angular_velocity=grasp_angular,
             preclose_right_gripper_joint_qpos=preclose_qpos,
-            micro_lift_rows=micro_rows,
+            trace_rows=micro_trace_rows,
+            source_trace_indices=source_indices.tolist(),
             expected_actor_name=actor_name,
             allowed_nonzero_contact_pairs=allowed_pairs,
+            noninterference_receipt=noninterference,
         )
-        noninterference = capture_noninterference("after_A_micro_lift")
+        if (
+            role_pose_gate["role_pose_adapter"]["receipt_sha256"]
+            != role_input_provenance["receipt_sha256"]
+        ):
+            raise RuntimeError(
+                "F4 r7 role-input provenance changed inside verifier"
+            )
+        micro_gate = role_pose_gate["micro_lift_gate"]
         semantic = {
             "pass": preclose_receipt["pass"]
-            and micro_gate["pass"]
-            and noninterference["pass"],
+            and role_pose_gate["pass"],
             "diagnostic_only": True,
             "preclose_boundary": preclose_receipt,
             "micro_lift_gate": micro_gate,
-            "noninterference_gate": noninterference,
+            "micro_lift_role_pose_gate_v7": role_pose_gate,
+            "micro_lift_role_input_provenance_v7": (
+                role_input_provenance
+            ),
+            "noninterference_gate": role_pose_gate[
+                "noninterference_gate"
+            ],
             "suffix_segment_execution_receipts": execution_receipts,
             "micro_lift_source_trace_range": [
                 int(micro_start),
