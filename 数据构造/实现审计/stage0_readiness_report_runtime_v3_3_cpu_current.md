@@ -1,7 +1,7 @@
-# Stage 0 readiness：runtime-v3_3 revision-9 CPU current
+# Stage 0 readiness：runtime-v3_3 revision-9 terminal review stop
 
 ## BLOCKED_WITH_REASONS
 
-Revision-8 terminal evidence已发布；F1仍是唯一accepted root。Revision-9 CPU修复完成：F2为单一balanced-preload inside release，F3为单一symmetric staged release并修正diagnosis优先级，F4只修ndarray JSON canonicalization；raw新增明确语义的drive audit字段。
+Revision-9 GPU scopes已全部终止：F2=`inside fail / on+beside accepted`，F3三条均在pre-open grasp/orientation Gate失败且staged release未执行，F4修复JSON后在A_carry_mid IK_FAIL、0 execution。F1仍是唯一accepted root。
 
-Active与byte-equal snapshot各427/427通过、diff零。下一步先发布clean revision-9 CPU baseline，再签三个single-use bundles；任何GPU run仍为nonformal、formal/stage0=false。Stage0继续禁止。
+按用户要求，当前停止继续revision，等待外部GPT审阅方向。Stage0继续禁止，任何revision-10/GPU新scope都未授权。

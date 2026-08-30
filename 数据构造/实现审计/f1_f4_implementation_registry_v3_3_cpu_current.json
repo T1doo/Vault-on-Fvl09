@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision9_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision9_terminal_review_stop",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "implementation_revision": "runtime_v3_3_revision9_impact_addendum_v1",
@@ -12,13 +12,13 @@
   "new_gpu_launch_authorized": false,
   "accepted_real_roots": 1,
   "accepted_nonroot_gates": {"F4_A_only_micro": true},
-  "status": "revision9_cpu_ready_for_clean_publication_gpu_not_run",
+  "status": "revision9_terminal_blocked_stopped_for_external_gpt_review",
   "cpu_tests": {"active": "427/427 passed", "snapshot": "427/427 passed", "byte_equal": true},
   "current_family_status": {
     "F1": {"accepted_root": true, "status": "accepted_revision2"},
-    "F2": {"accepted_root": false, "revision9": "fixed_XY_plus_single_balanced_preload_inside_release", "envelope": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F3": {"accepted_root": false, "revision9": "final_first_diagnosis_plus_single_symmetric_staged_release", "envelope": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "not_run"},
-    "F4": {"accepted_root": false, "revision9": "top_down_staged_full_plus_numpy_json_canonicalization", "envelope": {"planner": 118, "execution": 7, "recovery": 0}, "gpu": "not_run"}
+    "F2": {"accepted_root": false, "revision9": "fixed_XY_plus_single_balanced_preload_inside_release", "actual": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"inside": "failed_execution", "on": "accepted", "beside": "accepted"}},
+    "F3": {"accepted_root": false, "revision9": "final_first_diagnosis_plus_single_symmetric_staged_release", "actual": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"VVHH": "failed_preopen", "VHVH": "failed_preopen", "VHHV": "failed_preopen"}, "staged_release_executed": false},
+    "F4": {"accepted_root": false, "revision9": "top_down_staged_full_plus_numpy_json_canonicalization", "actual": {"planner": 14, "execution": 0, "recovery": 0}, "gpu": "terminal", "json_fix": "runtime_pass", "failure": "A_carry_mid_IK_FAIL"}
   },
-  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION8_TERMINAL_AND_R9_IMPACT_REVIEW_20260830.json"
+  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION9_TERMINAL_AND_REVIEW_STOP_20260830.json"
 }

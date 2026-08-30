@@ -1,0 +1,92 @@
+{
+  "schema_version": "cmf_runtime_v3_3_revision9_terminal_and_review_stop_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision9_impact_addendum_v1",
+  "implementation_source_sha256": "f76c013aebbe98d705dc62f77a83c47fdefbc899d0818e84b489639b1cd95d21",
+  "budget_receipt_sha256": "56b5d18115e5c0f7d24738ab49909633f26a69fd8e4b2b6235952f1c4751687f",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "user_requested_stop_after_revision9": true,
+  "families": {
+    "F2": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 32,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "program_status": {"inside": "failed_execution", "on": "accepted", "beside": "accepted"},
+      "inside_error": "F2 balanced-preload release Gate blocked full-open",
+      "balanced_preload": {
+        "actual_finger_qpos_m": [0.023574866354465485, 0.02150568924844265],
+        "balanced_drive_target_m": 0.022540277801454067,
+        "partial_open_normalized_target": 0.5916414145718921,
+        "maximum_linear_speed_mps": 0.016602695290689955,
+        "maximum_angular_speed_rps": 0.7239935887344399,
+        "checks": {
+          "physical_box_support_continuous": true,
+          "selected_fingers_physically_disengaged": true,
+          "stable_angular_window": false,
+          "stable_linear_window": true,
+          "true_cavity_obb": false
+        },
+        "full_open_executed": false
+      },
+      "direction_question": "whether a longer frozen settle window is sufficient, or aperture/geometry must change"
+    },
+    "F3": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 96,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "program_status": {"VVHH": "failed_execution", "VHVH": "failed_execution", "VHHV": "failed_execution"},
+      "all_suffix_preflight_pass": true,
+      "all_staged_release_executed": false,
+      "failure_stage": "original contact-free pre-open Gate",
+      "pre_open_metrics": {
+        "VVHH": {"bottle_position_error_m": 0.0033973826360696358, "bottle_orientation_error_rad": 0.05113335806444503, "grasp_translation_drift_m": 0.003480685190857225, "grasp_orientation_drift_rad": 0.0523863928249711},
+        "VHVH": {"bottle_position_error_m": 0.0100763739751148, "bottle_orientation_error_rad": 0.12785284590764334, "grasp_translation_drift_m": 0.010006316866353789, "grasp_orientation_drift_rad": 0.1341895530379272},
+        "VHHV": {"bottle_position_error_m": 0.003161940941522952, "bottle_orientation_error_rad": 0.07909389241681987, "grasp_translation_drift_m": 0.003154825173354742, "grasp_orientation_drift_rad": 0.08485507645895651}
+      },
+      "first_suffix_event_bottle_orientation_drift_rad": {"VVHH": 0.05682850471794873, "VHVH": 0.053806892784010206, "VHHV": 0.05346176287932238},
+      "selected_contact_fraction_all": 1.0,
+      "contact_break_count_all": 0,
+      "direction_question": "stabilize grasp/transform and deterministic realized motion before further release work"
+    },
+    "F4": {
+      "terminal_status": "failed_f4_staged_block_gate",
+      "planner_query_count": 14,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "json_canonicalization_fix_verified_at_runtime": true,
+      "common_prefix_pass": true,
+      "A_preflight": {"A_pregrasp": "Success", "A_grasp": "Success", "A_lift": "Success", "A_carry_mid": "IK_FAIL"},
+      "A_carry_mid_goal_eef_pose": [0.1549994796514511, 0.07802601903676987, 0.999401330947876, 0.5243540406227112, -0.4743987023830414, 0.4743957817554474, 0.5243542194366455],
+      "staged_execution_started": false,
+      "full_program_execution_started": false,
+      "direction_question": "carry-mid/workspace/orientation segmentation versus layout impact review"
+    }
+  },
+  "gpu_and_cleanup": {
+    "physical_gpu_index": 0,
+    "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "all_three_no_timeout": true,
+    "all_scene_cleanup_safe": true,
+    "all_task_owned_orphan_count_zero": true,
+    "all_post_source_lock_pass": true,
+    "all_gpu_release_verified": true,
+    "post_memory_used_mib": 14
+  },
+  "evidence_manifests": {
+    "F2": {"path": "F2_ROOT_RUNTIME_V3_3_REVISION9_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 45, "tree_sha256": "8c6e3ded14b011d4312d9db637c9df8e98cce05a91b9d777423f8f17a7663332"},
+    "F3": {"path": "F3_ROOT_RUNTIME_V3_3_REVISION9_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 39, "tree_sha256": "3037c0a3435b3e9bd1053b2ebf46524b2873857b3b6378e511d0c84380f3e1ca"},
+    "F4": {"path": "F4_ROOT_RUNTIME_V3_3_REVISION9_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 11, "tree_sha256": "120bd5579029a7f7a82051babd3b14136fa391d63fdf9ad4ce7cb5135f7f8f33"}
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "next_phase": "STOPPED_FOR_EXTERNAL_GPT_DIRECTION_REVIEW",
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null
+}

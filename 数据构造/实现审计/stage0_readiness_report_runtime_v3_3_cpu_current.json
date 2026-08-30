@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision9_cpu_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision9_terminal_review_stop",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
@@ -16,8 +16,15 @@
   "revision8_gpu_terminal": true,
   "revision9_cpu_ready": true,
   "revision9_cpu_tests": {"active": "427/427 passed", "snapshot": "427/427 passed", "byte_equal": true},
-  "revision9_gpu_started": false,
-  "revision9_bundles_issued": false,
+  "revision9_gpu_started": true,
+  "revision9_bundles_issued": true,
+  "revision9_gpu_terminal": true,
+  "revision9_family_results": {
+    "F2": {"inside": "failed_execution", "on": "accepted", "beside": "accepted", "root": "failed_verifier"},
+    "F3": {"VVHH": "failed_preopen", "VHVH": "failed_preopen", "VHHV": "failed_preopen", "staged_release_executed": false, "root": "failed_verifier"},
+    "F4": {"json_fix": "runtime_pass", "A_carry_mid": "IK_FAIL", "execution_attempt_count": 0, "root": "failed_f4_staged_block_gate"}
+  },
+  "user_requested_stop_after_revision9": true,
   "revision8_family_results": {
     "F2": {"inside": "failed_verifier", "on": "accepted", "beside": "accepted", "root": "failed_verifier"},
     "F3": {"VVHH": "failed_verifier", "VHVH": "accepted", "VHHV": "failed_verifier", "root": "failed_verifier"},
@@ -28,10 +35,9 @@
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
   "next_safe_sequence": [
-    "publish clean revision9 CPU baseline",
-    "issue exact revision9 F2/F3/F4 single-use bundles from clean published HEAD",
-    "run only on independently fresh-idle physical GPU0 under Guard",
-    "audit all terminal receipts and update readiness",
-    "update readiness without starting Stage0"
+    "publish revision9 terminal evidence and GPT handoff",
+    "stop implementation changes",
+    "wait for user to return external GPT review",
+    "require new explicit direction before any revision10 or GPU scope"
   ]
 }

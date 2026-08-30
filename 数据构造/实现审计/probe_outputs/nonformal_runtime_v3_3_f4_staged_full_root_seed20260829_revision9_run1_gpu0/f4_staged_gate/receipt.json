@@ -1,0 +1,80 @@
+{
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_pristine-v1_2-000001"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_prefix_reference",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_prefix_reference-v1_2-000002"
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "f4_staged_preflight:A",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f4-f4_staged_preflight_A-v1_2-000003"
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 216.54010701179504,
+  "error": "F4 staged A planner failed",
+  "error_type": "RuntimeError",
+  "execution_attempt_count": 0,
+  "formal_data": false,
+  "gate_receipts": [],
+  "gate_sequence": [
+    [
+      "A"
+    ],
+    [
+      "B"
+    ],
+    [
+      "C"
+    ],
+    [
+      "A",
+      "B"
+    ]
+  ],
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "orphan_process_count": 0,
+  "planner_query_count": 14,
+  "prefix_replay_count": 1,
+  "recovery_attempt_count": 0,
+  "reference_prefix_generation_count": 1,
+  "scene_cleanup_succeeded": true,
+  "schema_version": "cmf_f4_staged_block_execution_gate_v1",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "status": "failed_f4_staged_block_gate",
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 274, in run\n    suffix_receipt, _ = self.helper._scene_call(\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 502, in _scene_call\n    raise body_error\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_1.py\", line 472, in _scene_call\n    result = callback(handle.scene, program_copy)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f4_staged_block_gate_v1.py\", line 253, in preflight_callback\n    raise RuntimeError(f\"F4 staged {gate_id} planner failed\")\nRuntimeError: F4 staged A planner failed\n"
+}
