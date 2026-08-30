@@ -1,6 +1,6 @@
 # controlled_multi_future_stage0_smoke_v1
 
-当前状态：`CPU_READY_F4_INFRA_VALIDATION_PENDING`。
+当前状态：`F4_INFRA_VALIDATION_FAILED_TERMINAL`。
 
 本轻量后续不是`v3_4_2`重试链。它只做两步：
 
@@ -12,5 +12,9 @@ Stage 0可以得到`PASS`或`FAILED_WITH_EVIDENCE`。F2/F3已知物理失败不�
 保留的硬要求：same-current/anchor、candidate/label/arm不漂移、真实verifier、26-D 250Hz N/N+1、有限预算、失败保留、fresh scene、source/UUID/Guard/cleanup/orphan审计。
 
 CPU source SHA=`b312fca095687beb4c113cc59761692bef5667230ea9eb462b673b9dbcbf0d05`，tests SHA=`adb6bbbaa5c07a726e5c844c322b984f144a9da35eca51a7e0fcecd434c02300`，budget SHA=`4ca7471888af9282351a1455bf96965fd565001b43f0806ec1d40e2b67913783`。Active/snapshot CPU tests均=`481/481 passed`，byte-equal=true。
+
+唯一F4 infrastructure授权已在physical GPU0消费。Pristine/prefix均完成，但第一个fresh candidate在planner前的v12 equivalence Gate失败：前七个segment pose逐项零误差，`A_neutral` position/orientation error=`0.1174670097 m / 0.0079977769 rad`，超出`1e-5 m/rad`。实际计数=`10 planner/0 execution/0 recovery`，其中10次全部属于canonical prefix，corridor query=`0`。Cleanup、source lock、GPU release与orphan审计均通过。
+
+因此canonical 12-attempt manifest未生成，Stage 0=`0/12`。Parent授权仍被保留为历史授权事实，但本实现已无可消费的F4 Gate授权，且前置Gate未满足；不得直接签发或运行四个family jobs。
 
 本实现只授权Stage 0，不授权Stage 1、360条formal、training、H-reveal、compression或π0.5。

@@ -1,9 +1,11 @@
 # Stage 0 readiness — smoke v1
 
-## READY_TO_RUN_STAGE0_SMOKE_AFTER_F4_INFRA_FIX
+## BLOCKED_WITH_REASONS
 
-CPU实现已完成，active/snapshot tests均=`481/481 passed`，byte-equal=true。当前只剩一个Stage 0前Gate：在真实SAPIEN中证明F4 v12不再因raw-float hash失败，且至少进入一次corridor planner query。
+CPU实现与active/snapshot `481/481` tests仍成立，但唯一F4 infrastructure run没有通过Stage 0前Gate。Pristine与canonical prefix完成；第一个fresh candidate的前七个segment完全一致，只有`A_neutral`相对冻结contract产生`0.1174670097 m / 0.0079977769 rad`偏差，因此在任何corridor planner query前fail closed。
 
-该Gate通过后将直接生成12-attempt Stage 0 manifest，并在GPU0–7中任意独立fresh-idle卡上并行运行F1–F4。F2/F3不需要先修到成功；失败将作为`FAILED_WITH_EVIDENCE`保留。
+本次实际计数=`10 planner/0 execution/0 recovery`；10次planner query全部属于canonical prefix，corridor query=`0`。三场scene cleanup、activity-monitor恢复、source lock、GPU0释放和orphan=0全部通过。Single-use授权已消费且禁止retry，所以未生成canonical 12-attempt manifest，Stage 0=`0/12`。
+
+当前最小代码根因边界是：suffix contract的branch-neutral由canonical prefix的`common_center_high`定义，但fresh scene在prefix replay后又从已经移动到tray的`common_x`重算该target。下一安全动作是先审阅并版本化“复用冻结canonical neutral，而不是从post-prefix actor重算”的collector修复；新GPU运行需新授权。
 
 Stage 1、360 formal trajectories、training、H-reveal、compression和π0.5仍未授权。
