@@ -1,38 +1,37 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision7_cpu_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision7_terminal_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
   "implementation_revision": "runtime_v3_3_revision7_impact_addendum_v1",
   "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
   "budget_receipt_sha256": "1a3e2e18acc8af984dbb76e637ac140c930c332748202e7b61564b77c86f8d62",
-  "parent_user_authorization_sha256": "dc16de4ddd05481160713f97182206d60e54acb8b8a67cc886659d19b77739e1",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
-  "new_gpu_launch_authorized": true,
+  "new_gpu_launch_authorized": false,
   "accepted_real_roots": 1,
-  "status": "revision7_exact_bundles_published_gpu_not_run",
-  "cpu_tests": {"active": "382/382 passed", "snapshot": "382/382 passed", "byte_equal": true},
+  "status": "revision7_terminal_revision8_cpu_repair_required",
   "current_family_status": {
     "F1": {"accepted_root": true, "status": "accepted_revision2"},
     "F2": {
       "accepted_root": false,
-      "revision7": "inside_only_frozen_r6_evidence_tracking_compensation_and_diagnostic_alignment",
-      "envelope": {"planner": 32, "execution": 3, "recovery": 0},
-      "gpu": "not_run"
+      "revision7_status": "inside_compensated_first_endpoint_IK_FAIL",
+      "budget_counts": {"planner": 30, "execution": 0, "recovery": 0},
+      "next": "normal_planner_false_evidence_plus_fixed_XY_only_compensation"
     },
     "F3": {
       "accepted_root": false,
-      "revision7": "projection_key_wiring_preplanner_partial_evidence_and_implementation_error_classification",
-      "envelope": {"planner": 96, "execution": 3, "recovery": 0},
-      "gpu": "not_run"
+      "revision7_status": "all_VH_and_geometry_pass_preopen_zero_impulse_pair_false_negative",
+      "budget_counts": {"planner": 96, "execution": 3, "recovery": 0},
+      "next": "signed_separation_shape_trace_and_physical_contact_classifier"
     },
     "F4": {
       "accepted_root": false,
-      "revision7": "role_A_pose_and_nonzero_impulse_A_only_micro",
-      "envelope": {"planner": 13, "execution": 1, "recovery": 0},
-      "gpu": "not_run"
+      "revision7_micro_status": "accepted_A_only_micro",
+      "budget_counts": {"planner": 13, "execution": 1, "recovery": 0},
+      "role_A_rise_m": 0.017215192317962646,
+      "next": "staged_A_B_C_AB_then_full_ABC_ACB_BAC"
     }
   },
-  "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION6_TERMINAL_AUDIT_AND_R7_IMPACT_REVIEW_20260830.json"
+  "latest_runtime_evidence": "F2_F3_RUNTIME_V3_3_REVISION7_TERMINAL_F4_MICRO_ACCEPTED_AND_R8_IMPACT_REVIEW_20260830.json"
 }

@@ -1,16 +1,17 @@
-# Stage 0 readiness：runtime-v3_3 revision-7 CPU current
+# Stage 0 readiness：runtime-v3_3 revision-7 terminal current
 
 ## BLOCKED_WITH_REASONS
 
-Revision-7 active/snapshot各382/382、byte-equal且独立P0审计通过，但尚未真实运行。F1仍是唯一accepted root，当前`1/4`。
-
-下一步只允许已经发布的F2-r7完整root、F3-r7完整root、F4-r7 A-only micro single-use bundles。可在physical GPU0–7中为每个job选择一张独立fresh-idle卡；不同卡并行必须完整隔离，F4 micro即使通过也不是完整accepted root。Stage0继续禁止。
+F4 A-only micro已经通过，但不是完整F4 root。F1仍是唯一accepted root，当前`1/4`；F2 inside未执行，F3未开夹/验证final equivalence，F4 B/C与完整三程序未运行。
 
 ```yaml
-revision7_cpu_ready: true
-revision7_gpu_started: false
-new_gpu_launch_authorized: true
+F4_A_only_micro: accepted
+revision7_gpu_scopes_terminal: true
+revision8_cpu_work_required: true
+new_gpu_launch_authorized: false
 accepted_roots: 1/4
 stage0_trajectories: 0
 formal_trajectories: 0
 ```
+
+下一安全动作是封存r7证据，再完成F2 planner-false/XY-only、F3 separation/contact signal mapping和F4 full-scope CPU审计。Stage0继续禁止。

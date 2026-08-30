@@ -1,0 +1,111 @@
+{
+  "schema_version": "cmf_runtime_v3_3_revision7_terminal_f4_micro_accepted_and_r8_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision7_impact_addendum_v1",
+  "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
+  "budget_receipt_sha256": "1a3e2e18acc8af984dbb76e637ac140c930c332748202e7b61564b77c86f8d62",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "families": {
+    "F2": {
+      "terminal_status": "failed_planner",
+      "planner_query_count": 30,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "task_physical_three_of_three_pass": true,
+      "canonical_prefix_planner_query_count": 19,
+      "relation_preflight": {
+        "inside": "inside_drop_release_10cm_first_query_IK_FAIL",
+        "on": "4_of_4_planner_segments_passed_not_executed",
+        "beside": "6_of_6_planner_segments_passed_not_executed"
+      },
+      "compensated_goal_applied_exactly": true,
+      "compensated_endpoint_delta_from_r6_success": {
+        "translation_m": 0.0118215,
+        "orientation_rad": 0.0925778
+      },
+      "failure_classification": "intended_full_SE3_compensated_endpoint_is_not_IK_solvable",
+      "normal_planner_false_evidence_gap": "self-hashed compensation/controller partial is not persisted when planner_solvable returns false without raising",
+      "next_source_distinct_repair": "persist normal planner-false input evidence and test one fixed XY-only compensation that preserves the r6-successful z/quaternion; no search or fallback"
+    },
+    "F3": {
+      "terminal_status": "failed_verifier",
+      "planner_query_count": 96,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "family_suffix_gate_three_of_three_pass": true,
+      "all_program_VH_realized_motion_pass": true,
+      "all_program_10mm_geometry_planning_and_runtime_pass": true,
+      "program_status": {
+        "VVHH": "failed_contact_free_preopen_false_negative",
+        "VHVH": "failed_contact_free_preopen_false_negative",
+        "VHHV": "failed_contact_free_preopen_false_negative"
+      },
+      "only_false_preopen_checks": [
+        "contact_free_of_pad_and_table",
+        "gripper_assembly_contact_free_of_pad_and_table"
+      ],
+      "runtime_clearance_mm": {
+        "VVHH": {"bottle": 10.249588, "assembly": 46.195533},
+        "VHVH": {"bottle": 10.274491, "assembly": 46.187665},
+        "VHHV": {"bottle": 10.264037, "assembly": 46.178248}
+      },
+      "zero_impulse_near_pair_records_per_program": {
+        "bottle_pad": 150,
+        "fl_link7_pad": 50,
+        "nonzero_impulse_records": 0
+      },
+      "open_disengagement_and_final_equivalence_executed": false,
+      "trace_signal_blocker": "signed contact-point separation and shape identity are not saved, so zero impulse alone cannot prove non-penetration",
+      "next_source_distinct_repair": "save signed separation/shape identity and classify physical contact as nonzero impulse or separation<=0 while retaining pair presence as audit-only and requiring geometry pass"
+    },
+    "F4_micro": {
+      "terminal_status": "accepted",
+      "guard_status": "completed",
+      "planner_query_count": 13,
+      "execution_attempt_count": 1,
+      "recovery_attempt_count": 0,
+      "raw_action_count": 3751,
+      "raw_state_count": 3752,
+      "frequency_hz": 250,
+      "role_A_actor_rise_m": 0.017215192317962646,
+      "minimum_required_actor_rise_m": 0.015,
+      "selected_contact_fraction": 1.0,
+      "selected_contact_break_count": 0,
+      "minimum_selected_contact_count": 2,
+      "A_table_pair_presence_frames": 87,
+      "A_table_nonzero_impulse_frames": 7,
+      "tail_10_impulse_norm_sum": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "preclose_boundary_pass": true,
+      "noninterference_pass": true,
+      "common_X_tray_predicate_preserved": true,
+      "same_current_anchor_prefix_pass": true,
+      "claim_boundary": "A-only micro-lift feasibility and verifier mapping passed; this is not an accepted F4 root",
+      "next_scope": "F4 staged A/B/C/AB and full ABC/ACB/BAC under the existing F4_block_root_per_revision contract"
+    }
+  },
+  "gpu_and_cleanup": {
+    "physical_gpu_index": 0,
+    "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "all_three_no_timeout": true,
+    "all_scene_cleanup_safe": true,
+    "all_task_owned_orphan_count_zero": true,
+    "all_post_source_lock_pass": true,
+    "all_gpu_release_verified": true,
+    "nonzero_gpu_parallel_launches_rejected_before_consumption": true
+  },
+  "evidence_manifests": {
+    "F2": {"path": "F2_ROOT_RUNTIME_V3_3_REVISION7_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 28, "tree_sha256": "3cc23996b115d3f23cc3aa2a551ffd2ad7543d7b072fa7581e50027292641cca"},
+    "F3": {"path": "F3_ROOT_RUNTIME_V3_3_REVISION7_FAILURE_EVIDENCE_MANIFEST_20260830.json", "file_count": 36, "tree_sha256": "43db0df94ca608c03aea5a5366803ce94674d6624cd0eecf50cf13f97ff9a914"},
+    "F4": {"path": "F4_MICRO_RUNTIME_V3_3_REVISION7_ACCEPTED_EVIDENCE_MANIFEST_20260830.json", "file_count": 17, "tree_sha256": "5139caa8e5c63e75fc6b926c18c74acd9e2fa5846a870860e97b6ea6a6f4d1df"}
+  },
+  "decision": "BLOCKED_WITH_REASONS",
+  "next_phase": "runtime_v3_3_revision8_cpu_source_distinct_repairs_and_F4_full_scope",
+  "stage0_trajectory_count": 0,
+  "stage1_trajectory_count": 0,
+  "formal_f1_f4_trajectory_count": 0,
+  "h_reveal": null
+}
