@@ -1,0 +1,22 @@
+{
+  "schema_version": "cmf_common_scope_counter_schema_document_runtime_v3_4_1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "implementation_source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+  "planner_query_counts": {
+    "fields": ["canonical_prefix", "target_construction", "suffix_control_chain", "diagnostic_only", "scope_total"],
+    "identity": "scope_total = canonical_prefix + target_construction + suffix_control_chain + diagnostic_only",
+    "budget_count_field": "scope_total",
+    "executable_control_cache_count_field": "suffix_control_chain"
+  },
+  "execution_attempt_counts": {
+    "fields": ["dispatch_started", "controller_entered", "terminal_receipt_written"],
+    "budget_count_field": "dispatch_started",
+    "dispatch_counted_before_controller_call": true,
+    "finally_persistence_required": true
+  },
+  "failure_channels": ["primary_failure", "cleanup_status", "receipt_propagation_status"],
+  "missing_evidence_classification": "infrastructure_schema_failure",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false
+}

@@ -10,6 +10,7 @@ import numpy as np
 
 from .anchor import quaternion_angular_error
 from .current_hasher import hash_array, hash_json
+from .common_scope_counter_schema_v3_4_1 import build_planner_query_counts
 from .families import F4SubtaskOrder
 from .f2_mutually_exclusive_region_layout_v2 import (
     BESIDE_INNER_M,
@@ -59,6 +60,9 @@ from .f2_release_gates_v10 import (
     FINAL_SETTLE_FRAMES as F2_FINAL_SETTLE_FRAMES_V10,
     audit_f2_final_inside_success_gate_v10,
     audit_f2_release_safety_gate_v10,
+)
+from .f2_preload_entry_evidence_gate_v11 import (
+    audit_f2_preload_entry_evidence_gate_v11,
 )
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
@@ -147,6 +151,9 @@ from .geometry import (
     world_axis_offset_pose,
     world_z_yaw_pose,
 )
+from .joint_limit_audit_v3_4_1 import (
+    audit_terminal_qpos_against_joint_limits,
+)
 from .f1_uniform_carry_hub_v2 import (
     F1_CARRY_HUB_VERSION,
     REVISION2_SEGMENT_ORDER as F1_REVISION2_SEGMENT_ORDER,
@@ -183,6 +190,11 @@ from .f4_carry_corridor_v10 import (
     apply_f4_corridor_candidate_v10,
     build_f4_fixed_order_corridors_v10,
 )
+from .f4_exact_corridor_application_v11 import (
+    build_f4_exact_A_corridors_v11,
+    derive_role_corridor_v11,
+    validate_f4_exact_candidate_application_v11,
+)
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
@@ -214,6 +226,9 @@ def _raw_result(*args, **kwargs):
     scene = args[0] if args else kwargs.get("scene")
     adapter_version = getattr(scene, "_cmf_adapter_version", "")
     kwargs["implementation_version"] = (
+        "controlled_multi_future_runtime_v3_4_1"
+        if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_5"
+        else
         "controlled_multi_future_runtime_v3_4"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_4"
         else "controlled_multi_future_runtime_v3_3"
@@ -691,32 +706,34 @@ def _cache_preplanned_suffix_controls(
     active_joints = list(getattr(scene.robot, f"{arm}_entity").get_active_joints())
     if len(active_joints) != len(terminal_qpos):
         raise ValueError("suffix terminal qpos does not match active-joint count")
-    joint_limits = np.asarray(
-        [np.asarray(joint.get_limits(), dtype=np.float64).reshape(-1, 2)[0] for joint in active_joints],
-        dtype=np.float64,
+    terminal_joint_audit = audit_terminal_qpos_against_joint_limits(
+        active_joints, terminal_qpos
     )
-    joint_margins = np.minimum(
-        terminal_qpos - joint_limits[:, 0], joint_limits[:, 1] - terminal_qpos
-    )
-    finite_margin = np.isfinite(joint_margins)
-    serialized_joint_margins = [
-        float(value) if np.isfinite(value) else None for value in joint_margins
+    serialized_joint_margins = terminal_joint_audit[
+        "terminal_joint_limit_margin_rad"
     ]
-    minimum_joint_margin = (
-        float(np.min(joint_margins[finite_margin]))
-        if np.any(finite_margin)
-        else None
-    )
-    within_joint_limits = bool(
-        np.all(
-            (~np.isfinite(joint_limits[:, 0]))
-            | (terminal_qpos >= joint_limits[:, 0])
-        )
-        and np.all(
-            (~np.isfinite(joint_limits[:, 1]))
-            | (terminal_qpos <= joint_limits[:, 1])
-        )
-    )
+    minimum_joint_margin = terminal_joint_audit[
+        "minimum_terminal_joint_limit_margin_rad"
+    ]
+    within_joint_limits = terminal_joint_audit[
+        "terminal_qpos_within_joint_limits"
+    ]
+    segment_receipts = []
+    for item in planned["segment_receipts"]:
+        augmented = dict(item)
+        if "end_qpos" not in augmented:
+            augmented["joint_limit_evidence_complete"] = False
+            augmented["joint_limit_failure_type"] = (
+                "infrastructure_missing_terminal_qpos"
+            )
+        else:
+            audit = audit_terminal_qpos_against_joint_limits(
+                active_joints, augmented["end_qpos"]
+            )
+            augmented.update(audit)
+            augmented["joint_limit_evidence_complete"] = True
+            augmented["joint_limit_failure_type"] = None
+        segment_receipts.append(augmented)
     planner_query_receipts = [
         dict(item)
         for item in getattr(scene, "planner_queries", [])[-int(planner_query_count):]
@@ -740,7 +757,7 @@ def _cache_preplanned_suffix_controls(
             }
             for item in targets
         ],
-        "segment_receipts": planned["segment_receipts"],
+        "segment_receipts": segment_receipts,
         "planner_reset_receipt": reset,
         "planner_query_receipts": planner_query_receipts,
         "terminal_qpos": terminal_qpos.tolist(),
@@ -748,6 +765,9 @@ def _cache_preplanned_suffix_controls(
         "terminal_joint_limit_margin_rad": serialized_joint_margins,
         "minimum_terminal_joint_limit_margin_rad": minimum_joint_margin,
         "terminal_qpos_within_joint_limits": within_joint_limits,
+        "joint_limit_audit_version": terminal_joint_audit[
+            "joint_limit_audit_version"
+        ],
     }
     if extra:
         spec.update(dict(extra))
@@ -789,12 +809,15 @@ def _cache_preplanned_suffix_controls(
         "evidence": {
             "planner_reset_receipt": reset,
             "planner_query_receipts": planner_query_receipts,
-            "segment_receipts": planned["segment_receipts"],
+            "segment_receipts": segment_receipts,
             "terminal_qpos": terminal_qpos.tolist(),
             "terminal_qpos_sha256": hash_array(terminal_qpos),
             "terminal_joint_limit_margin_rad": serialized_joint_margins,
             "minimum_terminal_joint_limit_margin_rad": minimum_joint_margin,
             "terminal_qpos_within_joint_limits": within_joint_limits,
+            "joint_limit_audit_version": terminal_joint_audit[
+                "joint_limit_audit_version"
+            ],
             "planner_collision_check_source": "official CuRobo planner success/failure per frozen segment",
             "quantitative_collision_clearance_available": False,
             "preflight_and_execution_share_control_cache": True,
@@ -1613,6 +1636,47 @@ class F1ControllerV3_3(FamilyControllerV3_3):
         )
         result["evidence"]["comparative_reachability"] = comparative
         result["evidence"]["carry_hub_audit"] = carry_hub_audit
+        target_query_count = int(
+            target_construction_audit["batch_call_count"]
+        )
+        chain_query_count = int(result["planner_query_count"])
+        planner_counts = build_planner_query_counts(
+            target_construction=target_query_count,
+            suffix_control_chain=chain_query_count,
+        )
+        live_receipts = list(getattr(scene, "planner_queries", []))
+        if len(live_receipts) != planner_counts["scope_total"]:
+            raise RuntimeError(
+                "F1 target-construction + chain planner receipts differ from live total"
+            )
+        query_ids = [int(item["query_id"]) for item in live_receipts]
+        if query_ids != list(
+            range(query_ids[0], query_ids[0] + len(query_ids))
+        ):
+            raise RuntimeError("F1 suffix planner query IDs are not continuous")
+        target_receipts = live_receipts[:target_query_count]
+        chain_receipts = live_receipts[target_query_count:]
+        controls = result.get("_execution_controls") or []
+        if len(chain_receipts) != len(controls):
+            raise RuntimeError(
+                "F1 control-chain planner receipts do not map one-to-one to cached controls"
+            )
+        result["planner_query_count"] = planner_counts["scope_total"]
+        result["planner_query_counts"] = planner_counts
+        result["evidence"]["planner_query_counts"] = planner_counts
+        result["evidence"][
+            "target_construction_planner_query_receipts"
+        ] = target_receipts
+        result["evidence"][
+            "suffix_control_chain_planner_query_receipts"
+        ] = chain_receipts
+        result["evidence"]["planner_count_invariants"] = {
+            "scope_total_equals_live_delta": True,
+            "target_plus_chain_equals_scope_total": True,
+            "query_ids_continuous": True,
+            "chain_receipts_match_cached_controls": True,
+            "target_construction_receipts_are_executable_segments": False,
+        }
         return result
 
     def execute_frozen_suffix_spec(
@@ -2917,19 +2981,83 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 _wait_and_record(scene, F2_INSIDE_R6_TOTAL_SETTLE_STEPS)
                 hold_rows = scene.trace[-F2_INSIDE_R6_TOTAL_SETTLE_STEPS:]
                 release_geometry_gate = current_inside_drop_opening_gate()
-                pre_release_hold = audit_f2_inside_pre_release_settle_window_v6(
-                    hold_rows,
-                    can_actor_name=can_name,
-                    selected_contact_signal_link_names=sorted(
-                        selected_gripper_bodies
-                    ),
-                    allowed_gripper_assembly_body_names=(
-                        gripper_assembly_topology[
-                            "allowed_gripper_assembly_body_names"
-                        ]
-                    ),
-                    final_geometry_gate=release_geometry_gate,
-                )
+                preload_entry_rows = [
+                    {
+                        **row,
+                        "contact_signal_complete": complete_contact_signal(
+                            row
+                        ),
+                    }
+                    for row in hold_rows
+                ]
+                try:
+                    pre_release_hold = audit_f2_preload_entry_evidence_gate_v11(
+                        preload_entry_rows,
+                        can_actor_name=can_name,
+                        selected_contact_signal_link_names=sorted(
+                            selected_gripper_bodies
+                        ),
+                        allowed_gripper_assembly_body_names=(
+                            gripper_assembly_topology[
+                                "allowed_gripper_assembly_body_names"
+                            ]
+                        ),
+                        final_geometry_gate=release_geometry_gate,
+                    )
+                except BaseException as evidence_exc:
+                    pre_release_hold = {
+                        "schema_version": (
+                            "cmf_f2_preload_entry_evidence_gate_v11_failure"
+                        ),
+                        "pass": False,
+                        "evidence_complete": False,
+                        "failure_type": "infrastructure_schema_failure",
+                        "error_type": type(evidence_exc).__name__,
+                        "error": str(evidence_exc),
+                        "formal_data": False,
+                        "stage0_data": False,
+                    }
+                    scene._cmf_f2_inside_pre_release_settle_v6 = (
+                        pre_release_hold
+                    )
+                    scene._cmf_f2_preload_entry_evidence_gate_v11 = (
+                        pre_release_hold
+                    )
+                    inside_release_samples[
+                        "pre_release_hold_gate"
+                    ] = pre_release_hold
+                    raise RuntimeError(
+                        "F2 preload-entry evidence is infrastructure-incomplete"
+                    ) from evidence_exc
+                # Retain the stricter v6 threshold result as a diagnostic-only
+                # historical comparator.  It no longer blocks entry into the
+                # unchanged v10 ReleaseSafety Gate.
+                try:
+                    pre_release_legacy_diagnostic_v6 = (
+                        audit_f2_inside_pre_release_settle_window_v6(
+                            hold_rows,
+                            can_actor_name=can_name,
+                            selected_contact_signal_link_names=sorted(
+                                selected_gripper_bodies
+                            ),
+                            allowed_gripper_assembly_body_names=(
+                                gripper_assembly_topology[
+                                    "allowed_gripper_assembly_body_names"
+                                ]
+                            ),
+                            final_geometry_gate=release_geometry_gate,
+                        )
+                    )
+                except BaseException as diagnostic_exc:
+                    pre_release_legacy_diagnostic_v6 = {
+                        "status": "diagnostic_unavailable",
+                        "error_type": type(diagnostic_exc).__name__,
+                        "error": str(diagnostic_exc),
+                        "hard_gate": False,
+                    }
+                inside_release_samples[
+                    "pre_release_legacy_diagnostic_v6"
+                ] = pre_release_legacy_diagnostic_v6
                 staged_inside_gates.append(
                     {
                         "segment_id": "inside_drop_pre_release_settle_10_plus_50_v6",
@@ -2943,9 +3071,12 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 scene._cmf_f2_inside_pre_release_settle_v6 = (
                     pre_release_hold
                 )
+                scene._cmf_f2_preload_entry_evidence_gate_v11 = (
+                    pre_release_hold
+                )
                 if pre_release_hold["pass"] is not True:
                     raise RuntimeError(
-                        "F2 inside gravity-drop pre-release stability/contact Gate failed"
+                        "F2 preload-entry evidence Gate v11 failed"
                     )
             inside_release_samples["before_release"] = release_sample(
                 "before_release"
@@ -3949,6 +4080,54 @@ class F3ControllerV3_3(FamilyControllerV3_3):
     def _boundary_transform(scene, replay, name):
         return _replay_boundary_transform(scene, replay, name)
 
+    def plan_f3_first_suffix_event_diagnostic_v11(
+        self, scene, program, replay
+    ):
+        axes = "".join(step["axis"] for step in program["steps"])
+        if axes not in ("VVHH", "VHVH", "VHHV") or axes[0] != "V":
+            raise ValueError("F3 diagnostic requires canonical F3 program")
+        axis = axes[1]
+        center = _arm_eef_pose(scene, "left")
+        amplitude = (
+            F3_H_NOMINAL_AMPLITUDE_M_V3_3
+            if axis == "H"
+            else F3_V_NOMINAL_AMPLITUDE_M_V3_3
+        )
+        targets = _time_dilated_closed_loop_event_targets(
+            center,
+            axis=axis,
+            amplitude_m=amplitude,
+            segment_prefix=f"suffix_event_1_{axis}",
+        )
+        return _cache_suffix_controls(
+            scene,
+            program_id=program["program_id"],
+            arm="left",
+            targets=targets,
+            query_limit=12,
+            extra={
+                "event_order": axes,
+                "event_groups": [
+                    {
+                        "event_index": 1,
+                        "axis": axis,
+                        "target_start_index": 0,
+                        "target_count": len(targets),
+                        "endpoint_hold_steps": (
+                            F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2
+                        ),
+                    }
+                ],
+                "diagnostic_context_id": f"grasp_context_{axes}",
+                "diagnostic_mode": (
+                    "stop_after_shared_v_plus_first_suffix_event"
+                ),
+                "diagnostic_stop_boundary": "before_return_and_release",
+                "diagnostic_nonroot": True,
+                "release_targets_planned": False,
+            },
+        )
+
     def execute_grasp_robustness_diagnostic_v10(
         self, scene, program, spec, replay, realization_spec
     ):
@@ -3956,8 +4135,10 @@ class F3ControllerV3_3(FamilyControllerV3_3):
 
         controls = _cached_controls(scene, spec)
         groups = list(spec.get("event_groups", []))
-        if len(groups) != 3:
-            raise RuntimeError("F3 diagnostic requires the frozen three suffix events")
+        if len(groups) not in (1, 3):
+            raise RuntimeError(
+                "F3 diagnostic requires one targeted or three full suffix groups"
+            )
         group = groups[0]
         start_row = int(replay["trace_replay_start_row"])
         v_start = int(replay["reference_event_boundaries"]["shared_first_v_start"])
@@ -4872,9 +5053,32 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if len(groups) != 3 or [group.get("role") for group in groups] != order:
             raise ValueError("F4 object target group order differs from program order")
         flattened = []
+        variable_v11 = extra.get("exact_corridor_v11") is True
         for group in groups:
             role = group["role"]
             group_targets = group.get("targets")
+            if variable_v11:
+                if (
+                    not isinstance(group_targets, list)
+                    or len(group_targets) < 7
+                    or group_targets[0].get("segment_id")
+                    != f"{role}_pregrasp"
+                    or group_targets[1].get("segment_id") != f"{role}_grasp"
+                    or not any(
+                        item.get("segment_id") == f"{role}_release"
+                        for item in group_targets
+                    )
+                    or group_targets[-1].get("segment_id")
+                    != f"{role}_neutral"
+                ):
+                    raise ValueError(
+                        f"F4 {role} exact variable corridor structure changed"
+                    )
+                expected = tuple(
+                    item.get("segment_id") for item in group_targets
+                )
+                flattened.extend(expected)
+                continue
             expected = tuple(
                 f"{role}_{suffix}"
                 for suffix in F4_SEGMENTED_BLOCK_SUFFIXES
@@ -4887,11 +5091,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             ):
                 raise ValueError(f"F4 {role} target group structure changed")
             flattened.extend(expected)
-        if (
-            len(targets)
-            != common_count + 3 * len(F4_SEGMENTED_BLOCK_SUFFIXES)
-            or ids[common_count:] != tuple(flattened)
-        ):
+        if len(targets) != common_count + len(flattened) or ids[
+            common_count:
+        ] != tuple(flattened):
             raise ValueError("F4 flattened target sequence differs from grouped targets")
 
     def validate_replayed_prefix_physical(self, scene, replay):
@@ -5030,6 +5232,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         selected_flattened = top_down["flattened_targets"]
         selected_route_version = top_down["route_version"]
         selected_route_audit = top_down
+        exact_corridor_v11 = False
         if selected_corridor is not None:
             reference_a = next(
                 group["targets"]
@@ -5078,6 +5281,77 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "release_targets_changed": False,
                 "pass": len(selected_groups) == 3,
             }
+        selected_v11 = (
+            planned.get("selected_f4_corridor_candidate_v11")
+            if isinstance(planned, Mapping)
+            else None
+        )
+        if selected_v11 is not None:
+            if not isinstance(selected_v11, Mapping):
+                raise ValueError("F4 selected v11 corridor contract is invalid")
+            reference_a = next(
+                group["targets"]
+                for group in top_down["object_target_groups"]
+                if group["role"] == "A"
+            )
+            exact_contract = build_f4_exact_A_corridors_v11(reference_a)
+            current_candidates = [
+                item
+                for item in exact_contract["candidates"]
+                if item["candidate_id"]
+                == selected_v11.get("candidate_id")
+            ]
+            if len(current_candidates) != 1:
+                raise ValueError("F4 selected v11 corridor ID is not frozen")
+            current_candidate = current_candidates[0]
+            if current_candidate["candidate_application_sha256"] != selected_v11.get(
+                "candidate_application_sha256"
+            ):
+                raise ValueError("F4 selected v11 corridor hash changed")
+            base_by_role = {
+                group["role"]: group
+                for group in top_down["object_target_groups"]
+            }
+            selected_groups = []
+            selected_flattened = []
+            for role in order:
+                derived = derive_role_corridor_v11(
+                    selected_A_candidate=current_candidate,
+                    base_A_targets=reference_a,
+                    role=role,
+                    base_role_targets=base_by_role[role]["targets"],
+                )
+                if derived.get("pass", True) is not True:
+                    raise ValueError(f"F4 {role} v11 corridor derivation failed")
+                selected_groups.append(
+                    {
+                        **base_by_role[role],
+                        "target_start_index": len(selected_flattened),
+                        "target_count": len(derived["targets"]),
+                        "targets": derived["targets"],
+                        "selected_corridor_id": current_candidate[
+                            "candidate_id"
+                        ],
+                        "exact_corridor_derivation_v11": derived,
+                    }
+                )
+                selected_flattened.extend(derived["targets"])
+            selected_route_version = (
+                "f4_exact_variable_length_corridor_application_v11"
+            )
+            selected_route_audit = {
+                "schema_version": "cmf_f4_selected_exact_corridor_v11",
+                "selected_candidate": current_candidate,
+                "exact_contract_receipt_sha256": exact_contract[
+                    "receipt_sha256"
+                ],
+                "role_count": len(selected_groups),
+                "layout_changed": False,
+                "arm_changed": False,
+                "release_targets_changed": False,
+                "pass": len(selected_groups) == 3,
+            }
+            exact_corridor_v11 = True
         revised_extra = dict(extra)
         revised_extra.update(
             {
@@ -5086,6 +5360,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "block_carry_route_version": selected_route_version,
                 "block_carry_route_audit": selected_route_audit,
                 "uniform_top_down_block_carry_contract_v8": top_down,
+                "exact_corridor_v11": exact_corridor_v11,
                 "scene_layout_changed": False,
                 "tray_pose_changed": False,
                 "program_changed": False,
@@ -5243,9 +5518,21 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         for role in roles:
             source_group = group_by_role[role]
             start = int(source_group["target_start_index"])
-            width = len(F4_SEGMENTED_BLOCK_SUFFIXES)
+            width = int(
+                source_group.get(
+                    "target_count", len(source_group.get("targets", []))
+                )
+            )
+            if width <= 0:
+                raise ValueError(f"F4 diagnostic {role} target count is invalid")
             targets.extend(suffix_targets[start : start + width])
-            groups.append({**source_group, "target_start_index": len(targets) - width})
+            groups.append(
+                {
+                    **source_group,
+                    "target_start_index": len(targets) - width,
+                    "target_count": width,
+                }
+            )
         result = _cache_suffix_controls(
             scene,
             program_id="F4-DIAG-" + "".join(roles),
@@ -5307,6 +5594,76 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "planner_only_corridor_selection": True,
             },
         )
+
+    def build_exact_a_corridor_contract_v11(self, scene):
+        base_program = F4SubtaskOrder().checked_provisional_programs()[0]
+        all_targets, extra = self._top_down_full_targets_v8(scene, base_program)
+        suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
+        group = next(
+            item for item in extra["object_target_groups"] if item["role"] == "A"
+        )
+        start = int(group["target_start_index"])
+        width = len(group["targets"])
+        base_a = suffix_targets[start : start + width]
+        return build_f4_exact_A_corridors_v11(base_a)
+
+    def plan_a_exact_corridor_candidate_v11(
+        self, scene, replay, frozen_candidate
+    ):
+        if not isinstance(frozen_candidate, Mapping):
+            raise ValueError("F4 v11 frozen candidate must be a mapping")
+        current = self.build_exact_a_corridor_contract_v11(scene)
+        candidates = [
+            item
+            for item in current["candidates"]
+            if item["candidate_id"] == frozen_candidate.get("candidate_id")
+        ]
+        if len(candidates) != 1:
+            raise ValueError("F4 v11 candidate ID is not in frozen contract")
+        candidate = candidates[0]
+        if candidate["candidate_application_sha256"] != frozen_candidate.get(
+            "candidate_application_sha256"
+        ):
+            raise ValueError("F4 v11 candidate application hash changed")
+        targets = list(candidate["applied_planner_targets"])
+        preplanner_gate = validate_f4_exact_candidate_application_v11(
+            candidate, targets
+        )
+        # The exact contract/application check happens before this first query.
+        result = _cache_suffix_controls(
+            scene,
+            program_id=f"F4-DIAG-A-EXACT-{candidate['candidate_id']}",
+            arm="right",
+            targets=targets,
+            query_limit=16,
+            extra={
+                "object_order": ["A"],
+                "object_target_groups": [
+                    {
+                        "role": "A",
+                        "target_start_index": 0,
+                        "target_count": len(targets),
+                        "targets": targets,
+                        "selected_corridor_id": candidate["candidate_id"],
+                        "exact_corridor_v11": True,
+                    }
+                ],
+                "block_carry_route_version": (
+                    "f4_exact_variable_length_corridor_application_v11"
+                ),
+                "block_carry_route_audit": current,
+                "exact_candidate_preplanner_gate_v11": preplanner_gate,
+                "selected_corridor_candidate_v11": candidate,
+                "common_prefix_artifact_required": True,
+                "diagnostic_block_gate": True,
+                "planner_only_corridor_selection": True,
+            },
+        )
+        result["evidence"]["exact_candidate_preplanner_gate_v11"] = (
+            preplanner_gate
+        )
+        result["evidence"]["selected_corridor_candidate_v11"] = candidate
+        return result
 
     def plan_a_micro_lift_from_actual_prefix_end_state(self, scene, replay):
         target_audit = build_uniform_f4_top_down_clearance_contract_v6(
@@ -5637,6 +5994,29 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         cursor = 0
         for group in spec["object_target_groups"]:
             role = group["role"]
+            target_count = int(
+                group.get("target_count", len(group.get("targets", [])))
+            )
+            group_targets = spec["targets"][cursor : cursor + target_count]
+            group_ids = [item["segment_id"] for item in group_targets]
+            if (
+                target_count < 7
+                or group_ids[:2]
+                != [f"{role}_pregrasp", f"{role}_grasp"]
+                or group_ids[-1] != f"{role}_neutral"
+                or group_ids.count(f"{role}_release") != 1
+            ):
+                raise ValueError(f"F4 {role} variable execution route is invalid")
+            release_relative_index = group_ids.index(f"{role}_release")
+            neutral_relative_index = target_count - 1
+            if target_count == len(F4_SEGMENTED_BLOCK_SUFFIXES):
+                legacy_uniform_neutral_index = cursor + 6
+                if cursor + neutral_relative_index != legacy_uniform_neutral_index:
+                    raise ValueError("F4 legacy seven-segment neutral index changed")
+            if release_relative_index != neutral_relative_index - 1:
+                raise ValueError(
+                    f"F4 {role} release/neutral must terminate the route"
+                )
             actor = getattr(scene, role.lower())
             slot = getattr(scene, f"slot_{role.lower()}")
             scene.set_trace_contact_actor(actor)
@@ -5668,18 +6048,15 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 f"{role}_close_gripper",
             )
             grasp_contact_start_row = len(scene.trace) - 1
-            execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 2)
-            )
-            execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 3)
-            )
-            execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 4)
-            )
-            execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 5)
-            )
+            for relative_index in range(2, release_relative_index + 1):
+                execution_receipts.append(
+                    _execute_cached_segment(
+                        scene,
+                        spec,
+                        controls,
+                        cursor + relative_index,
+                    )
+                )
             grasp_contact_rows = scene.trace[grasp_contact_start_row:]
             grasp_contact_flags = [
                 bool(row["selected_gripper_contact"])
@@ -5726,7 +6103,12 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             )["pass_support_footprint"]
             completion_steps.append(completion["completion_trace_row"])
             execution_receipts.append(
-                _execute_cached_segment(scene, spec, controls, cursor + 6)
+                _execute_cached_segment(
+                    scene,
+                    spec,
+                    controls,
+                    cursor + neutral_relative_index,
+                )
             )
             _wait_and_record(scene, MINIMUM_NEUTRAL_CONFIRMATION_STEPS)
             other_after = _position_map(others)
@@ -5796,12 +6178,20 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "gripper_open_after": _arm_gripper_open(scene, "right"),
                 "neutral_position": np.linalg.norm(
                     end_eef[:3]
-                    - np.asarray(spec["targets"][cursor + 6]["pose"][:3])
+                    - np.asarray(
+                        spec["targets"][
+                            cursor + neutral_relative_index
+                        ]["pose"][:3]
+                    )
                 )
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["neutral_position_error_m"],
                 "neutral_orientation": quaternion_orientation_error(
                     end_eef[3:],
-                    np.asarray(spec["targets"][cursor + 6]["pose"][3:]),
+                    np.asarray(
+                        spec["targets"][
+                            cursor + neutral_relative_index
+                        ]["pose"][3:]
+                    ),
                 )
                 <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
                 "neutral_linear_stationary": end_linear_speed
@@ -5845,12 +6235,19 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     "common_x_tray_footprint_after": bool(
                         common_x_current_footprint
                     ),
+                    "applied_route_segment_ids": group_ids,
+                    "applied_route_target_count": target_count,
+                    "release_relative_index": release_relative_index,
+                    "neutral_relative_index": neutral_relative_index,
                     "checks": checks,
                     "pass": all(checks.values()),
                 }
             )
             completed.append(role)
-            cursor += len(F4_SEGMENTED_BLOCK_SUFFIXES)
+            if target_count == len(F4_SEGMENTED_BLOCK_SUFFIXES):
+                cursor += len(F4_SEGMENTED_BLOCK_SUFFIXES)
+            else:
+                cursor += target_count
         order = [item["block_id"] for item in block_receipts]
         expected = spec["object_order"]
         expected_roles = list(spec["object_order"])

@@ -1,0 +1,25 @@
+{
+  "schema_version": "cmf_runtime_v3_4_1_scope_budget_v1",
+  "status": "user_authorized_nonformal_runtime_v3_4_1",
+  "approved": true,
+  "frozen": true,
+  "budget_receipt_sha256": "f671f8f9e5e498a43dc7bf77dcd1dae921878eddcecd3f6cb71bfc662d342bb9",
+  "allowed_physical_gpu_indices": [0],
+  "scope_execution": "serial",
+  "automatic_retry": false,
+  "recovery_attempts": 0,
+  "maximum_scope_invocations": 1,
+  "maximum_full_root_execution_per_family": 1,
+  "scopes": {
+    "F1_shared_regression_v3_4_1": {"planner_query_limit": 64, "execution_limit": 3, "timeout_seconds": 7200, "source_envelope": [46, 3]},
+    "F2_inside_targeted_v11": {"planner_query_limit": 32, "execution_limit": 1, "timeout_seconds": 7200, "source_envelope": [22, 1]},
+    "F2_full_root_v3_4_1": {"planner_query_limit": 32, "execution_limit": 3, "timeout_seconds": 7200, "source_envelope": [32, 3]},
+    "F3_three_context_targeted_v11": {"planner_query_limit": 48, "execution_limit": 3, "timeout_seconds": 10800, "source_envelope": [42, 3]},
+    "F3_full_root_v3_4_1": {"planner_query_limit": 96, "execution_limit": 3, "timeout_seconds": 10800, "source_envelope": [96, 3]},
+    "F4_exact_corridor_A_v11": {"planner_query_limit": 64, "execution_limit": 1, "timeout_seconds": 14400, "source_envelope": [58, 1]},
+    "F4_BC_preflight_v11": {"planner_query_limit": 32, "execution_limit": 0, "timeout_seconds": 10800, "source_envelope": [26, 0]},
+    "F4_full_root_v3_4_1": {"planner_query_limit": 96, "execution_limit": 3, "timeout_seconds": 20400, "source_envelope": [82, 3]}
+  },
+  "formal_data": false,
+  "stage0_authorized": false
+}

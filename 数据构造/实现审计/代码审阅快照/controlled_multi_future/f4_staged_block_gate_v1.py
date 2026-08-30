@@ -42,6 +42,7 @@ class F4StagedBlockExecutionGateV1:
         *,
         gate_sequence=None,
         implementation_version="controlled_multi_future_runtime_v3_3",
+        planner_only=False,
     ):
         if adapter.family != "F4":
             raise ValueError("F4 staged Gate requires an F4 adapter")
@@ -58,6 +59,7 @@ class F4StagedBlockExecutionGateV1:
         ):
             raise ValueError("F4 staged Gate sequence is invalid")
         self.implementation_version = str(implementation_version)
+        self.planner_only = bool(planner_only)
 
     def run(self, *, output_dir: Path, planned_root_slot_spec) -> dict:
         output_dir = Path(output_dir)
@@ -74,6 +76,7 @@ class F4StagedBlockExecutionGateV1:
             "stage0_authorized": False,
             "status": "running",
             "gate_sequence": [list(item) for item in self.gate_sequence],
+            "planner_only": self.planner_only,
             "planner_query_count": 0,
             "execution_attempt_count": 0,
             "reference_prefix_generation_count": 1,
@@ -300,6 +303,21 @@ class F4StagedBlockExecutionGateV1:
                 finally:
                     receipt["planner_query_count"] += int(runtime["queries"])
 
+                if self.planner_only:
+                    gate_receipt = {
+                        "status": "passed_planner_preflight",
+                        "roles": list(roles),
+                        "planner_solvable": suffix_receipt.get("planner_solvable")
+                        is True,
+                        "suffix_planner": suffix_receipt,
+                        "execution_attempt_count": 0,
+                        "formal_data": False,
+                        "stage0_data": False,
+                    }
+                    receipt["gate_receipts"].append(gate_receipt)
+                    _write_json(gate_dir / "receipt.json", gate_receipt)
+                    continue
+
                 suffix_manifest, _, controls = load_frozen_suffix_artifact(
                     gate_dir / "suffix_artifact"
                 )
@@ -435,10 +453,20 @@ class F4StagedBlockExecutionGateV1:
                         f"F4 staged {gate_id} semantic verifier failed"
                     )
 
+            expected_status = (
+                "passed_planner_preflight" if self.planner_only else "passed"
+            )
+            passed = len(receipt["gate_receipts"]) == len(
+                self.gate_sequence
+            ) and all(
+                item.get("status") == expected_status
+                for item in receipt["gate_receipts"]
+            )
             receipt["status"] = (
-                "passed_f4_staged_block_gate"
-                if len(receipt["gate_receipts"]) == len(self.gate_sequence)
-                and all(item.get("status") == "passed" for item in receipt["gate_receipts"])
+                "passed_f4_staged_planner_only_gate"
+                if passed and self.planner_only
+                else "passed_f4_staged_block_gate"
+                if passed
                 else "failed_f4_staged_block_gate"
             )
         except CleanupUncertain as exc:

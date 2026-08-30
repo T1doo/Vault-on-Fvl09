@@ -368,9 +368,15 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             in (
                 "RoboTwinRealSapienStrictPrefixAdapterV1_4",
                 "F3GraspDiagnosticAdapterV10",
+                "RoboTwinRealSapienStrictPrefixAdapterV1_5",
             )
         ):
-            implementation_version = "controlled_multi_future_runtime_v3_4"
+            implementation_version = (
+                "controlled_multi_future_runtime_v3_4_1"
+                if type(adapter).__name__
+                == "RoboTwinRealSapienStrictPrefixAdapterV1_5"
+                else "controlled_multi_future_runtime_v3_4"
+            )
         super().__init__(adapter, implementation_version=implementation_version)
 
     def run_nonformal_root(

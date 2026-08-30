@@ -1,0 +1,16 @@
+{
+  "schema_version": "cmf_f2_gate_responsibility_impact_runtime_v3_4_1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "main_object": "071_can/base1",
+  "arm": "left",
+  "target": "plasticbox/base2",
+  "gate_order": ["F2PreloadEntryEvidenceGateV11", "partial_open", "F2ReleaseSafetyGateV10", "full_open", "exactly_250_settle_frames", "F2FinalInsideSuccessGateV10"],
+  "entry_hard_thresholds": {"maximum_linear_speed_mps": 0.05, "maximum_angular_speed_rps": 1.0, "minimum_rim_clearance_m": 0.02},
+  "legacy_final_like_thresholds_diagnostic_only": {"linear_speed_mps": 0.02, "angular_speed_rps": 0.05},
+  "final_thresholds_unchanged": {"linear_speed_mps": 0.02, "angular_speed_rps": 0.05, "settle_frames": 250, "true_cavity_required": true},
+  "f2_v10_source_sha256": "6a4910f6da4e6f90fb78083ff675b4ec5a3cfaf0b52fe29495958a7a449310c9",
+  "v10_gate_semantics_changed": false,
+  "missing_evidence_failure_type": "infrastructure_schema_failure",
+  "formal_data": false,
+  "stage0_authorized": false
+}

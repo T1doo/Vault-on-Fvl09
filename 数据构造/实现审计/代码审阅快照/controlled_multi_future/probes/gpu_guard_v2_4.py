@@ -1,4 +1,4 @@
-"""Source-lock/request-bound atomic single-card guard for runtime-v3_3/v3_4."""
+"""Source-lock/request-bound atomic single-card guard for runtime-v3_3/v3_4/v3_4_1."""
 
 from __future__ import annotations
 
@@ -44,6 +44,11 @@ from .runtime_v3_4_authorization_v1 import (
     load_authorization_v3_4,
     validate_consumption_receipt as validate_consumption_receipt_v3_4,
 )
+from .runtime_v3_4_1_authorization_v1 import (
+    consume_authorization_once as consume_authorization_once_v3_4_1,
+    load_authorization_v3_4_1,
+    validate_consumption_receipt as validate_consumption_receipt_v3_4_1,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -77,6 +82,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_runtime_v3_4_1":
+        return load_authorization_v3_4_1(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_runtime_v3_4":
         return load_authorization_v3_4(
             path, requested_scope=requested_scope, **kwargs
@@ -87,6 +96,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4_1":
+        return consume_authorization_once_v3_4_1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4":
         return consume_authorization_once_v3_4(
             authorization, ledger_directory=ledger_directory
@@ -97,6 +110,8 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4_1":
+        return validate_consumption_receipt_v3_4_1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_runtime_v3_4":
         return validate_consumption_receipt_v3_4(consumption, authorization)
     return validate_consumption_receipt(consumption, authorization)

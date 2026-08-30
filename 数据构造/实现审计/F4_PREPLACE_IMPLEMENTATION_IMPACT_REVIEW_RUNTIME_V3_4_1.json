@@ -1,0 +1,17 @@
+{
+  "schema_version": "cmf_f4_preplace_implementation_impact_review_runtime_v3_4_1",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "corrected_v3_4_claim": "four carry-mid substitutions plus unchanged old preplace were tested; four complete corridors were not tested",
+  "layout_infeasible_proven": false,
+  "layout_change_authorized": false,
+  "arm_change_authorized": false,
+  "final_release_target_change_authorized": false,
+  "fixed_candidate_order": ["c1_r4_mid_restore_then_preplace", "c2_neutralcarry_direct_preplace", "c3_lower_mid_lower_preplace", "c4_lower_entry_lower_mid_lower_preplace"],
+  "preplanner_exact_checks": ["segment_ids_equal", "target_pose_sha256_equal"],
+  "successful_segment_evidence": ["terminal_qpos", "minimum_terminal_joint_limit_margin_rad", "terminal_qpos_within_joint_limits", "joint_limit_audit_version"],
+  "missing_evidence_failure_type": "infrastructure_schema_failure",
+  "gate_order": ["fixed_order_corridor_selection_planner_only", "A_only_execution", "B_C_planner_only", "one_full_nonformal_root"],
+  "all_four_fail_terminal": "layout_impact_review_request_required",
+  "formal_data": false,
+  "stage0_authorized": false
+}
