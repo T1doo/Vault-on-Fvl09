@@ -1,0 +1,105 @@
+{
+  "arm": "left",
+  "automatic_retry": false,
+  "bottle": "001_bottle/base13",
+  "budget_sha256": "16960c23c6cd47119233afe66d945e228c9c208a109c573ec4029d2b51efe90b",
+  "canonical_program_ids": [
+    "F3-VVHH",
+    "F3-VHVH",
+    "F3-VHHV"
+  ],
+  "diagnostic_program_id_mutation_forbidden": true,
+  "family": "F3",
+  "formal_data": false,
+  "generator": "controlled_multi_future_joint_scene_v3_4_1_adapter_v1_5",
+  "grasp_contract": {
+    "arm": "left",
+    "asset": {
+      "model_id": 13,
+      "modelname": "001_bottle"
+    },
+    "close_normalized_target": 0.0,
+    "contact_point_id": 0,
+    "contract_sha256": "89cffd4e5708536d13176b2c4c5978e21a261a4fdb6772b9e0f03b626b9eb1e8",
+    "contract_version": "f3_geometry_midbody_contact0_candidate0_v10",
+    "design_version": "controlled_multi_future_f1_f4_v1_2",
+    "evidence": {
+      "asset_contact_point_count": 8,
+      "asset_extents_m": [
+        0.06866,
+        0.247941,
+        0.067626
+      ],
+      "revision8_revision9_diff_forensic_output_sha256": "23024fd44dff71febf3736b6654eb431b6971ea5a258c7f9c3b4365c5cbfee4f",
+      "revision9_contact0_all_ten_planner_candidates_success": true,
+      "revision9_existing_contact3_slipped_in_suffix": true
+    },
+    "formal_data": false,
+    "grasp_region": "asset side mid-body; avoids the revision-8/9 upper-neck contact3 grasp",
+    "implementation_version": "controlled_multi_future_runtime_v3_4",
+    "invariants": {
+      "automatic_retry": false,
+      "bottle_changed": false,
+      "fallback_forbidden": true,
+      "online_success_selection_forbidden": true,
+      "orientation_threshold_changed": false,
+      "program_specific_grasp_forbidden": true,
+      "recovery_attempts": 0,
+      "release_strategy_changed": false,
+      "return_verifier_changed": false,
+      "same_contract_all_programs": true,
+      "vh_axes_or_programs_changed": false
+    },
+    "post_close_settle_frames": 250,
+    "pregrasp_distance_m": 0.09,
+    "reference_T_actor_eef": [
+      -0.12000005490804139,
+      0.1219491972507258,
+      -2.2748225858570947e-08,
+      0.7071067789405481,
+      -0.7071067834325468,
+      6.042386098842117e-09,
+      6.4866258599402024e-09
+    ],
+    "reference_candidate0_planner_status": "Success",
+    "reference_contact0_ordered_goal_pose_sha256": "27b603b70a06c9a0ac1940057aa28b13a5c21f4b5bcd23139fc9e0a9057f7f88",
+    "reference_pregrasp_pose": [
+      0.023006705567240715,
+      0.06190032139420509,
+      0.8138048648834229,
+      0.05125296860933304,
+      -0.05076628178358078,
+      0.7059496641159058,
+      0.7045785784721375
+    ],
+    "reference_target_grasp_pose": [
+      -0.06605655962912546,
+      0.06194951614951627,
+      0.8008537115588036,
+      0.0512529690279525,
+      -0.05076628219822512,
+      0.7059496698818989,
+      0.704578584226932
+    ],
+    "rotation_candidate_index": 0,
+    "schema_version": "cmf_f3_common_grasp_contract_v10",
+    "selection_rule": "use exactly official contact point 0 and rotation candidate 0 in all three program contexts; any other callback selection fails closed",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "target_distance_m": 0.0
+  },
+  "maximum_scope_invocations": 1,
+  "origin": "runtime_v3_4_1_one_shot_postmortem_nonformal",
+  "prerequisite_receipts": {},
+  "recovery_attempts": 0,
+  "release_modified": false,
+  "schema_version": "cmf_runtime_v3_4_1_planned_scope_spec_v1",
+  "scope": "F3_three_context_targeted_v11",
+  "second_freeze_forbidden": true,
+  "seed": 20260829,
+  "single_source_freeze": true,
+  "slot_id": "pilot-F3-A-prestage0-targeted-v341",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stop_condition": "terminal receipt or first cleanup/source/GPU safety uncertainty"
+}
