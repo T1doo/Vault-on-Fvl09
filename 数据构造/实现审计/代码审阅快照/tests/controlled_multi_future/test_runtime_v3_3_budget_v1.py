@@ -14,7 +14,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
 
 VAULT_BUDGET = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_7.json"
+    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_8.json"
 )
 
 
@@ -27,7 +27,7 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
         self.assertEqual(len(ROOT_SCOPES), 5)
         self.assertFalse(budget_artifact()["stage0_authorized"])
         self.assertEqual(
-            budget_artifact()["allowed_physical_gpu_indices"], list(range(8))
+            budget_artifact()["allowed_physical_gpu_indices"], [0]
         )
 
     def test_missing_invalid_and_overrun_counts_fail_closed(self):

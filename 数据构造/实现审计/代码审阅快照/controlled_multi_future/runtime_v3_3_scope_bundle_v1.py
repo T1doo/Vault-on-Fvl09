@@ -28,7 +28,7 @@ VAULT_ROOT = Path("/nfs_share/lijunhui/Vault-on-Fvl09")
 AUDIT_ROOT = VAULT_ROOT / "数据构造/实现审计"
 PARENT_AUTHORIZATION = (
     AUDIT_ROOT
-    / "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION8_REPAIRS_GPU0_7_20260830.json"
+    / "USER_AUTHORIZATION_RUNTIME_V3_3_REVISION9_REPAIRS_GPU0_20260830.json"
 )
 PYTHON_EXECUTABLE = Path("/nfs_share/lijunhui/Robotwin2/env/bin/python")
 
@@ -107,14 +107,14 @@ def build_scope_bundle(
 ) -> dict:
     publication = _validate_reviewed_publication(reviewed_content_commit)
     family = SCOPE_FAMILIES[scope]
-    if scope in ROOT_SCOPES and revision_index not in (1, 2, 3, 4, 5, 6, 7, 8):
+    if scope in ROOT_SCOPES and revision_index not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
         raise ValueError(
-            "root scope bundle requires revision_index in [1, 8]"
+            "root scope bundle requires revision_index in [1, 9]"
         )
     if scope not in ROOT_SCOPES and revision_index is not None:
         raise ValueError("non-root scope bundle cannot consume a revision")
     parent = load_parent_user_authorization(PARENT_AUTHORIZATION)
-    group = "runtime_v3_3_v1_7_gpu0_7"
+    group = "runtime_v3_3_v1_8_gpu0"
     request_path = AUDIT_ROOT / "scope_requests" / group / f"{namespace_id}.request.json"
     lock_path = AUDIT_ROOT / "source_locks" / group / f"{namespace_id}.source_lock.json"
     auth_path = AUDIT_ROOT / "authorizations" / group / f"{namespace_id}.authorization.json"
@@ -154,7 +154,7 @@ def build_scope_bundle(
         guard_receipt_path=str(guard_path),
         output_namespace=str(output_namespace),
         exact_child_command=child_command,
-        allowed_physical_gpu_indices=list(range(8)),
+        allowed_physical_gpu_indices=[0],
         reviewed_publication=publication,
     )
     source_lock = capture_runtime_source_lock(family=family)
@@ -185,7 +185,7 @@ def build_scope_bundle(
         "guard_path": str(guard_path),
         "output_namespace": str(output_namespace),
         "child_command": list(child_command),
-        "physical_gpu_indices": list(range(8)),
+        "physical_gpu_indices": [0],
         "timeout_seconds": scope_budget(scope)["timeout_seconds"],
         "formal_data": False,
         "stage0_data": False,

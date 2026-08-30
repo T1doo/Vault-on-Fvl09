@@ -16,9 +16,9 @@ SCENE_SEED = 20260829
 def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict:
     family = SCOPE_FAMILIES[scope]
     if scope in ROOT_SCOPES:
-        if revision_index not in (1, 2, 3, 4, 5, 6, 7, 8):
+        if revision_index not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
             raise ValueError(
-                "root scope revision_index must be in [1, 8]"
+                "root scope revision_index must be in [1, 9]"
             )
     elif revision_index is not None:
         raise ValueError("non-root scope cannot declare a revision index")
@@ -54,7 +54,7 @@ def planned_scope_spec(scope: str, *, revision_index: int | None = None) -> dict
             f"{family.lower()}-runtime-v3-3-revision-{revision_index}"
         )
         value["maximum_full_root_execution_per_revision"] = 1
-        value["maximum_new_implementation_revisions_per_family"] = 8
+        value["maximum_new_implementation_revisions_per_family"] = 9
     if family == "F2":
         value["plasticbox_model_id"] = 2
         value["scene_layout"] = json.loads(json.dumps(F2_LAYOUT, sort_keys=True))

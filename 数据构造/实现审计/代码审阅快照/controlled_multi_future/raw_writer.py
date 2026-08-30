@@ -68,6 +68,25 @@ REAL_RUNTIME_REQUIRED_AUDIT_FIELDS = (
     "right_gripper_joint_drive_velocity_target",
     "realized_left_gripper_joint_qpos",
     "realized_right_gripper_joint_qpos",
+    "realized_left_gripper_joint_qvel",
+    "realized_right_gripper_joint_qvel",
+    "realized_joint_qf",
+    "realized_left_gripper_joint_qf",
+    "realized_right_gripper_joint_qf",
+    "left_gripper_joint_drive_target_error",
+    "right_gripper_joint_drive_target_error",
+    "left_gripper_joint_drive_velocity_error",
+    "right_gripper_joint_drive_velocity_error",
+    "estimated_left_gripper_joint_drive_effort",
+    "estimated_right_gripper_joint_drive_effort",
+    "left_gripper_joint_drive_stiffness",
+    "right_gripper_joint_drive_stiffness",
+    "left_gripper_joint_drive_damping",
+    "right_gripper_joint_drive_damping",
+    "left_gripper_joint_drive_force_limit",
+    "right_gripper_joint_drive_force_limit",
+    "left_gripper_joint_drive_mode",
+    "right_gripper_joint_drive_mode",
     "selected_gripper_contact",
     "selected_gripper_contact_count",
     "selected_gripper_contact_impulse",
@@ -143,7 +162,11 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
         raise ValueError("audit object_pose must have shape [N+1,7]")
     if np.asarray(arrays.get("contact_count")).shape != (action_count + 1,):
         raise ValueError("audit contact_count must have shape [N+1]")
-    for field in ("realized_left_gripper_joint_qpos", "realized_right_gripper_joint_qpos", "gripper_drive_target_readback"):
+    for field in (
+        "realized_left_gripper_joint_qpos",
+        "realized_right_gripper_joint_qpos",
+        "gripper_drive_target_readback",
+    ):
         values = np.asarray(arrays.get(field))
         if values.ndim != 2 or values.shape[0] != action_count + 1 or values.shape[1] < 1:
             raise ValueError(f"audit {field} must have shape [N+1,D] with D>=1")
@@ -168,7 +191,7 @@ def validate_audit_streams(audit_streams: Mapping[str, Any], action_count: int) 
 def validate_real_runtime_audit_fields(
     audit_streams: Mapping[str, Any], provenance: Mapping[str, Any]
 ) -> None:
-    expected_schema = "cmf_runtime_trace_pose_consistent_velocity_v2"
+    expected_schema = "cmf_runtime_trace_pose_consistent_velocity_effort_v3"
     if provenance.get("synthetic") is False and provenance.get(
         "trace_schema_version"
     ) != expected_schema:

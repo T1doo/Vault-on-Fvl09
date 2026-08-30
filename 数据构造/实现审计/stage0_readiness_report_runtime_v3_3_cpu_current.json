@@ -1,9 +1,9 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision8_terminal_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision9_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_source_sha256": "4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21",
+  "implementation_source_sha256": "f76c013aebbe98d705dc62f77a83c47fdefbc899d0818e84b489639b1cd95d21",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
@@ -14,6 +14,10 @@
   "revision8_cpu_ready": true,
   "revision8_gpu_started": true,
   "revision8_gpu_terminal": true,
+  "revision9_cpu_ready": true,
+  "revision9_cpu_tests": {"active": "427/427 passed", "snapshot": "427/427 passed", "byte_equal": true},
+  "revision9_gpu_started": false,
+  "revision9_bundles_issued": false,
   "revision8_family_results": {
     "F2": {"inside": "failed_verifier", "on": "accepted", "beside": "accepted", "root": "failed_verifier"},
     "F3": {"VVHH": "failed_verifier", "VHVH": "accepted", "VHHV": "failed_verifier", "root": "failed_verifier"},
@@ -24,10 +28,10 @@
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
   "next_safe_sequence": [
-    "publish and lock revision8 terminal evidence",
-    "implement source-distinct revision9 CPU repairs without changing frozen science",
-    "run complete active and byte-equal snapshot CPU tests",
-    "prepare new finite single-use GPU scopes only after clean publication",
+    "publish clean revision9 CPU baseline",
+    "issue exact revision9 F2/F3/F4 single-use bundles from clean published HEAD",
+    "run only on independently fresh-idle physical GPU0 under Guard",
+    "audit all terminal receipts and update readiness",
     "update readiness without starting Stage0"
   ]
 }

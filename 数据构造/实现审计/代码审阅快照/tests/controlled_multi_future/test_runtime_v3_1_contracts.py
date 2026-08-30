@@ -440,6 +440,19 @@ class RuntimeV3_1ContractsTest(unittest.TestCase):
         transient = classify_f3_release_dynamics_v3_1(f3_samples(intermediate=0.04, final=0.0, final_pass=True), grasp_transform(), **common)
         self.assertEqual(transient["classification"], "transient_release_dynamics_final_equivalent")
         self.assertTrue(transient["final_return_equivalence"])
+        inaccurate_but_final = classify_f3_release_dynamics_v3_1(
+            f3_samples(before=0.04, intermediate=0.04, final=0.0, final_pass=True),
+            grasp_transform(),
+            **common,
+        )
+        self.assertEqual(
+            inaccurate_but_final["classification"],
+            "transient_release_dynamics_final_equivalent",
+        )
+        self.assertFalse(
+            inaccurate_but_final["actor_to_eef_correction_allowed"]
+        )
+        self.assertEqual(inaccurate_but_final["next_gate"], "no_repair_needed")
         incomplete = f3_samples()
         del incomplete["after_release_5"]["bottle_pad_contact_normals"]
         with self.assertRaisesRegex(ValueError, "bottle_pad_contact_normals"):

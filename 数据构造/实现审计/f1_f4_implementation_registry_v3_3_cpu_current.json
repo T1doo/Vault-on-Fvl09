@@ -1,24 +1,24 @@
 {
-  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision8_terminal_current",
+  "schema_version": "cmf_f1_f4_implementation_registry_v3_3_revision9_cpu_current",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_revision": "runtime_v3_3_revision8_impact_addendum_v1",
-  "implementation_source_sha256": "4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21",
-  "budget_receipt_sha256": "bd62453d41b214a54eea045a9b9d6f641c8802cf2f384143a9e7b71d7e61b14a",
-  "parent_user_authorization_sha256": "441087839708ea2e12c8c3e44684f27d031b873645825d8963857649bd78ea82",
+  "implementation_revision": "runtime_v3_3_revision9_impact_addendum_v1",
+  "implementation_source_sha256": "f76c013aebbe98d705dc62f77a83c47fdefbc899d0818e84b489639b1cd95d21",
+  "budget_receipt_sha256": "56b5d18115e5c0f7d24738ab49909633f26a69fd8e4b2b6235952f1c4751687f",
+  "parent_user_authorization_sha256": "f8c7027161480fcfca08da11154e3eecd2fa398672c0a079fff55de6f98cbc8e",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
   "accepted_real_roots": 1,
   "accepted_nonroot_gates": {"F4_A_only_micro": true},
-  "status": "revision8_terminal_evidence_locked_revision9_cpu_repairs_required",
-  "cpu_tests": {"active": "412/412 passed", "snapshot": "412/412 passed", "byte_equal": true},
+  "status": "revision9_cpu_ready_for_clean_publication_gpu_not_run",
+  "cpu_tests": {"active": "427/427 passed", "snapshot": "427/427 passed", "byte_equal": true},
   "current_family_status": {
     "F1": {"accepted_root": true, "status": "accepted_revision2"},
-    "F2": {"accepted_root": false, "revision8": "fixed_XY_only_inside_target0_plus_normal_planner_false_evidence", "actual": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"inside": "failed_verifier", "on": "accepted", "beside": "accepted"}, "next": "single two-stage balanced-preload release hypothesis"},
-    "F3": {"accepted_root": false, "revision8": "signed_separation_shape_identity_and_fail_closed_physical_contact_release", "actual": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "terminal", "programs": {"VVHH": "failed_verifier", "VHVH": "accepted", "VHHV": "failed_verifier"}, "next": "post-release roll impact review and diagnosis gate correction"},
-    "F4": {"accepted_root": false, "revision8": "top_down_staged_A_B_C_AB_then_full_ABC_ACB_BAC", "actual": {"planner": 10, "execution": 0, "recovery": 0}, "gpu": "terminal", "failure": "ndarray_json_serialization_during_A_preflight", "next": "JSON-safe numpy canonicalization only"}
+    "F2": {"accepted_root": false, "revision9": "fixed_XY_plus_single_balanced_preload_inside_release", "envelope": {"planner": 32, "execution": 3, "recovery": 0}, "gpu": "not_run"},
+    "F3": {"accepted_root": false, "revision9": "final_first_diagnosis_plus_single_symmetric_staged_release", "envelope": {"planner": 96, "execution": 3, "recovery": 0}, "gpu": "not_run"},
+    "F4": {"accepted_root": false, "revision9": "top_down_staged_full_plus_numpy_json_canonicalization", "envelope": {"planner": 118, "execution": 7, "recovery": 0}, "gpu": "not_run"}
   },
   "latest_runtime_evidence": "F2_F3_F4_RUNTIME_V3_3_REVISION8_TERMINAL_AND_R9_IMPACT_REVIEW_20260830.json"
 }

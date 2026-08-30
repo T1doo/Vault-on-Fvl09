@@ -29,7 +29,7 @@ from controlled_multi_future.probes.gpu_guard import (
     verify_post_release,
 )
 from controlled_multi_future.probes.lifecycle import initialize_cleanup_fields, managed_scene
-from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, _gripper_joint_qpos, is_selected_gripper_contact, trace_rows_to_raw_streams
+from controlled_multi_future.probes.runtime_trace import DenseTraceMixin, PlannerQueryLimitExceeded, TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, _gripper_joint_qf, _gripper_joint_qpos, _gripper_joint_qvel, is_selected_gripper_contact, trace_rows_to_raw_streams
 from controlled_multi_future.a0_activity_monitor_v2 import TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS
 from controlled_multi_future.raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS as RAW_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS, pack_effective_setpoint, validate_audit_streams, validate_raw_streams, validate_real_runtime_audit_fields, validate_simulator_timing
 from controlled_multi_future.runtime_v2_contracts import PLASTICBOX_BASE3_CAVITY, PROVISIONAL_RUNTIME_THRESHOLDS, RUNTIME_V2_PROBE_VARIANTS, TRAY_BASE0_SUPPORT_REGION
@@ -80,15 +80,23 @@ class DummyJoint:
 
 
 class DummyEntity:
-    def __init__(self, joints, qpos):
+    def __init__(self, joints, qpos, qf=None, qvel=None):
         self.joints = joints
         self.qpos = np.asarray(qpos, dtype=float)
+        self.qf = np.asarray(qf if qf is not None else qpos, dtype=float)
+        self.qvel = np.asarray(qvel if qvel is not None else qpos, dtype=float)
 
     def get_active_joints(self):
         return self.joints
 
     def get_qpos(self):
         return self.qpos
+
+    def get_qf(self):
+        return self.qf
+
+    def get_qvel(self):
+        return self.qvel
 
 
 def field_metadata(planner_status="unavailable"):
@@ -306,6 +314,7 @@ class PipelineContractsTest(unittest.TestCase):
                 "component_mask": np.ones(26, dtype=bool),
                 "joint_qpos": np.zeros(14) + index,
                 "joint_qvel": np.zeros(14),
+                "joint_qf": np.zeros(14) + 0.5 * index,
                 "dual_eef": np.zeros(14),
                 "eef": np.zeros(7),
                 "gripper_command": np.ones(2),
@@ -332,6 +341,24 @@ class PipelineContractsTest(unittest.TestCase):
                 "right_gripper_joint_drive_velocity_target": np.zeros(2),
                 "realized_left_gripper_joint_qpos": np.zeros(2) + index,
                 "realized_right_gripper_joint_qpos": np.zeros(2) + index,
+                "realized_left_gripper_joint_qvel": np.zeros(2),
+                "realized_right_gripper_joint_qvel": np.zeros(2),
+                "realized_left_gripper_joint_qf": np.zeros(2) + 0.1 * index,
+                "realized_right_gripper_joint_qf": np.zeros(2) + 0.2 * index,
+                "left_gripper_joint_drive_target_error": np.zeros(2),
+                "right_gripper_joint_drive_target_error": np.zeros(2),
+                "left_gripper_joint_drive_velocity_error": np.zeros(2),
+                "right_gripper_joint_drive_velocity_error": np.zeros(2),
+                "estimated_left_gripper_joint_drive_effort": np.zeros(2),
+                "estimated_right_gripper_joint_drive_effort": np.zeros(2),
+                "left_gripper_joint_drive_stiffness": np.ones(2) * 100,
+                "right_gripper_joint_drive_stiffness": np.ones(2) * 100,
+                "left_gripper_joint_drive_damping": np.ones(2) * 10,
+                "right_gripper_joint_drive_damping": np.ones(2) * 10,
+                "left_gripper_joint_drive_force_limit": np.ones(2) * 50,
+                "right_gripper_joint_drive_force_limit": np.ones(2) * 50,
+                "left_gripper_joint_drive_mode": ("force", "force"),
+                "right_gripper_joint_drive_mode": ("force", "force"),
                 "selected_gripper_contact": True,
                 "selected_gripper_contact_count": 1,
                 "selected_gripper_contact_impulse": 0.1,
@@ -364,6 +391,11 @@ class PipelineContractsTest(unittest.TestCase):
         self.assertEqual(audit["object_pose"].shape, (3, 7))
         self.assertEqual(audit["realized_left_gripper_joint_qpos"].shape, (3, 2))
         self.assertEqual(audit["left_gripper_joint_drive_target"].shape, (3, 2))
+        self.assertEqual(audit["realized_joint_qf"].shape, (3, 14))
+        self.assertEqual(audit["realized_left_gripper_joint_qf"].shape, (3, 2))
+        self.assertEqual(audit["realized_left_gripper_joint_qvel"].shape, (3, 2))
+        self.assertEqual(audit["left_gripper_joint_drive_target_error"].shape, (3, 2))
+        self.assertEqual(audit["estimated_left_gripper_joint_drive_effort"].shape, (3, 2))
         self.assertEqual(audit["selected_contact_actor_name"].tolist(), ["object"] * 3)
         np.testing.assert_allclose(audit["object_linear_velocity"], 0.0)
         np.testing.assert_allclose(audit["object_component_linear_velocity"], 9.0)
@@ -374,7 +406,7 @@ class PipelineContractsTest(unittest.TestCase):
         np.testing.assert_allclose(audit["role_object_component_linear_velocity__main"], 9.0)
         real_provenance = {
             "synthetic": False,
-            "trace_schema_version": "cmf_runtime_trace_pose_consistent_velocity_v2",
+            "trace_schema_version": "cmf_runtime_trace_pose_consistent_velocity_effort_v3",
             "trace_role_names": ["main"],
         }
         validate_real_runtime_audit_fields(audit, real_provenance)
@@ -439,6 +471,12 @@ class PipelineContractsTest(unittest.TestCase):
         robot.right_gripper = [(right_joints[1], 1, 0), (right_joints[2], 1, 0)]
         np.testing.assert_allclose(_gripper_joint_qpos(robot, "left"), [0.21, 0.22])
         np.testing.assert_allclose(_gripper_joint_qpos(robot, "right"), [0.31, 0.32])
+        robot.left_entity.qf = np.asarray([1.0, 2.1, 2.2])
+        robot.right_entity.qf = np.asarray([2.0, 3.1, 3.2])
+        np.testing.assert_allclose(_gripper_joint_qf(robot, "left"), [2.1, 2.2])
+        np.testing.assert_allclose(_gripper_joint_qf(robot, "right"), [3.1, 3.2])
+        np.testing.assert_allclose(_gripper_joint_qvel(robot, "left"), [0.21, 0.22])
+        np.testing.assert_allclose(_gripper_joint_qvel(robot, "right"), [0.31, 0.32])
 
     def test_actor_to_eef_mapping_preserves_frozen_grasp_transform(self):
         current_eef = [0.0, 0.0, 1.0, 1, 0, 0, 0]

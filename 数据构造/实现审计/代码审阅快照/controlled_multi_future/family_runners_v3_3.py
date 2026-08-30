@@ -50,6 +50,11 @@ from .f2_inside_tracking_compensation_v7 import (
 from .f2_inside_xy_tracking_compensation_v8 import (
     build_f2_inside_xy_tracking_compensation_v8,
 )
+from .f2_balanced_preload_release_v9 import (
+    POST_COMMAND_HOLD_STEPS as F2_BALANCED_RELEASE_HOLD_STEPS_V9,
+    audit_f2_balanced_preload_release_gate_v9,
+    build_f2_balanced_preload_release_spec_v9,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -96,6 +101,11 @@ from .f3_pre_v_evidence_v4 import (
 )
 from .f3_physical_contact_signal_v8 import (
     classify_contact_pair_physical_hit_v8,
+)
+from .f3_symmetric_staged_release_v9 import (
+    STAGE_HOLD_STEPS as F3_STAGED_RELEASE_HOLD_STEPS_V9,
+    audit_f3_symmetric_staged_release_gate_v9,
+    build_f3_symmetric_staged_release_spec_v9,
 )
 from .f3_return_release_v5 import (
     ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
@@ -2848,6 +2858,88 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     "pre_release_alignment_diagnostic_v7"
                 ] = alignment
                 scene._cmf_f2_inside_alignment_diagnostic_v7 = alignment
+                balanced_spec = build_f2_balanced_preload_release_spec_v9(
+                    actual_finger_qpos=scene.trace[-1][
+                        "realized_left_gripper_joint_qpos"
+                    ],
+                    current_drive_target=scene.trace[-1][
+                        "left_gripper_joint_drive_target"
+                    ],
+                    applied_finger_qf=scene.trace[-1][
+                        "realized_left_gripper_joint_qf"
+                    ],
+                    estimated_drive_effort=scene.trace[-1][
+                        "estimated_left_gripper_joint_drive_effort"
+                    ],
+                    drive_stiffness=scene.trace[-1][
+                        "left_gripper_joint_drive_stiffness"
+                    ],
+                    drive_damping=scene.trace[-1][
+                        "left_gripper_joint_drive_damping"
+                    ],
+                    drive_force_limit=scene.trace[-1][
+                        "left_gripper_joint_drive_force_limit"
+                    ],
+                    drive_mode=scene.trace[-1][
+                        "left_gripper_joint_drive_mode"
+                    ],
+                )
+                balanced_start_row = len(scene.trace) - 1
+                scene._cmf_f2_balanced_preload_release_v9 = {
+                    "spec": balanced_spec,
+                    "gate": None,
+                }
+                scene.mark("f2_inside_balanced_preload_start")
+                _must_action(
+                    scene,
+                    scene.open_gripper(
+                        _arm_tag_left(),
+                        pos=balanced_spec[
+                            "partial_open_normalized_target"
+                        ],
+                    ),
+                    "f2_inside_balanced_preload",
+                )
+                _wait_and_record(
+                    scene, F2_BALANCED_RELEASE_HOLD_STEPS_V9
+                )
+                scene.mark("f2_inside_balanced_preload_hold_end")
+                balanced_rows = scene.trace[balanced_start_row:]
+                balanced_gate = audit_f2_balanced_preload_release_gate_v9(
+                    balanced_rows,
+                    can_actor_name=can_name,
+                    selected_finger_link_names=sorted(
+                        selected_gripper_bodies
+                    ),
+                    box_actor_name=_entity(scene.box).get_name(),
+                    true_cavity_obb_pass=verify_true_cavity_obb(
+                        _actor_geometry_center_pose(scene.can),
+                        _actor_half_extents(scene.can),
+                        _pose(scene.box),
+                        F2_PLASTICBOX_BASE2_CAVITY,
+                    )["pass_true_cavity_obb"],
+                )
+                scene._cmf_f2_balanced_preload_release_v9 = {
+                    "spec": balanced_spec,
+                    "gate": balanced_gate,
+                }
+                inside_release_samples[
+                    "balanced_preload_release_v9"
+                ] = scene._cmf_f2_balanced_preload_release_v9
+                staged_inside_gates.append(
+                    {
+                        "segment_id": "inside_balanced_preload_release_v9",
+                        "balanced_preload_release": scene._cmf_f2_balanced_preload_release_v9,
+                        "pass": balanced_gate["pass"],
+                    }
+                )
+                if balanced_gate["pass"] is not True:
+                    raise RuntimeError(
+                        "F2 balanced-preload release Gate blocked full-open"
+                    )
+                inside_release_samples["before_full_open"] = (
+                    release_sample("before_full_open")
+                )
         _must_action(
             scene,
             scene.open_gripper(_arm_tag_left(), pos=1.0),
@@ -3868,8 +3960,91 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                 row, selected_finger_names
             )
 
+        staged_release_spec = build_f3_symmetric_staged_release_spec_v9(
+            actual_finger_qpos=scene.trace[-1][
+                "realized_left_gripper_joint_qpos"
+            ],
+            current_drive_target=scene.trace[-1][
+                "left_gripper_joint_drive_target"
+            ],
+            applied_finger_qf=scene.trace[-1][
+                "realized_left_gripper_joint_qf"
+            ],
+            estimated_drive_effort=scene.trace[-1][
+                "estimated_left_gripper_joint_drive_effort"
+            ],
+            drive_stiffness=scene.trace[-1][
+                "left_gripper_joint_drive_stiffness"
+            ],
+            drive_damping=scene.trace[-1][
+                "left_gripper_joint_drive_damping"
+            ],
+            drive_force_limit=scene.trace[-1][
+                "left_gripper_joint_drive_force_limit"
+            ],
+            drive_mode=scene.trace[-1][
+                "left_gripper_joint_drive_mode"
+            ],
+        )
+        scene._cmf_f3_symmetric_staged_release_v9 = {
+            "spec": staged_release_spec,
+            "gate": None,
+        }
         _must_action(
-            scene, scene.open_gripper(_arm_tag_left(), pos=1.0), "f3_release"
+            scene,
+            scene.open_gripper(
+                _arm_tag_left(),
+                pos=staged_release_spec["balanced_normalized_target"],
+            ),
+            "f3_release_balanced_preload",
+        )
+        _wait_and_record(scene, F3_STAGED_RELEASE_HOLD_STEPS_V9)
+        scene.mark("f3_balanced_preload_hold_end")
+        disengagement_start_row = len(scene.trace) - 1
+        _must_action(
+            scene,
+            scene.open_gripper(
+                _arm_tag_left(),
+                pos=staged_release_spec[
+                    "disengagement_normalized_target"
+                ],
+            ),
+            "f3_release_slow_disengagement",
+        )
+        _wait_and_record(scene, F3_STAGED_RELEASE_HOLD_STEPS_V9)
+        staged_sample = self.legacy._release_sample(
+            scene,
+            target_pose,
+        )
+        staged_release_gate = audit_f3_symmetric_staged_release_gate_v9(
+            scene.trace[disengagement_start_row:],
+            bottle_actor_name=bottle_actor_name,
+            gripper_assembly_link_names=sorted(
+                gripper_assembly_names
+            ),
+            pad_actor_name=_entity(scene.pad).get_name(),
+            bottle_position_error_m=staged_sample[
+                "bottle_position_error_m"
+            ],
+            bottle_orientation_error_rad=staged_sample[
+                "bottle_orientation_error_rad"
+            ],
+            footprint_inside_pad=staged_sample[
+                "bottle_footprint_inside_pad"
+            ],
+        )
+        scene._cmf_f3_symmetric_staged_release_v9 = {
+            "spec": staged_release_spec,
+            "gate": staged_release_gate,
+        }
+        if staged_release_gate["pass"] is not True:
+            raise RuntimeError(
+                "F3 symmetric staged-release Gate blocked full-open"
+            )
+        _must_action(
+            scene,
+            scene.open_gripper(_arm_tag_left(), pos=1.0),
+            "f3_release_full_open",
         )
         scene.mark("f3_open_command_end")
         extra_waited = 0

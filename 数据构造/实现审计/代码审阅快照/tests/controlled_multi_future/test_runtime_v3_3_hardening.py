@@ -327,7 +327,7 @@ class RuntimeV3_3HardeningTest(unittest.TestCase):
         builder_source = inspect.getsource(build_scope_bundle)
         self.assertIn("capture_runtime_source_lock", builder_source)
         self.assertIn("issue_authorization_from_scope_request", builder_source)
-        self.assertIn("allowed_physical_gpu_indices=list(range(8))", builder_source)
+        self.assertIn("allowed_physical_gpu_indices=[0]", builder_source)
 
 
 if __name__ == "__main__":

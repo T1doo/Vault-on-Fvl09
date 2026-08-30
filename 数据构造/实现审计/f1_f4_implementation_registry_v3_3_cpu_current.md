@@ -1,10 +1,10 @@
-# F1–F4 implementation registry：runtime-v3_3 revision-8 terminal current
+# F1–F4 implementation registry：runtime-v3_3 revision-9 CPU current
 
 | Family | revision-8实现 | Envelope | 状态 |
 |---|---|---:|---|
 | F1 | revision-2 root保持accepted | 46/3/0 historical | `accepted_nonformal_root` |
-| F2 | fixed XY-only inside target0；planner-false保存完整输入 | 32/3/0 actual | `on+beside accepted; inside release dynamics failed` |
-| F3 | separation/shape/impulse physical signal贯穿preopen→release→+250 | 96/3/0 actual | `VHVH accepted; VVHH/VHHV failed; root 1/3` |
-| F4 | top-down七段staged A/B/C/AB；通过后full ABC/ACB/BAC | 10/0/0 actual | `A preflight ndarray serialization failure` |
+| F2 | r8 fixed XY + r9 mean-aperture balanced-preload、inside/support/disengagement-before-full-open | 32/3/0 | `r9_cpu_ready_not_run` |
+| F3 | physical signal + diagnosis final-first + balance→fixed +0.16 slow disengagement-before-full-open | 96/3/0 | `r9_cpu_ready_not_run` |
+| F4 | r8 top-down staged/full + r9 NumPy JSON-safe canonicalization | 118/7/0 | `r9_cpu_ready_not_run` |
 
-F4 A-only micro仍是accepted nonroot Gate；完整roots仍1/4。Revision-8 exact bundles已全部消费且终止，三个Guard均cleanup/source/GPU safe。Source=`4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21`，budget=`bd62453d41b214a54eea045a9b9d6f641c8802cf2f384143a9e7b71d7e61b14a`。下一步必须使用新的revision-9 source/hash/budget/namespace；Stage0仍禁止。
+F4 A-only micro仍是accepted nonroot Gate；完整roots仍1/4。Active/snapshot各427/427、diff零；source=`f76c013aebbe98d705dc62f77a83c47fdefbc899d0818e84b489639b1cd95d21`，budget=`56b5d18115e5c0f7d24738ab49909633f26a69fd8e4b2b6235952f1c4751687f`。Revision-9 bundles/GPU尚不存在；先发布clean baseline，Stage0仍禁止。

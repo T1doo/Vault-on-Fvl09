@@ -268,6 +268,10 @@ def classify_f3_release_dynamics_v3_1(
         classification = "grasp_slip_or_contact_change"
         next_gate = "grasp_slip_or_contact_impact_review"
         correction_allowed = False
+    elif final_equivalent:
+        classification = "transient_release_dynamics_final_equivalent" if transient_exceeded else "return_equivalence_holds"
+        next_gate = "no_repair_needed"
+        correction_allowed = False
     elif not before_accurate:
         if eef_tracking_ok:
             classification = "pre_release_systematic_offset"
@@ -277,10 +281,6 @@ def classify_f3_release_dynamics_v3_1(
             classification = "eef_tracking_failure"
             next_gate = "controller_tracking_impact_review"
             correction_allowed = False
-    elif final_equivalent:
-        classification = "transient_release_dynamics_final_equivalent" if transient_exceeded else "return_equivalence_holds"
-        next_gate = "no_repair_needed"
-        correction_allowed = False
     else:
         classification = "post_release_final_equivalence_failure"
         next_gate = "pad_initial_pose_physics_impact_review"

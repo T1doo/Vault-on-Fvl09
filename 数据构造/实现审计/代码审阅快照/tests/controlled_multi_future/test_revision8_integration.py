@@ -199,25 +199,30 @@ class Revision8IntegrationTest(unittest.TestCase):
         self.assertEqual(
             APPROVED_SCOPE_REVISION_MAP,
             {
-                "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 8},
-                "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 8},
-                "F4_block_root_per_revision": {"family": "F4", "family_revision_index": 8},
+                "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 9},
+                "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 9},
+                "F4_block_root_per_revision": {"family": "F4", "family_revision_index": 9},
             },
         )
         budget = budget_artifact()
         self.assertEqual(
-            budget["maximum_new_implementation_revisions_per_family"], 8
+            budget["maximum_new_implementation_revisions_per_family"], 9
         )
         self.assertFalse(budget["automatic_retry"])
         self.assertEqual(budget["recovery_attempts"], 0)
         for scope in APPROVED_SCOPE_REVISION_MAP:
-            spec = planned_scope_spec(scope, revision_index=8)
-            self.assertEqual(spec["implementation_revision_index"], 8)
+            spec = planned_scope_spec(scope, revision_index=9)
+            self.assertEqual(spec["implementation_revision_index"], 9)
         bindings = current_source_bindings_v3_3()
         for key in (
             "f2_inside_xy_tracking_compensation_sha256",
             "f3_physical_contact_signal_sha256",
             "f4_top_down_block_carry_sha256",
+            "f2_balanced_preload_release_sha256",
+            "f3_symmetric_staged_release_sha256",
+            "f4_json_canonicalization_sha256",
+            "runtime_trace_sha256",
+            "raw_writer_sha256",
         ):
             self.assertEqual(len(bindings[key]), 64)
 

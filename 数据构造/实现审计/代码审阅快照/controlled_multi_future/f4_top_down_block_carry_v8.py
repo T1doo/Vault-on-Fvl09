@@ -17,7 +17,6 @@ planner query, simulator import, artifact read, GPU work, or authorization.
 from __future__ import annotations
 
 from copy import deepcopy
-import json
 from typing import Any, Mapping, Sequence
 
 import numpy as np
@@ -30,6 +29,10 @@ from .f4_top_down_clearance_v6 import (
     SUPPORTED_ARM,
     build_uniform_f4_top_down_clearance_contract_v6,
     canonical_json_sha256,
+)
+from .f4_json_canonicalization_v9 import (
+    CANONICALIZATION_VERSION as JSON_CANONICALIZATION_VERSION,
+    json_safe_clone_v9,
 )
 from .f4_uniform_block_carry_midpoint_v3 import (
     F4_ALLOWED_OBJECT_ORDERS,
@@ -131,14 +134,7 @@ R7_MICRO_ACCEPTED_EVIDENCE = {
 
 
 def _json_clone(value: Any) -> Any:
-    return json.loads(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            allow_nan=False,
-            sort_keys=True,
-        )
-    )
+    return json_safe_clone_v9(value)
 
 
 def _pose(value: Sequence[float], *, label: str) -> np.ndarray:
@@ -535,6 +531,7 @@ def build_f4_top_down_block_carry_v8(
         "route_version": ROUTE_VERSION,
         "design_version": DESIGN_VERSION,
         "implementation_version": IMPLEMENTATION_VERSION,
+        "json_canonicalization_version": JSON_CANONICALIZATION_VERSION,
         "formal_data": False,
         "stage0_data": False,
         "stage0_authorized": False,
@@ -599,6 +596,8 @@ def validate_f4_top_down_block_carry_v8(
         raise ValueError("F4 r8 accepted-evidence binding changed")
     invariants = (
         value.get("arm") == SUPPORTED_ARM,
+        value.get("json_canonicalization_version")
+        == JSON_CANONICALIZATION_VERSION,
         tuple(value.get("object_order", ())) in F4_ALLOWED_OBJECT_ORDERS,
         value.get("group_width") == len(F4_SEGMENTED_BLOCK_SUFFIXES),
         value.get("role_specific_condition") is False,

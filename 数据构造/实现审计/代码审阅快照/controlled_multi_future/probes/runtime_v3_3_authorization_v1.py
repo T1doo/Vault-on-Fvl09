@@ -22,11 +22,11 @@ from ..runtime_v3_3_budget_v1 import (
 )
 
 
-AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_7"
-CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_7"
+AUTHORIZATION_SCHEMA_VERSION = "cmf_runtime_v3_3_gpu_authorization_v1_8"
+CONSUMPTION_SCHEMA_VERSION = "cmf_runtime_v3_3_authorization_consumption_v1_8"
 DESIGN_VERSION = "controlled_multi_future_f1_f4_v1_2"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
-IMPLEMENTATION_REVISION = "runtime_v3_3_revision8_impact_addendum_v1"
+IMPLEMENTATION_REVISION = "runtime_v3_3_revision9_impact_addendum_v1"
 ALLOWED_UUID_POLICY = "fresh_idle_exact_uuid_selected_by_atomic_guard"
 MAX_AUTHORIZATION_VALIDITY_SECONDS = 3600
 CANONICAL_CONSUMPTION_LEDGER_DIRECTORY = (
@@ -121,10 +121,14 @@ def current_source_bindings_v3_3() -> dict:
         / "f2_inside_tracking_compensation_v7.py",
         "f2_inside_xy_tracking_compensation_sha256": root
         / "f2_inside_xy_tracking_compensation_v8.py",
+        "f2_balanced_preload_release_sha256": root
+        / "f2_balanced_preload_release_v9.py",
         "f3_clearance_route_sha256": root / "f3_clearance_route_v3.py",
         "f3_pre_v_evidence_sha256": root / "f3_pre_v_evidence_v4.py",
         "f3_physical_contact_signal_sha256": root
         / "f3_physical_contact_signal_v8.py",
+        "f3_symmetric_staged_release_sha256": root
+        / "f3_symmetric_staged_release_v9.py",
         "f3_return_release_sha256": root / "f3_return_release_v5.py",
         "f3_release_geometry_clearance_sha256": root
         / "f3_release_geometry_clearance_v6.py",
@@ -142,6 +146,8 @@ def current_source_bindings_v3_3() -> dict:
         / "f4_top_down_clearance_v6.py",
         "f4_top_down_block_carry_sha256": root
         / "f4_top_down_block_carry_v8.py",
+        "f4_json_canonicalization_sha256": root
+        / "f4_json_canonicalization_v9.py",
         "f4_micro_lift_role_pose_sha256": root
         / "f4_micro_lift_role_pose_v7.py",
         "f4_micro_lift_gate_sha256": root / "f4_micro_lift_gate_v5.py",
@@ -152,6 +158,10 @@ def current_source_bindings_v3_3() -> dict:
         "gpu_guard_sha256": root / "probes/gpu_guard_v2_4.py",
         "authorization_validator_sha256": root / "probes/runtime_v3_3_authorization_v1.py",
         "scope_runner_sha256": root / "probes/runtime_v3_3_scope_runner.py",
+        "runtime_trace_sha256": root / "probes/runtime_trace.py",
+        "raw_writer_sha256": root / "raw_writer.py",
+        "f3_release_diagnosis_contract_sha256": root
+        / "runtime_v3_1_contracts.py",
         "budget_module_sha256": root / "runtime_v3_3_budget_v1.py",
         "runtime_source_lock_module_sha256": root / "runtime_source_lock_v1.py",
     }
@@ -347,9 +357,9 @@ def validate_authorization_v3_3(
         raise AuthorizationBindingError("authorization family/seed differ from planned spec")
     if requested_scope in ROOT_SCOPES:
         revision_index = receipt.get("family_revision_index")
-        if revision_index not in (1, 2, 3, 4, 5, 6, 7, 8):
+        if revision_index not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
             raise AuthorizationBindingError(
-                "root authorization revision index must be 1, 2, 3, 4, 5, or 6"
+                "root authorization revision index must be in [1, 9]"
             )
         if planned.get("implementation_revision_index") != revision_index:
             raise AuthorizationBindingError("root authorization/planned revision mismatch")
@@ -365,7 +375,7 @@ def validate_authorization_v3_3(
             raise AuthorizationBindingError("root authorization revision ledger is invalid")
         if revision_directory != CANONICAL_REVISION_LEDGER_DIRECTORY:
             raise AuthorizationBindingError("root authorization revision ledger is not canonical")
-        if receipt.get("maximum_new_implementation_revisions_per_family") != 8:
+        if receipt.get("maximum_new_implementation_revisions_per_family") != 9:
             raise AuthorizationBindingError("root authorization revision limit mismatch")
         if receipt.get("maximum_full_root_execution_per_revision") != 1:
             raise AuthorizationBindingError("root authorization root-per-revision limit mismatch")
@@ -389,9 +399,9 @@ def validate_authorization_v3_3(
     ):
         raise AuthorizationBindingError("authorization common limits differ from scope budget")
     indices = receipt.get("allowed_physical_gpu_indices")
-    if indices != list(range(8)):
+    if indices != [0]:
         raise AuthorizationBindingError(
-            "runtime-v3_3 authorization must allow exactly physical GPU0-7"
+            "runtime-v3_3 revision-9 authorization must allow exactly physical GPU0"
         )
     if receipt.get("allowed_gpu_uuid_policy") != ALLOWED_UUID_POLICY:
         raise AuthorizationBindingError("authorization GPU UUID policy mismatch")

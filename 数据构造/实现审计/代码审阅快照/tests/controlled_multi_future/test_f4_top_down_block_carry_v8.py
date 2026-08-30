@@ -8,6 +8,10 @@ import numpy as np
 from controlled_multi_future.anchor import quaternion_angular_error
 from controlled_multi_future.current_hasher import hash_json
 from controlled_multi_future.f4_right_workspace_layout_v4 import LAYOUT
+from controlled_multi_future.f4_json_canonicalization_v9 import (
+    CANONICALIZATION_VERSION as JSON_CANONICALIZATION_VERSION,
+    json_safe_clone_v9,
+)
 from controlled_multi_future.f4_top_down_block_carry_v8 import (
     FROZEN_LAYOUT_SHA256,
     R7_MICRO_ACCEPTED_EVIDENCE,
@@ -225,6 +229,63 @@ class F4TopDownBlockCarryV8Test(unittest.TestCase):
         rehashed["receipt_sha256"] = hashlib.sha256(payload).hexdigest()
         with self.assertRaisesRegex(ValueError, "evidence binding"):
             validate_f4_top_down_block_carry_v8(rehashed)
+
+    def test_real_staged_callback_numpy_shapes_are_json_safe_and_identical(self):
+        objects = {
+            role: np.asarray(pose, dtype=np.float64)
+            for role, pose in LAYOUT["object_poses"].items()
+        }
+        slots = {
+            role: np.asarray(pose, dtype=np.float64)
+            for role, pose in LAYOUT["slot_poses"].items()
+        }
+        neutral = np.asarray(NEUTRAL, dtype=np.float64)
+        before_objects = {role: value.copy() for role, value in objects.items()}
+        before_slots = {role: value.copy() for role, value in slots.items()}
+        before_neutral = neutral.copy()
+
+        numpy_receipt = build_f4_top_down_block_carry_v8(
+            object_poses=objects,
+            slot_poses=slots,
+            neutral_pose=neutral,
+            object_order=np.asarray(["A", "B", "C"]),
+            arm="right",
+            layout_version=LAYOUT["layout_version"],
+        )
+        list_receipt = build(("A", "B", "C"))
+
+        self.assertEqual(numpy_receipt, list_receipt)
+        self.assertEqual(
+            numpy_receipt["json_canonicalization_version"],
+            JSON_CANONICALIZATION_VERSION,
+        )
+        self.assertEqual(validate_f4_top_down_block_carry_v8(numpy_receipt), numpy_receipt)
+        json.dumps(numpy_receipt, ensure_ascii=False, allow_nan=False)
+        for role in objects:
+            np.testing.assert_array_equal(objects[role], before_objects[role])
+            np.testing.assert_array_equal(slots[role], before_slots[role])
+        np.testing.assert_array_equal(neutral, before_neutral)
+
+    def test_numpy_scalars_are_canonicalized_and_nonfinite_values_fail_closed(self):
+        value = json_safe_clone_v9(
+            {
+                "float": np.float64(0.25),
+                "integer": np.int64(3),
+                "boolean": np.bool_(True),
+                "array": np.asarray([[1.0, 2.0]], dtype=np.float32),
+            }
+        )
+        self.assertEqual(
+            value,
+            {
+                "array": [[1.0, 2.0]],
+                "boolean": True,
+                "float": 0.25,
+                "integer": 3,
+            },
+        )
+        with self.assertRaises(ValueError):
+            json_safe_clone_v9({"bad": np.float64(np.nan)})
 
 
 if __name__ == "__main__":

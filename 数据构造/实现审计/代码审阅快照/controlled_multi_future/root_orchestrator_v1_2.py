@@ -1286,6 +1286,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                         "_cmf_f2_inside_alignment_diagnostic_v7",
                                         None,
                                     ),
+                                    "f2_balanced_preload_release_v9": getattr(
+                                        scene,
+                                        "_cmf_f2_balanced_preload_release_v9",
+                                        None,
+                                    ),
                                     "f3_pre_open_gate_v5": getattr(
                                         scene,
                                         "_cmf_f3_pre_open_gate_v5",
@@ -1304,6 +1309,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                     "f3_realized_events_before_release_v8": getattr(
                                         scene,
                                         "_cmf_f3_realized_events_before_release_v8",
+                                        None,
+                                    ),
+                                    "f3_symmetric_staged_release_v9": getattr(
+                                        scene,
+                                        "_cmf_f3_symmetric_staged_release_v9",
                                         None,
                                     ),
                                     "f4_preclose_boundary_v5": getattr(

@@ -1,0 +1,49 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v2_4",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision9_impact_addendum_v1",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "implementation_source_sha256": "f76c013aebbe98d705dc62f77a83c47fdefbc899d0818e84b489639b1cd95d21",
+  "budget_receipt_sha256": "56b5d18115e5c0f7d24738ab49909633f26a69fd8e4b2b6235952f1c4751687f",
+  "parent_user_authorization_sha256": "f8c7027161480fcfca08da11154e3eecd2fa398672c0a079fff55de6f98cbc8e",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {
+    "active": "427/427 passed",
+    "vault_snapshot": "427/427 passed",
+    "active_snapshot_byte_equal": true,
+    "diff_qr_excluding_pycache": "zero"
+  },
+  "self_p0_audits": {
+    "F2_balanced_preload_formula_evidence_binding_and_full_open_gate": "pass",
+    "F3_symmetric_staged_release_frozen_return_gate_and_diagnosis_order": "pass",
+    "F4_real_callback_numpy_json_canonicalization": "pass",
+    "real_trace_qf_and_drive_effort_semantics": "pass_with_qf_explicitly_not_actuator_effort_and_estimate_explicitly_not_measured_force",
+    "root_failure_evidence_cleanup_and_budget_wiring": "pass"
+  },
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 9},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 9},
+    "F4_block_root_per_revision": {"family": "F4", "family_revision_index": 9}
+  },
+  "allowed_physical_gpu_indices": [0],
+  "source_bound_static_envelopes": {
+    "F2": {"planner": 32, "execution": 3, "recovery": 0},
+    "F3": {"planner": 96, "execution": 3, "recovery": 0},
+    "F4_block_root": {"planner": 118, "execution": 7, "recovery": 0}
+  },
+  "revision9_ledgers_exist": {"F2": false, "F3": false, "F4": false},
+  "revision9_bundles_exist": {"F2": false, "F3": false, "F4": false},
+  "revision9_gpu_output_exists": {"F2": false, "F3": false, "F4": false},
+  "runtime_risks": [
+    "F2 mean-aperture balanced preload may fail to physically disengage or reach true-inside; it is one finite hypothesis",
+    "F3 fixed +0.16 normalized slow-disengagement may fail frozen orientation or support Gate; it is one finite hypothesis",
+    "SAPIEN get_qf is applied generalized force, not measured drive/contact force; controller effort is a derived audit estimate only",
+    "F4 B/C and complete ABC/ACB/BAC remain runtime hypotheses after the serialization fix"
+  ],
+  "decision": "CPU_STATIC_READY_FOR_CLEAN_PUBLICATION_AND_BUNDLE_ISSUE",
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "accepted_nonroot_gates": {"F4_A_only_micro": true}
+}

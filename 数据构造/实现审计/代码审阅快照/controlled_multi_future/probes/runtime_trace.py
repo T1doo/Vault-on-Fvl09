@@ -13,7 +13,7 @@ from ..raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_e
 
 
 TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
-TRACE_SCHEMA_VERSION = "cmf_runtime_trace_pose_consistent_velocity_v2"
+TRACE_SCHEMA_VERSION = "cmf_runtime_trace_pose_consistent_velocity_effort_v3"
 CONTACT_PAIR_SCHEMA_VERSION = "cmf_runtime_contact_pair_v2"
 
 
@@ -88,12 +88,78 @@ def _gripper_joint_qpos(robot, arm):
     return np.asarray(values, dtype=np.float64)
 
 
+def _gripper_joint_qvel(robot, arm):
+    entity = robot.left_entity if arm == "left" else robot.right_entity
+    gripper = robot.left_gripper if arm == "left" else robot.right_gripper
+    qvel = np.asarray(entity.get_qvel(), dtype=np.float64).reshape(-1)
+    active_joints = list(entity.get_active_joints())
+    index_by_name = {
+        joint.get_name(): index for index, joint in enumerate(active_joints)
+    }
+    values = []
+    for joint_spec in gripper:
+        name = joint_spec[0].get_name()
+        if name not in index_by_name:
+            raise ValueError(
+                f"gripper joint {name!r} is absent from active articulation qvel"
+            )
+        values.append(qvel[index_by_name[name]])
+    if not values:
+        raise ValueError(f"{arm} gripper has no auditable active-joint qvel")
+    return np.asarray(values, dtype=np.float64)
+
+
+def _gripper_joint_qf(robot, arm):
+    """Read selected gripper generalized force from articulation state."""
+
+    entity = robot.left_entity if arm == "left" else robot.right_entity
+    gripper = robot.left_gripper if arm == "left" else robot.right_gripper
+    qf = np.asarray(entity.get_qf(), dtype=np.float64).reshape(-1)
+    active_joints = list(entity.get_active_joints())
+    index_by_name = {
+        joint.get_name(): index for index, joint in enumerate(active_joints)
+    }
+    values = []
+    for joint_spec in gripper:
+        name = joint_spec[0].get_name()
+        if name not in index_by_name:
+            raise ValueError(
+                f"gripper joint {name!r} is absent from active articulation qf"
+            )
+        values.append(qf[index_by_name[name]])
+    if not values:
+        raise ValueError(f"{arm} gripper has no auditable active-joint qf")
+    return np.asarray(values, dtype=np.float64)
+
+
 def _gripper_joint_drive_values(robot, arm, getter):
     gripper = robot.left_gripper if arm == "left" else robot.right_gripper
     return np.asarray(
         [_scalar(getattr(spec[0], getter)()) for spec in gripper],
         dtype=np.float64,
     )
+
+
+def _gripper_joint_drive_properties(robot, arm):
+    gripper = robot.left_gripper if arm == "left" else robot.right_gripper
+    joints = [spec[0] for spec in gripper]
+    if not joints:
+        raise ValueError(f"{arm} gripper has no auditable drive properties")
+    return {
+        "stiffness": np.asarray(
+            [_scalar(joint.get_stiffness()) for joint in joints],
+            dtype=np.float64,
+        ),
+        "damping": np.asarray(
+            [_scalar(joint.get_damping()) for joint in joints],
+            dtype=np.float64,
+        ),
+        "force_limit": np.asarray(
+            [_scalar(joint.get_force_limit()) for joint in joints],
+            dtype=np.float64,
+        ),
+        "drive_mode": tuple(str(joint.get_drive_mode()) for joint in joints),
+    }
 
 
 def _pose_array(value):
@@ -292,6 +358,25 @@ def trace_rows_to_raw_streams(rows):
         "right_gripper_joint_drive_velocity_target": np.asarray([row["right_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
         "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
         "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
+        "realized_left_gripper_joint_qvel": np.asarray([row["realized_left_gripper_joint_qvel"] for row in rows], dtype=np.float64),
+        "realized_right_gripper_joint_qvel": np.asarray([row["realized_right_gripper_joint_qvel"] for row in rows], dtype=np.float64),
+        "realized_joint_qf": np.asarray([row["joint_qf"] for row in rows], dtype=np.float64),
+        "realized_left_gripper_joint_qf": np.asarray([row["realized_left_gripper_joint_qf"] for row in rows], dtype=np.float64),
+        "realized_right_gripper_joint_qf": np.asarray([row["realized_right_gripper_joint_qf"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_target_error": np.asarray([row["left_gripper_joint_drive_target_error"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_target_error": np.asarray([row["right_gripper_joint_drive_target_error"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_velocity_error": np.asarray([row["left_gripper_joint_drive_velocity_error"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_velocity_error": np.asarray([row["right_gripper_joint_drive_velocity_error"] for row in rows], dtype=np.float64),
+        "estimated_left_gripper_joint_drive_effort": np.asarray([row["estimated_left_gripper_joint_drive_effort"] for row in rows], dtype=np.float64),
+        "estimated_right_gripper_joint_drive_effort": np.asarray([row["estimated_right_gripper_joint_drive_effort"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_stiffness": np.asarray([row["left_gripper_joint_drive_stiffness"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_stiffness": np.asarray([row["right_gripper_joint_drive_stiffness"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_damping": np.asarray([row["left_gripper_joint_drive_damping"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_damping": np.asarray([row["right_gripper_joint_drive_damping"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_force_limit": np.asarray([row["left_gripper_joint_drive_force_limit"] for row in rows], dtype=np.float64),
+        "right_gripper_joint_drive_force_limit": np.asarray([row["right_gripper_joint_drive_force_limit"] for row in rows], dtype=np.float64),
+        "left_gripper_joint_drive_mode": np.asarray([row["left_gripper_joint_drive_mode"] for row in rows]).astype(str),
+        "right_gripper_joint_drive_mode": np.asarray([row["right_gripper_joint_drive_mode"] for row in rows]).astype(str),
         "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
         "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
         "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
@@ -326,6 +411,25 @@ def trace_rows_to_raw_streams(rows):
             "right_gripper_joint_drive_velocity_target": {"status": "measured", "source": "runtime exact right gripper joint drive velocity targets"},
             "realized_left_gripper_joint_qpos": {"status": "measured", "source": "runtime left articulation active-joint qpos"},
             "realized_right_gripper_joint_qpos": {"status": "measured", "source": "runtime right articulation active-joint qpos"},
+            "realized_left_gripper_joint_qvel": {"status": "measured", "source": "runtime left articulation gripper active-joint qvel"},
+            "realized_right_gripper_joint_qvel": {"status": "measured", "source": "runtime right articulation gripper active-joint qvel"},
+            "realized_joint_qf": {"status": "measured", "source": "runtime complete dual-arm articulation get_qf applied generalized-force state; not actuator/contact effort"},
+            "realized_left_gripper_joint_qf": {"status": "measured", "source": "runtime left gripper applied generalized qf; not actuator/contact effort"},
+            "realized_right_gripper_joint_qf": {"status": "measured", "source": "runtime right gripper applied generalized qf; not actuator/contact effort"},
+            "left_gripper_joint_drive_target_error": {"status": "derived", "source": "left gripper drive target minus realized active-joint qpos"},
+            "right_gripper_joint_drive_target_error": {"status": "derived", "source": "right gripper drive target minus realized active-joint qpos"},
+            "left_gripper_joint_drive_velocity_error": {"status": "derived", "source": "left gripper drive velocity target minus realized active-joint qvel"},
+            "right_gripper_joint_drive_velocity_error": {"status": "derived", "source": "right gripper drive velocity target minus realized active-joint qvel"},
+            "estimated_left_gripper_joint_drive_effort": {"status": "derived", "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only when recorded drive_mode=force, never a measured force"},
+            "estimated_right_gripper_joint_drive_effort": {"status": "derived", "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only when recorded drive_mode=force, never a measured force"},
+            "left_gripper_joint_drive_stiffness": {"status": "measured", "source": "runtime left gripper PhysX joint get_stiffness"},
+            "right_gripper_joint_drive_stiffness": {"status": "measured", "source": "runtime right gripper PhysX joint get_stiffness"},
+            "left_gripper_joint_drive_damping": {"status": "measured", "source": "runtime left gripper PhysX joint get_damping"},
+            "right_gripper_joint_drive_damping": {"status": "measured", "source": "runtime right gripper PhysX joint get_damping"},
+            "left_gripper_joint_drive_force_limit": {"status": "measured", "source": "runtime left gripper PhysX joint get_force_limit"},
+            "right_gripper_joint_drive_force_limit": {"status": "measured", "source": "runtime right gripper PhysX joint get_force_limit"},
+            "left_gripper_joint_drive_mode": {"status": "measured", "source": "runtime left gripper PhysX joint get_drive_mode"},
+            "right_gripper_joint_drive_mode": {"status": "measured", "source": "runtime right gripper PhysX joint get_drive_mode"},
             "selected_gripper_contact": {"status": "measured", "source": "runtime SAPIEN contact restricted to selected arm gripper links"},
             "selected_gripper_contact_count": {"status": "measured", "source": "runtime selected-arm SAPIEN contact-pair count"},
             "selected_gripper_contact_impulse": {"status": "measured", "source": "runtime selected-arm SAPIEN contact point impulse sum"},
@@ -646,6 +750,7 @@ class DenseTraceMixin:
         actor_pose = self.trace_actor.get_pose()
         qpos = _dual_entity_values(self.robot, "get_qpos")
         qvel = _dual_entity_values(self.robot, "get_qvel")
+        qf = _dual_entity_values(self.robot, "get_qf")
         pairs, selected_contact_count, selected_impulse = self._contacts()
         effective_position = {
             "left": _joint_values(self.robot.left_arm_joints, "get_drive_target"),
@@ -656,6 +761,50 @@ class DenseTraceMixin:
             "right": _joint_values(self.robot.right_arm_joints, "get_drive_velocity_target"),
         }
         effective_gripper = list(self.robot.get_normal_real_gripper_val())
+        left_gripper_qpos = _gripper_joint_qpos(self.robot, "left")
+        right_gripper_qpos = _gripper_joint_qpos(self.robot, "right")
+        left_gripper_qvel = _gripper_joint_qvel(self.robot, "left")
+        right_gripper_qvel = _gripper_joint_qvel(self.robot, "right")
+        left_gripper_qf = _gripper_joint_qf(self.robot, "left")
+        right_gripper_qf = _gripper_joint_qf(self.robot, "right")
+        left_gripper_target = _gripper_joint_drive_values(
+            self.robot, "left", "get_drive_target"
+        )
+        right_gripper_target = _gripper_joint_drive_values(
+            self.robot, "right", "get_drive_target"
+        )
+        left_gripper_velocity_target = _gripper_joint_drive_values(
+            self.robot, "left", "get_drive_velocity_target"
+        )
+        right_gripper_velocity_target = _gripper_joint_drive_values(
+            self.robot, "right", "get_drive_velocity_target"
+        )
+        left_gripper_properties = _gripper_joint_drive_properties(
+            self.robot, "left"
+        )
+        right_gripper_properties = _gripper_joint_drive_properties(
+            self.robot, "right"
+        )
+        left_drive_position_error = left_gripper_target - left_gripper_qpos
+        right_drive_position_error = right_gripper_target - right_gripper_qpos
+        left_drive_velocity_error = (
+            left_gripper_velocity_target - left_gripper_qvel
+        )
+        right_drive_velocity_error = (
+            right_gripper_velocity_target - right_gripper_qvel
+        )
+        estimated_left_drive_effort = np.clip(
+            left_gripper_properties["stiffness"] * left_drive_position_error
+            + left_gripper_properties["damping"] * left_drive_velocity_error,
+            -left_gripper_properties["force_limit"],
+            left_gripper_properties["force_limit"],
+        )
+        estimated_right_drive_effort = np.clip(
+            right_gripper_properties["stiffness"] * right_drive_position_error
+            + right_gripper_properties["damping"] * right_drive_velocity_error,
+            -right_gripper_properties["force_limit"],
+            right_gripper_properties["force_limit"],
+        )
         effective = pack_effective_setpoint(
             effective_position["left"], effective_velocity["left"], effective_gripper[0],
             effective_position["right"], effective_velocity["right"], effective_gripper[1],
@@ -768,6 +917,7 @@ class DenseTraceMixin:
             "component_mask": self._component_mask.copy(),
             "joint_qpos": qpos,
             "joint_qvel": qvel,
+            "joint_qf": qf,
             "eef": eef_array,
             "dual_eef": dual_eef,
             "eef_linear_velocity": eef_linear,
@@ -787,20 +937,30 @@ class DenseTraceMixin:
             },
             "gripper_command": np.asarray(self._requested_gripper, dtype=np.float64),
             "gripper_drive_target_readback": np.asarray(effective_gripper, dtype=np.float64),
-            "left_gripper_joint_drive_target": _gripper_joint_drive_values(
-                self.robot, "left", "get_drive_target"
-            ),
-            "right_gripper_joint_drive_target": _gripper_joint_drive_values(
-                self.robot, "right", "get_drive_target"
-            ),
-            "left_gripper_joint_drive_velocity_target": _gripper_joint_drive_values(
-                self.robot, "left", "get_drive_velocity_target"
-            ),
-            "right_gripper_joint_drive_velocity_target": _gripper_joint_drive_values(
-                self.robot, "right", "get_drive_velocity_target"
-            ),
-            "realized_left_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "left"),
-            "realized_right_gripper_joint_qpos": _gripper_joint_qpos(self.robot, "right"),
+            "left_gripper_joint_drive_target": left_gripper_target,
+            "right_gripper_joint_drive_target": right_gripper_target,
+            "left_gripper_joint_drive_velocity_target": left_gripper_velocity_target,
+            "right_gripper_joint_drive_velocity_target": right_gripper_velocity_target,
+            "realized_left_gripper_joint_qpos": left_gripper_qpos,
+            "realized_right_gripper_joint_qpos": right_gripper_qpos,
+            "realized_left_gripper_joint_qvel": left_gripper_qvel,
+            "realized_right_gripper_joint_qvel": right_gripper_qvel,
+            "realized_left_gripper_joint_qf": left_gripper_qf,
+            "realized_right_gripper_joint_qf": right_gripper_qf,
+            "left_gripper_joint_drive_target_error": left_drive_position_error,
+            "right_gripper_joint_drive_target_error": right_drive_position_error,
+            "left_gripper_joint_drive_velocity_error": left_drive_velocity_error,
+            "right_gripper_joint_drive_velocity_error": right_drive_velocity_error,
+            "estimated_left_gripper_joint_drive_effort": estimated_left_drive_effort,
+            "estimated_right_gripper_joint_drive_effort": estimated_right_drive_effort,
+            "left_gripper_joint_drive_stiffness": left_gripper_properties["stiffness"],
+            "right_gripper_joint_drive_stiffness": right_gripper_properties["stiffness"],
+            "left_gripper_joint_drive_damping": left_gripper_properties["damping"],
+            "right_gripper_joint_drive_damping": right_gripper_properties["damping"],
+            "left_gripper_joint_drive_force_limit": left_gripper_properties["force_limit"],
+            "right_gripper_joint_drive_force_limit": right_gripper_properties["force_limit"],
+            "left_gripper_joint_drive_mode": left_gripper_properties["drive_mode"],
+            "right_gripper_joint_drive_mode": right_gripper_properties["drive_mode"],
             "selected_gripper_links": self.selected_gripper_links(),
             "selected_contact_actor_name": _entity(
                 self.trace_contact_actor
@@ -1024,6 +1184,7 @@ class DenseTraceMixin:
             "component_masks": np.asarray([row["component_mask"] for row in rows], dtype=bool),
             "joint_qpos": np.asarray([row["joint_qpos"] for row in rows], dtype=np.float64),
             "joint_qvel": np.asarray([row["joint_qvel"] for row in rows], dtype=np.float64),
+            "joint_qf": np.asarray([row["joint_qf"] for row in rows], dtype=np.float64),
             "eef_pose": np.asarray([row["eef"] for row in rows], dtype=np.float64),
             "dual_eef_pose": np.asarray([row["dual_eef"] for row in rows], dtype=np.float64),
             "eef_linear_velocity": np.asarray([row["eef_linear_velocity"] for row in rows], dtype=np.float64),
@@ -1049,6 +1210,24 @@ class DenseTraceMixin:
             "right_gripper_joint_drive_velocity_target": np.asarray([row["right_gripper_joint_drive_velocity_target"] for row in rows], dtype=np.float64),
             "realized_left_gripper_joint_qpos": np.asarray([row["realized_left_gripper_joint_qpos"] for row in rows], dtype=np.float64),
             "realized_right_gripper_joint_qpos": np.asarray([row["realized_right_gripper_joint_qpos"] for row in rows], dtype=np.float64),
+            "realized_left_gripper_joint_qvel": np.asarray([row["realized_left_gripper_joint_qvel"] for row in rows], dtype=np.float64),
+            "realized_right_gripper_joint_qvel": np.asarray([row["realized_right_gripper_joint_qvel"] for row in rows], dtype=np.float64),
+            "realized_left_gripper_joint_qf": np.asarray([row["realized_left_gripper_joint_qf"] for row in rows], dtype=np.float64),
+            "realized_right_gripper_joint_qf": np.asarray([row["realized_right_gripper_joint_qf"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_target_error": np.asarray([row["left_gripper_joint_drive_target_error"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_target_error": np.asarray([row["right_gripper_joint_drive_target_error"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_velocity_error": np.asarray([row["left_gripper_joint_drive_velocity_error"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_velocity_error": np.asarray([row["right_gripper_joint_drive_velocity_error"] for row in rows], dtype=np.float64),
+            "estimated_left_gripper_joint_drive_effort": np.asarray([row["estimated_left_gripper_joint_drive_effort"] for row in rows], dtype=np.float64),
+            "estimated_right_gripper_joint_drive_effort": np.asarray([row["estimated_right_gripper_joint_drive_effort"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_stiffness": np.asarray([row["left_gripper_joint_drive_stiffness"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_stiffness": np.asarray([row["right_gripper_joint_drive_stiffness"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_damping": np.asarray([row["left_gripper_joint_drive_damping"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_damping": np.asarray([row["right_gripper_joint_drive_damping"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_force_limit": np.asarray([row["left_gripper_joint_drive_force_limit"] for row in rows], dtype=np.float64),
+            "right_gripper_joint_drive_force_limit": np.asarray([row["right_gripper_joint_drive_force_limit"] for row in rows], dtype=np.float64),
+            "left_gripper_joint_drive_mode": np.asarray([row["left_gripper_joint_drive_mode"] for row in rows]).astype(str),
+            "right_gripper_joint_drive_mode": np.asarray([row["right_gripper_joint_drive_mode"] for row in rows]).astype(str),
             "selected_gripper_contact": np.asarray([row["selected_gripper_contact"] for row in rows], dtype=bool),
             "selected_gripper_contact_count": np.asarray([row["selected_gripper_contact_count"] for row in rows], dtype=np.int64),
             "selected_gripper_contact_impulse": np.asarray([row["selected_gripper_contact_impulse"] for row in rows], dtype=np.float64),
@@ -1075,6 +1254,7 @@ class DenseTraceMixin:
                 "component_masks": {"status": "derived", "source": "per-step commanded component presence"},
                 "joint_qpos": {"status": "measured", "source": "complete dual-arm articulation get_qpos"},
                 "joint_qvel": {"status": "measured", "source": "complete dual-arm articulation get_qvel"},
+                "joint_qf": {"status": "measured", "source": "complete dual-arm articulation get_qf generalized-force state"},
                 "eef_pose": {"status": "measured", "source": "robot EEF pose API"},
                 "dual_eef_pose": {"status": "measured", "source": "left and right robot EEF pose APIs"},
                 "eef_linear_velocity": {"status": "derived", "source": "250 Hz position difference"},
@@ -1097,6 +1277,24 @@ class DenseTraceMixin:
                 "right_gripper_joint_drive_velocity_target": {"status": "measured", "source": "exact right gripper joint drive velocity targets for deterministic replay"},
                 "realized_left_gripper_joint_qpos": {"status": "measured", "source": "left articulation active-joint qpos"},
                 "realized_right_gripper_joint_qpos": {"status": "measured", "source": "right articulation active-joint qpos"},
+                "realized_left_gripper_joint_qvel": {"status": "measured", "source": "left articulation gripper active-joint qvel"},
+                "realized_right_gripper_joint_qvel": {"status": "measured", "source": "right articulation gripper active-joint qvel"},
+                "realized_left_gripper_joint_qf": {"status": "measured", "source": "left gripper applied generalized qf; not actuator/contact effort"},
+                "realized_right_gripper_joint_qf": {"status": "measured", "source": "right gripper applied generalized qf; not actuator/contact effort"},
+                "left_gripper_joint_drive_target_error": {"status": "derived", "source": "left gripper drive target minus realized qpos"},
+                "right_gripper_joint_drive_target_error": {"status": "derived", "source": "right gripper drive target minus realized qpos"},
+                "left_gripper_joint_drive_velocity_error": {"status": "derived", "source": "left gripper drive velocity target minus realized qvel"},
+                "right_gripper_joint_drive_velocity_error": {"status": "derived", "source": "right gripper drive velocity target minus realized qvel"},
+                "estimated_left_gripper_joint_drive_effort": {"status": "derived", "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only for recorded force mode, not measured force"},
+                "estimated_right_gripper_joint_drive_effort": {"status": "derived", "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only for recorded force mode, not measured force"},
+                "left_gripper_joint_drive_stiffness": {"status": "measured", "source": "left gripper PhysX get_stiffness"},
+                "right_gripper_joint_drive_stiffness": {"status": "measured", "source": "right gripper PhysX get_stiffness"},
+                "left_gripper_joint_drive_damping": {"status": "measured", "source": "left gripper PhysX get_damping"},
+                "right_gripper_joint_drive_damping": {"status": "measured", "source": "right gripper PhysX get_damping"},
+                "left_gripper_joint_drive_force_limit": {"status": "measured", "source": "left gripper PhysX get_force_limit"},
+                "right_gripper_joint_drive_force_limit": {"status": "measured", "source": "right gripper PhysX get_force_limit"},
+                "left_gripper_joint_drive_mode": {"status": "measured", "source": "left gripper PhysX get_drive_mode"},
+                "right_gripper_joint_drive_mode": {"status": "measured", "source": "right gripper PhysX get_drive_mode"},
                 "selected_gripper_contact": {"status": "measured", "source": "SAPIEN body-pair contacts restricted to selected arm links"},
                 "selected_gripper_contact_count": {"status": "measured", "source": "SAPIEN contact pair count for selected arm"},
                 "selected_gripper_contact_impulse": {"status": "measured", "source": "SAPIEN contact point impulses when available"},
