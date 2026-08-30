@@ -198,6 +198,9 @@ from .f4_exact_corridor_application_v11 import (
 from .f4_candidate_equivalence_v12 import (
     audit_f4_candidate_equivalence_v12,
 )
+from .f4_right_workspace_layout_v4 import (
+    LAYOUT_VERSION as F4_LAYOUT_VERSION_V4,
+)
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
@@ -223,6 +226,14 @@ PLANNER_SEED = 20260828
 SUFFIX_CACHE_ATTRIBUTE = "_cmf_v3_3_suffix_control_cache"
 F3_EVENT_ENDPOINT_HOLD_STEPS_V3_3_REV2 = 50
 F3_CLOSED_LOOP_PRIMITIVE_VERSION = "f3_pose_consistent_time_dilated_closed_loop_v2"
+
+
+class F2FrozenLayoutConfigurationError(ValueError):
+    """Planned/spec/timestep F2 wiring is invalid, not physical infeasibility."""
+
+
+class F2TaskPhysicalGateFailure(ValueError):
+    """A correctly wired F2 scene failed an expected physical Gate."""
 
 
 def _raw_result(*args, **kwargs):
@@ -1366,20 +1377,27 @@ class FamilyControllerV3_3:
 
     def validate_family_suffix_gate(self, receipts):
         values = [dict(item) for item in receipts]
-        checks = {
+        evidence_checks = {
             "three_programs": len(values) == 3,
-            "three_planner_solvable": len(values) == 3
-            and all(item.get("planner_solvable") is True for item in values),
             "actual_prefix_end_qpos_recorded": len(values) == 3
             and all(
                 isinstance(item.get("actual_prefix_end_qpos_sha256"), str)
                 for item in values
             ),
         }
+        scientific_checks = {
+            "three_planner_solvable": len(values) == 3
+            and all(item.get("planner_solvable") is True for item in values),
+        }
+        checks = {**evidence_checks, **scientific_checks}
         return {
             "schema_version": "cmf_family_suffix_gate_v1",
             "family": self.family,
             "checks": checks,
+            "evidence_checks": evidence_checks,
+            "scientific_checks": scientific_checks,
+            "evidence_complete": all(evidence_checks.values()),
+            "scientific_gate_pass": all(scientific_checks.values()),
             "pass": all(checks.values()),
         }
 
@@ -1449,8 +1467,8 @@ class F1ControllerV3_3(FamilyControllerV3_3):
                     evidence.get("comparative_reachability"),
                 ),
             }
-        checks = {
-            **base["checks"],
+        evidence_checks = {
+            **base["evidence_checks"],
             "all_roles_present": set(roles) == {"red", "green", "blue"},
             "terminal_qpos_values_available": all(
                 isinstance(comparative[role]["terminal_qpos"], list)
@@ -1464,15 +1482,21 @@ class F1ControllerV3_3(FamilyControllerV3_3):
                 )
                 for role in comparative
             ),
+            "planner_collision_source_available": all(
+                isinstance(
+                    comparative[role]["planner_collision_check_source"], str
+                )
+                for role in comparative
+            ),
+        }
+        scientific_checks = {
+            **base["scientific_checks"],
             "all_terminal_qpos_within_limits": all(
                 comparative[role]["terminal_qpos_within_joint_limits"] is True
                 for role in comparative
             ),
             "official_planner_collision_pass": all(
                 comparative[role]["planner_solvable"] is True
-                and isinstance(
-                    comparative[role]["planner_collision_check_source"], str
-                )
                 for role in comparative
             ),
             "non_target_waypoint_clearance_positive": all(
@@ -1488,6 +1512,7 @@ class F1ControllerV3_3(FamilyControllerV3_3):
                 for role in comparative
             ),
         }
+        checks = {**evidence_checks, **scientific_checks}
         return {
             "schema_version": "cmf_f1_three_object_planner_comparative_gate_v1",
             "family": "F1",
@@ -1495,6 +1520,10 @@ class F1ControllerV3_3(FamilyControllerV3_3):
             "role_order": ["red", "green", "blue"],
             "comparative": comparative,
             "checks": checks,
+            "evidence_checks": evidence_checks,
+            "scientific_checks": scientific_checks,
+            "evidence_complete": all(evidence_checks.values()),
+            "scientific_gate_pass": all(scientific_checks.values()),
             "pass": all(checks.values()),
             "quantitative_collision_clearance_status": "non-target carried-block waypoint AABB clearance recorded; full robot-path collision status from official CuRobo per segment",
         }
@@ -1852,7 +1881,9 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
         layout = planned.get("scene_layout")
         if not isinstance(layout, Mapping):
-            raise ValueError("F2 v3_3 requires an explicit frozen scene_layout")
+            raise F2FrozenLayoutConfigurationError(
+                "F2 v3_3 requires an explicit frozen scene_layout"
+            )
         expected = {
             key: F2_LAYOUT_V2[key]
             for key in (
@@ -1865,7 +1896,9 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             )
         }
         if hash_json(layout) != hash_json(expected):
-            raise ValueError("F2 planned scene layout differs from frozen layout v2")
+            raise F2FrozenLayoutConfigurationError(
+                "F2 planned scene layout differs from frozen layout v2"
+            )
         realized = {
             "box_xyz": _pose(scene.box)[:3],
             "scale_xyz": _pose(scene.scale)[:3],
@@ -1875,11 +1908,15 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             if not np.allclose(
                 value, np.asarray(expected[key], dtype=np.float64), rtol=0.0, atol=1e-6
             ):
-                raise ValueError(f"F2 realized {key} differs from frozen layout v2")
+                raise F2TaskPhysicalGateFailure(
+                    f"F2 realized {key} differs from frozen layout v2"
+                )
         if quaternion_orientation_error(
             _pose(scene.stand)[3:], expected["stand_q_wxyz"]
         ) > 1e-6:
-            raise ValueError("F2 realized stand orientation differs from layout v2")
+            raise F2TaskPhysicalGateFailure(
+                "F2 realized stand orientation differs from layout v2"
+            )
         can_pose = _pose(scene.can)
         pose_linear_speeds = []
         pose_angular_speeds = []
@@ -1888,7 +1925,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         if require_dynamic_stability:
             timestep = float(scene.scene.get_timestep())
             if not np.isclose(timestep, 1.0 / 250.0, rtol=0.0, atol=1e-9):
-                raise ValueError(
+                raise F2FrozenLayoutConfigurationError(
                     "F2 post-settle dynamic pose contract requires 250 Hz timestep"
                 )
             previous_pose = can_pose.copy()
@@ -1967,7 +2004,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             required=bool(require_dynamic_stability),
         )
         if require_dynamic_stability and not all(dynamic_checks.values()):
-            raise ValueError(
+            raise F2TaskPhysicalGateFailure(
                 "F2 dynamic can post-settle contract failed: "
                 + str(dynamic_checks)
             )
@@ -2011,7 +2048,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             layout = self._require_layout_v2(
                 scene, require_dynamic_stability=True
             )
-        except BaseException as exc:
+        except F2TaskPhysicalGateFailure as exc:
             return {
                 "task_feasible": False,
                 "physical_feasible": False,
@@ -5616,7 +5653,61 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         start = int(group["target_start_index"])
         width = len(group["targets"])
         base_a = suffix_targets[start : start + width]
-        return build_f4_exact_A_corridors_v11(base_a)
+        base_contract = build_f4_exact_A_corridors_v11(base_a)
+        base_contract_payload = dict(base_contract)
+        base_contract_digest = base_contract_payload.pop("receipt_sha256", None)
+        if not isinstance(base_contract_digest, str) or hash_json(
+            base_contract_payload
+        ) != base_contract_digest:
+            raise ValueError("F4 base v11 corridor contract self-hash failed")
+        planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
+        scene_layout = planned.get("scene_layout", {}) if isinstance(planned, Mapping) else {}
+        if (
+            not isinstance(planned, Mapping)
+            or planned.get("arm") != "right"
+            or not isinstance(scene_layout, Mapping)
+            or hash_json(scene_layout) != planned.get("scene_layout_sha256")
+            or scene_layout.get("layout_version")
+            != F4_LAYOUT_VERSION_V4
+        ):
+            raise ValueError("F4 Stage 0 context binding is not the frozen layout/right arm")
+        context_binding = {
+            "arm": "right",
+            "scene_layout_sha256": planned.get("scene_layout_sha256")
+            if isinstance(planned, Mapping)
+            else None,
+            "layout_version": scene_layout.get("layout_version")
+            if isinstance(scene_layout, Mapping)
+            else None,
+            "release_target_semantics": "same_role_visible_slot_unchanged",
+        }
+        contract = {
+            key: value
+            for key, value in base_contract.items()
+            if key not in ("candidates", "receipt_sha256")
+        }
+        contract["base_v11_receipt_sha256"] = base_contract[
+            "receipt_sha256"
+        ]
+        contract["stage0_context_binding_v12"] = context_binding
+        contract["candidates"] = []
+        for base_candidate in base_contract["candidates"]:
+            candidate = dict(base_candidate)
+            candidate["base_v11_candidate_application_sha256"] = (
+                base_candidate["candidate_application_sha256"]
+            )
+            candidate["stage0_context_binding_v12"] = context_binding
+            bound_payload = dict(candidate)
+            candidate["stage0_bound_candidate_sha256_v12"] = hash_json(
+                bound_payload
+            )
+            contract["candidates"].append(candidate)
+        contract["schema_version"] = "cmf_f4_exact_corridor_contract_v12"
+        contract["implementation_version"] = (
+            "controlled_multi_future_stage0_smoke_v1"
+        )
+        contract["receipt_sha256"] = hash_json(contract)
+        return contract
 
     def plan_a_exact_corridor_candidate_v11(
         self, scene, replay, frozen_candidate

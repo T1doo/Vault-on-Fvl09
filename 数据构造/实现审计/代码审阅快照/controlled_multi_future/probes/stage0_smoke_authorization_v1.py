@@ -11,6 +11,7 @@ import re
 from typing import Any, Mapping
 
 from ..runtime_source_lock_v1 import load_runtime_source_lock
+from ..stage0_smoke_scope_specs_v1 import planned_scope_spec
 from ..stage0_smoke_budget_v1 import (
     SUPPORTED_SCOPES,
     budget_receipt_sha256,
@@ -36,6 +37,10 @@ MAX_VALIDITY_SECONDS = 3600
 SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE_ROOT = Path("/nfs_share/lijunhui")
+CANONICAL_STAGE0_MANIFEST = Path(
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
+    "STAGE0_SMOKE_MANIFEST_V1_20260830.json"
+)
 
 
 def canonical_sha256(value: Any) -> str:
@@ -92,12 +97,16 @@ def current_stage0_source_bindings() -> dict[str, str]:
         "stage0_family_runner_sha256": root
         / "stage0_smoke_family_runner_v1.py",
         "stage0_manifest_sha256": root / "stage0_smoke_manifest_v1.py",
+        "stage0_manifest_builder_sha256": root
+        / "probes/build_stage0_smoke_manifest.py",
         "stage0_finalizer_sha256": root / "stage0_smoke_finalizer_v1.py",
+        "stage0_finalizer_entrypoint_sha256": root
+        / "probes/stage0_smoke_finalize.py",
         "joint_limit_audit_sha256": root / "joint_limit_audit_v3_4_1.py",
         "budget_sha256": root / "stage0_smoke_budget_v1.py",
         "scope_specs_sha256": root / "stage0_smoke_scope_specs_v1.py",
         "scope_bundle_builder_sha256": root / "stage0_smoke_scope_bundle_v1.py",
-        "scheduler_sha256": root / "runtime_v3_4_multi_gpu_scheduler_v1.py",
+        "scheduler_sha256": root / "stage0_smoke_parallel_scheduler_v1.py",
         "scope_runner_sha256": root / "probes/stage0_smoke_scope_runner.py",
         "runtime_trace_sha256": root / "probes/runtime_trace.py",
         "raw_writer_sha256": root / "raw_writer.py",
@@ -240,6 +249,7 @@ def validate_stage0_smoke_authorization(
         raise AuthorizationBindingError("planned spec Stage 0 data role mismatch")
     if spec.get("stage0_authorized") is not True:
         raise AuthorizationBindingError("planned spec lacks Stage 0 authorization")
+    manifest = None
     if budget["stage0_data"] is True:
         if receipt.get("stage0_manifest_sha256") != spec.get(
             "stage0_manifest_sha256"
@@ -289,6 +299,184 @@ def validate_stage0_smoke_authorization(
         raise AuthorizationBindingError("parent does not authorize Stage 0 smoke")
     if parent.get("formal_collection_authorized") is not False:
         raise AuthorizationBindingError("parent must not authorize formal collection")
+    expected_parent = {
+        "schema_version": "cmf_stage0_smoke_parent_user_authorization_v1",
+        "design_version": "controlled_multi_future_f1_f4_v1_2",
+        "implementation_version": "controlled_multi_future_stage0_smoke_v1",
+        "authorized_scopes": [
+            "F4_candidate_hash_infra_v12",
+            "Stage0_F1_root_A",
+            "Stage0_F2_root_A",
+            "Stage0_F3_root_A",
+            "Stage0_F4_root_A",
+        ],
+        "stage0_planned_attempt_count": 12,
+        "stage0_structure": "4 families x 3 r_pc attempts",
+        "stage0_success_required": False,
+        "allowed_family_outcomes": ["PASS", "FAILED_WITH_EVIDENCE"],
+        "success_and_failure_both_retained": True,
+        "accepted_roots_4_of_4_precondition_removed": True,
+        "f2_f3_pre_stage0_repair_required": False,
+        "f4_hash_infrastructure_fix_required_before_stage0": True,
+        "allowed_physical_gpu_indices": list(range(8)),
+        "family_level_parallelism_authorized": True,
+        "one_project_job_per_gpu": True,
+        "one_family_root_one_gpu": True,
+        "automatic_retry": False,
+        "recovery_attempts": 0,
+        "stage1_authorized": False,
+        "formal_collection_authorized": False,
+        "training_authorized": False,
+        "h_reveal": None,
+        "compression_authorized": False,
+        "pi05_authorized": False,
+        "user_direction_source": "https://chatgpt.com/s/t_6a942756badc8191897f267ac7bf2647",
+    }
+    parent_mismatches = {
+        key: {"expected": expected, "actual": parent.get(key)}
+        for key, expected in expected_parent.items()
+        if parent.get(key) != expected
+    }
+    if parent_mismatches:
+        raise AuthorizationBindingError(
+            f"parent Stage 0 contract mismatch: {parent_mismatches}"
+        )
+    if budget["stage0_data"] is True:
+        manifest_path = _workspace_file(
+            receipt.get("stage0_manifest_path"), "Stage 0 manifest"
+        )
+        if manifest_path != CANONICAL_STAGE0_MANIFEST.resolve():
+            raise AuthorizationBindingError("Stage 0 manifest path is not canonical")
+        if sha256_file(manifest_path) != receipt.get(
+            "stage0_manifest_file_sha256"
+        ):
+            raise AuthorizationBindingError("Stage 0 manifest file SHA mismatch")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest_payload = dict(manifest)
+        manifest_digest = manifest_payload.pop("manifest_sha256", None)
+        if not isinstance(manifest_digest, str) or canonical_sha256(
+            manifest_payload
+        ) != manifest_digest:
+            raise AuthorizationBindingError("Stage 0 manifest self-hash mismatch")
+        if manifest_digest != receipt.get("stage0_manifest_sha256"):
+            raise AuthorizationBindingError("Stage 0 manifest content mismatch")
+        bundle_set_path = _workspace_file(
+            receipt.get("bundle_set_receipt_path"), "bundle set receipt"
+        )
+        if sha256_file(bundle_set_path) != receipt.get(
+            "bundle_set_receipt_file_sha256"
+        ):
+            raise AuthorizationBindingError("bundle set file SHA mismatch")
+        bundle_set = json.loads(bundle_set_path.read_text(encoding="utf-8"))
+        bundle_payload = dict(bundle_set)
+        bundle_digest = bundle_payload.pop("bundle_set_receipt_sha256", None)
+        if not isinstance(bundle_digest, str) or canonical_sha256(
+            bundle_payload
+        ) != bundle_digest:
+            raise AuthorizationBindingError("bundle set self-hash mismatch")
+        if bundle_digest != receipt.get("bundle_set_receipt_sha256"):
+            raise AuthorizationBindingError("authorization bundle set hash mismatch")
+        bundle_checks = {
+            "exact_scopes": bundle_set.get("scopes")
+            == [
+                "Stage0_F1_root_A",
+                "Stage0_F2_root_A",
+                "Stage0_F3_root_A",
+                "Stage0_F4_root_A",
+            ],
+            "manifest": bundle_set.get("stage0_manifest_sha256")
+            == receipt.get("stage0_manifest_sha256"),
+            "manifest_path": bundle_set.get("stage0_manifest_path")
+            == str(manifest_path),
+            "manifest_file": bundle_set.get("stage0_manifest_file_sha256")
+            == receipt.get("stage0_manifest_file_sha256"),
+            "source": bundle_set.get("implementation_source_sha256")
+            == receipt.get("implementation_source_sha256"),
+            "budget": bundle_set.get("budget_receipt_sha256")
+            == receipt.get("budget_receipt_sha256"),
+            "parent": bundle_set.get("parent_user_authorization_sha256")
+            == receipt.get("parent_user_authorization_sha256"),
+            "scope_id": bundle_set.get("authorization_id_by_scope", {}).get(
+                requested_scope
+            )
+            == receipt.get("authorization_id"),
+        }
+        if not all(bundle_checks.values()):
+            raise AuthorizationBindingError(
+                f"bundle set binding mismatch: {bundle_checks}"
+            )
+        authorization_paths = bundle_set.get("authorization_paths")
+        if not isinstance(authorization_paths, Mapping) or set(
+            authorization_paths
+        ) != set(bundle_set["scopes"]):
+            raise AuthorizationBindingError("bundle set authorization paths incomplete")
+        for sibling_scope, sibling_path_value in authorization_paths.items():
+            sibling_path = _workspace_file(
+                sibling_path_value, f"bundle sibling {sibling_scope}"
+            )
+            sibling = json.loads(sibling_path.read_text(encoding="utf-8"))
+            if sibling.get("approved_scopes") != [sibling_scope]:
+                raise AuthorizationBindingError("bundle sibling scope mismatch")
+            if sibling.get("bundle_set_receipt_sha256") != bundle_digest:
+                raise AuthorizationBindingError("bundle sibling set hash mismatch")
+            if sibling.get("stage0_manifest_sha256") != receipt.get(
+                "stage0_manifest_sha256"
+            ):
+                raise AuthorizationBindingError("bundle sibling manifest mismatch")
+            if sibling.get("stage0_manifest_path") != str(manifest_path) or sibling.get(
+                "stage0_manifest_file_sha256"
+            ) != receipt.get("stage0_manifest_file_sha256"):
+                raise AuthorizationBindingError(
+                    "bundle sibling manifest file binding mismatch"
+                )
+            if sibling.get("receipt_sha256") != authorization_receipt_sha256(
+                sibling
+            ):
+                raise AuthorizationBindingError("bundle sibling self-hash mismatch")
+    else:
+        if any(
+            receipt.get(field) is not None
+            for field in (
+                "stage0_manifest_path",
+                "stage0_manifest_file_sha256",
+                "stage0_manifest_sha256",
+                "bundle_set_receipt_path",
+                "bundle_set_receipt_file_sha256",
+                "bundle_set_receipt_sha256",
+            )
+        ):
+            raise AuthorizationBindingError(
+                "F4 infrastructure scope must not bind a Stage 0 bundle set"
+            )
+    expected_spec = planned_scope_spec(
+        requested_scope,
+        stage0_manifest=manifest if budget["stage0_data"] is True else None,
+    )
+    if spec != expected_spec:
+        raise AuthorizationBindingError(
+            "authorization planned root spec differs from canonical manifest/spec"
+        )
+    request_checks = {
+        "scope": request.get("scope") == requested_scope,
+        "family": request.get("family") == family,
+        "planned_spec": request.get("planned_root_slot_spec") == spec,
+        "planned_spec_hash": request.get("planned_root_slot_spec_sha256")
+        == receipt.get("planned_root_slot_spec_sha256"),
+        "manifest": request.get("stage0_manifest_sha256")
+        == receipt.get("stage0_manifest_sha256"),
+        "budget": request.get("scope_budget") == budget,
+        "command": request.get("authorized_command_sha256")
+        == receipt.get("authorized_command_sha256"),
+        "output": request.get("output_namespace")
+        == receipt.get("output_namespace"),
+        "flags": request.get("stage0_data") is budget["stage0_data"]
+        and request.get("stage0_authorized") is True
+        and request.get("formal_data") is False,
+    }
+    if not all(request_checks.values()):
+        raise AuthorizationBindingError(
+            f"scope request/authorization mismatch: {request_checks}"
+        )
     for field, canonical in (
         ("consumption_ledger_directory", CANONICAL_CONSUMPTION_LEDGER_DIRECTORY),
         ("gpu_lease_directory", CANONICAL_GPU_LEASE_DIRECTORY),

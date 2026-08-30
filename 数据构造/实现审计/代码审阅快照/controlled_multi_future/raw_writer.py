@@ -457,6 +457,70 @@ def verify_raw_artifact_integrity(output_dir: Path) -> dict:
     return {"pass": all(checks.values()), "checks": checks, "manifest": manifest, "integrity_sidecar": sidecar}
 
 
+def validate_raw_artifact_contract(output_dir: Path) -> dict:
+    """Reload an immutable NPZ and rerun the full Stage 0 raw contract."""
+
+    output_dir = Path(output_dir)
+    integrity = verify_raw_artifact_integrity(output_dir)
+    if not integrity["pass"]:
+        return {
+            "pass": False,
+            "integrity": integrity,
+            "contract_error": "artifact hash integrity failed",
+        }
+    manifest = integrity["manifest"]
+    try:
+        with np.load(output_dir / "raw_streams.npz", allow_pickle=False) as arrays:
+            streams = {
+                key[len("stream__") :]: np.asarray(arrays[key])
+                for key in arrays.files
+                if key.startswith("stream__")
+            }
+            audit_streams = {
+                key[len("audit__") :]: np.asarray(arrays[key])
+                for key in arrays.files
+                if key.startswith("audit__")
+            }
+        streams["field_metadata"] = manifest["stream_field_metadata"]
+        audit_streams["field_metadata"] = manifest["audit_field_metadata"]
+        validate_raw_streams(streams)
+        action_count = int(
+            np.asarray(streams["controller_effective_setpoint"]).shape[0]
+        )
+        validate_audit_streams(audit_streams, action_count)
+        validate_real_runtime_audit_fields(
+            audit_streams, manifest["provenance"]
+        )
+        validate_simulator_timing(manifest["provenance"])
+        validate_planner_goal_audit(
+            streams, audit_streams, manifest["provenance"]
+        )
+        checks = {
+            "action_count_matches_manifest": action_count
+            == int(manifest["action_count"]),
+            "state_count_matches_manifest": int(
+                np.asarray(streams["realized_qpos"]).shape[0]
+            )
+            == int(manifest["state_count"]),
+            "stage0_not_formal": manifest.get("stage0_data") is True
+            and manifest.get("stage0_authorized") is True
+            and manifest.get("formal_data") is False,
+        }
+        return {
+            "pass": all(checks.values()),
+            "checks": checks,
+            "integrity": integrity,
+            "manifest": manifest,
+        }
+    except BaseException as exc:
+        return {
+            "pass": False,
+            "integrity": integrity,
+            "contract_error_type": type(exc).__name__,
+            "contract_error": str(exc),
+        }
+
+
 def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_streams: Mapping[str, Any], provenance: Mapping[str, Any]) -> dict:
     validate_raw_streams(streams)
     action_count = int(np.asarray(streams["controller_effective_setpoint"]).shape[0])

@@ -269,7 +269,7 @@ class GpuGuardV2_4Test(unittest.TestCase):
         popen_index = source.index("subprocess.Popen")
         block_index = source.index("signal.SIG_BLOCK")
         running_write_index = source.index(
-            "write_json(args.guard_receipt, guard)", popen_index
+            "_write_guard_receipt(args.guard_receipt, guard)", popen_index
         )
         restore_mask_index = source.index("signal.SIG_SETMASK", running_write_index)
         self.assertLess(block_index, popen_index)
@@ -281,7 +281,7 @@ class GpuGuardV2_4Test(unittest.TestCase):
         )
         self.assertGreater(
             source.rindex("signal.signal"),
-            source.rindex("write_json(args.guard_receipt, guard)"),
+            source.rindex("_write_guard_receipt(args.guard_receipt, guard)"),
         )
         self.assertLess(launch_snapshot_index, consume_index)
         self.assertGreaterEqual(source.count("_load_runtime_authorization"), 2)

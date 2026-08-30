@@ -36,6 +36,10 @@ from .stage0_smoke_budget_v1 import (
     scope_budget,
 )
 from .stage0_smoke_scope_specs_v1 import planned_scope_spec
+from .stage0_smoke_manifest_v1 import (
+    CANONICAL_INFRA_RECEIPT,
+    build_stage0_smoke_manifest,
+)
 
 
 VAULT_ROOT = Path("/nfs_share/lijunhui/Vault-on-Fvl09")
@@ -46,6 +50,9 @@ PARENT_AUTHORIZATION = (
 PYTHON_EXECUTABLE = Path("/nfs_share/lijunhui/Robotwin2/env/bin/python")
 DATASET_ROOT = Path(
     "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1"
+)
+CANONICAL_STAGE0_MANIFEST = (
+    AUDIT_ROOT / "STAGE0_SMOKE_MANIFEST_V1_20260830.json"
 )
 
 
@@ -131,6 +138,7 @@ def _build_request(
     child_command: Sequence[str],
     publication: Mapping[str, Any],
     stage0_manifest: Mapping[str, Any] | None,
+    bundle_set_receipt: Mapping[str, Any] | None,
 ) -> dict[str, Any]:
     budget = scope_budget(scope)
     payload = {
@@ -161,6 +169,9 @@ def _build_request(
         "stage0_manifest_sha256": None
         if stage0_manifest is None
         else stage0_manifest["manifest_sha256"],
+        "bundle_set_receipt_sha256": None
+        if bundle_set_receipt is None
+        else bundle_set_receipt["bundle_set_receipt_sha256"],
         "formal_data": False,
         "stage0_data": budget["stage0_data"],
         "stage0_authorized": True,
@@ -171,7 +182,7 @@ def _build_request(
     return payload
 
 
-def build_scope_bundle(
+def _build_scope_bundle(
     *,
     scope: str,
     reviewed_content_commit: str,
@@ -179,9 +190,11 @@ def build_scope_bundle(
     authorization_id: str,
     authorized_run_id: str,
     stage0_manifest: Mapping[str, Any] | None = None,
+    stage0_manifest_path: Path | None = None,
     validity_seconds: int = 3600,
     _publication: Mapping[str, Any] | None = None,
     _parent: Mapping[str, Any] | None = None,
+    bundle_set_receipt: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     if not 0 < validity_seconds <= 3600:
         raise ValueError("authorization validity must be within one hour")
@@ -229,6 +242,7 @@ def build_scope_bundle(
         child_command=child_command,
         publication=publication,
         stage0_manifest=stage0_manifest,
+        bundle_set_receipt=bundle_set_receipt,
     )
     source_lock = capture_runtime_source_lock(family=family)
     now = datetime.now(timezone.utc)
@@ -252,6 +266,21 @@ def build_scope_bundle(
         "stage0_manifest_sha256": None
         if stage0_manifest is None
         else stage0_manifest["manifest_sha256"],
+        "stage0_manifest_path": None
+        if stage0_manifest_path is None
+        else str(Path(stage0_manifest_path).resolve()),
+        "stage0_manifest_file_sha256": None
+        if stage0_manifest_path is None
+        else sha256_file(Path(stage0_manifest_path)),
+        "bundle_set_receipt_path": None
+        if bundle_set_receipt is None
+        else bundle_set_receipt["path"],
+        "bundle_set_receipt_file_sha256": None
+        if bundle_set_receipt is None
+        else sha256_file(Path(bundle_set_receipt["path"])),
+        "bundle_set_receipt_sha256": None
+        if bundle_set_receipt is None
+        else bundle_set_receipt["bundle_set_receipt_sha256"],
         "parent_user_authorization_path": str(PARENT_AUTHORIZATION),
         "parent_user_authorization_file_sha256": sha256_file(PARENT_AUTHORIZATION),
         "parent_user_authorization_sha256": parent[
@@ -320,36 +349,174 @@ def build_scope_bundle(
     }
 
 
+def _validate_stage0_manifest_for_bundle(
+    stage0_manifest: Mapping[str, Any], publication: Mapping[str, Any]
+) -> dict[str, Any]:
+    manifest = json.loads(
+        json.dumps(stage0_manifest, sort_keys=True, allow_nan=False)
+    )
+    payload = dict(manifest)
+    digest = payload.pop("manifest_sha256", None)
+    roots = manifest.get("root_specs", {})
+    attempts = manifest.get("attempts", [])
+    root_hash_checks = {}
+    for family, root in roots.items():
+        root_payload = dict(root)
+        root_digest = root_payload.pop("planned_root_slot_spec_sha256", None)
+        root_hash_checks[family] = isinstance(root_digest, str) and hash_json(
+            root_payload
+        ) == root_digest
+    checks = {
+        "manifest_self_hash": isinstance(digest, str)
+        and hash_json(payload) == digest,
+        "implementation_version": manifest.get("implementation_version")
+        == "controlled_multi_future_stage0_smoke_v1",
+        "stage0_flags": manifest.get("stage0_authorized") is True
+        and manifest.get("stage0_data") is True
+        and manifest.get("formal_data") is False,
+        "exact_four_roots": set(roots) == {"F1", "F2", "F3", "F4"},
+        "root_specs_self_hash": len(root_hash_checks) == 4
+        and all(root_hash_checks.values()),
+        "exact_twelve_attempts": len(attempts) == 12
+        and len({item.get("attempt_id") for item in attempts}) == 12,
+        "exact_three_per_family": all(
+            sum(item.get("family") == family for item in attempts) == 3
+            for family in ("F1", "F2", "F3", "F4")
+        ),
+        "infra_source_matches_publication": manifest.get(
+            "f4_infrastructure_source_sha256"
+        )
+        == publication.get("active_snapshot_source_sha256"),
+        "infra_validation_all_pass": bool(
+            manifest.get("f4_infrastructure_validation_checks")
+        )
+        and all(
+            value is True
+            for value in manifest[
+                "f4_infrastructure_validation_checks"
+            ].values()
+        ),
+    }
+    result = {"checks": checks, "root_hash_checks": root_hash_checks, "pass": all(checks.values())}
+    if not result["pass"]:
+        raise ValueError(f"Stage 0 manifest bundle Gate failed: {checks}")
+    return result
+
+
+def build_f4_infrastructure_bundle(
+    *, reviewed_content_commit: str, validity_seconds: int = 3600
+) -> dict[str, Any]:
+    return _build_scope_bundle(
+        scope=F4_INFRA_SCOPE,
+        reviewed_content_commit=reviewed_content_commit,
+        namespace_id="prestage0_f4_candidate_hash_infra_v12_seed20260829_run1",
+        authorization_id="prestage0-f4-candidate-hash-infra-v12-run1",
+        authorized_run_id="prestage0-f4-candidate-hash-infra-v12-run1",
+        stage0_manifest=None,
+        validity_seconds=validity_seconds,
+    )
+
+
 def build_stage0_bundle_set(
     *,
     reviewed_content_commit: str,
-    stage0_manifest: Mapping[str, Any],
-    namespace_by_scope: Mapping[str, str],
+    stage0_manifest_path: Path = CANONICAL_STAGE0_MANIFEST,
     validity_seconds: int = 3600,
 ) -> dict[str, Any]:
-    if set(namespace_by_scope) != set(STAGE0_SCOPES):
-        raise ValueError("Stage 0 bundle set requires exactly four family scopes")
     publication = _validate_reviewed_publication(reviewed_content_commit)
     parent = load_parent_user_authorization()
+    manifest_path = Path(stage0_manifest_path).resolve()
+    if manifest_path != CANONICAL_STAGE0_MANIFEST.resolve():
+        raise ValueError("Stage 0 manifest path is not canonical")
+    if not manifest_path.is_file():
+        raise ValueError("canonical Stage 0 manifest is missing")
+    stage0_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    expected_manifest = build_stage0_smoke_manifest(CANONICAL_INFRA_RECEIPT)
+    if stage0_manifest != expected_manifest:
+        raise ValueError(
+            "canonical Stage 0 manifest differs from deterministic F4 evidence reconstruction"
+        )
+    relative_manifest = manifest_path.relative_to(VAULT_ROOT).as_posix()
+    _git("cat-file", "-e", f"{reviewed_content_commit}:{relative_manifest}")
+    if _git("show", f"{reviewed_content_commit}:{relative_manifest}") != (
+        manifest_path.read_text(encoding="utf-8").strip()
+    ):
+        raise ValueError("published commit Stage 0 manifest bytes differ")
+    manifest_gate = _validate_stage0_manifest_for_bundle(
+        stage0_manifest, publication
+    )
+    manifest_sha = str(stage0_manifest["manifest_sha256"])
+    group = "controlled_multi_future_stage0_smoke_v1"
+    namespace_by_scope = {
+        scope: f"stage0_smoke_v1_{SCOPE_FAMILIES[scope]}_root_A_seed20260829_run1"
+        for scope in STAGE0_SCOPES
+    }
+    authorization_id_by_scope = {
+        scope: f"stage0-smoke-v1-{SCOPE_FAMILIES[scope]}-root-A-run1"
+        for scope in STAGE0_SCOPES
+    }
+    authorization_paths = {
+        scope: str(
+            AUDIT_ROOT
+            / "authorizations"
+            / group
+            / f"{namespace_by_scope[scope]}.authorization.json"
+        )
+        for scope in STAGE0_SCOPES
+    }
+    set_path = (
+        AUDIT_ROOT
+        / "authorizations"
+        / group
+        / f"stage0_bundle_set_{manifest_sha}.json"
+    )
+    set_receipt = {
+        "schema_version": "cmf_stage0_smoke_bundle_set_receipt_v1",
+        "path": str(set_path),
+        "reviewed_content_commit": reviewed_content_commit,
+        "implementation_source_sha256": publication[
+            "active_snapshot_source_sha256"
+        ],
+        "stage0_manifest_sha256": manifest_sha,
+        "stage0_manifest_path": str(manifest_path),
+        "stage0_manifest_file_sha256": sha256_file(manifest_path),
+        "budget_receipt_sha256": budget_receipt_sha256(),
+        "parent_user_authorization_sha256": parent[
+            "parent_user_authorization_sha256"
+        ],
+        "scopes": list(STAGE0_SCOPES),
+        "namespace_by_scope": namespace_by_scope,
+        "authorization_id_by_scope": authorization_id_by_scope,
+        "authorization_paths": authorization_paths,
+        "bundle_count": 4,
+        "scope_max_invocations": 1,
+        "formal_data": False,
+        "stage0_data": True,
+        "stage0_authorized": True,
+    }
+    set_receipt["bundle_set_receipt_sha256"] = canonical_sha256(set_receipt)
+    _write_new(set_path, set_receipt)
     bundles = {}
     for scope in STAGE0_SCOPES:
-        namespace = str(namespace_by_scope[scope])
-        safe = namespace.replace("_", "-")
-        bundles[scope] = build_scope_bundle(
+        bundles[scope] = _build_scope_bundle(
             scope=scope,
             reviewed_content_commit=reviewed_content_commit,
-            namespace_id=namespace,
-            authorization_id=f"{safe}-authorization",
-            authorized_run_id=f"{safe}-run",
+            namespace_id=namespace_by_scope[scope],
+            authorization_id=authorization_id_by_scope[scope],
+            authorized_run_id=authorization_id_by_scope[scope] + "-run",
             stage0_manifest=stage0_manifest,
+            stage0_manifest_path=manifest_path,
             validity_seconds=validity_seconds,
             _publication=publication,
             _parent=parent,
+            bundle_set_receipt=set_receipt,
         )
     return {
         "schema_version": "cmf_stage0_smoke_bundle_set_v1",
         "reviewed_content_commit": reviewed_content_commit,
-        "stage0_manifest_sha256": stage0_manifest["manifest_sha256"],
+        "stage0_manifest_sha256": manifest_sha,
+        "manifest_gate": manifest_gate,
+        "bundle_set_receipt": set_receipt,
         "bundle_count": 4,
         "bundles": bundles,
         "allowed_physical_gpu_indices": list(range(8)),
@@ -361,7 +528,7 @@ def build_stage0_bundle_set(
 
 
 __all__ = [
-    "build_scope_bundle",
+    "build_f4_infrastructure_bundle",
     "build_stage0_bundle_set",
     "load_parent_user_authorization",
 ]

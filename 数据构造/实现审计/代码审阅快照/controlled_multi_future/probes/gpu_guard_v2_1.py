@@ -244,6 +244,35 @@ def update_child_receipt_v2_1(
     if not child_path.is_file():
         return False
     payload = json.loads(child_path.read_text(encoding="utf-8"))
+    child_payload_digest = payload.get("child_payload_sha256")
+    if (
+        payload.get("implementation_version")
+        == "controlled_multi_future_stage0_smoke_v1"
+        and (
+            not isinstance(child_payload_digest, str)
+            or payload.get("schema_version")
+            != "cmf_stage0_smoke_guarded_scope_receipt_v1"
+        )
+    ):
+        raise GuardAuthorizationMismatch(
+            "Stage 0 child lacks its mandatory pre-Guard payload seal"
+        )
+    if child_payload_digest is not None:
+        child_payload = dict(payload)
+        child_payload.pop("child_payload_sha256", None)
+        recomputed = hashlib.sha256(
+            json.dumps(
+                child_payload,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+                allow_nan=False,
+            ).encode("utf-8")
+        ).hexdigest()
+        if recomputed != child_payload_digest:
+            raise GuardAuthorizationMismatch(
+                "child payload hash changed before Guard sealing"
+            )
     payload["gpu_guard_binding"] = dict(guard_binding)
     payload["gpu_postcheck"] = dict(post)
     payload["gpu_postcheck_error"] = dict(post_error) if isinstance(post_error, Mapping) else None

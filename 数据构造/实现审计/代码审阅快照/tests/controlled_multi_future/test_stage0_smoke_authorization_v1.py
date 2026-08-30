@@ -4,10 +4,13 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from controlled_multi_future.f4_exact_corridor_application_v11 import (
     build_f4_exact_A_corridors_v11,
 )
+from controlled_multi_future.f4_right_workspace_layout_v4 import LAYOUT as F4_LAYOUT
+from controlled_multi_future.current_hasher import hash_json
 from controlled_multi_future.probes.gpu_guard_v2_1 import command_sha256
 from controlled_multi_future.probes.runtime_v3_3_authorization_v1 import (
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
@@ -58,18 +61,158 @@ def base_a_targets():
     ]
 
 
+def bind_candidate(candidate):
+    value = copy.deepcopy(candidate)
+    value["stage0_context_binding_v12"] = {
+        "arm": "right",
+        "scene_layout_sha256": hash_json(F4_LAYOUT),
+        "layout_version": F4_LAYOUT["layout_version"],
+        "release_target_semantics": "same_role_visible_slot_unchanged",
+    }
+    value["base_v11_candidate_application_sha256"] = value[
+        "candidate_application_sha256"
+    ]
+    value["stage0_bound_candidate_sha256_v12"] = hash_json(value)
+    return value
+
+
 class Stage0SmokeAuthorizationV1Test(unittest.TestCase):
     def manifest(self):
         candidate = build_f4_exact_A_corridors_v11(base_a_targets())[
             "candidates"
         ][0]
-        return build_stage0_smoke_manifest(
-            {
+        candidate = bind_candidate(candidate)
+        root = Path("/nfs_share/lijunhui/Robotwin2/tmp")
+        root.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=root) as directory:
+            directory = Path(directory)
+            receipt_path = directory / "receipt.json"
+            guard_path = directory / "guard.json"
+            consumption_path = directory / "consumption.json"
+            binding = {
+                "authorization_receipt_sha256": "r" * 64,
+                "physical_gpu_index": 0,
+            }
+            consumption = {
+                "authorization_receipt_sha256": "r" * 64,
+                "approved_scope": "F4_candidate_hash_infra_v12",
+            }
+            consumption["consumption_receipt_sha256"] = hash_json(consumption)
+            consumption_path.write_text(json.dumps(consumption))
+            value = {
+                "schema_version": "cmf_stage0_smoke_guarded_scope_receipt_v1",
+                "implementation_version": "controlled_multi_future_stage0_smoke_v1",
+                "scope": "F4_candidate_hash_infra_v12",
+                "family": "F4",
                 "hash_infrastructure_pass": True,
+                "pipeline_integrity_pass": True,
+                "status": "completed_f4_hash_infrastructure",
+                "hash_infrastructure_audit_v12": {"pass": True},
+                "budget_counts": {"planner_query_count": 1},
+                "scene_cleanup_succeeded": True,
+                "orphan_process_count": 0,
                 "selected_corridor_candidate_v11": candidate,
-                "receipt_sha256": "f" * 64,
+                "authorization": {
+                    "receipt_sha256": "r" * 64,
+                    "implementation_source_sha256": "s" * 64,
+                },
+                "authorization_consumption_receipt_sha256": consumption[
+                    "consumption_receipt_sha256"
+                ],
+                "guard_binding": binding,
+                "formal_data": False,
+                "stage0_data": False,
+                "stage0_authorized": True,
+            }
+            value["child_payload_sha256"] = hash_json(value)
+            value.update(
+                {
+                    "gpu_guard_binding": binding,
+                    "gpu_postcheck_release": {"verified": True},
+                    "guard_receipt": str(guard_path),
+                }
+            )
+            value["guard_sealed_receipt_sha256"] = hash_json(value)
+            receipt_path.write_text(json.dumps(value))
+            guard = {
+                "status": "completed",
+                "binding": binding,
+                "post_source_lock_pass": True,
+                "timed_out": False,
+                "orphan_process_count": 0,
+                "consumption_receipt": str(consumption_path),
+                "child_receipt_file": {
+                    "sha256": __import__("hashlib").sha256(
+                        receipt_path.read_bytes()
+                    ).hexdigest()
+                },
+            }
+            guard["guard_receipt_sha256"] = hash_json(guard)
+            guard_path.write_text(json.dumps(guard))
+            return build_stage0_smoke_manifest(
+                receipt_path, require_canonical_path=False
+            )
+
+    def attach_bundle_set(self, directory, receipt, manifest, manifest_path):
+        directory = Path(directory)
+        scopes = [
+            "Stage0_F1_root_A",
+            "Stage0_F2_root_A",
+            "Stage0_F3_root_A",
+            "Stage0_F4_root_A",
+        ]
+        ids = {scope: f"fixed-{scope}" for scope in scopes}
+        ids["Stage0_F1_root_A"] = receipt["authorization_id"]
+        paths = {scope: str(directory / f"{scope}.authorization.json") for scope in scopes}
+        set_path = directory / "bundle_set.json"
+        bundle_set = {
+            "schema_version": "cmf_stage0_smoke_bundle_set_receipt_v1",
+            "path": str(set_path),
+            "reviewed_content_commit": receipt["reviewed_content_commit"],
+            "implementation_source_sha256": receipt["implementation_source_sha256"],
+            "stage0_manifest_sha256": manifest["manifest_sha256"],
+            "stage0_manifest_path": str(manifest_path),
+            "stage0_manifest_file_sha256": sha256_file(manifest_path),
+            "budget_receipt_sha256": receipt["budget_receipt_sha256"],
+            "parent_user_authorization_sha256": receipt["parent_user_authorization_sha256"],
+            "scopes": scopes,
+            "namespace_by_scope": {scope: scope for scope in scopes},
+            "authorization_id_by_scope": ids,
+            "authorization_paths": paths,
+            "bundle_count": 4,
+            "scope_max_invocations": 1,
+            "formal_data": False,
+            "stage0_data": True,
+            "stage0_authorized": True,
+        }
+        bundle_set["bundle_set_receipt_sha256"] = canonical_sha256(bundle_set)
+        set_path.write_text(json.dumps(bundle_set), encoding="utf-8")
+        receipt.update(
+            {
+                "stage0_manifest_path": str(manifest_path),
+                "stage0_manifest_file_sha256": sha256_file(manifest_path),
+                "bundle_set_receipt_path": str(set_path),
+                "bundle_set_receipt_file_sha256": sha256_file(set_path),
+                "bundle_set_receipt_sha256": bundle_set[
+                    "bundle_set_receipt_sha256"
+                ],
             }
         )
+        receipt["receipt_sha256"] = authorization_receipt_sha256(receipt)
+        for scope in scopes:
+            sibling = receipt if scope == "Stage0_F1_root_A" else {
+                "approved_scopes": [scope],
+                "bundle_set_receipt_sha256": bundle_set[
+                    "bundle_set_receipt_sha256"
+                ],
+                "stage0_manifest_sha256": manifest["manifest_sha256"],
+                "stage0_manifest_path": str(manifest_path),
+                "stage0_manifest_file_sha256": sha256_file(manifest_path),
+            }
+            if scope != "Stage0_F1_root_A":
+                sibling["receipt_sha256"] = authorization_receipt_sha256(sibling)
+            Path(paths[scope]).write_text(json.dumps(sibling), encoding="utf-8")
+        return receipt
 
     def build(self, directory, scope, manifest=None):
         directory = Path(directory)
@@ -98,6 +241,21 @@ class Stage0SmokeAuthorizationV1Test(unittest.TestCase):
         ]
         now = datetime.now(timezone.utc)
         budget = scope_budget(scope)
+        request.update(
+            {
+                "planned_root_slot_spec": spec,
+                "planned_root_slot_spec_sha256": canonical_sha256(spec),
+                "stage0_manifest_sha256": None
+                if manifest is None
+                else manifest["manifest_sha256"],
+                "scope_budget": budget,
+                "authorized_command_sha256": command_sha256(command),
+                "output_namespace": str(output),
+            }
+        )
+        request.pop("scope_request_sha256", None)
+        request["scope_request_sha256"] = canonical_sha256(request)
+        request_path.write_text(json.dumps(request), encoding="utf-8")
         bindings = current_stage0_source_bindings()
         receipt = {
             "schema_version": AUTHORIZATION_SCHEMA_VERSION,
@@ -160,22 +318,34 @@ class Stage0SmokeAuthorizationV1Test(unittest.TestCase):
         root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=root) as directory:
             manifest = self.manifest()
+            manifest_path = Path(directory) / "stage0_manifest.json"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
             receipt, now = self.build(
                 directory, "Stage0_F1_root_A", manifest
             )
-            checked = validate_stage0_smoke_authorization(
-                receipt,
-                requested_scope="Stage0_F1_root_A",
-                now=now,
-                expected_family="F1",
+            receipt = self.attach_bundle_set(
+                directory, receipt, manifest, manifest_path
             )
+            with patch(
+                "controlled_multi_future.probes.stage0_smoke_authorization_v1.CANONICAL_STAGE0_MANIFEST",
+                manifest_path,
+            ):
+                checked = validate_stage0_smoke_authorization(
+                    receipt,
+                    requested_scope="Stage0_F1_root_A",
+                    now=now,
+                    expected_family="F1",
+                )
             self.assertTrue(checked["stage0_data"])
             self.assertTrue(checked["stage0_authorized"])
             self.assertEqual(checked["allowed_physical_gpu_indices"], list(range(8)))
             tampered = copy.deepcopy(receipt)
             tampered["allowed_physical_gpu_indices"] = [0]
             tampered["receipt_sha256"] = authorization_receipt_sha256(tampered)
-            with self.assertRaises(Exception):
+            with patch(
+                "controlled_multi_future.probes.stage0_smoke_authorization_v1.CANONICAL_STAGE0_MANIFEST",
+                manifest_path,
+            ), self.assertRaises(Exception):
                 validate_stage0_smoke_authorization(
                     tampered,
                     requested_scope="Stage0_F1_root_A",

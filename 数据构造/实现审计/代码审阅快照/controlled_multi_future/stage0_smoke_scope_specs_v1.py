@@ -6,7 +6,12 @@ import json
 from typing import Any, Mapping
 
 from .stage0_smoke_budget_v1 import F4_INFRA_SCOPE, SCOPE_FAMILIES, scope_budget
-from .stage0_smoke_manifest_v1 import SCENE_SEED
+from .stage0_smoke_manifest_v1 import (
+    SCENE_SEED,
+    validate_stage0_smoke_manifest_structure,
+)
+from .f4_right_workspace_layout_v4 import LAYOUT as F4_LAYOUT
+from .current_hasher import hash_json
 
 
 SCHEMA_VERSION = "cmf_stage0_smoke_scope_spec_v1"
@@ -21,6 +26,9 @@ def planned_scope_spec(
     if scope == F4_INFRA_SCOPE:
         if stage0_manifest is not None:
             raise ValueError("F4 infrastructure scope precedes Stage 0 manifest")
+        scene_layout = json.loads(
+            json.dumps(F4_LAYOUT, sort_keys=True, allow_nan=False)
+        )
         return {
             "schema_version": SCHEMA_VERSION,
             "slot_id": "prestage0-F4-candidate-hash-infra-v12",
@@ -30,6 +38,8 @@ def planned_scope_spec(
             "arm": "right",
             "generator": "controlled_multi_future_stage0_smoke_v1_adapter_v1_6",
             "origin": "authorized_lightweight_f4_hash_infrastructure_fix",
+            "scene_layout": scene_layout,
+            "scene_layout_sha256": hash_json(scene_layout),
             "budget_sha256": scope_budget(scope)["scope_budget_sha256"],
             "automatic_retry": False,
             "recovery_attempts": 0,
@@ -44,6 +54,11 @@ def planned_scope_spec(
     manifest = json.loads(
         json.dumps(stage0_manifest, sort_keys=True, allow_nan=False)
     )
+    manifest_gate = validate_stage0_smoke_manifest_structure(manifest)
+    if manifest_gate["pass"] is not True:
+        raise ValueError(
+            f"Stage 0 manifest structure failed: {manifest_gate['checks']}"
+        )
     if manifest.get("stage0_authorized") is not True:
         raise ValueError("Stage 0 manifest is not authorized")
     root_spec = manifest.get("root_specs", {}).get(family)

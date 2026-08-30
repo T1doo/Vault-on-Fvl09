@@ -64,6 +64,10 @@ class SuffixImplementationError(RuntimeError):
     pass
 
 
+class TaskAnchorMismatch(ValueError):
+    pass
+
+
 def _write_json_atomic(path: Path, value: Mapping[str, Any]) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -355,6 +359,19 @@ def _validate_suffix_planner_receipt(value: Mapping[str, Any], program_id: str) 
         raise SuffixPlannerError("suffix planner_solvable must be boolean")
     if not isinstance(receipt["planner_query_count"], int) or receipt["planner_query_count"] < 0:
         raise SuffixPlannerError("suffix planner query count must be nonnegative")
+    if not isinstance(receipt.get("evidence"), Mapping) or not receipt[
+        "evidence"
+    ]:
+        raise SuffixPlannerError("suffix planner receipt lacks structured evidence")
+    if not isinstance(receipt.get("actual_prefix_end_qpos_sha256"), str):
+        raise SuffixPlannerError("suffix planner receipt lacks replay-end qpos hash")
+    if receipt["planner_solvable"] is False and (
+        not isinstance(receipt.get("failure_type"), str)
+        or not receipt["failure_type"]
+    ):
+        raise SuffixPlannerError(
+            "failed suffix planner receipt lacks an explicit failure type"
+        )
     if receipt["planner_solvable"] and not isinstance(receipt.get("execution_spec"), Mapping):
         raise SuffixPlannerError("solvable suffix must freeze execution_spec")
     receipt["program_id"] = program_id
@@ -501,6 +518,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             )
 
             task_all_pass = True
+            task_infrastructure_terminal = None
             for program in programs:
                 program_id = program["program_id"]
 
@@ -523,7 +541,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         reference_anchor, dict(self.adapter.capture_anchor(scene))
                     )
                     if not anchor_result["equivalent"]:
-                        raise ValueError(
+                        raise TaskAnchorMismatch(
                             f"task/physical anchor mismatch: {anchor_result['failures']}"
                         )
                     return _validate_task_physical_receipt(
@@ -544,6 +562,20 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                 except (CleanupUncertain, CandidateMutationError):
                     raise
                 except BaseException as exc:
+                    failure_stage = (
+                        "task_same_current_infrastructure"
+                        if isinstance(exc, SameCurrentMismatch)
+                        else "task_anchor_infrastructure"
+                        if isinstance(exc, TaskAnchorMismatch)
+                        else "task_implementation_infrastructure"
+                    )
+                    task_infrastructure_terminal = (
+                        "failed_current_hash"
+                        if isinstance(exc, SameCurrentMismatch)
+                        else "failed_anchor_equivalence"
+                        if isinstance(exc, TaskAnchorMismatch)
+                        else "failed_implementation_error"
+                    )
                     item = {
                         "program_id": program_id,
                         "status": "failed",
@@ -551,11 +583,18 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         "physical_feasible": False,
                         "planner_solvable": None,
                         "failure_type": type(exc).__name__,
+                        "failure_stage": failure_stage,
+                        "task_infrastructure_failure": True,
                         "evidence": {"error": str(exc)},
                     }
                 receipt["task_physical_feasibility_receipts"].append(item)
                 self._append_event({"event": "task_physical_receipt", "receipt": item})
                 task_all_pass = task_all_pass and item["status"] == "passed"
+            if task_infrastructure_terminal is not None:
+                terminal = task_infrastructure_terminal
+                raise TaskPhysicalFeasibilityError(
+                    "task/physical audit infrastructure failed"
+                )
             if not task_all_pass:
                 terminal = "failed_task_physical_feasibility"
                 raise TaskPhysicalFeasibilityError(
@@ -1147,6 +1186,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                     "not all three suffix planners passed from actual replay-end qpos"
                 )
             if family_suffix_gate.get("pass") is not True:
+                if family_suffix_gate.get("evidence_complete") is not True:
+                    terminal = "failed_implementation_error"
+                    raise SuffixImplementationError(
+                        "family suffix Gate evidence is incomplete"
+                    )
                 terminal = "failed_family_suffix_gate"
                 raise SuffixPlannerError("family comparative suffix Gate failed")
 

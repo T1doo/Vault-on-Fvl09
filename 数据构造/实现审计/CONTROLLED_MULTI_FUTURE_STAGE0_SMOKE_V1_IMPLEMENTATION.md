@@ -11,6 +11,6 @@ Stage 0可以得到`PASS`或`FAILED_WITH_EVIDENCE`。F2/F3已知物理失败不�
 
 保留的硬要求：same-current/anchor、candidate/label/arm不漂移、真实verifier、26-D 250Hz N/N+1、有限预算、失败保留、fresh scene、source/UUID/Guard/cleanup/orphan审计。
 
-CPU source SHA=`6f09da13d447b11b89940b8142f7f49152d77937e1cd9a6893bad9f8e2098cad`，tests SHA=`1ac4cfd9afe68f3313987f3b7bb3f2392094e4432d83300dc7d36ca246d986c3`，budget SHA=`4ca7471888af9282351a1455bf96965fd565001b43f0806ec1d40e2b67913783`。Active/snapshot CPU tests均=`471/471 passed`，byte-equal=true。
+CPU source SHA=`b312fca095687beb4c113cc59761692bef5667230ea9eb462b673b9dbcbf0d05`，tests SHA=`adb6bbbaa5c07a726e5c844c322b984f144a9da35eca51a7e0fcecd434c02300`，budget SHA=`4ca7471888af9282351a1455bf96965fd565001b43f0806ec1d40e2b67913783`。Active/snapshot CPU tests均=`481/481 passed`，byte-equal=true。
 
 本实现只授权Stage 0，不授权Stage 1、360条formal、training、H-reveal、compression或π0.5。

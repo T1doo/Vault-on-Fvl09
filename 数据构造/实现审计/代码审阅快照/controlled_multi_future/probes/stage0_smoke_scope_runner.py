@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -98,6 +99,9 @@ def main() -> int:
         "formal_data": False,
         "stage0_data": authorization["stage0_data"],
         "stage0_authorized": True,
+        "stage0_manifest_sha256": authorization.get(
+            "stage0_manifest_sha256"
+        ),
         "status": "running",
         "pipeline_integrity_pass": False,
         "cleanup_records": [],
@@ -176,6 +180,15 @@ def main() -> int:
             )
         else:
             raise ValueError("Stage 0 scope dispatch is incomplete")
+        result_path = output / aggregate["result_relative_path"]
+        if not result_path.is_file():
+            raise ValueError("Stage 0 child result receipt is missing")
+        aggregate["result_receipt_file_sha256"] = hashlib.sha256(
+            result_path.read_bytes()
+        ).hexdigest()
+        aggregate["result_receipt_payload_sha256"] = result.get(
+            "receipt_sha256"
+        )
         aggregate["cleanup_records"] = list(result.get("cleanup_records", []))
         aggregate["budget_counts"] = dict(result.get("budget_counts", {}))
         aggregate["budget_validation"] = validate_runtime_counts(
@@ -209,8 +222,8 @@ def main() -> int:
         aggregate["error"] = str(exc)
         aggregate["traceback"] = traceback.format_exc()
     payload = dict(aggregate)
-    payload.pop("receipt_sha256", None)
-    aggregate["receipt_sha256"] = hash_json(payload)
+    payload.pop("child_payload_sha256", None)
+    aggregate["child_payload_sha256"] = hash_json(payload)
     _write_json(output / "receipt.json", aggregate)
     return 0 if aggregate["pipeline_integrity_pass"] else 1
 

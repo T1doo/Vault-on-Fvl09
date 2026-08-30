@@ -3,22 +3,76 @@
 from __future__ import annotations
 
 import json
+import hashlib
+from pathlib import Path
 from typing import Any, Mapping
 
 from .current_hasher import hash_json
 from .families import F1ObjectSelection, F2TargetRelation, F3MotionOrder, F4SubtaskOrder
+from .f4_right_workspace_layout_v4 import LAYOUT as F4_LAYOUT
 from .stage0_smoke_budget_v1 import budget_receipt_sha256, scope_budget
 
 
 SCHEMA_VERSION = "cmf_stage0_smoke_manifest_v1"
 IMPLEMENTATION_VERSION = "controlled_multi_future_stage0_smoke_v1"
 SCENE_SEED = 20260829
+CANONICAL_INFRA_RECEIPT = Path(
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
+    "probe_outputs/prestage0_f4_candidate_hash_infra_v12_seed20260829_run1/receipt.json"
+)
 FAMILY_CLASSES = {
     "F1": F1ObjectSelection,
     "F2": F2TargetRelation,
     "F3": F3MotionOrder,
     "F4": F4SubtaskOrder,
 }
+
+
+def validate_stage0_smoke_manifest_structure(
+    stage0_manifest: Mapping[str, Any],
+) -> dict[str, Any]:
+    manifest = json.loads(
+        json.dumps(stage0_manifest, sort_keys=True, allow_nan=False)
+    )
+    payload = dict(manifest)
+    digest = payload.pop("manifest_sha256", None)
+    roots = manifest.get("root_specs", {})
+    attempts = manifest.get("attempts", [])
+    root_checks = {}
+    for family, root in roots.items():
+        root_payload = dict(root)
+        root_digest = root_payload.pop("planned_root_slot_spec_sha256", None)
+        root_checks[family] = isinstance(root_digest, str) and hash_json(
+            root_payload
+        ) == root_digest
+    checks = {
+        "manifest_self_hash": isinstance(digest, str)
+        and hash_json(payload) == digest,
+        "implementation_version": manifest.get("implementation_version")
+        == IMPLEMENTATION_VERSION,
+        "stage0_flags": manifest.get("stage0_authorized") is True
+        and manifest.get("stage0_data") is True
+        and manifest.get("formal_data") is False,
+        "exact_four_roots": set(roots) == set(FAMILY_CLASSES),
+        "all_root_specs_self_hashed": len(root_checks) == 4
+        and all(root_checks.values()),
+        "exact_twelve_unique_attempts": len(attempts) == 12
+        and len({item.get("attempt_id") for item in attempts}) == 12,
+        "three_attempts_per_family": all(
+            sum(item.get("family") == family for item in attempts) == 3
+            for family in FAMILY_CLASSES
+        ),
+        "attempts_match_root_programs": all(
+            {
+                item.get("program_id")
+                for item in attempts
+                if item.get("family") == family
+            }
+            == set(roots.get(family, {}).get("program_ids", []))
+            for family in FAMILY_CLASSES
+        ),
+    }
+    return {"checks": checks, "root_checks": root_checks, "pass": all(checks.values())}
 
 
 def planned_stage0_root_spec(
@@ -64,6 +118,10 @@ def planned_stage0_root_spec(
         "stop_condition": "terminal family receipt or cleanup/source/GPU uncertainty",
     }
     if family == "F4":
+        result["scene_layout"] = json.loads(
+            json.dumps(F4_LAYOUT, sort_keys=True, allow_nan=False)
+        )
+        result["scene_layout_sha256"] = hash_json(result["scene_layout"])
         result["selected_f4_corridor_candidate_v11"] = (
             None
             if selected_f4_candidate is None
@@ -87,11 +145,105 @@ def planned_stage0_root_spec(
 
 
 def build_stage0_smoke_manifest(
-    f4_infrastructure_receipt: Mapping[str, Any],
+    f4_infrastructure_receipt_path: Path,
+    *,
+    require_canonical_path: bool = True,
 ) -> dict[str, Any]:
-    infra = json.loads(
-        json.dumps(f4_infrastructure_receipt, sort_keys=True, allow_nan=False)
+    receipt_path = Path(f4_infrastructure_receipt_path).resolve()
+    if require_canonical_path and receipt_path != CANONICAL_INFRA_RECEIPT:
+        raise ValueError("F4 infrastructure receipt path is not canonical")
+    if not receipt_path.is_file():
+        raise ValueError("F4 infrastructure receipt file is missing")
+    receipt_file_sha256 = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    infra = json.loads(receipt_path.read_text(encoding="utf-8"))
+    payload = dict(infra)
+    receipt_sha = payload.pop("guard_sealed_receipt_sha256", None)
+    guard_path = Path(str(infra.get("guard_receipt", ""))).resolve()
+    guard = (
+        json.loads(guard_path.read_text(encoding="utf-8"))
+        if guard_path.is_file()
+        else {}
     )
+    guard_payload = dict(guard)
+    guard_digest = guard_payload.pop("guard_receipt_sha256", None)
+    consumption_path = Path(str(guard.get("consumption_receipt", ""))).resolve()
+    consumption = (
+        json.loads(consumption_path.read_text(encoding="utf-8"))
+        if consumption_path.is_file()
+        else {}
+    )
+    consumption_payload = dict(consumption)
+    consumption_digest = consumption_payload.pop(
+        "consumption_receipt_sha256", None
+    )
+    required_infra_checks = {
+        "schema_version": infra.get("schema_version")
+        == "cmf_stage0_smoke_guarded_scope_receipt_v1",
+        "guard_sealed_receipt_self_hash": isinstance(receipt_sha, str)
+        and hash_json(payload) == receipt_sha,
+        "implementation_version": infra.get("implementation_version")
+        == IMPLEMENTATION_VERSION,
+        "scope": infra.get("scope") == "F4_candidate_hash_infra_v12",
+        "family": infra.get("family") == "F4",
+        "hash_infrastructure_pass": infra.get("hash_infrastructure_pass")
+        is True,
+        "pipeline_integrity_pass": infra.get("pipeline_integrity_pass") is True,
+        "terminal_status": infra.get("status")
+        == "completed_f4_hash_infrastructure",
+        "hash_audit_pass": infra.get("hash_infrastructure_audit_v12", {}).get(
+            "pass"
+        )
+        is True,
+        "real_corridor_planner_query_reached": int(
+            infra.get("budget_counts", {}).get("planner_query_count", 0)
+        )
+        > 0,
+        "cleanup_pass": infra.get("scene_cleanup_succeeded") is True
+        and int(infra.get("orphan_process_count", -1)) == 0,
+        "source_bound": isinstance(
+            infra.get("authorization", {}).get(
+                "implementation_source_sha256"
+            ),
+            str,
+        ),
+        "not_stage0_data": infra.get("stage0_data") is False
+        and infra.get("formal_data") is False,
+        "guard_receipt_exists": guard_path.is_file(),
+        "guard_receipt_self_hash": isinstance(guard_digest, str)
+        and hash_json(guard_payload) == guard_digest,
+        "guard_completed": guard.get("status") == "completed",
+        "guard_source_lock_pass": guard.get("post_source_lock_pass") is True,
+        "guard_no_timeout_or_orphan": guard.get("timed_out") is False
+        and int(guard.get("orphan_process_count", -1)) == 0,
+        "guard_child_file_hash_matches": guard.get("child_receipt_file", {}).get(
+            "sha256"
+        )
+        == receipt_file_sha256,
+        "guard_binding_matches_child": guard.get("binding")
+        == infra.get("gpu_guard_binding")
+        == infra.get("guard_binding"),
+        "consumption_receipt_exists": consumption_path.is_file(),
+        "consumption_receipt_self_hash": isinstance(consumption_digest, str)
+        and hash_json(consumption_payload) == consumption_digest,
+        "consumption_binding_matches": consumption_digest
+        == infra.get("authorization_consumption_receipt_sha256"),
+        "consumption_authorization_matches": consumption.get(
+            "authorization_receipt_sha256"
+        )
+        == infra.get("authorization", {}).get("receipt_sha256"),
+        "authorization_hash_matches_guard": infra.get("authorization", {}).get(
+            "receipt_sha256"
+        )
+        == guard.get("binding", {}).get("authorization_receipt_sha256"),
+        "post_release_verified": infra.get("gpu_postcheck_release", {}).get(
+            "verified"
+        )
+        is True,
+    }
+    if not all(required_infra_checks.values()):
+        raise ValueError(
+            f"F4 infrastructure receipt is invalid: {required_infra_checks}"
+        )
     if infra.get("hash_infrastructure_pass") is not True:
         raise ValueError("F4 hash infrastructure fix must pass before Stage 0")
     selected = infra.get("selected_corridor_candidate_v11")
@@ -100,7 +252,7 @@ def build_stage0_smoke_manifest(
         blocker = {
             "failure_type": "f4_no_planner_solvable_corridor",
             "message": "F4 hash infrastructure passed but no physical corridor was selected",
-            "f4_infrastructure_receipt_sha256": infra.get("receipt_sha256"),
+            "f4_infrastructure_receipt_sha256": receipt_sha,
         }
         selected = None
     roots = {
@@ -139,7 +291,14 @@ def build_stage0_smoke_manifest(
         "realization": "r_pc",
         "root_specs": roots,
         "attempts": attempts,
-        "f4_infrastructure_receipt_sha256": infra.get("receipt_sha256"),
+        "f4_infrastructure_receipt_sha256": receipt_sha,
+        "f4_infrastructure_receipt_file_sha256": receipt_file_sha256,
+        "f4_infrastructure_guard_receipt_sha256": guard_digest,
+        "f4_infrastructure_receipt_path": str(receipt_path),
+        "f4_infrastructure_source_sha256": infra["authorization"][
+            "implementation_source_sha256"
+        ],
+        "f4_infrastructure_validation_checks": required_infra_checks,
         "budget_receipt_sha256": budget_receipt_sha256(),
         "success_required_for_stage_completion": False,
         "allowed_family_outcomes": ["PASS", "FAILED_WITH_EVIDENCE"],
@@ -164,4 +323,5 @@ __all__ = [
     "SCENE_SEED",
     "build_stage0_smoke_manifest",
     "planned_stage0_root_spec",
+    "validate_stage0_smoke_manifest_structure",
 ]

@@ -77,6 +77,12 @@ JOB_CACHE_ENVIRONMENT_SUBDIRECTORIES = {
 }
 
 
+def _write_guard_receipt(path: Path, value: dict[str, Any]) -> None:
+    value.pop("guard_receipt_sha256", None)
+    value["guard_receipt_sha256"] = canonical_sha256(value)
+    write_json(path, value)
+
+
 def _authorization_implementation(path: Path) -> str:
     try:
         value = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -637,7 +643,7 @@ def main() -> int:
                 "elapsed_seconds": time.time() - started,
             }
         )
-        write_json(args.guard_receipt, guard)
+        _write_guard_receipt(args.guard_receipt, guard)
         return 96
     except BaseException as exc:
         guard.update(
@@ -647,7 +653,7 @@ def main() -> int:
                 "elapsed_seconds": time.time() - started,
             }
         )
-        write_json(args.guard_receipt, guard)
+        _write_guard_receipt(args.guard_receipt, guard)
         return 99
 
     try:
@@ -663,7 +669,7 @@ def main() -> int:
                 "elapsed_seconds": time.time() - started,
             }
         )
-        write_json(args.guard_receipt, guard)
+        _write_guard_receipt(args.guard_receipt, guard)
         return 43
     guard["gpu_lease"] = {key: value for key, value in lease.items() if key != "_fd"}
     job_cache_path = None
@@ -686,7 +692,7 @@ def main() -> int:
                 "elapsed_seconds": time.time() - started,
             }
         )
-        write_json(args.guard_receipt, guard)
+        _write_guard_receipt(args.guard_receipt, guard)
         return 98 if lease_release["released"] else 94
 
     def finish_before_child(status: str, return_code: int, **extra) -> int:
@@ -704,7 +710,7 @@ def main() -> int:
                 "elapsed_seconds": time.time() - started,
             }
         )
-        write_json(args.guard_receipt, guard)
+        _write_guard_receipt(args.guard_receipt, guard)
         return return_code if cleanup_pass else 94
 
     try:
@@ -776,7 +782,7 @@ def main() -> int:
             error={"type": type(exc).__name__, "message": str(exc)},
         )
     guard.update({"binding": binding, "consumption_receipt": consumption["path"], "status": "precheck_passed"})
-    write_json(args.guard_receipt, guard)
+    _write_guard_receipt(args.guard_receipt, guard)
 
     environment = build_isolated_child_environment(
         os.environ, args.expected_uuid, guard["job_cache"]
@@ -857,7 +863,7 @@ def main() -> int:
                         "child_started_at": datetime.now(timezone.utc).isoformat(),
                     }
                 )
-                write_json(args.guard_receipt, guard)
+                _write_guard_receipt(args.guard_receipt, guard)
             finally:
                 signal.pthread_sigmask(
                     signal.SIG_SETMASK, inherited_signal_mask
@@ -967,6 +973,10 @@ def main() -> int:
                 child_receipt["status"] = "failed_runtime_source_lock"
             write_json(args.output_dir / "receipt.json", child_receipt)
         cleanup_uncertain = cleanup_uncertain or child_receipt.get("status") == "failed_cleanup_uncertain"
+        sealed = dict(child_receipt)
+        sealed.pop("guard_sealed_receipt_sha256", None)
+        child_receipt["guard_sealed_receipt_sha256"] = canonical_sha256(sealed)
+        write_json(args.output_dir / "receipt.json", child_receipt)
     if cleanup_uncertain:
         terminal_status, return_code = classify_terminal_status(
             child_started=child is not None,
@@ -1018,7 +1028,7 @@ def main() -> int:
     guard["stderr_log"] = _file_evidence(stderr_path)
     guard["child_receipt_file"] = _file_evidence(args.output_dir / "receipt.json")
     guard["guard_receipt_sha256"] = canonical_sha256(guard)
-    write_json(args.guard_receipt, guard)
+    _write_guard_receipt(args.guard_receipt, guard)
     for signum, handler in original_signal_handlers.items():
         signal.signal(signum, handler)
     if atexit_registered:

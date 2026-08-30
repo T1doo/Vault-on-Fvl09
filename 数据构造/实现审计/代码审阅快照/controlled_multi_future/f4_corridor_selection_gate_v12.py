@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 import time
 import traceback
@@ -244,6 +245,16 @@ class F4CorridorSelectionGateV12:
                             ),
                             diagnostic_program["program_id"],
                         )
+                    except BaseException:
+                        equivalence = getattr(
+                            scene, "_cmf_f4_candidate_equivalence_v12", None
+                        )
+                        if isinstance(equivalence, dict):
+                            _write_json(
+                                candidate_dir / "equivalence_receipt.json",
+                                equivalence,
+                            )
+                        raise
                     finally:
                         runtime["queries"] = int(
                             getattr(scene, "planner_query_count", 0)
@@ -259,19 +270,66 @@ class F4CorridorSelectionGateV12:
                     _write_json(candidate_dir / "preflight_receipt.json", suffix)
                     return suffix
 
-                suffix = self.helper._scene_call(
-                    receipt=receipt,
-                    planned_spec=planned,
-                    planned_spec_sha256=planned_hash,
-                    phase=(
-                        "f4_exact_corridor_candidate:"
-                        + candidate["candidate_id"]
-                    ),
-                    program=diagnostic_program,
-                    program_sha256=hash_json(diagnostic_program),
-                    callback=candidate_callback,
-                )
-                receipt["planner_query_count"] += runtime["queries"]
+                try:
+                    suffix = self.helper._scene_call(
+                        receipt=receipt,
+                        planned_spec=planned,
+                        planned_spec_sha256=planned_hash,
+                        phase=(
+                            "f4_exact_corridor_candidate:"
+                            + candidate["candidate_id"]
+                        ),
+                        program=diagnostic_program,
+                        program_sha256=hash_json(diagnostic_program),
+                        callback=candidate_callback,
+                    )
+                except BaseException as candidate_exc:
+                    equivalence_path = candidate_dir / "equivalence_receipt.json"
+                    equivalence = (
+                        json.loads(equivalence_path.read_text(encoding="utf-8"))
+                        if equivalence_path.is_file()
+                        else None
+                    )
+                    failure_type = (
+                        "infrastructure_candidate_equivalence_failure"
+                        if isinstance(equivalence, dict)
+                        and equivalence.get("pass") is False
+                        else "cleanup_uncertain"
+                        if isinstance(candidate_exc, CleanupUncertain)
+                        else "candidate_planner_exception"
+                        if int(runtime["queries"]) > 0
+                        else "candidate_scene_or_prefix_gate_failure"
+                    )
+                    failed_candidate = {
+                        "candidate_id": candidate["candidate_id"],
+                        "candidate_application_sha256": candidate[
+                            "candidate_application_sha256"
+                        ],
+                        "planner_query_count": int(runtime["queries"]),
+                        "execution_attempt_count": 0,
+                        "failure_type": failure_type,
+                        "error_type": type(candidate_exc).__name__,
+                        "error": str(candidate_exc),
+                        "fresh_scene_candidate_equivalence_v12": equivalence,
+                        "cleanup_pass": bool(receipt["cleanup_records"])
+                        and receipt["cleanup_records"][-1].get(
+                            "cleanup_safety_pass"
+                        )
+                        is True,
+                        "formal_data": False,
+                        "stage0_data": False,
+                    }
+                    failed_candidate["receipt_sha256"] = hash_json(
+                        failed_candidate
+                    )
+                    receipt["candidate_receipts"].append(failed_candidate)
+                    _write_json(
+                        candidate_dir / "candidate_failure_receipt.json",
+                        failed_candidate,
+                    )
+                    raise
+                finally:
+                    receipt["planner_query_count"] += int(runtime["queries"])
                 item = self._public_candidate(
                     candidate,
                     suffix,
