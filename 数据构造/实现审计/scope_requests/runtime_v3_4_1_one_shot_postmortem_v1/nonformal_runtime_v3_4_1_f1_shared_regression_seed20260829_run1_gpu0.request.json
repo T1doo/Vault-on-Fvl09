@@ -1,0 +1,75 @@
+{
+  "allowed_physical_gpu_indices": [
+    0
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f1_shared_regression_seed20260829_run1_gpu0.authorization.json",
+  "authorized_command_sha256": "e38c241482557a08a82ac72f852f2ecdc1ace67063f7e6a724a41a56a58d2f18",
+  "automatic_retry": false,
+  "budget_receipt_sha256": "f671f8f9e5e498a43dc7bf77dcd1dae921878eddcecd3f6cb71bfc662d342bb9",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_4_1_scope_runner",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f1_shared_regression_seed20260829_run1_gpu0.authorization.json"
+  ],
+  "family": "F1",
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f1_shared_regression_seed20260829_run1_gpu0.guard.json",
+  "implementation_strategy": "one_shot_postmortem_hardening",
+  "implementation_version": "controlled_multi_future_runtime_v3_4_1",
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_1_f1_shared_regression_seed20260829_run1_gpu0",
+  "parent_user_authorization_sha256": "b23fee6d86a35f8666ebbc4ad83229e550ba849b983e5a92a35c674450ca93f6",
+  "planned_root_slot_spec": {
+    "arm": "left",
+    "automatic_retry": false,
+    "budget_sha256": "d8aeb03a345a366ac065ac46222f5877b1a84d207067b62b5e36236128643f46",
+    "family": "F1",
+    "formal_data": false,
+    "generator": "controlled_multi_future_joint_scene_v3_4_1_adapter_v1_5",
+    "maximum_scope_invocations": 1,
+    "origin": "runtime_v3_4_1_one_shot_postmortem_nonformal",
+    "prerequisite_receipts": {},
+    "recovery_attempts": 0,
+    "schema_version": "cmf_runtime_v3_4_1_planned_scope_spec_v1",
+    "scope": "F1_shared_regression_v3_4_1",
+    "second_freeze_forbidden": true,
+    "seed": 20260829,
+    "single_source_freeze": true,
+    "slot_id": "pilot-F1-A-prestage0-regression-v341",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stop_condition": "terminal receipt or first cleanup/source/GPU safety uncertainty"
+  },
+  "planned_root_slot_spec_sha256": "fc1f210a4e912d663555a7cdea8e126e54a760d960bedc8fc974207fe7f8bc97",
+  "recovery_attempts": 0,
+  "reviewed_content_commit": "37823d79ff74cf9b6e87236ba23352022b7e6971",
+  "reviewed_publication": {
+    "active_snapshot_source_sha256": "81c8603699c2fa086f524cb313e17aca205f00a575e7cc92588de6576c120ffc",
+    "origin_main": "37823d79ff74cf9b6e87236ba23352022b7e6971",
+    "reviewed_content_commit": "37823d79ff74cf9b6e87236ba23352022b7e6971",
+    "vault_worktree_clean": true
+  },
+  "scene_seed": 20260829,
+  "schema_version": "cmf_runtime_v3_4_1_scope_request_v1",
+  "scope": "F1_shared_regression_v3_4_1",
+  "scope_budget": {
+    "allowed_physical_gpu_indices": [
+      0
+    ],
+    "automatic_retry": false,
+    "execution_limit": 3,
+    "family": "F1",
+    "planner_query_limit": 64,
+    "recovery_attempts": 0,
+    "scope": "F1_shared_regression_v3_4_1",
+    "scope_budget_sha256": "d8aeb03a345a366ac065ac46222f5877b1a84d207067b62b5e36236128643f46",
+    "timeout_seconds": 7200
+  },
+  "scope_request_sha256": "be8469c3e839d660ef564a156f66f38921c7b11880a758e37d087671fed99b33",
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_4_1_one_shot_postmortem_v1/nonformal_runtime_v3_4_1_f1_shared_regression_seed20260829_run1_gpu0.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false
+}
