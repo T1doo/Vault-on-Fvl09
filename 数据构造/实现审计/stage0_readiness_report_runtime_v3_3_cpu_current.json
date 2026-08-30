@@ -1,31 +1,26 @@
 {
-  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision7_terminal_current",
+  "schema_version": "cmf_stage0_readiness_runtime_v3_3_revision8_cpu_current",
   "decision": "BLOCKED_WITH_REASONS",
   "design_version": "controlled_multi_future_f1_f4_v1_2",
   "implementation_version": "controlled_multi_future_runtime_v3_3",
-  "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
+  "implementation_source_sha256": "4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21",
   "formal_data": false,
   "stage0_data": false,
   "stage0_authorized": false,
   "new_gpu_launch_authorized": false,
   "accepted_nonformal_pre_stage0_roots": {"F1": 1, "F2": 0, "F3": 0, "F4": 0, "total": 1},
   "accepted_nonroot_gates": {"F4_A_only_micro": true},
-  "revision7_gpu_scopes_terminal": true,
-  "revision8_cpu_work_required": true,
+  "revision8_cpu_ready": true,
+  "revision8_gpu_started": false,
   "stage0_trajectory_count": 0,
   "stage1_trajectory_count": 0,
   "formal_f1_f4_trajectory_count": 0,
   "h_reveal": null,
-  "current_blockers": [
-    "F2 fixed full-SE3 compensated endpoint is not IK solvable",
-    "F3 signed separation/shape signals are missing for zero-impulse near-pair classification",
-    "F4 staged B/C and full ABC/ACB/BAC remain untested"
-  ],
   "next_safe_sequence": [
-    "publish immutable revision7 evidence",
-    "implement revision8 CPU signal/route/audit fixes",
-    "run active and byte-equal snapshot tests",
-    "publish new source/budget baseline",
-    "issue exact F2/F3 full and F4 block-root scopes"
+    "publish revision8 CPU baseline",
+    "issue exact F2/F3 full and F4 block-root single-use bundles",
+    "select independently fresh-idle physical GPU0-7 per job subject to active safety layer",
+    "audit real shape identity/separation availability and all terminal receipts",
+    "update readiness without starting Stage0"
   ]
 }

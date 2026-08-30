@@ -7,7 +7,7 @@ import json
 from typing import Any, Mapping
 
 
-BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1_6"
+BUDGET_SCHEMA_VERSION = "cmf_runtime_v3_3_scope_budget_v1_7"
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
 SUPPORTED_SCOPES = (
     "canonical_prefix_real_smoke",
@@ -139,7 +139,7 @@ def budget_artifact() -> dict:
     payload = {
         "schema_version": BUDGET_SCHEMA_VERSION,
         "implementation_version": IMPLEMENTATION_VERSION,
-        "status": "user_authorized_pre_stage0_nonformal_v3_3_revision7_impact_addendum",
+        "status": "user_authorized_pre_stage0_nonformal_v3_3_revision8_impact_addendum",
         "approved": True,
         "frozen": True,
         "stage0_authorized": False,
@@ -148,7 +148,7 @@ def budget_artifact() -> dict:
         "allowed_physical_gpu_indices": list(range(8)),
         "automatic_retry": False,
         "recovery_attempts": 0,
-        "maximum_new_implementation_revisions_per_family": 7,
+        "maximum_new_implementation_revisions_per_family": 8,
         "maximum_full_root_execution_per_revision": 1,
         "scopes": SCOPE_BUDGETS,
     }

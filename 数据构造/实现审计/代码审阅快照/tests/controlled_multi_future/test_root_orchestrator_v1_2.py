@@ -243,6 +243,13 @@ class StrictPrefixSyntheticAdapter:
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
         if program["program_id"] == self.suffix_fail_program:
+            partial = {
+                "schema_version": "synthetic-normal-planner-false-input-v1",
+                "program_id": program["program_id"],
+                "target": [0.1, 0.2, 0.3],
+            }
+            partial["receipt_sha256"] = hash_json(partial)
+            scene._cmf_suffix_preflight_partial_receipt = partial
             scene.planner_query_count = 3
             return {
                 "planner_solvable": False,
@@ -574,6 +581,15 @@ class RootOrchestratorV1_2Test(unittest.TestCase):
                 / "suffix_preflight/F1-green/preflight_boundary_receipt.json"
             ).is_file()
         )
+        partial_path = (
+            output
+            / "suffix_preflight/F1-green/controller_partial_evidence.json"
+        )
+        self.assertTrue(partial_path.is_file())
+        partial = json.loads(partial_path.read_text(encoding="utf-8"))
+        self.assertEqual(green["controller_partial_evidence"], partial)
+        digest = partial.pop("receipt_sha256")
+        self.assertEqual(digest, hash_json(partial))
 
     def test_suffix_implementation_error_persists_boundary_partial_and_trace(self):
         class ImplementationFailAdapter(StrictPrefixSyntheticAdapter):

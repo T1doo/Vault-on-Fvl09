@@ -14,7 +14,7 @@ from controlled_multi_future.runtime_v3_3_budget_v1 import (
 
 VAULT_BUDGET = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/"
-    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_6.json"
+    "PRE_STAGE0_RUNTIME_V3_3_SCOPE_BUDGET_V1_7.json"
 )
 
 
@@ -76,6 +76,12 @@ class RuntimeV3_3BudgetV1Test(unittest.TestCase):
                 ]["planner_query_count"],
                 expected,
             )
+        self.assertEqual(
+            validate_static_scope_activity_envelope(
+                "F4_block_root_per_revision"
+            )["source_bound_static_envelope"]["execution_attempt_count"],
+            7,
+        )
         totals = {
             "F1_planner_root_per_revision": 16 + 3 * 16,
             "F2_diagnosis_root_per_revision": 24 + 3 * 24,

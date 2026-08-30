@@ -38,7 +38,7 @@ class FamilyControllersV3_3StaticTest(unittest.TestCase):
         self.assertIn("build_inside_gravity_drop_route", f2)
         self.assertIn("build_historical_safe_beside_route", f2)
         self.assertIn("shared_V", f3)
-        self.assertIn("_tilted_full_targets", f4)
+        self.assertIn("_top_down_full_targets_v8", f4)
         self.assertIn("object_target_groups", f4)
 
 

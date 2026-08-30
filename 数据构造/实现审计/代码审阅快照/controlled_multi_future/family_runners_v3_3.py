@@ -46,7 +46,9 @@ from .f2_inside_pre_release_settle_v6 import (
 )
 from .f2_inside_tracking_compensation_v7 import (
     build_f2_inside_alignment_diagnostic_v7,
-    build_f2_inside_tracking_compensation_v7,
+)
+from .f2_inside_xy_tracking_compensation_v8 import (
+    build_f2_inside_xy_tracking_compensation_v8,
 )
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
@@ -92,6 +94,9 @@ from .f3_pre_v_evidence_v4 import (
     build_f3_pre_v_evidence_v4,
     require_f3_pre_v_gate,
 )
+from .f3_physical_contact_signal_v8 import (
+    classify_contact_pair_physical_hit_v8,
+)
 from .f3_return_release_v5 import (
     ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
     DISENGAGEMENT_CONFIRM_FRAMES,
@@ -129,14 +134,6 @@ from .f1_uniform_carry_hub_v2 import (
 )
 from .f4_uniform_block_carry_midpoint_v3 import (
     F4_SEGMENTED_BLOCK_SUFFIXES,
-    F4_UNIFORM_BLOCK_CARRY_VERSION,
-    expand_uniform_f4_block_carry_targets,
-    validate_uniform_f4_block_carry_targets,
-)
-from .f4_uniform_tilted_grasp_v4 import (
-    ROUTE_VERSION as F4_TILTED_ROUTE_VERSION,
-    audit_uniform_tilted_f4_geometry,
-    build_uniform_tilted_f4_block_groups,
 )
 from .f4_boundary_micro_lift_v5 import (
     ACTUAL_GRIPPER_OPEN_MIN_QPOS_M as F4_ACTUAL_OPEN_MIN_QPOS_M,
@@ -158,6 +155,9 @@ from .f4_micro_lift_role_pose_v7 import (
 )
 from .f4_top_down_clearance_v6 import (
     build_uniform_f4_top_down_clearance_contract_v6,
+)
+from .f4_top_down_block_carry_v8 import (
+    build_f4_top_down_block_carry_v8,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -705,6 +705,28 @@ def _cache_preplanned_suffix_controls(
     }
     if extra:
         spec.update(dict(extra))
+    sealed_preflight_input = {
+        "schema_version": "cmf_suffix_preflight_input_evidence_v1",
+        "formal_data": False,
+        "stage0_data": False,
+        "program_id": program_id,
+        "arm": arm,
+        "actual_prefix_end_qpos_sha256": start_hash,
+        "target_segment_ids": [
+            item["segment_id"] for item in targets
+        ],
+        "target_poses": [
+            np.asarray(item["pose"], dtype=np.float64).tolist()
+            for item in targets
+        ],
+        "extra": dict(extra or {}),
+    }
+    sealed_preflight_input["receipt_sha256"] = hash_json(
+        sealed_preflight_input
+    )
+    scene._cmf_suffix_preflight_partial_receipt = (
+        sealed_preflight_input
+    )
     cache_key = hash_json(spec)
     spec["control_cache_key"] = cache_key
     cache = getattr(scene, SUFFIX_CACHE_ATTRIBUTE, None)
@@ -730,6 +752,7 @@ def _cache_preplanned_suffix_controls(
             "planner_collision_check_source": "official CuRobo planner success/failure per frozen segment",
             "quantitative_collision_clearance_available": False,
             "preflight_and_execution_share_control_cache": True,
+            "preflight_input_evidence": sealed_preflight_input,
         },
         "actual_prefix_end_qpos_sha256": start_hash,
         "execution_spec": spec if planned["pass"] else None,
@@ -2415,22 +2438,22 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             if route["audit"]["pass"] is not True:
                 raise ValueError("F2 inside gravity-drop CPU route audit failed")
             compensated_targets, compensation_receipt = (
-                build_f2_inside_tracking_compensation_v7(
+                build_f2_inside_xy_tracking_compensation_v8(
                     program_id=program["program_id"],
                     original_targets=route["targets"],
                     desired_route=route,
                 )
             )
-            scene._cmf_f2_inside_tracking_compensation_v7 = (
+            scene._cmf_f2_inside_xy_tracking_compensation_v8 = (
                 compensation_receipt
             )
             compensation_partial = {
-                "schema_version": "cmf_f2_suffix_preflight_partial_v7",
-                "phase": "f2_inside_compensated_planner_input_frozen",
+                "schema_version": "cmf_f2_suffix_preflight_partial_v8",
+                "phase": "f2_inside_xy_compensated_planner_input_frozen",
                 "formal_data": False,
                 "stage0_data": False,
                 "program_id": program["program_id"],
-                "inside_tracking_compensation_v7": (
+                "inside_xy_tracking_compensation_v8": (
                     compensation_receipt
                 ),
                 "target_segment_ids": [
@@ -2455,12 +2478,12 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 query_limit=24,
                 extra={
                     "relation": relation,
-                    "variant_id": "inside_gravity_drop_10cm_v3",
+                    "variant_id": "inside_gravity_drop_10cm_xy_comp_v8",
                     "target_actor_pose": route["target_actor_pose"],
                     "release_target_index": route["release_target_index"],
                     "layout_version": F2_LAYOUT_VERSION_V2,
                     "inside_gravity_drop_route": route,
-                    "inside_tracking_compensation_v7": (
+                    "inside_xy_tracking_compensation_v8": (
                         compensation_receipt
                     ),
                     "inside_full_obb_verifier_relaxed": False,
@@ -2802,7 +2825,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             )
             if inside_drop_route is not None:
                 compensation = spec.get(
-                    "inside_tracking_compensation_v7"
+                    "inside_xy_tracking_compensation_v8"
                 )
                 if not isinstance(compensation, Mapping):
                     raise RuntimeError(
@@ -3727,6 +3750,29 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             gripper_evidence["selected_gripper_links"]
         )
         gripper_assembly_names.add(scene.robot.left_move_group)
+        realized_event_gate_before_release = verify_realized_motion_metrics(
+            metrics, PROVISIONAL_RUNTIME_THRESHOLDS
+        )
+        scene._cmf_f3_realized_events_before_release_v8 = {
+            "schema_version": "cmf_f3_realized_events_before_release_v8",
+            "formal_data": False,
+            "stage0_data": False,
+            "program_id": program["program_id"],
+            "event_order": spec["event_order"],
+            "realized_event_metrics": metrics,
+            "event_contact_audits": event_contact_audits,
+            "realized_motion_gate": realized_event_gate_before_release,
+            "pass": bool(
+                realized_event_gate_before_release["pass"]
+                and all(
+                    value["pass"]
+                    for value in event_contact_audits.values()
+                )
+            ),
+        }
+        scene._cmf_f3_realized_events_before_release_v8[
+            "receipt_sha256"
+        ] = hash_json(scene._cmf_f3_realized_events_before_release_v8)
         pre_open_gate = build_pre_open_gate_v5(
             scene.trace[-PRE_OPEN_STABLE_FRAMES:],
             bottle_actor_name=_entity(scene.bottle).get_name(),
@@ -3790,14 +3836,36 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         }
         scene.mark("f3_open_command_start")
         open_start_trace_index = len(scene.trace)
-        def assembly_contact(row):
-            return any(
-                bottle_actor_name in (pair["body_a"], pair["body_b"])
+        selected_finger_names = set(
+            gripper_evidence["selected_gripper_links"]
+        )
+
+        def physical_bottle_link_contact(row, link_names):
+            relevant = [
+                pair
+                for pair in row["contact_pairs"]
+                if bottle_actor_name
+                in (pair["body_a"], pair["body_b"])
                 and bool(
                     set((pair["body_a"], pair["body_b"]))
-                    & gripper_assembly_names
+                    & set(link_names)
                 )
-                for pair in row["contact_pairs"]
+            ]
+            return any(
+                classify_contact_pair_physical_hit_v8(pair)[
+                    "physical_hit_for_gate"
+                ]
+                for pair in relevant
+            )
+
+        def assembly_contact(row):
+            return physical_bottle_link_contact(
+                row, gripper_assembly_names
+            )
+
+        def selected_finger_contact(row):
+            return physical_bottle_link_contact(
+                row, selected_finger_names
             )
 
         _must_action(
@@ -3849,6 +3917,18 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                         ]
                     )
                 ),
+                "selected_pair_presence_fraction_audit_only": float(
+                    np.mean(
+                        [
+                            bool(row["selected_gripper_contact"])
+                            for row in searched_rows
+                        ]
+                    )
+                ),
+                "selected_contact_fraction_semantics": (
+                    "legacy pair presence audit-only; physical disengagement "
+                    "uses F3 v8 impulse/separation classifier"
+                ),
                 "gripper_assembly_contact_fraction": float(
                     np.mean([bool(assembly_contact(row)) for row in searched_rows])
                 ),
@@ -3888,7 +3968,11 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         physical_release_window = scene.trace[
             physical_release_trace_index : required_last_index + 1
         ]
-        no_recontact_through_250 = all(
+        no_selected_finger_recontact_through_250 = all(
+            not bool(selected_finger_contact(row))
+            for row in physical_release_window
+        )
+        no_selected_pair_presence_through_250_audit = all(
             not bool(row["selected_gripper_contact"])
             for row in physical_release_window
         )
@@ -3926,7 +4010,12 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "disengagement_confirm_frames": int(
                 DISENGAGEMENT_CONFIRM_FRAMES
             ),
-            "selected_contact_false_at_physical_release": not bool(
+            "selected_finger_physical_contact_false_at_physical_release": not bool(
+                selected_finger_contact(
+                    scene.trace[physical_release_trace_index]
+                )
+            ),
+            "selected_pair_presence_false_at_physical_release_audit_only": not bool(
                 scene.trace[physical_release_trace_index][
                     "selected_gripper_contact"
                 ]
@@ -3943,8 +4032,11 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             ).tolist(),
             "post_release_samples_are_relative_to_physical_contact_break": True,
             "physical_release_step0_sample": physical_release_step0_sample,
-            "no_recontact_through_after_release_250": bool(
-                no_recontact_through_250
+            "no_selected_finger_physical_recontact_through_after_release_250": bool(
+                no_selected_finger_recontact_through_250
+            ),
+            "no_selected_pair_presence_through_after_release_250_audit_only": bool(
+                no_selected_pair_presence_through_250_audit
             ),
             "no_gripper_assembly_recontact_through_after_release_250": bool(
                 no_assembly_recontact_through_250
@@ -3958,7 +4050,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         )
         scene._cmf_f3_release_boundary_v5 = release_boundary_receipt
         if (
-            not no_recontact_through_250
+            not no_selected_finger_recontact_through_250
             or not no_assembly_recontact_through_250
             or not actual_gripper_open_through_250
         ):
@@ -4073,10 +4165,10 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "grasp_transform_stable": grasp["grasp_transform_stable"],
             "contact_free_pre_open_gate": pre_open_gate["pass"],
             "physical_release_disengagement": release_boundary_receipt[
-                "selected_contact_false_at_physical_release"
+                "selected_finger_physical_contact_false_at_physical_release"
             ],
             "no_recontact_through_after_release_250": release_boundary_receipt[
-                "no_recontact_through_after_release_250"
+                "no_selected_finger_physical_recontact_through_after_release_250"
             ],
             "no_gripper_assembly_recontact_through_after_release_250": release_boundary_receipt[
                 "no_gripper_assembly_recontact_through_after_release_250"
@@ -4373,7 +4465,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         self._validate_f4_target_structure(targets, extra, require_three_groups=False)
         return targets, extra
 
-    def _tilted_full_targets(self, scene, program):
+    def _top_down_full_targets_v8(self, scene, program):
         legacy_targets, extra = self.legacy.build_targets(
             scene,
             program,
@@ -4392,9 +4484,18 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         order = [step["object"] for step in program["steps"][1:]]
         if order != list(extra["object_order"]):
-            raise ValueError("F4 tilted route program order differs from legacy common build")
+            raise ValueError(
+                "F4 r8 top-down program order differs from legacy common build"
+            )
         planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
-        layout = planned.get("scene_layout", {}) if isinstance(planned, Mapping) else {}
+        layout = (
+            planned.get("scene_layout", {})
+            if isinstance(planned, Mapping)
+            else {}
+        )
+        layout_version = layout.get("layout_version")
+        if not isinstance(layout_version, str):
+            raise ValueError("F4 r8 planned layout version is missing")
         neutral = np.asarray(repaired_common[-1]["pose"], dtype=np.float64)
         if neutral.shape != (7,):
             raise ValueError("F4 repaired high branch-neutral pose is invalid")
@@ -4402,41 +4503,32 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             role: _pose(getattr(scene, role.lower())).tolist()
             for role in ("A", "B", "C")
         }
-        target_actor_poses = {}
-        for role in ("A", "B", "C"):
-            target = _pose(getattr(scene, role.lower()))
-            target[:3] = np.asarray(
-                getattr(scene, f"slot_{role.lower()}").get_pose().p,
-                dtype=np.float64,
-            ) + np.asarray([0.0, 0.0, BLOCK_HALF_EXTENTS[2]])
-            target_actor_poses[role] = target.tolist()
-        tilted = build_uniform_tilted_f4_block_groups(
+        slot_poses = {
+            role: _pose(getattr(scene, f"slot_{role.lower()}")).tolist()
+            for role in ("A", "B", "C")
+        }
+        top_down = build_f4_top_down_block_carry_v8(
             object_poses=object_poses,
-            target_actor_poses=target_actor_poses,
+            slot_poses=slot_poses,
             neutral_pose=neutral,
             object_order=order,
             arm="right",
+            layout_version=layout_version,
         )
-        geometry = audit_uniform_tilted_f4_geometry(
-            object_poses=object_poses,
-            target_actor_poses=target_actor_poses,
-            neutral_pose=neutral,
-            object_order=order,
-            table_top_z_m=0.74 + float(scene.table_z_bias),
-        )
-        if geometry["pass"] is not True:
-            raise ValueError("F4 uniform tilted route geometry audit failed")
+        if top_down["pass"] is not True:
+            raise ValueError("F4 r8 top-down block-carry audit failed")
         revised_extra = dict(extra)
         revised_extra.update(
             {
                 "object_order": order,
-                "object_target_groups": tilted["object_target_groups"],
-                "block_carry_route_version": F4_TILTED_ROUTE_VERSION,
-                "block_carry_route_audit": {
-                    "group_set": tilted["audit"],
-                    "geometry": geometry,
-                },
-                "uniform_tilted_grasp_contract": tilted["grasp_contract"],
+                "object_target_groups": top_down[
+                    "object_target_groups"
+                ],
+                "block_carry_route_version": top_down[
+                    "route_version"
+                ],
+                "block_carry_route_audit": top_down,
+                "uniform_top_down_block_carry_contract_v8": top_down,
                 "scene_layout_changed": False,
                 "tray_pose_changed": False,
                 "program_changed": False,
@@ -4444,7 +4536,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "common_prefix_boundary_repair_v5": common_repair,
             }
         )
-        all_targets = list(repaired_common) + list(tilted["flattened_targets"])
+        all_targets = list(repaired_common) + list(
+            top_down["flattened_targets"]
+        )
         self._validate_f4_target_structure(
             all_targets, revised_extra, require_three_groups=True
         )
@@ -4551,7 +4645,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
 
     def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-        all_targets, extra = self._tilted_full_targets(scene, program)
+        all_targets, extra = self._top_down_full_targets_v8(scene, program)
         targets = all_targets[self.COMMON_SEGMENT_COUNT :]
         result = _cache_suffix_controls(
             scene,
@@ -4582,7 +4676,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if len(set(roles)) != len(roles):
             raise ValueError("F4 diagnostic block roles must be unique")
         base_program = F4SubtaskOrder().checked_provisional_programs()[0]
-        all_targets, extra = self._tilted_full_targets(scene, base_program)
+        all_targets, extra = self._top_down_full_targets_v8(
+            scene, base_program
+        )
         suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
         group_by_role = {
             group["role"]: group for group in extra["object_target_groups"]

@@ -1,17 +1,10 @@
-# F1–F4 implementation registry：runtime-v3_3 revision-7 terminal current
+# F1–F4 implementation registry：runtime-v3_3 revision-8 CPU current
 
-```yaml
-accepted_nonformal_roots: 1/4
-F4_A_micro_gate: accepted
-stage0_authorized: false
-new_gpu_launch_authorized: false
-```
-
-| Family | revision-7真实结果 | 计数 planner/execution/recovery | 下一步 |
+| Family | revision-8实现 | Envelope | 状态 |
 |---|---|---:|---|
-| F1 | revision-2 root accepted | 46/3/0 historical | 无 |
-| F2 | inside compensated首endpoint `IK_FAIL`；on/beside只规划通过 | 30/0/0 | fixed XY-only compensation + planner-false evidence |
-| F3 | 三program全部V/H与10mm geometry通过；zero-impulse pair造成preopen false negative | 96/3/0 | signed separation/shape + physical contact classifier |
-| F4 | A-only micro accepted；rise=17.2152mm、contact/noninterference全部通过 | 13/1/0 | staged A/B/C/AB与完整ABC/ACB/BAC |
+| F1 | revision-2 root保持accepted | 46/3/0 historical | `accepted_nonformal_root` |
+| F2 | fixed XY-only inside target0；planner-false仍保存完整输入 | 32/3/0 | `r8_cpu_ready_not_run` |
+| F3 | separation/shape/impulse physical signal贯穿preopen→release→+250 | 96/3/0 | `r8_cpu_ready_not_run` |
+| F4 | top-down七段staged A/B/C/AB；通过后full ABC/ACB/BAC | 118/7/0 | `r8_full_cpu_ready_not_run` |
 
-F4 micro不是完整root，accepted roots仍1/4。完整审计见`F2_F3_RUNTIME_V3_3_REVISION7_TERMINAL_F4_MICRO_ACCEPTED_AND_R8_IMPACT_REVIEW_20260830.*`。
+F4 A-only micro为accepted nonroot Gate；完整roots仍1/4。Active/snapshot各412/412、diff零；source=`4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21`，budget=`bd62453d41b214a54eea045a9b9d6f641c8802cf2f384143a9e7b71d7e61b14a`。R8 bundle/ledger/output不存在。

@@ -1,0 +1,40 @@
+{
+  "schema_version": "cmf_runtime_v3_3_cpu_static_audit_v2_3",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_runtime_v3_3",
+  "implementation_revision": "runtime_v3_3_revision8_impact_addendum_v1",
+  "official_source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "implementation_source_sha256": "4b5ac619c0d765024bc7cdc01ea02e2a30e7a9bc195274961c626aa48f0c2d21",
+  "budget_receipt_sha256": "bd62453d41b214a54eea045a9b9d6f641c8802cf2f384143a9e7b71d7e61b14a",
+  "parent_user_authorization_sha256": "441087839708ea2e12c8c3e44684f27d031b873645825d8963857649bd78ea82",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_authorized": false,
+  "tests": {"active": "412/412 passed", "vault_snapshot": "412/412 passed", "active_snapshot_byte_equal": true, "diff_qr_excluding_pycache": "zero"},
+  "independent_p0_audits": {
+    "F2_XY_only_and_normal_planner_false_evidence": "pass",
+    "F3_signed_separation_shape_and_release_wiring": "pass_fail_closed_with_real_pybind_identity_runtime_risk",
+    "F4_top_down_staged_full_and_normal_planner_false_evidence": "pass"
+  },
+  "authorized_scope_revision_map": {
+    "F2_diagnosis_root_per_revision": {"family": "F2", "family_revision_index": 8},
+    "F3_prefix_root_per_revision": {"family": "F3", "family_revision_index": 8},
+    "F4_block_root_per_revision": {"family": "F4", "family_revision_index": 8}
+  },
+  "source_bound_static_envelopes": {
+    "F2": {"planner": 32, "execution": 3, "recovery": 0},
+    "F3": {"planner": 96, "execution": 3, "recovery": 0},
+    "F4_block_root": {"planner": 118, "execution": 7, "recovery": 0}
+  },
+  "revision8_ledgers_exist": {"F2": false, "F3": false, "F4": false},
+  "revision8_bundles_exist": {"F2": false, "F3": false, "F4": false},
+  "revision8_gpu_output_exists": {"F2": false, "F3": false, "F4": false},
+  "runtime_risks": [
+    "real SAPIEN pybind wrapper identity for contact.shapes versus body.get_collision_shapes is unverified; mismatch fails closed",
+    "contact JSON has higher RAM cost, but server had 458 GiB available during CPU closure",
+    "F2 XY-only outcome and F4 B/C/carry/place remain runtime hypotheses"
+  ],
+  "decision": "CPU_STATIC_READY_FOR_CLEAN_PUBLICATION_AND_BUNDLE_ISSUE",
+  "accepted_nonformal_pre_stage0_roots": 1,
+  "accepted_nonroot_gates": {"F4_A_only_micro": true}
+}

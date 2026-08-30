@@ -65,7 +65,7 @@ class Revision5IntegrationTest(unittest.TestCase):
             ).RealSapienStrictPrefixRootOrchestratorV1_2.run_nonformal_root
         )
         self.assertIn("f2_inside_pre_release_settle_v6", orchestrator)
-        self.assertIn("f2_inside_tracking_compensation_v7", orchestrator)
+        self.assertIn("f2_inside_xy_tracking_compensation_v8", orchestrator)
         self.assertIn("f2_inside_alignment_diagnostic_v7", orchestrator)
 
     def test_f2_live_topology_adapter_binds_palm_and_two_fingers(self):
@@ -153,7 +153,7 @@ class Revision5IntegrationTest(unittest.TestCase):
             static["source_bound_static_envelope"],
             {"planner_query_count": 13, "execution_attempt_count": 1},
         )
-        spec = planned_scope_spec(scope, revision_index=7)
+        spec = planned_scope_spec(scope, revision_index=8)
         self.assertEqual(spec["slot_id"], "pilot-F4-A-prestage0")
         self.assertFalse(spec["stage0_authorized"])
         self.assertIn("common_vertical_withdraw", spec["branch_neutral_runtime_policy"])
@@ -167,6 +167,10 @@ class Revision5IntegrationTest(unittest.TestCase):
         self.assertIn(
             "build_uniform_f4_top_down_clearance_contract_v6", planning
         )
+        full_planning = inspect.getsource(
+            F4ControllerV3_3.plan_suffix_from_actual_prefix_end_state
+        )
+        self.assertIn("_top_down_full_targets_v8", full_planning)
 
     def test_f4_failed_pregrasp_boundary_never_closes_or_lifts(self):
         controller = F4ControllerV3_3()

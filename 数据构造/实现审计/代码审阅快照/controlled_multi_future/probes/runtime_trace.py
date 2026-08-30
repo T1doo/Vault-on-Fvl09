@@ -14,6 +14,7 @@ from ..raw_writer import ACTION_LAYOUT_DIMENSIONS, ACTION_LAYOUT_VERSION, pack_e
 
 TRACE_TIMESTEP_ABSOLUTE_TOLERANCE_SECONDS = 1e-9
 TRACE_SCHEMA_VERSION = "cmf_runtime_trace_pose_consistent_velocity_v2"
+CONTACT_PAIR_SCHEMA_VERSION = "cmf_runtime_contact_pair_v2"
 
 
 class PlannerQueryLimitExceeded(RuntimeError):
@@ -101,6 +102,89 @@ def _pose_array(value):
     if hasattr(value, "p") and hasattr(value, "q"):
         value = value.p.tolist() + value.q.tolist()
     return np.asarray(value, dtype=np.float64).reshape(7)
+
+
+def _canonical_json_sha256(value):
+    return hashlib.sha256(
+        json.dumps(
+            value,
+            ensure_ascii=False,
+            allow_nan=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+
+
+def _collision_shape_identity(body, shape):
+    """Return deterministic body-local shape identity or explicit unavailable."""
+
+    body_name = getattr(getattr(body, "entity", None), "name", None)
+    unavailable = {
+        "available": False,
+        "body_name": str(body_name) if body_name is not None else None,
+        "unavailable_reason": None,
+    }
+    if not isinstance(body_name, str) or not body_name:
+        unavailable["unavailable_reason"] = "body_entity_name_unavailable"
+        return unavailable
+    if shape is None:
+        unavailable["unavailable_reason"] = "contact_shape_unavailable"
+        return unavailable
+    getter = getattr(body, "get_collision_shapes", None)
+    if not callable(getter):
+        unavailable["unavailable_reason"] = (
+            "body_collision_shape_registry_unavailable"
+        )
+        return unavailable
+    try:
+        body_shapes = list(getter())
+    except BaseException as exc:
+        unavailable["unavailable_reason"] = (
+            "body_collision_shape_registry_error:"
+            f"{type(exc).__name__}"
+        )
+        return unavailable
+    matches = [
+        index for index, candidate in enumerate(body_shapes) if candidate is shape
+    ]
+    if len(matches) != 1:
+        unavailable["unavailable_reason"] = (
+            "contact_shape_not_uniquely_matched_by_identity"
+        )
+        return unavailable
+    try:
+        local_pose = _pose_array(shape.get_local_pose()).tolist()
+        collision_groups = [int(value) for value in shape.get_collision_groups()]
+        contact_offset = float(shape.get_contact_offset())
+        rest_offset = float(shape.get_rest_offset())
+        numeric = np.asarray(
+            [*local_pose, contact_offset, rest_offset], dtype=np.float64
+        )
+        if not np.all(np.isfinite(numeric)):
+            raise ValueError("non-finite shape identity")
+    except BaseException as exc:
+        unavailable["unavailable_reason"] = (
+            "contact_shape_identity_api_error:"
+            f"{type(exc).__name__}"
+        )
+        return unavailable
+    identity = {
+        "available": True,
+        "body_name": str(body_name),
+        "body_collision_shape_index": int(matches[0]),
+        "shape_type": type(shape).__name__,
+        "local_pose": local_pose,
+        "collision_groups": collision_groups,
+        "contact_offset_m": contact_offset,
+        "rest_offset_m": rest_offset,
+        "identity_source": (
+            "contact.shapes entry matched by Python object identity to "
+            "body.get_collision_shapes()"
+        ),
+    }
+    identity["identity_sha256"] = _canonical_json_sha256(identity)
+    return identity
 
 
 def is_selected_gripper_contact(actor_name, selected_gripper_links, body_pair):
@@ -253,7 +337,15 @@ def trace_rows_to_raw_streams(rows):
             "planner_goal_source": {"status": "derived", "source": "runtime move API that produced the active planner control"},
             "planner_goal_start_step": {"status": "derived", "source": "first action interval carrying the planner query ID"},
             "planner_goal_end_step": {"status": "derived", "source": "exclusive last action interval carrying the planner query ID"},
-            "contact_pairs_json": {"status": "measured", "source": "runtime all SAPIEN scene contact body pairs"},
+            "contact_pairs_json": {
+                "status": "measured",
+                "contact_pair_schema_version": CONTACT_PAIR_SCHEMA_VERSION,
+                "source": (
+                    "runtime SAPIEN body/shape contact pairs with per-point "
+                    "impulse, normal, position, signed separation, and explicit "
+                    "signal availability"
+                ),
+            },
         },
     }
     role_names = sorted({role for row in rows for role in row.get("role_actor_poses", {})})
@@ -421,23 +513,121 @@ class DenseTraceMixin:
             point_impulse = 0.0
             point_normals = []
             point_positions = []
-            for point in getattr(contact, "points", []):
+            point_separations = []
+            point_separation_available = []
+            point_impulse_available = []
+            point_evidence = []
+            shape_identity_error = None
+            try:
+                contact_shapes = list(contact.shapes)
+            except BaseException as exc:
+                contact_shapes = []
+                shape_identity_error = (
+                    "contact_shapes_api_error:"
+                    f"{type(exc).__name__}"
+                )
+            if len(contact_shapes) == 2:
+                shape_identities = [
+                    _collision_shape_identity(body, shape)
+                    for body, shape in zip(contact.bodies, contact_shapes)
+                ]
+            else:
+                shape_identities = [
+                    {
+                        "available": False,
+                        "body_name": str(name),
+                        "unavailable_reason": shape_identity_error
+                        or "contact_shapes_count_is_not_two",
+                    }
+                    for name in names
+                ]
+            shape_identity_available = all(
+                identity.get("available") is True
+                for identity in shape_identities
+            )
+            shape_identity_sha256 = [
+                identity.get("identity_sha256")
+                for identity in shape_identities
+            ]
+            for point_index, point in enumerate(getattr(contact, "points", [])):
                 impulse = getattr(point, "impulse", None)
+                impulse_vector = None
+                impulse_norm = None
                 if impulse is not None:
-                    point_impulse += float(np.linalg.norm(np.asarray(impulse, dtype=np.float64)))
+                    impulse_array = np.asarray(
+                        impulse, dtype=np.float64
+                    ).reshape(3)
+                    if np.all(np.isfinite(impulse_array)):
+                        impulse_vector = impulse_array.tolist()
+                        impulse_norm = float(np.linalg.norm(impulse_array))
+                        point_impulse += impulse_norm
+                impulse_available = impulse_norm is not None
+                point_impulse_available.append(impulse_available)
                 normal = getattr(point, "normal", None)
+                normal_value = None
                 if normal is not None:
-                    point_normals.append(np.asarray(normal, dtype=np.float64).reshape(3).tolist())
+                    normal_array = np.asarray(
+                        normal, dtype=np.float64
+                    ).reshape(3)
+                    if np.all(np.isfinite(normal_array)):
+                        normal_value = normal_array.tolist()
+                        point_normals.append(normal_value)
                 position = getattr(point, "position", None)
+                position_value = None
                 if position is not None:
-                    point_positions.append(np.asarray(position, dtype=np.float64).reshape(3).tolist())
+                    position_array = np.asarray(
+                        position, dtype=np.float64
+                    ).reshape(3)
+                    if np.all(np.isfinite(position_array)):
+                        position_value = position_array.tolist()
+                        point_positions.append(position_value)
+                separation_value = None
+                separation_available = False
+                separation_error = None
+                try:
+                    separation_value = float(point.separation)
+                    if not np.isfinite(separation_value):
+                        raise ValueError("non-finite signed separation")
+                    separation_available = True
+                except BaseException as exc:
+                    separation_value = None
+                    separation_error = (
+                        "point_separation_api_error:"
+                        f"{type(exc).__name__}"
+                    )
+                point_separations.append(separation_value)
+                point_separation_available.append(separation_available)
+                point_evidence.append(
+                    {
+                        "point_index": int(point_index),
+                        "impulse_vector": impulse_vector,
+                        "impulse_norm": impulse_norm,
+                        "impulse_available": impulse_available,
+                        "normal": normal_value,
+                        "position": position_value,
+                        "signed_separation_m": separation_value,
+                        "signed_separation_available": separation_available,
+                        "signed_separation_unavailable_reason": separation_error,
+                        "shape_identity_available": shape_identity_available,
+                        "shape_identity_sha256": shape_identity_sha256,
+                    }
+                )
             pairs.append({
+                "contact_pair_schema_version": CONTACT_PAIR_SCHEMA_VERSION,
                 "body_a": names[0],
                 "body_b": names[1],
                 "point_count": len(getattr(contact, "points", [])),
                 "impulse_norm_sum": point_impulse,
                 "point_normals": point_normals,
                 "point_positions": point_positions,
+                "point_separations": point_separations,
+                "point_separation_available": point_separation_available,
+                "impulse_available": bool(point_impulse_available)
+                and all(point_impulse_available),
+                "point_impulse_available": point_impulse_available,
+                "shape_identity_available": shape_identity_available,
+                "shape_identities": shape_identities,
+                "point_evidence": point_evidence,
             })
             if is_selected_gripper_contact(actor_name, selected, names):
                 selected_count += 1
@@ -911,7 +1101,15 @@ class DenseTraceMixin:
                 "selected_gripper_contact_count": {"status": "measured", "source": "SAPIEN contact pair count for selected arm"},
                 "selected_gripper_contact_impulse": {"status": "measured", "source": "SAPIEN contact point impulses when available"},
                 "selected_contact_actor_name": {"status": "derived", "source": "verifier contact-subject actor name"},
-                "contact_pairs_json": {"status": "measured", "source": "all SAPIEN scene contact body pairs"},
+                "contact_pairs_json": {
+                    "status": "measured",
+                    "contact_pair_schema_version": CONTACT_PAIR_SCHEMA_VERSION,
+                    "source": (
+                        "all SAPIEN body/shape contact pairs with per-point "
+                        "impulse, normal, position, signed separation, and "
+                        "explicit signal availability"
+                    ),
+                },
                 "event_markers_json": {"status": "derived", "source": "explicit runtime event markers"},
                 "selected_gripper_links_json": {"status": "configured", "source": "selected robot arm gripper link names"},
                 "initial_state": {"status": "derived", "source": "trace lifecycle marker"},

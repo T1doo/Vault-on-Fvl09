@@ -16,6 +16,9 @@ import numpy as np
 
 from .anchor import quaternion_angular_error
 from .f3_clearance_route_v3 import time_dilate_f3_carry_control_2x
+from .f3_physical_contact_signal_v8 import (
+    classify_f3_preopen_support_contacts_v8,
+)
 
 
 SCHEMA_VERSION = "cmf_f3_return_release_v5"
@@ -206,31 +209,18 @@ def build_pre_open_gate_v5(
     final = frames[-1]
     bottle_pose = np.asarray(final["actor_pose"], dtype=np.float64).reshape(7)
     eef_pose = np.asarray(final["eef"], dtype=np.float64).reshape(7)
-    support_hits = []
-    selected_gripper_support_hits = []
-    for frame_index, row in enumerate(frames):
-        for pair in row.get("contact_pairs", []):
-            bodies = {str(pair.get("body_a")), str(pair.get("body_b"))}
-            if bottle_actor_name in bodies and bodies & supports:
-                support_hits.append(
-                    {
-                        "frame_index": frame_index,
-                        "body_a": pair.get("body_a"),
-                        "body_b": pair.get("body_b"),
-                        "impulse_norm_sum": float(pair.get("impulse_norm_sum", 0.0)),
-                    }
-                )
-            if bodies & assembly_links and bodies & supports:
-                selected_gripper_support_hits.append(
-                    {
-                        "frame_index": frame_index,
-                        "body_a": pair.get("body_a"),
-                        "body_b": pair.get("body_b"),
-                        "impulse_norm_sum": float(
-                            pair.get("impulse_norm_sum", 0.0)
-                        ),
-                    }
-                )
+    physical_contact_signal = classify_f3_preopen_support_contacts_v8(
+        [row.get("contact_pairs", []) for row in frames],
+        bottle_actor_name=bottle_actor_name,
+        gripper_assembly_link_names=sorted(assembly_links),
+        support_actor_names=sorted(supports),
+    )
+    support_hits = physical_contact_signal["pair_presence_audit"][
+        "bottle_support"
+    ]
+    selected_gripper_support_hits = physical_contact_signal[
+        "pair_presence_audit"
+    ]["assembly_support"]
     selected = [bool(row.get("selected_gripper_contact")) for row in frames]
     identities = [str(row.get("selected_contact_actor_name")) for row in frames]
     eef_linear = [float(np.linalg.norm(row["eef_linear_velocity"])) for row in frames]
@@ -296,8 +286,23 @@ def build_pre_open_gate_v5(
                 <= PRE_OPEN_MAX_GRIPPER_QPOS_BASELINE_ERROR_M
             )
         ),
-        "contact_free_of_pad_and_table": not support_hits,
-        "gripper_assembly_contact_free_of_pad_and_table": not selected_gripper_support_hits,
+        "physical_contact_signal_complete": all(
+            physical_contact_signal["checks"][key]
+            for key in (
+                "all_relevant_pairs_use_v2_contact_schema",
+                "all_relevant_pair_impulses_available",
+                "all_relevant_points_have_signed_separation",
+                "all_relevant_points_have_shape_identity",
+            )
+        ),
+        "contact_free_of_pad_and_table": physical_contact_signal["checks"][
+            "bottle_has_no_physical_support_contact"
+        ],
+        "gripper_assembly_contact_free_of_pad_and_table": (
+            physical_contact_signal["checks"][
+                "gripper_assembly_has_no_physical_support_contact"
+            ]
+        ),
     }
     receipt = {
         "schema_version": SCHEMA_VERSION,
@@ -315,8 +320,33 @@ def build_pre_open_gate_v5(
         "actual_gripper_joint_qpos_range": np.ptp(
             actual_gripper_values, axis=0
         ).tolist(),
+        "pose_errors": {
+            "eef_position_m": float(
+                np.linalg.norm(eef_pose[:3] - release[:3])
+            ),
+            "eef_orientation_rad": quaternion_angular_error(
+                eef_pose[3:], release[3:]
+            ),
+            "bottle_position_m": float(
+                np.linalg.norm(bottle_pose[:3] - target[:3])
+            ),
+            "bottle_orientation_rad": quaternion_angular_error(
+                bottle_pose[3:], target[3:]
+            ),
+        },
+        "grasp_transform_drift": {
+            "translation_m": float(
+                np.linalg.norm(final_transform[:3] - initial_transform[:3])
+            ),
+            "orientation_rad": quaternion_angular_error(
+                final_transform[3:], initial_transform[3:]
+            ),
+        },
         "support_hits": support_hits,
         "selected_gripper_support_hits": selected_gripper_support_hits,
+        "support_hits_semantics": "pair_presence_audit_only",
+        "physical_contact_signal_v8": physical_contact_signal,
+        "r6_runtime_geometry_gate_required_separately": True,
         "gripper_assembly_link_names": sorted(assembly_links),
         "pass": all(checks.values()),
     }

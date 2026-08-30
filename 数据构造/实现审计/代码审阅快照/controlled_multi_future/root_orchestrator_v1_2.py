@@ -886,6 +886,23 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 ),
                                 program_id,
                             )
+                            controller_partial = getattr(
+                                scene,
+                                "_cmf_suffix_preflight_partial_receipt",
+                                None,
+                            )
+                            if isinstance(controller_partial, Mapping):
+                                controller_partial = _json_compatible(
+                                    dict(controller_partial)
+                                )
+                                suffix[
+                                    "controller_partial_evidence"
+                                ] = controller_partial
+                                _write_json_atomic(
+                                    preflight_dir
+                                    / "controller_partial_evidence.json",
+                                    controller_partial,
+                                )
                         finally:
                             suffix_runtime["planner_query_count"] = int(
                                 getattr(scene, "planner_query_count", 0)
@@ -1259,9 +1276,9 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                         "_cmf_f2_inside_pre_release_settle_v6",
                                         None,
                                     ),
-                                    "f2_inside_tracking_compensation_v7": getattr(
+                                    "f2_inside_xy_tracking_compensation_v8": getattr(
                                         scene,
-                                        "_cmf_f2_inside_tracking_compensation_v7",
+                                        "_cmf_f2_inside_xy_tracking_compensation_v8",
                                         None,
                                     ),
                                     "f2_inside_alignment_diagnostic_v7": getattr(
@@ -1282,6 +1299,11 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                     "f3_release_geometry_v6": getattr(
                                         scene,
                                         "_cmf_f3_release_geometry_v6",
+                                        None,
+                                    ),
+                                    "f3_realized_events_before_release_v8": getattr(
+                                        scene,
+                                        "_cmf_f3_realized_events_before_release_v8",
                                         None,
                                     ),
                                     "f4_preclose_boundary_v5": getattr(
