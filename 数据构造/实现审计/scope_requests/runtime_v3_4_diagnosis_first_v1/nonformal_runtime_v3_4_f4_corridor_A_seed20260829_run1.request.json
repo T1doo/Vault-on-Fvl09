@@ -1,0 +1,182 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_4_diagnosis_first_v1/nonformal_runtime_v3_4_f4_corridor_A_seed20260829_run1.authorization.json",
+  "authorized_command_sha256": "59cb6b98cf9ce34b1370223feae7318a6e648720a40b0d8af8887a244bfac0b4",
+  "automatic_retry": false,
+  "budget_receipt_sha256": "99d017cc32fc07bf055ca18efbd2b943a62e385750c78820dd0437d77f393bfa",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "exact_child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.runtime_v3_4_scope_runner",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/runtime_v3_4_diagnosis_first_v1/nonformal_runtime_v3_4_f4_corridor_A_seed20260829_run1.authorization.json"
+  ],
+  "family": "F4",
+  "formal_data": false,
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/runtime_v3_4_diagnosis_first_v1/nonformal_runtime_v3_4_f4_corridor_A_seed20260829_run1.guard.json",
+  "implementation_strategy": "diagnosis_first_multi_gpu_convergence",
+  "implementation_version": "controlled_multi_future_runtime_v3_4",
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_f4_corridor_A_seed20260829_run1",
+  "parent_user_authorization_sha256": "212e87c65440301b01dc78010eee8103767c068a26e2a378ce3feb6769e812eb",
+  "planned_root_slot_spec": {
+    "arm": "right",
+    "arm_changed": false,
+    "automatic_retry": false,
+    "budget_sha256": "5089ff26da91d0ebfae41d44ce3f1648253fea5cd2e3cfe8bd2cf6c2cde70c1d",
+    "corridor_contract_version": "f4_revision4_evidence_fixed_order_corridors_v10",
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_joint_scene_v3_4_adapter_v1_4",
+    "maximum_scope_invocations": 1,
+    "origin": "runtime_v3_4_diagnosis_first_nonformal",
+    "prerequisite_receipts": {},
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_right_arm_workspace_base0_v4_final",
+      "object_poses": {
+        "A": [
+          0.16,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.28,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.4,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          0.15,
+          0.16,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.3,
+          0.16,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.41,
+          0.16,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "schema_version": "cmf_runtime_v3_4_planned_scope_spec_v1",
+    "scope": "F4_corridor_A_v10",
+    "seed": 20260829,
+    "slot_id": "pilot-F4-A-prestage0-corridor",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stop_condition": "terminal receipt or first cleanup/source/GPU safety uncertainty",
+    "tray_pose_changed": false
+  },
+  "planned_root_slot_spec_sha256": "a1c2a5e5d178439c081a1183fc25e011c336b4203a3723fc20bd397c2864bd40",
+  "recovery_attempts": 0,
+  "reviewed_content_commit": "df9a7993d73c3e4f81f023c179221fd8df9cb212",
+  "reviewed_publication": {
+    "active_snapshot_source_sha256": "1cadd3e28af56f56c32e8fe363fbeb3c2f3397ff196a63c6bd115285aa85b316",
+    "origin_main": "df9a7993d73c3e4f81f023c179221fd8df9cb212",
+    "reviewed_content_commit": "df9a7993d73c3e4f81f023c179221fd8df9cb212",
+    "vault_worktree_clean": true
+  },
+  "scene_seed": 20260829,
+  "schema_version": "cmf_runtime_v3_4_scope_request_v1",
+  "scope": "F4_corridor_A_v10",
+  "scope_budget": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "automatic_retry": false,
+    "execution_limit": 1,
+    "family": "F4",
+    "planner_query_limit": 64,
+    "recovery_attempts": 0,
+    "scope": "F4_corridor_A_v10",
+    "scope_budget_sha256": "5089ff26da91d0ebfae41d44ce3f1648253fea5cd2e3cfe8bd2cf6c2cde70c1d",
+    "timeout_seconds": 10800
+  },
+  "scope_request_sha256": "cd41e8993aae8434cbe26b4b94e7f2804f3bb792a29298a6276c1eb21f1d7f65",
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/runtime_v3_4_diagnosis_first_v1/nonformal_runtime_v3_4_f4_corridor_A_seed20260829_run1.source_lock.json",
+  "stage0_authorized": false,
+  "stage0_data": false
+}
