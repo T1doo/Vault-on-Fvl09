@@ -4,7 +4,7 @@
 
 Stage 0已正式封存：12个active slots均有可信terminal evidence，无active infrastructure/schema/current/cleanup/source blocker。历史F2 v1.1 infrastructure attempts保留但由三个v1.2 replacement active receipts替代。
 
-下一阶段当前CPU freeze为`V1.1`：source=`ed8c2c46…9997e`。旧source下F1/F3/F4 run1 bundles均未消费且已封为禁止执行，新source使用run2 identity；F2此前未生成bundle，保留run1 identity。
+下一阶段当前CPU freeze为`V1.2`：source=`f926be20…9db8a`。旧source下F1/F3/F4 run1/run2 bundles均未消费且已封为禁止执行，新source使用run3 identity；F2此前从未生成bundle，保留run1 identity。F2完整canonical authorization构造测试已通过。
 
 ```yaml
 F1:

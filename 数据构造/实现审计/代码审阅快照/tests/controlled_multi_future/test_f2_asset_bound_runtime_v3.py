@@ -10,6 +10,7 @@ from controlled_multi_future.f2_asset_bound_runtime_v3 import (
 )
 from controlled_multi_future.f2_dynamic_development_scope_v3 import (
     NAMESPACE,
+    OUTPUT,
     SCOPE,
     f2_dynamic_development_budget_v3,
     validate_f2_dynamic_development_authorization_v3,
@@ -131,7 +132,7 @@ class F2AssetBoundRuntimeV3Test(unittest.TestCase):
         value = {
             "schema_version": "cmf_f2_dynamic_development_authorization_v3",
             "scope": SCOPE,
-            "output_namespace": NAMESPACE,
+            "output_namespace": str(OUTPUT.resolve()),
             "matrix_sha256": self.matrix["matrix_sha256"],
             "screening_sha256": self.screening["screening_sha256"],
             "budget": budget,

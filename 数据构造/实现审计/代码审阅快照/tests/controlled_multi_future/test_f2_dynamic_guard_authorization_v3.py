@@ -1,6 +1,8 @@
 import inspect
 import json
 import os
+from datetime import datetime, timedelta, timezone
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -11,7 +13,23 @@ from controlled_multi_future.f2_dynamic_development_scope_v3 import (
     IMPLEMENTATION_VERSION,
     SCOPE,
     f2_dynamic_development_budget_v3,
+    parent_authorization_v3,
 )
+import controlled_multi_future.f2_dynamic_development_scope_v3 as scope_module
+from controlled_multi_future.current_hasher import hash_json
+from controlled_multi_future.f2_dynamic_search_contract_v3 import (
+    build_cpu_static_screening_v3,
+)
+from controlled_multi_future.f2_official_asset_compatibility_matrix_v3 import (
+    build_static_compatibility_matrix_v3,
+)
+from controlled_multi_future.gpu_parallel_policy_v2 import (
+    current_gpu_policy_artifact,
+)
+from controlled_multi_future.runtime_source_lock_v1 import (
+    capture_runtime_source_lock,
+)
+from controlled_multi_future.probes.gpu_guard_v2_1 import command_sha256
 from controlled_multi_future.probes import (
     f2_dynamic_development_authorization_v3 as authorization_module,
 )
@@ -61,6 +79,209 @@ class F2DynamicGuardAuthorizationV3Test(unittest.TestCase):
             "guard_receipt_path",
         ):
             self.assertIn(token, source)
+
+    def test_full_canonical_validate_passes_single_hash_and_rejects_basename_output(self):
+        matrix = build_static_compatibility_matrix_v3()
+        screening = build_cpu_static_screening_v3(matrix)
+        budget = f2_dynamic_development_budget_v3()
+        parent = parent_authorization_v3()
+        issued = datetime(2026, 8, 31, 13, 0, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory(
+            dir="/nfs_share/lijunhui/Robotwin2/tmp"
+        ) as directory:
+            root = Path(directory)
+            paths = {
+                "budget": root / "budget.json",
+                "parent": root / "parent.json",
+                "matrix": root / "matrix.json",
+                "screening": root / "screening.json",
+                "scope": root / "scope.json",
+                "source": root / "source.json",
+                "request": root / "request.json",
+                "auth": root / "auth.json",
+                "output": root / "output",
+                "guard": root / "guard.json",
+            }
+
+            def write(path, value):
+                path.write_text(
+                    json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True)
+                    + "\n",
+                    encoding="utf-8",
+                )
+
+            def fsha(path):
+                return hashlib.sha256(path.read_bytes()).hexdigest()
+
+            write(paths["budget"], budget)
+            write(paths["parent"], parent)
+            write(paths["matrix"], matrix)
+            write(paths["screening"], screening)
+            planned = {
+                "schema_version": "cmf_f2_dynamic_development_planned_scope_spec_v3_test",
+                "scope": SCOPE,
+                "matrix_sha256": matrix["matrix_sha256"],
+                "screening_sha256": screening["screening_sha256"],
+                "dynamic_scope": screening["dynamic_scope"],
+                "formal_data": False,
+                "stage0_data": False,
+                "stage1_authorized": False,
+            }
+            planned["planned_scope_spec_sha256"] = hash_json(planned)
+            publication = {
+                "schema_version": "cmf_f2_dynamic_development_scope_publication_v3_test",
+                "scope": SCOPE,
+                "matrix_sha256": matrix["matrix_sha256"],
+                "screening_sha256": screening["screening_sha256"],
+                "budget_receipt_sha256": budget["budget_receipt_sha256"],
+                "planned_scope_spec": planned,
+            }
+            publication["scope_publication_sha256"] = hash_json(publication)
+            write(paths["scope"], publication)
+            source = capture_runtime_source_lock(family="F2")
+            write(paths["source"], source)
+            child = [
+                "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+                "-m",
+                "controlled_multi_future.probes.f2_dynamic_development_scope_runner_v3",
+                "--authorization-receipt",
+                str(paths["auth"]),
+            ]
+            request = {
+                "schema_version": "cmf_f2_dynamic_development_scope_request_v3_test",
+                "scope": SCOPE,
+                "matrix_sha256": matrix["matrix_sha256"],
+                "screening_sha256": screening["screening_sha256"],
+                "authorized_command": child,
+                "authorized_command_sha256": command_sha256(child),
+                "output_namespace": str(paths["output"]),
+            }
+            request["scope_request_sha256"] = hash_json(request)
+            write(paths["request"], request)
+            policy = current_gpu_policy_artifact()
+            authorization = {
+                "schema_version": authorization_module.AUTH_SCHEMA,
+                "implementation_version": IMPLEMENTATION_VERSION,
+                "scope": SCOPE,
+                "approved": True,
+                "approved_scopes": [SCOPE],
+                "authorization_id": AUTH_ID,
+                "authorized_run_id": AUTH_ID + "-run",
+                "issued_at": issued.isoformat(),
+                "expires_at": (issued + timedelta(seconds=3600)).isoformat(),
+                "family": "F2",
+                "scene_seed": 20260829,
+                "max_invocations": 1,
+                "single_use": True,
+                "automatic_retry": False,
+                "recovery_attempts": 0,
+                "formal_data": False,
+                "stage0_data": False,
+                "stage0_authorized": False,
+                "stage1_authorized": False,
+                "matrix_sha256": matrix["matrix_sha256"],
+                "screening_sha256": screening["screening_sha256"],
+                "budget": budget,
+                "budget_sha256": hash_json(budget),
+                "budget_publication_path": str(paths["budget"]),
+                "budget_publication_file_sha256": fsha(paths["budget"]),
+                "parent_user_authorization_path": str(paths["parent"]),
+                "parent_user_authorization_file_sha256": fsha(paths["parent"]),
+                "parent_user_authorization_sha256": parent[
+                    "parent_user_authorization_sha256"
+                ],
+                "matrix_publication_path": str(paths["matrix"]),
+                "matrix_publication_file_sha256": fsha(paths["matrix"]),
+                "screening_publication_path": str(paths["screening"]),
+                "screening_publication_file_sha256": fsha(paths["screening"]),
+                "scope_publication_path": str(paths["scope"]),
+                "scope_publication_file_sha256": fsha(paths["scope"]),
+                "scope_publication_sha256": publication[
+                    "scope_publication_sha256"
+                ],
+                "planned_scope_spec": planned,
+                "planned_scope_spec_sha256": planned[
+                    "planned_scope_spec_sha256"
+                ],
+                "source_lock_receipt_path": str(paths["source"]),
+                "source_lock_receipt_sha256": source[
+                    "source_lock_receipt_sha256"
+                ],
+                "implementation_source_sha256": source["snapshot"][
+                    "implementation_source_sha256"
+                ],
+                "approval_request_path": str(paths["request"]),
+                "approval_request_file_sha256": fsha(paths["request"]),
+                "approval_request_sha256": request["scope_request_sha256"],
+                "authorized_command": child,
+                "authorized_command_sha256": command_sha256(child),
+                "output_namespace": str(paths["output"]),
+                "guard_receipt_path": str(paths["guard"]),
+                "consumption_ledger_directory": authorization_module.CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
+                "gpu_lease_directory": authorization_module.CANONICAL_GPU_LEASE_DIRECTORY,
+                "job_cache_root_directory": authorization_module.CANONICAL_JOB_CACHE_DIRECTORY,
+                "reviewed_content_commit": "a" * 40,
+                "timeout_seconds": budget["maximum_wall_time_seconds"],
+                **{
+                    key: policy[key]
+                    for key in (
+                        "gpu_policy_version",
+                        "allowed_physical_gpu_indices",
+                        "dynamic_fresh_idle_selection",
+                        "parallel_different_cards_authorized",
+                        "one_project_job_per_gpu",
+                        "one_root_one_gpu",
+                        "root_sharding_authorized",
+                        "share_busy_gpu_authorized",
+                        "atomic_guard_recheck_before_launch",
+                        "automatic_gpu0_fallback",
+                    )
+                },
+            }
+            authorization["receipt_sha256"] = authorization_module.receipt_sha(
+                authorization
+            )
+            self.assertNotIn("authorization_sha256", authorization)
+            patches = (
+                patch.object(authorization_module, "BUDGET", paths["budget"]),
+                patch.object(authorization_module, "PARENT", paths["parent"]),
+                patch.object(authorization_module, "MATRIX", paths["matrix"]),
+                patch.object(
+                    authorization_module, "SCREENING", paths["screening"]
+                ),
+                patch.object(authorization_module, "PUBLICATION", paths["scope"]),
+                patch.object(authorization_module, "SOURCE", paths["source"]),
+                patch.object(authorization_module, "REQUEST", paths["request"]),
+                patch.object(authorization_module, "OUTPUT", paths["output"]),
+                patch.object(authorization_module, "GUARD", paths["guard"]),
+                patch.object(scope_module, "OUTPUT", paths["output"]),
+            )
+            with patches[0], patches[1], patches[2], patches[3], patches[4], patches[5], patches[6], patches[7], patches[8], patches[9]:
+                checked = authorization_module.validate(
+                    authorization,
+                    requested_scope=SCOPE,
+                    now=issued + timedelta(seconds=1),
+                    expected_family="F2",
+                    expected_seed=20260829,
+                    expected_output_namespace=str(paths["output"]),
+                    expected_reviewed_content_commit="a" * 40,
+                )
+                self.assertEqual(
+                    checked["receipt_sha256"], authorization["receipt_sha256"]
+                )
+                tampered = json.loads(json.dumps(authorization))
+                tampered["output_namespace"] = scope_module.NAMESPACE
+                tampered["receipt_sha256"] = authorization_module.receipt_sha(
+                    tampered
+                )
+                with self.assertRaises(Exception):
+                    authorization_module.validate(
+                        tampered,
+                        requested_scope=SCOPE,
+                        now=issued + timedelta(seconds=1),
+                        expected_family="F2",
+                        expected_seed=20260829,
+                    )
 
     def test_consumption_is_hash_bound_and_o_excl_single_use(self):
         authorization = {

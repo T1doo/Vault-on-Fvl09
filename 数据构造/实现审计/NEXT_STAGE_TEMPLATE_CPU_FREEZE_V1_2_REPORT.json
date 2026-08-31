@@ -1,0 +1,52 @@
+{
+  "schema_version": "cmf_next_stage_template_cpu_freeze_v1_2_report",
+  "status": "CPU_SOURCE_FREEZE_V1_2_READY_FOR_PUBLISHED_BASELINE",
+  "supersedes_report": "NEXT_STAGE_TEMPLATE_CPU_FREEZE_V1_1_REPORT.json",
+  "reason": "make F2 execution-layer output namespace identical to the canonical absolute output path and add a complete canonical authorization construction test",
+  "active_full_suite": {
+    "passed": 636,
+    "failed": 0,
+    "elapsed_seconds": 94.551
+  },
+  "snapshot_full_suite": {
+    "passed": 636,
+    "failed": 0,
+    "elapsed_seconds": 97.139
+  },
+  "active_snapshot_byte_equal": true,
+  "implementation_source_sha256": "f926be2048dff9a521f3cab9e6f7e1dfdf09b69e54baf2fd162322061299db8a",
+  "tests_tree_sha256": "da9183010c24516b57f607cc58a41b0ebe2b032f35e8bd66c9a3cde61b2c535b",
+  "f2_canonical_authorization_test": {
+    "complete_publications_written_in_workspace_temp": true,
+    "real_source_lock_captured": true,
+    "single_receipt_sha256": true,
+    "absolute_output_namespace": true,
+    "canonical_validator_pass": true,
+    "basename_tamper_rejected": true
+  },
+  "replacement_namespaces": {
+    "F1": "post_stage0_f1_batch_pilot_v1_run3",
+    "F2": "post_stage0_f2_asset_redesign_dynamic_v3_run1",
+    "F3": "closure_v1_f3_common_grasp_prefix_v2_1_seed20260829_run3",
+    "F4": "f4_selected_layout_v2_c01_planner_only_seed20260829_run3"
+  },
+  "superseded_prelaunch_bundle_receipts": [
+    "SUPERSEDED_PRELAUNCH_BUNDLES_V1.json",
+    "SUPERSEDED_PRELAUNCH_BUNDLES_V2.json"
+  ],
+  "all_superseded_authorizations_consumed": false,
+  "all_superseded_outputs_created": false,
+  "all_superseded_gpu_jobs_started": false,
+  "new_authorizations_signed": false,
+  "new_gpu_jobs_started": false,
+  "formal_trajectory_increment": 0,
+  "stage0_reopened": false,
+  "canonical_stage1_authorized": false,
+  "formal_data_authorized": false,
+  "training_authorized": false,
+  "h_reveal_authorized": false,
+  "compression_authorized": false,
+  "pi05_authorized": false,
+  "next_safe_step": "commit and push V1.2 freeze, then sign run3/run1 source-bound bundles",
+  "report_sha256": "83a8924dfba2c8831167b8f2129ad7a249674094b8ed7608576f90f39b6caffe"
+}

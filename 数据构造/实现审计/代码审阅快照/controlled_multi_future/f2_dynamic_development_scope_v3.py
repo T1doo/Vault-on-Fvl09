@@ -101,7 +101,8 @@ def validate_f2_dynamic_development_authorization_v3(
     checks = {
         "schema": result.get("schema_version") == AUTHORIZATION_SCHEMA,
         "scope": result.get("scope") == SCOPE,
-        "namespace": result.get("output_namespace") == NAMESPACE,
+        "namespace": isinstance(result.get("output_namespace"), str)
+        and Path(result["output_namespace"]).resolve() == OUTPUT.resolve(),
         "matrix": result.get("matrix_sha256") == matrix_sha256,
         "screening": result.get("screening_sha256") == screening_sha256,
         "budget": result.get("budget") == budget
