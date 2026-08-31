@@ -64,6 +64,16 @@ from .stage0_f2_replacement_authorization_v1_2 import (
     load_stage0_f2_replacement_authorization_v1_2,
     validate_stage0_f2_replacement_consumption_v1_2,
 )
+from .post_stage0_f3_authorization_v1 import (
+    consume_post_stage0_f3_authorization_once_v1,
+    load_post_stage0_f3_authorization_v1,
+    validate_post_stage0_f3_consumption_v1,
+)
+from .post_stage0_f4_authorization_v1 import (
+    consume_post_stage0_f4_authorization_once_v1,
+    load_post_stage0_f4_authorization_v1,
+    validate_post_stage0_f4_consumption_v1,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -103,6 +113,14 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_post_stage0_f4_v1":
+        return load_post_stage0_f4_authorization_v1(
+            path, requested_scope=requested_scope, **kwargs
+        )
+    if implementation == "controlled_multi_future_post_stage0_f3_v1":
+        return load_post_stage0_f3_authorization_v1(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_stage0_smoke_v1_2":
         return load_stage0_f2_replacement_authorization_v1_2(
             path, requested_scope=requested_scope, **kwargs
@@ -129,6 +147,14 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
+        return consume_post_stage0_f4_authorization_once_v1(
+            authorization, ledger_directory=ledger_directory
+        )
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f3_v1":
+        return consume_post_stage0_f3_authorization_once_v1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1_2":
         return consume_stage0_f2_replacement_authorization_once_v1_2(
             authorization, ledger_directory=ledger_directory
@@ -155,6 +181,12 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
+        return validate_post_stage0_f4_consumption_v1(consumption, authorization)
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f3_v1":
+        return validate_post_stage0_f3_consumption_v1(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1_2":
         return validate_stage0_f2_replacement_consumption_v1_2(
             consumption, authorization
@@ -628,6 +660,12 @@ def main() -> int:
         "controlled_multi_future_stage0_smoke_v1_1",
         "controlled_multi_future_stage0_smoke_v1_2",
     )
+    post_stage0_f3_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_f3_v1"
+    post_stage0_f4_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_f4_v1"
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
@@ -635,6 +673,10 @@ def main() -> int:
             if stage0_mode and raw_authorization.get("stage0_data") is True
             else "pre_stage0_infrastructure_validation"
             if stage0_mode
+            else "post_stage0_nonformal_f3_diagnostic"
+            if post_stage0_f3_mode
+            else "post_stage0_nonformal_f4_planner_only"
+            if post_stage0_f4_mode
             else "pre_stage0_nonformal_validation"
         ),
         "formal_data": False,

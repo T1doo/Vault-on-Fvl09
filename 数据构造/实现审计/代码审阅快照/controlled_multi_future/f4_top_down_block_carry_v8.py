@@ -64,6 +64,10 @@ FROZEN_LAYOUT_VERSION = "f4_right_arm_workspace_base0_v4_final"
 FROZEN_LAYOUT_SHA256 = (
     "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
 )
+POST_STAGE0_LAYOUT_VERSION = "f4_post_stage0_slot_row_v1"
+POST_STAGE0_LAYOUT_SHA256 = (
+    "09d2ef2d8051cdfab31463fd04c0c944cd7db0f65a0fbdfc2825f0fb0003e557"
+)
 
 R7_MICRO_ACCEPTED_EVIDENCE = {
     "namespace": (
@@ -439,8 +443,13 @@ def build_f4_top_down_block_carry_v8(
 
     if arm != SUPPORTED_ARM:
         raise ValueError("F4 r8 top-down carry requires the right arm")
-    if layout_version != FROZEN_LAYOUT_VERSION:
+    layout_hashes = {
+        FROZEN_LAYOUT_VERSION: FROZEN_LAYOUT_SHA256,
+        POST_STAGE0_LAYOUT_VERSION: POST_STAGE0_LAYOUT_SHA256,
+    }
+    if layout_version not in layout_hashes:
         raise ValueError("F4 r8 layout version changed")
+    post_stage0_layout = layout_version == POST_STAGE0_LAYOUT_VERSION
     if not isinstance(object_poses, Mapping) or set(object_poses) != set(
         F4_BLOCK_ROLES
     ):
@@ -530,7 +539,11 @@ def build_f4_top_down_block_carry_v8(
         "schema_version": SCHEMA_VERSION,
         "route_version": ROUTE_VERSION,
         "design_version": DESIGN_VERSION,
-        "implementation_version": IMPLEMENTATION_VERSION,
+        "implementation_version": (
+            "controlled_multi_future_post_stage0_f4_v1"
+            if post_stage0_layout
+            else IMPLEMENTATION_VERSION
+        ),
         "json_canonicalization_version": JSON_CANONICALIZATION_VERSION,
         "formal_data": False,
         "stage0_data": False,
@@ -543,8 +556,8 @@ def build_f4_top_down_block_carry_v8(
         "object_poses": objects,
         "slot_poses": slots,
         "neutral_pose": neutral,
-        "frozen_layout_version": FROZEN_LAYOUT_VERSION,
-        "frozen_layout_sha256": FROZEN_LAYOUT_SHA256,
+        "frozen_layout_version": layout_version,
+        "frozen_layout_sha256": layout_hashes[layout_version],
         "source_evidence": dict(R7_MICRO_ACCEPTED_EVIDENCE),
         "evidence_scope_boundary": (
             "r7 proves A top-down micro-lift only; B/C and carry/place require "
@@ -562,7 +575,7 @@ def build_f4_top_down_block_carry_v8(
         "candidate_search": False,
         "fallback": False,
         "online_adaptation": False,
-        "scene_layout_changed": False,
+        "scene_layout_changed": post_stage0_layout,
         "target_object_slot_mapping_changed": False,
         "executing_arm_changed": False,
         "common_prefix_changed": False,
@@ -604,7 +617,8 @@ def validate_f4_top_down_block_carry_v8(
         value.get("candidate_search") is False,
         value.get("fallback") is False,
         value.get("online_adaptation") is False,
-        value.get("scene_layout_changed") is False,
+        value.get("scene_layout_changed")
+        is (value.get("frozen_layout_version") == POST_STAGE0_LAYOUT_VERSION),
         value.get("target_object_slot_mapping_changed") is False,
         value.get("executing_arm_changed") is False,
         value.get("common_prefix_changed") is False,

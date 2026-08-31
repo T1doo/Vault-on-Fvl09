@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/post_stage0_f4_scope_runner_v1.py", line 38, in <module>
+    if __name__=="__main__": raise SystemExit(main())
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/post_stage0_f4_scope_runner_v1.py", line 37, in main
+    agg["pass"]=agg["status"]=="accepted"; _write(out/"receipt.json",agg); return 0 if agg["pass"] else 1
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/post_stage0_f4_scope_runner_v1.py", line 10, in _write
+    def _write(p,v): p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(v,ensure_ascii=False,indent=2,sort_keys=True)+"\n")
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/pathlib.py", line 1155, in write_text
+    return f.write(data)
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 5333-5336: ordinal not in range(128)

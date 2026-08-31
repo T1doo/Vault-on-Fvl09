@@ -1,0 +1,124 @@
+{
+  "schema_version": "cmf_f3_shared_prefix_no_suffix_diagnostic_result_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_post_stage0_f3_v1",
+  "scope": "F3_shared_prefix_no_suffix_diagnostic_v1",
+  "status": "FAILED_PHYSICAL_WITH_EVIDENCE",
+  "pass": false,
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "diagnostic_nonroot": true,
+  "accepted_root_increment": 0,
+  "one_shot_consumed": true,
+  "automatic_retry": false,
+  "recovery_attempts": 0,
+  "planned_fresh_scene_count": 3,
+  "attempted_fresh_scene_count": 1,
+  "passed_fresh_scene_count": 0,
+  "stop_reason": "The reference fresh scene failed the unchanged pre-shared-V physical Gate; fail-fast prevented scenes 2/3 and all suffix work.",
+  "budget_counts": {
+    "planner_query_count": 7,
+    "execution_attempt_count": 1,
+    "recovery_attempt_count": 0,
+    "suffix_planner_query_count": 0,
+    "suffix_execution_count": 0,
+    "release_execution_count": 0
+  },
+  "repair_hypothesis_test": {
+    "repair_id": "f3_contact_preserving_partial_close_v11",
+    "normalized_close_target": 0.35,
+    "hypothesis_supported": false,
+    "important_mapping_correction": {
+      "impact_review_expected_static_drive_target_m": 0.01575,
+      "realized_final_drive_target_m": 0.00925000011920929,
+      "interpretation": "The trace-derived static target estimate was wrong for the live RoboTwin gripper mapping; the immutable impact review remains a recorded hypothesis, not a validated calibration."
+    },
+    "selected_gripper_contact": {
+      "first_true_step": 876,
+      "last_true_step": 1089,
+      "first_loss_step": 1090,
+      "contact_recovered_after_loss": false,
+      "last_true_drive_target_m": 0.012288658879697323,
+      "first_loss_drive_target_m": 0.0121099092066288,
+      "last_true_normalized_command": 0.40226130653266334,
+      "first_loss_normalized_command": 0.39899497487437185
+    }
+  },
+  "physical_gate": {
+    "error_type": "F3PreVBoundaryGateFailure",
+    "failed_predicates": [
+      "eef_linear_stationary",
+      "grasp_translation_stable",
+      "grasp_orientation_stable",
+      "selected_gripper_contact_continuous"
+    ],
+    "failed_supplemental_checks": [
+      "bottle_has_no_pad_or_table_contact"
+    ],
+    "post_close_settle_end_step": 1455,
+    "first_translation_limit_exceed_step": 1459,
+    "first_translation_limit_exceed_m": 0.005740787538115241,
+    "first_orientation_limit_exceed_step": 1468,
+    "first_orientation_limit_exceed_rad": 0.05212766935536697,
+    "pre_shared_v_translation_drift_m": 0.2145464858556151,
+    "pre_shared_v_orientation_drift_rad": 0.42726436256931727,
+    "final_hold": {
+      "step_start": 2584,
+      "step_end": 2633,
+      "bottle_support_contact_present_all_50_frames": true,
+      "eef_linear_unstable_steps": [
+        2605,
+        2606
+      ],
+      "maximum_eef_linear_speed_mps": 0.01891019472088303,
+      "maximum_eef_angular_speed_rps": 0.047940659092499414
+    }
+  },
+  "evidence": {
+    "failure_receipt": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f3_v1/post_stage0_f3_shared_prefix_no_suffix_seed20260829_run1/F3_shared_prefix_no_suffix/context_VVHH/failure_receipt.json",
+      "sha256": "7b3c730859d7c29fadb5844ceea067046ee121c47d43768e82de6cabf9f35fe6"
+    },
+    "partial_trace": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f3_v1/post_stage0_f3_shared_prefix_no_suffix_seed20260829_run1/F3_shared_prefix_no_suffix/context_VVHH/partial_trace.npz",
+      "sha256": "9f5ebdedb1c92c80726cf2962701ee2f916f9e13865ca93329f1ebf56bd4801b",
+      "sample_count": 2634,
+      "sample_rate_hz": 250
+    },
+    "inner_receipt": {
+      "sha256": "c76873f7e65547dfd53f8e185a7dca7627f886db7a09ca06284ca59834f8de23"
+    },
+    "outer_receipt": {
+      "sha256": "15fa7672b05c041a700bb73bb626cab880309dd4e445e0010b2e05c36b533162"
+    },
+    "guard_receipt": {
+      "sha256": "cf101671ed3efd76de8f14306cb7ca127790e9ab3dc53beb097fc064b746b4a6",
+      "payload_sha256": "c5c97a04093618179bc5e92c58b985599b3d1a793dc3d8cb03d2f6712ba730f9"
+    }
+  },
+  "gpu_audit": {
+    "physical_gpu_index": 4,
+    "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+    "admission_precheck": "12 MiB / 0% / P8 / no compute process",
+    "launch_precheck": "12 MiB / 0% / P8 / no compute process",
+    "guard_postcheck": "12 MiB / 0% / P0 cooldown / no compute process",
+    "guard_post_release_verified": true,
+    "independent_live_postcheck": "12 MiB / 0% / P8 / no compute process",
+    "child_pid": 434792,
+    "task_owned_orphan_process_count": 0,
+    "source_lock_postcheck_pass": true,
+    "job_cache_cleanup_pass": true,
+    "gpu_lease_release_pass": true,
+    "timed_out": false
+  },
+  "decision": {
+    "second_f3_diagnostic_allowed": false,
+    "post_stage0_f3_development_root_allowed": false,
+    "f3_development_template_ready": false,
+    "next_work": "Proceed to the authorized F4 post-Stage-0 layout impact review and CPU geometry/IK/planner-only audit.",
+    "stage1_ready": false
+  },
+  "result_payload_sha256": "96ad815a900dd7248a388c61a8a3ade32286aabe24b35638a4b46844c2a30aa5"
+}

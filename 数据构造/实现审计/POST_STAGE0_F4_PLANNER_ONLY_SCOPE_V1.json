@@ -1,0 +1,171 @@
+{
+  "budget": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "automatic_retry": false,
+    "budget_receipt_sha256": "4833a6bd3185d8a9495cb7e9b48d39fcfe76d32ae9f00fa6e4b91ded4c2cb0e5",
+    "canonical_prefix_reference_execution_limit": 1,
+    "family": "F4",
+    "formal_data": false,
+    "fresh_scene_limit": 4,
+    "implementation_version": "controlled_multi_future_post_stage0_f4_v1",
+    "maximum_scope_invocations": 1,
+    "one_root_one_gpu": true,
+    "physics_step_limit": -1,
+    "planner_query_limit": 96,
+    "recovery_attempts": 0,
+    "release_execution_limit": 0,
+    "root_sharding_authorized": false,
+    "schema_version": "cmf_post_stage0_f4_scope_budget_v1",
+    "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "suffix_execution_limit": 0,
+    "timeout_seconds": 14400
+  },
+  "impact_review_payload_sha256": "ca9c3c1419a4513c849311eed904246c4784da3b36f306bcee8e9021f133e043",
+  "implementation_version": "controlled_multi_future_post_stage0_f4_v1",
+  "planned_scope_spec": {
+    "arm": "right",
+    "automatic_retry": false,
+    "budget_receipt_sha256": "4833a6bd3185d8a9495cb7e9b48d39fcfe76d32ae9f00fa6e4b91ded4c2cb0e5",
+    "canonical_program_ids": [
+      "F4-ABC",
+      "F4-ACB",
+      "F4-BAC"
+    ],
+    "diagnostic_contract": {
+      "accepted_root_increment": 0,
+      "canonical_prefix_reference_execution_count": 1,
+      "complete_program_planner_chains_required": true,
+      "diagnostic_nonroot": true,
+      "exact_prefix_replay_required": true,
+      "fresh_program_scene_count": 3,
+      "release_execution_count": 0,
+      "suffix_execution_count": 0
+    },
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_post_stage0_f4_adapter_v1",
+    "origin": "post_stage0_layout_impact_review",
+    "planned_scope_spec_sha256": "891195bf43c13183eaa4c1ad2c66fb6b3c8f5af91fe44b5aad365f2aaf35ebab",
+    "post_stage0_selected_f4_corridor_id": "lower_carry_height",
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_post_stage0_slot_row_v1",
+      "object_poses": {
+        "A": [
+          0.16,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.28,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.4,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          0.1,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.205,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.355,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "scene_layout_sha256": "09d2ef2d8051cdfab31463fd04c0c944cd7db0f65a0fbdfc2825f0fb0003e557",
+    "schema_version": "cmf_post_stage0_f4_planned_scope_spec_v1",
+    "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+    "seed": 20260829,
+    "slot_id": "post-stage0-F4-layout-planner-audit-A-v1",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stage0_reopened": false,
+    "stage1_authorized": false,
+    "stop_condition": "terminal receipt or first cleanup/source/GPU uncertainty"
+  },
+  "schema_version": "cmf_post_stage0_f4_scope_publication_v1",
+  "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+  "scope_publication_sha256": "e2a91d6ab8212074ff3ab9a9473d77d0214e39e4c95356c97d2cd2f703bfbe96",
+  "stage0_result_sha256": "394093a2571269eaa659cc90df654c449ffd1fb3a9ab041bbcfc321231c21df7",
+  "stage0_seal_unchanged": true
+}

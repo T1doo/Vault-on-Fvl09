@@ -1,0 +1,142 @@
+{
+  "schema_version": "cmf_f3_shared_prefix_physical_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "review_scope": "post_stage0_f3_shared_prefix_physical_impact_only",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "source_evidence": {
+    "stage0_failure_receipt": {
+      "relative_path": "stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F3_root_A_seed20260829_run1/stage0_family/root/canonical_prefix_failure_receipt.json",
+      "sha256": "ef3be96f936f75be52e09650dce17c6a20e5a8c26ad6a71c3d4dd0a433e2ee91"
+    },
+    "stage0_partial_trace": {
+      "relative_path": "stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F3_root_A_seed20260829_run1/stage0_family/root/canonical_prefix_reference_partial_trace.npz",
+      "sha256": "515e6b96f06127e44d6c0945648d9f27164d3569b2af7382a626dc6e3bebc11b",
+      "sample_count": 2800,
+      "sample_rate_hz": 250
+    },
+    "stage0_family_runner_sha256": "e47eff3f1a0925ceb8a3ef86e8bf9046d4ead044540638f5b31d0e392d7f4627",
+    "f3_grasp_contract_v10_source_sha256": "843c10145f5846a3d60e3f17bd1c5a8369a726af62390d5c18c01d0569cf0ed9"
+  },
+  "forensic_findings": {
+    "selected_gripper_contact": {
+      "first_true_step": 897,
+      "last_true_step": 1031,
+      "first_loss_step": 1032,
+      "post_loss_contact_recovered": false,
+      "post_close_settle_end_step": 1462,
+      "contact_already_absent_at_post_close_settle_end": true,
+      "last_true_left_drive_target_m": [
+        0.012549903243780136,
+        0.012549903243780136
+      ],
+      "first_loss_left_drive_target_m": [
+        0.012274903245270252,
+        0.012274903245270252
+      ],
+      "interpretation": "The common grasp is lost during the fully-closing command, before lift, carry, shared V, or any suffix."
+    },
+    "grasp_transform": {
+      "baseline_step": 1462,
+      "translation_limit_m": 0.005,
+      "orientation_limit_rad": 0.05,
+      "first_translation_limit_exceed_step": 1466,
+      "first_translation_limit_exceed_value_m": 0.005179207972876327,
+      "first_orientation_limit_exceed_step": 1478,
+      "first_orientation_limit_exceed_value_rad": 0.05122847288506089,
+      "pre_shared_v_translation_drift_m": 0.2216827728858143,
+      "pre_shared_v_orientation_drift_rad": 0.10821850741289317
+    },
+    "final_hold": {
+      "hold_step_start": 2750,
+      "hold_step_end": 2799,
+      "bottle_support_contact_first_hold_step": 2750,
+      "bottle_support_contact_last_hold_step": 2799,
+      "bottle_support_contact_present_all_50_hold_frames": true,
+      "eef_linear_speed_limit_mps": 0.01,
+      "eef_linear_unstable_steps": [
+        2766,
+        2767
+      ],
+      "eef_angular_speed_limit_rps": 0.05,
+      "eef_angular_unstable_first_step": 2750,
+      "eef_angular_unstable_last_step": 2795,
+      "maximum_eef_linear_speed_mps": 0.011322156604018032,
+      "maximum_eef_angular_speed_rps": 0.10276844308906559
+    }
+  },
+  "causal_scope_conclusion": {
+    "classification": "shared_prefix_close_control_failure_before_lift",
+    "supported": [
+      "The observed Stage 0 F3 failure is upstream of V/H and suffix execution.",
+      "A program-specific suffix repair cannot address this trace.",
+      "The existing physical Gate correctly rejected the prefix and remains unchanged."
+    ],
+    "not_supported": [
+      "F3 shared-prefix feasibility",
+      "F3 full-root feasibility",
+      "temporal identifiability",
+      "Stage 1 readiness"
+    ]
+  },
+  "single_shared_repair_freeze": {
+    "repair_id": "f3_contact_preserving_partial_close_v11",
+    "applies_identically_to_programs": [
+      "F3-VVHH",
+      "F3-VHVH",
+      "F3-VHHV"
+    ],
+    "change": {
+      "close_normalized_target_before": 0.0,
+      "close_normalized_target_after": 0.35,
+      "expected_static_drive_target_m": 0.01575,
+      "trace_margin_above_last_contact_drive_target_m": 0.003200096756219864
+    },
+    "rationale": "The new target stops the common close before the observed loss boundary and keeps a trace-derived margin; this is a diagnostic hypothesis, not evidence of success.",
+    "unchanged": [
+      "001_bottle/base13",
+      "left arm",
+      "official contact point 0 and rotation candidate 0",
+      "post-close settle 250 frames",
+      "lift and clearance route",
+      "table-frame V/H axes and amplitudes",
+      "VVHH/VHVH/VHHV candidate programs",
+      "shared first V",
+      "all physical and verifier thresholds",
+      "release and return semantics"
+    ],
+    "program_specific_fallback_forbidden": true,
+    "online_success_selection_forbidden": true,
+    "automatic_retry": false,
+    "recovery_attempts": 0
+  },
+  "one_shot_diagnostic_contract": {
+    "scope": "same_immutable_canonical_prefix_x3_fresh_scenes_no_suffix",
+    "diagnostic_nonroot": true,
+    "accepted_root_increment": 0,
+    "fresh_scene_count": 3,
+    "same_prefix_action_bytes_required": true,
+    "shared_first_v_included": true,
+    "suffix_planner_calls_allowed": 0,
+    "suffix_execution_allowed": false,
+    "release_execution_allowed": false,
+    "required_checks_each_scene": [
+      "same current and equivalent anchor",
+      "same canonical prefix action SHA-256",
+      "selected gripper contact continuous from close acceptance through prefix end",
+      "grasp translation drift <= 0.005 m",
+      "grasp orientation drift <= 0.05 rad",
+      "no bottle or selected-gripper pad/table physical contact during free-space phases",
+      "shared first V realized-motion Gate",
+      "prefix-end EEF and bottle stationarity",
+      "scene cleanup and orphan audit"
+    ],
+    "pass_condition": "3/3 fresh scenes pass every check",
+    "failure_condition": "Any one scene or integrity/cleanup check fails; stop without a second diagnostic or hotfix.",
+    "conditional_next_scope": "At most one post-Stage-0 F3 development root only after 3/3 pass and a separately frozen one-shot bundle."
+  },
+  "review_status": "IMPACT_REVIEW_COMPLETE_DIAGNOSTIC_NOT_YET_RUN",
+  "review_payload_sha256": "07882b05fe0cbc1932aab24a9b7a4b669f79e53c10504faacd20078947d93325"
+}

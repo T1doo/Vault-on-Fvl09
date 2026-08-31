@@ -1,0 +1,174 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorized_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.post_stage0_f4_scope_runner_v1",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/controlled_multi_future_post_stage0_f4_v1/post_stage0_f4_new_layout_planner_only_seed20260829_run1.authorization.json"
+  ],
+  "authorized_command_sha256": "4daf0cbd9a1cdacae20f35a8e310b713a11a543780dd816764a4ca9d9ab91916",
+  "automatic_retry": false,
+  "budget_receipt_sha256": "4833a6bd3185d8a9495cb7e9b48d39fcfe76d32ae9f00fa6e4b91ded4c2cb0e5",
+  "family": "F4",
+  "formal_data": false,
+  "gpu_policy_sha256": "42d27bbb1458690c9b964eac1d333dea1fab64e4bb4ded10b4a070b5583b16a9",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/controlled_multi_future_post_stage0_f4_v1/post_stage0_f4_new_layout_planner_only_seed20260829_run1.guard.json",
+  "impact_review_payload_sha256": "ca9c3c1419a4513c849311eed904246c4784da3b36f306bcee8e9021f133e043",
+  "implementation_source_sha256": "b288f88b6cd0298f133b14ad30af0cbb3b8f6ca2edb909563ff93918f1c232cc",
+  "implementation_version": "controlled_multi_future_post_stage0_f4_v1",
+  "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f4_v1/post_stage0_f4_new_layout_planner_only_seed20260829_run1",
+  "parent_user_authorization_sha256": "cf55abe4a43f39dfb5765bf21f48cf478cfa592ef25b6b9039e5f3028ac9e9d5",
+  "planned_root_slot_spec": {
+    "arm": "right",
+    "automatic_retry": false,
+    "budget_receipt_sha256": "4833a6bd3185d8a9495cb7e9b48d39fcfe76d32ae9f00fa6e4b91ded4c2cb0e5",
+    "canonical_program_ids": [
+      "F4-ABC",
+      "F4-ACB",
+      "F4-BAC"
+    ],
+    "diagnostic_contract": {
+      "accepted_root_increment": 0,
+      "canonical_prefix_reference_execution_count": 1,
+      "complete_program_planner_chains_required": true,
+      "diagnostic_nonroot": true,
+      "exact_prefix_replay_required": true,
+      "fresh_program_scene_count": 3,
+      "release_execution_count": 0,
+      "suffix_execution_count": 0
+    },
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_post_stage0_f4_adapter_v1",
+    "origin": "post_stage0_layout_impact_review",
+    "planned_scope_spec_sha256": "891195bf43c13183eaa4c1ad2c66fb6b3c8f5af91fe44b5aad365f2aaf35ebab",
+    "post_stage0_selected_f4_corridor_id": "lower_carry_height",
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_post_stage0_slot_row_v1",
+      "object_poses": {
+        "A": [
+          0.16,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.28,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.4,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          0.1,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.205,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.355,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "scene_layout_sha256": "09d2ef2d8051cdfab31463fd04c0c944cd7db0f65a0fbdfc2825f0fb0003e557",
+    "schema_version": "cmf_post_stage0_f4_planned_scope_spec_v1",
+    "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+    "seed": 20260829,
+    "slot_id": "post-stage0-F4-layout-planner-audit-A-v1",
+    "stage0_authorized": false,
+    "stage0_data": false,
+    "stage0_reopened": false,
+    "stage1_authorized": false,
+    "stop_condition": "terminal receipt or first cleanup/source/GPU uncertainty"
+  },
+  "planned_root_slot_spec_sha256": "891195bf43c13183eaa4c1ad2c66fb6b3c8f5af91fe44b5aad365f2aaf35ebab",
+  "recovery_attempts": 0,
+  "reviewed_content_commit": "dc9e70c2c22ce152d7c926bdf8c9b93c8bc443b3",
+  "reviewed_content_commit_contains_current_changes": false,
+  "scene_seed": 20260829,
+  "schema_version": "cmf_post_stage0_f4_scope_request_v1",
+  "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+  "scope_publication_sha256": "e2a91d6ab8212074ff3ab9a9473d77d0214e39e4c95356c97d2cd2f703bfbe96",
+  "scope_request_sha256": "8278519759bc7a231a318b1598ef5db43b4627e2deddc8cc04293bdc1e43c27c",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "uncommitted_source_bound_by_source_lock": true
+}

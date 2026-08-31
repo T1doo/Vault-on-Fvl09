@@ -20,14 +20,14 @@ F2:
 F3:
   stage0_status: FAILED_EXECUTION_WITH_EVIDENCE
   development_template_ready: false
-  blocker: shared pre-V grasp/stationarity/support boundary
+  blocker: sole post-Stage-0 no-suffix diagnostic failed physical pre-V Gate; second diagnostic forbidden
 
 F4:
   stage0_status: FAILED_PLANNER_WITH_EVIDENCE
   development_template_ready: false
-  blocker: old layout has no planner-solvable complete corridor
+  blocker: new-layout CPU geometry passed, but sole planner-only run failed derivation infrastructure before endpoint IK and cannot be retried
 
 canonical_stage1_authorized: false
 ```
 
-下一阶段不是直接运行48条Stage 1，而是：F3共享前缀impact review与最多一次3-fresh无suffix diagnostic；F4 versioned layout impact review、CPU geometry/IK/planner-only审计与最多一个development root；同时F2 inside需在Stage 1前作为family implementation问题处理。未经用户新批准，不运行Stage 1。
+Post-Stage-0 review已完成：F3唯一diagnostic物理失败；F4 CPU geometry通过但唯一planner-only run在IK query前发生interface infrastructure failure，且两者均不得在当前single-use合同下重跑。F2 inside仍为release-safety blocker。统一结论保持`canonical_stage1_authorized=false`；需要新的影响审阅与用户批准才能定义后续repair scopes。

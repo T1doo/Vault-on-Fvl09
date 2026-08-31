@@ -1,0 +1,178 @@
+{
+  "schema_version": "cmf_f4_post_stage0_layout_impact_review_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_post_stage0_f4_v1",
+  "review_scope": "post_stage0_f4_layout_and_planner_impact",
+  "formal_data": false,
+  "stage0_data": false,
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "CPU_GEOMETRY_PASS_IK_AND_PLANNER_ONLY_PENDING",
+  "stage0_failure_evidence": {
+    "old_layout_version": "f4_right_arm_workspace_base0_v4_final",
+    "old_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85",
+    "v13_evidence_tree_sha256": "d213da2487c6f36915310d7e65012d0f0bc96f9d1b712532b0caee334db9a2a1",
+    "v13_total_planner_queries": 32,
+    "v13_canonical_prefix_queries": 10,
+    "v13_candidate_queries": [
+      6,
+      5,
+      5,
+      6
+    ],
+    "v13_hash_infrastructure_pass": true,
+    "v13_corridor_selection_pass": false,
+    "v13_candidate_terminal_failures": [
+      {
+        "candidate_id": "r4_successful_carry_orientation_and_corridor",
+        "last_successful_segment": "A_restore_topdown_mid",
+        "failed_segment": "A_preplace",
+        "failure": "MotionGenStatus.IK_FAIL"
+      },
+      {
+        "candidate_id": "proven_branch_neutral_carry_pose",
+        "last_successful_segment": "A_branch_neutral_carry",
+        "failed_segment": "A_preplace",
+        "failure": "MotionGenStatus.IK_FAIL"
+      },
+      {
+        "candidate_id": "lower_carry_height",
+        "last_successful_segment": "A_lower_carry_mid",
+        "failed_segment": "A_lower_preplace",
+        "failure": "MotionGenStatus.IK_FAIL"
+      },
+      {
+        "candidate_id": "intermediate_corridor_waypoint",
+        "last_successful_segment": "A_lower_carry_mid",
+        "failed_segment": "A_lower_preplace",
+        "failure": "MotionGenStatus.IK_FAIL"
+      }
+    ],
+    "impact_conclusion": "All four complete old-layout chains reached their carry state and failed at the slot-side preplace endpoint. The next repair changes layout slots, not corridor count or verifier semantics."
+  },
+  "new_layout": {
+    "layout_version": "f4_post_stage0_slot_row_v1",
+    "layout_sha256": "09d2ef2d8051cdfab31463fd04c0c944cd7db0f65a0fbdfc2825f0fb0003e557",
+    "common_x_pose": [
+      0.28,
+      0.1,
+      0.762,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "object_poses": {
+      "A": [0.16, 0.02, 0.762, 1.0, 0.0, 0.0, 0.0],
+      "B": [0.28, 0.02, 0.762, 1.0, 0.0, 0.0, 0.0],
+      "C": [0.4, 0.02, 0.762, 1.0, 0.0, 0.0, 0.0]
+    },
+    "slot_poses": {
+      "A": [0.1, 0.08, 0.742, 1.0, 0.0, 0.0, 0.0],
+      "B": [0.205, 0.08, 0.742, 1.0, 0.0, 0.0, 0.0],
+      "C": [0.355, 0.08, 0.742, 1.0, 0.0, 0.0, 0.0]
+    },
+    "tray": {
+      "model_id": 0,
+      "modelname": "008_tray",
+      "pose": [0.28, -0.12, 0.76, 0.706527, 0.706483, -0.0291356, -0.0291767]
+    },
+    "branch_neutral_pose": [
+      0.15,
+      -0.02,
+      0.95,
+      0.5243570072481656,
+      -0.47439082845243685,
+      0.4743935067167858,
+      0.5243604405510669
+    ],
+    "only_slot_positions_changed_from_stage0": true
+  },
+  "cpu_geometry_search": {
+    "grid_step_m": 0.005,
+    "grid_x_range_m": [0.065, 0.415],
+    "grid_y_range_m": [0.05, 0.165],
+    "ordered_shared_y_row": true,
+    "examined_candidate_count": 1371720,
+    "feasible_candidate_count": 13051,
+    "slot_pair_clearance_m": 0.105,
+    "slot_object_and_common_clearance_m": 0.075,
+    "selection_objective": [
+      "minimum maximum same-role object-to-slot XY distance",
+      "minimum sum same-role object-to-slot XY distance",
+      "minimum maximum displacement from Stage 0 slots",
+      "minimum sum displacement from Stage 0 slots",
+      "minimum shared y",
+      "lexicographic x tuple"
+    ],
+    "selected_objective_tuple": [
+      0.096046863561,
+      0.255899677304,
+      0.124197423484,
+      0.315619673999,
+      0.08,
+      [0.1, 0.205, 0.355]
+    ],
+    "minimum_slot_pair_distance_m": 0.10499999999999998,
+    "minimum_slot_object_distance_m": 0.07499999999999998,
+    "minimum_slot_common_distance_m": 0.07762087348130008,
+    "existing_geometry_audit_pass": true,
+    "rejected_cpu_attempts": [
+      {
+        "status": "interrupted_performance_failure",
+        "reason": "The first implementation repeated asset-file reads inside the inner loop; the owned CPU process was stopped and no result was used."
+      },
+      {
+        "candidate": [[0.105, 0.05], [0.225, 0.05], [0.345, 0.05]],
+        "status": "rejected_insufficient_robustness_margin",
+        "minimum_slot_object_distance_m": 0.06264982043070835
+      },
+      {
+        "candidate": [[0.105, 0.08], [0.205, 0.08], [0.355, 0.08]],
+        "status": "rejected_existing_strict_pairwise_gate",
+        "minimum_slot_pair_distance_m": 0.09999999999999999
+      }
+    ]
+  },
+  "frozen_invariants": {
+    "common_x_to_tray_unchanged": true,
+    "right_arm_unchanged": true,
+    "object_positions_unchanged": true,
+    "object_slot_mapping_unchanged": true,
+    "programs": ["ABC", "ACB", "BAC"],
+    "programs_unchanged": true,
+    "final_state_equivalence_required": true,
+    "verifier_unchanged": true,
+    "candidate_label_not_encoded_by_layout": true,
+    "branch_neutral_unchanged": true,
+    "new_corridor_added": false,
+    "selected_existing_corridor_id": "lower_carry_height",
+    "automatic_retry": false,
+    "recovery_attempts": 0
+  },
+  "next_one_shot_audit": {
+    "scope": "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1",
+    "prefix": "one canonical common-X-to-tray reference plus exact fresh-scene replays",
+    "fresh_program_scenes": 3,
+    "programs": ["F4-ABC", "F4-ACB", "F4-BAC"],
+    "route": "existing lower_carry_height candidate applied uniformly to A/B/C",
+    "endpoint_ik_required_for_every_segment": true,
+    "collision_and_joint_margin_required_for_every_segment": true,
+    "qpos_chain_continuity_required": true,
+    "canonical_prefix_reference_execution_count": 1,
+    "suffix_execution_attempt_count": 0,
+    "suffix_execution_count": 0,
+    "release_execution_count": 0,
+    "pass_condition": "All three complete program chains pass from the same prefix artifact in three fresh scenes.",
+    "conditional_next_scope": "At most one post-Stage-0 F4 development root only if this audit passes."
+  },
+  "claims": {
+    "implemented": true,
+    "cpu_geometry_verified": true,
+    "endpoint_ik_verified": false,
+    "planner_only_verified": false,
+    "development_root_ready": false,
+    "stage1_ready": false
+  },
+  "review_payload_sha256": "ca9c3c1419a4513c849311eed904246c4784da3b36f306bcee8e9021f133e043"
+}

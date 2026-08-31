@@ -122,6 +122,10 @@ from .f3_grasp_robustness_v10 import (
     audit_f3_grasp_robustness_diagnostic_v10,
     build_f3_common_grasp_contract_v10,
 )
+from .f3_contact_preserving_prefix_v11 import (
+    build_f3_contact_preserving_prefix_contract_v11,
+    validate_f3_contact_preserving_prefix_contract_v11,
+)
 from .f3_return_release_v5 import (
     ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
     DISENGAGEMENT_CONFIRM_FRAMES,
@@ -206,6 +210,10 @@ from .f4_frozen_canonical_neutral_binding_v13 import (
 )
 from .f4_right_workspace_layout_v4 import (
     LAYOUT_VERSION as F4_LAYOUT_VERSION_V4,
+)
+from .f4_post_stage0_layout_v1 import (
+    LAYOUT_VERSION as F4_POST_STAGE0_LAYOUT_VERSION_V1,
+    SELECTED_EXISTING_CORRIDOR_ID as F4_POST_STAGE0_CORRIDOR_ID_V1,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -3621,7 +3629,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         return result
 
     def canonical_prefix_contract(self, programs):
-        return {
+        result = {
             "prefix_id": "f3_grasp_lift_clearance_carry_shared_first_v_v3_3_r3",
             "family": "F3",
             "arm": "left",
@@ -3641,6 +3649,19 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "target_role_read": False,
             "settling_excluded_from_semantic_P": True,
         }
+        repair = getattr(self, "f3_shared_prefix_repair_v11", None)
+        if repair is not None:
+            repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
+            result["prefix_id"] = (
+                "f3_contact_preserving_partial_close_shared_first_v_v11"
+            )
+            result["ops"][2] = "contact_preserving_partial_close_0_35_v11"
+            result["shared_prefix_repair_v11"] = repair
+            result["close_normalized_target"] = repair[
+                "close_normalized_target"
+            ]
+            result["diagnostic_no_suffix"] = True
+        return result
 
     def initialize_prefix_replay_trace(self, scene):
         scene.initialize_trace(
@@ -3670,6 +3691,14 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         )
         pregrasp, grasp = selected
         frozen_grasp = build_f3_common_grasp_contract_v10()
+        repair = getattr(self, "f3_shared_prefix_repair_v11", None)
+        if repair is not None:
+            repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
+            if prefix_contract.get("shared_prefix_repair_v11") != repair:
+                raise ValueError("F3 v11 shared-prefix repair binding changed")
+            close_normalized_target = repair["close_normalized_target"]
+        else:
+            close_normalized_target = frozen_grasp["close_normalized_target"]
         if (
             target_construction_audit["callback_selected_pose_match_count"] != 1
             or target_construction_audit["callback_selected_contact_point_id"]
@@ -3688,6 +3717,10 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             )
         target_construction_audit["frozen_grasp_contract"] = frozen_grasp
         target_construction_audit["frozen_selection_verified"] = True
+        target_construction_audit["shared_prefix_repair_v11"] = repair
+        target_construction_audit["close_normalized_target"] = (
+            close_normalized_target
+        )
         target_construction_audit["query_mode"] = (
             "audit every official contact-point batch; use chooser result only if "
             "the callback-selected pregrasp uniquely matches frozen contact3/candidate0"
@@ -3703,7 +3736,9 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         _move_left(scene, grasp, "f3_prefix_grasp")
         _must_action(
             scene,
-            scene.close_gripper(_arm_tag_left(), pos=0.0),
+            scene.close_gripper(
+                _arm_tag_left(), pos=close_normalized_target
+            ),
             "f3_prefix_close",
         )
         _wait_and_record(scene, F3_POST_CLOSE_SETTLE_FRAMES_V10)
@@ -5264,6 +5299,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             if isinstance(planned, Mapping)
             else None
         )
+        post_stage0_layout = (
+            isinstance(planned, Mapping)
+            and planned.get("scope")
+            == "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1"
+        )
         if (
             isinstance(planned, Mapping)
             and planned.get("generator")
@@ -5274,7 +5314,21 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             raise ValueError(
                 "F4 Stage 0 v1.1 requires its frozen canonical neutral binding"
             )
-        if canonical_neutral_binding_v13 is not None:
+        if post_stage0_layout:
+            if (
+                layout_version != F4_POST_STAGE0_LAYOUT_VERSION_V1
+                or hash_json(layout) != planned.get("scene_layout_sha256")
+                or planned.get("post_stage0_selected_f4_corridor_id")
+                != F4_POST_STAGE0_CORRIDOR_ID_V1
+            ):
+                raise ValueError("F4 post-Stage-0 layout/corridor binding changed")
+            post_stage0_neutral = getattr(
+                scene, "_cmf_post_stage0_f4_canonical_neutral_pose", None
+            )
+            neutral = np.asarray(post_stage0_neutral, dtype=np.float64)
+            if neutral.shape != (7,) or not np.all(np.isfinite(neutral)):
+                raise ValueError("F4 post-Stage-0 canonical neutral is missing")
+        elif canonical_neutral_binding_v13 is not None:
             binding = validate_f4_frozen_canonical_neutral_binding_v13(
                 canonical_neutral_binding_v13
             )
@@ -5364,6 +5418,69 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             if isinstance(planned, Mapping)
             else None
         )
+        post_stage0_selected = (
+            planned.get("post_stage0_selected_f4_corridor_id")
+            if post_stage0_layout
+            else None
+        )
+        if post_stage0_selected is not None:
+            if selected_v11 is not None or selected_corridor is not None:
+                raise ValueError("F4 post-Stage-0 corridor selection is not exclusive")
+            reference_a = next(
+                group["targets"]
+                for group in top_down["object_target_groups"]
+                if group["role"] == "A"
+            )
+            exact_contract = build_f4_exact_A_corridors_v11(reference_a)
+            matches = [
+                item
+                for item in exact_contract["candidates"]
+                if item["candidate_id"] == post_stage0_selected
+            ]
+            if len(matches) != 1 or post_stage0_selected != F4_POST_STAGE0_CORRIDOR_ID_V1:
+                raise ValueError("F4 post-Stage-0 existing corridor is not frozen")
+            current_candidate = matches[0]
+            base_by_role = {
+                group["role"]: group for group in top_down["object_target_groups"]
+            }
+            selected_groups = []
+            selected_flattened = []
+            for role in order:
+                derived = derive_role_corridor_v11(
+                    selected_A_candidate=current_candidate,
+                    base_A_targets=reference_a,
+                    role=role,
+                    base_role_targets=base_by_role[role]["targets"],
+                )
+                if derived.get("pass") is not True:
+                    raise ValueError(f"F4 post-Stage-0 {role} corridor derivation failed")
+                selected_groups.append(
+                    {
+                        **base_by_role[role],
+                        "target_start_index": len(selected_flattened),
+                        "target_count": len(derived["targets"]),
+                        "targets": derived["targets"],
+                        "selected_corridor_id": current_candidate["candidate_id"],
+                        "exact_corridor_derivation_v11": derived,
+                    }
+                )
+                selected_flattened.extend(derived["targets"])
+            selected_route_version = "f4_exact_variable_length_corridor_application_v11"
+            selected_route_audit = {
+                "schema_version": "cmf_f4_post_stage0_selected_exact_corridor_v1",
+                "selected_candidate": current_candidate,
+                "exact_contract_receipt_sha256": exact_contract["receipt_sha256"],
+                "layout_version": layout_version,
+                "layout_sha256": hash_json(layout),
+                "role_count": len(selected_groups),
+                "layout_changed_from_stage0": True,
+                "only_slots_changed": True,
+                "new_corridor_added": False,
+                "arm_changed": False,
+                "release_semantics_changed": False,
+                "pass": len(selected_groups) == 3,
+            }
+            exact_corridor_v11 = True
         if selected_v11 is not None:
             if not isinstance(selected_v11, Mapping):
                 raise ValueError("F4 selected v11 corridor contract is invalid")
@@ -5472,7 +5589,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "block_carry_route_audit": selected_route_audit,
                 "uniform_top_down_block_carry_contract_v8": top_down,
                 "exact_corridor_v11": exact_corridor_v11,
-                "scene_layout_changed": False,
+                "scene_layout_changed": post_stage0_layout,
                 "tray_pose_changed": False,
                 "program_changed": False,
                 "verifier_changed": False,
