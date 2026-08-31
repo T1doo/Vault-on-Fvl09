@@ -42,7 +42,9 @@ DATASET_ROOT = (
     WORKSPACE_ROOT
     / "Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2"
 )
-OUTPUT_NAMESPACE = DATASET_ROOT / "stage0_smoke_v1_2_F2_root_A_scene_layout_replacement"
+OUTPUT_NAMESPACE = (
+    DATASET_ROOT / "stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2"
+)
 REPLACEMENT_ATTEMPT_IDS = tuple(
     f"stage0-v1_2-F2-rootA-{index:02d}" for index in range(1, 4)
 )

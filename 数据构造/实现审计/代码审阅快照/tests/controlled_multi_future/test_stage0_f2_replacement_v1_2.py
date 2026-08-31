@@ -31,6 +31,9 @@ from controlled_multi_future.stage0_smoke_finalizer_v1_2 import (
     build_stage0_terminal_seal_v1_2,
 )
 from controlled_multi_future.probes import gpu_guard_v2_1, gpu_guard_v2_4
+from controlled_multi_future.probes.stage0_f2_replacement_authorization_v1_2 import (
+    validate_stage0_f2_replacement_authorization_v1_2,
+)
 
 
 class Stage0F2ReplacementV1_2Test(unittest.TestCase):
@@ -138,6 +141,16 @@ class Stage0F2ReplacementV1_2Test(unittest.TestCase):
             "cmf_stage0_f2_replacement_guarded_scope_receipt_v1_2",
             updater_source,
         )
+        validator_source = inspect.getsource(
+            validate_stage0_f2_replacement_authorization_v1_2
+        )
+        for name in (
+            "expected_family",
+            "expected_seed",
+            "expected_output_namespace",
+            "expected_reviewed_content_commit",
+        ):
+            self.assertIn(name, validator_source)
 
     def test_terminal_seal_distinguishes_completed_with_failure(self):
         result = {

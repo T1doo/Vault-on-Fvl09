@@ -44,8 +44,8 @@ PARENT_AUTHORIZATION = (
     AUDIT_ROOT / "USER_AUTHORIZATION_STAGE0_F2_REPLACEMENT_V1_2_20260831.json"
 )
 BUDGET_PUBLICATION = AUDIT_ROOT / "STAGE0_F2_REPLACEMENT_BUDGET_V1_2.json"
-NAMESPACE = "stage0_smoke_v1_2_F2_root_A_scene_layout_replacement"
-AUTHORIZATION_ID = "stage0-smoke-v1-2-F2-root-A-layout-replacement-run1"
+NAMESPACE = "stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2"
+AUTHORIZATION_ID = "stage0-smoke-v1-2-F2-root-A-layout-replacement-run2"
 REQUEST_PATH = AUDIT_ROOT / "scope_requests" / GROUP / f"{NAMESPACE}.request.json"
 SOURCE_LOCK_PATH = AUDIT_ROOT / "source_locks" / GROUP / f"{NAMESPACE}.source_lock.json"
 AUTHORIZATION_PATH = AUDIT_ROOT / "authorizations" / GROUP / f"{NAMESPACE}.authorization.json"
@@ -106,6 +106,8 @@ def validate_stage0_f2_replacement_authorization_v1_2(
     now: datetime | None = None,
     expected_output_namespace: str | None = None,
     expected_family: str | None = None,
+    expected_seed: int | None = None,
+    expected_reviewed_content_commit: str | None = None,
 ) -> dict[str, Any]:
     if requested_scope != SCOPE:
         raise AuthorizationBindingError("unsupported F2 replacement scope")
@@ -134,6 +136,8 @@ def validate_stage0_f2_replacement_authorization_v1_2(
             raise AuthorizationBindingError(f"authorization field changed: {key}")
     if expected_family is not None and expected_family != "F2":
         raise AuthorizationBindingError("authorization family mismatch")
+    if expected_seed is not None and expected_seed != 20260829:
+        raise AuthorizationBindingError("authorization seed mismatch")
     if receipt.get("receipt_sha256") != authorization_receipt_sha256(receipt):
         raise AuthorizationBindingError("authorization receipt hash mismatch")
     issued = _parse_time(receipt.get("issued_at"), "issued_at")
@@ -263,6 +267,12 @@ def validate_stage0_f2_replacement_authorization_v1_2(
         receipt["reviewed_content_commit"]
     ) is None:
         raise AuthorizationBindingError("reviewed content commit is invalid")
+    if (
+        expected_reviewed_content_commit is not None
+        and receipt["reviewed_content_commit"]
+        != expected_reviewed_content_commit
+    ):
+        raise AuthorizationBindingError("reviewed content commit mismatch")
     if not isinstance(receipt.get("authorized_command_sha256"), str) or HEX64.fullmatch(
         receipt["authorized_command_sha256"]
     ) is None:

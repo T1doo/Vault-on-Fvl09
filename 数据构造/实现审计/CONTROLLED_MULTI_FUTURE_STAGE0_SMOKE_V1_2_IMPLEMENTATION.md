@@ -53,8 +53,10 @@ source Python files: 190
 test Python files: 94
 compile: passed
 active/snapshot: byte-equal
-source SHA-256: e854fd9b35f01ef1eee1724c73d47e9ce750051650559c1b077e7739a1f5f351
+source SHA-256 (CPU freeze): e854fd9b35f01ef1eee1724c73d47e9ce750051650559c1b077e7739a1f5f351
 tests SHA-256: 9bb336ace6d8749cddaa25a72f2a681701eadb31fb8915d1502486d9103a8a76
 ```
+
+Run1在child/authorization消费前暴露validator keyword兼容错误。纯prelaunch hotfix后current source=`ad79e79df7607c7fc46740283a526a856071d904ef9630bea923a79202364807`；active/snapshot仍各`530/530`且byte-equal。Run1不计F2 attempt；run2使用新authorization/Guard/output namespace。
 
 下一步：发布本CPU freeze；从clean published HEAD签发唯一F2 replacement bundle；在任一fresh-idle GPU0–7运行一次完整F2 root（3 programs，各1次，无retry），随后运行v1.2 finalizer。不得在结果出来后现场热修。

@@ -1,0 +1,82 @@
+{
+  "admission_precheck": {
+    "captured_at": "2026-08-31T13:12:43.342318+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 12,
+    "physical_index": 4,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+  },
+  "elapsed_seconds": 3.1850883960723877,
+  "error": {
+    "message": "validate_stage0_f2_replacement_authorization_v1_2() got an unexpected keyword argument 'expected_seed'",
+    "type": "TypeError"
+  },
+  "formal_data": false,
+  "gpu_lease": {
+    "acquired": true,
+    "acquired_at": "2026-08-31T05:12:43.117285+00:00",
+    "lease_path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases/physical_gpu_4.lock",
+    "owner_guard_pid": 319937,
+    "physical_gpu_index": 4,
+    "schema_version": "cmf_physical_gpu_lease_v1"
+  },
+  "gpu_lease_release": {
+    "error": null,
+    "lease_path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases/physical_gpu_4.lock",
+    "physical_gpu_index": 4,
+    "released": true,
+    "released_at": "2026-08-31T05:12:44.134486+00:00",
+    "schema_version": "cmf_physical_gpu_lease_v1"
+  },
+  "guard_receipt_sha256": "88659d382169dc4eda1339a91649a270e8c5afaf77160de0675efab5f6aee49b",
+  "job_cache": {
+    "isolated": true,
+    "root": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1",
+    "subdirectories": {
+      "conda_pkgs": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/conda_pkgs",
+      "cuda": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/cuda",
+      "home": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/home",
+      "huggingface": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/huggingface",
+      "huggingface_hub": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/huggingface_hub",
+      "matplotlib": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/matplotlib",
+      "numba": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/numba",
+      "pip": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/pip",
+      "tmp": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/tmp",
+      "torch": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/torch",
+      "torch_extensions": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/torch_extensions",
+      "triton": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/triton",
+      "xdg": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1/xdg"
+    }
+  },
+  "job_cache_cleanup": {
+    "attempted": true,
+    "error": null,
+    "path": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches/stage0-smoke-v1-2-F2-root-A-layout-replacement-run1",
+    "succeeded": true
+  },
+  "launch_precheck": {
+    "captured_at": "2026-08-31T13:12:44.118320+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 12,
+    "physical_index": 4,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+  },
+  "precheck": {
+    "captured_at": "2026-08-31T13:12:44.118320+08:00",
+    "compute_processes": [],
+    "memory_used_mib": 12,
+    "physical_index": 4,
+    "pstate": "P8",
+    "utilization_percent": 0,
+    "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+  },
+  "purpose": "controlled_stage0_smoke",
+  "schema_version": "cmf_gpu_guard_v2_4_1",
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "status": "failed_guard_internal_prelaunch"
+}
