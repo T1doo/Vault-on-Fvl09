@@ -1,0 +1,40 @@
+{
+  "schema_version": "cmf_stage0_readiness_smoke_v1_2_current",
+  "decision": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+  "stage0_completed": true,
+  "active_stage0_slot_count": 12,
+  "historical_terminal_attempt_count": 15,
+  "successful_attempt_count": 5,
+  "failed_attempt_count": 7,
+  "generated_trajectory_count": 5,
+  "generated_video_count": 5,
+  "F1": {
+    "stage0_status": "PASS",
+    "stage1_candidate_ready": true
+  },
+  "F2": {
+    "stage0_replacement_result": {
+      "inside": "FAILED_EXECUTION_WITH_EVIDENCE",
+      "on": "PASSED",
+      "beside": "PASSED"
+    },
+    "development_template_ready": false,
+    "blocker": "inside_release_safety"
+  },
+  "F3": {
+    "stage0_status": "FAILED_EXECUTION_WITH_EVIDENCE",
+    "development_template_ready": false,
+    "blocker": "shared_pre_v_grasp_stationarity_support_boundary"
+  },
+  "F4": {
+    "stage0_status": "FAILED_PLANNER_WITH_EVIDENCE",
+    "development_template_ready": false,
+    "blocker": "old_layout_no_planner_solvable_complete_corridor"
+  },
+  "canonical_stage1_authorized": false,
+  "formal_collection_authorized": false,
+  "training_authorized": false,
+  "h_reveal": null,
+  "compression_authorized": false,
+  "pi05_authorized": false
+}

@@ -76,4 +76,5 @@ PYTHONDONTWRITEBYTECODE=1 \
 - `stage0_f2_replacement_manifest_v1_2.py`：三个新attempt逐一替换旧F2 infrastructure slots，active denominator仍12、历史receipt保留15。
 - `real_sapien_adapter_v1_8.py`、`stage0_f2_replacement_runner_v1_2.py`：同seed/layout/program的F2 root执行、intended current/anchor lineage、raw/MP4/verifier/cleanup receipt。
 - `stage0_smoke_finalizer_v1_2.py`：F1/F3/F4原证据 + F2 replacement的active-slot seal；允许`STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE`，不要求12/12成功。
+- `stage0_f2_provenance_correction_v1.py`：只对已执行on/beside raw中的v1.8 implementation-label遗漏做hash-bound overlay；不修改raw/manifest/video、不重跑物理attempt。Future `_raw_result`已显式映射adapter v1.8。
 - `stage0_f2_replacement_scope_bundle_v1_2.py`及`probes/*v1_2.py`：single-use source/manifest/budget/parent/command/Guard/consumption绑定。

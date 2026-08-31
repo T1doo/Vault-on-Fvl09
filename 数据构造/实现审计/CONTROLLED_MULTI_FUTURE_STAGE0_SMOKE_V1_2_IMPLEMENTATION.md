@@ -59,4 +59,6 @@ tests SHA-256: 9bb336ace6d8749cddaa25a72f2a681701eadb31fb8915d1502486d9103a8a76
 
 Run1在child/authorization消费前暴露validator keyword兼容错误。纯prelaunch hotfix后current source=`ad79e79df7607c7fc46740283a526a856071d904ef9630bea923a79202364807`；active/snapshot仍各`530/530`且byte-equal。Run1不计F2 attempt；run2使用新authorization/Guard/output namespace。
 
+Run2后发现v1.8 raw implementation-label dispatch遗漏；不可变overlay与future mapping修复后最终current source=`70118e105fc75e9ca137086d85bbdfb366c9f81f6f8d3e7684cf2dbce53c840e`，tests=`58f8332c6a5675a43db7abb87a7d4198ffce5bb1b924eda5536ab3f0aeb40400`，active/snapshot=`533/533`，191 source + 94 test compile，byte-equal。Stage 0 seal结果见`STAGE0_SMOKE_RESULT_V1_2.json`。
+
 下一步：发布本CPU freeze；从clean published HEAD签发唯一F2 replacement bundle；在任一fresh-idle GPU0–7运行一次完整F2 root（3 programs，各1次，无retry），随后运行v1.2 finalizer。不得在结果出来后现场热修。

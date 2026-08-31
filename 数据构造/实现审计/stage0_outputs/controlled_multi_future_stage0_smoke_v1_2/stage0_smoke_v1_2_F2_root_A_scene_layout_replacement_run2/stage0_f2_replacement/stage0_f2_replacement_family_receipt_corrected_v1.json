@@ -1,0 +1,285 @@
+{
+  "active_slot_terminal_evidence_valid": true,
+  "all_required_videos_complete": true,
+  "attempt_receipts": [
+    {
+      "attempt_id": "stage0-v1_2-F2-rootA-01",
+      "branch_receipt": {
+        "bytes": 291961,
+        "relative_path": "root/branches/F2-inside/receipt.json",
+        "sha256": "1a8457cd7c60567637f37228a856c1142101516d7ea6025ce5ef0badd3d62a49"
+      },
+      "branch_status": "failed_execution",
+      "failure_message": "F2 release-safety Gate v10 blocked full-open",
+      "failure_type": "RuntimeError",
+      "family": "F2",
+      "formal_data": false,
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+      "layout_payload_sha256": "2eeae7fd78eccabf55a0290049f08b9afeabaad7037f6b9206508c2fb980f3c6",
+      "mp4_required_if_trajectory_generated": true,
+      "planned_attempt": true,
+      "program_id": "F2-inside",
+      "raw_integrity": {
+        "pass": false,
+        "reason": "raw_manifest_missing"
+      },
+      "raw_required_by_branch_status": false,
+      "realization": "r_pc",
+      "receipt_sha256": "5b3a84efaaa71540aa508afe6aa755d4c92db5d66287540673eca5c58fdc9108",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-01",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "root_slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+      "root_status": "failed_verifier",
+      "schema_version": "cmf_stage0_f2_replacement_attempt_receipt_v1_2",
+      "stage0_authorized": true,
+      "stage0_data": true,
+      "stage0_replacement_manifest_sha256": "27512294d0494c945a6b6dfe22ad39b9fc8ee61fbd71fe53fc8bd4978f822689",
+      "stage1_authorized": false,
+      "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE",
+      "terminal_status": "FAILED_EXECUTION_WITH_EVIDENCE",
+      "trajectory_generated": false,
+      "verifier_pass": false,
+      "video_integrity": {
+        "applicable": false,
+        "pass": true,
+        "required": false,
+        "status": "video_not_applicable_no_trajectory"
+      },
+      "video_required": false,
+      "video_status": "video_not_applicable_no_trajectory"
+    },
+    {
+      "attempt_id": "stage0-v1_2-F2-rootA-02",
+      "branch_receipt": {
+        "bytes": 471539,
+        "relative_path": "root/branches/F2-on/receipt.json",
+        "sha256": "d96ad7667173337e569c5c5b18569d42d71b92901aeb9831a0abb46c60b998f8"
+      },
+      "branch_status": "accepted",
+      "failure_message": null,
+      "failure_type": null,
+      "family": "F2",
+      "formal_data": false,
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+      "mp4_required_if_trajectory_generated": true,
+      "physical_attempt_rerun": false,
+      "program_id": "F2-on",
+      "raw_integrity": {
+        "corrected_implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+        "data_role_checks": {
+          "attempt_root_manifest_bound": true,
+          "branch_manifest_matches_disk": true,
+          "family_exact": true,
+          "formal_data_false": true,
+          "implementation_exact": true,
+          "program_exact": true,
+          "provenance_stage0": true,
+          "realization_exact_r_pc": true,
+          "stage0_authorized": true,
+          "stage0_data": true
+        },
+        "implementation_label_correction_applied": true,
+        "integrity_checks": {
+          "manifest_file_sha256": true,
+          "manifest_payload_recomputed": true,
+          "manifest_payload_sha256": true,
+          "raw_streams_npz_sha256": true,
+          "trace_source_sha256": true
+        },
+        "manifest_payload_sha256": "6975bfbf918f3eea6d9cadf671ea0f041637b9a96bcad4203f44148c0014d362",
+        "pass": true,
+        "provenance_correction_receipt_sha256": "72946c0eb495abed63a3f405068aa335a13f17dffaceed16281ae128a9b0da1f",
+        "raw_streams_npz_sha256": "12423b1f52df2738a32f320af1a292bea8be057735bd472dc0051a9f2f58d3cb"
+      },
+      "raw_or_video_modified": false,
+      "raw_required_by_branch_status": true,
+      "realization": "r_pc",
+      "receipt_sha256": "52c2bb3a33334d5144efce5c7d9bc6385aeea238e614f6421579736c63a8986a",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-02",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "root_slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+      "root_status": "failed_verifier",
+      "schema_version": "cmf_stage0_f2_corrected_attempt_receipt_v1",
+      "stage0_authorized": true,
+      "stage0_data": true,
+      "stage1_authorized": false,
+      "supersedes_derived_attempt_receipt_sha256": "f299970aa2142ac1fb43cf34beafeabe377908b646798a1b59b3e023b7f04501",
+      "terminal_status": "PASSED",
+      "trajectory_generated": true,
+      "verifier_pass": true,
+      "video_integrity": {
+        "applicable": true,
+        "file_sha256": "3ec49fec94f66d189d45e85bfec565ae89319286a6e0b094136d51dcd3faa85a",
+        "frame_count": 302,
+        "pass": true,
+        "relative_path": "video/trajectory.mp4",
+        "required": true,
+        "status": "generated",
+        "video_fps": 25,
+        "video_receipt_sha256": "04d721ca217665fe8fe0fd8ab2cf536df882a3eac341bb91ed86cfdb6523c70d"
+      },
+      "video_required": true,
+      "video_status": "generated"
+    },
+    {
+      "attempt_id": "stage0-v1_2-F2-rootA-03",
+      "branch_receipt": {
+        "bytes": 613432,
+        "relative_path": "root/branches/F2-beside/receipt.json",
+        "sha256": "d655425dc6293b74cd7ecb4a607ceb5fe329ff4631fb60030ad369b1d5c899ea"
+      },
+      "branch_status": "accepted",
+      "failure_message": null,
+      "failure_type": null,
+      "family": "F2",
+      "formal_data": false,
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+      "mp4_required_if_trajectory_generated": true,
+      "physical_attempt_rerun": false,
+      "program_id": "F2-beside",
+      "raw_integrity": {
+        "corrected_implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+        "data_role_checks": {
+          "attempt_root_manifest_bound": true,
+          "branch_manifest_matches_disk": true,
+          "family_exact": true,
+          "formal_data_false": true,
+          "implementation_exact": true,
+          "program_exact": true,
+          "provenance_stage0": true,
+          "realization_exact_r_pc": true,
+          "stage0_authorized": true,
+          "stage0_data": true
+        },
+        "implementation_label_correction_applied": true,
+        "integrity_checks": {
+          "manifest_file_sha256": true,
+          "manifest_payload_recomputed": true,
+          "manifest_payload_sha256": true,
+          "raw_streams_npz_sha256": true,
+          "trace_source_sha256": true
+        },
+        "manifest_payload_sha256": "5fa762cb8765e56ff2d272ef2b7e5f6267304b323fe97c19befdfbbdf422e1ea",
+        "pass": true,
+        "provenance_correction_receipt_sha256": "72946c0eb495abed63a3f405068aa335a13f17dffaceed16281ae128a9b0da1f",
+        "raw_streams_npz_sha256": "43ed93030d2b2705eafba497ffd151e13629723a18bb7730b5f6182c1a296728"
+      },
+      "raw_or_video_modified": false,
+      "raw_required_by_branch_status": true,
+      "realization": "r_pc",
+      "receipt_sha256": "124c73fd650d5d6943e035f8fa2ed8e5a493cc52687c186d79434742de9715dd",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-03",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "root_slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+      "root_status": "failed_verifier",
+      "schema_version": "cmf_stage0_f2_corrected_attempt_receipt_v1",
+      "stage0_authorized": true,
+      "stage0_data": true,
+      "stage1_authorized": false,
+      "supersedes_derived_attempt_receipt_sha256": "514771c2b11b0fd07261a2b1480a6acb71091774093db811dd4f08bcb1c0fa1a",
+      "terminal_status": "PASSED",
+      "trajectory_generated": true,
+      "verifier_pass": true,
+      "video_integrity": {
+        "applicable": true,
+        "file_sha256": "f44f9dc8812929110bc9493197aa90460dbb871df24e0133d1815a542c21f1d0",
+        "frame_count": 370,
+        "pass": true,
+        "relative_path": "video/trajectory.mp4",
+        "required": true,
+        "status": "generated",
+        "video_fps": 25,
+        "video_receipt_sha256": "36486f76b364423a8d7d843a478cdff55a5d1c90fc20e7386d36632c32654f3b"
+      },
+      "video_required": true,
+      "video_status": "generated"
+    }
+  ],
+  "base_family_receipt": {
+    "bytes": 37742,
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2/stage0_f2_replacement/stage0_f2_replacement_family_receipt.json",
+    "relative_path": null,
+    "sha256": "5f77ab98f674600ec91677c85fc29fe01842fc83d7587453bc27fb29ea52a5fb"
+  },
+  "base_family_receipt_sha256": "2c11c6d38c7d4e29b77326bcf58600da2091ec82f042fb83ee1246789bc7a2ed",
+  "budget_counts": {
+    "execution_attempt_count": 3,
+    "planner_query_count": 32,
+    "recovery_attempt_count": 0
+  },
+  "cleanup_pass": true,
+  "current_anchor_lineage_audit": {
+    "checks": {
+      "facility_pose_equivalence": true,
+      "intended_reference_files_exist": true,
+      "invalid_default_layout_is_not_replacement": true,
+      "main_can_pose_equivalence": true,
+      "main_can_velocity_equivalence": true,
+      "model_visible_current_components_exact": true,
+      "original_invalid_current_not_claimed_equivalent": true,
+      "replacement_files_exist": true
+    },
+    "facility_pose_audits": {
+      "box": {
+        "orientation_error_rad": 0.0,
+        "pass": true,
+        "position_error_m": 0.0
+      },
+      "scale": {
+        "orientation_error_rad": 0.0,
+        "pass": true,
+        "position_error_m": 0.0
+      },
+      "stand": {
+        "orientation_error_rad": 2.220446049250313e-16,
+        "pass": true,
+        "position_error_m": 0.0
+      }
+    },
+    "intended_anchor_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_1_f2_inside_targeted_v11_seed20260829_run1_gpu0/F2_inside_targeted/reference_anchor.json",
+    "intended_current_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_1_f2_inside_targeted_v11_seed20260829_run1_gpu0/F2_inside_targeted/reference_current.json",
+    "main_can_pose_audit": {
+      "orientation_error_rad": 0.0,
+      "pass": true,
+      "position_error_m": 0.0
+    },
+    "model_visible_component_checks": {
+      "camera_configuration_sha256": true,
+      "gripper_actual_state_sha256": true,
+      "head_rgb_sha256": true,
+      "robot_state_sha256": true,
+      "visible_object_roles_sha256": true,
+      "wrist_rgb_sha256": true
+    },
+    "original_attempt_current_comparability": "not_comparable_due_to_missing_layout_binding_and_default_layout_drift",
+    "original_invalid_anchor_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F2_root_A_seed20260829_run1/stage0_family/root/reference_anchor.json",
+    "original_invalid_current_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F2_root_A_seed20260829_run1/stage0_family/root/reference_current_hashes.json",
+    "pass": true,
+    "receipt_sha256": "4e04424618a330177cc5c34c3bb5b39fddfaffde94d739989662ac37130bbf90",
+    "replacement_anchor_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2/stage0_f2_replacement/root/reference_anchor.json",
+    "replacement_current_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2/stage0_f2_replacement/root/reference_current_hashes.json",
+    "schema_version": "cmf_f2_replacement_current_anchor_lineage_audit_v1_2"
+  },
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "failed_attempt_count": 1,
+  "family": "F2",
+  "formal_collection_authorized": false,
+  "formal_data": false,
+  "generated_trajectory_count": 2,
+  "generated_video_count": 2,
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+  "orphan_process_count": 0,
+  "outcome": "FAILED_WITH_EVIDENCE",
+  "pipeline_integrity_pass": true,
+  "provenance_correction_receipt_sha256": "72946c0eb495abed63a3f405068aa335a13f17dffaceed16281ae128a9b0da1f",
+  "receipt_sha256": "99b88aec6671a65da58b26f5240b763053f2a7effd11817a4f8c814e02976b23",
+  "replacement_manifest_sha256": "27512294d0494c945a6b6dfe22ad39b9fc8ee61fbd71fe53fc8bd4978f822689",
+  "root_slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+  "schema_version": "cmf_stage0_f2_corrected_family_receipt_v1",
+  "stage0_attempt_count": 3,
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "stage1_authorized": false,
+  "successful_attempt_count": 2,
+  "training_authorized": false
+}

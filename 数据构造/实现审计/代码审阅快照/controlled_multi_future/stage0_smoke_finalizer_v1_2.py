@@ -18,6 +18,14 @@ from .stage0_f2_replacement_manifest_v1_2 import (
     validate_stage0_f2_replacement_manifest_v1_2,
 )
 from .stage0_smoke_family_runner_v1_1 import TERMINAL_OUTCOMES
+from .stage0_f2_provenance_correction_v1 import (
+    BASE_FAMILY_RECEIPT,
+    CORRECTED_ATTEMPT_DIRECTORY,
+    CORRECTED_FAMILY_OUTPUT,
+    CORRECTION_OUTPUT,
+    build_corrected_f2_family_receipt_v1,
+    build_f2_raw_provenance_correction_v1,
+)
 
 
 AUDIT_ROOT = Path(
@@ -55,12 +63,13 @@ def validate_f2_replacement_outer_v1_2(
     if path != expected_path or not path.is_file():
         raise ValueError("F2 replacement outer receipt path is noncanonical")
     outer = _load(path)
-    inner_path = (
-        path.parent
-        / "stage0_f2_replacement/stage0_f2_replacement_family_receipt.json"
-    )
+    base_inner_path = BASE_FAMILY_RECEIPT.resolve()
+    base_inner = _load(base_inner_path) if base_inner_path.is_file() else {}
+    inner_path = CORRECTED_FAMILY_OUTPUT.resolve()
     inner = _load(inner_path) if inner_path.is_file() else {}
+    correction = _load(CORRECTION_OUTPUT) if CORRECTION_OUTPUT.is_file() else {}
     outer_file = _file(path)
+    base_inner_file = _file(base_inner_path) if base_inner_path.is_file() else {}
     inner_file = _file(inner_path) if inner_path.is_file() else {}
     guard_path = Path(str(outer.get("guard_receipt", ""))).resolve()
     guard = _load(guard_path) if guard_path.is_file() else {}
@@ -78,16 +87,30 @@ def validate_f2_replacement_outer_v1_2(
         == "cmf_stage0_f2_replacement_guarded_scope_receipt_v1_2"
         and outer.get("implementation_version") == IMPLEMENTATION_VERSION
         and outer.get("family") == "F2",
-        "outer_complete": outer.get("status")
-        == "completed_stage0_f2_replacement_v1_2"
-        and outer.get("pipeline_integrity_pass") is True,
+        "outer_expected_derivation_failure": outer.get("status")
+        == "failed_cleanup_or_pipeline_integrity"
+        and outer.get("pipeline_integrity_pass") is False
+        and outer.get("scene_cleanup_succeeded") is True
+        and int(outer.get("orphan_process_count", -1)) == 0,
         "manifest": outer.get("replacement_manifest_sha256")
         == manifest.get("manifest_sha256"),
-        "inner_file": bool(inner_file)
-        and outer.get("result_receipt_file_sha256") == inner_file.get("sha256"),
-        "inner_payload": _self_hash(inner, "receipt_sha256")
-        and inner.get("receipt_sha256")
+        "base_inner_file": bool(base_inner_file)
+        and outer.get("result_receipt_file_sha256")
+        == base_inner_file.get("sha256"),
+        "base_inner_payload": _self_hash(base_inner, "receipt_sha256")
+        and base_inner.get("receipt_sha256")
         == outer.get("result_receipt_payload_sha256"),
+        "inner_payload": _self_hash(inner, "receipt_sha256")
+        and inner == build_corrected_f2_family_receipt_v1(),
+        "correction_payload": _self_hash(correction, "receipt_sha256")
+        and correction == build_f2_raw_provenance_correction_v1()
+        and correction.get("pass") is True,
+        "correction_binds_base": inner.get("base_family_receipt", {}).get(
+            "sha256"
+        )
+        == base_inner_file.get("sha256")
+        and inner.get("base_family_receipt_sha256")
+        == base_inner.get("receipt_sha256"),
         "inner_pipeline": inner.get("pipeline_integrity_pass") is True
         and inner.get("active_slot_terminal_evidence_valid") is True,
         "attempt_count": len(inner.get("attempt_receipts", [])) == 3,
@@ -107,7 +130,8 @@ def validate_f2_replacement_outer_v1_2(
         ),
         "guard_hash": isinstance(guard_digest, str)
         and hash_json(guard_payload) == guard_digest,
-        "guard_complete": guard.get("status") == "completed"
+        "guard_complete": guard.get("status") == "completed_child_failed"
+        and int(guard.get("child_exit_code", -1)) == 1
         and guard.get("post_source_lock_pass") is True
         and guard.get("timed_out") is False
         and int(guard.get("orphan_process_count", -1)) == 0
@@ -129,9 +153,7 @@ def validate_f2_replacement_outer_v1_2(
     }
     attempt_file_audits = []
     for attempt in inner.get("attempt_receipts", []):
-        attempt_path = (
-            inner_path.parent / "attempt_receipts" / f"{attempt.get('attempt_id')}.json"
-        )
+        attempt_path = CORRECTED_ATTEMPT_DIRECTORY / f"{attempt.get('attempt_id')}.json"
         stored = _load(attempt_path) if attempt_path.is_file() else None
         item_checks = {
             "exists": stored is not None,

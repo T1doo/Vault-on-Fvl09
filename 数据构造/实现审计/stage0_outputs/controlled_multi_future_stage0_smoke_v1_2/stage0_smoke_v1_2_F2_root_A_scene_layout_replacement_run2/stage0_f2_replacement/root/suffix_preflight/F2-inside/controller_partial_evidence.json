@@ -1,0 +1,495 @@
+{
+  "actual_prefix_end_qpos_sha256": "5a52655709a380b03936dd7fdec87e80fedf87355729939d0749f3cd9ea853bf",
+  "arm": "left",
+  "extra": {
+    "inside_full_obb_verifier_relaxed": false,
+    "inside_gravity_drop_route": {
+      "arm": "left",
+      "audit": {
+        "checks": {
+          "exact_drop_offset": true,
+          "exact_retreat_offset": true,
+          "exact_segment_order": true,
+          "exact_settle_and_samples": true,
+          "final_target_full_obb_inside": true,
+          "identity": true,
+          "local_geometry_center_recorded": true,
+          "opening_projection_inside": true,
+          "relation_inside": true,
+          "release_at_first_target": true,
+          "rim_clearance": true,
+          "selected_contact_until_release": true,
+          "strict_final_verifier": true
+        },
+        "pass": true
+      },
+      "can_local_geometry_center_m": [
+        -4.492628302420404e-06,
+        0.04756748877763528,
+        -5.966823217269159e-05
+      ],
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "drop_offset_m": 0.1,
+      "final_target_fit": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "local_corner_max": [
+          0.04803894845225601,
+          0.09580738142474032,
+          0.03240838237479299
+        ],
+        "local_corner_min": [
+          -0.048531217968247026,
+          0.030723409202262464,
+          -0.032870336968451264
+        ],
+        "pass_true_cavity_obb": true
+      },
+      "formal_data": false,
+      "gates": {
+        "final_box_contact_and_stability_required": true,
+        "final_full_obb_verifier_relaxed": false,
+        "final_target_full_obb_inside": true,
+        "pre_release_actor_fully_above_cavity_rim": true,
+        "pre_release_opening_projection_inside": true,
+        "pre_release_rim_clearance_at_least_20mm": true,
+        "selected_gripper_contact_required_until_release": true
+      },
+      "implementation_proposal": "f2_gravity_drop_inside_and_fixed_sector_routes_v1",
+      "main_object": "071_can/base1",
+      "pre_release_actor_pose": [
+        -0.2901713007200062,
+        -0.15267864896059247,
+        0.9432698593315743,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "pre_release_geometry_center_pose": [
+        -0.29023096895217887,
+        -0.20024613773822775,
+        0.9432653667032719,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "reference": "062_plasticbox/base2",
+      "relation": "inside",
+      "release_target_index": 0,
+      "retreat_offset_m": 0.16,
+      "rim_clearance_m": 0.02595801388876108,
+      "sample_steps": [
+        1,
+        5,
+        10,
+        25,
+        50,
+        125,
+        250
+      ],
+      "schema_version": "cmf_f2_suffix_routes_v3",
+      "settle_steps": 250,
+      "stage0_data": false,
+      "target_actor_pose": [
+        -0.2901713007200062,
+        -0.15267864896059247,
+        0.8432698593315743,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "target_geometry_center_pose": [
+        -0.29023096895217887,
+        -0.20024613773822775,
+        0.8432653667032719,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "targets": [
+        {
+          "pose": [
+            -0.2896822610918479,
+            -0.34412640998040245,
+            0.9420037019140287,
+            0.6530826609467903,
+            0.27029179215412885,
+            0.2700992167004618,
+            0.6538132747218934
+          ],
+          "segment_id": "inside_drop_release_10cm"
+        },
+        {
+          "pose": [
+            -0.2896822610918479,
+            -0.34412640998040245,
+            1.0020037019140287,
+            0.6530826609467903,
+            0.27029179215412885,
+            0.2700992167004618,
+            0.6538132747218934
+          ],
+          "segment_id": "inside_drop_retreat_16cm"
+        },
+        {
+          "pose": [
+            -0.297923743724823,
+            -0.31380218267440796,
+            0.9419903755187988,
+            0.7000005275036494,
+            -1.61680875200991e-05,
+            6.60717435563285e-06,
+            0.7141423255833185
+          ],
+          "segment_id": "f2_rest"
+        }
+      ]
+    },
+    "inside_xy_tracking_compensation_v8": {
+      "actor_eef_derivation_consistency": {
+        "orientation_atol_rad": 1e-12,
+        "orientation_error_rad": 0.0,
+        "pass": true,
+        "position_atol_m": 1e-12,
+        "position_error_m": 6.206335383118183e-17
+      },
+      "actor_pose_implied_by_xy_only_eef": [
+        -0.27934598374009595,
+        -0.15667902618361973,
+        0.9432698593315743,
+        2.756514647274227e-16,
+        -0.7071067811865477,
+        6.345201180918866e-17,
+        -0.7071067811865474
+      ],
+      "attempt_stop_condition_changed": false,
+      "candidate_search": false,
+      "cavity_changed": false,
+      "changed_target_indices": [
+        0
+      ],
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "desired_final_actor_target_sha256": "c8441e9267900f1e819c1b97933c52ad2497b79ef2cd7bfa1ca4b3c4a68ea914",
+      "desired_final_fit_sha256": "f9b0787724da7bf7f14430ab24066166e92f8d3949c5df32c0bdb658cce5f2a8",
+      "desired_pre_release_actor_target_sha256": "7c83550a3527f74f49ec8143658a7d54f0f0b85af3c01919a4297e06787b4b2c",
+      "desired_route_matches_exact_r6_evidence": false,
+      "desired_route_semantics_mutated": false,
+      "desired_route_sha256": "42b7bb9750a1443dab5953d0b9c79994af9a884d0ebd2156e737b5907754c062",
+      "fallback": false,
+      "formal_data": false,
+      "formula": {
+        "eef": "T_world_eef_xy = T_world_actor_xy @ inverse(T_eef_actor)",
+        "frozen_grasp": "T_eef_actor = inverse(T_world_eef_r6) @ T_world_actor_desired",
+        "full_actor": "A_full = A_desired @ inverse(A_realized_r6) @ A_desired",
+        "xy_actor": "A_xy = [A_full.x, A_full.y, A_desired.z, A_desired.quaternion]"
+      },
+      "frozen_t_eef_actor": [
+        0.19150757037403415,
+        0.0010197996764351736,
+        0.000624088549655677,
+        0.6534120877211845,
+        0.270940405008282,
+        -0.27171505557375936,
+        0.6525449173262634
+      ],
+      "implementation_proposal": "f2_r8_r6_r7_evidence_fixed_xy_only_inside_first_command_compensation",
+      "implementation_version": "controlled_multi_future_runtime_v3_3",
+      "input_target_sha256": [
+        "a2baeddfae7fca3e3ae746f3c12a45cbb6174e40319fbfaf0918a4021f3c1124",
+        "480fd3c4ad11cf9aecd85dc2e8f657f65fcacf30a2b7afb6c5180f5363d088c6",
+        "2bf0a3b05a6db86f9ae41b3499089c87d9d3c38b75bdd711dbd5f078917275e7"
+      ],
+      "input_targets_match_exact_r6_evidence": [
+        false,
+        false,
+        true
+      ],
+      "input_targets_sha256": "492dc9b59c3cc7037d9421090a5e0b42939f5345609781412891bb90c8cef000",
+      "inside_command_target_zero_changed": true,
+      "on_beside_affected": false,
+      "online_adaptation": false,
+      "output_target_sha256": [
+        "997598dd96b2730582cea66d9c6351483caae6b6ae0a08f485adde2ae013ffc0",
+        "480fd3c4ad11cf9aecd85dc2e8f657f65fcacf30a2b7afb6c5180f5363d088c6",
+        "2bf0a3b05a6db86f9ae41b3499089c87d9d3c38b75bdd711dbd5f078917275e7"
+      ],
+      "output_targets_sha256": "f56789b83ba6146ffb2c987a5b84b51efbc317dc380ccde5ceb0115c5b0238a2",
+      "planner_query_count_delta": 0,
+      "predicted_repeated_r6_tracking_error_diagnostic": {
+        "diagnostic_only": true,
+        "future_outcome_claimed": false,
+        "geometry_audit": {
+          "cavity_lower": [
+            -0.07824613475799559,
+            0.02176539531350136,
+            -0.07823097729682921
+          ],
+          "cavity_upper": [
+            0.07775386524200455,
+            0.10476539531350136,
+            0.07776902270317093
+          ],
+          "checks": {
+            "opening_projection_inside": true,
+            "rim_clearance_at_least_20mm": true
+          },
+          "local_corner_max": [
+            0.0517903992707342,
+            0.20116587152533494,
+            0.03801767433847669
+          ],
+          "local_corner_min": [
+            -0.052297064453300346,
+            0.12722953918703117,
+            -0.033857143540265366
+          ],
+          "pass": true,
+          "rim_clearance_headroom_over_20mm_m": 0.0024641438735298095,
+          "rim_clearance_m": 0.02246414387352981
+        },
+        "hard_gate": false,
+        "orientation_error_to_desired_rad": 0.09283205011534595,
+        "position_error_to_desired_m": 0.0025668280322569286,
+        "predicted_realized_actor_pose": [
+          -0.29008501117402546,
+          -0.15286319847524404,
+          0.940711128838131,
+          0.008754034414567015,
+          0.695064581041615,
+          0.042682109901244145,
+          0.7176258304696752
+        ]
+      },
+      "preserved_components": {
+        "actor_quaternion_exactly_preserved": true,
+        "actor_world_z_exactly_preserved": true,
+        "eef_orientation_matches_r6_planner_successful_command": true,
+        "eef_world_z_matches_r6_planner_successful_command": true
+      },
+      "program_id": "F2-inside",
+      "r6_desired_pre_release_actor_pose": [
+        -0.2901713007200062,
+        -0.15267864896059247,
+        0.9432698593315743,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "r6_evidence_target_sha256": [
+        "505e39b07eb35344e3bb63c19b5a3c317dd2c382564cf1e45887f0fab1d3997e",
+        "d67eb6a730f81f1c1619f24839e2cdc34f89b35b1ad3f0edbe1f36d0126c3624",
+        "2bf0a3b05a6db86f9ae41b3499089c87d9d3c38b75bdd711dbd5f078917275e7"
+      ],
+      "r6_planner_successful_first_eef_command_pose": [
+        -0.28960503546923777,
+        -0.3441847144870369,
+        0.9419717072948476,
+        0.6530027337490018,
+        0.26990055979022415,
+        0.2698351383914301,
+        0.6541636764835937
+      ],
+      "r6_realized_pre_release_actor_pose": [
+        -0.3010794520378113,
+        -0.1494094282388687,
+        0.9400912523269653,
+        0.008754034414567019,
+        0.695064581041615,
+        0.042682109901244145,
+        0.7176258304696752
+      ],
+      "r7_applied_goal_float32": [
+        -0.28812336921691895,
+        -0.3473733365535736,
+        0.9306851625442505,
+        0.6539396047592163,
+        0.3101579248905182,
+        0.24979563057422638,
+        0.6432473659515381
+      ],
+      "r7_full_se3_compensated_actor_pose": [
+        -0.2793459837400959,
+        -0.1566790261836197,
+        0.9458366873638312,
+        0.008754034414567177,
+        -0.7176258304696753,
+        0.0426821099012443,
+        -0.6950645810416147
+      ],
+      "r7_full_se3_compensated_eef_pose": [
+        -0.28812338400652177,
+        -0.3473733292264533,
+        0.930685147856833,
+        0.6539396113143634,
+        0.310157936702657,
+        0.24979562519322943,
+        0.6432473744125923
+      ],
+      "r7_full_se3_endpoint_abandoned": true,
+      "r7_full_se3_target_reused": false,
+      "receipt_sha256": "6f6f702d4a33849bacb323e3c7b23c211f1a7e355ba6ec66703dbb93a29ecebc",
+      "rest_target_byte_and_hash_equal": true,
+      "retreat_target_byte_and_hash_equal": true,
+      "runtime_artifact_read": false,
+      "schema_version": "cmf_f2_inside_xy_tracking_compensation_v8",
+      "scientific_target_changed": false,
+      "scientific_threshold_added": false,
+      "source_evidence": {
+        "revision6": {
+          "evidence_file_count": 42,
+          "evidence_manifest_file_sha256": "4c31f139945130908aabfb43d8ce0fe75981087e88a1a1a05472f0a22cc744b4",
+          "evidence_tree_sha256": "3e23874fc20c7fa7bacaa2d5ed3ce84e9d13fd4c53415671863b06809f2ec487",
+          "implementation_source_sha256": "3b771f97a5b2b53db53bf71ec9f1fe15727614a1303e2f415197e65655580a7d",
+          "inside_before_release_trace_row": 1974,
+          "inside_branch_receipt_file_sha256": "fd854e892f2250b63bd73266343fc2ae201ac3145fff89ae3bd064db346685a5",
+          "inside_trace_sha256": "98ca052e4316e38f6ba263da26f67447b7bbfce52a70373fd55a99d49b03d1a6",
+          "namespace": "nonformal_runtime_v3_3_f2_root_seed20260829_revision6_run1_anygpu",
+          "suffix_artifact_file_sha256": "2a35552afe8c923981538fc913f43a056af9fabd4f8f63a2b6d2d25e9d5bd5c0",
+          "suffix_artifact_sha256": "7f4b524efef2f6c15913c677ba328aed480ce9296add4af74b082f62a83fcb79",
+          "suffix_controls_file_sha256": "c819a517208c18b87773a2331ac6f69c3e24d5fdbff99b5a55dbe6d32e49ad55",
+          "suffix_execution_spec_sha256": "5090caf455b60936ba53eb4c0308c3be899910788a767635435eb05e6913d7bb"
+        },
+        "revision7": {
+          "authorization_receipt_sha256": "66098bf9dfc1dbd3610837edccb90333bb94fd6c3e11c8cd01e4d8f103bd91f7",
+          "evidence_file_count": 28,
+          "evidence_manifest_file_sha256": "d6a2a237ededcfbf773de174440ac96e3e7e02e569b6cf6eb5aa707862d997a5",
+          "evidence_tree_sha256": "3cc23996b115d3f23cc3aa2a551ffd2ad7543d7b072fa7581e50027292641cca",
+          "execution_attempt_count": 0,
+          "family_suffix_gate_file_sha256": "0aa84cc91616391efa00817ce19acbca0f089805b00a1af52d3fd9775d7692d5",
+          "full_se3_compensation_receipt_sha256_reconstructed_not_persisted": "1df583850b43faceac8c2cbdb7f26f3b43a914edd152bcb9d78cb03038b06ccb",
+          "guard_file_sha256": "b41127a72dcb2042a18b742d79f945aa33d0861fd9ed9a1a3eedf7be35400f68",
+          "impact_review_file_sha256": "7668a2b0138db4100827e4baa1ccb7eea071e0e8ad7bfd066ae2b7d6767e3804",
+          "implementation_source_sha256": "2ed82e7a5e6a2a03a3cf7b1cfb3dde82acba637f24c574c64c47099516ee72c8",
+          "inside_failure_attempts": 10,
+          "inside_failure_query_id": 1,
+          "inside_failure_segment": "inside_drop_release_10cm",
+          "inside_failure_status": "MotionGenStatus.IK_FAIL",
+          "inside_preflight_receipt_file_sha256": "c9700a9ab244d3961bd0c818d681b75dfc6975896c48475513bba4e0d1f545a7",
+          "inside_preflight_trace_sha256": "7995804a36469165f7a063bbc0b8919d3742e336cc154957cf5b5da2dd0e5f3d",
+          "namespace": "nonformal_runtime_v3_3_f2_root_seed20260829_revision7_run1_anygpu",
+          "normal_planner_false_partial_receipt_was_persisted": false,
+          "planner_query_count": 30,
+          "recovery_attempt_count": 0,
+          "root_receipt_file_sha256": "f4cb6fc0168f94687284a454856c55b9416f198daf0fc9f136b0bb9365b00276",
+          "top_receipt_file_sha256": "2842841550c9e8e5569e73ce33c211aa859c711cfeee5b4b97b02ceebdd1e4a2"
+        }
+      },
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "unique_candidate_count": 1,
+      "verifier_threshold_changed": false,
+      "xy_only_actor_command_pose": [
+        -0.2793459837400959,
+        -0.1566790261836197,
+        0.9432698593315743,
+        7.850462293418875e-17,
+        -0.7071067811865476,
+        7.850462293418875e-17,
+        -0.7071067811865475
+      ],
+      "xy_only_command_geometry_audit": {
+        "cavity_lower": [
+          -0.07824613475799559,
+          0.02176539531350136,
+          -0.07823097729682921
+        ],
+        "cavity_upper": [
+          0.07775386524200455,
+          0.10476539531350136,
+          0.07776902270317093
+        ],
+        "checks": {
+          "opening_projection_inside": true,
+          "rim_clearance_at_least_20mm": true
+        },
+        "local_corner_max": [
+          0.04403857122922877,
+          0.1958073814247403,
+          0.04323369935470328
+        ],
+        "local_corner_min": [
+          -0.05253159519127426,
+          0.13072340920226244,
+          -0.02204501998854097
+        ],
+        "pass": true,
+        "rim_clearance_headroom_over_20mm_m": 0.00595801388876108,
+        "rim_clearance_m": 0.02595801388876108
+      },
+      "xy_only_first_eef_command_pose": [
+        -0.27877971848932753,
+        -0.3481850917100642,
+        0.9419717072948476,
+        0.6530027337490016,
+        0.2699005597902242,
+        0.2698351383914301,
+        0.6541636764835939
+      ]
+    },
+    "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "relation": "inside",
+    "release_target_index": 0,
+    "target_actor_pose": [
+      -0.2901713007200062,
+      -0.15267864896059247,
+      0.8432698593315743,
+      7.850462293418875e-17,
+      -0.7071067811865476,
+      7.850462293418875e-17,
+      -0.7071067811865475
+    ],
+    "variant_id": "inside_gravity_drop_10cm_xy_comp_v8"
+  },
+  "formal_data": false,
+  "program_id": "F2-inside",
+  "receipt_sha256": "41f27b78c8023c95bed3e1c6b72c6bb73bd2a81f5eb0344a35cc55cc32f94869",
+  "schema_version": "cmf_suffix_preflight_input_evidence_v1",
+  "stage0_data": false,
+  "target_poses": [
+    [
+      -0.27877971848932753,
+      -0.3481850917100642,
+      0.9419717072948476,
+      0.6530027337490016,
+      0.2699005597902242,
+      0.2698351383914301,
+      0.6541636764835939
+    ],
+    [
+      -0.2896822610918479,
+      -0.34412640998040245,
+      1.0020037019140287,
+      0.6530826609467903,
+      0.27029179215412885,
+      0.2700992167004618,
+      0.6538132747218934
+    ],
+    [
+      -0.297923743724823,
+      -0.31380218267440796,
+      0.9419903755187988,
+      0.7000005275036494,
+      -1.61680875200991e-05,
+      6.60717435563285e-06,
+      0.7141423255833185
+    ]
+  ],
+  "target_segment_ids": [
+    "inside_drop_release_10cm",
+    "inside_drop_retreat_16cm",
+    "f2_rest"
+  ]
+}

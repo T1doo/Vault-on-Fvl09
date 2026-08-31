@@ -1,0 +1,403 @@
+{
+  "actual_prefix_end_qpos_sha256": "5a52655709a380b03936dd7fdec87e80fedf87355729939d0749f3cd9ea853bf",
+  "arm": "left",
+  "extra": {
+    "candidate_search_enabled": false,
+    "historical_safe_beside_route": {
+      "actual_held_transport_contact_gate_required": true,
+      "arm": "left",
+      "audit": {
+        "checks": {
+          "center_aware_table_support": true,
+          "exact_segment_order": true,
+          "exact_target_poses": true,
+          "fixed_eight_cm_preplace": true,
+          "identity": true,
+          "no_stand_move": true,
+          "one_reciprocal_hub": true,
+          "reciprocal_preplace": true,
+          "relation_beside": true,
+          "release_at_third_target": true,
+          "runtime_collision_gates_retained": true,
+          "sampled_exact_obb_held_envelope": true,
+          "single_historical_route_no_search": true,
+          "strict_exclusive_beside_predicate": true,
+          "strict_relation_verifier_retained": true,
+          "target_actor_exact": true,
+          "target_facility_clearance": true,
+          "upright_orientation_exact": true
+        },
+        "held_waypoint_envelope_audit": {
+          "actual_execution_contact_gate_required": true,
+          "collisions": [],
+          "curved_planned_path_covered": false,
+          "margin_m": 0.005,
+          "method": "normalized-linear EEF interpolation on declared straight waypoint segments; fixed grasp transform; exact can OBB corners; conservative facility world AABBs",
+          "minimum_separating_clearance_m": {
+            "box": 0.05343707919293208,
+            "scale": 0.03907026183721496,
+            "stand": 0.020748149781824113
+          },
+          "official_curobo_whole_robot_collision_still_required": true,
+          "pass": true,
+          "samples_per_segment": 41,
+          "schema_version": "cmf_f2_sampled_exact_obb_held_waypoint_envelope_v1",
+          "segment_count": 3,
+          "segments": [
+            {
+              "facility_collisions": [],
+              "segment_index": 0
+            },
+            {
+              "facility_collisions": [],
+              "segment_index": 1
+            },
+            {
+              "facility_collisions": [],
+              "segment_index": 2
+            }
+          ]
+        },
+        "pass": true,
+        "predicate_audit": {
+          "beside": true,
+          "exclusive_beside": true,
+          "inside": false,
+          "on": false,
+          "radial_distance_m": 0.15524174696260024,
+          "within_table": true
+        },
+        "schema_version": "cmf_f2_beside_historical_safe_route_v4_audit",
+        "target_facility_clearance_audit": {
+          "checks": {
+            "box": true,
+            "scale": true,
+            "stand": true
+          },
+          "facility_clearances": {
+            "box": {
+              "axis_separation_m": [
+                0.2105657462283991,
+                0.0006929283428311755,
+                -0.05830612985956973
+              ],
+              "separating_clearance_m": 0.2105657462283991
+            },
+            "scale": {
+              "axis_separation_m": [
+                0.039070261837215015,
+                0.03893405221282685,
+                -0.06807536790385105
+              ],
+              "separating_clearance_m": 0.039070261837215015
+            },
+            "stand": {
+              "axis_separation_m": [
+                0.020748149781824196,
+                -0.023695159397688473,
+                -0.06840295280753395
+              ],
+              "separating_clearance_m": 0.020748149781824196
+            }
+          },
+          "margin_m": 0.005,
+          "method": "exact target OBB corners, conservative facility world AABBs",
+          "pass": true,
+          "schema_version": "cmf_f2_target_exact_obb_aabb_clearance_v1",
+          "target_obb_aabb_lower": [
+            0.017300975076437436,
+            -0.1025464780689891,
+            0.74
+          ],
+          "target_obb_aabb_upper": [
+            0.08257969441968167,
+            -0.03746250584651124,
+            0.836570166420503
+          ]
+        },
+        "target_geometry": {
+          "support_error_m": 0.0,
+          "table_plane_z_m": 0.74,
+          "target_obb_bottom_z_m": 0.74
+        }
+      },
+      "can_half_extents_m": [
+        0.03254198611123893,
+        0.04828508321025152,
+        0.03263935967162212
+      ],
+      "can_local_geometry_center_m": [
+        -4.492628302420404e-06,
+        0.04756748877763528,
+        -5.966823217269159e-05
+      ],
+      "candidate_search_enabled": false,
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "facility_aabbs": {
+        "box": {
+          "lower": [
+            -0.3867366615532792,
+            -0.2967524444804943,
+            0.7782640365609332
+          ],
+          "upper": [
+            -0.19326477115196167,
+            -0.10323940641182028,
+            0.8902039954675898
+          ]
+        },
+        "scale": {
+          "lower": [
+            -0.17783340246447576,
+            -0.2585192468935225,
+            0.7684947985166519
+          ],
+          "upper": [
+            -0.02176928676077758,
+            -0.14148053028181595,
+            0.8091258285265568
+          ]
+        },
+        "stand": {
+          "lower": [
+            0.10332784420150587,
+            -0.061157665244199716,
+            0.768167213612969
+          ],
+          "upper": [
+            0.2966662074960559,
+            0.001157561351189499,
+            0.8130094874900812
+          ]
+        }
+      },
+      "formal_data": false,
+      "frozen_other_facilities": [
+        "062_plasticbox/base2",
+        "072_electronicscale/base0"
+      ],
+      "historical_variant_id": "f2_pose_4",
+      "implementation_proposal": "f2_historical_safe_sector_support_route_v4",
+      "implementation_version": "controlled_multi_future_runtime_v3_3",
+      "main_object": "071_can/base1",
+      "official_curobo_whole_robot_collision_required": true,
+      "preplace_offset_m": 0.08,
+      "reference": "074_displaystand/base3",
+      "relation": "beside",
+      "release_target_index": 2,
+      "rest_eef_pose": [
+        -0.297923743724823,
+        -0.31380218267440796,
+        0.9419903755187988,
+        0.7000005275036495,
+        -1.6168087520099104e-05,
+        6.607174355632852e-06,
+        0.7141423255833186
+      ],
+      "route_count": 1,
+      "schema_version": "cmf_f2_beside_historical_safe_route_v4",
+      "selection_basis": "immutable accepted same-layout runtime-v3_2 beside rollout; not selected from revision-4 planner results",
+      "source_actor_pose": [
+        -0.2819409966468811,
+        0.04145367443561554,
+        0.8612289428710938,
+        0.49893540556990995,
+        0.5008823314703833,
+        0.4999834339224701,
+        0.5001968781316788
+      ],
+      "source_eef_pose": [
+        -0.28111955523490906,
+        0.03977416083216667,
+        1.0526723861694336,
+        0.6526006443896644,
+        -0.26985174192408273,
+        0.6535279138461201,
+        0.27238520911876146
+      ],
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stand_pose": [
+        0.20000000298023224,
+        -0.029999999329447746,
+        0.7699999809265137,
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0,
+        0.0
+      ],
+      "stand_relative_xy_m": [
+        -0.15,
+        -0.04
+      ],
+      "strict_final_relation_verifier_relaxed": false,
+      "table_plane_z_m": 0.74,
+      "target_actor_pose": [
+        0.050000002980232244,
+        -0.06999999932944775,
+        0.7407175944326162,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "targets": [
+        {
+          "pose": [
+            -0.11531525631325927,
+            -0.0157459979574133,
+            1.0121653554524261,
+            0.6529243373620797,
+            -0.270674019099581,
+            0.6533047879077053,
+            0.27132681246356266
+          ],
+          "segment_id": "beside_historical_carry_hub"
+        },
+        {
+          "pose": [
+            0.05048904260839052,
+            -0.07126615674699327,
+            1.0121653554524261,
+            0.6529243373620797,
+            -0.270674019099581,
+            0.6533047879077053,
+            0.27132681246356266
+          ],
+          "segment_id": "beside_historical_preplace"
+        },
+        {
+          "pose": [
+            0.05048904260839052,
+            -0.07126615674699327,
+            0.9321653554524262,
+            0.6529243373620797,
+            -0.270674019099581,
+            0.6533047879077053,
+            0.27132681246356266
+          ],
+          "segment_id": "beside_historical_release"
+        },
+        {
+          "pose": [
+            0.05048904260839052,
+            -0.07126615674699327,
+            1.0121653554524261,
+            0.6529243373620797,
+            -0.270674019099581,
+            0.6533047879077053,
+            0.27132681246356266
+          ],
+          "segment_id": "beside_historical_retreat"
+        },
+        {
+          "pose": [
+            -0.11531525631325927,
+            -0.0157459979574133,
+            1.0121653554524261,
+            0.6529243373620797,
+            -0.270674019099581,
+            0.6533047879077053,
+            0.27132681246356266
+          ],
+          "segment_id": "beside_historical_carry_hub_return"
+        },
+        {
+          "pose": [
+            -0.297923743724823,
+            -0.31380218267440796,
+            0.9419903755187988,
+            0.7000005275036495,
+            -1.6168087520099104e-05,
+            6.607174355632852e-06,
+            0.7141423255833186
+          ],
+          "segment_id": "f2_rest"
+        }
+      ]
+    },
+    "inside_full_obb_verifier_relaxed": false,
+    "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "relation": "beside",
+    "release_target_index": 2,
+    "target_actor_pose": [
+      0.050000002980232244,
+      -0.06999999932944775,
+      0.7407175944326162,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "variant_id": "beside_historical_safe_support_route_v4"
+  },
+  "formal_data": false,
+  "program_id": "F2-beside",
+  "receipt_sha256": "885fad47924677ce925383e0e38c2c8bee87dfed9ad28bb16519ecfc4003a4f3",
+  "schema_version": "cmf_suffix_preflight_input_evidence_v1",
+  "stage0_data": false,
+  "target_poses": [
+    [
+      -0.11531525631325927,
+      -0.0157459979574133,
+      1.0121653554524261,
+      0.6529243373620797,
+      -0.270674019099581,
+      0.6533047879077053,
+      0.27132681246356266
+    ],
+    [
+      0.05048904260839052,
+      -0.07126615674699327,
+      1.0121653554524261,
+      0.6529243373620797,
+      -0.270674019099581,
+      0.6533047879077053,
+      0.27132681246356266
+    ],
+    [
+      0.05048904260839052,
+      -0.07126615674699327,
+      0.9321653554524262,
+      0.6529243373620797,
+      -0.270674019099581,
+      0.6533047879077053,
+      0.27132681246356266
+    ],
+    [
+      0.05048904260839052,
+      -0.07126615674699327,
+      1.0121653554524261,
+      0.6529243373620797,
+      -0.270674019099581,
+      0.6533047879077053,
+      0.27132681246356266
+    ],
+    [
+      -0.11531525631325927,
+      -0.0157459979574133,
+      1.0121653554524261,
+      0.6529243373620797,
+      -0.270674019099581,
+      0.6533047879077053,
+      0.27132681246356266
+    ],
+    [
+      -0.297923743724823,
+      -0.31380218267440796,
+      0.9419903755187988,
+      0.7000005275036495,
+      -1.6168087520099104e-05,
+      6.607174355632852e-06,
+      0.7141423255833186
+    ]
+  ],
+  "target_segment_ids": [
+    "beside_historical_carry_hub",
+    "beside_historical_preplace",
+    "beside_historical_release",
+    "beside_historical_retreat",
+    "beside_historical_carry_hub_return",
+    "f2_rest"
+  ]
+}

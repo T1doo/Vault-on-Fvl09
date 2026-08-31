@@ -246,7 +246,9 @@ def _raw_result(*args, **kwargs):
     scene = args[0] if args else kwargs.get("scene")
     adapter_version = getattr(scene, "_cmf_adapter_version", "")
     kwargs["implementation_version"] = (
-        "controlled_multi_future_stage0_smoke_v1_1"
+        "controlled_multi_future_stage0_smoke_v1_2"
+        if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_8"
+        else "controlled_multi_future_stage0_smoke_v1_1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_7"
         else "controlled_multi_future_stage0_smoke_v1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_6"

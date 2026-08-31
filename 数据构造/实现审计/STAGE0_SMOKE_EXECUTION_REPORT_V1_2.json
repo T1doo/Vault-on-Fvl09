@@ -1,0 +1,52 @@
+{
+  "schema_version": "cmf_stage0_smoke_execution_report_v1_2",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+  "stage0_attempt_phase_completed": true,
+  "stage0_completed": true,
+  "stage0_outcome": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+  "active_stage0_slot_count": 12,
+  "historical_terminal_attempt_count": 15,
+  "successful_attempt_count": 5,
+  "failed_attempt_count": 7,
+  "generated_trajectory_count": 5,
+  "generated_video_count": 5,
+  "all_generated_trajectories_have_mp4": true,
+  "family_outcomes": {
+    "F1": "PASS",
+    "F2": "FAILED_WITH_EVIDENCE",
+    "F3": "FAILED_WITH_EVIDENCE",
+    "F4": "FAILED_WITH_EVIDENCE"
+  },
+  "f2_replacement": {
+    "F2-inside": "FAILED_EXECUTION_WITH_EVIDENCE",
+    "F2-on": "PASSED",
+    "F2-beside": "PASSED",
+    "planner_query_count": 32,
+    "execution_attempt_count": 3,
+    "recovery_attempt_count": 0,
+    "physical_gpu_index": 4,
+    "cleanup_pass": true,
+    "orphan_process_count": 0,
+    "generated_trajectory_count": 2,
+    "generated_video_count": 2,
+    "video_decode_audit": {
+      "F2-on": {"frames": 302, "fps": 25.0, "first_decoded": true, "last_decoded": true, "resolution": [320, 240]},
+      "F2-beside": {"frames": 370, "fps": 25.0, "first_decoded": true, "last_decoded": true, "resolution": [320, 240]}
+    },
+    "current_anchor_lineage_pass": true,
+    "provenance_correction_overlay_pass": true,
+    "physical_attempts_rerun_for_metadata_fix": false
+  },
+  "stage0_result_payload_sha256": "394093a2571269eaa659cc90df654c449ffd1fb3a9ab041bbcfc321231c21df7",
+  "stage0_result_file_sha256": "228c9a425f88105472b3dff0e767431d10d306a4271fa575ec789cc6ef8c7c42",
+  "stage0_terminal_seal_sha256": "08ef2c20e6508b32a026fcd168ce5b69bb8686cec0071e5a243d7e211e810783",
+  "formal_data": false,
+  "accepted_formal_root_count": 0,
+  "stage1_authorized": false,
+  "formal_collection_authorized": false,
+  "training_authorized": false,
+  "h_reveal": null,
+  "compression_authorized": false,
+  "pi05_authorized": false
+}

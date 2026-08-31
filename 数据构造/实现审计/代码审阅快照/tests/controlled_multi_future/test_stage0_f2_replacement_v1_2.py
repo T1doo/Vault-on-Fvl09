@@ -34,6 +34,11 @@ from controlled_multi_future.probes import gpu_guard_v2_1, gpu_guard_v2_4
 from controlled_multi_future.probes.stage0_f2_replacement_authorization_v1_2 import (
     validate_stage0_f2_replacement_authorization_v1_2,
 )
+from controlled_multi_future.stage0_f2_provenance_correction_v1 import (
+    build_corrected_f2_family_receipt_v1,
+    build_f2_raw_provenance_correction_v1,
+)
+from controlled_multi_future import family_runners_v3_3
 
 
 class Stage0F2ReplacementV1_2Test(unittest.TestCase):
@@ -168,6 +173,43 @@ class Stage0F2ReplacementV1_2Test(unittest.TestCase):
         )
         self.assertTrue(seal["sealed_no_reopen_or_overwrite"])
         self.assertFalse(seal["stage1_authorized"])
+
+    def test_executed_f2_raw_label_correction_is_hash_bound(self):
+        correction = build_f2_raw_provenance_correction_v1()
+        self.assertTrue(correction["pass"])
+        self.assertEqual(len(correction["items"]), 2)
+        for item in correction["items"]:
+            self.assertEqual(
+                item["observed_implementation_version"],
+                "controlled_multi_future_runtime_v3_3",
+            )
+            self.assertEqual(
+                item["corrected_implementation_version"],
+                "controlled_multi_future_stage0_smoke_v1_2",
+            )
+            self.assertFalse(item["raw_bytes_modified"])
+            self.assertFalse(item["raw_manifest_modified"])
+            self.assertTrue(item["observed_integrity"]["pass"])
+            self.assertTrue(item["video_integrity"]["pass"])
+
+    def test_corrected_f2_receipt_reuses_physics_without_rerun(self):
+        value = build_corrected_f2_family_receipt_v1()
+        self.assertTrue(value["pipeline_integrity_pass"])
+        self.assertTrue(value["active_slot_terminal_evidence_valid"])
+        self.assertEqual(value["generated_trajectory_count"], 2)
+        self.assertEqual(value["generated_video_count"], 2)
+        self.assertEqual(
+            [item["terminal_status"] for item in value["attempt_receipts"]],
+            ["FAILED_EXECUTION_WITH_EVIDENCE", "PASSED", "PASSED"],
+        )
+        for item in value["attempt_receipts"][1:]:
+            self.assertFalse(item["physical_attempt_rerun"])
+            self.assertFalse(item["raw_or_video_modified"])
+
+    def test_future_v1_8_raw_provenance_label_is_fixed(self):
+        source = inspect.getsource(family_runners_v3_3._raw_result)
+        self.assertIn("RoboTwinRealSapienStrictPrefixAdapterV1_8", source)
+        self.assertIn("controlled_multi_future_stage0_smoke_v1_2", source)
 
 
 if __name__ == "__main__":
