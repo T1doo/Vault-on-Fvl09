@@ -1,0 +1,27 @@
+{
+  "schema_version": "cmf_stage0_f2_replacement_bundle_receipt_v1_2",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+  "reviewed_content_commit": "6fdf463bcfad40e365dd4477f9b4a0a387609570",
+  "implementation_source_sha256": "ad79e79df7607c7fc46740283a526a856071d904ef9630bea923a79202364807",
+  "replacement_manifest_sha256": "27512294d0494c945a6b6dfe22ad39b9fc8ee61fbd71fe53fc8bd4978f822689",
+  "budget_receipt_sha256": "5a56c1622cb6221cf99632a41da9c7b4a9958be954099b2cc393a23e543d2462",
+  "parent_user_authorization_sha256": "585db047ea549498ff7bd41ec44c0e5bcf8ce608ed6c7a0e2c18eddb3047ea7e",
+  "source_lock_receipt_sha256": "bfcb9dec06f84f9d82c8fe784354c6b775673b883805eb8c8b07e2b0e6de10b4",
+  "scope_request_sha256": "dbf77d6ffdbb4348acbeeb8c6a707bfe304ebaf73248180f0cdbe203666893cf",
+  "authorization_receipt_sha256": "abdc248605d91abef05353ca0e30d94e6d34be2fdfe03c15fbd9da2e932b71f1",
+  "authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2.authorization.json",
+  "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2.guard.json",
+  "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2",
+  "child_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.stage0_f2_replacement_scope_runner_v1_2",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement_run2.authorization.json"
+  ],
+  "timeout_seconds": 7200,
+  "physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "automatic_retry": false,
+  "recovery_attempts": 0,
+  "supersedes_unconsumed_prelaunch_run": "stage0-smoke-v1-2-F2-root-A-layout-replacement-run1"
+}
