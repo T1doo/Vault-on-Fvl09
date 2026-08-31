@@ -1,0 +1,4509 @@
+{
+  "actual_prefix_end_qpos_sha256": "9c2762c531d82c1903af9077f201a776cd2ee6611068dcde0c1f752d26b60491",
+  "evidence": {
+    "exact_candidate_preplanner_gate_v11": {
+      "applied_planner_segment_ids": [
+        "A_pregrasp",
+        "A_grasp",
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "candidate_contract_segment_ids": [
+        "A_pregrasp",
+        "A_grasp",
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "candidate_contract_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "candidate_id": "lower_carry_height",
+      "checks": {
+        "candidate_contract_segment_ids_equal_applied": true,
+        "candidate_contract_target_pose_sha256_equal_applied": true,
+        "neutral_terminal": true,
+        "release_in_chain": true
+      },
+      "execution_attempt_count_if_failed": 0,
+      "pass": true,
+      "planner_query_count_if_failed": 0,
+      "receipt_sha256": "08e017f63afabaee11c85c835817a59c0ed3e4655544a0cf522bab313cdb11cb",
+      "schema_version": "cmf_f4_exact_candidate_preplanner_gate_v11"
+    },
+    "fresh_scene_candidate_equivalence_v12": {
+      "candidate_id": "lower_carry_height",
+      "checks": {
+        "candidate_design_payload_exact": true,
+        "candidate_design_sha256_exact": true,
+        "frozen_candidate_self_consistent": true,
+        "layout_arm_release_semantics_unchanged": true,
+        "ordered_segment_ids_exact": true,
+        "orientations_within_preregistered_tolerance": true,
+        "positions_within_preregistered_tolerance": true,
+        "raw_pose_hash_is_not_semantic_identity": true,
+        "reconstructed_candidate_self_consistent": true,
+        "target_count_exact": true
+      },
+      "equivalence_version": "f4_stage0_candidate_structure_exact_pose_tolerant_v1",
+      "formal_data": false,
+      "frozen_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+      "frozen_candidate_self_consistency": {
+        "checks": {
+          "actual_applied_ids_equal_declared": true,
+          "actual_contract_ids_equal_declared": true,
+          "applied_ids_unique": true,
+          "applied_pose_hash_recomputed": true,
+          "applied_suffix_equals_contract": true,
+          "applied_suffix_pose_hash_recomputed": true,
+          "base_v11_candidate_hash_recomputed": true,
+          "bound_v12_candidate_hash_recomputed": true,
+          "candidate_reported_checks_all_true": true,
+          "candidate_reported_pass": true,
+          "context_binding_complete": true,
+          "contract_pose_hash_recomputed": true,
+          "contract_poses_equal_applied_suffix": true,
+          "neutral_index_terminal": true,
+          "release_index_valid": true
+        },
+        "contract_applied_pose_errors": [
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          }
+        ],
+        "label": "frozen",
+        "pass": true
+      },
+      "frozen_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "maximum_orientation_error_rad": 0.0,
+      "maximum_position_error_m": 0.0,
+      "orientation_atol_rad": 1e-05,
+      "pass": true,
+      "per_segment_pose_errors": [
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_pregrasp"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_grasp"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_lift"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_lower_carry_mid"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_lower_preplace"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_release"
+        },
+        {
+          "orientation_error_rad": 0.0,
+          "position_error_m": 0.0,
+          "segment_id": "A_neutral"
+        }
+      ],
+      "position_atol_m": 1e-05,
+      "raw_candidate_hash_equal_diagnostic": true,
+      "receipt_sha256": "d32d82e9a8a6876e9fe759790c7400881314f0be9bea94241e5dd6a946159164",
+      "reconstructed_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+      "reconstructed_candidate_self_consistency": {
+        "checks": {
+          "actual_applied_ids_equal_declared": true,
+          "actual_contract_ids_equal_declared": true,
+          "applied_ids_unique": true,
+          "applied_pose_hash_recomputed": true,
+          "applied_suffix_equals_contract": true,
+          "applied_suffix_pose_hash_recomputed": true,
+          "base_v11_candidate_hash_recomputed": true,
+          "bound_v12_candidate_hash_recomputed": true,
+          "candidate_reported_checks_all_true": true,
+          "candidate_reported_pass": true,
+          "context_binding_complete": true,
+          "contract_pose_hash_recomputed": true,
+          "contract_poses_equal_applied_suffix": true,
+          "neutral_index_terminal": true,
+          "release_index_valid": true
+        },
+        "contract_applied_pose_errors": [
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0
+          }
+        ],
+        "label": "reconstructed",
+        "pass": true
+      },
+      "reconstructed_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "schema_version": "cmf_f4_candidate_equivalence_v12",
+      "stage0_data": false
+    },
+    "frozen_canonical_neutral_spec_identity_v13": {
+      "applied_target_count": 7,
+      "candidate_id": "lower_carry_height",
+      "canonical_terminal_neutral_pose": [
+        0.24287901030859585,
+        -0.018903042090389933,
+        0.981401726222435,
+        0.5243493205275805,
+        -0.4743960933174202,
+        0.47440145961494534,
+        0.5243561688610553
+      ],
+      "canonical_terminal_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+      "checks": {
+        "all_applied_segment_ids_exact": true,
+        "all_applied_target_specs_exact": true,
+        "all_contract_target_specs_exact": true,
+        "candidate_application_sha256_exact": true,
+        "candidate_receipt_binding_reference_exact": true,
+        "candidate_receipt_neutral_pose_reference_exact": true,
+        "frozen_and_reconstructed_neutral_exact": true,
+        "frozen_neutral_exact_canonical_target": true,
+        "frozen_neutral_pose_sha256_exact": true,
+        "reconstructed_neutral_exact_canonical_target": true,
+        "reconstructed_neutral_pose_sha256_exact": true,
+        "target_spec_and_realized_prefix_state_are_separate": true,
+        "v12_structure_exact_pose_1e5_audit_retained": true
+      },
+      "formal_data": false,
+      "frozen_applied_targets_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "frozen_canonical_neutral_binding_sha256": "2a01c31d83674ed4337cfc4b470c4e330b322a747ad4792e0ffc247f3408ddbc",
+      "frozen_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+      "pass": true,
+      "receipt_sha256": "e7798e28909527910f14e32bfc295b47bf53b03b25222597e119f38f246e3a13",
+      "reconstructed_applied_targets_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "reconstructed_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+      "retained_candidate_equivalence_v12": {
+        "candidate_id": "lower_carry_height",
+        "checks": {
+          "candidate_design_payload_exact": true,
+          "candidate_design_sha256_exact": true,
+          "frozen_candidate_self_consistent": true,
+          "layout_arm_release_semantics_unchanged": true,
+          "ordered_segment_ids_exact": true,
+          "orientations_within_preregistered_tolerance": true,
+          "positions_within_preregistered_tolerance": true,
+          "raw_pose_hash_is_not_semantic_identity": true,
+          "reconstructed_candidate_self_consistent": true,
+          "target_count_exact": true
+        },
+        "equivalence_version": "f4_stage0_candidate_structure_exact_pose_tolerant_v1",
+        "formal_data": false,
+        "frozen_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+        "frozen_candidate_self_consistency": {
+          "checks": {
+            "actual_applied_ids_equal_declared": true,
+            "actual_contract_ids_equal_declared": true,
+            "applied_ids_unique": true,
+            "applied_pose_hash_recomputed": true,
+            "applied_suffix_equals_contract": true,
+            "applied_suffix_pose_hash_recomputed": true,
+            "base_v11_candidate_hash_recomputed": true,
+            "bound_v12_candidate_hash_recomputed": true,
+            "candidate_reported_checks_all_true": true,
+            "candidate_reported_pass": true,
+            "context_binding_complete": true,
+            "contract_pose_hash_recomputed": true,
+            "contract_poses_equal_applied_suffix": true,
+            "neutral_index_terminal": true,
+            "release_index_valid": true
+          },
+          "contract_applied_pose_errors": [
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            }
+          ],
+          "label": "frozen",
+          "pass": true
+        },
+        "frozen_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+        "maximum_orientation_error_rad": 0.0,
+        "maximum_position_error_m": 0.0,
+        "orientation_atol_rad": 1e-05,
+        "pass": true,
+        "per_segment_pose_errors": [
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_pregrasp"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_grasp"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_lift"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_lower_carry_mid"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_lower_preplace"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_release"
+          },
+          {
+            "orientation_error_rad": 0.0,
+            "position_error_m": 0.0,
+            "segment_id": "A_neutral"
+          }
+        ],
+        "position_atol_m": 1e-05,
+        "raw_candidate_hash_equal_diagnostic": true,
+        "receipt_sha256": "d32d82e9a8a6876e9fe759790c7400881314f0be9bea94241e5dd6a946159164",
+        "reconstructed_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+        "reconstructed_candidate_self_consistency": {
+          "checks": {
+            "actual_applied_ids_equal_declared": true,
+            "actual_contract_ids_equal_declared": true,
+            "applied_ids_unique": true,
+            "applied_pose_hash_recomputed": true,
+            "applied_suffix_equals_contract": true,
+            "applied_suffix_pose_hash_recomputed": true,
+            "base_v11_candidate_hash_recomputed": true,
+            "bound_v12_candidate_hash_recomputed": true,
+            "candidate_reported_checks_all_true": true,
+            "candidate_reported_pass": true,
+            "context_binding_complete": true,
+            "contract_pose_hash_recomputed": true,
+            "contract_poses_equal_applied_suffix": true,
+            "neutral_index_terminal": true,
+            "release_index_valid": true
+          },
+          "contract_applied_pose_errors": [
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0
+            }
+          ],
+          "label": "reconstructed",
+          "pass": true
+        },
+        "reconstructed_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+        "schema_version": "cmf_f4_candidate_equivalence_v12",
+        "stage0_data": false
+      },
+      "schema_version": "cmf_f4_frozen_canonical_neutral_spec_identity_v13",
+      "stage0_data": false
+    },
+    "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+    "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+    "planner_collision_check_source": "official CuRobo planner success/failure per frozen segment",
+    "planner_query_receipts": [
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                163,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                163,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.1599990427494049,
+          -0.0009548207162879407,
+          0.986952543258667,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 6.597049377887743e-07,
+              "rotation_error": 5.104921569909493e-07,
+              "solve_time": 0.045119524002075195,
+              "status": null,
+              "success": true,
+              "total_time": 0.0694267749786377,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 1,
+        "source": "A_pregrasp",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                179,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                179,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.15999926626682281,
+          0.008026191964745522,
+          0.897401750087738,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.132373427026323e-06,
+              "rotation_error": 3.0372111723409034e-06,
+              "solve_time": 0.045042991638183594,
+              "status": null,
+              "success": true,
+              "total_time": 0.06592726707458496,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 2,
+        "source": "A_grasp",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                87,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                87,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.15999926626682281,
+          0.008026191964745522,
+          0.9174017906188965,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 2.2473027456726413e-06,
+              "rotation_error": 2.7624892027233727e-06,
+              "solve_time": 0.0424809455871582,
+              "status": null,
+              "success": true,
+              "total_time": 0.06288266181945801,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 3,
+        "source": "A_lift",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                260,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                260,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.1549994796514511,
+          0.07802601903676987,
+          0.9240019917488098,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 2.1851005840289872e-06,
+              "rotation_error": 6.608506737393327e-07,
+              "solve_time": 0.04209256172180176,
+              "status": null,
+              "success": true,
+              "total_time": 0.06252670288085938,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 4,
+        "source": "A_lower_carry_mid",
+        "start_step": null,
+        "status": "Success"
+      },
+      {
+        "arm": "right",
+        "dtype_contract": {
+          "control": {},
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": null,
+        "goal_eef_pose": [
+          0.1499996781349182,
+          0.14802584052085876,
+          0.9240019917488098,
+          0.5243540406227112,
+          -0.4743987023830414,
+          0.4743957817554474,
+          0.5243542194366455
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 10,
+              "position_error": null,
+              "rotation_error": null,
+              "solve_time": 0.05741691589355469,
+              "status": "MotionGenStatus.IK_FAIL",
+              "success": false,
+              "total_time": 0.08482241630554199,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 5,
+        "source": "A_lower_preplace",
+        "start_step": null,
+        "status": "Fail"
+      }
+    ],
+    "planner_reset_receipt": {
+      "arm": "right",
+      "planner_instance_id": "inprocess:CuroboPlanner:140335271146112",
+      "planner_seed": 20260828,
+      "reset_evidence": {
+        "planner_seed": 20260828,
+        "reset_seed_argument": true,
+        "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+      },
+      "reset_performed": true,
+      "rng_state_after_reset_sha256": "8eb0d245a8e5a15fed2e1ea8a9b06623b08c5a6e1752334982deb14debfb9eb8",
+      "variant_id": "v3_3_suffix:F4-STAGE0-V13-lower_carry_height"
+    },
+    "preflight_and_execution_share_control_cache": true,
+    "preflight_input_evidence": {
+      "actual_prefix_end_qpos_sha256": "9c2762c531d82c1903af9077f201a776cd2ee6611068dcde0c1f752d26b60491",
+      "arm": "right",
+      "extra": {
+        "block_carry_route_audit": {
+          "application_version": "f4_exact_variable_length_corridor_application_v11",
+          "base_A_targets_sha256": "2b696edb102d43e50d9a9eaf369b5ce125ed1bd214a2bbdbb2e89bf388587220",
+          "base_v10_contract_sha256": "9cc9097666c01d62505a5a4ae684250a77f0a1384a5ccd31bce059ca99de3f76",
+          "base_v11_receipt_sha256": "0212df5af4f75f833a6958b97249bb94d7f7643098e1f81088fb0b19fc1d2521",
+          "base_v12_receipt_sha256": "5b68bea76b013d027f801d959af7715574f98929c947b08e1125864b7aa43c5a",
+          "candidates": [
+            {
+              "applied_candidate_subsequence_target_pose_sha256": "728793b446e1fd49b2d9ad55fc4ffd4fee93d006eedb1d1fb797f4bd1e7cb2a4",
+              "applied_planner_segment_ids": [
+                "A_pregrasp",
+                "A_grasp",
+                "A_lift",
+                "A_r4_carry_mid",
+                "A_restore_topdown_mid",
+                "A_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "applied_planner_target_pose_sha256": "f08b45749b1f3cd5e410550dc4b81dd4b85d03b4221a15541bd146e7d424d3b5",
+              "applied_planner_targets": [
+                {
+                  "pose": [
+                    0.1599990388998047,
+                    -0.0009548207358225022,
+                    0.9869525509109666,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_pregrasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.8974017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_grasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.1549994685589866,
+                    -0.013921714285871883,
+                    0.9240019948107627,
+                    0.6830110770159924,
+                    -0.18302253901568033,
+                    0.18301608186480636,
+                    0.6830107851744089
+                  ],
+                  "segment_id": "A_r4_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_restore_topdown_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9994013175523649,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "base_v11_candidate_application_sha256": "f1ea4624771e11129eea1e847e187209dce82f6c473a1d606b4da519fb786f54",
+              "candidate_application_sha256": "f1ea4624771e11129eea1e847e187209dce82f6c473a1d606b4da519fb786f54",
+              "candidate_contract_segment_ids": [
+                "A_lift",
+                "A_r4_carry_mid",
+                "A_restore_topdown_mid",
+                "A_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "candidate_contract_segments": [
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.1549994685589866,
+                    -0.013921714285871883,
+                    0.9240019948107627,
+                    0.6830110770159924,
+                    -0.18302253901568033,
+                    0.18301608186480636,
+                    0.6830107851744089
+                  ],
+                  "segment_id": "A_r4_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_restore_topdown_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9994013175523649,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "candidate_contract_target_pose_sha256": "728793b446e1fd49b2d9ad55fc4ffd4fee93d006eedb1d1fb797f4bd1e7cb2a4",
+              "candidate_id": "r4_successful_carry_orientation_and_corridor",
+              "checks": {
+                "contract_ids_equal_applied_subsequence_ids": true,
+                "contract_pose_hash_equal_applied_subsequence_hash": true,
+                "neutral_is_terminal": true,
+                "pregrasp_grasp_prefixed_only": true,
+                "release_in_chain": true
+              },
+              "neutral_segment_index": 7,
+              "pass": true,
+              "priority": 1,
+              "release_segment_index": 6,
+              "stage0_bound_candidate_sha256_v12": "4ee757da1485b7a4f0b9b15b6e8d7b3b1611fa584a529b44a1753f07b0f2341b",
+              "stage0_context_binding_v12": {
+                "arm": "right",
+                "layout_version": "f4_right_arm_workspace_base0_v4_final",
+                "release_target_semantics": "same_role_visible_slot_unchanged",
+                "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+              }
+            },
+            {
+              "applied_candidate_subsequence_target_pose_sha256": "5b25e994eb71f6c9aadd51f12c052b4a48f1d26683ff3462db18e88db29b25c5",
+              "applied_planner_segment_ids": [
+                "A_pregrasp",
+                "A_grasp",
+                "A_lift",
+                "A_branch_neutral_carry",
+                "A_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "applied_planner_target_pose_sha256": "9e6a4fcc33174fa9fcd76199d46747515154d12bfebb29df18371f35bcacb10f",
+              "applied_planner_targets": [
+                {
+                  "pose": [
+                    0.1599990388998047,
+                    -0.0009548207358225022,
+                    0.9869525509109666,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_pregrasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.8974017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_grasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_branch_neutral_carry"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9994013175523649,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "base_v11_candidate_application_sha256": "83819326ada621a867ab8d7334fd0c813d3e6739fdc33f79fa6894aab69dcf5d",
+              "candidate_application_sha256": "83819326ada621a867ab8d7334fd0c813d3e6739fdc33f79fa6894aab69dcf5d",
+              "candidate_contract_segment_ids": [
+                "A_lift",
+                "A_branch_neutral_carry",
+                "A_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "candidate_contract_segments": [
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_branch_neutral_carry"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9994013175523649,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "candidate_contract_target_pose_sha256": "5b25e994eb71f6c9aadd51f12c052b4a48f1d26683ff3462db18e88db29b25c5",
+              "candidate_id": "proven_branch_neutral_carry_pose",
+              "checks": {
+                "contract_ids_equal_applied_subsequence_ids": true,
+                "contract_pose_hash_equal_applied_subsequence_hash": true,
+                "neutral_is_terminal": true,
+                "pregrasp_grasp_prefixed_only": true,
+                "release_in_chain": true
+              },
+              "neutral_segment_index": 6,
+              "pass": true,
+              "priority": 2,
+              "release_segment_index": 5,
+              "stage0_bound_candidate_sha256_v12": "360f6ebcbf62d086377036db4bebbe6cdab641cd6e0d92e227192f7ac7ae619d",
+              "stage0_context_binding_v12": {
+                "arm": "right",
+                "layout_version": "f4_right_arm_workspace_base0_v4_final",
+                "release_target_semantics": "same_role_visible_slot_unchanged",
+                "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+              }
+            },
+            {
+              "applied_candidate_subsequence_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+              "applied_planner_segment_ids": [
+                "A_pregrasp",
+                "A_grasp",
+                "A_lift",
+                "A_lower_carry_mid",
+                "A_lower_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+              "applied_planner_targets": [
+                {
+                  "pose": [
+                    0.1599990388998047,
+                    -0.0009548207358225022,
+                    0.9869525509109666,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_pregrasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.8974017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_grasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "base_v11_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+              "candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+              "candidate_contract_segment_ids": [
+                "A_lift",
+                "A_lower_carry_mid",
+                "A_lower_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "candidate_contract_segments": [
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "candidate_contract_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+              "candidate_id": "lower_carry_height",
+              "checks": {
+                "contract_ids_equal_applied_subsequence_ids": true,
+                "contract_pose_hash_equal_applied_subsequence_hash": true,
+                "neutral_is_terminal": true,
+                "pregrasp_grasp_prefixed_only": true,
+                "release_in_chain": true
+              },
+              "neutral_segment_index": 6,
+              "pass": true,
+              "priority": 3,
+              "release_segment_index": 5,
+              "stage0_bound_candidate_sha256_v12": "8235a1a1a1e8a415565d021d5542b62ca6e722a50d34f33d14d1928dbca0ffa0",
+              "stage0_context_binding_v12": {
+                "arm": "right",
+                "layout_version": "f4_right_arm_workspace_base0_v4_final",
+                "release_target_semantics": "same_role_visible_slot_unchanged",
+                "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+              }
+            },
+            {
+              "applied_candidate_subsequence_target_pose_sha256": "73614dd1441ed752b8c67ff3c8a9f6f2debc4f92ff1e2525a48c57a9f7f71bb5",
+              "applied_planner_segment_ids": [
+                "A_pregrasp",
+                "A_grasp",
+                "A_lift",
+                "A_lower_corridor_entry",
+                "A_lower_carry_mid",
+                "A_lower_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "applied_planner_target_pose_sha256": "9e0593c9a735b5a3a63b5e692ee1541f012bc4fd7eadab4feb77c8eb8f4769a6",
+              "applied_planner_targets": [
+                {
+                  "pose": [
+                    0.1599990388998047,
+                    -0.0009548207358225022,
+                    0.9869525509109666,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_pregrasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.8974017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_grasp"
+                },
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.1989392421024553,
+                    0.029561486643009807,
+                    0.9527018605165989,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_corridor_entry"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "base_v11_candidate_application_sha256": "4d638230626e7681e098be64e61b1eea7974a82277270444feb501e4448a996e",
+              "candidate_application_sha256": "4d638230626e7681e098be64e61b1eea7974a82277270444feb501e4448a996e",
+              "candidate_contract_segment_ids": [
+                "A_lift",
+                "A_lower_corridor_entry",
+                "A_lower_carry_mid",
+                "A_lower_preplace",
+                "A_release",
+                "A_neutral"
+              ],
+              "candidate_contract_segments": [
+                {
+                  "pose": [
+                    0.15999926796226707,
+                    0.008026192029675513,
+                    0.9174017753160367,
+                    0.5243540196282084,
+                    -0.4743987085448015,
+                    0.47439577355982826,
+                    0.5243542480607335
+                  ],
+                  "segment_id": "A_lift"
+                },
+                {
+                  "pose": [
+                    0.1989392421024553,
+                    0.029561486643009807,
+                    0.9527018605165989,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_corridor_entry"
+                },
+                {
+                  "pose": [
+                    0.15499947389631477,
+                    0.07802601537640955,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_carry_mid"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.9240019948107627,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_lower_preplace"
+                },
+                {
+                  "pose": [
+                    0.14999967983036247,
+                    0.1480258387231436,
+                    0.899401317552365,
+                    0.5243540196282083,
+                    -0.4743987085448014,
+                    0.4743957735598284,
+                    0.5243542480607336
+                  ],
+                  "segment_id": "A_release"
+                },
+                {
+                  "pose": [
+                    0.24287901030859585,
+                    -0.018903042090389933,
+                    0.981401726222435,
+                    0.5243493205275805,
+                    -0.4743960933174202,
+                    0.47440145961494534,
+                    0.5243561688610553
+                  ],
+                  "segment_id": "A_neutral"
+                }
+              ],
+              "candidate_contract_target_pose_sha256": "73614dd1441ed752b8c67ff3c8a9f6f2debc4f92ff1e2525a48c57a9f7f71bb5",
+              "candidate_id": "intermediate_corridor_waypoint",
+              "checks": {
+                "contract_ids_equal_applied_subsequence_ids": true,
+                "contract_pose_hash_equal_applied_subsequence_hash": true,
+                "neutral_is_terminal": true,
+                "pregrasp_grasp_prefixed_only": true,
+                "release_in_chain": true
+              },
+              "neutral_segment_index": 7,
+              "pass": true,
+              "priority": 4,
+              "release_segment_index": 6,
+              "stage0_bound_candidate_sha256_v12": "b608b1874d119e48fcec0667467399dd75e58a6278f46aa4fce6e019dcc61839",
+              "stage0_context_binding_v12": {
+                "arm": "right",
+                "layout_version": "f4_right_arm_workspace_base0_v4_final",
+                "release_target_semantics": "same_role_visible_slot_unchanged",
+                "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+              }
+            }
+          ],
+          "canonical_terminal_neutral_pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "canonical_terminal_neutral_pose_sha256_v13": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+          "canonical_terminal_neutral_source": "canonical_prefix_target_neutral_pose",
+          "checks": {
+            "all_exact_application": true,
+            "candidate1_restore_waypoint_present": true,
+            "candidate3_lower_preplace_present": true,
+            "candidate4_two_intermediate_waypoints_present": true,
+            "exact_four_candidates": true,
+            "fixed_order": true
+          },
+          "design_version": "controlled_multi_future_f1_f4_v1_2",
+          "formal_data": false,
+          "frozen_canonical_neutral_binding_sha256_v13": "2a01c31d83674ed4337cfc4b470c4e330b322a747ad4792e0ffc247f3408ddbc",
+          "frozen_canonical_neutral_binding_v13": {
+            "acceptance_prefix_end_anchor_sha256": "407334dba52e80e72206355ff2b3824d536096235004beb5c39a11adf3646c31",
+            "binding_sha256": "2a01c31d83674ed4337cfc4b470c4e330b322a747ad4792e0ffc247f3408ddbc",
+            "binding_version": "f4_frozen_canonical_neutral_binding_v13",
+            "canonical_prefix_action_sha256": "41fdbc5e449f24bbcb3677e7af9b372c25226f32fef1eeebff9752ab4f79059d",
+            "canonical_prefix_contract_sha256": "fff1e8b8a74678a5c3d335b3c14bef11539b7c2e814ece8f6edc3d546e719784",
+            "canonical_prefix_id": "f4_common_x_tray_withdraw_high_neutral_v5",
+            "canonical_terminal_neutral_pose": [
+              0.24287901030859585,
+              -0.018903042090389933,
+              0.981401726222435,
+              0.5243493205275805,
+              -0.4743960933174202,
+              0.47440145961494534,
+              0.5243561688610553
+            ],
+            "canonical_terminal_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+            "canonical_terminal_neutral_source": "canonical_prefix_target_neutral_pose",
+            "design_version": "controlled_multi_future_f1_f4_v1_2",
+            "forbidden_neutral_sources": [
+              "post_prefix_common_x_pose",
+              "recomputed_common_center_high",
+              "layout_branch_neutral_pose"
+            ],
+            "formal_data": false,
+            "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+            "prefix_end_tolerance_version": "cmf_prefix_end_tolerance_v1_provisional",
+            "realized_replay_equivalence_policy": "separate_existing_prefix_end_physical_tolerance",
+            "schema_version": "cmf_f4_frozen_canonical_neutral_binding_v13",
+            "semantic_prefix_end_anchor_sha256": "2e5c7aabe00e0f390a00b279cb2feda8eb7f5ab66fab487180d31fa8a7551d20",
+            "specification_identity_policy": "exact_immutable_target_pose",
+            "stage0_authorized": false,
+            "stage0_data": false
+          },
+          "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+          "pass": true,
+          "receipt_sha256": "78a1b3dd3a2d6cf79dac9a0d70cd935d95b023365551069f5593468c709d2e15",
+          "schema_version": "cmf_f4_exact_corridor_contract_v13",
+          "stage0_authorized": false,
+          "stage0_context_binding_v12": {
+            "arm": "right",
+            "layout_version": "f4_right_arm_workspace_base0_v4_final",
+            "release_target_semantics": "same_role_visible_slot_unchanged",
+            "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+          },
+          "stage0_data": false
+        },
+        "block_carry_route_version": "f4_frozen_canonical_neutral_binding_v13",
+        "common_prefix_artifact_required": true,
+        "diagnostic_block_gate": true,
+        "exact_candidate_preplanner_gate_v11": {
+          "applied_planner_segment_ids": [
+            "A_pregrasp",
+            "A_grasp",
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "candidate_contract_segment_ids": [
+            "A_pregrasp",
+            "A_grasp",
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "candidate_contract_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "candidate_id": "lower_carry_height",
+          "checks": {
+            "candidate_contract_segment_ids_equal_applied": true,
+            "candidate_contract_target_pose_sha256_equal_applied": true,
+            "neutral_terminal": true,
+            "release_in_chain": true
+          },
+          "execution_attempt_count_if_failed": 0,
+          "pass": true,
+          "planner_query_count_if_failed": 0,
+          "receipt_sha256": "08e017f63afabaee11c85c835817a59c0ed3e4655544a0cf522bab313cdb11cb",
+          "schema_version": "cmf_f4_exact_candidate_preplanner_gate_v11"
+        },
+        "fresh_scene_candidate_equivalence_v12": {
+          "candidate_id": "lower_carry_height",
+          "checks": {
+            "candidate_design_payload_exact": true,
+            "candidate_design_sha256_exact": true,
+            "frozen_candidate_self_consistent": true,
+            "layout_arm_release_semantics_unchanged": true,
+            "ordered_segment_ids_exact": true,
+            "orientations_within_preregistered_tolerance": true,
+            "positions_within_preregistered_tolerance": true,
+            "raw_pose_hash_is_not_semantic_identity": true,
+            "reconstructed_candidate_self_consistent": true,
+            "target_count_exact": true
+          },
+          "equivalence_version": "f4_stage0_candidate_structure_exact_pose_tolerant_v1",
+          "formal_data": false,
+          "frozen_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+          "frozen_candidate_self_consistency": {
+            "checks": {
+              "actual_applied_ids_equal_declared": true,
+              "actual_contract_ids_equal_declared": true,
+              "applied_ids_unique": true,
+              "applied_pose_hash_recomputed": true,
+              "applied_suffix_equals_contract": true,
+              "applied_suffix_pose_hash_recomputed": true,
+              "base_v11_candidate_hash_recomputed": true,
+              "bound_v12_candidate_hash_recomputed": true,
+              "candidate_reported_checks_all_true": true,
+              "candidate_reported_pass": true,
+              "context_binding_complete": true,
+              "contract_pose_hash_recomputed": true,
+              "contract_poses_equal_applied_suffix": true,
+              "neutral_index_terminal": true,
+              "release_index_valid": true
+            },
+            "contract_applied_pose_errors": [
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              }
+            ],
+            "label": "frozen",
+            "pass": true
+          },
+          "frozen_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "maximum_orientation_error_rad": 0.0,
+          "maximum_position_error_m": 0.0,
+          "orientation_atol_rad": 1e-05,
+          "pass": true,
+          "per_segment_pose_errors": [
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_grasp"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_lift"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_lower_carry_mid"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_lower_preplace"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_release"
+            },
+            {
+              "orientation_error_rad": 0.0,
+              "position_error_m": 0.0,
+              "segment_id": "A_neutral"
+            }
+          ],
+          "position_atol_m": 1e-05,
+          "raw_candidate_hash_equal_diagnostic": true,
+          "receipt_sha256": "d32d82e9a8a6876e9fe759790c7400881314f0be9bea94241e5dd6a946159164",
+          "reconstructed_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+          "reconstructed_candidate_self_consistency": {
+            "checks": {
+              "actual_applied_ids_equal_declared": true,
+              "actual_contract_ids_equal_declared": true,
+              "applied_ids_unique": true,
+              "applied_pose_hash_recomputed": true,
+              "applied_suffix_equals_contract": true,
+              "applied_suffix_pose_hash_recomputed": true,
+              "base_v11_candidate_hash_recomputed": true,
+              "bound_v12_candidate_hash_recomputed": true,
+              "candidate_reported_checks_all_true": true,
+              "candidate_reported_pass": true,
+              "context_binding_complete": true,
+              "contract_pose_hash_recomputed": true,
+              "contract_poses_equal_applied_suffix": true,
+              "neutral_index_terminal": true,
+              "release_index_valid": true
+            },
+            "contract_applied_pose_errors": [
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0
+              }
+            ],
+            "label": "reconstructed",
+            "pass": true
+          },
+          "reconstructed_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "schema_version": "cmf_f4_candidate_equivalence_v12",
+          "stage0_data": false
+        },
+        "frozen_canonical_neutral_spec_identity_v13": {
+          "applied_target_count": 7,
+          "candidate_id": "lower_carry_height",
+          "canonical_terminal_neutral_pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "canonical_terminal_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+          "checks": {
+            "all_applied_segment_ids_exact": true,
+            "all_applied_target_specs_exact": true,
+            "all_contract_target_specs_exact": true,
+            "candidate_application_sha256_exact": true,
+            "candidate_receipt_binding_reference_exact": true,
+            "candidate_receipt_neutral_pose_reference_exact": true,
+            "frozen_and_reconstructed_neutral_exact": true,
+            "frozen_neutral_exact_canonical_target": true,
+            "frozen_neutral_pose_sha256_exact": true,
+            "reconstructed_neutral_exact_canonical_target": true,
+            "reconstructed_neutral_pose_sha256_exact": true,
+            "target_spec_and_realized_prefix_state_are_separate": true,
+            "v12_structure_exact_pose_1e5_audit_retained": true
+          },
+          "formal_data": false,
+          "frozen_applied_targets_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "frozen_canonical_neutral_binding_sha256": "2a01c31d83674ed4337cfc4b470c4e330b322a747ad4792e0ffc247f3408ddbc",
+          "frozen_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+          "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+          "pass": true,
+          "receipt_sha256": "e7798e28909527910f14e32bfc295b47bf53b03b25222597e119f38f246e3a13",
+          "reconstructed_applied_targets_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "reconstructed_neutral_pose_sha256": "93eab03d8412a206635ea87694fd9e8690921a6d0fc9c46f8af76d5fc072f60c",
+          "retained_candidate_equivalence_v12": {
+            "candidate_id": "lower_carry_height",
+            "checks": {
+              "candidate_design_payload_exact": true,
+              "candidate_design_sha256_exact": true,
+              "frozen_candidate_self_consistent": true,
+              "layout_arm_release_semantics_unchanged": true,
+              "ordered_segment_ids_exact": true,
+              "orientations_within_preregistered_tolerance": true,
+              "positions_within_preregistered_tolerance": true,
+              "raw_pose_hash_is_not_semantic_identity": true,
+              "reconstructed_candidate_self_consistent": true,
+              "target_count_exact": true
+            },
+            "equivalence_version": "f4_stage0_candidate_structure_exact_pose_tolerant_v1",
+            "formal_data": false,
+            "frozen_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+            "frozen_candidate_self_consistency": {
+              "checks": {
+                "actual_applied_ids_equal_declared": true,
+                "actual_contract_ids_equal_declared": true,
+                "applied_ids_unique": true,
+                "applied_pose_hash_recomputed": true,
+                "applied_suffix_equals_contract": true,
+                "applied_suffix_pose_hash_recomputed": true,
+                "base_v11_candidate_hash_recomputed": true,
+                "bound_v12_candidate_hash_recomputed": true,
+                "candidate_reported_checks_all_true": true,
+                "candidate_reported_pass": true,
+                "context_binding_complete": true,
+                "contract_pose_hash_recomputed": true,
+                "contract_poses_equal_applied_suffix": true,
+                "neutral_index_terminal": true,
+                "release_index_valid": true
+              },
+              "contract_applied_pose_errors": [
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                }
+              ],
+              "label": "frozen",
+              "pass": true
+            },
+            "frozen_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+            "maximum_orientation_error_rad": 0.0,
+            "maximum_position_error_m": 0.0,
+            "orientation_atol_rad": 1e-05,
+            "pass": true,
+            "per_segment_pose_errors": [
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_pregrasp"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_grasp"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_lift"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_lower_carry_mid"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_lower_preplace"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_release"
+              },
+              {
+                "orientation_error_rad": 0.0,
+                "position_error_m": 0.0,
+                "segment_id": "A_neutral"
+              }
+            ],
+            "position_atol_m": 1e-05,
+            "raw_candidate_hash_equal_diagnostic": true,
+            "receipt_sha256": "d32d82e9a8a6876e9fe759790c7400881314f0be9bea94241e5dd6a946159164",
+            "reconstructed_candidate_design_sha256": "ce3d4bb3e14ad4db1dabe2256547833ff9f1aa6fceea36cb38d882a4013d2a08",
+            "reconstructed_candidate_self_consistency": {
+              "checks": {
+                "actual_applied_ids_equal_declared": true,
+                "actual_contract_ids_equal_declared": true,
+                "applied_ids_unique": true,
+                "applied_pose_hash_recomputed": true,
+                "applied_suffix_equals_contract": true,
+                "applied_suffix_pose_hash_recomputed": true,
+                "base_v11_candidate_hash_recomputed": true,
+                "bound_v12_candidate_hash_recomputed": true,
+                "candidate_reported_checks_all_true": true,
+                "candidate_reported_pass": true,
+                "context_binding_complete": true,
+                "contract_pose_hash_recomputed": true,
+                "contract_poses_equal_applied_suffix": true,
+                "neutral_index_terminal": true,
+                "release_index_valid": true
+              },
+              "contract_applied_pose_errors": [
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                },
+                {
+                  "orientation_error_rad": 0.0,
+                  "position_error_m": 0.0
+                }
+              ],
+              "label": "reconstructed",
+              "pass": true
+            },
+            "reconstructed_raw_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+            "schema_version": "cmf_f4_candidate_equivalence_v12",
+            "stage0_data": false
+          },
+          "schema_version": "cmf_f4_frozen_canonical_neutral_spec_identity_v13",
+          "stage0_data": false
+        },
+        "object_order": [
+          "A"
+        ],
+        "object_target_groups": [
+          {
+            "exact_corridor_v11": true,
+            "frozen_canonical_neutral_v13": true,
+            "role": "A",
+            "selected_corridor_id": "lower_carry_height",
+            "target_count": 7,
+            "target_start_index": 0,
+            "targets": [
+              {
+                "pose": [
+                  0.1599990388998047,
+                  -0.0009548207358225022,
+                  0.9869525509109666,
+                  0.5243540196282084,
+                  -0.4743987085448015,
+                  0.47439577355982826,
+                  0.5243542480607335
+                ],
+                "segment_id": "A_pregrasp"
+              },
+              {
+                "pose": [
+                  0.15999926796226707,
+                  0.008026192029675513,
+                  0.8974017753160367,
+                  0.5243540196282084,
+                  -0.4743987085448015,
+                  0.47439577355982826,
+                  0.5243542480607335
+                ],
+                "segment_id": "A_grasp"
+              },
+              {
+                "pose": [
+                  0.15999926796226707,
+                  0.008026192029675513,
+                  0.9174017753160367,
+                  0.5243540196282084,
+                  -0.4743987085448015,
+                  0.47439577355982826,
+                  0.5243542480607335
+                ],
+                "segment_id": "A_lift"
+              },
+              {
+                "pose": [
+                  0.15499947389631477,
+                  0.07802601537640955,
+                  0.9240019948107627,
+                  0.5243540196282083,
+                  -0.4743987085448014,
+                  0.4743957735598284,
+                  0.5243542480607336
+                ],
+                "segment_id": "A_lower_carry_mid"
+              },
+              {
+                "pose": [
+                  0.14999967983036247,
+                  0.1480258387231436,
+                  0.9240019948107627,
+                  0.5243540196282083,
+                  -0.4743987085448014,
+                  0.4743957735598284,
+                  0.5243542480607336
+                ],
+                "segment_id": "A_lower_preplace"
+              },
+              {
+                "pose": [
+                  0.14999967983036247,
+                  0.1480258387231436,
+                  0.899401317552365,
+                  0.5243540196282083,
+                  -0.4743987085448014,
+                  0.4743957735598284,
+                  0.5243542480607336
+                ],
+                "segment_id": "A_release"
+              },
+              {
+                "pose": [
+                  0.24287901030859585,
+                  -0.018903042090389933,
+                  0.981401726222435,
+                  0.5243493205275805,
+                  -0.4743960933174202,
+                  0.47440145961494534,
+                  0.5243561688610553
+                ],
+                "segment_id": "A_neutral"
+              }
+            ]
+          }
+        ],
+        "planner_only_corridor_selection": true,
+        "selected_corridor_candidate_v11": {
+          "applied_candidate_subsequence_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+          "applied_planner_segment_ids": [
+            "A_pregrasp",
+            "A_grasp",
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "applied_planner_targets": [
+            {
+              "pose": [
+                0.1599990388998047,
+                -0.0009548207358225022,
+                0.9869525509109666,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.8974017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_grasp"
+            },
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.9174017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                0.15499947389631477,
+                0.07802601537640955,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_carry_mid"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_preplace"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.899401317552365,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                0.24287901030859585,
+                -0.018903042090389933,
+                0.981401726222435,
+                0.5243493205275805,
+                -0.4743960933174202,
+                0.47440145961494534,
+                0.5243561688610553
+              ],
+              "segment_id": "A_neutral"
+            }
+          ],
+          "base_v11_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "candidate_contract_segment_ids": [
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "candidate_contract_segments": [
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.9174017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                0.15499947389631477,
+                0.07802601537640955,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_carry_mid"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_preplace"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.899401317552365,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                0.24287901030859585,
+                -0.018903042090389933,
+                0.981401726222435,
+                0.5243493205275805,
+                -0.4743960933174202,
+                0.47440145961494534,
+                0.5243561688610553
+              ],
+              "segment_id": "A_neutral"
+            }
+          ],
+          "candidate_contract_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+          "candidate_id": "lower_carry_height",
+          "checks": {
+            "contract_ids_equal_applied_subsequence_ids": true,
+            "contract_pose_hash_equal_applied_subsequence_hash": true,
+            "neutral_is_terminal": true,
+            "pregrasp_grasp_prefixed_only": true,
+            "release_in_chain": true
+          },
+          "neutral_segment_index": 6,
+          "pass": true,
+          "priority": 3,
+          "release_segment_index": 5,
+          "stage0_bound_candidate_sha256_v12": "8235a1a1a1e8a415565d021d5542b62ca6e722a50d34f33d14d1928dbca0ffa0",
+          "stage0_context_binding_v12": {
+            "arm": "right",
+            "layout_version": "f4_right_arm_workspace_base0_v4_final",
+            "release_target_semantics": "same_role_visible_slot_unchanged",
+            "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+          }
+        },
+        "selected_corridor_candidate_v13": {
+          "applied_candidate_subsequence_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+          "applied_planner_segment_ids": [
+            "A_pregrasp",
+            "A_grasp",
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+          "applied_planner_targets": [
+            {
+              "pose": [
+                0.1599990388998047,
+                -0.0009548207358225022,
+                0.9869525509109666,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.8974017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_grasp"
+            },
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.9174017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                0.15499947389631477,
+                0.07802601537640955,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_carry_mid"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_preplace"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.899401317552365,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                0.24287901030859585,
+                -0.018903042090389933,
+                0.981401726222435,
+                0.5243493205275805,
+                -0.4743960933174202,
+                0.47440145961494534,
+                0.5243561688610553
+              ],
+              "segment_id": "A_neutral"
+            }
+          ],
+          "base_v11_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+          "candidate_contract_segment_ids": [
+            "A_lift",
+            "A_lower_carry_mid",
+            "A_lower_preplace",
+            "A_release",
+            "A_neutral"
+          ],
+          "candidate_contract_segments": [
+            {
+              "pose": [
+                0.15999926796226707,
+                0.008026192029675513,
+                0.9174017753160367,
+                0.5243540196282084,
+                -0.4743987085448015,
+                0.47439577355982826,
+                0.5243542480607335
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                0.15499947389631477,
+                0.07802601537640955,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_carry_mid"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.9240019948107627,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_lower_preplace"
+            },
+            {
+              "pose": [
+                0.14999967983036247,
+                0.1480258387231436,
+                0.899401317552365,
+                0.5243540196282083,
+                -0.4743987085448014,
+                0.4743957735598284,
+                0.5243542480607336
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                0.24287901030859585,
+                -0.018903042090389933,
+                0.981401726222435,
+                0.5243493205275805,
+                -0.4743960933174202,
+                0.47440145961494534,
+                0.5243561688610553
+              ],
+              "segment_id": "A_neutral"
+            }
+          ],
+          "candidate_contract_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+          "candidate_id": "lower_carry_height",
+          "checks": {
+            "contract_ids_equal_applied_subsequence_ids": true,
+            "contract_pose_hash_equal_applied_subsequence_hash": true,
+            "neutral_is_terminal": true,
+            "pregrasp_grasp_prefixed_only": true,
+            "release_in_chain": true
+          },
+          "neutral_segment_index": 6,
+          "pass": true,
+          "priority": 3,
+          "release_segment_index": 5,
+          "stage0_bound_candidate_sha256_v12": "8235a1a1a1e8a415565d021d5542b62ca6e722a50d34f33d14d1928dbca0ffa0",
+          "stage0_context_binding_v12": {
+            "arm": "right",
+            "layout_version": "f4_right_arm_workspace_base0_v4_final",
+            "release_target_semantics": "same_role_visible_slot_unchanged",
+            "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+          }
+        }
+      },
+      "formal_data": false,
+      "program_id": "F4-STAGE0-V13-lower_carry_height",
+      "receipt_sha256": "d1acf4788befa507d06ef922aa2e032161ee32185ed9f3c04dab7dcc24c1090d",
+      "schema_version": "cmf_suffix_preflight_input_evidence_v1",
+      "stage0_data": false,
+      "target_poses": [
+        [
+          0.1599990388998047,
+          -0.0009548207358225022,
+          0.9869525509109666,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        [
+          0.15999926796226707,
+          0.008026192029675513,
+          0.8974017753160367,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        [
+          0.15999926796226707,
+          0.008026192029675513,
+          0.9174017753160367,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        [
+          0.15499947389631477,
+          0.07802601537640955,
+          0.9240019948107627,
+          0.5243540196282083,
+          -0.4743987085448014,
+          0.4743957735598284,
+          0.5243542480607336
+        ],
+        [
+          0.14999967983036247,
+          0.1480258387231436,
+          0.9240019948107627,
+          0.5243540196282083,
+          -0.4743987085448014,
+          0.4743957735598284,
+          0.5243542480607336
+        ],
+        [
+          0.14999967983036247,
+          0.1480258387231436,
+          0.899401317552365,
+          0.5243540196282083,
+          -0.4743987085448014,
+          0.4743957735598284,
+          0.5243542480607336
+        ],
+        [
+          0.24287901030859585,
+          -0.018903042090389933,
+          0.981401726222435,
+          0.5243493205275805,
+          -0.4743960933174202,
+          0.47440145961494534,
+          0.5243561688610553
+        ]
+      ],
+      "target_segment_ids": [
+        "A_pregrasp",
+        "A_grasp",
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ]
+    },
+    "quantitative_collision_clearance_available": false,
+    "realized_prefix_end_physical_equivalence_v13": {
+      "acceptance_prefix_end_equivalence": {
+        "candidate_sha256": "407334dba52e80e72206355ff2b3824d536096235004beb5c39a11adf3646c31",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "407334dba52e80e72206355ff2b3824d536096235004beb5c39a11adf3646c31"
+      },
+      "candidate_spec_orientation_atol_rad": null,
+      "candidate_spec_position_atol_m": null,
+      "checks": {
+        "acceptance_prefix_end_within_physical_tolerance": true,
+        "acceptance_reference_anchor_exact": true,
+        "candidate_spec_tolerance_not_used_for_realized_state": true,
+        "combined_prefix_end_equivalent": true,
+        "semantic_prefix_end_within_physical_tolerance": true,
+        "semantic_reference_anchor_exact": true
+      },
+      "formal_data": false,
+      "pass": true,
+      "prefix_end_tolerance_version": "cmf_prefix_end_tolerance_v1_provisional",
+      "receipt_sha256": "46db4991973345e154061873103a408f47d60e1248e9ddd2bbb2c0d0765117f5",
+      "schema_version": "cmf_f4_realized_prefix_end_physical_equivalence_v13",
+      "semantic_prefix_end_equivalence": {
+        "candidate_sha256": "2e5c7aabe00e0f390a00b279cb2feda8eb7f5ab66fab487180d31fa8a7551d20",
+        "equivalent": true,
+        "failures": [],
+        "reference_sha256": "2e5c7aabe00e0f390a00b279cb2feda8eb7f5ab66fab487180d31fa8a7551d20"
+      },
+      "stage0_data": false
+    },
+    "segment_receipts": [
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31740638613700867,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.198639154434204,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.9221484661102295,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.1999046802520752,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.03608178719878197,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33643007278442383,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "end_qpos_sha256": "ec9d2f20278d6a1fd4adcfb4f333ac20257cd879b6b723334de08a140b21b389",
+        "evidence_complete": true,
+        "executed": false,
+        "goal_eef_pose": [
+          0.1599990388998047,
+          -0.0009548207358225022,
+          0.9869525509109666,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+        "joint_limit_evidence_complete": true,
+        "joint_limit_failure_type": null,
+        "joint_limit_threshold_changed": false,
+        "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+        "planner_query_receipt": {
+          "arm": "right",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  163,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  163,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.1599990427494049,
+            -0.0009548207162879407,
+            0.986952543258667,
+            0.5243540406227112,
+            -0.4743987023830414,
+            0.4743957817554474,
+            0.5243542194366455
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 6.597049377887743e-07,
+                "rotation_error": 5.104921569909493e-07,
+                "solve_time": 0.045119524002075195,
+                "status": null,
+                "success": true,
+                "total_time": 0.0694267749786377,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 1,
+          "source": "A_pregrasp",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "receipt_sha256": "dacf60b3b4d4b1902557e7dd1e62d4ed85d60b2a8646bb3a532661ae516a0e15",
+        "segment_id": "A_pregrasp",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.1421138048171997,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.0375499725341797,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.6529936790466309,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.0868819952011108,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.017503628507256508,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.15654706954956055,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "start_qpos_sha256": "85fe3827426f6574fb8425d2df48cd3f82b68535a45183aa86608c7c71e81007",
+        "terminal_joint_limit_margin_rad": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9.999999974909576,
+          9.682593613862991,
+          9.99999999972194,
+          9.999999999721977,
+          null,
+          null,
+          null,
+          null,
+          9.999996469253347,
+          7.801360845565796,
+          9.999998603180302,
+          9.999998603179279,
+          9.999990939982126,
+          8.07785153388977,
+          9.999995543025307,
+          9.999995543024397,
+          9.999999978760767,
+          8.800095319747925,
+          9.999999991410458,
+          9.999999991407913,
+          9.99999999246505,
+          9.963918212801218,
+          9.999999994728368,
+          9.99999999473017,
+          9.999999963615931,
+          9.663569927215576,
+          9.99999999999878,
+          9.999999999998767,
+          0.002656858414411545,
+          0.002656932920217514,
+          0.0029077529907226562,
+          0.002807576209306717
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31740638613700867,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.198639154434204,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.9221484661102295,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.1999046802520752,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.03608178719878197,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33643007278442383,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "terminal_qpos_sha256": "a3b519bcc928a321b7075e34901f24a197ca4b6d2fecff26b76b2c249dc8777d",
+        "terminal_qpos_within_joint_limits": true
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.3122357130050659,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.3046414852142334,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.738197922706604,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9098187685012817,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036781325936317444,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33249011635780334,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "end_qpos_sha256": "b3a6ff20aa34b150a0607c6be65d483940a9119ca7d33797b196d7c15333ab9d",
+        "evidence_complete": true,
+        "executed": false,
+        "goal_eef_pose": [
+          0.15999926796226707,
+          0.008026192029675513,
+          0.8974017753160367,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+        "joint_limit_evidence_complete": true,
+        "joint_limit_failure_type": null,
+        "joint_limit_threshold_changed": false,
+        "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+        "planner_query_receipt": {
+          "arm": "right",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  179,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  179,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.15999926626682281,
+            0.008026191964745522,
+            0.897401750087738,
+            0.5243540406227112,
+            -0.4743987023830414,
+            0.4743957817554474,
+            0.5243542194366455
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 1.132373427026323e-06,
+                "rotation_error": 3.0372111723409034e-06,
+                "solve_time": 0.045042991638183594,
+                "status": null,
+                "success": true,
+                "total_time": 0.06592726707458496,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 2,
+          "source": "A_grasp",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "receipt_sha256": "ac10c4c0f3a68464116f4e05847f27fd39c7c51341d8b110290f0799dcb387ff",
+        "segment_id": "A_grasp",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31740638613700867,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.198639154434204,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.9221484661102295,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.1999046802520752,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.03608178719878197,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33643007278442383,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "start_qpos_sha256": "ec9d2f20278d6a1fd4adcfb4f333ac20257cd879b6b723334de08a140b21b389",
+        "terminal_joint_limit_margin_rad": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9.999999974909576,
+          9.687764286994934,
+          9.99999999972194,
+          9.999999999721977,
+          null,
+          null,
+          null,
+          null,
+          9.999996469253347,
+          7.695358514785767,
+          9.999998603180302,
+          9.999998603179279,
+          9.999990939982126,
+          8.261802077293396,
+          9.999995543025307,
+          9.999995543024397,
+          9.999999978760767,
+          9.090181231498718,
+          9.999999991410458,
+          9.999999991407913,
+          9.99999999246505,
+          9.963218674063683,
+          9.999999994728368,
+          9.99999999473017,
+          9.999999963615931,
+          9.667509883642197,
+          9.99999999999878,
+          9.999999999998767,
+          0.002656858414411545,
+          0.002656932920217514,
+          0.0029077529907226562,
+          0.002807576209306717
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.3122357130050659,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.3046414852142334,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.738197922706604,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9098187685012817,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036781325936317444,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33249011635780334,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "terminal_qpos_sha256": "bc8988958beeba078d830c0236c7614b56b34b0a3d93dfc1865acb2e797d469a",
+        "terminal_qpos_within_joint_limits": true
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31194007396698,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.2804677486419678,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.7791831493377686,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9749618768692017,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036463819444179535,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33193227648735046,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "end_qpos_sha256": "c8e1ae2fa03ff92d4ac89a7093a150c003f0aac182c07c20df07821373f0d6f5",
+        "evidence_complete": true,
+        "executed": false,
+        "goal_eef_pose": [
+          0.15999926796226707,
+          0.008026192029675513,
+          0.9174017753160367,
+          0.5243540196282084,
+          -0.4743987085448015,
+          0.47439577355982826,
+          0.5243542480607335
+        ],
+        "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+        "joint_limit_evidence_complete": true,
+        "joint_limit_failure_type": null,
+        "joint_limit_threshold_changed": false,
+        "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+        "planner_query_receipt": {
+          "arm": "right",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  87,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  87,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.15999926626682281,
+            0.008026191964745522,
+            0.9174017906188965,
+            0.5243540406227112,
+            -0.4743987023830414,
+            0.4743957817554474,
+            0.5243542194366455
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 2.2473027456726413e-06,
+                "rotation_error": 2.7624892027233727e-06,
+                "solve_time": 0.0424809455871582,
+                "status": null,
+                "success": true,
+                "total_time": 0.06288266181945801,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 3,
+          "source": "A_lift",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "receipt_sha256": "112fd7ff895a7a18ffaeeb1c1e8f2a27908c9ce7b95ade081583d2d8e0fee186",
+        "segment_id": "A_lift",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.3122357130050659,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.3046414852142334,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.738197922706604,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9098187685012817,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036781325936317444,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33249011635780334,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "start_qpos_sha256": "b3a6ff20aa34b150a0607c6be65d483940a9119ca7d33797b196d7c15333ab9d",
+        "terminal_joint_limit_margin_rad": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9.999999974909576,
+          9.68805992603302,
+          9.99999999972194,
+          9.999999999721977,
+          null,
+          null,
+          null,
+          null,
+          9.999996469253347,
+          7.719532251358032,
+          9.999998603180302,
+          9.999998603179279,
+          9.999990939982126,
+          8.220816850662231,
+          9.999995543025307,
+          9.999995543024397,
+          9.999999978760767,
+          9.025038123130798,
+          9.999999991410458,
+          9.999999991407913,
+          9.99999999246505,
+          9.96353618055582,
+          9.999999994728368,
+          9.99999999473017,
+          9.999999963615931,
+          9.66806772351265,
+          9.99999999999878,
+          9.999999999998767,
+          0.002656858414411545,
+          0.002656932920217514,
+          0.0029077529907226562,
+          0.002807576209306717
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31194007396698,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.2804677486419678,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.7791831493377686,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9749618768692017,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036463819444179535,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33193227648735046,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "terminal_qpos_sha256": "8f40a4615a86a0c0feef5e3d4d5c513b165d9b4edd072e3c18db08cc3889299a",
+        "terminal_qpos_within_joint_limits": true
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.2738965153694153,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.6429927349090576,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          2.463092803955078,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.2952812910079956,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.037647027522325516,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.2972186207771301,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "end_qpos_sha256": "054201dd93edb52055bbc87394659cc88e9fac3f9f9bb2b6142cfe7c06d43496",
+        "evidence_complete": true,
+        "executed": false,
+        "goal_eef_pose": [
+          0.15499947389631477,
+          0.07802601537640955,
+          0.9240019948107627,
+          0.5243540196282083,
+          -0.4743987085448014,
+          0.4743957735598284,
+          0.5243542480607336
+        ],
+        "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+        "joint_limit_evidence_complete": true,
+        "joint_limit_failure_type": null,
+        "joint_limit_threshold_changed": false,
+        "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+        "planner_query_receipt": {
+          "arm": "right",
+          "dtype_contract": {
+            "control": {
+              "position": {
+                "dtype": "float32",
+                "shape": [
+                  260,
+                  6
+                ]
+              },
+              "velocity": {
+                "dtype": "float32",
+                "shape": [
+                  260,
+                  6
+                ]
+              }
+            },
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.1549994796514511,
+            0.07802601903676987,
+            0.9240019917488098,
+            0.5243540406227112,
+            -0.4743987023830414,
+            0.4743957817554474,
+            0.5243542194366455
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 1,
+                "position_error": 2.1851005840289872e-06,
+                "rotation_error": 6.608506737393327e-07,
+                "solve_time": 0.04209256172180176,
+                "status": null,
+                "success": true,
+                "total_time": 0.06252670288085938,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 4,
+          "source": "A_lower_carry_mid",
+          "start_step": null,
+          "status": "Success"
+        },
+        "planner_status": "Success",
+        "receipt_sha256": "60cae266b4effd6073cb365ca698d3fefdfc8c88fb64d584590dae51c33938e2",
+        "segment_id": "A_lower_carry_mid",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.31194007396698,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.2804677486419678,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          1.7791831493377686,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -0.9749618768692017,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.036463819444179535,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.33193227648735046,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "start_qpos_sha256": "c8e1ae2fa03ff92d4ac89a7093a150c003f0aac182c07c20df07821373f0d6f5",
+        "terminal_joint_limit_margin_rad": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9.999999974909576,
+          9.726103484630585,
+          9.99999999972194,
+          9.999999999721977,
+          null,
+          null,
+          null,
+          null,
+          9.999996469253347,
+          7.357007265090942,
+          9.999998603180302,
+          9.999998603179279,
+          9.999990939982126,
+          7.536907196044922,
+          9.999995543025307,
+          9.999995543024397,
+          9.999999978760767,
+          8.704718708992004,
+          9.999999991410458,
+          9.999999991407913,
+          9.99999999246505,
+          9.962352972477674,
+          9.999999994728368,
+          9.99999999473017,
+          9.999999963615931,
+          9.70278137922287,
+          9.99999999999878,
+          9.999999999998767,
+          0.002656858414411545,
+          0.002656932920217514,
+          0.0029077529907226562,
+          0.002807576209306717
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.2738965153694153,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.6429927349090576,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          2.463092803955078,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.2952812910079956,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.037647027522325516,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.2972186207771301,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "terminal_qpos_sha256": "ed1d15ebf629d817608ee95b86b3c1dde5388a05d55c7f3a88f25b9d94f93836",
+        "terminal_qpos_within_joint_limits": true
+      },
+      {
+        "end_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.2738965153694153,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.6429927349090576,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          2.463092803955078,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.2952812910079956,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.037647027522325516,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.2972186207771301,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "end_qpos_sha256": "054201dd93edb52055bbc87394659cc88e9fac3f9f9bb2b6142cfe7c06d43496",
+        "evidence_complete": true,
+        "executed": false,
+        "goal_eef_pose": [
+          0.14999967983036247,
+          0.1480258387231436,
+          0.9240019948107627,
+          0.5243540196282083,
+          -0.4743987085448014,
+          0.4743957735598284,
+          0.5243542480607336
+        ],
+        "joint_limit_audit_version": "cmf_joint_limit_audit_v3_4_1_exact_existing_limits",
+        "joint_limit_evidence_complete": true,
+        "joint_limit_failure_type": null,
+        "joint_limit_threshold_changed": false,
+        "minimum_terminal_joint_limit_margin_rad": 0.002656858414411545,
+        "planner_query_receipt": {
+          "arm": "right",
+          "dtype_contract": {
+            "control": {},
+            "geometry_dtype": "float64",
+            "goal_pose": {
+              "dtype": "float32",
+              "shape": [
+                7
+              ]
+            },
+            "planner_dtype": "float32",
+            "qpos": {
+              "dtype": "float32",
+              "shape": [
+                38
+              ]
+            },
+            "schema_version": "cmf_planner_dtype_contract_v3_2"
+          },
+          "end_step": null,
+          "goal_eef_pose": [
+            0.1499996781349182,
+            0.14802584052085876,
+            0.9240019917488098,
+            0.5243540406227112,
+            -0.4743987023830414,
+            0.4743957817554474,
+            0.5243542194366455
+          ],
+          "motiongen_result_side_channel": [
+            {
+              "fields": {
+                "attempts": 10,
+                "position_error": null,
+                "rotation_error": null,
+                "solve_time": 0.05741691589355469,
+                "status": "MotionGenStatus.IK_FAIL",
+                "success": false,
+                "total_time": 0.08482241630554199,
+                "used_graph": false,
+                "valid_query": true
+              },
+              "schema_version": "cmf_motiongen_result_side_channel_v1",
+              "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+            }
+          ],
+          "motiongen_side_channel_available": true,
+          "motiongen_side_channel_call_count": 1,
+          "motiongen_wrapper_had_instance_override": false,
+          "motiongen_wrapper_installation_error": null,
+          "motiongen_wrapper_restoration_succeeded": true,
+          "query_id": 5,
+          "source": "A_lower_preplace",
+          "start_step": null,
+          "status": "Fail"
+        },
+        "planner_status": "Fail",
+        "receipt_sha256": "60cae266b4effd6073cb365ca698d3fefdfc8c88fb64d584590dae51c33938e2",
+        "segment_id": "A_lower_preplace",
+        "start_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.2738965153694153,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.6429927349090576,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          2.463092803955078,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.2952812910079956,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.037647027522325516,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.2972186207771301,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "start_qpos_sha256": "054201dd93edb52055bbc87394659cc88e9fac3f9f9bb2b6142cfe7c06d43496",
+        "terminal_joint_limit_margin_rad": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9.999999974909576,
+          9.726103484630585,
+          9.99999999972194,
+          9.999999999721977,
+          null,
+          null,
+          null,
+          null,
+          9.999996469253347,
+          7.357007265090942,
+          9.999998603180302,
+          9.999998603179279,
+          9.999990939982126,
+          7.536907196044922,
+          9.999995543025307,
+          9.999995543024397,
+          9.999999978760767,
+          8.704718708992004,
+          9.999999991410458,
+          9.999999991407913,
+          9.99999999246505,
+          9.962352972477674,
+          9.999999994728368,
+          9.99999999473017,
+          9.999999963615931,
+          9.70278137922287,
+          9.99999999999878,
+          9.999999999998767,
+          0.002656858414411545,
+          0.002656932920217514,
+          0.0029077529907226562,
+          0.002807576209306717
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3908799801595805e-16,
+          -1.3908799801595805e-16,
+          1.5064665281287054e-13,
+          1.5064665281287054e-13,
+          2.5090423960705266e-08,
+          0.2738965153694153,
+          -2.7806087987691797e-10,
+          -2.7802338209426125e-10,
+          5.362106917417315e-18,
+          5.362106917417315e-18,
+          1.5337908827119585e-17,
+          1.5337908827119585e-17,
+          -3.5307466532685794e-06,
+          2.6429927349090576,
+          -1.3968196981295478e-06,
+          -1.3968207213110873e-06,
+          9.060017873707693e-06,
+          2.463092803955078,
+          4.456974693312077e-06,
+          4.456975602806779e-06,
+          2.123923259489402e-08,
+          -1.2952812910079956,
+          8.589540634318382e-09,
+          8.592087041847662e-09,
+          7.534949553189563e-09,
+          0.037647027522325516,
+          5.2716315757095344e-09,
+          5.2698307939635924e-09,
+          3.6384069090900084e-08,
+          0.2972186207771301,
+          -1.2205291031325283e-12,
+          -1.2333084857193977e-12,
+          0.044993139803409576,
+          0.04499306529760361,
+          0.044742245227098465,
+          0.044842422008514404
+        ],
+        "terminal_qpos_sha256": "ed1d15ebf629d817608ee95b86b3c1dde5388a05d55c7f3a88f25b9d94f93836",
+        "terminal_qpos_within_joint_limits": true
+      }
+    ],
+    "selected_corridor_candidate_v11": {
+      "applied_candidate_subsequence_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+      "applied_planner_segment_ids": [
+        "A_pregrasp",
+        "A_grasp",
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "applied_planner_targets": [
+        {
+          "pose": [
+            0.1599990388998047,
+            -0.0009548207358225022,
+            0.9869525509109666,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_pregrasp"
+        },
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.8974017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_grasp"
+        },
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.9174017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_lift"
+        },
+        {
+          "pose": [
+            0.15499947389631477,
+            0.07802601537640955,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_carry_mid"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_preplace"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.899401317552365,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_release"
+        },
+        {
+          "pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "segment_id": "A_neutral"
+        }
+      ],
+      "base_v11_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "candidate_contract_segment_ids": [
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "candidate_contract_segments": [
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.9174017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_lift"
+        },
+        {
+          "pose": [
+            0.15499947389631477,
+            0.07802601537640955,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_carry_mid"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_preplace"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.899401317552365,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_release"
+        },
+        {
+          "pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "segment_id": "A_neutral"
+        }
+      ],
+      "candidate_contract_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+      "candidate_id": "lower_carry_height",
+      "checks": {
+        "contract_ids_equal_applied_subsequence_ids": true,
+        "contract_pose_hash_equal_applied_subsequence_hash": true,
+        "neutral_is_terminal": true,
+        "pregrasp_grasp_prefixed_only": true,
+        "release_in_chain": true
+      },
+      "neutral_segment_index": 6,
+      "pass": true,
+      "priority": 3,
+      "release_segment_index": 5,
+      "stage0_bound_candidate_sha256_v12": "8235a1a1a1e8a415565d021d5542b62ca6e722a50d34f33d14d1928dbca0ffa0",
+      "stage0_context_binding_v12": {
+        "arm": "right",
+        "layout_version": "f4_right_arm_workspace_base0_v4_final",
+        "release_target_semantics": "same_role_visible_slot_unchanged",
+        "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+      }
+    },
+    "selected_corridor_candidate_v13": {
+      "applied_candidate_subsequence_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+      "applied_planner_segment_ids": [
+        "A_pregrasp",
+        "A_grasp",
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "applied_planner_target_pose_sha256": "61d8d21d4b5b3a9540392e9c1aedc15d17da4fed7f6df796348060dcb02bc877",
+      "applied_planner_targets": [
+        {
+          "pose": [
+            0.1599990388998047,
+            -0.0009548207358225022,
+            0.9869525509109666,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_pregrasp"
+        },
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.8974017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_grasp"
+        },
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.9174017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_lift"
+        },
+        {
+          "pose": [
+            0.15499947389631477,
+            0.07802601537640955,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_carry_mid"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_preplace"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.899401317552365,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_release"
+        },
+        {
+          "pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "segment_id": "A_neutral"
+        }
+      ],
+      "base_v11_candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "candidate_application_sha256": "e9bbf5f2f31bef9920414a73e789dc0959f36c038a5a5558836367f1e637d78e",
+      "candidate_contract_segment_ids": [
+        "A_lift",
+        "A_lower_carry_mid",
+        "A_lower_preplace",
+        "A_release",
+        "A_neutral"
+      ],
+      "candidate_contract_segments": [
+        {
+          "pose": [
+            0.15999926796226707,
+            0.008026192029675513,
+            0.9174017753160367,
+            0.5243540196282084,
+            -0.4743987085448015,
+            0.47439577355982826,
+            0.5243542480607335
+          ],
+          "segment_id": "A_lift"
+        },
+        {
+          "pose": [
+            0.15499947389631477,
+            0.07802601537640955,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_carry_mid"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.9240019948107627,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_lower_preplace"
+        },
+        {
+          "pose": [
+            0.14999967983036247,
+            0.1480258387231436,
+            0.899401317552365,
+            0.5243540196282083,
+            -0.4743987085448014,
+            0.4743957735598284,
+            0.5243542480607336
+          ],
+          "segment_id": "A_release"
+        },
+        {
+          "pose": [
+            0.24287901030859585,
+            -0.018903042090389933,
+            0.981401726222435,
+            0.5243493205275805,
+            -0.4743960933174202,
+            0.47440145961494534,
+            0.5243561688610553
+          ],
+          "segment_id": "A_neutral"
+        }
+      ],
+      "candidate_contract_target_pose_sha256": "3b1526485d378dd5e1d51be8336c88ee10fe2bb00f2696ea7de40329a73a680d",
+      "candidate_id": "lower_carry_height",
+      "checks": {
+        "contract_ids_equal_applied_subsequence_ids": true,
+        "contract_pose_hash_equal_applied_subsequence_hash": true,
+        "neutral_is_terminal": true,
+        "pregrasp_grasp_prefixed_only": true,
+        "release_in_chain": true
+      },
+      "neutral_segment_index": 6,
+      "pass": true,
+      "priority": 3,
+      "release_segment_index": 5,
+      "stage0_bound_candidate_sha256_v12": "8235a1a1a1e8a415565d021d5542b62ca6e722a50d34f33d14d1928dbca0ffa0",
+      "stage0_context_binding_v12": {
+        "arm": "right",
+        "layout_version": "f4_right_arm_workspace_base0_v4_final",
+        "release_target_semantics": "same_role_visible_slot_unchanged",
+        "scene_layout_sha256": "d8abbdd62885a814b2eeaa57cb4b9802591b47acea753f02b8014dccfb79dc85"
+      }
+    },
+    "terminal_joint_limit_margin_rad": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      9.999999974909576,
+      9.726103484630585,
+      9.99999999972194,
+      9.999999999721977,
+      null,
+      null,
+      null,
+      null,
+      9.999996469253347,
+      7.357007265090942,
+      9.999998603180302,
+      9.999998603179279,
+      9.999990939982126,
+      7.536907196044922,
+      9.999995543025307,
+      9.999995543024397,
+      9.999999978760767,
+      8.704718708992004,
+      9.999999991410458,
+      9.999999991407913,
+      9.99999999246505,
+      9.962352972477674,
+      9.999999994728368,
+      9.99999999473017,
+      9.999999963615931,
+      9.70278137922287,
+      9.99999999999878,
+      9.999999999998767,
+      0.002656858414411545,
+      0.002656932920217514,
+      0.0029077529907226562,
+      0.002807576209306717
+    ],
+    "terminal_qpos": [
+      0.0,
+      0.0,
+      -1.3908799801595805e-16,
+      -1.3908799801595805e-16,
+      1.5064665281287054e-13,
+      1.5064665281287054e-13,
+      2.5090423960705266e-08,
+      0.2738965153694153,
+      -2.7806087987691797e-10,
+      -2.7802338209426125e-10,
+      5.362106917417315e-18,
+      5.362106917417315e-18,
+      1.5337908827119585e-17,
+      1.5337908827119585e-17,
+      -3.5307466532685794e-06,
+      2.6429927349090576,
+      -1.3968196981295478e-06,
+      -1.3968207213110873e-06,
+      9.060017873707693e-06,
+      2.463092803955078,
+      4.456974693312077e-06,
+      4.456975602806779e-06,
+      2.123923259489402e-08,
+      -1.2952812910079956,
+      8.589540634318382e-09,
+      8.592087041847662e-09,
+      7.534949553189563e-09,
+      0.037647027522325516,
+      5.2716315757095344e-09,
+      5.2698307939635924e-09,
+      3.6384069090900084e-08,
+      0.2972186207771301,
+      -1.2205291031325283e-12,
+      -1.2333084857193977e-12,
+      0.044993139803409576,
+      0.04499306529760361,
+      0.044742245227098465,
+      0.044842422008514404
+    ],
+    "terminal_qpos_sha256": "c79dcc55d1c19f92358a8f34cc0a0dae135a7f612d5d5cf1f558c8544b9466ff",
+    "terminal_qpos_within_joint_limits": true
+  },
+  "execution_spec": null,
+  "failure_type": "chained_suffix_planner_failure",
+  "planner_query_count": 5,
+  "planner_solvable": false,
+  "program_id": "F4-DIAG-A-FROZEN-NEUTRAL-lower_carry_height",
+  "status": "failed",
+  "trace_source": {
+    "fields": [
+      "action_layout_dimensions_json",
+      "action_layout_version",
+      "component_masks",
+      "contact_pairs_json",
+      "controller_effective_setpoint",
+      "dual_eef_pose",
+      "eef_angular_velocity",
+      "eef_linear_velocity",
+      "eef_pose",
+      "estimated_left_gripper_joint_drive_effort",
+      "estimated_right_gripper_joint_drive_effort",
+      "event_markers_json",
+      "field_sources_json",
+      "gripper_command",
+      "gripper_drive_target_readback",
+      "initial_state",
+      "joint_qf",
+      "joint_qpos",
+      "joint_qvel",
+      "left_gripper_joint_drive_damping",
+      "left_gripper_joint_drive_force_limit",
+      "left_gripper_joint_drive_mode",
+      "left_gripper_joint_drive_stiffness",
+      "left_gripper_joint_drive_target",
+      "left_gripper_joint_drive_target_error",
+      "left_gripper_joint_drive_velocity_error",
+      "left_gripper_joint_drive_velocity_target",
+      "object_angular_velocity",
+      "object_angular_velocity_measured",
+      "object_component_angular_velocity",
+      "object_component_angular_velocity_measured",
+      "object_component_linear_velocity",
+      "object_component_linear_velocity_measured",
+      "object_component_velocity_provenance_json",
+      "object_linear_velocity",
+      "object_linear_velocity_measured",
+      "object_pose",
+      "planner_goal_active",
+      "planner_goal_available",
+      "planner_goal_eef_pose",
+      "planner_goal_source",
+      "planner_queries_json",
+      "planner_query_id",
+      "realized_left_gripper_joint_qf",
+      "realized_left_gripper_joint_qpos",
+      "realized_left_gripper_joint_qvel",
+      "realized_right_gripper_joint_qf",
+      "realized_right_gripper_joint_qpos",
+      "realized_right_gripper_joint_qvel",
+      "requested_command",
+      "right_gripper_joint_drive_damping",
+      "right_gripper_joint_drive_force_limit",
+      "right_gripper_joint_drive_mode",
+      "right_gripper_joint_drive_stiffness",
+      "right_gripper_joint_drive_target",
+      "right_gripper_joint_drive_target_error",
+      "right_gripper_joint_drive_velocity_error",
+      "right_gripper_joint_drive_velocity_target",
+      "role_object_angular_velocity__A",
+      "role_object_angular_velocity__B",
+      "role_object_angular_velocity__C",
+      "role_object_angular_velocity__common_tray",
+      "role_object_angular_velocity__common_x",
+      "role_object_angular_velocity__slot_A",
+      "role_object_angular_velocity__slot_B",
+      "role_object_angular_velocity__slot_C",
+      "role_object_angular_velocity_measured__A",
+      "role_object_angular_velocity_measured__B",
+      "role_object_angular_velocity_measured__C",
+      "role_object_angular_velocity_measured__common_tray",
+      "role_object_angular_velocity_measured__common_x",
+      "role_object_angular_velocity_measured__slot_A",
+      "role_object_angular_velocity_measured__slot_B",
+      "role_object_angular_velocity_measured__slot_C",
+      "role_object_component_angular_velocity__A",
+      "role_object_component_angular_velocity__B",
+      "role_object_component_angular_velocity__C",
+      "role_object_component_angular_velocity__common_tray",
+      "role_object_component_angular_velocity__common_x",
+      "role_object_component_angular_velocity__slot_A",
+      "role_object_component_angular_velocity__slot_B",
+      "role_object_component_angular_velocity__slot_C",
+      "role_object_component_angular_velocity_measured__A",
+      "role_object_component_angular_velocity_measured__B",
+      "role_object_component_angular_velocity_measured__C",
+      "role_object_component_angular_velocity_measured__common_tray",
+      "role_object_component_angular_velocity_measured__common_x",
+      "role_object_component_angular_velocity_measured__slot_A",
+      "role_object_component_angular_velocity_measured__slot_B",
+      "role_object_component_angular_velocity_measured__slot_C",
+      "role_object_component_linear_velocity__A",
+      "role_object_component_linear_velocity__B",
+      "role_object_component_linear_velocity__C",
+      "role_object_component_linear_velocity__common_tray",
+      "role_object_component_linear_velocity__common_x",
+      "role_object_component_linear_velocity__slot_A",
+      "role_object_component_linear_velocity__slot_B",
+      "role_object_component_linear_velocity__slot_C",
+      "role_object_component_linear_velocity_measured__A",
+      "role_object_component_linear_velocity_measured__B",
+      "role_object_component_linear_velocity_measured__C",
+      "role_object_component_linear_velocity_measured__common_tray",
+      "role_object_component_linear_velocity_measured__common_x",
+      "role_object_component_linear_velocity_measured__slot_A",
+      "role_object_component_linear_velocity_measured__slot_B",
+      "role_object_component_linear_velocity_measured__slot_C",
+      "role_object_component_velocity_provenance_json__A",
+      "role_object_component_velocity_provenance_json__B",
+      "role_object_component_velocity_provenance_json__C",
+      "role_object_component_velocity_provenance_json__common_tray",
+      "role_object_component_velocity_provenance_json__common_x",
+      "role_object_component_velocity_provenance_json__slot_A",
+      "role_object_component_velocity_provenance_json__slot_B",
+      "role_object_component_velocity_provenance_json__slot_C",
+      "role_object_linear_velocity__A",
+      "role_object_linear_velocity__B",
+      "role_object_linear_velocity__C",
+      "role_object_linear_velocity__common_tray",
+      "role_object_linear_velocity__common_x",
+      "role_object_linear_velocity__slot_A",
+      "role_object_linear_velocity__slot_B",
+      "role_object_linear_velocity__slot_C",
+      "role_object_linear_velocity_measured__A",
+      "role_object_linear_velocity_measured__B",
+      "role_object_linear_velocity_measured__C",
+      "role_object_linear_velocity_measured__common_tray",
+      "role_object_linear_velocity_measured__common_x",
+      "role_object_linear_velocity_measured__slot_A",
+      "role_object_linear_velocity_measured__slot_B",
+      "role_object_linear_velocity_measured__slot_C",
+      "role_object_pose__A",
+      "role_object_pose__B",
+      "role_object_pose__C",
+      "role_object_pose__common_tray",
+      "role_object_pose__common_x",
+      "role_object_pose__slot_A",
+      "role_object_pose__slot_B",
+      "role_object_pose__slot_C",
+      "selected_contact_actor_name",
+      "selected_gripper_contact",
+      "selected_gripper_contact_count",
+      "selected_gripper_contact_impulse",
+      "selected_gripper_links_json",
+      "step_index",
+      "timestamp"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/prestage0_f4_candidate_hash_infra_v13_stage0_v1_1_seed20260829_run1/F4_hash_infrastructure_v13/candidate_3/preflight_trace_source.npz",
+    "sample_count": 2922,
+    "sha256": "300d03eaec6bf2d587c77f23b75b3a59e5d0b1151985b443bb04a0b5afbc16fb"
+  }
+}
