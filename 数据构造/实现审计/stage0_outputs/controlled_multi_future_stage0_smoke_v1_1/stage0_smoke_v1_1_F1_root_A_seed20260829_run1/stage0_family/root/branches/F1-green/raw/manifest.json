@@ -1,0 +1,1304 @@
+{
+  "action_count": 4072,
+  "action_dim": 26,
+  "action_layout_dimensions": [
+    "left_joint_0_position_target",
+    "left_joint_1_position_target",
+    "left_joint_2_position_target",
+    "left_joint_3_position_target",
+    "left_joint_4_position_target",
+    "left_joint_5_position_target",
+    "right_joint_0_position_target",
+    "right_joint_1_position_target",
+    "right_joint_2_position_target",
+    "right_joint_3_position_target",
+    "right_joint_4_position_target",
+    "right_joint_5_position_target",
+    "left_joint_0_velocity_target",
+    "left_joint_1_velocity_target",
+    "left_joint_2_velocity_target",
+    "left_joint_3_velocity_target",
+    "left_joint_4_velocity_target",
+    "left_joint_5_velocity_target",
+    "right_joint_0_velocity_target",
+    "right_joint_1_velocity_target",
+    "right_joint_2_velocity_target",
+    "right_joint_3_velocity_target",
+    "right_joint_4_velocity_target",
+    "right_joint_5_velocity_target",
+    "left_gripper_normalized_target",
+    "right_gripper_normalized_target"
+  ],
+  "action_layout_version": "controller_effective_setpoint_v1_layout_v2_1",
+  "audit_field_metadata": {
+    "contact_count": {
+      "source": "runtime all SAPIEN scene contact-pair count",
+      "status": "measured"
+    },
+    "contact_pairs_json": {
+      "contact_pair_schema_version": "cmf_runtime_contact_pair_v2",
+      "source": "runtime SAPIEN body/shape contact pairs with per-point impulse, normal, position, signed separation, and explicit signal availability",
+      "status": "measured"
+    },
+    "eef_angular_velocity": {
+      "source": "runtime 250 Hz EEF quaternion difference",
+      "status": "derived"
+    },
+    "eef_linear_velocity": {
+      "source": "runtime 250 Hz EEF position difference",
+      "status": "derived"
+    },
+    "estimated_left_gripper_joint_drive_effort": {
+      "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only when recorded drive_mode=force, never a measured force",
+      "status": "derived"
+    },
+    "estimated_right_gripper_joint_drive_effort": {
+      "source": "audit-only clipped stiffness*position_error+damping*velocity_error; force estimate only when recorded drive_mode=force, never a measured force",
+      "status": "derived"
+    },
+    "gripper_drive_target_readback": {
+      "source": "runtime normalized gripper joint drive targets; not physical aperture",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_damping": {
+      "source": "runtime left gripper PhysX joint get_damping",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_force_limit": {
+      "source": "runtime left gripper PhysX joint get_force_limit",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_mode": {
+      "source": "runtime left gripper PhysX joint get_drive_mode",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_stiffness": {
+      "source": "runtime left gripper PhysX joint get_stiffness",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_target": {
+      "source": "runtime exact left gripper joint drive targets",
+      "status": "measured"
+    },
+    "left_gripper_joint_drive_target_error": {
+      "source": "left gripper drive target minus realized active-joint qpos",
+      "status": "derived"
+    },
+    "left_gripper_joint_drive_velocity_error": {
+      "source": "left gripper drive velocity target minus realized active-joint qvel",
+      "status": "derived"
+    },
+    "left_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact left gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "object_angular_velocity": {
+      "source": "250 Hz quaternion difference of the same saved actor pose",
+      "status": "derived"
+    },
+    "object_angular_velocity_measured": {
+      "source": "false: primary gate velocity is pose-derived",
+      "status": "derived"
+    },
+    "object_component_angular_velocity": {
+      "source": "audit-only runtime PhysX rigid-component native angular_velocity property",
+      "status": "measured"
+    },
+    "object_component_angular_velocity_measured": {
+      "source": "runtime component-property availability mask",
+      "status": "derived"
+    },
+    "object_component_linear_velocity": {
+      "source": "audit-only runtime PhysX rigid-component native linear_velocity property",
+      "status": "measured"
+    },
+    "object_component_linear_velocity_measured": {
+      "source": "runtime component-property availability mask",
+      "status": "derived"
+    },
+    "object_component_velocity_provenance_json": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "object_linear_velocity": {
+      "source": "250 Hz finite difference of the same saved actor pose origin",
+      "status": "derived"
+    },
+    "object_linear_velocity_measured": {
+      "source": "false: primary gate velocity is pose-derived",
+      "status": "derived"
+    },
+    "object_pose": {
+      "source": "runtime SAPIEN actor pose API",
+      "status": "measured"
+    },
+    "planner_goal_active": {
+      "source": "runtime planner control active on each action interval",
+      "status": "derived"
+    },
+    "planner_goal_available": {
+      "source": "runtime per-arm direct planner-goal presence",
+      "status": "derived"
+    },
+    "planner_goal_end_step": {
+      "source": "exclusive last action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_goal_source": {
+      "source": "runtime move API that produced the active planner control",
+      "status": "derived"
+    },
+    "planner_goal_start_step": {
+      "source": "first action interval carrying the planner query ID",
+      "status": "derived"
+    },
+    "planner_query_id": {
+      "source": "runtime planner query ID active on each action interval",
+      "status": "derived"
+    },
+    "realized_joint_qf": {
+      "source": "runtime complete dual-arm articulation get_qf applied generalized-force state; not actuator/contact effort",
+      "status": "measured"
+    },
+    "realized_left_gripper_joint_qf": {
+      "source": "runtime left gripper applied generalized qf; not actuator/contact effort",
+      "status": "measured"
+    },
+    "realized_left_gripper_joint_qpos": {
+      "source": "runtime left articulation active-joint qpos",
+      "status": "measured"
+    },
+    "realized_left_gripper_joint_qvel": {
+      "source": "runtime left articulation gripper active-joint qvel",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qf": {
+      "source": "runtime right gripper applied generalized qf; not actuator/contact effort",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qpos": {
+      "source": "runtime right articulation active-joint qpos",
+      "status": "measured"
+    },
+    "realized_right_gripper_joint_qvel": {
+      "source": "runtime right articulation gripper active-joint qvel",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_damping": {
+      "source": "runtime right gripper PhysX joint get_damping",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_force_limit": {
+      "source": "runtime right gripper PhysX joint get_force_limit",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_mode": {
+      "source": "runtime right gripper PhysX joint get_drive_mode",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_stiffness": {
+      "source": "runtime right gripper PhysX joint get_stiffness",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_target": {
+      "source": "runtime exact right gripper joint drive targets",
+      "status": "measured"
+    },
+    "right_gripper_joint_drive_target_error": {
+      "source": "right gripper drive target minus realized active-joint qpos",
+      "status": "derived"
+    },
+    "right_gripper_joint_drive_velocity_error": {
+      "source": "right gripper drive velocity target minus realized active-joint qvel",
+      "status": "derived"
+    },
+    "right_gripper_joint_drive_velocity_target": {
+      "source": "runtime exact right gripper joint drive velocity targets",
+      "status": "measured"
+    },
+    "role_object_angular_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role blue",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role green",
+      "status": "derived"
+    },
+    "role_object_angular_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz pose-quaternion finite-difference angular velocity for scene role red",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_angular_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz angular velocity measured mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role blue",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role common_box",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role green",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native angular velocity for scene role red",
+      "status": "measured"
+    },
+    "role_object_component_angular_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_component_angular_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz component angular-velocity availability mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role blue",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role common_box",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role green",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz rigid-component native linear velocity for scene role red",
+      "status": "measured"
+    },
+    "role_object_component_linear_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_component_linear_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz component linear-velocity availability mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__blue": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__common_box": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__green": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_component_velocity_provenance_json__red": {
+      "source": "runtime component type/property/frame provenance; never a semantic Gate",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__blue": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role blue",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__common_box": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__green": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role green",
+      "status": "derived"
+    },
+    "role_object_linear_velocity__red": {
+      "source": "runtime SAPIEN/250 Hz pose-origin finite-difference linear velocity for scene role red",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__blue": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role blue",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__common_box": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role common_box",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__green": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role green",
+      "status": "derived"
+    },
+    "role_object_linear_velocity_measured__red": {
+      "source": "runtime SAPIEN/250 Hz linear velocity measured mask for scene role red",
+      "status": "derived"
+    },
+    "role_object_pose__blue": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role blue",
+      "status": "measured"
+    },
+    "role_object_pose__common_box": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role common_box",
+      "status": "measured"
+    },
+    "role_object_pose__green": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role green",
+      "status": "measured"
+    },
+    "role_object_pose__red": {
+      "source": "runtime SAPIEN/250 Hz pose for scene role red",
+      "status": "measured"
+    },
+    "selected_contact_actor_name": {
+      "source": "runtime verifier contact-subject actor name",
+      "status": "derived"
+    },
+    "selected_gripper_contact": {
+      "source": "runtime SAPIEN contact restricted to selected arm gripper links",
+      "status": "measured"
+    },
+    "selected_gripper_contact_count": {
+      "source": "runtime selected-arm SAPIEN contact-pair count",
+      "status": "measured"
+    },
+    "selected_gripper_contact_impulse": {
+      "source": "runtime selected-arm SAPIEN contact point impulse sum",
+      "status": "measured"
+    }
+  },
+  "formal_data": false,
+  "frequency_hz": 250,
+  "manifest_payload_sha256": "a137f80bfe9d477c413e2bc7a214fd204dec875711ee971803fadc0dec5eca53",
+  "manifest_sha256": "a137f80bfe9d477c413e2bc7a214fd204dec875711ee971803fadc0dec5eca53",
+  "primary_action_stream": "controller_effective_setpoint_v1",
+  "provenance": {
+    "audit_role_mapping": {
+      "target_role": "green",
+      "target_role_pose_field": "role_object_pose__green"
+    },
+    "family": "F1",
+    "formal_data": false,
+    "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+    "planner_queries": [
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                511,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                511,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1354,
+        "goal_eef_pose": [
+          -0.11000227183103561,
+          0.020004402846097946,
+          0.9720004796981812,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 3.41161012329394e-06,
+              "rotation_error": 4.2647329792089295e-06,
+              "solve_time": 0.04237985610961914,
+              "status": null,
+              "success": true,
+              "total_time": 0.06608867645263672,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 5,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_pregrasp",
+        "start_step": 843,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                182,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                182,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1536,
+        "goal_eef_pose": [
+          -0.11000146716833115,
+          0.020002664998173714,
+          0.8820005059242249,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 4.406407242640853e-06,
+              "rotation_error": 5.13306122229551e-06,
+              "solve_time": 0.04224801063537598,
+              "status": null,
+              "success": true,
+              "total_time": 0.06276273727416992,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 6,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_grasp",
+        "start_step": 1354,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                117,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                117,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 1953,
+        "goal_eef_pose": [
+          -0.11000146716833115,
+          0.020002664998173714,
+          0.9220004677772522,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 3.341200738304906e-07,
+              "rotation_error": 1.8384803297522012e-06,
+              "solve_time": 0.04226350784301758,
+              "status": null,
+              "success": true,
+              "total_time": 0.06224870681762695,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 7,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_lift_mid",
+        "start_step": 1836,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                124,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                124,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2077,
+        "goal_eef_pose": [
+          -0.11000146716833115,
+          0.020002664998173714,
+          0.9620004892349243,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.3472838418238098e-06,
+              "rotation_error": 2.773673031697399e-06,
+              "solve_time": 0.04223465919494629,
+              "status": null,
+              "success": true,
+              "total_time": 0.06235241889953613,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 8,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "target_lift",
+        "start_step": 1953,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                31,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                31,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2108,
+        "goal_eef_pose": [
+          -0.10999999940395355,
+          0.019999999552965164,
+          0.9620004892349243,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 2.8695178571069846e-06,
+              "rotation_error": 3.3602589155634632e-06,
+              "solve_time": 0.04284524917602539,
+              "status": null,
+              "success": true,
+              "total_time": 0.0632631778717041,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 9,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "carry_hub_low",
+        "start_step": 2077,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                194,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                194,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2302,
+        "goal_eef_pose": [
+          -0.10999999940395355,
+          0.019999999552965164,
+          1.0199999809265137,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 3.163155781749083e-07,
+              "rotation_error": 1.8736686797637958e-06,
+              "solve_time": 0.042221784591674805,
+              "status": null,
+              "success": true,
+              "total_time": 0.06254935264587402,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 10,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "carry_hub_high",
+        "start_step": 2108,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                343,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                343,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2645,
+        "goal_eef_pose": [
+          -0.08000106364488602,
+          -0.15999768674373627,
+          1.0199999809265137,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.1783502031903481e-06,
+              "rotation_error": 1.3962564935354749e-06,
+              "solve_time": 0.04221987724304199,
+              "status": null,
+              "success": true,
+              "total_time": 0.06219625473022461,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 11,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "safe_horizontal",
+        "start_step": 2302,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                104,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                104,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2749,
+        "goal_eef_pose": [
+          -0.08000106364488602,
+          -0.15999768674373627,
+          1.0469999313354492,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 5.713890232073027e-07,
+              "rotation_error": 1.6983206023724051e-06,
+              "solve_time": 0.04224705696105957,
+              "status": null,
+              "success": true,
+              "total_time": 0.0622708797454834,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 12,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "preplace",
+        "start_step": 2645,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                203,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                203,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 2952,
+        "goal_eef_pose": [
+          -0.08000106364488602,
+          -0.15999768674373627,
+          0.9469999670982361,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 2.1791433937323745e-06,
+              "rotation_error": 4.671995611715829e-06,
+              "solve_time": 0.042253732681274414,
+              "status": null,
+              "success": true,
+              "total_time": 0.062245845794677734,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 13,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "release",
+        "start_step": 2749,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                195,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                195,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3522,
+        "goal_eef_pose": [
+          -0.08000106364488602,
+          -0.15999768674373627,
+          1.0469999313354492,
+          0.4999969005584717,
+          -0.5000075697898865,
+          0.5000020861625671,
+          0.4999934434890747
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.3052326721663121e-06,
+              "rotation_error": 2.0253726233931957e-06,
+              "solve_time": 0.042220115661621094,
+              "status": null,
+              "success": true,
+              "total_time": 0.062096595764160156,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 14,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "retreat",
+        "start_step": 3327,
+        "status": "Success"
+      },
+      {
+        "arm": "left",
+        "dtype_contract": {
+          "control": {
+            "position": {
+              "dtype": "float32",
+              "shape": [
+                475,
+                6
+              ]
+            },
+            "velocity": {
+              "dtype": "float32",
+              "shape": [
+                475,
+                6
+              ]
+            }
+          },
+          "geometry_dtype": "float64",
+          "goal_pose": {
+            "dtype": "float32",
+            "shape": [
+              7
+            ]
+          },
+          "planner_dtype": "float32",
+          "qpos": {
+            "dtype": "float32",
+            "shape": [
+              38
+            ]
+          },
+          "schema_version": "cmf_planner_dtype_contract_v3_2"
+        },
+        "end_step": 3997,
+        "goal_eef_pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.700000524520874,
+          -1.6168087313417345e-05,
+          6.60717432765523e-06,
+          0.7141423225402832
+        ],
+        "motiongen_result_side_channel": [
+          {
+            "fields": {
+              "attempts": 1,
+              "position_error": 1.9531296402419684e-06,
+              "rotation_error": 3.083905312450952e-06,
+              "solve_time": 0.04228520393371582,
+              "status": null,
+              "success": true,
+              "total_time": 0.062213897705078125,
+              "used_graph": false,
+              "valid_query": true
+            },
+            "schema_version": "cmf_motiongen_result_side_channel_v1",
+            "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+          }
+        ],
+        "motiongen_side_channel_available": true,
+        "motiongen_side_channel_call_count": 1,
+        "motiongen_wrapper_had_instance_override": false,
+        "motiongen_wrapper_installation_error": null,
+        "motiongen_wrapper_restoration_succeeded": true,
+        "query_id": 15,
+        "replayed_from_frozen_suffix_artifact": true,
+        "source": "rest",
+        "start_step": 3522,
+        "status": "Success"
+      }
+    ],
+    "program_id": "F1-green",
+    "realization_spec": {
+      "formal_data": false,
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+      "realization": "r_pc",
+      "stage0_attempt_id": "stage0-v1_1-F1-rootA-02",
+      "stage0_authorized": true,
+      "stage0_data": true,
+      "stage0_manifest_sha256": "b0e1db84ed883687d4de1caf3426bbef87b297bad3013f31d8ee9f8511eaf69c",
+      "stage0_root_slot_id": "stage0-v1_1-F1-pilot-root-A",
+      "stage0_smoke": true
+    },
+    "simulator_timing": {
+      "control_steps_per_action": 1,
+      "effective_action_interval_seconds": 0.004000000189989805,
+      "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+      "simulator_timestep_seconds": 0.004000000189989805
+    },
+    "stage0_authorized": true,
+    "stage0_data": true,
+    "synthetic": false,
+    "trace_role_names": [
+      "blue",
+      "common_box",
+      "green",
+      "red"
+    ],
+    "trace_schema_version": "cmf_runtime_trace_pose_consistent_velocity_effort_v3",
+    "trace_source_relative_path": "../trace_source.npz",
+    "trace_source_sha256": "82a30a42169145865bca9d83b31fc4e6f3957d7a6074f0e5fd55a2d42f6f6bca"
+  },
+  "raw_streams_npz_sha256": "1118a88fd6cdb4a8e822201bd6cd0b5e5353b7eb86ddb50b456112b031cdba63",
+  "schema_version": "cmf_raw_attempt_v2_1_1",
+  "simulator_timing": {
+    "control_steps_per_action": 1,
+    "effective_action_interval_seconds": 0.004000000189989805,
+    "scene_timestep_source": "SAPIEN Scene.get_timestep() after Base_Task.setup_scene",
+    "simulator_timestep_seconds": 0.004000000189989805
+  },
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "state_count": 4073,
+  "stream_field_metadata": {
+    "action_interval_end_timestamps": {
+      "source": "runtime state_timestamps[1:]",
+      "status": "derived"
+    },
+    "action_interval_start_timestamps": {
+      "source": "runtime state_timestamps[:-1]",
+      "status": "derived"
+    },
+    "component_masks": {
+      "source": "runtime commanded component availability",
+      "status": "derived"
+    },
+    "controller_effective_setpoint": {
+      "source": "runtime joint drive targets plus normalized gripper drive targets",
+      "status": "measured"
+    },
+    "gripper_command": {
+      "source": "runtime normalized gripper command",
+      "status": "commanded"
+    },
+    "planner_goal_eef_pose": {
+      "source": "runtime left/right move_to_pose direct EEF goal arguments",
+      "status": "commanded"
+    },
+    "realized_eef": {
+      "source": "runtime dual-arm EEF pose API",
+      "status": "measured"
+    },
+    "realized_qpos": {
+      "source": "runtime complete dual-arm articulation get_qpos",
+      "status": "measured"
+    },
+    "realized_qvel": {
+      "source": "runtime complete dual-arm articulation get_qvel",
+      "status": "measured"
+    },
+    "requested_command": {
+      "source": "runtime Base_Task.take_dense_action control_seq",
+      "status": "commanded"
+    },
+    "state_timestamps": {
+      "source": "runtime 250 Hz state step index",
+      "status": "derived"
+    }
+  },
+  "timestamp_semantics": "state[k] -- action[k] on [start,end) --> state[k+1]",
+  "trace_source_sha256": "82a30a42169145865bca9d83b31fc4e6f3957d7a6074f0e5fd55a2d42f6f6bca"
+}

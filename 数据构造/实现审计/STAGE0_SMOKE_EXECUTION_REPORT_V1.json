@@ -1,0 +1,100 @@
+{
+  "schema_version": "cmf_stage0_smoke_execution_report_v1",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "decision": "STAGE0_TERMINAL_NOT_SEALED",
+  "stage0_manifest_sha256": "b0e1db84ed883687d4de1caf3426bbef87b297bad3013f31d8ee9f8511eaf69c",
+  "source_sha256": "41a6ede4e2b4dea01e7587ead948358023aeae2972006c31fce076bb96b31063",
+  "planned_attempt_count": 12,
+  "terminal_attempt_count": 12,
+  "successful_attempt_count": 3,
+  "failed_attempt_count": 9,
+  "generated_trajectory_count": 3,
+  "generated_video_count": 3,
+  "all_generated_trajectories_have_mp4": true,
+  "stage0_attempt_phase_completed": true,
+  "stage0_completed": false,
+  "stage0_finalizer_authoritative": true,
+  "stage0_finalizer_file_sha256": "1f981cfad29166883a039d3722d1dee026053b4c22a1c85d2b12d1776a5a77a2",
+  "stage0_finalizer_checks": {
+    "manifest": true,
+    "twelve_attempts": true,
+    "attempts": true,
+    "families": false,
+    "outers": false
+  },
+  "family_results": {
+    "F1": {
+      "outcome": "PASS",
+      "terminal_statuses": ["PASSED", "PASSED", "PASSED"],
+      "planner_query_count": 46,
+      "execution_attempt_count": 3,
+      "recovery_attempt_count": 0,
+      "generated_trajectory_count": 3,
+      "generated_video_count": 3,
+      "pipeline_integrity_pass": true,
+      "evidence_tree_sha256": "492c26fc2b6cfb0ab166259d231cbe3e7573ef74cc3add8144b7edfcbb36702a"
+    },
+    "F2": {
+      "outcome": "FAILED_WITH_EVIDENCE",
+      "terminal_statuses": ["FAILED_INFRASTRUCTURE_WITH_EVIDENCE", "FAILED_INFRASTRUCTURE_WITH_EVIDENCE", "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"],
+      "failure_type": "F2FrozenLayoutConfigurationError",
+      "failure_reason": "planned Stage 0 root spec lacks explicit frozen scene_layout",
+      "planner_query_count": 0,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "generated_trajectory_count": 0,
+      "generated_video_count": 0,
+      "pipeline_integrity_pass": false,
+      "evidence_tree_sha256": "9a8236f9e3e4073b854633d11960e4b3b26c01cda54b9aed573440b8d57d36f4"
+    },
+    "F3": {
+      "outcome": "FAILED_WITH_EVIDENCE",
+      "terminal_statuses": ["FAILED_EXECUTION_WITH_EVIDENCE", "FAILED_EXECUTION_WITH_EVIDENCE", "FAILED_EXECUTION_WITH_EVIDENCE"],
+      "failure_type": "F3PreVBoundaryGateFailure",
+      "failed_predicates": ["eef_linear_stationary", "eef_angular_stationary", "grasp_translation_stable", "grasp_orientation_stable", "selected_gripper_contact_continuous", "bottle_has_no_pad_or_table_contact"],
+      "planner_query_count": 7,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "generated_trajectory_count": 0,
+      "generated_video_count": 0,
+      "pipeline_integrity_pass": true,
+      "evidence_tree_sha256": "991a3457f299e85922a9fee8daab5ab4a207b187723a19e66b01461d72cf5f36"
+    },
+    "F4": {
+      "outcome": "FAILED_WITH_EVIDENCE",
+      "terminal_statuses": ["FAILED_PLANNER_WITH_EVIDENCE", "FAILED_PLANNER_WITH_EVIDENCE", "FAILED_PLANNER_WITH_EVIDENCE"],
+      "failure_type": "f4_no_planner_solvable_corridor_v13",
+      "planner_query_count": 0,
+      "execution_attempt_count": 0,
+      "recovery_attempt_count": 0,
+      "generated_trajectory_count": 0,
+      "generated_video_count": 0,
+      "pipeline_integrity_pass": true,
+      "prestage0_candidate_corridor_query_count": 22,
+      "evidence_tree_sha256": "8675e202ddd91a59ee8707b2f88078ef0636bba277fd4eae88813dc9ccafb2a4"
+    }
+  },
+  "video_artifacts": {
+    "F1-red": {"frame_count": 417, "fps": 25, "resolution": [320, 240], "first_last_decode_pass": true, "file_sha256": "236280a45109edad7a4f685e186c2a1be0861aab10744ff67f0dabaabaabf4bd"},
+    "F1-green": {"frame_count": 409, "fps": 25, "resolution": [320, 240], "first_last_decode_pass": true, "file_sha256": "f5c85c99aafa094c743e77041070a3669247ce0285956051b816d8c8da1fa310"},
+    "F1-blue": {"frame_count": 423, "fps": 25, "resolution": [320, 240], "first_last_decode_pass": true, "file_sha256": "c013fbf2b6bca0f27920eef1190b6081dc00e39305ca84a3a971cbaeab9718c9"}
+  },
+  "gpu_execution": {
+    "requested_policy": "any independently fresh-idle GPU0-7; family parallelism allowed",
+    "actual_policy": "sequential physical GPU0 because execution approval layer enforced migrated GPU0-only rule",
+    "family_parallelism_realized": false,
+    "all_pre_post_release_verified": true,
+    "all_orphan_process_counts_zero": true
+  },
+  "all_guard_evidence_tree_sha256": "eb9c82653dc60f69c851f15798c414a477039b8ba2d2099cce5ae8cb85ab90d9",
+  "accepted_formal_root_count": 0,
+  "formal_trajectory_count": 0,
+  "formal_data": false,
+  "stage1_authorized": false,
+  "formal_collection_authorized": false,
+  "training_authorized": false,
+  "h_reveal": null,
+  "compression_authorized": false,
+  "pi05_authorized": false
+}

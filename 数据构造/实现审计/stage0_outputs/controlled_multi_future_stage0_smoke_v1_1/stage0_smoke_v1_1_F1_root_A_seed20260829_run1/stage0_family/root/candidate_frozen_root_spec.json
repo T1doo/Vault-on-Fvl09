@@ -1,0 +1,130 @@
+{
+  "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "frozen_spec_sha256": "0eb214577cd6e59b51b42c8b77b8657082a06cc246620ebe257da517f955e12c",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "observable_task_tree": {
+    "root": {
+      "compatible_programs": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "evidence": "current scene roles and visible facilities"
+    }
+  },
+  "observable_task_tree_sha256": "d9fbfc84f5f7d8d994468128f822ff136727bb4d0ce86edafea12d4d50d7a832",
+  "oracle_task_tree": {
+    "root": {
+      "compatible_programs": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "evidence": "audit-only full task tree"
+    }
+  },
+  "oracle_task_tree_sha256": "0dbf3287837038607169e70a59624121e63b6b7ecce09978debc2d51e8812578",
+  "planned_root_slot_spec": {
+    "accepted_root_required": false,
+    "arm": "left",
+    "automatic_retry": false,
+    "budget_sha256": "cbfdbb9fda1b9eccec72b01f7dbd9c597d241d4b56f5c9f734de35d002dbbd30",
+    "family": "F1",
+    "formal_data": false,
+    "generator": "controlled_multi_future_stage0_smoke_v1_1_adapter_v1_7",
+    "origin": "authorized_stage0_smoke_v1_1",
+    "planned_root_slot_spec_sha256": "e63665864614107d4c0a7cd31e1dac5ab43d33396aa06f8dd005e59be996ba6a",
+    "program_ids": [
+      "F1-red",
+      "F1-green",
+      "F1-blue"
+    ],
+    "realizations": [
+      "r_pc",
+      "r_pc",
+      "r_pc"
+    ],
+    "recovery_attempts": 0,
+    "schema_version": "cmf_stage0_planned_root_slot_spec_v1_1",
+    "scope": "Stage0_v1_1_F1_root_A",
+    "seed": 20260829,
+    "slot_id": "stage0-v1_1-F1-pilot-root-A",
+    "stage0_attempt_ids": [
+      "stage0-v1_1-F1-rootA-01",
+      "stage0-v1_1-F1-rootA-02",
+      "stage0-v1_1-F1-rootA-03"
+    ],
+    "stage0_authorized": true,
+    "stage0_data": true,
+    "stage0_generated_trajectory_mp4_required": true,
+    "stage0_manifest_attempt_count": 12,
+    "stage0_manifest_sha256": "b0e1db84ed883687d4de1caf3426bbef87b297bad3013f31d8ee9f8511eaf69c",
+    "stage0_video_contract": {
+      "camera": "head_camera",
+      "control_frequency_hz": 250,
+      "format": "mp4",
+      "initial_and_final_frames_required": true,
+      "no_trajectory_status": "video_not_applicable_no_trajectory",
+      "sample_stride_steps": 10,
+      "video_fps": 25
+    },
+    "stage1_authorized": false,
+    "stop_condition": "terminal family receipt or cleanup/source/GPU uncertainty",
+    "success_and_failure_both_retained": true
+  },
+  "programs": [
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-red",
+      "steps": [
+        {
+          "object": "red",
+          "op": "pick"
+        },
+        {
+          "object": "red",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "red"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-green",
+      "steps": [
+        {
+          "object": "green",
+          "op": "pick"
+        },
+        {
+          "object": "green",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "green"
+    },
+    {
+      "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+      "program_id": "F1-blue",
+      "steps": [
+        {
+          "object": "blue",
+          "op": "pick"
+        },
+        {
+          "object": "blue",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "blue"
+    }
+  ],
+  "schema_version": "candidate_frozen_root_spec_v1"
+}

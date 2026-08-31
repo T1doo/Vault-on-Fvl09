@@ -1,0 +1,143 @@
+{
+  "append_only_event_log": "root_events.jsonl",
+  "append_only_event_log_sha256": "fcbda3b9fb8c54623fb2dee33db68a265092794fe1ffe96d4faf553cb5b7f737",
+  "branch_execution_attempt_count": 0,
+  "branch_prefix_replay_count": 0,
+  "branch_receipts": [],
+  "budget_counts": {
+    "execution_attempt_count": 0,
+    "planner_query_count": 0,
+    "recovery_attempt_count": 0
+  },
+  "canonical_prefix_generation_count": 0,
+  "canonical_prefix_planner_query_count": 0,
+  "canonical_prefix_reference_execution_count": 0,
+  "cleanup_records": [
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "pristine",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-pristine-v1_2-000001",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-inside",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-inside-v1_2-000002",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-on",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-on-v1_2-000003",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    },
+    {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "phase": "task_physical_feasibility:F2-beside",
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f2-task_physical_feasibility_F2-beside-v1_2-000004",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    }
+  ],
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "elapsed_seconds": 121.02308964729309,
+  "error": "task/physical audit infrastructure failed",
+  "error_type": "TaskPhysicalFeasibilityError",
+  "formal_data": false,
+  "freeze_call_count": 0,
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "planned_root_slot_spec_sha256": "583702fb85f6b5f3835c58682bb8e0ca6e0f50b730822c42def7a075bed78e65",
+  "planner_query_count_total": 0,
+  "schema_version": "cmf_real_sapien_strict_prefix_root_orchestrator_v1_2",
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "status": "failed_implementation_error",
+  "suffix_planner_query_count_total": 0,
+  "suffix_planner_receipts": [],
+  "suffix_prefix_replay_count": 0,
+  "task_physical_feasibility_receipts": [
+    {
+      "evidence": {
+        "error": "F2 v3_3 requires an explicit frozen scene_layout"
+      },
+      "failure_stage": "task_implementation_infrastructure",
+      "failure_type": "F2FrozenLayoutConfigurationError",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-inside",
+      "status": "failed",
+      "task_feasible": false,
+      "task_infrastructure_failure": true
+    },
+    {
+      "evidence": {
+        "error": "F2 v3_3 requires an explicit frozen scene_layout"
+      },
+      "failure_stage": "task_implementation_infrastructure",
+      "failure_type": "F2FrozenLayoutConfigurationError",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-on",
+      "status": "failed",
+      "task_feasible": false,
+      "task_infrastructure_failure": true
+    },
+    {
+      "evidence": {
+        "error": "F2 v3_3 requires an explicit frozen scene_layout"
+      },
+      "failure_stage": "task_implementation_infrastructure",
+      "failure_type": "F2FrozenLayoutConfigurationError",
+      "physical_feasible": false,
+      "planner_solvable": null,
+      "program_id": "F2-beside",
+      "status": "failed",
+      "task_feasible": false,
+      "task_infrastructure_failure": true
+    }
+  ],
+  "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/root_orchestrator_v1_2.py\", line 598, in run_nonformal_root\n    raise TaskPhysicalFeasibilityError(\ncontrolled_multi_future.root_orchestrator_v1_1.TaskPhysicalFeasibilityError: task/physical audit infrastructure failed\n"
+}

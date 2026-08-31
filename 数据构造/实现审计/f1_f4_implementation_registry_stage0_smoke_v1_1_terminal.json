@@ -1,0 +1,23 @@
+{
+  "schema_version": "cmf_f1_f4_registry_stage0_smoke_v1_1_terminal",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "source_sha256": "41a6ede4e2b4dea01e7587ead948358023aeae2972006c31fce076bb96b31063",
+  "stage0_manifest_sha256": "b0e1db84ed883687d4de1caf3426bbef87b297bad3013f31d8ee9f8511eaf69c",
+  "stage0_attempt_count": 12,
+  "stage0_successful_attempt_count": 3,
+  "stage0_failed_attempt_count": 9,
+  "stage0_generated_trajectory_count": 3,
+  "stage0_generated_video_count": 3,
+  "stage0_completed": false,
+  "families": {
+    "F1": {"outcome": "PASS_3_OF_3", "next": "user_review_before_stage1"},
+    "F2": {"outcome": "FAILED_INFRASTRUCTURE_3_OF_3", "root_cause": "missing frozen scene_layout in Stage 0 root spec", "next": "versioned manifest wiring review"},
+    "F3": {"outcome": "FAILED_EXECUTION_3_OF_3", "root_cause": "F3PreVBoundaryGateFailure", "next": "grasp_prefix_physical_impact_review"},
+    "F4": {"outcome": "FAILED_PLANNER_3_OF_3", "root_cause": "all four v13 corridors failed planner", "next": "layout_or_task_implementation_impact_review"}
+  },
+  "formal_data": false,
+  "formal_trajectory_count": 0,
+  "stage1_authorized": false,
+  "training_authorized": false
+}
