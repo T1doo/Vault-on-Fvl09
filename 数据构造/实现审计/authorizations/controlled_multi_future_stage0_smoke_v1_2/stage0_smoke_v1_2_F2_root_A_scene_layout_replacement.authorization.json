@@ -1,0 +1,297 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_request_file_sha256": "5b6b3bf82bed97d9537f71354d7a6271ff15216a22c7dc4333cbb0494223478d",
+  "approval_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement.request.json",
+  "approval_request_sha256": "3147938149382ae6fbe1d4a7eeb8670428facb93c9c74bf8a8c82d95eda419f4",
+  "approved": true,
+  "approved_scopes": [
+    "Stage0_v1_2_F2_root_A_scene_layout_replacement"
+  ],
+  "atomic_guard_recheck_before_launch": true,
+  "authorization_id": "stage0-smoke-v1-2-F2-root-A-layout-replacement-run1",
+  "authorized_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.stage0_f2_replacement_scope_runner_v1_2",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/authorizations/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement.authorization.json"
+  ],
+  "authorized_command_sha256": "8cc11f51072bba1b751531acd59e1ac6b2d697c7a424b475b04f583d2fa2dbd1",
+  "authorized_run_id": "stage0-smoke-v1-2-F2-root-A-layout-replacement-run1-run",
+  "automatic_gpu0_fallback": false,
+  "automatic_retry": false,
+  "budget_publication_file_sha256": "1cfed68898127d7eb61bf67cb984b0c52e881fa99f5b313c239418a2cff6bcf3",
+  "budget_publication_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/STAGE0_F2_REPLACEMENT_BUDGET_V1_2.json",
+  "budget_receipt_sha256": "5a56c1622cb6221cf99632a41da9c7b4a9958be954099b2cc393a23e543d2462",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "controlled_action_limit": 3,
+  "dynamic_fresh_idle_selection": true,
+  "expires_at": "2026-08-31T06:02:33.523959+00:00",
+  "family": "F2",
+  "formal_data": false,
+  "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+  "gpu_policy_version": "cmf_gpu_parallel_policy_v2",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement.guard.json",
+  "implementation_source_sha256": "e854fd9b35f01ef1eee1724c73d47e9ce750051650559c1b077e7739a1f5f351",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+  "issued_at": "2026-08-31T05:02:33.523959+00:00",
+  "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+  "max_invocations": 1,
+  "one_project_job_per_gpu": true,
+  "one_root_one_gpu": true,
+  "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement",
+  "parallel_different_cards_authorized": true,
+  "parent_user_authorization_file_sha256": "3a8a29a62046f3cf9db764f704126e360a92399cd4708f21dccb8fb5b7bfe595",
+  "parent_user_authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/USER_AUTHORIZATION_STAGE0_F2_REPLACEMENT_V1_2_20260831.json",
+  "parent_user_authorization_sha256": "585db047ea549498ff7bd41ec44c0e5bcf8ce608ed6c7a0e2c18eddb3047ea7e",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "accepted_root_required": false,
+    "arm": "left",
+    "automatic_retry": false,
+    "budget_sha256": "5a56c1622cb6221cf99632a41da9c7b4a9958be954099b2cc393a23e543d2462",
+    "execution_arm": "left",
+    "f2_frozen_scene_layout_binding_sha256": "ceac7800d7db9fe88c136d112b9ffb61c7a168074ecdbf4e382d17c977e80656",
+    "f2_frozen_scene_layout_binding_v1": {
+      "binding_sha256": "ceac7800d7db9fe88c136d112b9ffb61c7a168074ecdbf4e382d17c977e80656",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "execution_arm": "left",
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+      "layout_payload_sha256": "2eeae7fd78eccabf55a0290049f08b9afeabaad7037f6b9206508c2fb980f3c6",
+      "legacy_layout_core_sha256": "928d160afabe822655b5634395eab77708f1f39ed8ebce59a6ac17baa00af93c",
+      "object_model_ids": {
+        "beside_reference": 3,
+        "electronic_scale": 0,
+        "main_object": 1,
+        "plastic_box": 2
+      },
+      "object_modelnames": {
+        "beside_reference": "074_displaystand",
+        "electronic_scale": "072_electronicscale",
+        "main_object": "071_can",
+        "plastic_box": "062_plasticbox"
+      },
+      "scene_layout": {
+        "beside_reference_pose": [
+          0.2,
+          -0.03,
+          0.77,
+          0.70710678,
+          0.70710678,
+          0.0,
+          0.0
+        ],
+        "box_xyz": [
+          -0.29,
+          -0.2,
+          0.78
+        ],
+        "can_xyz": [
+          -0.28,
+          0.04,
+          0.79
+        ],
+        "distractor_poses": {},
+        "electronic_scale_pose": [
+          -0.1,
+          -0.2,
+          0.77,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+        "main_object_pose": [
+          -0.28,
+          0.04,
+          0.79,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "obstacle_pose": null,
+        "plastic_box_pose": [
+          -0.29,
+          -0.2,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "scale_xyz": [
+          -0.1,
+          -0.2,
+          0.77
+        ],
+        "stand_q_wxyz": [
+          0.70710678,
+          0.70710678,
+          0.0,
+          0.0
+        ],
+        "stand_xyz": [
+          0.2,
+          -0.03,
+          0.77
+        ]
+      },
+      "scene_layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+      "scene_seed": 20260829,
+      "schema_version": "cmf_f2_frozen_scene_layout_binding_v1",
+      "scientific_programs_unchanged": true,
+      "source_layout_module": "f2_mutually_exclusive_region_layout_v2.LAYOUT",
+      "verifier_unchanged": true
+    },
+    "family": "F2",
+    "formal_data": false,
+    "generator": "controlled_multi_future_stage0_smoke_v1_2_adapter_v1_8",
+    "layout_payload_sha256": "2eeae7fd78eccabf55a0290049f08b9afeabaad7037f6b9206508c2fb980f3c6",
+    "main_object": "071_can/base1",
+    "object_model_ids": {
+      "beside_reference": 3,
+      "electronic_scale": 0,
+      "main_object": 1,
+      "plastic_box": 2
+    },
+    "object_modelnames": {
+      "beside_reference": "074_displaystand",
+      "electronic_scale": "072_electronicscale",
+      "main_object": "071_can",
+      "plastic_box": "062_plasticbox"
+    },
+    "origin": "stage0_v1_1_f2_infrastructure_slot_replacement",
+    "planned_root_slot_spec_sha256": "ef599d294c923a7fd4a82fb3b3c451252d95a552e124bd2c47ec16083587dc22",
+    "plasticbox_model_id": 2,
+    "program_ids": [
+      "F2-inside",
+      "F2-on",
+      "F2-beside"
+    ],
+    "realizations": [
+      "r_pc",
+      "r_pc",
+      "r_pc"
+    ],
+    "recovery_attempts": 0,
+    "replacement_for_attempt_ids": [
+      "stage0-v1_1-F2-rootA-01",
+      "stage0-v1_1-F2-rootA-02",
+      "stage0-v1_1-F2-rootA-03"
+    ],
+    "replacement_reason": "frozen_scene_layout_wiring_fix",
+    "scene_layout": {
+      "beside_reference_pose": [
+        0.2,
+        -0.03,
+        0.77,
+        0.70710678,
+        0.70710678,
+        0.0,
+        0.0
+      ],
+      "box_xyz": [
+        -0.29,
+        -0.2,
+        0.78
+      ],
+      "can_xyz": [
+        -0.28,
+        0.04,
+        0.79
+      ],
+      "distractor_poses": {},
+      "electronic_scale_pose": [
+        -0.1,
+        -0.2,
+        0.77,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+      "main_object_pose": [
+        -0.28,
+        0.04,
+        0.79,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "obstacle_pose": null,
+      "plastic_box_pose": [
+        -0.29,
+        -0.2,
+        0.78,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "scale_xyz": [
+        -0.1,
+        -0.2,
+        0.77
+      ],
+      "stand_q_wxyz": [
+        0.70710678,
+        0.70710678,
+        0.0,
+        0.0
+      ],
+      "stand_xyz": [
+        0.2,
+        -0.03,
+        0.77
+      ]
+    },
+    "scene_layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "schema_version": "cmf_stage0_planned_root_slot_spec_v1_2",
+    "scope": "Stage0_v1_2_F2_root_A_scene_layout_replacement",
+    "seed": 20260829,
+    "slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+    "stage0_attempt_ids": [
+      "stage0-v1_2-F2-rootA-01",
+      "stage0-v1_2-F2-rootA-02",
+      "stage0-v1_2-F2-rootA-03"
+    ],
+    "stage0_authorized": true,
+    "stage0_data": true,
+    "stage0_generated_trajectory_mp4_required": true,
+    "stage1_authorized": false,
+    "stop_condition": "terminal family receipt or cleanup/source/GPU uncertainty",
+    "success_and_failure_both_retained": true,
+    "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"
+  },
+  "planned_root_slot_spec_sha256": "ef599d294c923a7fd4a82fb3b3c451252d95a552e124bd2c47ec16083587dc22",
+  "planner_query_limit": 64,
+  "receipt_sha256": "c031b139c3e4f6aa98d3318918503da419a69da754c455fef025a27f6614bdc6",
+  "recovery_attempts": 0,
+  "replacement_manifest_file_sha256": "6bcae8fde571ed312ef0aee0470531c0eb0cd47bb516ea116f1d9baec8cfdb16",
+  "replacement_manifest_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/STAGE0_F2_REPLACEMENT_MANIFEST_V1_2.json",
+  "replacement_manifest_sha256": "27512294d0494c945a6b6dfe22ad39b9fc8ee61fbd71fe53fc8bd4978f822689",
+  "reviewed_content_commit": "4d4473fddb004d622c386ad2c472b44f0c37dce9",
+  "root_sharding_authorized": false,
+  "scene_seed": 20260829,
+  "schema_version": "cmf_stage0_f2_replacement_authorization_v1_2",
+  "share_busy_gpu_authorized": false,
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/controlled_multi_future_stage0_smoke_v1_2/stage0_smoke_v1_2_F2_root_A_scene_layout_replacement.source_lock.json",
+  "source_lock_receipt_sha256": "c663a96502c4d5d77c506343d09611e5cf10de658eb11f0c70dffedd941da44b",
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "stage1_authorized": false,
+  "timeout_seconds": 7200
+}
