@@ -87,10 +87,26 @@ class F1Scene(AuditScene):
     family_id = "F1"
 
     def load_actors(self):
-        self.red = self._box("f1_red_block", [-0.20, 0.02, 0.762], (1, 0, 0))
-        self.green = self._box("f1_green_block", [-0.11, 0.02, 0.762], (0, 1, 0))
-        self.blue = self._box("f1_blue_block", [-0.02, 0.02, 0.762], (0, 0, 1))
-        self.box = create_actor(self, sapien.Pose([-0.08, -0.16, 0.78], [0.5, 0.5, 0.5, 0.5]), "062_plasticbox", convex=True, is_static=True, model_id=3)
+        planned = getattr(self, "_cmf_planned_root_slot_spec", {})
+        layout = planned.get("scene_layout", {})
+        xyz = layout.get(
+            "object_xyz_by_role",
+            {
+                "red": [-0.20, 0.02, 0.762],
+                "green": [-0.11, 0.02, 0.762],
+                "blue": [-0.02, 0.02, 0.762],
+            },
+        )
+        box_pose = layout.get(
+            "common_box_pose_wxyz",
+            [-0.08, -0.16, 0.78, 0.5, 0.5, 0.5, 0.5],
+        )
+        if set(xyz) != {"red", "green", "blue"}:
+            raise ValueError("F1 scene layout must bind exactly red/green/blue")
+        self.red = self._box("f1_red_block", xyz["red"], (1, 0, 0))
+        self.green = self._box("f1_green_block", xyz["green"], (0, 1, 0))
+        self.blue = self._box("f1_blue_block", xyz["blue"], (0, 0, 1))
+        self.box = create_actor(self, sapien.Pose(box_pose[:3], box_pose[3:]), "062_plasticbox", convex=True, is_static=True, model_id=3)
         self.box.set_name("f1_common_plasticbox")
         self.role_actors = {"red": self.red, "green": self.green, "blue": self.blue, "common_box": self.box}
 
@@ -100,17 +116,54 @@ class F2Scene(AuditScene):
 
     def load_actors(self):
         planned = getattr(self, "_cmf_planned_root_slot_spec", {})
-        box_model_id = int(planned.get("plasticbox_model_id", 2))
-        layout = planned.get("scene_layout", {})
-        q = [0.5, 0.5, 0.5, 0.5]
-        self.can = create_actor(self, sapien.Pose(layout.get("can_xyz", [-0.24, 0.03, 0.79]), q), "071_can", convex=True, model_id=1)
+        binding_value = planned.get("f2_asset_layout_binding_v3")
+        if binding_value is not None:
+            from ..f2_official_asset_compatibility_matrix_v3 import (
+                validate_frozen_asset_layout_binding_v3,
+            )
+
+            binding = validate_frozen_asset_layout_binding_v3(binding_value)
+            key = binding["selected_candidate_key"]
+            layout_v3 = binding["layout_payload"]
+            facility_xyz = layout_v3["facility_pose_xyz"]
+            facility_q = layout_v3["facility_orientation_wxyz"]
+            can_id = int(key["main_object_model_id"])
+            box_model_id = int(key["plastic_box_model_id"])
+            scale_model_id = int(key["electronic_scale_model_id"])
+            stand_model_id = int(key["beside_reference_model_id"])
+            can_xyz = layout_v3["main_object_pose_xyz"]
+            can_q = layout_v3["main_object_orientation_wxyz"]
+            box_xyz = facility_xyz["plastic_box"]
+            box_q = facility_q["plastic_box"]
+            scale_xyz = facility_xyz["electronic_scale"]
+            scale_q = facility_q["electronic_scale"]
+            stand_xyz = facility_xyz["beside_reference"]
+            stand_q = facility_q["beside_reference"]
+            self._cmf_f2_asset_binding_v3 = binding
+        else:
+            # Historical Stage-0/runtime fallback remains byte-for-byte semantic.
+            box_model_id = int(planned.get("plasticbox_model_id", 2))
+            layout = planned.get("scene_layout", {})
+            q = [0.5, 0.5, 0.5, 0.5]
+            can_id = 1
+            scale_model_id = 0
+            stand_model_id = 3
+            can_xyz = layout.get("can_xyz", [-0.24, 0.03, 0.79])
+            can_q = q
+            box_xyz = layout.get("box_xyz", [-0.17, -0.17, 0.78])
+            box_q = q
+            scale_xyz = layout.get("scale_xyz", [0.00, -0.17, 0.77])
+            scale_q = q
+            stand_xyz = layout.get("stand_xyz", [0.17, -0.17, 0.77])
+            stand_q = layout.get("stand_q_wxyz", [0.707, 0.707, 0, 0])
+        self.can = create_actor(self, sapien.Pose(can_xyz, can_q), "071_can", convex=True, model_id=can_id)
         self.can.set_name("f2_main_can")
         self.can.set_mass(0.05)
-        self.box = create_actor(self, sapien.Pose(layout.get("box_xyz", [-0.17, -0.17, 0.78]), q), "062_plasticbox", convex=True, is_static=True, model_id=box_model_id)
+        self.box = create_actor(self, sapien.Pose(box_xyz, box_q), "062_plasticbox", convex=True, is_static=True, model_id=box_model_id)
         self.box.set_name("f2_plasticbox")
-        self.scale = create_actor(self, sapien.Pose(layout.get("scale_xyz", [0.00, -0.17, 0.77]), q), "072_electronicscale", convex=True, is_static=True, model_id=0)
+        self.scale = create_actor(self, sapien.Pose(scale_xyz, scale_q), "072_electronicscale", convex=True, is_static=True, model_id=scale_model_id)
         self.scale.set_name("f2_scale")
-        self.stand = create_actor(self, sapien.Pose(layout.get("stand_xyz", [0.17, -0.17, 0.77]), layout.get("stand_q_wxyz", [0.707, 0.707, 0, 0])), "074_displaystand", convex=True, is_static=True, model_id=3)
+        self.stand = create_actor(self, sapien.Pose(stand_xyz, stand_q), "074_displaystand", convex=True, is_static=True, model_id=stand_model_id)
         self.stand.set_name("f2_stand")
         self.role_actors = {"main_can": self.can, "box": self.box, "scale": self.scale, "stand": self.stand}
 

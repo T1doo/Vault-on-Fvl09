@@ -18,7 +18,9 @@ from .current_hasher import hash_json, require_same_current
 from .f4_post_stage0_layout_v1 import (
     SELECTED_EXISTING_CORRIDOR_ID,
 )
-from .real_sapien_adapter_post_stage0_f4_v1 import IMPLEMENTATION_VERSION
+from .real_sapien_adapter_post_stage0_f4_v1 import (
+    IMPLEMENTATION_VERSION as DEFAULT_IMPLEMENTATION_VERSION,
+)
 from .root_orchestrator_v1_1 import CleanupUncertain, _immutable_copy, _write_json
 from .root_orchestrator_v1_2 import (
     RealSapienStrictPrefixRootOrchestratorV1_2,
@@ -129,13 +131,20 @@ def finalize_f4_post_stage0_planner_only_v1(
 
 
 class F4PostStage0PlannerOnlyV1:
-    def __init__(self, adapter):
+    def __init__(self, adapter, *, implementation_version=DEFAULT_IMPLEMENTATION_VERSION):
         if adapter.family != "F4":
             raise ValueError("F4 planner-only audit requires family F4")
         self.adapter = adapter
+        self.implementation_version = str(implementation_version)
         self.helper = RealSapienStrictPrefixRootOrchestratorV1_2(
-            adapter, implementation_version=IMPLEMENTATION_VERSION
+            adapter, implementation_version=self.implementation_version
         )
+
+    def _rendered_visibility(self, scene, *, phase):
+        callback = getattr(self.adapter, "audit_current_rendered_visibility", None)
+        if callback is None:
+            return None
+        return dict(callback(scene, phase=phase))
 
     @staticmethod
     def _trace(scene, path: Path) -> dict[str, Any]:
@@ -153,7 +162,7 @@ class F4PostStage0PlannerOnlyV1:
         receipt: dict[str, Any] = {
             "schema_version": SCHEMA_VERSION,
             "design_version": "controlled_multi_future_f1_f4_v1_2",
-            "implementation_version": IMPLEMENTATION_VERSION,
+            "implementation_version": self.implementation_version,
             "formal_data": False,
             "stage0_data": False,
             "stage0_authorized": False,
@@ -170,6 +179,7 @@ class F4PostStage0PlannerOnlyV1:
             "recovery_attempt_count": 0,
             "program_receipts": [],
             "cleanup_records": [],
+            "rendered_visibility_receipts": [],
         }
         self.helper._event_log_path = output_dir / "events.jsonl"
         _write_json(output_dir / "planned_root_slot_spec.json", planned)
@@ -180,6 +190,16 @@ class F4PostStage0PlannerOnlyV1:
 
             def reference_callback(scene, _program):
                 current = dict(self.adapter.capture_current(scene))
+                visibility = self._rendered_visibility(
+                    scene, phase="canonical_prefix_reference_current"
+                )
+                if visibility is not None:
+                    receipt["rendered_visibility_receipts"].append(visibility)
+                    if visibility.get("pass") is not True:
+                        raise RuntimeError(
+                            "F4 rendered current visibility Gate failed: "
+                            "canonical_prefix_reference_current"
+                        )
                 anchor = dict(self.adapter.capture_anchor(scene))
                 programs = _immutable_copy(list(self.adapter.build_programs(scene)))
                 validate_exactly_three_programs(programs)
@@ -264,7 +284,17 @@ class F4PostStage0PlannerOnlyV1:
                 program_runtime = {"queries": 0}
 
                 def planner_callback(scene, _program):
-                    require_same_current(current, dict(self.adapter.capture_current(scene)))
+                    candidate_current = dict(self.adapter.capture_current(scene))
+                    visibility = self._rendered_visibility(
+                        scene, phase=f"planner_current:{program_id}"
+                    )
+                    if visibility is not None:
+                        receipt["rendered_visibility_receipts"].append(visibility)
+                        if visibility.get("pass") is not True:
+                            raise RuntimeError(
+                                f"F4 rendered current visibility Gate failed: {program_id}"
+                            )
+                    require_same_current(current, candidate_current)
                     start_anchor = dict(self.adapter.capture_anchor(scene))
                     if compare_anchors(anchor, start_anchor)["equivalent"] is not True:
                         raise ValueError("F4 planner-only start anchor mismatch")

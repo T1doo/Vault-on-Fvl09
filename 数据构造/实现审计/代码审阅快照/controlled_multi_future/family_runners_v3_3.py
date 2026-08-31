@@ -221,6 +221,12 @@ from .f4_post_stage0_layout_v1 import (
 from .f4_derivation_interface_v2 import (
     validate_f4_derivation_interface_v2,
 )
+from .f4_layout_candidate_search_v2 import (
+    SELECTED_EXISTING_CORRIDOR_ID as F4_SELECTED_LAYOUT_CORRIDOR_ID_V2,
+    SELECTED_LAYOUT_SCOPE as F4_SELECTED_LAYOUT_SCOPE_V2,
+    build_selected_layout_base_targets_v2,
+    validate_selected_layout_runtime_binding_v2,
+)
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
 from .runtime_v2_contracts import (
@@ -256,11 +262,53 @@ class F2TaskPhysicalGateFailure(ValueError):
     """A correctly wired F2 scene failed an expected physical Gate."""
 
 
+def _f2_active_cavity_contract(scene):
+    """Use an asset-bound cavity when present; preserve the historical default."""
+
+    value = getattr(scene, "_cmf_f2_active_cavity_contract", None)
+    if value is None:
+        return F2_PLASTICBOX_BASE2_CAVITY
+    if not isinstance(value, Mapping):
+        raise F2FrozenLayoutConfigurationError("F2 active cavity contract is invalid")
+    required = ("lower_m", "upper_m", "target_center_local_m")
+    if any(key not in value for key in required):
+        raise F2FrozenLayoutConfigurationError("F2 active cavity contract is incomplete")
+    lower = np.asarray(value["lower_m"], dtype=np.float64).reshape(3)
+    upper = np.asarray(value["upper_m"], dtype=np.float64).reshape(3)
+    center = np.asarray(value["target_center_local_m"], dtype=np.float64).reshape(3)
+    if not np.all(np.isfinite(lower)) or not np.all(np.isfinite(upper)) or np.any(lower >= upper):
+        raise F2FrozenLayoutConfigurationError("F2 active cavity bounds are invalid")
+    if np.any(center < lower) or np.any(center > upper):
+        raise F2FrozenLayoutConfigurationError("F2 active cavity target is outside bounds")
+    return dict(value)
+
+
+def _f2_active_scale_support_half_xy(scene):
+    value = getattr(scene, "_cmf_f2_scale_support_half_xy_m", [0.07, 0.07])
+    result = np.asarray(value, dtype=np.float64).reshape(2)
+    if not np.all(np.isfinite(result)) or np.any(result <= 0):
+        raise F2FrozenLayoutConfigurationError("F2 scale support footprint is invalid")
+    return result
+
+
+def _f2_build_balanced_preload_spec(scene, **kwargs):
+    builder = getattr(scene, "_cmf_f2_balanced_preload_spec_builder", None)
+    if builder is None:
+        return build_f2_balanced_preload_release_spec_v9(**kwargs)
+    if not callable(builder):
+        raise F2FrozenLayoutConfigurationError(
+            "F2 asset-bound balanced-preload builder is invalid"
+        )
+    return builder(**kwargs)
+
+
 def _raw_result(*args, **kwargs):
     scene = args[0] if args else kwargs.get("scene")
     adapter_version = getattr(scene, "_cmf_adapter_version", "")
     kwargs["implementation_version"] = (
-        "controlled_multi_future_stage0_smoke_v1_2"
+        "controlled_multi_future_f2_asset_redesign_v3"
+        if adapter_version == "RoboTwinRealSapienF2AssetBoundAdapterV3"
+        else "controlled_multi_future_stage0_smoke_v1_2"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_8"
         else "controlled_multi_future_stage0_smoke_v1_1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_7"
@@ -2771,7 +2819,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     can_geometry_pose_value,
                     _actor_half_extents(scene.can),
                     _pose(scene.box),
-                    F2_PLASTICBOX_BASE2_CAVITY,
+                    _f2_active_cavity_contract(scene),
                 ),
                 "can_box_contact_count": len(can_box_contacts),
                 "can_box_contacts": can_box_contacts,
@@ -2836,10 +2884,10 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 np.linalg.inv(pose_matrix(box_pose_value)) @ homogeneous.T
             ).T[:, :3]
             lower = np.asarray(
-                F2_PLASTICBOX_BASE2_CAVITY["lower_m"], dtype=np.float64
+                _f2_active_cavity_contract(scene)["lower_m"], dtype=np.float64
             )
             upper = np.asarray(
-                F2_PLASTICBOX_BASE2_CAVITY["upper_m"], dtype=np.float64
+                _f2_active_cavity_contract(scene)["upper_m"], dtype=np.float64
             )
             opening_axes = (0, 2)
             rim_clearance = float(np.min(local[:, 1]) - upper[1])
@@ -2955,7 +3003,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                             _actor_geometry_center_pose(scene.can),
                             _actor_half_extents(scene.can),
                             _pose(scene.box),
-                            F2_PLASTICBOX_BASE2_CAVITY,
+                            _f2_active_cavity_contract(scene),
                         )["pass_true_cavity_obb"],
                     }
                 if inside_drop_route is not None:
@@ -3176,32 +3224,46 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                     "pre_release_alignment_diagnostic_v7"
                 ] = alignment
                 scene._cmf_f2_inside_alignment_diagnostic_v7 = alignment
-                balanced_spec = build_f2_balanced_preload_release_spec_v9(
-                    actual_finger_qpos=scene.trace[-1][
+                balanced_preload_kwargs = {
+                    "actual_finger_qpos": scene.trace[-1][
                         "realized_left_gripper_joint_qpos"
                     ],
-                    current_drive_target=scene.trace[-1][
+                    "current_drive_target": scene.trace[-1][
                         "left_gripper_joint_drive_target"
                     ],
-                    applied_finger_qf=scene.trace[-1][
+                    "applied_finger_qf": scene.trace[-1][
                         "realized_left_gripper_joint_qf"
                     ],
-                    estimated_drive_effort=scene.trace[-1][
+                    "estimated_drive_effort": scene.trace[-1][
                         "estimated_left_gripper_joint_drive_effort"
                     ],
-                    drive_stiffness=scene.trace[-1][
+                    "drive_stiffness": scene.trace[-1][
                         "left_gripper_joint_drive_stiffness"
                     ],
-                    drive_damping=scene.trace[-1][
+                    "drive_damping": scene.trace[-1][
                         "left_gripper_joint_drive_damping"
                     ],
-                    drive_force_limit=scene.trace[-1][
+                    "drive_force_limit": scene.trace[-1][
                         "left_gripper_joint_drive_force_limit"
                     ],
-                    drive_mode=scene.trace[-1][
+                    "drive_mode": scene.trace[-1][
                         "left_gripper_joint_drive_mode"
                     ],
-                )
+                }
+                if getattr(
+                    scene, "_cmf_f2_balanced_preload_spec_builder", None
+                ) is None:
+                    # Preserve the exact historical Stage-0 v9 call path and
+                    # its static audit ordering.  Asset-bound development uses
+                    # the versioned builder branch below with identical frozen
+                    # numeric semantics and explicit asset provenance.
+                    balanced_spec = build_f2_balanced_preload_release_spec_v9(
+                        **balanced_preload_kwargs
+                    )
+                else:
+                    balanced_spec = _f2_build_balanced_preload_spec(
+                        scene, **balanced_preload_kwargs
+                    )
                 balanced_start_row = len(scene.trace) - 1
                 scene._cmf_f2_balanced_preload_release_v9 = {
                     "spec": balanced_spec,
@@ -3332,7 +3394,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
             can_geometry_pose,
             can_half,
             _pose(scene.box),
-            F2_PLASTICBOX_BASE2_CAVITY,
+            _f2_active_cavity_contract(scene),
         )["pass_true_cavity_obb"]
         scale_target = np.asarray(
             scene.scale.get_functional_point(0), dtype=np.float64
@@ -3341,7 +3403,7 @@ class F2ControllerV3_3(FamilyControllerV3_3):
         on_footprint = bool(
             np.all(
                 np.abs(can_corners[:, :2] - scale_target[None, :2])
-                <= np.asarray([0.07, 0.07], dtype=np.float64)[None, :]
+                <= _f2_active_scale_support_half_xy(scene)[None, :]
             )
         )
         on_bottom_height_error = float(
@@ -5329,6 +5391,15 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             and planned.get("scope")
             == "F4_new_layout_endpoint_IK_and_three_program_planner_only_v1"
         )
+        selected_layout_v2 = (
+            isinstance(planned, Mapping)
+            and planned.get("scope") == F4_SELECTED_LAYOUT_SCOPE_V2
+        )
+        selected_layout_binding_v2 = (
+            validate_selected_layout_runtime_binding_v2(planned)
+            if selected_layout_v2
+            else None
+        )
         if (
             isinstance(planned, Mapping)
             and planned.get("generator")
@@ -5339,12 +5410,26 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             raise ValueError(
                 "F4 Stage 0 v1.1 requires its frozen canonical neutral binding"
             )
-        if post_stage0_layout:
+        if post_stage0_layout or selected_layout_v2:
             if (
-                layout_version != F4_POST_STAGE0_LAYOUT_VERSION_V1
+                (
+                    post_stage0_layout
+                    and layout_version != F4_POST_STAGE0_LAYOUT_VERSION_V1
+                )
                 or hash_json(layout) != planned.get("scene_layout_sha256")
                 or planned.get("post_stage0_selected_f4_corridor_id")
-                != F4_POST_STAGE0_CORRIDOR_ID_V1
+                != (
+                    F4_POST_STAGE0_CORRIDOR_ID_V1
+                    if post_stage0_layout
+                    else F4_SELECTED_LAYOUT_CORRIDOR_ID_V2
+                )
+                or (
+                    selected_layout_v2
+                    and layout_version
+                    != selected_layout_binding_v2["candidate"]["layout"][
+                        "layout_version"
+                    ]
+                )
             ):
                 raise ValueError("F4 post-Stage-0 layout/corridor binding changed")
             post_stage0_neutral = getattr(
@@ -5370,14 +5455,23 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             role: _pose(getattr(scene, f"slot_{role.lower()}")).tolist()
             for role in ("A", "B", "C")
         }
-        top_down = build_f4_top_down_block_carry_v8(
-            object_poses=object_poses,
-            slot_poses=slot_poses,
-            neutral_pose=neutral,
-            object_order=order,
-            arm="right",
-            layout_version=layout_version,
-        )
+        if selected_layout_v2:
+            top_down = build_selected_layout_base_targets_v2(
+                candidate=selected_layout_binding_v2["candidate"],
+                object_poses=object_poses,
+                slot_poses=slot_poses,
+                neutral_pose=neutral,
+                object_order=order,
+            )
+        else:
+            top_down = build_f4_top_down_block_carry_v8(
+                object_poses=object_poses,
+                slot_poses=slot_poses,
+                neutral_pose=neutral,
+                object_order=order,
+                arm="right",
+                layout_version=layout_version,
+            )
         if top_down["pass"] is not True:
             raise ValueError("F4 r8 top-down block-carry audit failed")
         selected_corridor = getattr(
@@ -5445,7 +5539,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         post_stage0_selected = (
             planned.get("post_stage0_selected_f4_corridor_id")
-            if post_stage0_layout
+            if post_stage0_layout or selected_layout_v2
             else None
         )
         if post_stage0_selected is not None:
@@ -5462,7 +5556,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 for item in exact_contract["candidates"]
                 if item["candidate_id"] == post_stage0_selected
             ]
-            if len(matches) != 1 or post_stage0_selected != F4_POST_STAGE0_CORRIDOR_ID_V1:
+            if len(matches) != 1 or post_stage0_selected != (
+                F4_POST_STAGE0_CORRIDOR_ID_V1
+                if post_stage0_layout
+                else F4_SELECTED_LAYOUT_CORRIDOR_ID_V2
+            ):
                 raise ValueError("F4 post-Stage-0 existing corridor is not frozen")
             current_candidate = matches[0]
             base_by_role = {
@@ -5495,7 +5593,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 selected_flattened.extend(derived["targets"])
             selected_route_version = "f4_exact_variable_length_corridor_application_v11"
             selected_route_audit = {
-                "schema_version": "cmf_f4_post_stage0_selected_exact_corridor_v1",
+                "schema_version": (
+                    "cmf_f4_selected_layout_exact_corridor_v2"
+                    if selected_layout_v2
+                    else "cmf_f4_post_stage0_selected_exact_corridor_v1"
+                ),
                 "selected_candidate": current_candidate,
                 "exact_contract_receipt_sha256": exact_contract["receipt_sha256"],
                 "layout_version": layout_version,
@@ -5506,6 +5608,38 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "new_corridor_added": False,
                 "arm_changed": False,
                 "release_semantics_changed": False,
+                "selected_layout_runtime_binding_v2": (
+                    {
+                        key: value
+                        for key, value in selected_layout_binding_v2.items()
+                        if key != "candidate"
+                    }
+                    if selected_layout_v2
+                    else None
+                ),
+                "selected_layout_base_target_audit_v2": (
+                    top_down.get("post_derivation_target_audit")
+                    if selected_layout_v2
+                    else None
+                ),
+                "selected_layout_base_target_sha256_v2": (
+                    top_down.get("post_derivation_target_sha256")
+                    if selected_layout_v2
+                    else None
+                ),
+                "post_corridor_derivation_target_sha256": hash_json(
+                    [
+                        {
+                            "role": group["role"],
+                            "target_pose_sha256": group[
+                                "exact_corridor_derivation_v11"
+                            ]["target_pose_sha256"],
+                        }
+                        for group in selected_groups
+                    ]
+                ),
+                "temporary_waypoint_added": False,
+                "automatic_fallback": False if selected_layout_v2 else None,
                 "pass": len(selected_groups) == 3,
             }
             exact_corridor_v11 = True
@@ -5617,7 +5751,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "block_carry_route_audit": selected_route_audit,
                 "uniform_top_down_block_carry_contract_v8": top_down,
                 "exact_corridor_v11": exact_corridor_v11,
-                "scene_layout_changed": post_stage0_layout,
+                "scene_layout_changed": post_stage0_layout or selected_layout_v2,
                 "tray_pose_changed": False,
                 "program_changed": False,
                 "verifier_changed": False,

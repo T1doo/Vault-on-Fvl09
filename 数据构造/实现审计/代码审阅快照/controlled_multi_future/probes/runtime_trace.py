@@ -594,8 +594,10 @@ class DenseTraceMixin:
         self._record(initial_state=True)
 
     def start_stage0_video_capture(self, output_path: Path) -> dict:
-        if hasattr(self, "_cmf_stage0_video_recorder"):
-            raise RuntimeError("Stage 0 video capture was already started")
+        if hasattr(self, "_cmf_stage0_video_recorder") or hasattr(
+            self, "_cmf_development_video_recorder"
+        ):
+            raise RuntimeError("trajectory video capture was already started")
         from ..stage0_video_capture_v1 import Stage0TrajectoryMP4RecorderV1
 
         recorder = Stage0TrajectoryMP4RecorderV1(output_path)
@@ -613,6 +615,32 @@ class DenseTraceMixin:
             "sample_stride_steps": recorder.sample_stride_steps,
         }
 
+    def start_development_video_capture(self, output_path: Path) -> dict:
+        if hasattr(self, "_cmf_stage0_video_recorder") or hasattr(
+            self, "_cmf_development_video_recorder"
+        ):
+            raise RuntimeError("trajectory video capture was already started")
+        from ..development_video_capture_v1 import (
+            DevelopmentTrajectoryMP4RecorderV1,
+        )
+
+        recorder = DevelopmentTrajectoryMP4RecorderV1(output_path)
+        try:
+            recorder.capture(self, step_index=0, force=True)
+        except BaseException:
+            recorder.abort()
+            raise
+        self._cmf_development_video_recorder = recorder
+        self._cmf_development_video_receipt = None
+        return {
+            "started": True,
+            "path": str(Path(output_path).resolve()),
+            "video_fps": recorder.video_fps,
+            "sample_stride_steps": recorder.sample_stride_steps,
+            "development_data": True,
+            "stage0_data": False,
+        }
+
     def finish_stage0_video_capture(
         self, *, terminal_status: str = "scene_context_exit"
     ):
@@ -622,6 +650,17 @@ class DenseTraceMixin:
         receipt = recorder.close(self, terminal_status=terminal_status)
         self._cmf_stage0_video_receipt = dict(receipt)
         delattr(self, "_cmf_stage0_video_recorder")
+        return dict(receipt)
+
+    def finish_development_video_capture(
+        self, *, terminal_status: str = "scene_context_exit"
+    ):
+        recorder = getattr(self, "_cmf_development_video_recorder", None)
+        if recorder is None:
+            return getattr(self, "_cmf_development_video_receipt", None)
+        receipt = recorder.close(self, terminal_status=terminal_status)
+        self._cmf_development_video_receipt = dict(receipt)
+        delattr(self, "_cmf_development_video_recorder")
         return dict(receipt)
 
     def mark(self, name):
@@ -1013,6 +1052,8 @@ class DenseTraceMixin:
             "initial_state": bool(initial_state),
         })
         recorder = getattr(self, "_cmf_stage0_video_recorder", None)
+        if recorder is None:
+            recorder = getattr(self, "_cmf_development_video_recorder", None)
         if recorder is not None:
             recorder.capture(
                 self,

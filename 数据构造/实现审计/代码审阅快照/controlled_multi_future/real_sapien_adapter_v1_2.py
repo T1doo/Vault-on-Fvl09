@@ -358,6 +358,8 @@ class RoboTwinSceneContextV1_2:
                 monitor_error = {"type": type(monitor_exc).__name__, "message": str(monitor_exc)}
         video_receipt = None
         video_error = None
+        development_video_receipt = None
+        development_video_error = None
         if self._scene is not None and hasattr(
             self._scene, "finish_stage0_video_capture"
         ):
@@ -369,6 +371,25 @@ class RoboTwinSceneContextV1_2:
                 )
             except BaseException as video_exc:
                 video_error = {
+                    "type": type(video_exc).__name__,
+                    "message": str(video_exc),
+                    "traceback": traceback.format_exc(),
+                }
+        if self._scene is not None and hasattr(
+            self._scene, "finish_development_video_capture"
+        ):
+            try:
+                development_video_receipt = (
+                    self._scene.finish_development_video_capture(
+                        terminal_status=(
+                            "scene_context_exception"
+                            if exc_type is not None
+                            else "scene_context_success"
+                        )
+                    )
+                )
+            except BaseException as video_exc:
+                development_video_error = {
                     "type": type(video_exc).__name__,
                     "message": str(video_exc),
                     "traceback": traceback.format_exc(),
@@ -404,6 +425,15 @@ class RoboTwinSceneContextV1_2:
             )
             if hasattr(self._scene, "_cmf_stage0_video_receipt")
             or video_error is not None
+            else None,
+            "development_video_receipt": development_video_receipt,
+            "development_video_error": development_video_error,
+            "development_video_finalize_succeeded": (
+                development_video_receipt is not None
+                and development_video_error is None
+            )
+            if hasattr(self._scene, "_cmf_development_video_receipt")
+            or development_video_error is not None
             else None,
             "outer_gpu_release_audit_required": True,
         }

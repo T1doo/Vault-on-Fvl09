@@ -1,0 +1,950 @@
+{
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "formal_data": false,
+  "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+  "ordered_reserve_slots": [
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "pending_activation",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-green",
+        "F1-blue",
+        "F1-red"
+      ],
+      "candidate_display_order_sha256": "265f8debdfc5a36956fc02367e27306bf1df68ce932c88e5726f4dec95f99d34",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "4a27a5341a29cc3a4de88cf2ebdda8152fe76e9d9bebf6b7777227d22992235e",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 1,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "f9bf285cbd38457bff6f271ab8a05906dd12352739fa02e2f2ec73b8c6bfcb45",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "center",
+          "green": "left",
+          "red": "right"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "f9bf285cbd38457bff6f271ab8a05906dd12352739fa02e2f2ec73b8c6bfcb45",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083201,
+      "slot_id": "f1-batch-pilot-v1-reserve-01",
+      "slot_kind": "reserve",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "pending_activation",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-blue",
+        "F1-red",
+        "F1-green"
+      ],
+      "candidate_display_order_sha256": "9ec33954a8c0a95d728c21837a55ac648557750aff273d40b1964de11dd58772",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "689c9852d84b69d53745ecb438e0089ed445fd5b0af343f9ccf7b7c97eeb10ea",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 2,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "4c7f603aae08b5740220e9ec339247908ff6f92e9e78d08723381be5bccf85c0",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.11,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "left",
+          "green": "right",
+          "red": "center"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "4c7f603aae08b5740220e9ec339247908ff6f92e9e78d08723381be5bccf85c0",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083202,
+      "slot_id": "f1-batch-pilot-v1-reserve-02",
+      "slot_kind": "reserve",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "pending_activation",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-red",
+        "F1-blue",
+        "F1-green"
+      ],
+      "candidate_display_order_sha256": "c247fa3ece4064ec4897e1d380d1fcf3a190da1105a45f2941e90f7a5e5f3b12",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "b6ce3fffa1084c09790faf3b37ce50cc07048d2edc853e0a24785c84e0e7f535",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 3,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "4e2a5ddff709e89e4dc928ef2124f629b8aac4e5f88a99521d6a17bfb6e49b06",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.2,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "center",
+          "green": "right",
+          "red": "left"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "4e2a5ddff709e89e4dc928ef2124f629b8aac4e5f88a99521d6a17bfb6e49b06",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083203,
+      "slot_id": "f1-batch-pilot-v1-reserve-03",
+      "slot_kind": "reserve",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "pending_activation",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-green",
+        "F1-red",
+        "F1-blue"
+      ],
+      "candidate_display_order_sha256": "3a5c90b495082d2ce28d89b952377c2c77fac5f0ee353df37acd9b2416b3cc77",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "d9cbb2c47dac9404e9b08a713e62eade76ca34ca8dd82f008e24303ffa2da36d",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 4,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "f34aa9446a0f721f0067ff70b08d4de079f0ae0858579f811d66a7876dd7aaa9",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.11,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "right",
+          "green": "left",
+          "red": "center"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "f34aa9446a0f721f0067ff70b08d4de079f0ae0858579f811d66a7876dd7aaa9",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083204,
+      "slot_id": "f1-batch-pilot-v1-reserve-04",
+      "slot_kind": "reserve",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "pending_activation",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-blue",
+        "F1-green",
+        "F1-red"
+      ],
+      "candidate_display_order_sha256": "ef6241955b281b1eaed52d32551839989e2d62dd09d514d29532d85125ab4851",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "82cf7500248c75a6dba86f897b58deb5dea105a3e54240e5af9a0a5682925aaa",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 5,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "460e1a224ca0714460228c27f3539113ee7084ce4f02c0acbd8916b650f113e8",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "left",
+          "green": "center",
+          "red": "right"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "460e1a224ca0714460228c27f3539113ee7084ce4f02c0acbd8916b650f113e8",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083205,
+      "slot_id": "f1-batch-pilot-v1-reserve-05",
+      "slot_kind": "reserve",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    }
+  ],
+  "plan_sha256": "a74217fbf6a0f3e137f99521323bf54f06318aae93ac3168292c1c23e69a94e1",
+  "primary_slots": [
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "active",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "candidate_display_order_sha256": "a616ffeff28a2553b66cce8cc87aedec47758177d58fe3fc9224874dbf556a81",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "decf106950408159a56a9195926c921a09f381b13b983b86a82ba2ac5b36cd0f",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 1,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "58f392a326dc8b9e0c10d2d0d73fc6bfa38cf68eacb98ec82172cb6bce506f7f",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.2,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "right",
+          "green": "center",
+          "red": "left"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "58f392a326dc8b9e0c10d2d0d73fc6bfa38cf68eacb98ec82172cb6bce506f7f",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083101,
+      "slot_id": "f1-batch-pilot-v1-primary-01",
+      "slot_kind": "primary",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "active",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-green",
+        "F1-blue",
+        "F1-red"
+      ],
+      "candidate_display_order_sha256": "265f8debdfc5a36956fc02367e27306bf1df68ce932c88e5726f4dec95f99d34",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "4db5349784b062dba20dd6e6d231ed91c11caeea6e42895ceaf3241fbef8db76",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 2,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "f9bf285cbd38457bff6f271ab8a05906dd12352739fa02e2f2ec73b8c6bfcb45",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "center",
+          "green": "left",
+          "red": "right"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "f9bf285cbd38457bff6f271ab8a05906dd12352739fa02e2f2ec73b8c6bfcb45",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083102,
+      "slot_id": "f1-batch-pilot-v1-primary-02",
+      "slot_kind": "primary",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "active",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-blue",
+        "F1-red",
+        "F1-green"
+      ],
+      "candidate_display_order_sha256": "9ec33954a8c0a95d728c21837a55ac648557750aff273d40b1964de11dd58772",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "824b42755d46d2911457fcc7a36b8fc9f93cf5da0933e04ae9758f5f6e25a93c",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 3,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "4c7f603aae08b5740220e9ec339247908ff6f92e9e78d08723381be5bccf85c0",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.11,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "left",
+          "green": "right",
+          "red": "center"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "4c7f603aae08b5740220e9ec339247908ff6f92e9e78d08723381be5bccf85c0",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083103,
+      "slot_id": "f1-batch-pilot-v1-primary-03",
+      "slot_kind": "primary",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "active",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-red",
+        "F1-blue",
+        "F1-green"
+      ],
+      "candidate_display_order_sha256": "c247fa3ece4064ec4897e1d380d1fcf3a190da1105a45f2941e90f7a5e5f3b12",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "43ed5c7880dd666adc08c5ffcf78795a61ff6f967663b63191875f1d9a20ae03",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 4,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "4e2a5ddff709e89e4dc928ef2124f629b8aac4e5f88a99521d6a17bfb6e49b06",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.2,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "center",
+          "green": "right",
+          "red": "left"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "4e2a5ddff709e89e4dc928ef2124f629b8aac4e5f88a99521d6a17bfb6e49b06",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083104,
+      "slot_id": "f1-batch-pilot-v1-primary-04",
+      "slot_kind": "primary",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    },
+    {
+      "accepted_root_increment": 0,
+      "activation_status": "active",
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_display_order": [
+        "F1-green",
+        "F1-red",
+        "F1-blue"
+      ],
+      "candidate_display_order_sha256": "3a5c90b495082d2ce28d89b952377c2c77fac5f0ee353df37acd9b2416b3cc77",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "family": "F1",
+      "formal_data": false,
+      "generator": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+      "implementation_version": "controlled_multi_future_f1_batch_pilot_v1",
+      "maximum_root_invocations": 1,
+      "origin": "post_stage0_f1_batch_generation_development_pilot",
+      "planned_root_slot_spec_sha256": "de246983d196650beb2e43264cc165e412400a653b5b0fc77dffaac357472488",
+      "program_ids": [
+        "F1-red",
+        "F1-green",
+        "F1-blue"
+      ],
+      "rank": 5,
+      "realization": "r_pc",
+      "recovery_attempts": 0,
+      "scene_layout": {
+        "canonical_prefix_changed": false,
+        "common_box_pose_wxyz": [
+          -0.08,
+          -0.16,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_sha256": "f34aa9446a0f721f0067ff70b08d4de079f0ae0858579f811d66a7876dd7aaa9",
+        "layout_version": "f1_role_position_permutation_v1",
+        "object_xyz_by_role": {
+          "blue": [
+            -0.02,
+            0.02,
+            0.762
+          ],
+          "green": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "red": [
+            -0.11,
+            0.02,
+            0.762
+          ]
+        },
+        "planner_changed": false,
+        "position_slots": {
+          "center": [
+            -0.11,
+            0.02,
+            0.762
+          ],
+          "left": [
+            -0.2,
+            0.02,
+            0.762
+          ],
+          "right": [
+            -0.02,
+            0.02,
+            0.762
+          ]
+        },
+        "role_to_slot": {
+          "blue": "right",
+          "green": "left",
+          "red": "center"
+        },
+        "verifier_changed": false
+      },
+      "scene_layout_sha256": "f34aa9446a0f721f0067ff70b08d4de079f0ae0858579f811d66a7876dd7aaa9",
+      "schema_version": "cmf_f1_batch_pilot_root_spec_v1",
+      "seed": 2026083105,
+      "slot_id": "f1-batch-pilot-v1-primary-05",
+      "slot_kind": "primary",
+      "stage0_authorized": false,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stop_condition": "terminal three-branch receipt or first safety/source/cleanup uncertainty",
+      "trajectories_if_accepted": 3
+    }
+  ],
+  "realization": "r_pc",
+  "reserve_activation_rule": "activate next rank only after a terminal failed active slot; preserve every failure",
+  "schema_version": "cmf_f1_batch_generation_pilot_plan_v1",
+  "selection_rule": "stop after five accepted development roots or reserve exhaustion",
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "target_accepted_root_count": 5,
+  "target_trajectory_count": 15,
+  "training_authorized": false,
+  "trajectories_per_root": 3
+}

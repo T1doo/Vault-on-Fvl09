@@ -10,7 +10,11 @@
   "generated_video_count": 5,
   "F1": {
     "stage0_status": "PASS",
-    "stage1_candidate_ready": true
+    "stage1_candidate_ready": true,
+    "batch_pilot_cpu_implemented": true,
+    "batch_pilot_gpu_status": "PENDING_NOT_RUN",
+    "batch_pilot_target_roots": 5,
+    "batch_pilot_target_development_trajectories": 15
   },
   "F2": {
     "stage0_replacement_result": {
@@ -19,16 +23,24 @@
       "beside": "PASSED"
     },
     "development_template_ready": false,
-    "blocker": "inside_release_safety"
+    "asset_matrix_cpu_status": "PASS_1650_ROWS_860_STATIC_ADMISSIBLE",
+    "bounded_dynamic_candidate_ranks": [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61],
+    "dynamic_gpu_status": "PENDING_NOT_RUN",
+    "selected_asset_layout_binding": null,
+    "blocker": "pending_bounded_dynamic_asset_physics_and_planner_gate"
   },
   "F3": {
     "stage0_status": "FAILED_EXECUTION_WITH_EVIDENCE",
     "development_template_ready": false,
     "post_stage0_diagnostic_status": "FAILED_INFRASTRUCTURE_BEFORE_PHYSICAL_DIAGNOSTIC",
     "closure_v1_physical_prefix_attempts": 0,
-    "task_asset_redesign_required": true,
-    "post_stage0_second_diagnostic_allowed": false,
-    "blocker": "closure_v1_runner_contract_field_mismatch_before_physical_diagnostic"
+    "v2_1_interface_cpu_status": "PASS",
+    "v2_1_physical_prefix_attempts": 0,
+    "v2_1_new_namespace_diagnostic_authorized": true,
+    "v2_1_gpu_status": "PENDING_NOT_RUN",
+    "old_closure_v1_retry_allowed": false,
+    "task_asset_redesign_required_only_after_real_v2_1_physical_failure": true,
+    "blocker": "pending_first_real_F3CommonGraspPrefixV2_1_three_scene_diagnostic"
   },
   "F4": {
     "stage0_status": "FAILED_PLANNER_WITH_EVIDENCE",
@@ -39,7 +51,12 @@
     "endpoint_ik_verified": true,
     "complete_route_solved": false,
     "layout_impact_review_required": true,
-    "blocker": "A_preplace_motiongen_ik_fail_no_complete_route"
+    "finite_layout_search_cpu_status": "PASS",
+    "cpu_selected_layout_candidate": "f4-layout-v2-c01",
+    "cpu_selection_is_ik_evidence": false,
+    "selected_layout_gpu_status": "PENDING_NOT_RUN",
+    "automatic_fallback_allowed": false,
+    "blocker": "pending_selected_layout_c01_complete_planner_only_gate"
   },
   "canonical_stage1_authorized": false,
   "formal_collection_authorized": false,

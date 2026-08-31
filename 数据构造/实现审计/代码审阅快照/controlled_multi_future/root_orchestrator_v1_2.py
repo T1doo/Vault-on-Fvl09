@@ -24,6 +24,9 @@ from .current_hasher import (
     hash_json,
     require_same_current,
 )
+from .development_video_capture_v1 import (
+    validate_development_trajectory_mp4_receipt_v1,
+)
 from .family_runners_v3_3 import install_frozen_suffix_controls
 from .frozen_suffix_artifact_v1 import (
     build_frozen_suffix_artifact,
@@ -417,11 +420,16 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
         realization_spec_by_program: Mapping[str, Mapping[str, Any]],
         stage0_data: bool = False,
         stage0_authorized: bool = False,
+        development_video_required: bool = False,
     ) -> dict:
         if stage0_data is not stage0_authorized:
             raise ValueError(
                 "Stage 0 root data requires an explicit matching authorization"
             )
+        if not isinstance(development_video_required, bool):
+            raise TypeError("development_video_required must be boolean")
+        if stage0_data and development_video_required:
+            raise ValueError("Stage 0 and development video modes are exclusive")
         started = time.time()
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=False)
@@ -434,6 +442,7 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
             "formal_data": False,
             "stage0_data": bool(stage0_data),
             "stage0_authorized": bool(stage0_authorized),
+            "development_video_required": development_video_required,
             "status": "running",
             "planned_root_slot_spec_sha256": planned_hash,
             "freeze_call_count": 0,
@@ -1262,6 +1271,16 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                                 branch_dir / "video" / "trajectory.mp4"
                             )
                         )
+                    elif development_video_required:
+                        if not hasattr(scene, "start_development_video_capture"):
+                            raise RuntimeError(
+                                "development branch scene lacks mandatory MP4 capture"
+                            )
+                        branch["development_video_start"] = (
+                            scene.start_development_video_capture(
+                                branch_dir / "video" / "trajectory.mp4"
+                            )
+                        )
                     receipt["branch_prefix_replay_count"] += 1
                     replay = replay_canonical_prefix(
                         scene,
@@ -1635,6 +1654,56 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                         if branch["stage0_video_integrity"].get("pass") is True
                         else "video_not_applicable_no_trajectory"
                         if branch["stage0_video_required"] is False
+                        else "failed_required_video"
+                    )
+                elif development_video_required:
+                    cleanup_record = (
+                        receipt["cleanup_records"][-1]
+                        if receipt.get("cleanup_records")
+                        else {}
+                    )
+                    video_receipt = cleanup_record.get(
+                        "development_video_receipt"
+                    )
+                    video_error = cleanup_record.get("development_video_error")
+                    expected_video_path = branch_dir / "video" / "trajectory.mp4"
+                    if isinstance(video_receipt, Mapping):
+                        try:
+                            video_audit = (
+                                validate_development_trajectory_mp4_receipt_v1(
+                                    video_receipt,
+                                    expected_path=expected_video_path,
+                                )
+                            )
+                        except BaseException as video_exc:
+                            video_audit = {
+                                "pass": False,
+                                "error_type": type(video_exc).__name__,
+                                "error": str(video_exc),
+                            }
+                        branch["development_video_receipt"] = dict(video_receipt)
+                        branch["development_video_file"] = {
+                            "relative_path": "video/trajectory.mp4",
+                            "bytes": video_receipt.get("bytes"),
+                            "sha256": video_receipt.get("file_sha256"),
+                        }
+                        branch["development_video_integrity"] = video_audit
+                    else:
+                        branch["development_video_receipt"] = None
+                        branch["development_video_file"] = None
+                        branch["development_video_integrity"] = {
+                            "pass": False,
+                            "reason": "video_missing_after_capture_start",
+                            "cleanup_video_error": video_error,
+                        }
+                    branch["development_video_required"] = isinstance(
+                        branch.get("raw_manifest"), Mapping
+                    )
+                    branch["development_video_status"] = (
+                        "generated"
+                        if branch["development_video_integrity"].get("pass") is True
+                        else "video_not_applicable_no_trajectory"
+                        if branch["development_video_required"] is False
                         else "failed_required_video"
                     )
                 receipt["branch_receipts"].append(branch)

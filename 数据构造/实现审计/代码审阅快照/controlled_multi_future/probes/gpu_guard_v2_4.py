@@ -79,10 +79,30 @@ from .closure_f3_authorization_v2 import (
     load as load_closure_f3_v2,
     validate_consumption as validate_closure_f3_consumption_v2,
 )
+from .closure_f3_authorization_v2_1 import (
+    consume as consume_closure_f3_v2_1,
+    load as load_closure_f3_v2_1,
+    validate_consumption as validate_closure_f3_consumption_v2_1,
+)
 from .closure_f4_authorization_v2 import (
     consume as consume_closure_f4_v2,
     load as load_closure_f4_v2,
     validate_consumption as validate_closure_f4_consumption_v2,
+)
+from .f1_batch_pilot_authorization_v1 import (
+    consume as consume_f1_batch_pilot_v1,
+    load as load_f1_batch_pilot_v1,
+    validate_consumption as validate_f1_batch_pilot_consumption_v1,
+)
+from .f2_dynamic_development_authorization_v3 import (
+    consume as consume_f2_dynamic_development_v3,
+    load as load_f2_dynamic_development_v3,
+    validate_consumption as validate_f2_dynamic_development_consumption_v3,
+)
+from .f4_selected_layout_authorization_v2 import (
+    consume as consume_f4_selected_layout_v2,
+    load as load_f4_selected_layout_v2,
+    validate_consumption as validate_f4_selected_layout_consumption_v2,
 )
 
 
@@ -123,10 +143,24 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_f1_batch_pilot_v1":
+        return load_f1_batch_pilot_v1(
+            path, requested_scope=requested_scope, **kwargs
+        )
+    if implementation == "controlled_multi_future_f2_asset_redesign_dynamic_v3":
+        return load_f2_dynamic_development_v3(
+            path, requested_scope=requested_scope, **kwargs
+        )
+    if implementation == "controlled_multi_future_post_stage0_f4_selected_layout_v2":
+        return load_f4_selected_layout_v2(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_post_stage0_closure_f4_v2":
         return load_closure_f4_v2(path, requested_scope=requested_scope, **kwargs)
     if implementation == "controlled_multi_future_post_stage0_closure_f3_v2":
         return load_closure_f3_v2(path, requested_scope=requested_scope, **kwargs)
+    if implementation == "controlled_multi_future_post_stage0_closure_f3_v2_1":
+        return load_closure_f3_v2_1(path, requested_scope=requested_scope, **kwargs)
     if implementation == "controlled_multi_future_post_stage0_f4_v1":
         return load_post_stage0_f4_authorization_v1(
             path, requested_scope=requested_scope, **kwargs
@@ -161,10 +195,26 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_f1_batch_pilot_v1":
+        return consume_f1_batch_pilot_v1(
+            authorization, ledger_directory=ledger_directory
+        )
+    if authorization.get("implementation_version") == "controlled_multi_future_f2_asset_redesign_dynamic_v3":
+        return consume_f2_dynamic_development_v3(
+            authorization, ledger_directory=ledger_directory
+        )
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_selected_layout_v2":
+        return consume_f4_selected_layout_v2(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f4_v2":
         return consume_closure_f4_v2(authorization, ledger_directory=ledger_directory)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2":
         return consume_closure_f3_v2(authorization, ledger_directory=ledger_directory)
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2_1":
+        return consume_closure_f3_v2_1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
         return consume_post_stage0_f4_authorization_once_v1(
             authorization, ledger_directory=ledger_directory
@@ -199,10 +249,20 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_f1_batch_pilot_v1":
+        return validate_f1_batch_pilot_consumption_v1(consumption, authorization)
+    if authorization.get("implementation_version") == "controlled_multi_future_f2_asset_redesign_dynamic_v3":
+        return validate_f2_dynamic_development_consumption_v3(
+            consumption, authorization
+        )
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_selected_layout_v2":
+        return validate_f4_selected_layout_consumption_v2(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f4_v2":
         return validate_closure_f4_consumption_v2(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2":
         return validate_closure_f3_consumption_v2(consumption, authorization)
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2_1":
+        return validate_closure_f3_consumption_v2_1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
         return validate_post_stage0_f4_consumption_v1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f3_v1":
@@ -727,9 +787,21 @@ def main() -> int:
     closure_f3_v2_mode = raw_authorization.get(
         "implementation_version"
     ) == "controlled_multi_future_post_stage0_closure_f3_v2"
+    closure_f3_v2_1_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_closure_f3_v2_1"
     closure_f4_v2_mode = raw_authorization.get(
         "implementation_version"
     ) == "controlled_multi_future_post_stage0_closure_f4_v2"
+    f1_batch_pilot_v1_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_f1_batch_pilot_v1"
+    f2_dynamic_development_v3_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_f2_asset_redesign_dynamic_v3"
+    f4_selected_layout_v2_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_f4_selected_layout_v2"
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
@@ -743,8 +815,16 @@ def main() -> int:
             if post_stage0_f4_mode
             else "post_stage0_closure_f3_v2"
             if closure_f3_v2_mode
+            else "post_stage0_closure_f3_v2_1"
+            if closure_f3_v2_1_mode
             else "post_stage0_closure_f4_v2"
             if closure_f4_v2_mode
+            else "post_stage0_f1_batch_pilot_v1"
+            if f1_batch_pilot_v1_mode
+            else "post_stage0_f2_asset_redesign_dynamic_v3"
+            if f2_dynamic_development_v3_mode
+            else "post_stage0_f4_selected_layout_v2"
+            if f4_selected_layout_v2_mode
             else "pre_stage0_nonformal_validation"
         ),
         "formal_data": False,
