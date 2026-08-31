@@ -1,0 +1,42 @@
+{
+  "schema_version": "cmf_f1_f4_registry_stage0_smoke_v1_1_cpu_current",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "source_sha256": "41a6ede4e2b4dea01e7587ead948358023aeae2972006c31fce076bb96b31063",
+  "base_registry": "数据构造/实现审计/f1_f4_implementation_registry_v3_1_cpu_current.json",
+  "science_or_asset_mapping_changed": false,
+  "families": {
+    "F1": {
+      "mapping_changed": false,
+      "current_status": "ready_for_stage0_smoke_with_success_or_failure_retention"
+    },
+    "F2": {
+      "mapping_changed": false,
+      "known_risk": "final inside true-cavity/exclusive relation may fail",
+      "current_status": "enter_stage0_without_pre_repair"
+    },
+    "F3": {
+      "mapping_changed": false,
+      "known_risk": "grasp/canonical-prefix physical Gate may fail",
+      "current_status": "enter_stage0_without_pre_repair"
+    },
+    "F4": {
+      "mapping_changed": false,
+      "new_component": "F4FrozenCanonicalNeutralBindingV13",
+      "canonical_neutral_source": "canonical_prefix_target_neutral_pose",
+      "forbidden_sources": [
+        "post_prefix_common_x_pose",
+        "recomputed_common_center_high",
+        "layout_branch_neutral_pose"
+      ],
+      "target_spec_identity": "exact",
+      "realized_prefix_equivalence": "existing physical anchor tolerance",
+      "current_status": "cpu_ready_single_v13_probe_pending"
+    }
+  },
+  "stage0_attempt_count": 0,
+  "stage0_generated_trajectory_mp4_required": true,
+  "formal_data": false,
+  "stage1_authorized": false,
+  "training_authorized": false
+}

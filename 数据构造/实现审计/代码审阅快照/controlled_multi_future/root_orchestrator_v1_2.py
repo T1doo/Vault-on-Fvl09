@@ -46,6 +46,9 @@ from .root_orchestrator_v1_1 import (
     validate_executed_prefix_evidence,
 )
 from .schemas import validate_exactly_three_programs
+from .stage0_video_capture_v1 import (
+    validate_stage0_trajectory_mp4_receipt_v1,
+)
 
 
 IMPLEMENTATION_VERSION = "controlled_multi_future_runtime_v3_3"
@@ -1249,6 +1252,16 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             f"branch start anchor mismatch: {branch_anchor_result['failures']}"
                         )
                     self.adapter.initialize_prefix_replay_trace(scene)
+                    if stage0_data:
+                        if not hasattr(scene, "start_stage0_video_capture"):
+                            raise RuntimeError(
+                                "Stage 0 branch scene lacks mandatory MP4 capture"
+                            )
+                        branch["stage0_video_start"] = (
+                            scene.start_stage0_video_capture(
+                                branch_dir / "video" / "trajectory.mp4"
+                            )
+                        )
                     receipt["branch_prefix_replay_count"] += 1
                     replay = replay_canonical_prefix(
                         scene,
@@ -1575,6 +1588,54 @@ class RealSapienStrictPrefixRootOrchestratorV1_2(
                             "traceback": getattr(exc, "cmf_traceback", None)
                             or traceback.format_exc(),
                         }
+                    )
+                if stage0_data:
+                    cleanup_record = (
+                        receipt["cleanup_records"][-1]
+                        if receipt.get("cleanup_records")
+                        else {}
+                    )
+                    video_receipt = cleanup_record.get("stage0_video_receipt")
+                    video_error = cleanup_record.get("stage0_video_error")
+                    expected_video_path = branch_dir / "video" / "trajectory.mp4"
+                    if isinstance(video_receipt, Mapping):
+                        try:
+                            video_audit = validate_stage0_trajectory_mp4_receipt_v1(
+                                video_receipt,
+                                expected_path=expected_video_path,
+                            )
+                        except BaseException as video_exc:
+                            video_audit = {
+                                "pass": False,
+                                "error_type": type(video_exc).__name__,
+                                "error": str(video_exc),
+                            }
+                        branch["stage0_video_receipt"] = dict(video_receipt)
+                        branch["stage0_video_file"] = {
+                            "relative_path": "video/trajectory.mp4",
+                            "bytes": video_receipt.get("bytes"),
+                            "sha256": video_receipt.get("file_sha256"),
+                        }
+                        branch["stage0_video_integrity"] = video_audit
+                    else:
+                        branch["stage0_video_receipt"] = None
+                        branch["stage0_video_file"] = None
+                        branch["stage0_video_integrity"] = {
+                            "pass": False,
+                            "reason": "video_not_applicable_no_capture_started"
+                            if "stage0_video_start" not in branch
+                            else "video_missing_after_capture_start",
+                            "cleanup_video_error": video_error,
+                        }
+                    branch["stage0_video_required"] = isinstance(
+                        branch.get("raw_manifest"), Mapping
+                    )
+                    branch["stage0_video_status"] = (
+                        "generated"
+                        if branch["stage0_video_integrity"].get("pass") is True
+                        else "video_not_applicable_no_trajectory"
+                        if branch["stage0_video_required"] is False
+                        else "failed_required_video"
                     )
                 receipt["branch_receipts"].append(branch)
                 _write_json(branch_dir / "receipt.json", branch)

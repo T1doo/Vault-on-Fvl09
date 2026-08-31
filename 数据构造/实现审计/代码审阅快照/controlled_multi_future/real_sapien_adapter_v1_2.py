@@ -356,6 +356,23 @@ class RoboTwinSceneContextV1_2:
                 monitor_error = {"type": type(monitor_exc).__name__, "message": str(monitor_exc)}
             except BaseException as monitor_exc:
                 monitor_error = {"type": type(monitor_exc).__name__, "message": str(monitor_exc)}
+        video_receipt = None
+        video_error = None
+        if self._scene is not None and hasattr(
+            self._scene, "finish_stage0_video_capture"
+        ):
+            try:
+                video_receipt = self._scene.finish_stage0_video_capture(
+                    terminal_status=(
+                        "scene_context_exception" if exc_type is not None else "scene_context_success"
+                    )
+                )
+            except BaseException as video_exc:
+                video_error = {
+                    "type": type(video_exc).__name__,
+                    "message": str(video_exc),
+                    "traceback": traceback.format_exc(),
+                }
         cleanup_error = None
         remaining = []
         attempted = self._scene is not None
@@ -380,6 +397,14 @@ class RoboTwinSceneContextV1_2:
             "owned_planner_process_ids": sorted(_planner_process_ids(self._scene)) if self._scene is not None else [],
             "activity_monitor_restoration_error": monitor_error,
             "activity_monitor_restoration_succeeded": monitor_error is None,
+            "stage0_video_receipt": video_receipt,
+            "stage0_video_error": video_error,
+            "stage0_video_finalize_succeeded": (
+                video_receipt is not None and video_error is None
+            )
+            if hasattr(self._scene, "_cmf_stage0_video_receipt")
+            or video_error is not None
+            else None,
             "outer_gpu_release_audit_required": True,
         }
         self.handle.cleanup_receipt = dict(self.cleanup_receipt)

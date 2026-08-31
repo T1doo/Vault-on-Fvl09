@@ -593,6 +593,37 @@ class DenseTraceMixin:
         self.mark("trace_start")
         self._record(initial_state=True)
 
+    def start_stage0_video_capture(self, output_path: Path) -> dict:
+        if hasattr(self, "_cmf_stage0_video_recorder"):
+            raise RuntimeError("Stage 0 video capture was already started")
+        from ..stage0_video_capture_v1 import Stage0TrajectoryMP4RecorderV1
+
+        recorder = Stage0TrajectoryMP4RecorderV1(output_path)
+        try:
+            recorder.capture(self, step_index=0, force=True)
+        except BaseException:
+            recorder.abort()
+            raise
+        self._cmf_stage0_video_recorder = recorder
+        self._cmf_stage0_video_receipt = None
+        return {
+            "started": True,
+            "path": str(Path(output_path).resolve()),
+            "video_fps": recorder.video_fps,
+            "sample_stride_steps": recorder.sample_stride_steps,
+        }
+
+    def finish_stage0_video_capture(
+        self, *, terminal_status: str = "scene_context_exit"
+    ):
+        recorder = getattr(self, "_cmf_stage0_video_recorder", None)
+        if recorder is None:
+            return getattr(self, "_cmf_stage0_video_receipt", None)
+        receipt = recorder.close(self, terminal_status=terminal_status)
+        self._cmf_stage0_video_receipt = dict(receipt)
+        delattr(self, "_cmf_stage0_video_recorder")
+        return dict(receipt)
+
     def mark(self, name):
         if hasattr(self, "trace"):
             self.markers[name] = max(0, len(self.trace) - 1)
@@ -981,6 +1012,13 @@ class DenseTraceMixin:
             "role_actor_component_velocity_provenance": role_actor_component_velocity_provenance,
             "initial_state": bool(initial_state),
         })
+        recorder = getattr(self, "_cmf_stage0_video_recorder", None)
+        if recorder is not None:
+            recorder.capture(
+                self,
+                step_index=self._step_index,
+                force=False,
+            )
         self._step_index += 1
 
     def left_move_to_pose(self, *args, **kwargs):

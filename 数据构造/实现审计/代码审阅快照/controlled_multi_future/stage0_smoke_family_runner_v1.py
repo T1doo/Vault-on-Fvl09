@@ -88,6 +88,7 @@ def _raw_integrity(
     attempt_id: str,
     root_slot_id: str,
     stage0_manifest_sha256: str,
+    expected_implementation_version: str | None = None,
 ) -> dict:
     if branch is None or not isinstance(branch.get("raw_manifest"), Mapping):
         return {"pass": False, "reason": "raw_manifest_missing"}
@@ -111,6 +112,9 @@ def _raw_integrity(
         "formal_data_false": manifest.get("formal_data") is False,
         "family_exact": provenance.get("family") == family,
         "program_exact": provenance.get("program_id") == program_id,
+        "implementation_exact": expected_implementation_version is None
+        or provenance.get("implementation_version")
+        == expected_implementation_version,
         "realization_exact_r_pc": realization.get("realization") == "r_pc",
         "attempt_root_manifest_bound": realization.get("stage0_attempt_id")
         == attempt_id
@@ -285,10 +289,13 @@ def _audit_root_terminal_evidence(root: Mapping[str, Any]) -> dict[str, Any]:
 
 
 class Stage0SmokeFamilyRunnerV1:
-    def __init__(self, adapter):
+    def __init__(self, adapter, *, implementation_version=IMPLEMENTATION_VERSION):
         if adapter.family not in FAMILY_CLASSES:
             raise ValueError("Stage 0 family runner received unsupported family")
+        if not isinstance(implementation_version, str) or not implementation_version:
+            raise ValueError("Stage 0 family runner implementation version is invalid")
         self.adapter = adapter
+        self.implementation_version = implementation_version
 
     def run(
         self,
@@ -330,7 +337,7 @@ class Stage0SmokeFamilyRunnerV1:
         if shared_preflight_blocker is None:
             root = RealSapienStrictPrefixRootOrchestratorV1_2(
                 self.adapter,
-                implementation_version=IMPLEMENTATION_VERSION,
+                implementation_version=self.implementation_version,
             ).run_nonformal_root(
                 output_dir=root_dir,
                 planned_root_slot_spec=planned_root_slot_spec,
@@ -341,7 +348,7 @@ class Stage0SmokeFamilyRunnerV1:
         else:
             root = {
                 "schema_version": "cmf_stage0_shared_preflight_blocked_root_v1",
-                "implementation_version": IMPLEMENTATION_VERSION,
+                "implementation_version": self.implementation_version,
                 "design_version": "controlled_multi_future_f1_f4_v1_2",
                 "family": family,
                 "status": "failed_shared_preflight_with_evidence",
@@ -467,7 +474,7 @@ class Stage0SmokeFamilyRunnerV1:
         receipt = {
             "schema_version": SCHEMA_VERSION,
             "design_version": "controlled_multi_future_f1_f4_v1_2",
-            "implementation_version": IMPLEMENTATION_VERSION,
+            "implementation_version": self.implementation_version,
             "family": family,
             "root_slot_id": str(planned_root_slot_spec["slot_id"]),
             "stage0_attempt_count": 3,

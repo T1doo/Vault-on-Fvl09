@@ -245,14 +245,20 @@ def update_child_receipt_v2_1(
         return False
     payload = json.loads(child_path.read_text(encoding="utf-8"))
     child_payload_digest = payload.get("child_payload_sha256")
-    if (
+    stage0_child_schemas = {
+        "controlled_multi_future_stage0_smoke_v1": (
+            "cmf_stage0_smoke_guarded_scope_receipt_v1"
+        ),
+        "controlled_multi_future_stage0_smoke_v1_1": (
+            "cmf_stage0_smoke_guarded_scope_receipt_v1_1"
+        ),
+    }
+    expected_stage0_schema = stage0_child_schemas.get(
         payload.get("implementation_version")
-        == "controlled_multi_future_stage0_smoke_v1"
-        and (
-            not isinstance(child_payload_digest, str)
-            or payload.get("schema_version")
-            != "cmf_stage0_smoke_guarded_scope_receipt_v1"
-        )
+    )
+    if expected_stage0_schema is not None and (
+        not isinstance(child_payload_digest, str)
+        or payload.get("schema_version") != expected_stage0_schema
     ):
         raise GuardAuthorizationMismatch(
             "Stage 0 child lacks its mandatory pre-Guard payload seal"

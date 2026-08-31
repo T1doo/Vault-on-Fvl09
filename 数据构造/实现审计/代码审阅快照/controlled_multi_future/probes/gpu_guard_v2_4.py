@@ -54,6 +54,11 @@ from .stage0_smoke_authorization_v1 import (
     load_stage0_smoke_authorization,
     validate_consumption_receipt as validate_stage0_smoke_consumption_receipt,
 )
+from .stage0_smoke_authorization_v1_1 import (
+    consume_authorization_once_v1_1 as consume_stage0_smoke_authorization_once_v1_1,
+    load_stage0_smoke_authorization_v1_1,
+    validate_consumption_receipt_v1_1 as validate_stage0_smoke_consumption_receipt_v1_1,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -93,6 +98,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_stage0_smoke_v1_1":
+        return load_stage0_smoke_authorization_v1_1(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_stage0_smoke_v1":
         return load_stage0_smoke_authorization(
             path, requested_scope=requested_scope, **kwargs
@@ -111,6 +120,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1_1":
+        return consume_stage0_smoke_authorization_once_v1_1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1":
         return consume_stage0_smoke_authorization_once(
             authorization, ledger_directory=ledger_directory
@@ -129,6 +142,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1_1":
+        return validate_stage0_smoke_consumption_receipt_v1_1(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_stage0_smoke_v1":
         return validate_stage0_smoke_consumption_receipt(
             consumption, authorization
@@ -589,8 +606,9 @@ def main() -> int:
     raw_authorization = json.loads(
         args.authorization_receipt.read_text(encoding="utf-8")
     )
-    stage0_mode = raw_authorization.get("implementation_version") == (
-        "controlled_multi_future_stage0_smoke_v1"
+    stage0_mode = raw_authorization.get("implementation_version") in (
+        "controlled_multi_future_stage0_smoke_v1",
+        "controlled_multi_future_stage0_smoke_v1_1",
     )
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,

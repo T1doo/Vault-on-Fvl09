@@ -198,6 +198,11 @@ from .f4_exact_corridor_application_v11 import (
 from .f4_candidate_equivalence_v12 import (
     audit_f4_candidate_equivalence_v12,
 )
+from .f4_frozen_canonical_neutral_binding_v13 import (
+    audit_f4_frozen_canonical_neutral_spec_identity_v13,
+    bind_f4_corridor_contract_to_canonical_neutral_v13,
+    validate_f4_frozen_canonical_neutral_binding_v13,
+)
 from .f4_right_workspace_layout_v4 import (
     LAYOUT_VERSION as F4_LAYOUT_VERSION_V4,
 )
@@ -240,7 +245,9 @@ def _raw_result(*args, **kwargs):
     scene = args[0] if args else kwargs.get("scene")
     adapter_version = getattr(scene, "_cmf_adapter_version", "")
     kwargs["implementation_version"] = (
-        "controlled_multi_future_stage0_smoke_v1"
+        "controlled_multi_future_stage0_smoke_v1_1"
+        if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_7"
+        else "controlled_multi_future_stage0_smoke_v1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_6"
         else "controlled_multi_future_runtime_v3_4_1"
         if adapter_version == "RoboTwinRealSapienStrictPrefixAdapterV1_5"
@@ -5245,6 +5252,28 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         if not isinstance(layout_version, str):
             raise ValueError("F4 r8 planned layout version is missing")
         neutral = np.asarray(repaired_common[-1]["pose"], dtype=np.float64)
+        canonical_neutral_binding_v13 = (
+            planned.get("f4_canonical_neutral_binding_v13")
+            if isinstance(planned, Mapping)
+            else None
+        )
+        if (
+            isinstance(planned, Mapping)
+            and planned.get("generator")
+            == "controlled_multi_future_stage0_smoke_v1_1_adapter_v1_7"
+            and planned.get("scope") != "F4_candidate_hash_infra_v13"
+            and canonical_neutral_binding_v13 is None
+        ):
+            raise ValueError(
+                "F4 Stage 0 v1.1 requires its frozen canonical neutral binding"
+            )
+        if canonical_neutral_binding_v13 is not None:
+            binding = validate_f4_frozen_canonical_neutral_binding_v13(
+                canonical_neutral_binding_v13
+            )
+            neutral = np.asarray(
+                binding["canonical_terminal_neutral_pose"], dtype=np.float64
+            )
         if neutral.shape != (7,):
             raise ValueError("F4 repaired high branch-neutral pose is invalid")
         object_poses = {
@@ -5336,7 +5365,14 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 for group in top_down["object_target_groups"]
                 if group["role"] == "A"
             )
-            exact_contract = build_f4_exact_A_corridors_v11(reference_a)
+            exact_contract = self._wrap_exact_a_corridor_contract_v12(
+                build_f4_exact_A_corridors_v11(reference_a), planned
+            )
+            if canonical_neutral_binding_v13 is not None:
+                exact_contract = bind_f4_corridor_contract_to_canonical_neutral_v13(
+                    exact_contract,
+                    canonical_neutral_binding_v13,
+                )
             current_candidates = [
                 item
                 for item in exact_contract["candidates"]
@@ -5346,13 +5382,30 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             if len(current_candidates) != 1:
                 raise ValueError("F4 selected v11 corridor ID is not frozen")
             current_candidate = current_candidates[0]
-            candidate_equivalence_v12 = audit_f4_candidate_equivalence_v12(
-                selected_v11, current_candidate
-            )
-            if candidate_equivalence_v12["pass"] is not True:
-                raise ValueError(
-                    "F4 selected corridor is not fresh-scene equivalent under v12"
+            if canonical_neutral_binding_v13 is not None:
+                candidate_equivalence_v13 = (
+                    audit_f4_frozen_canonical_neutral_spec_identity_v13(
+                        frozen_candidate=selected_v11,
+                        reconstructed_candidate=current_candidate,
+                        binding=canonical_neutral_binding_v13,
+                    )
                 )
+                candidate_equivalence_v12 = candidate_equivalence_v13[
+                    "retained_candidate_equivalence_v12"
+                ]
+                if candidate_equivalence_v13["pass"] is not True:
+                    raise ValueError(
+                        "F4 selected corridor is not exact under frozen-neutral v13"
+                    )
+            else:
+                candidate_equivalence_v13 = None
+                candidate_equivalence_v12 = audit_f4_candidate_equivalence_v12(
+                    selected_v11, current_candidate
+                )
+                if candidate_equivalence_v12["pass"] is not True:
+                    raise ValueError(
+                        "F4 selected corridor is not fresh-scene equivalent under v12"
+                    )
             base_by_role = {
                 group["role"]: group
                 for group in top_down["object_target_groups"]
@@ -5389,6 +5442,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "selected_candidate": current_candidate,
                 "fresh_scene_candidate_equivalence_v12": (
                     candidate_equivalence_v12
+                ),
+                "frozen_canonical_neutral_spec_identity_v13": (
+                    candidate_equivalence_v13
                 ),
                 "exact_contract_receipt_sha256": exact_contract[
                     "receipt_sha256"
@@ -5643,42 +5699,32 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             },
         )
 
-    def build_exact_a_corridor_contract_v11(self, scene):
-        base_program = F4SubtaskOrder().checked_provisional_programs()[0]
-        all_targets, extra = self._top_down_full_targets_v8(scene, base_program)
-        suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
-        group = next(
-            item for item in extra["object_target_groups"] if item["role"] == "A"
-        )
-        start = int(group["target_start_index"])
-        width = len(group["targets"])
-        base_a = suffix_targets[start : start + width]
-        base_contract = build_f4_exact_A_corridors_v11(base_a)
+    def _wrap_exact_a_corridor_contract_v12(self, base_contract, planned):
         base_contract_payload = dict(base_contract)
         base_contract_digest = base_contract_payload.pop("receipt_sha256", None)
         if not isinstance(base_contract_digest, str) or hash_json(
             base_contract_payload
         ) != base_contract_digest:
             raise ValueError("F4 base v11 corridor contract self-hash failed")
-        planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
-        scene_layout = planned.get("scene_layout", {}) if isinstance(planned, Mapping) else {}
+        scene_layout = (
+            planned.get("scene_layout", {})
+            if isinstance(planned, Mapping)
+            else {}
+        )
         if (
             not isinstance(planned, Mapping)
             or planned.get("arm") != "right"
             or not isinstance(scene_layout, Mapping)
             or hash_json(scene_layout) != planned.get("scene_layout_sha256")
-            or scene_layout.get("layout_version")
-            != F4_LAYOUT_VERSION_V4
+            or scene_layout.get("layout_version") != F4_LAYOUT_VERSION_V4
         ):
-            raise ValueError("F4 Stage 0 context binding is not the frozen layout/right arm")
+            raise ValueError(
+                "F4 Stage 0 context binding is not the frozen layout/right arm"
+            )
         context_binding = {
             "arm": "right",
-            "scene_layout_sha256": planned.get("scene_layout_sha256")
-            if isinstance(planned, Mapping)
-            else None,
-            "layout_version": scene_layout.get("layout_version")
-            if isinstance(scene_layout, Mapping)
-            else None,
+            "scene_layout_sha256": planned.get("scene_layout_sha256"),
+            "layout_version": scene_layout.get("layout_version"),
             "release_target_semantics": "same_role_visible_slot_unchanged",
         }
         contract = {
@@ -5686,9 +5732,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             for key, value in base_contract.items()
             if key not in ("candidates", "receipt_sha256")
         }
-        contract["base_v11_receipt_sha256"] = base_contract[
-            "receipt_sha256"
-        ]
+        contract["base_v11_receipt_sha256"] = base_contract["receipt_sha256"]
         contract["stage0_context_binding_v12"] = context_binding
         contract["candidates"] = []
         for base_candidate in base_contract["candidates"]:
@@ -5708,6 +5752,45 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         contract["receipt_sha256"] = hash_json(contract)
         return contract
+
+    def build_exact_a_corridor_contract_v11(
+        self, scene, *, canonical_neutral_binding_v13=None
+    ):
+        base_program = F4SubtaskOrder().checked_provisional_programs()[0]
+        all_targets, extra = self._top_down_full_targets_v8(scene, base_program)
+        suffix_targets = all_targets[self.COMMON_SEGMENT_COUNT :]
+        group = next(
+            item for item in extra["object_target_groups"] if item["role"] == "A"
+        )
+        start = int(group["target_start_index"])
+        width = len(group["targets"])
+        base_a = [
+            {
+                **item,
+                "pose": np.asarray(item["pose"], dtype=np.float64).tolist(),
+            }
+            for item in suffix_targets[start : start + width]
+        ]
+        if canonical_neutral_binding_v13 is not None:
+            binding = validate_f4_frozen_canonical_neutral_binding_v13(
+                canonical_neutral_binding_v13
+            )
+            neutral_indices = [
+                index
+                for index, item in enumerate(base_a)
+                if item.get("segment_id") == "A_neutral"
+            ]
+            if neutral_indices != [len(base_a) - 1]:
+                raise ValueError(
+                    "F4 v13 canonical neutral override requires terminal A_neutral"
+                )
+            base_a[-1] = {
+                **base_a[-1],
+                "pose": list(binding["canonical_terminal_neutral_pose"]),
+            }
+        base_contract = build_f4_exact_A_corridors_v11(base_a)
+        planned = getattr(scene, "_cmf_planned_root_slot_spec", {})
+        return self._wrap_exact_a_corridor_contract_v12(base_contract, planned)
 
     def plan_a_exact_corridor_candidate_v11(
         self, scene, replay, frozen_candidate
@@ -5829,6 +5912,115 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         result["evidence"]["fresh_scene_candidate_equivalence_v12"] = (
             equivalence
         )
+        result["evidence"]["selected_corridor_candidate_v11"] = candidate
+        return result
+
+    def build_exact_a_corridor_contract_v13(
+        self, scene, canonical_neutral_binding=None
+    ):
+        """Rebuild the exact corridor using the immutable canonical neutral."""
+
+        if canonical_neutral_binding is None:
+            # Pristine freeze only. The v13 Gate derives and binds the neutral
+            # after the canonical prefix artifact has been produced.
+            return self.build_exact_a_corridor_contract_v11(scene)
+        binding = validate_f4_frozen_canonical_neutral_binding_v13(
+            canonical_neutral_binding
+        )
+        contract = self.build_exact_a_corridor_contract_v11(
+            scene,
+            canonical_neutral_binding_v13=binding,
+        )
+        return bind_f4_corridor_contract_to_canonical_neutral_v13(
+            contract, binding
+        )
+
+    def plan_a_exact_corridor_candidate_v13(
+        self,
+        scene,
+        replay,
+        frozen_candidate,
+        canonical_neutral_binding_v13,
+    ):
+        """Plan only after exact target-spec and physical replay Gates pass."""
+
+        if not isinstance(frozen_candidate, Mapping):
+            raise ValueError("F4 v13 frozen candidate must be a mapping")
+        binding = validate_f4_frozen_canonical_neutral_binding_v13(
+            canonical_neutral_binding_v13
+        )
+        current = self.build_exact_a_corridor_contract_v13(scene, binding)
+        candidates = [
+            item
+            for item in current["candidates"]
+            if item["candidate_id"] == frozen_candidate.get("candidate_id")
+        ]
+        if len(candidates) != 1:
+            raise ValueError("F4 v13 candidate ID is not in reconstructed contract")
+        candidate = candidates[0]
+        identity = audit_f4_frozen_canonical_neutral_spec_identity_v13(
+            frozen_candidate=frozen_candidate,
+            reconstructed_candidate=candidate,
+            binding=binding,
+        )
+        scene._cmf_f4_candidate_equivalence_v13 = identity
+        scene._cmf_f4_frozen_canonical_neutral_spec_identity_v13 = identity
+        scene._cmf_f4_candidate_equivalence_v12 = identity[
+            "retained_candidate_equivalence_v12"
+        ]
+        if identity["pass"] is not True:
+            raise ValueError(
+                "F4 v13 frozen canonical-neutral specification identity failed"
+            )
+        targets = list(candidate["applied_planner_targets"])
+        preplanner_gate = validate_f4_exact_candidate_application_v11(
+            candidate, targets
+        )
+        result = _cache_suffix_controls(
+            scene,
+            program_id=f"F4-STAGE0-V13-{candidate['candidate_id']}",
+            arm="right",
+            targets=targets,
+            query_limit=16,
+            extra={
+                "object_order": ["A"],
+                "object_target_groups": [
+                    {
+                        "role": "A",
+                        "target_start_index": 0,
+                        "target_count": len(targets),
+                        "targets": targets,
+                        "selected_corridor_id": candidate["candidate_id"],
+                        "exact_corridor_v11": True,
+                        "frozen_canonical_neutral_v13": True,
+                    }
+                ],
+                "block_carry_route_version": (
+                    "f4_frozen_canonical_neutral_binding_v13"
+                ),
+                "block_carry_route_audit": current,
+                "exact_candidate_preplanner_gate_v11": preplanner_gate,
+                "frozen_canonical_neutral_spec_identity_v13": identity,
+                "fresh_scene_candidate_equivalence_v12": identity[
+                    "retained_candidate_equivalence_v12"
+                ],
+                "selected_corridor_candidate_v13": candidate,
+                "selected_corridor_candidate_v11": candidate,
+                "common_prefix_artifact_required": True,
+                "diagnostic_block_gate": True,
+                "planner_only_corridor_selection": True,
+            },
+        )
+        result["evidence"]["exact_candidate_preplanner_gate_v11"] = (
+            preplanner_gate
+        )
+        result["evidence"]["frozen_canonical_neutral_spec_identity_v13"] = (
+            identity
+        )
+        result["evidence"]["fresh_scene_candidate_equivalence_v12"] = identity[
+            "retained_candidate_equivalence_v12"
+        ]
+        result["evidence"]["selected_corridor_candidate_v13"] = candidate
         result["evidence"]["selected_corridor_candidate_v11"] = candidate
         return result
 

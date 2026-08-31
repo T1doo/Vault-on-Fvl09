@@ -1,0 +1,80 @@
+{
+  "allowed_family_outcomes": [
+    "PASS",
+    "FAILED_WITH_EVIDENCE"
+  ],
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approved": true,
+  "automatic_retry": false,
+  "budget_receipt_sha256": "8aab303dfdf0f33d9558b8e67fe8c59564d8881d73ccf96301a6f676ea72bf1a",
+  "compression_authorized": false,
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "family_level_parallelism_authorized": true,
+  "formal_collection_authorized": false,
+  "h_reveal": null,
+  "implementation_revision": "f4_canonical_neutral_provenance_v13_then_12_smoke_v1_1",
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_1",
+  "one_family_root_one_gpu": true,
+  "one_project_job_per_gpu": true,
+  "pi05_authorized": false,
+  "recovery_attempts": 0,
+  "schema_version": "cmf_stage0_smoke_budget_v1_1",
+  "scope_max_invocations": 1,
+  "scopes": {
+    "F4_candidate_hash_infra_v13": {
+      "execution_limit": 0,
+      "planner_query_limit": 48,
+      "stage0_data": false,
+      "timeout_seconds": 7200
+    },
+    "Stage0_v1_1_F1_root_A": {
+      "execution_limit": 3,
+      "planner_query_limit": 64,
+      "stage0_data": true,
+      "timeout_seconds": 7200
+    },
+    "Stage0_v1_1_F2_root_A": {
+      "execution_limit": 3,
+      "planner_query_limit": 64,
+      "stage0_data": true,
+      "timeout_seconds": 7200
+    },
+    "Stage0_v1_1_F3_root_A": {
+      "execution_limit": 3,
+      "planner_query_limit": 96,
+      "stage0_data": true,
+      "timeout_seconds": 10800
+    },
+    "Stage0_v1_1_F4_root_A": {
+      "execution_limit": 3,
+      "planner_query_limit": 96,
+      "stage0_data": true,
+      "timeout_seconds": 20400
+    }
+  },
+  "stage0_authorized": true,
+  "stage0_generated_trajectory_mp4_required": true,
+  "stage0_planned_attempt_count": 12,
+  "stage0_success_required_for_completion": false,
+  "stage0_video_contract": {
+    "camera": "head_camera",
+    "control_frequency_hz": 250,
+    "format": "mp4",
+    "initial_and_final_frames_required": true,
+    "no_trajectory_status": "video_not_applicable_no_trajectory",
+    "sample_stride_steps": 10,
+    "video_fps": 25
+  },
+  "stage1_authorized": false,
+  "status": "user_authorized_f4_v13_then_stage0_smoke_v1_1",
+  "training_authorized": false
+}
