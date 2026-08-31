@@ -1,0 +1,43 @@
+{
+  "schema_version": "cmf_superseded_prelaunch_bundles_v1",
+  "status": "UNCONSUMED_SUPERSEDED_DO_NOT_RUN",
+  "reason": "F2 canonical authorization exposed an impossible dual self-hash cycle; all family jobs must use one corrected common source freeze",
+  "reviewed_content_commit": "bb6332b272e0e715d09a96601be7617369478912",
+  "implementation_source_sha256": "9a0b7a9e8640192e82e927aa98c56a0001522bcfec28fdfde3269e12d83e0c65",
+  "bundles": {
+    "F1": {
+      "namespace": "post_stage0_f1_batch_pilot_v1_run1",
+      "authorization_file_sha256": "f2a3840cff0c3cc45c0afd44edd3f51370256cb8cb9c28b82fafc43ca3ad7e52",
+      "authorization_payload_sha256": "7e4d22e6c620a36bae4c07d050345d8e1410340610eefda4f2cd1494f57a0ada",
+      "request_file_sha256": "ccf9e12574d8e61d8128bd18cc61f7788494f03b686fac93ebc5fa8df5ee814f",
+      "request_payload_sha256": "8fed3124ca740e9f28465a00d590b0f9d1f52f9c5018ff1147f3517bd8bad8a3",
+      "source_lock_file_sha256": "66184c0eeca843c2b5553660232192988deb72c55ca07a3e0bc3eee66044eba6",
+      "source_lock_payload_sha256": "bb321532b6b44e23852dab87427c1df79c6bcd8069ed135b4cca75f6b77f7b76"
+    },
+    "F3": {
+      "namespace": "closure_v1_f3_common_grasp_prefix_v2_1_seed20260829_run1",
+      "authorization_file_sha256": "65a4a0f68766bf71b503b486cdb0cc1d93566d3b32771d888d8bb931b6ff7d9a",
+      "authorization_payload_sha256": "c7e07f743361224c828e12ff0a14506843217b6755a836665ac2ceda0a891cb1",
+      "request_file_sha256": "042aff59dffc87ef7ecb6eb0250320ba3c7912004b20b9d8c7b62e4a909a742d",
+      "request_payload_sha256": "a76919c0bc998db60a8251abf8accec87fe435f31b3dfa38f0732947746634fb",
+      "source_lock_file_sha256": "a55727fdac2bd9a094605689e33c0111241ea2e2b82cb7ee319b41b5ee2c5260",
+      "source_lock_payload_sha256": "a67b9060f039b3d86fc22c732762fbec7d2ac0607edd46a7858ad5a41dff9c82"
+    },
+    "F4": {
+      "namespace": "f4_selected_layout_v2_c01_planner_only_seed20260829_run1",
+      "authorization_file_sha256": "24c8ca45c326d0075fa6aec03dd12309c4aedff5abd27098f8e0a142e12b7096",
+      "authorization_payload_sha256": "15660bc0b6d91c4547c92c414957b110ecbe9fb8f844cc4c6be383153ff85981",
+      "request_file_sha256": "d257f72952a1112f1ec9490234f615718e93fb90f4bf502920b26e90894dbde7",
+      "request_payload_sha256": "f8728bf382d234603595694356a8bb0fb80b4d734364099ce9cfe4525633ba22",
+      "source_lock_file_sha256": "73c371cf39228062513b1c5c0ad8ca22dbf8fee0a073bee12405b998b77bd5fd",
+      "source_lock_payload_sha256": "b46560aba968cab136b1a51ad34e11a3c8a73210bd442e1890146cd801d10d13"
+    }
+  },
+  "F2_bundle_written": false,
+  "all_authorizations_consumed": false,
+  "all_outputs_created": false,
+  "all_guards_created": false,
+  "all_gpu_jobs_started": false,
+  "replacement_rule": "new source freeze and new run2 namespace/authorization IDs for F1/F3/F4; F2 retains run1 because no artifact was written",
+  "receipt_sha256": "689073bcd0545044346ceba3887671aba5d44c88f4b07edfc77341397d1f864a"
+}

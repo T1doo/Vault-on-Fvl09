@@ -90,9 +90,13 @@ def validate_f2_dynamic_development_authorization_v3(
     value: Mapping[str, Any], *, matrix_sha256: str, screening_sha256: str
 ) -> dict[str, Any]:
     result = _copy(value)
-    digest = result.pop("authorization_sha256", None)
+    digest = result.pop("receipt_sha256", None)
     if not isinstance(digest, str) or _hash_json(result) != digest:
-        raise ValueError("F2 dynamic development authorization hash mismatch")
+        raise ValueError("F2 dynamic development authorization receipt hash mismatch")
+    if "authorization_sha256" in result:
+        raise ValueError(
+            "F2 dynamic development authorization must use one authoritative receipt hash"
+        )
     budget = f2_dynamic_development_budget_v3()
     checks = {
         "schema": result.get("schema_version") == AUTHORIZATION_SCHEMA,
@@ -117,7 +121,7 @@ def validate_f2_dynamic_development_authorization_v3(
     }
     if not all(checks.values()):
         raise ValueError(f"F2 dynamic development authorization failed: {checks}")
-    return {**result, "authorization_sha256": digest}
+    return {**result, "receipt_sha256": digest}
 
 
 def planned_f2_asset_bound_root_spec_v3(binding: Mapping[str, Any], *, slot_id: str) -> dict[str, Any]:

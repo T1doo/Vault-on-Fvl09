@@ -147,7 +147,7 @@ class F2AssetBoundRuntimeV3Test(unittest.TestCase):
             "stage0_data": False,
             "stage1_authorized": False,
         }
-        value["authorization_sha256"] = hash_json(value)
+        value["receipt_sha256"] = hash_json(value)
         checked = validate_f2_dynamic_development_authorization_v3(
             value,
             matrix_sha256=self.matrix["matrix_sha256"],
@@ -155,6 +155,18 @@ class F2AssetBoundRuntimeV3Test(unittest.TestCase):
         )
         self.assertEqual(checked["allowed_physical_gpu_indices"], list(range(8)))
         self.assertFalse(checked["automatic_retry"])
+
+        legacy_double_hash = dict(value)
+        legacy_double_hash["authorization_sha256"] = "c" * 64
+        payload = dict(legacy_double_hash)
+        payload.pop("receipt_sha256")
+        legacy_double_hash["receipt_sha256"] = hash_json(payload)
+        with self.assertRaisesRegex(ValueError, "one authoritative receipt hash"):
+            validate_f2_dynamic_development_authorization_v3(
+                legacy_double_hash,
+                matrix_sha256=self.matrix["matrix_sha256"],
+                screening_sha256=self.screening["screening_sha256"],
+            )
 
     def test_child_source_orders_passive_planner_then_one_video_root(self):
         source = inspect.getsource(F2DynamicThenDevelopmentRunnerV3.run)

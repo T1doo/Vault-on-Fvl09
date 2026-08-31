@@ -1,0 +1,46 @@
+{
+  "schema_version": "cmf_next_stage_template_cpu_freeze_v1_1_report",
+  "status": "CPU_SOURCE_FREEZE_V1_1_READY_FOR_PUBLISHED_BASELINE",
+  "supersedes_report": "NEXT_STAGE_TEMPLATE_CPU_FREEZE_V1_REPORT.json",
+  "reason": "replace impossible F2 dual authorization self-hash with one canonical receipt_sha256 and move unconsumed F1/F3/F4 bundles to run2 identities",
+  "active_full_suite": {
+    "passed": 635,
+    "failed": 0,
+    "elapsed_seconds": 82.428
+  },
+  "snapshot_full_suite": {
+    "passed": 635,
+    "failed": 0,
+    "elapsed_seconds": 82.709
+  },
+  "active_snapshot_byte_equal": true,
+  "implementation_source_sha256": "ed8c2c461dd42ca5559c31b09f6abc8b41cac9a85f113fa2ee44903a17c9997e",
+  "tests_tree_sha256": "b84eb5abd02d195a3bbf8c45c90d1aa3749af1947a9b2f4faaa1e345dc1a0dd7",
+  "authorization_hash_contract": {
+    "authoritative_field": "receipt_sha256",
+    "authorization_sha256_present": false,
+    "dual_self_hash_cycle_removed": true
+  },
+  "replacement_namespaces": {
+    "F1": "post_stage0_f1_batch_pilot_v1_run2",
+    "F2": "post_stage0_f2_asset_redesign_dynamic_v3_run1",
+    "F3": "closure_v1_f3_common_grasp_prefix_v2_1_seed20260829_run2",
+    "F4": "f4_selected_layout_v2_c01_planner_only_seed20260829_run2"
+  },
+  "superseded_prelaunch_bundle_receipt": "SUPERSEDED_PRELAUNCH_BUNDLES_V1.json",
+  "old_bundle_authorizations_consumed": false,
+  "old_bundle_outputs_created": false,
+  "old_bundle_gpu_jobs_started": false,
+  "new_authorizations_signed": false,
+  "new_gpu_jobs_started": false,
+  "formal_trajectory_increment": 0,
+  "stage0_reopened": false,
+  "canonical_stage1_authorized": false,
+  "formal_data_authorized": false,
+  "training_authorized": false,
+  "h_reveal_authorized": false,
+  "compression_authorized": false,
+  "pi05_authorized": false,
+  "next_safe_step": "commit and push V1_1 freeze, then sign new source-bound bundles",
+  "report_sha256": "5a3448152bf0c9edcceb2d5d0179e307e7bb6d85dd98ebba7b22d7c2e7caf1f9"
+}

@@ -4,6 +4,8 @@
 
 Stage 0已正式封存：12个active slots均有可信terminal evidence，无active infrastructure/schema/current/cleanup/source blocker。历史F2 v1.1 infrastructure attempts保留但由三个v1.2 replacement active receipts替代。
 
+下一阶段当前CPU freeze为`V1.1`：source=`ed8c2c46…9997e`。旧source下F1/F3/F4 run1 bundles均未消费且已封为禁止执行，新source使用run2 identity；F2此前未生成bundle，保留run1 identity。
+
 ```yaml
 F1:
   stage0_status: PASS
