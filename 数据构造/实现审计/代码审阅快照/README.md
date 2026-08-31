@@ -63,3 +63,9 @@ PYTHONDONTWRITEBYTECODE=1 \
 ```
 
 真实 probe receipts、NPZ、guards 和 source locks 不复制进代码快照，统一保存在相邻审计目录。历史证据保持其原source/GPU0 authorization；任何后续 evidence 都必须经当前published HEAD、fresh source-lock、GPU0–7 parent authorization与one-shot Guard产生。
+
+## Current GPU parallel policy v2
+
+- `gpu_parallel_policy_v2.py`：面向后续新job的GPU0–7机器策略与动态partial-wave scheduler；一张空闲即调度一个，多张空闲并行多个；一卡一job、root不shard、无GPU0 fallback。
+- 历史`stage0_smoke_parallel_scheduler_v1/v1_1`及GPU0-only authorization保持不可变，只解释原执行，不再作为新batch模板。
+- 新job在scheduler assignment后仍必须由`gpu_guard_v2_4.py`即时重新检查fresh-idle/UUID并取得per-GPU lease；scheduler不保留GPU、不消费authorization。

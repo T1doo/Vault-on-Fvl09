@@ -10,3 +10,5 @@ Base asset/physics/verifier registry继续引用`f1_f4_implementation_registry_v
 | F4 | 3×planner failure | v13 neutral已修，但4条corridor均不可解 | layout/task implementation impact review |
 
 12/12 terminal receipts存在，3 success/9 failure，canonical finalizer因F2 pipeline错误报告`stage0_completed=false`。每条generated trajectory均有独立MP4。
+
+Stage 0后的current GPU执行策略另见`GPU_PARALLEL_EXECUTION_POLICY_V2_CURRENT.md/json`：新job允许GPU0–7任一fresh-idle卡，支持动态partial wave和不同root跨卡并行；旧GPU0-only receipts只作为历史，不再作为current authorization模板。
