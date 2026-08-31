@@ -1,0 +1,72 @@
+{
+  "schema_version": "cmf_post_stage0_closure_v1_report",
+  "closure_status": "COMPLETED_WITH_TERMINAL_FAILURE_EVIDENCE",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "published_baseline_commit": "b5fb0667437c587fc26d638244551e7b000454f7",
+  "f2_and_stage0": {
+    "f2_replacement_completed": true,
+    "f2_inside": "FAILED_EXECUTION_WITH_EVIDENCE",
+    "f2_on": "PASSED",
+    "f2_beside": "PASSED",
+    "stage0_seal_status": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+    "stage0_result_sha256": "394093a2571269eaa659cc90df654c449ffd1fb3a9ab041bbcfc321231c21df7",
+    "stage0_seal_sha256": "08ef2c20e6508b32a026fcd168ce5b69bb8686cec0071e5a243d7e211e810783",
+    "stage0_reopened_or_rerun": false
+  },
+  "f3": {
+    "contract": "F3CommonGraspPrefixV2",
+    "close_normalized_target": 0.5,
+    "three_scene_pass": false,
+    "planned_scene_count": 3,
+    "attempted_physical_prefix_count": 0,
+    "passed_scene_count": 0,
+    "status": "FAILED_INFRASTRUCTURE_BEFORE_PHYSICAL_DIAGNOSTIC",
+    "failure": "runner reference callback retained the historical shared_prefix_repair_v11 field check",
+    "scientific_physical_conclusion_available": false,
+    "second_diagnostic_allowed": false,
+    "full_program_development_allowed": false,
+    "task_asset_redesign_required": true,
+    "result_payload_sha256": "a92469b5a379a3821f76fc17ca54310005f9201a96c03b6030205415025244ae"
+  },
+  "f4": {
+    "derivation_interface_v2_cpu_pass": true,
+    "entered_endpoint_ik": true,
+    "complete_route_solved": false,
+    "status": "ENTERED_ENDPOINT_IK_NO_COMPLETE_ROUTE",
+    "attempted_programs": ["F4-ABC"],
+    "successful_segments": ["A_pregrasp", "A_grasp", "A_lift", "A_carry_mid"],
+    "failed_segment": "A_preplace",
+    "failure": "MotionGenStatus.IK_FAIL",
+    "suffix_execution_count": 0,
+    "release_execution_count": 0,
+    "a_only_development_allowed": false,
+    "layout_impact_review_required": true,
+    "temporary_waypoint_forbidden": true,
+    "result_payload_sha256": "1a02903c5503a055dfc9188d19c63803544d69be8e94af22fa9501c9fa1c1d7a"
+  },
+  "gpu_cleanup_policy": {
+    "task_owned_cleanup_is_separate_from_later_external_arrival": true,
+    "f3_task_owned_cleanup_pass": true,
+    "f3_gpu_returned_to_idle_baseline": true,
+    "f4_task_owned_cleanup_pass": true,
+    "f4_gpu_returned_to_idle_baseline": true,
+    "external_processes_modified": false
+  },
+  "authorization_boundary": {
+    "canonical_stage1_authorized": false,
+    "formal_data": false,
+    "formal_collection_authorized": false,
+    "training_authorized": false,
+    "h_reveal": null,
+    "compression_authorized": false,
+    "pi05_authorized": false
+  },
+  "required_answers": {
+    "f2_replacement_and_stage0_seal_completed": true,
+    "f3_new_common_prefix_passed_3_of_3": false,
+    "f4_really_entered_ik_query": true,
+    "f4_has_complete_solvable_route": false,
+    "stage1_remains_unauthorized": true
+  },
+  "report_payload_sha256": "9b23419a0d22d456fc9de4ed77f023ac2872feaa9206e8069f70f51e2629bf9e"
+}

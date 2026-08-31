@@ -1,0 +1,43 @@
+{
+  "schema_version": "cmf_post_stage0_closure_v1_f3_result",
+  "status": "FAILED_INFRASTRUCTURE_BEFORE_PHYSICAL_DIAGNOSTIC",
+  "pass": false,
+  "contract": "F3CommonGraspPrefixV2",
+  "close_normalized_target": 0.5,
+  "planned_scene_count": 3,
+  "attempted_physical_prefix_count": 0,
+  "passed_scene_count": 0,
+  "planner_query_count": 0,
+  "execution_attempt_count": 0,
+  "recovery_attempt_count": 0,
+  "error_type": "ValueError",
+  "error": "F3 repaired prefix contract is not bound",
+  "root_cause": "The reused diagnostic runner still required the historical shared_prefix_repair_v11 field inside its reference callback and did not accept f3_common_grasp_prefix_v2, despite its constructor accepting V2.",
+  "scientific_interpretation": "No F3CommonGraspPrefixV2 physical feasibility conclusion was obtained.",
+  "automatic_retry": false,
+  "second_closure_diagnostic_allowed": false,
+  "f3_development_allowed": false,
+  "task_asset_redesign_required": true,
+  "formal_data": false,
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "gpu_audit": {
+    "physical_gpu_index": 1,
+    "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+    "admission_and_launch": "14 MiB / 0% / P8 / no compute process",
+    "guard_post": "14 MiB / 0% / P3 cooldown / no compute process",
+    "independent_post": "14 MiB / 0% / P8 / no compute process",
+    "task_owned_orphan_count": 0,
+    "task_owned_cleanup_pass": true,
+    "gpu_returned_to_idle_baseline": true,
+    "source_lock_postcheck_pass": true,
+    "lease_and_cache_cleanup_pass": true
+  },
+  "evidence": {
+    "inner_receipt_file_sha256": "b0223d4fb5120eec368c5603f6b6929335e5322f1d3709ec380d3817478af451",
+    "outer_receipt_file_sha256": "2dc79c787000c4eacdf0086b17e1cbfe1bf0aa20e75ebafa0a1a808c9fb5cddc",
+    "guard_file_sha256": "9bc4323169b5eebb9f60672c7465b814f091e7ad1f133ff80ce58f3bbcefabc2",
+    "guard_payload_sha256": "6ba66bf94b0490cf27509de7f1a6aaf7cbe6f75cebcd5382bc8c574ca94835f6"
+  },
+  "result_payload_sha256": "a92469b5a379a3821f76fc17ca54310005f9201a96c03b6030205415025244ae"
+}

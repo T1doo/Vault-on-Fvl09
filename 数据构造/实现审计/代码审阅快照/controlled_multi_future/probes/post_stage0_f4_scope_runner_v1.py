@@ -7,7 +7,7 @@ from ..post_stage0_f4_scope_v1 import SCOPE,post_stage0_f4_budget_v1
 from ..real_sapien_adapter_post_stage0_f4_v1 import IMPLEMENTATION_VERSION,RoboTwinRealSapienPostStage0F4AdapterV1
 from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 from .post_stage0_f4_authorization_v1 import authorization_summary,load_post_stage0_f4_authorization_v1,load_post_stage0_f4_consumption_v1
-def _write(p,v): p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(v,ensure_ascii=False,indent=2,sort_keys=True)+"\n")
+def _write(p,v): p.parent.mkdir(parents=True,exist_ok=True); p.write_text(json.dumps(v,ensure_ascii=False,indent=2,sort_keys=True)+"\n",encoding="utf-8")
 def _cleanup(rows):
     rows=list(rows); return {"scene_created":any(x.get("scene_created") is True for x in rows),"scene_cleanup_succeeded":bool(rows) and all(x.get("cleanup_safety_pass") is True and int(x.get("orphan_process_count") or 0)==0 for x in rows),"orphan_process_count":sum(int(x.get("orphan_process_count") or 0) for x in rows)}
 def _budget(r):

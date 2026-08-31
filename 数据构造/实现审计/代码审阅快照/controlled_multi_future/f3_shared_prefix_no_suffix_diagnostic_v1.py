@@ -27,6 +27,10 @@ from .f3_contact_preserving_prefix_v11 import (
     REPAIR_ID,
     validate_f3_contact_preserving_prefix_contract_v11,
 )
+from .f3_common_grasp_prefix_v2 import (
+    IMPLEMENTATION_VERSION as CLOSURE_IMPLEMENTATION_VERSION,
+    validate_f3_common_grasp_prefix_v2,
+)
 from .root_orchestrator_v1_1 import (
     CleanupUncertain,
     _immutable_copy,
@@ -106,11 +110,19 @@ class F3SharedPrefixNoSuffixDiagnosticV1:
     def __init__(self, adapter):
         if adapter.family != "F3":
             raise ValueError("F3 prefix diagnostic requires family F3")
-        repair = getattr(adapter.controller_v3_3, "f3_shared_prefix_repair_v11", None)
-        self.repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
+        repair_v2 = getattr(adapter.controller_v3_3, "f3_common_grasp_prefix_v2", None)
+        if repair_v2 is not None:
+            self.repair = validate_f3_common_grasp_prefix_v2(repair_v2)
+            self.implementation_version = CLOSURE_IMPLEMENTATION_VERSION
+            self.schema_version = "cmf_f3_common_grasp_prefix_v2_diagnostic"
+        else:
+            repair = getattr(adapter.controller_v3_3, "f3_shared_prefix_repair_v11", None)
+            self.repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
+            self.implementation_version = IMPLEMENTATION_VERSION
+            self.schema_version = SCHEMA_VERSION
         self.adapter = adapter
         self.helper = RealSapienStrictPrefixRootOrchestratorV1_2(
-            adapter, implementation_version=IMPLEMENTATION_VERSION
+            adapter, implementation_version=self.implementation_version
         )
 
     @staticmethod
@@ -127,9 +139,9 @@ class F3SharedPrefixNoSuffixDiagnosticV1:
         planned = _immutable_copy(planned_root_slot_spec)
         planned_hash = hash_json(planned)
         receipt: dict[str, Any] = {
-            "schema_version": SCHEMA_VERSION,
+            "schema_version": self.schema_version,
             "design_version": "controlled_multi_future_f1_f4_v1_2",
-            "implementation_version": IMPLEMENTATION_VERSION,
+            "implementation_version": self.implementation_version,
             "repair_contract": self.repair,
             "formal_data": False,
             "stage0_data": False,

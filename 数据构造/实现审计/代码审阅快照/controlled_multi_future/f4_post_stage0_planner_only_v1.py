@@ -32,6 +32,11 @@ PROGRAM_IDS = ("F4-ABC", "F4-ACB", "F4-BAC")
 SCHEMA_VERSION = "cmf_f4_post_stage0_planner_only_v1"
 
 
+def _dispatch_endpoint_ik_planner(adapter, scene, program, replay):
+    """Single audited call site that must enter the real endpoint planner."""
+    return adapter.plan_suffix_from_actual_prefix_end_state(scene, program, replay)
+
+
 def _segment_chain_audit(segments: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     values = [dict(item) for item in segments]
     chain = True
@@ -281,8 +286,8 @@ class F4PostStage0PlannerOnlyV1:
                     before = int(getattr(scene, "planner_query_count", 0))
                     try:
                         suffix = _validate_suffix_planner_receipt(
-                            self.adapter.plan_suffix_from_actual_prefix_end_state(
-                                scene, program, replay
+                            _dispatch_endpoint_ik_planner(
+                                self.adapter, scene, program, replay
                             ),
                             program_id,
                         )

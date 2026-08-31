@@ -1,0 +1,19 @@
+"""Closure-V1 one-shot scope for F3CommonGraspPrefixV2."""
+from __future__ import annotations
+import hashlib,json
+from pathlib import Path
+from .current_hasher import hash_json
+from .f3_common_grasp_prefix_v2 import IMPLEMENTATION_VERSION,PROGRAM_IDS,build_f3_common_grasp_prefix_v2
+ROOT=Path("/nfs_share/lijunhui"); AUDIT=ROOT/"Vault-on-Fvl09/数据构造/实现审计"; GROUP="controlled_multi_future_post_stage0_closure_v1"
+SCOPE="F3CommonGraspPrefixV2_three_scene_prefix_only"; SEED=20260829; NAMESPACE="closure_v1_f3_common_grasp_prefix_v2_seed20260829_run1"; AUTH_ID="closure-v1-f3-common-grasp-prefix-v2-run1"
+OUTPUT=ROOT/"Robotwin2/datasets"/GROUP/NAMESPACE; PARENT=AUDIT/"USER_AUTHORIZATION_POST_STAGE0_CLOSURE_V1_20260831.json"; BUDGET=AUDIT/"POST_STAGE0_CLOSURE_V1_F3_BUDGET.json"; PUBLICATION=AUDIT/"POST_STAGE0_CLOSURE_V1_F3_SCOPE.json"
+EVIDENCE=AUDIT/"F3_SHARED_PREFIX_NO_SUFFIX_DIAGNOSTIC_V1_RESULT.json"; REQUEST=AUDIT/"scope_requests"/GROUP/f"{NAMESPACE}.request.json"; SOURCE=AUDIT/"source_locks"/GROUP/f"{NAMESPACE}.source_lock.json"; AUTH=AUDIT/"authorizations"/GROUP/f"{NAMESPACE}.authorization.json"; GUARD=AUDIT/"gpu_guards"/GROUP/f"{NAMESPACE}.guard.json"
+def _sha(v): return hashlib.sha256(json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":"),allow_nan=False).encode()).hexdigest()
+def budget():
+ v={"schema_version":"cmf_closure_v1_f3_budget","implementation_version":IMPLEMENTATION_VERSION,"scope":SCOPE,"family":"F3","planner_query_limit":16,"execution_limit":3,"fresh_scene_limit":3,"suffix_planner_limit":0,"suffix_execution_limit":0,"release_execution_limit":0,"physics_step_limit":-1,"timeout_seconds":7200,"allowed_physical_gpu_indices":list(range(8)),"automatic_retry":False,"recovery_attempts":0,"maximum_scope_invocations":1,"formal_data":False,"stage0_data":False,"stage0_authorized":False,"stage1_authorized":False}; v["budget_receipt_sha256"]=_sha(v); return v
+def spec():
+ v={"schema_version":"cmf_closure_v1_f3_spec","slot_id":"closure-v1-F3CommonGraspPrefixV2","scope":SCOPE,"family":"F3","arm":"left","seed":SEED,"generator":"controlled_multi_future_post_stage0_closure_f3_v2_adapter","origin":"post_stage0_closure_v1","f3_common_grasp_prefix_v2":build_f3_common_grasp_prefix_v2(),"canonical_program_ids":list(PROGRAM_IDS),"diagnostic_scene_count":3,"attempts_per_scene":1,"same_canonical_prefix_artifact":True,"prefix_only":True,"suffix_allowed":False,"automatic_retry":False,"recovery_attempts":0,"formal_data":False,"stage0_data":False,"stage0_authorized":False,"stage1_authorized":False,"budget_receipt_sha256":budget()["budget_receipt_sha256"],"stop_condition":"first terminal physical/infrastructure/cleanup failure or 3/3 pass"}; v["planned_scope_spec_sha256"]=_sha(v); return v
+def parent():
+ v={"schema_version":"cmf_post_stage0_closure_v1_parent_authorization","design_version":"controlled_multi_future_f1_f4_v1_2","approved":True,"authorized_scopes":[SCOPE,"F4_derivation_interface_fixed_planner_only_v2"],"allowed_physical_gpu_indices":list(range(8)),"one_project_job_per_gpu":True,"one_root_one_gpu":True,"automatic_retry":False,"recovery_attempts":0,"stage0_reopened":False,"stage1_authorized":False,"formal_collection_authorized":False,"training_authorized":False,"h_reveal":None,"compression_authorized":False,"pi05_authorized":False,"user_direction_source":"https://chatgpt.com/s/t_6a954f61d918819198da1b98bb6689f5"}; v["parent_user_authorization_sha256"]=hash_json(v); return v
+def publication():
+ v={"schema_version":"cmf_post_stage0_closure_v1_f3_publication","implementation_version":IMPLEMENTATION_VERSION,"scope":SCOPE,"planned_scope_spec":spec(),"budget":budget(),"source_failure_result_payload_sha256":"96ad815a900dd7248a388c61a8a3ade32286aabe24b35638a4b46844c2a30aa5","stage0_seal_unchanged":True}; v["scope_publication_sha256"]=_sha(v); return v

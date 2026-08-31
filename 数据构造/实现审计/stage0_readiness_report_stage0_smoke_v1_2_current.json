@@ -24,18 +24,22 @@
   "F3": {
     "stage0_status": "FAILED_EXECUTION_WITH_EVIDENCE",
     "development_template_ready": false,
-    "post_stage0_diagnostic_status": "FAILED_PHYSICAL_WITH_EVIDENCE",
+    "post_stage0_diagnostic_status": "FAILED_INFRASTRUCTURE_BEFORE_PHYSICAL_DIAGNOSTIC",
+    "closure_v1_physical_prefix_attempts": 0,
+    "task_asset_redesign_required": true,
     "post_stage0_second_diagnostic_allowed": false,
-    "blocker": "sole_no_suffix_diagnostic_failed_pre_v_physical_gate"
+    "blocker": "closure_v1_runner_contract_field_mismatch_before_physical_diagnostic"
   },
   "F4": {
     "stage0_status": "FAILED_PLANNER_WITH_EVIDENCE",
     "development_template_ready": false,
     "post_stage0_cpu_geometry_status": "PASS",
-    "post_stage0_planner_only_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE",
+    "post_stage0_planner_only_status": "ENTERED_ENDPOINT_IK_NO_COMPLETE_ROUTE",
     "post_stage0_planner_only_retry_allowed": false,
-    "endpoint_ik_verified": false,
-    "blocker": "sole_new_layout_planner_only_run_failed_derivation_interface_before_ik"
+    "endpoint_ik_verified": true,
+    "complete_route_solved": false,
+    "layout_impact_review_required": true,
+    "blocker": "A_preplace_motiongen_ik_fail_no_complete_route"
   },
   "canonical_stage1_authorized": false,
   "formal_collection_authorized": false,

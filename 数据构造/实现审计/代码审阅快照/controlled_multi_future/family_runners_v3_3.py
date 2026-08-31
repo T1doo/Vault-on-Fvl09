@@ -126,6 +126,9 @@ from .f3_contact_preserving_prefix_v11 import (
     build_f3_contact_preserving_prefix_contract_v11,
     validate_f3_contact_preserving_prefix_contract_v11,
 )
+from .f3_common_grasp_prefix_v2 import (
+    validate_f3_common_grasp_prefix_v2,
+)
 from .f3_return_release_v5 import (
     ACTUAL_OPEN_MIN_GRIPPER_QPOS_M,
     DISENGAGEMENT_CONFIRM_FRAMES,
@@ -214,6 +217,9 @@ from .f4_right_workspace_layout_v4 import (
 from .f4_post_stage0_layout_v1 import (
     LAYOUT_VERSION as F4_POST_STAGE0_LAYOUT_VERSION_V1,
     SELECTED_EXISTING_CORRIDOR_ID as F4_POST_STAGE0_CORRIDOR_ID_V1,
+)
+from .f4_derivation_interface_v2 import (
+    validate_f4_derivation_interface_v2,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -3650,6 +3656,16 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             "settling_excluded_from_semantic_P": True,
         }
         repair = getattr(self, "f3_shared_prefix_repair_v11", None)
+        repair_v2 = getattr(self, "f3_common_grasp_prefix_v2", None)
+        if repair is not None and repair_v2 is not None:
+            raise ValueError("F3 shared-prefix repairs are mutually exclusive")
+        if repair_v2 is not None:
+            repair_v2 = validate_f3_common_grasp_prefix_v2(repair_v2)
+            result["prefix_id"] = "f3_common_grasp_prefix_v2_shared_first_v"
+            result["ops"][2] = "common_partial_close_0_50_v2"
+            result["f3_common_grasp_prefix_v2"] = repair_v2
+            result["close_normalized_target"] = repair_v2["close_normalized_target"]
+            result["diagnostic_no_suffix"] = True
         if repair is not None:
             repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
             result["prefix_id"] = (
@@ -3692,7 +3708,15 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         pregrasp, grasp = selected
         frozen_grasp = build_f3_common_grasp_contract_v10()
         repair = getattr(self, "f3_shared_prefix_repair_v11", None)
-        if repair is not None:
+        repair_v2 = getattr(self, "f3_common_grasp_prefix_v2", None)
+        if repair is not None and repair_v2 is not None:
+            raise ValueError("F3 shared-prefix repairs are mutually exclusive")
+        if repair_v2 is not None:
+            repair_v2 = validate_f3_common_grasp_prefix_v2(repair_v2)
+            if prefix_contract.get("f3_common_grasp_prefix_v2") != repair_v2:
+                raise ValueError("F3CommonGraspPrefixV2 binding changed")
+            close_normalized_target = repair_v2["close_normalized_target"]
+        elif repair is not None:
             repair = validate_f3_contact_preserving_prefix_contract_v11(repair)
             if prefix_contract.get("shared_prefix_repair_v11") != repair:
                 raise ValueError("F3 v11 shared-prefix repair binding changed")
@@ -3718,6 +3742,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         target_construction_audit["frozen_grasp_contract"] = frozen_grasp
         target_construction_audit["frozen_selection_verified"] = True
         target_construction_audit["shared_prefix_repair_v11"] = repair
+        target_construction_audit["f3_common_grasp_prefix_v2"] = repair_v2
         target_construction_audit["close_normalized_target"] = (
             close_normalized_target
         )
@@ -5452,8 +5477,11 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     role=role,
                     base_role_targets=base_by_role[role]["targets"],
                 )
-                if derived.get("pass") is not True:
-                    raise ValueError(f"F4 post-Stage-0 {role} corridor derivation failed")
+                derived = validate_f4_derivation_interface_v2(
+                    derived,
+                    role=role,
+                    selected_candidate=current_candidate,
+                )
                 selected_groups.append(
                     {
                         **base_by_role[role],

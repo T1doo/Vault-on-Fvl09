@@ -74,6 +74,16 @@ from .post_stage0_f4_authorization_v1 import (
     load_post_stage0_f4_authorization_v1,
     validate_post_stage0_f4_consumption_v1,
 )
+from .closure_f3_authorization_v2 import (
+    consume as consume_closure_f3_v2,
+    load as load_closure_f3_v2,
+    validate_consumption as validate_closure_f3_consumption_v2,
+)
+from .closure_f4_authorization_v2 import (
+    consume as consume_closure_f4_v2,
+    load as load_closure_f4_v2,
+    validate_consumption as validate_closure_f4_consumption_v2,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -113,6 +123,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == "controlled_multi_future_post_stage0_closure_f4_v2":
+        return load_closure_f4_v2(path, requested_scope=requested_scope, **kwargs)
+    if implementation == "controlled_multi_future_post_stage0_closure_f3_v2":
+        return load_closure_f3_v2(path, requested_scope=requested_scope, **kwargs)
     if implementation == "controlled_multi_future_post_stage0_f4_v1":
         return load_post_stage0_f4_authorization_v1(
             path, requested_scope=requested_scope, **kwargs
@@ -147,6 +161,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f4_v2":
+        return consume_closure_f4_v2(authorization, ledger_directory=ledger_directory)
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2":
+        return consume_closure_f3_v2(authorization, ledger_directory=ledger_directory)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
         return consume_post_stage0_f4_authorization_once_v1(
             authorization, ledger_directory=ledger_directory
@@ -181,6 +199,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f4_v2":
+        return validate_closure_f4_consumption_v2(consumption, authorization)
+    if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_closure_f3_v2":
+        return validate_closure_f3_consumption_v2(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f4_v1":
         return validate_post_stage0_f4_consumption_v1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_post_stage0_f3_v1":
@@ -228,6 +250,42 @@ class GuardSignalInterrupt(RuntimeError):
     def __init__(self, signum: int):
         super().__init__(f"Guard interrupted by signal {signum}")
         self.signum = int(signum)
+
+
+def build_task_owned_cleanup_audit_v1(
+    *,
+    child_exited: bool,
+    orphan_pids: Sequence[int],
+    owned_process_cleanup_errors: Sequence[Mapping[str, Any]],
+    job_cache_cleanup: Mapping[str, Any],
+    lease_release: Mapping[str, Any],
+    post_error: Mapping[str, Any] | None,
+    post_release: Mapping[str, Any],
+) -> dict[str, Any]:
+    external = list(post_release.get("new_compute_processes", []))
+    external_detected = bool(external)
+    task_owned_pass = bool(
+        child_exited
+        and not orphan_pids
+        and not owned_process_cleanup_errors
+        and job_cache_cleanup.get("succeeded") is True
+        and lease_release.get("released") is True
+    )
+    idle_baseline = post_release.get("verified") is True
+    uncertain = bool(
+        not task_owned_pass
+        or post_error is not None
+        or (not idle_baseline and not external_detected)
+    )
+    return {
+        "task_owned_cleanup_pass": task_owned_pass,
+        "task_owned_orphan_count": len(orphan_pids),
+        "gpu_returned_to_idle_baseline": idle_baseline,
+        "external_process_detected_after_release": external_detected,
+        "external_processes_after_release": external,
+        "external_process_not_modified": True,
+        "cleanup_uncertain": uncertain,
+    }
 
 
 def _require_workspace_path(path: Path, label: str) -> Path:
@@ -666,6 +724,12 @@ def main() -> int:
     post_stage0_f4_mode = raw_authorization.get(
         "implementation_version"
     ) == "controlled_multi_future_post_stage0_f4_v1"
+    closure_f3_v2_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_closure_f3_v2"
+    closure_f4_v2_mode = raw_authorization.get(
+        "implementation_version"
+    ) == "controlled_multi_future_post_stage0_closure_f4_v2"
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
@@ -677,6 +741,10 @@ def main() -> int:
             if post_stage0_f3_mode
             else "post_stage0_nonformal_f4_planner_only"
             if post_stage0_f4_mode
+            else "post_stage0_closure_f3_v2"
+            if closure_f3_v2_mode
+            else "post_stage0_closure_f4_v2"
+            if closure_f4_v2_mode
             else "pre_stage0_nonformal_validation"
         ),
         "formal_data": False,
@@ -1012,6 +1080,34 @@ def main() -> int:
     }
     receipt_updated = False
     receipt_update_error = None
+    child_status_before_guard = None
+    child_receipt_path = args.output_dir / "receipt.json"
+    if child_receipt_path.is_file():
+        try:
+            child_status_before_guard = json.loads(
+                child_receipt_path.read_text(encoding="utf-8")
+            ).get("status")
+        except BaseException:
+            child_status_before_guard = None
+    task_cleanup = build_task_owned_cleanup_audit_v1(
+        child_exited=child is not None and child.poll() is not None,
+        orphan_pids=orphan_pids,
+        owned_process_cleanup_errors=owned_process_cleanup_errors,
+        job_cache_cleanup=job_cache_cleanup,
+        lease_release=lease_release,
+        post_error=post_error,
+        post_release=post_release,
+    )
+    external_processes_after_release = task_cleanup[
+        "external_processes_after_release"
+    ]
+    external_process_detected_after_release = task_cleanup[
+        "external_process_detected_after_release"
+    ]
+    task_owned_cleanup_pass = task_cleanup["task_owned_cleanup_pass"]
+    gpu_returned_to_idle_baseline = task_cleanup[
+        "gpu_returned_to_idle_baseline"
+    ]
     try:
         receipt_updated = update_child_receipt_v2_1(
             args.output_dir,
@@ -1025,16 +1121,28 @@ def main() -> int:
         )
     except BaseException as exc:
         receipt_update_error = {"type": type(exc).__name__, "message": str(exc)}
-    cleanup_uncertain = (
-        bool(orphan_pids)
-        or bool(owned_process_cleanup_errors)
-        or post_error is not None
-        or post_release.get("verified") is not True
-        or job_cache_cleanup.get("succeeded") is not True
-        or lease_release.get("released") is not True
-    )
+    cleanup_uncertain = task_cleanup["cleanup_uncertain"]
     if receipt_updated:
         child_receipt = json.loads((args.output_dir / "receipt.json").read_text(encoding="utf-8"))
+        child_receipt["task_owned_cleanup_pass"] = task_owned_cleanup_pass
+        child_receipt["task_owned_orphan_count"] = len(orphan_pids)
+        child_receipt["gpu_returned_to_idle_baseline"] = (
+            gpu_returned_to_idle_baseline
+        )
+        child_receipt["external_process_detected_after_release"] = (
+            external_process_detected_after_release
+        )
+        child_receipt["external_processes_after_release"] = (
+            external_processes_after_release
+        )
+        child_receipt["external_process_not_modified"] = True
+        if (
+            external_process_detected_after_release
+            and task_owned_cleanup_pass
+            and child_receipt.get("status") == "failed_cleanup_uncertain"
+            and isinstance(child_status_before_guard, str)
+        ):
+            child_receipt["status"] = child_status_before_guard
         if interrupted_signal is not None:
             child_receipt["abort_signal"] = int(interrupted_signal)
             if cleanup_uncertain or child_receipt.get("status") == "failed_cleanup_uncertain":
@@ -1097,6 +1205,12 @@ def main() -> int:
             "task_owned_orphan_pids": orphan_pids,
             "owned_process_cleanup_errors": owned_process_cleanup_errors,
             "orphan_process_count": len(orphan_pids),
+            "task_owned_cleanup_pass": task_owned_cleanup_pass,
+            "task_owned_orphan_count": len(orphan_pids),
+            "gpu_returned_to_idle_baseline": gpu_returned_to_idle_baseline,
+            "external_process_detected_after_release": external_process_detected_after_release,
+            "external_processes_after_release": external_processes_after_release,
+            "external_process_not_modified": True,
             "child_receipt_updated": receipt_updated,
             "child_receipt_update_error": receipt_update_error,
             "elapsed_seconds": time.time() - started,
