@@ -24,6 +24,7 @@ from .f2_mutually_exclusive_region_layout_v2 import (
     SCALE_TOP_HALF_XY_M,
     TABLE_BOUNDS_XY as F2_TABLE_BOUNDS_XY,
 )
+from .f2_frozen_scene_layout_binding_v1 import legacy_f2_layout_core
 from .f2_suffix_routes_v3 import (
     BESIDE_CANDIDATES as F2_BESIDE_CANDIDATES_V3,
     BESIDE_PLANNER_SEED as F2_BESIDE_PLANNER_SEED_V3,
@@ -1902,7 +1903,11 @@ class F2ControllerV3_3(FamilyControllerV3_3):
                 "stand_q_wxyz",
             )
         }
-        if hash_json(layout) != hash_json(expected):
+        try:
+            realized_layout_core = legacy_f2_layout_core(layout)
+        except ValueError as exc:
+            raise F2FrozenLayoutConfigurationError(str(exc)) from exc
+        if hash_json(realized_layout_core) != hash_json(expected):
             raise F2FrozenLayoutConfigurationError(
                 "F2 planned scene layout differs from frozen layout v2"
             )

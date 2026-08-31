@@ -1,0 +1,335 @@
+{
+  "active_stage0_slot_count_after_replacement": 12,
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "automatic_retry": false,
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "family_level_parallelism_authorized": true,
+  "formal_collection_authorized": false,
+  "formal_data": false,
+  "gpu_policy_sha256": "42d27bbb1458690c9b964eac1d333dea1fab64e4bb4ded10b4a070b5583b16a9",
+  "historical_terminal_attempt_count_retained": 15,
+  "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+  "intended_layout_lineage_source": "runtime_v3_4_1 frozen F2 layout v2, same seed/object/arm",
+  "manifest_sha256": "27512294d0494c945a6b6dfe22ad39b9fc8ee61fbd71fe53fc8bd4978f822689",
+  "original_attempt_current_comparability": "not_comparable_due_to_missing_layout_binding_and_default_layout_drift",
+  "original_f2_attempts_deleted": false,
+  "original_f2_attempts_overwritten": false,
+  "original_intended_layout_reference_anchor": {
+    "bytes": 8830,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_1_f2_inside_targeted_v11_seed20260829_run1_gpu0/F2_inside_targeted/reference_anchor.json",
+    "sha256": "6bb1c8c7e56e3a20aba3968e76c30fc7db15a0608eea9d8a54d2807800cdfdb8"
+  },
+  "original_intended_layout_reference_current": {
+    "bytes": 3097,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/probe_outputs/nonformal_runtime_v3_4_1_f2_inside_targeted_v11_seed20260829_run1_gpu0/F2_inside_targeted/reference_current.json",
+    "sha256": "6af6e11339882829e39edb37f45de5460d826690dcf88daf8692990fe695ad53"
+  },
+  "original_invalid_f2_reference_anchor": {
+    "bytes": 8811,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F2_root_A_seed20260829_run1/stage0_family/root/reference_anchor.json",
+    "sha256": "983791ae64cdcdb7f8d70bd00e0b84b3ec12a5732b0cb6f6141adcf0bb458ac3"
+  },
+  "original_invalid_f2_reference_current": {
+    "bytes": 3096,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/stage0_outputs/controlled_multi_future_stage0_smoke_v1_1/stage0_smoke_v1_1_F2_root_A_seed20260829_run1/stage0_family/root/reference_current_hashes.json",
+    "sha256": "be509ccaf595911edab295faf65071dd4c6c2dfe0049a97b5543cf19146571fd"
+  },
+  "original_manifest": {
+    "bytes": 19396,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/STAGE0_SMOKE_ATTEMPT_MANIFEST_V1.json",
+    "sha256": "9f44e2a30c6aaa84297030cf9eecee7705e70b7e3384a44f7ca35051a32260c6"
+  },
+  "original_result": {
+    "bytes": 40368,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/STAGE0_SMOKE_RESULT_V1_1_20260830.json",
+    "sha256": "1f981cfad29166883a039d3722d1dee026053b4c22a1c85d2b12d1776a5a77a2"
+  },
+  "parent_vault_head": "8c0191056ea078f530bb098fade9610d41596136",
+  "recovery_attempts": 0,
+  "replacement_attempts": [
+    {
+      "active_attempt_id": "stage0-v1_2-F2-rootA-01",
+      "family": "F2",
+      "formal_data": false,
+      "program_id": "F2-inside",
+      "realization": "r_pc",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-01",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "stage0_data": true,
+      "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"
+    },
+    {
+      "active_attempt_id": "stage0-v1_2-F2-rootA-02",
+      "family": "F2",
+      "formal_data": false,
+      "program_id": "F2-on",
+      "realization": "r_pc",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-02",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "stage0_data": true,
+      "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"
+    },
+    {
+      "active_attempt_id": "stage0-v1_2-F2-rootA-03",
+      "family": "F2",
+      "formal_data": false,
+      "program_id": "F2-beside",
+      "realization": "r_pc",
+      "replacement_for_attempt_id": "stage0-v1_1-F2-rootA-03",
+      "replacement_reason": "frozen_scene_layout_wiring_fix",
+      "stage0_data": true,
+      "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"
+    }
+  ],
+  "replacement_root_spec": {
+    "accepted_root_required": false,
+    "arm": "left",
+    "automatic_retry": false,
+    "budget_sha256": "5a56c1622cb6221cf99632a41da9c7b4a9958be954099b2cc393a23e543d2462",
+    "execution_arm": "left",
+    "f2_frozen_scene_layout_binding_sha256": "ceac7800d7db9fe88c136d112b9ffb61c7a168074ecdbf4e382d17c977e80656",
+    "f2_frozen_scene_layout_binding_v1": {
+      "binding_sha256": "ceac7800d7db9fe88c136d112b9ffb61c7a168074ecdbf4e382d17c977e80656",
+      "design_version": "controlled_multi_future_f1_f4_v1_2",
+      "execution_arm": "left",
+      "implementation_version": "controlled_multi_future_stage0_smoke_v1_2",
+      "layout_payload_sha256": "2eeae7fd78eccabf55a0290049f08b9afeabaad7037f6b9206508c2fb980f3c6",
+      "legacy_layout_core_sha256": "928d160afabe822655b5634395eab77708f1f39ed8ebce59a6ac17baa00af93c",
+      "object_model_ids": {
+        "beside_reference": 3,
+        "electronic_scale": 0,
+        "main_object": 1,
+        "plastic_box": 2
+      },
+      "object_modelnames": {
+        "beside_reference": "074_displaystand",
+        "electronic_scale": "072_electronicscale",
+        "main_object": "071_can",
+        "plastic_box": "062_plasticbox"
+      },
+      "scene_layout": {
+        "beside_reference_pose": [
+          0.2,
+          -0.03,
+          0.77,
+          0.70710678,
+          0.70710678,
+          0.0,
+          0.0
+        ],
+        "box_xyz": [
+          -0.29,
+          -0.2,
+          0.78
+        ],
+        "can_xyz": [
+          -0.28,
+          0.04,
+          0.79
+        ],
+        "distractor_poses": {},
+        "electronic_scale_pose": [
+          -0.1,
+          -0.2,
+          0.77,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+        "main_object_pose": [
+          -0.28,
+          0.04,
+          0.79,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "obstacle_pose": null,
+        "plastic_box_pose": [
+          -0.29,
+          -0.2,
+          0.78,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "scale_xyz": [
+          -0.1,
+          -0.2,
+          0.77
+        ],
+        "stand_q_wxyz": [
+          0.70710678,
+          0.70710678,
+          0.0,
+          0.0
+        ],
+        "stand_xyz": [
+          0.2,
+          -0.03,
+          0.77
+        ]
+      },
+      "scene_layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+      "scene_seed": 20260829,
+      "schema_version": "cmf_f2_frozen_scene_layout_binding_v1",
+      "scientific_programs_unchanged": true,
+      "source_layout_module": "f2_mutually_exclusive_region_layout_v2.LAYOUT",
+      "verifier_unchanged": true
+    },
+    "family": "F2",
+    "formal_data": false,
+    "generator": "controlled_multi_future_stage0_smoke_v1_2_adapter_v1_8",
+    "layout_payload_sha256": "2eeae7fd78eccabf55a0290049f08b9afeabaad7037f6b9206508c2fb980f3c6",
+    "main_object": "071_can/base1",
+    "object_model_ids": {
+      "beside_reference": 3,
+      "electronic_scale": 0,
+      "main_object": 1,
+      "plastic_box": 2
+    },
+    "object_modelnames": {
+      "beside_reference": "074_displaystand",
+      "electronic_scale": "072_electronicscale",
+      "main_object": "071_can",
+      "plastic_box": "062_plasticbox"
+    },
+    "origin": "stage0_v1_1_f2_infrastructure_slot_replacement",
+    "planned_root_slot_spec_sha256": "ef599d294c923a7fd4a82fb3b3c451252d95a552e124bd2c47ec16083587dc22",
+    "plasticbox_model_id": 2,
+    "program_ids": [
+      "F2-inside",
+      "F2-on",
+      "F2-beside"
+    ],
+    "realizations": [
+      "r_pc",
+      "r_pc",
+      "r_pc"
+    ],
+    "recovery_attempts": 0,
+    "replacement_for_attempt_ids": [
+      "stage0-v1_1-F2-rootA-01",
+      "stage0-v1_1-F2-rootA-02",
+      "stage0-v1_1-F2-rootA-03"
+    ],
+    "replacement_reason": "frozen_scene_layout_wiring_fix",
+    "scene_layout": {
+      "beside_reference_pose": [
+        0.2,
+        -0.03,
+        0.77,
+        0.70710678,
+        0.70710678,
+        0.0,
+        0.0
+      ],
+      "box_xyz": [
+        -0.29,
+        -0.2,
+        0.78
+      ],
+      "can_xyz": [
+        -0.28,
+        0.04,
+        0.79
+      ],
+      "distractor_poses": {},
+      "electronic_scale_pose": [
+        -0.1,
+        -0.2,
+        0.77,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+      "main_object_pose": [
+        -0.28,
+        0.04,
+        0.79,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "obstacle_pose": null,
+      "plastic_box_pose": [
+        -0.29,
+        -0.2,
+        0.78,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "scale_xyz": [
+        -0.1,
+        -0.2,
+        0.77
+      ],
+      "stand_q_wxyz": [
+        0.70710678,
+        0.70710678,
+        0.0,
+        0.0
+      ],
+      "stand_xyz": [
+        0.2,
+        -0.03,
+        0.77
+      ]
+    },
+    "scene_layout_version": "f2_box2_mutually_exclusive_facilities_v2",
+    "schema_version": "cmf_stage0_planned_root_slot_spec_v1_2",
+    "scope": "Stage0_v1_2_F2_root_A_scene_layout_replacement",
+    "seed": 20260829,
+    "slot_id": "stage0-v1_2-F2-pilot-root-A-scene-layout-replacement",
+    "stage0_attempt_ids": [
+      "stage0-v1_2-F2-rootA-01",
+      "stage0-v1_2-F2-rootA-02",
+      "stage0-v1_2-F2-rootA-03"
+    ],
+    "stage0_authorized": true,
+    "stage0_data": true,
+    "stage0_generated_trajectory_mp4_required": true,
+    "stage1_authorized": false,
+    "stop_condition": "terminal family receipt or cleanup/source/GPU uncertainty",
+    "success_and_failure_both_retained": true,
+    "superseded_terminal_status": "FAILED_INFRASTRUCTURE_WITH_EVIDENCE"
+  },
+  "replacement_root_spec_sha256": "ef599d294c923a7fd4a82fb3b3c451252d95a552e124bd2c47ec16083587dc22",
+  "replacement_scope": "Stage0_v1_2_F2_root_A_scene_layout_replacement",
+  "root_sharding": false,
+  "schema_version": "cmf_stage0_f2_replacement_manifest_v1_2",
+  "stage0_attempt_phase_v1_1_completed": true,
+  "stage0_authorized": true,
+  "stage0_data": true,
+  "stage0_v1_1_completed": false,
+  "stage0_video_contract": {
+    "camera": "head_camera",
+    "control_frequency_hz": 250,
+    "format": "mp4",
+    "initial_and_final_frames_required": true,
+    "no_trajectory_status": "video_not_applicable_no_trajectory",
+    "sample_stride_steps": 10,
+    "video_fps": 25
+  },
+  "stage1_authorized": false,
+  "training_authorized": false,
+  "user_direction_source": "https://chatgpt.com/s/t_6a95071af4c081919040e97237d3dca2"
+}

@@ -252,6 +252,9 @@ def update_child_receipt_v2_1(
         "controlled_multi_future_stage0_smoke_v1_1": (
             "cmf_stage0_smoke_guarded_scope_receipt_v1_1"
         ),
+        "controlled_multi_future_stage0_smoke_v1_2": (
+            "cmf_stage0_f2_replacement_guarded_scope_receipt_v1_2"
+        ),
     }
     expected_stage0_schema = stage0_child_schemas.get(
         payload.get("implementation_version")

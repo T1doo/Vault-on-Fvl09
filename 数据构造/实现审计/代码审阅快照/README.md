@@ -69,3 +69,11 @@ PYTHONDONTWRITEBYTECODE=1 \
 - `gpu_parallel_policy_v2.py`：面向后续新job的GPU0–7机器策略与动态partial-wave scheduler；一张空闲即调度一个，多张空闲并行多个；一卡一job、root不shard、无GPU0 fallback。
 - 历史`stage0_smoke_parallel_scheduler_v1/v1_1`及GPU0-only authorization保持不可变，只解释原执行，不再作为新batch模板。
 - 新job在scheduler assignment后仍必须由`gpu_guard_v2_4.py`即时重新检查fresh-idle/UUID并取得per-GPU lease；scheduler不保留GPU、不消费authorization。
+
+## Stage 0 F2 replacement v1.2
+
+- `f2_frozen_scene_layout_binding_v1.py`：冻结F2 intended layout v2的role-explicit pose、legacy runner fields、模型ID、arm与hash。
+- `stage0_f2_replacement_manifest_v1_2.py`：三个新attempt逐一替换旧F2 infrastructure slots，active denominator仍12、历史receipt保留15。
+- `real_sapien_adapter_v1_8.py`、`stage0_f2_replacement_runner_v1_2.py`：同seed/layout/program的F2 root执行、intended current/anchor lineage、raw/MP4/verifier/cleanup receipt。
+- `stage0_smoke_finalizer_v1_2.py`：F1/F3/F4原证据 + F2 replacement的active-slot seal；允许`STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE`，不要求12/12成功。
+- `stage0_f2_replacement_scope_bundle_v1_2.py`及`probes/*v1_2.py`：single-use source/manifest/budget/parent/command/Guard/consumption绑定。
