@@ -1,0 +1,51 @@
+{
+  "compression_authorized": false,
+  "current_f4_stage_b": {
+    "r01_r02_run3_overlay_status": "historical_reconstructible_planner_evidence_not_accepted_for_current_device_isolation",
+    "r03_r04_run4_status": "historical_candidate_planner_evidence_not_accepted_for_current_device_isolation",
+    "r05_r06_run4_status": "safety_aborted_no_candidate_conclusion",
+    "r07_r08_run4_status": "unconsumed_do_not_run",
+    "required_requalification_candidate_ids": [
+      "f4-slot-corridor-hv1-r01",
+      "f4-slot-corridor-hv1-r02",
+      "f4-slot-corridor-hv1-r03",
+      "f4-slot-corridor-hv1-r04",
+      "f4-slot-corridor-hv1-r05",
+      "f4-slot-corridor-hv1-r06",
+      "f4-slot-corridor-hv1-r07",
+      "f4-slot-corridor-hv1-r08"
+    ]
+  },
+  "direct_evidence_file_sha256": "9625133b68a65404744e66b86b0b6f0752915d62aced0f4df7cc029acb40f170",
+  "direct_evidence_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_STAGE_B_RUN4_RENDER_DEVICE_ROUTING_FAILURE_V1.json",
+  "direct_evidence_report_sha256": "22d9715f2c1c5727b00ca8723f9fec99968c81373743cfd93f89efa178615390",
+  "earlier_high_level_development": {
+    "automatic_rerun_authorized": false,
+    "claim_boundary": "receipts remain factual but non-selected-card render routing was not audited; do not claim complete one-card device isolation from CUDA Guard alone",
+    "scope": "F1/F2/F3/F4 jobs using the same default SAPIEN scene construction"
+  },
+  "formal_360_authorized": false,
+  "formal_accepted_trajectory_increment": 0,
+  "h_reveal_authorized": false,
+  "mechanism": "SAPIEN default RenderSystem device selection is independent of CUDA_VISIBLE_DEVICES unless explicitly constructed with a device",
+  "observed_fact": "r05 selected physical GPU0 while the same child PID held a Vulkan graphics context on physical GPU3",
+  "pi05_authorized": false,
+  "report_sha256": "1b0182d13bd40bd3d6fc7cb08a998417586768f6ce1a477a377aabcddcd5d86f",
+  "required_fix": {
+    "explicit_render_system_device_alias": "cuda:0",
+    "full_gpu_pids_pre_mid_post_audit": true,
+    "render_device_pci_matches_selected_uuid_pci": true,
+    "single_job_diagnostic_before_parallel_wave": true,
+    "uuid_isolated_child_required": true
+  },
+  "schema_version": "cmf_high_level_render_device_routing_impact_review_v1",
+  "stage0": {
+    "historical_receipts_immutable": true,
+    "impact": "record audit limitation only; do not reopen Stage 0",
+    "reopen_or_rerun_authorized": false,
+    "sealed_status": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE"
+  },
+  "stage1_authorized": false,
+  "status": "CURRENT_F4_STAGE_B_REQUIRES_EXPLICIT_RENDER_PIN_AND_REQUALIFICATION",
+  "training_authorized": false
+}
