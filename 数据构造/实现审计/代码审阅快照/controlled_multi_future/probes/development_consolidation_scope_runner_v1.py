@@ -231,6 +231,23 @@ def _run_f4_a_only(authorization, work):
     return {"result": result, "scope_completed": True, "pass": result["pass"]}
 
 
+def _apply_dispatch_terminal(outer, dispatch):
+    """Project a job result without dropping an optional family terminal."""
+
+    outer["result"] = dispatch["result"]
+    outer["job_terminal"] = dispatch.get("terminal")
+    outer["scope_completed"] = dispatch["scope_completed"]
+    outer["pass"] = dispatch["pass"]
+    outer["status"] = (
+        "completed_pass"
+        if outer["pass"]
+        else "completed_with_failure_evidence"
+        if outer["scope_completed"]
+        else "failed_infrastructure"
+    )
+    return outer
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--authorization-receipt", type=Path, required=True)
@@ -277,6 +294,7 @@ def main(argv=None) -> int:
         "pass": False,
         "status": "running",
         "result": None,
+        "job_terminal": None,
     }
     canonical_write_json(output / "receipt.json", outer, mode=0o600)
     try:
@@ -299,16 +317,7 @@ def main(argv=None) -> int:
                 authorization, work, family="F4"
             ),
         }[authorization["job_kind"]]()
-        outer["result"] = dispatch["result"]
-        outer["scope_completed"] = dispatch["scope_completed"]
-        outer["pass"] = dispatch["pass"]
-        outer["status"] = (
-            "completed_pass"
-            if outer["pass"]
-            else "completed_with_failure_evidence"
-            if outer["scope_completed"]
-            else "failed_infrastructure"
-        )
+        _apply_dispatch_terminal(outer, dispatch)
     except BaseException as exc:
         outer["status"] = "failed_infrastructure"
         outer["error"] = {

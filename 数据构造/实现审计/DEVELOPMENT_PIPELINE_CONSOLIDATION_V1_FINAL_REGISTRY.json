@@ -1,0 +1,508 @@
+{
+  "cpu_registry_file_sha256": "638862c14245f3d469aa988db9a146ae3a49c387f3ccfd6ce7e3ec8c74adcaa9",
+  "cpu_registry_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/DEVELOPMENT_PIPELINE_CONSOLIDATION_V1_REGISTRY.json",
+  "family_results": {
+    "F1": {
+      "accepted_development_roots": 5,
+      "development_trajectories": 15,
+      "frozen_contract_canonical_sha256": "60d303df5392b139eac29ed189e287e77988c08b6ee7554e1e4b1941451a78e7",
+      "mp4_count": 15,
+      "raw_count": 15,
+      "status": "PASS_STABLE_EXISTING_TEMPLATE",
+      "template_redesign": false,
+      "verifier_pass_count": 15
+    },
+    "F2": {
+      "result_payload_sha256": "c6841c4da1d73e79c05b5ca91669c14ea9e4db04b87b4f54901ddabba7040da5",
+      "status": "ALL_12_DYNAMIC_CANDIDATES_EXHAUSTED"
+    },
+    "F3": {
+      "result_payload_sha256": "3e162fc0995b8df2b34467f1d8e0d767d9c53fe3805909d07204e43e98b35b56",
+      "status": "BOUNDED_GRASP_SEARCH_EXHAUSTED_REQUIRES_ASSET_REDESIGN"
+    },
+    "F4": {
+      "result_payload_sha256": "990c7a5b11acbeeaa32cd8c26ce88015069acea96e6cfd9def5784120c00febc",
+      "status": "BOUNDED_LAYOUT_SEARCH_EXHAUSTED_REQUIRES_HIGHER_LEVEL_LAYOUT_REDESIGN"
+    }
+  },
+  "final_report_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/DEVELOPMENT_PIPELINE_CONSOLIDATION_AND_TEMPLATE_CONVERGENCE_V1_REPORT.json",
+  "final_report_payload_sha256": "a77d2b8f3d4c621303612f1bdc9500ee6251fd96cedbbb7b5668359b21400fe7",
+  "guard_registry": [
+    {
+      "authorization_id": "consolidation-v1-f2-exact-replay-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 2235.4076840877533,
+      "external_process_detected_after_release": false,
+      "family": "F2",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "9dfe6427bf8d4715d0c61fbf0658f175cad356f0801f1367bc2da654bcdbdbde",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f2-exact-replay-run3.guard.json",
+      "guard_receipt_sha256": "70d080f7ca475f2383f7b0afbd487b07b9705ec3b9d60602307d54646e9ca41f",
+      "job": "exact_replay",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:38:32.296934+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P5",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:01:20.464170+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f3-planner-screen-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 59.0774986743927,
+      "external_process_detected_after_release": false,
+      "family": "F3",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "48ed150b7a0cf260353f212c73f3be5a4d5715e0c1da0c73ec6b9c06c6fe5dba",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f3-planner-screen-run3.guard.json",
+      "guard_receipt_sha256": "81d23e2ae776ef8e18bfd0c3143a1f7322e747c1c934bd41803dd879df3b8602",
+      "job": "planner_screen",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:42:15.796116+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:41:20.016980+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f3-physical-r01-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 125.0777657032013,
+      "external_process_detected_after_release": false,
+      "family": "F3",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "a3078528cd8a0d5fc38a2ddce09fb41b2cb0a37ab96d69d1448c1384f551ac7f",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f3-physical-r01-run3.guard.json",
+      "guard_receipt_sha256": "824d740544fe91677d1ba84c06a63eb445aa6ae2f05a4b1d8775216fdfc692b0",
+      "job": "physical_r01",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:45:57.750254+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:43:55.897221+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f3-physical-r02-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 120.55648994445801,
+      "external_process_detected_after_release": false,
+      "family": "F3",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "2dfb32ec040a17e4f35b057de3fe60ac00228ab19a1adc5efb3a7a14a830ef51",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f3-physical-r02-run3.guard.json",
+      "guard_receipt_sha256": "da4c71ad410c7fee124125ab355734d395f42b151986d7db2bab16cc322a7490",
+      "job": "physical_r02",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:48:47.283023+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:46:48.869064+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f3-physical-r03-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 64.38317131996155,
+      "external_process_detected_after_release": false,
+      "family": "F3",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "guard_file_sha256": "248e651df6e22058378b0104c8f16164db7fa0f7d11d82d7132cc06027fdd109",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f3-physical-r03-run3.guard.json",
+      "guard_receipt_sha256": "b85794af40738ab2e11f794890cd8621f28bc8d6c037a226773dad91e5777214",
+      "job": "physical_r03",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 1,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:47:52.838870+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:46:52.021305+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f3-physical-r04-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 61.271174907684326,
+      "external_process_detected_after_release": false,
+      "family": "F3",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "guard_file_sha256": "2061280ac98b5f0b525973111649a6740b789d31e4dd4c70474593a4c409f0ee",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f3-physical-r04-run3.guard.json",
+      "guard_receipt_sha256": "e8ef50cf35439c0ef54597a08c987abc5a07fceafdeb86db1a7fbc39be4761a8",
+      "job": "physical_r04",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 1,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:50:29.645005+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:49:30.781328+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c01-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 204.1320779323578,
+      "external_process_detected_after_release": false,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "guard_file_sha256": "31f1d2ea9ebb3e5ad50fb4db9053d479d1ee5c58b35f09f52a1440464c0248d5",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c01-run3.guard.json",
+      "guard_receipt_sha256": "2923c10fc69465953b709b8b50994b7ea7e3c70fb80c84f86c1937a461604b61",
+      "job": "candidate_c01",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 1,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:56:01.794958+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:52:41.964833+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c02-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 214.14548325538635,
+      "external_process_detected_after_release": false,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "f95e56a9e8d3008e7d2dab7818216bd8926b8554299755ed3502cf78b360391c",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c02-run3.guard.json",
+      "guard_receipt_sha256": "567665ac684b950d1696f23fea6631b823189a27ef2f5344fd49e329c39a94ee",
+      "job": "candidate_c02",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T16:56:15.387263+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P0",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:52:44.071507+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c03-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 214.70417666435242,
+      "external_process_detected_after_release": true,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "guard_file_sha256": "7bd717a0891b7cd478dbd76bffe265b013ebbe7daf7928ea0dcb36f6f79bfcd6",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c03-run3.guard.json",
+      "guard_receipt_sha256": "71866ea9b516e668979c63e4c5ca996539997952a8b5032acf2ece111f4f1b57",
+      "job": "candidate_c03",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 1,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T17:00:33.077617+08:00",
+        "compute_processes": [
+          {
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "pid": 2165786,
+            "used_memory_mib": 31966
+          }
+        ],
+        "memory_used_mib": 31983,
+        "physical_index": 1,
+        "pstate": "P2",
+        "utilization_percent": 47,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:57:01.069138+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c04-run3",
+      "child_exit_code": 0,
+      "elapsed_seconds": 201.69693970680237,
+      "external_process_detected_after_release": true,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": false,
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "guard_file_sha256": "9098517985d8b7fa1dc0253ac8b0dc423b4ee47d75cdb38f3aeaf7ac80084be6",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c04-run3.guard.json",
+      "guard_receipt_sha256": "f114539f10b0ae796a59bf8c2ea66b70c9edc292b5af08f0e982b336d369fb6f",
+      "job": "candidate_c04",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 2,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T17:00:22.826340+08:00",
+        "compute_processes": [
+          {
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "pid": 2165786,
+            "used_memory_mib": 32674
+          }
+        ],
+        "memory_used_mib": 32691,
+        "physical_index": 2,
+        "pstate": "P2",
+        "utilization_percent": 53,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T16:57:04.444344+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c05-run4",
+      "child_exit_code": 0,
+      "elapsed_seconds": 432.6035068035126,
+      "external_process_detected_after_release": false,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guard_file_sha256": "6b1d0279b82a7dcb3ca118457274ff753350ef0a1dfa1542b44923cd3d6f020f",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c05-run4.guard.json",
+      "guard_receipt_sha256": "b8f7ce44d8b67e1248b3cef23bdd3806d018891a8c7bc6f554f97866b225d5af",
+      "job": "candidate_c05",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 0,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T19:59:33.698402+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T19:53:07.766361+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    },
+    {
+      "authorization_id": "consolidation-v1-f4-layout-v2-c06-run4",
+      "child_exit_code": 0,
+      "elapsed_seconds": 431.7515959739685,
+      "external_process_detected_after_release": false,
+      "family": "F4",
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+      "guard_file_sha256": "236ba2f661bbaf069a4448c8219906f9fb8e08914f18e5726e98b6ce2004ae3b",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/development_pipeline_consolidation_v1/consolidation-v1-f4-layout-v2-c06-run4.guard.json",
+      "guard_receipt_sha256": "fe6e77d8b359f77cb7d2215aa6145d711bba00e53c2bd36c5f463b188b85813d",
+      "job": "candidate_c06",
+      "orphan_process_count": 0,
+      "physical_gpu_index": 3,
+      "post_source_lock_pass": true,
+      "postcheck": {
+        "captured_at": "2026-09-01T19:59:26.310830+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 21,
+        "physical_index": 3,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+      },
+      "precheck": {
+        "captured_at": "2026-09-01T19:53:07.718335+08:00",
+        "compute_processes": [],
+        "memory_used_mib": 15,
+        "physical_index": 3,
+        "pstate": "P8",
+        "utilization_percent": 0,
+        "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+      },
+      "status": "completed",
+      "task_owned_cleanup_pass": true,
+      "timed_out": false
+    }
+  ],
+  "registry_sha256": "663d5ace836a62beb58a7ae54a722e2a83406a1e5b39a84e0a3534798b761ba7",
+  "schema_version": "cmf_development_pipeline_consolidation_v1_final_registry",
+  "stage1_authorized": false,
+  "status": "COMPLETED_WITH_BOUNDED_SEARCH_EXHAUSTION",
+  "verification": {
+    "active_full_suite": {
+      "elapsed_seconds": 466.069,
+      "failed": 0,
+      "passed": 667
+    },
+    "active_snapshot_byte_equal": true,
+    "compile_pass": true,
+    "implementation_source_sha256": "8cd65541437555e84654fd8d70267a42443f0b5e09b00c5062a3741b82a88eb1",
+    "snapshot_full_suite": {
+      "elapsed_seconds": 437.154,
+      "failed": 0,
+      "passed": 667
+    },
+    "tests_tree_sha256": "ecf7fbf56a55b4e60de9748e636407e8455807e5fe70bfcfd074227766de1000"
+  }
+}
