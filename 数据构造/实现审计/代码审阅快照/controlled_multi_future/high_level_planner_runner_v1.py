@@ -630,6 +630,17 @@ class HighLevelPlannerRunnerV1:
                 receipt["fresh_scene_count"] = 1
                 receipt["current"] = self.adapter.capture_current(scene)
                 if family == "F4":
+                    render_binding = getattr(
+                        scene, "_cmf_render_device_binding_v1", None
+                    )
+                    if (
+                        not isinstance(render_binding, Mapping)
+                        or render_binding.get("pass") is not True
+                    ):
+                        raise RuntimeError(
+                            "F4 scene lacks selected render-device binding"
+                        )
+                    receipt["render_device_binding"] = deepcopy(render_binding)
                     visibility = self.adapter.audit_current_rendered_visibility(
                         scene, phase=spec["purpose"]
                     )

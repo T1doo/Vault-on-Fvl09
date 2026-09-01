@@ -1,4 +1,5 @@
 import copy
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -43,6 +44,9 @@ from controlled_multi_future.real_sapien_adapter_high_level_v1 import (
     RoboTwinRealSapienF2HierarchicalStageAV1Adapter,
     RoboTwinRealSapienF3AssetGraspV2Adapter,
     RoboTwinRealSapienF4HierarchicalStageAV1Adapter,
+    _build_render_device_binding_receipt_v1,
+    _normalize_pci_bus_id,
+    _selected_nvidia_device_v1,
 )
 
 
@@ -55,6 +59,7 @@ class _FakeScene:
         self.c = object()
         self.planner_query_count = 0
         self.role_actors = {"main_can": self.can}
+        self._cmf_render_device_binding_v1 = {"pass": True}
 
     def initialize_trace(self, actor, arm, role_actors=None):
         self.trace_actor = actor
@@ -240,6 +245,64 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
         self.assertEqual(f2_adapter.planned_spec, f2_spec)
         self.assertEqual(f3_adapter.planned_spec, f3_spec)
         self.assertEqual(f4_adapter.planned_spec, f4_spec)
+
+    def test_render_device_binding_maps_guard_uuid_to_exact_pci(self):
+        self.assertEqual(
+            _normalize_pci_bus_id("00000000:61:00.0"), "0000:61:00.0"
+        )
+        completed = type(
+            "Completed",
+            (),
+            {
+                "stdout": (
+                    "0, GPU-zero, 00000000:01:00.0\n"
+                    "3, GPU-three, 00000000:61:00.0\n"
+                )
+            },
+        )()
+        with patch.dict(
+            os.environ,
+            {
+                "CUDA_VISIBLE_DEVICES": "GPU-three",
+                "CMF_GPU_GUARD_PHYSICAL_INDEX": "3",
+            },
+            clear=False,
+        ), patch(
+            "controlled_multi_future.real_sapien_adapter_high_level_v1."
+            "subprocess.run",
+            return_value=completed,
+        ):
+            selected = _selected_nvidia_device_v1()
+        self.assertEqual(
+            selected,
+            {
+                "physical_index": 3,
+                "uuid": "GPU-three",
+                "pci_bus_id": "0000:61:00.0",
+            },
+        )
+
+        class Device:
+            name = "fake-render-device"
+            cuda_id = 0
+            pci_string = "0000:61:00.0"
+
+            @staticmethod
+            def can_render():
+                return True
+
+            @staticmethod
+            def is_cuda():
+                return True
+
+        receipt = _build_render_device_binding_receipt_v1(
+            selected=selected, device=Device()
+        )
+        self.assertTrue(receipt["pass"])
+        self.assertEqual(receipt["render_device_cuda_id"], 0)
+        self.assertEqual(
+            receipt["render_device_pci_bus_id"], selected["pci_bus_id"]
+        )
 
     def test_runner_writes_candidate_bound_terminal_and_never_executes(self):
         spec = build_f2_runtime_spec_v1(
