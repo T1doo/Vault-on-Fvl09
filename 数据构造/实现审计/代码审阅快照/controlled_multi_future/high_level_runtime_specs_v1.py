@@ -464,7 +464,7 @@ def job_budget_v1(purpose: str) -> dict[str, Any]:
         "f3_three_scene_confirmation": (30, 3, 3, 10800),
         "f3_temporal_root": (72, 4, 3, 14400),
         "f4_stage_a_planner": (48, 1, 0, 5400),
-        "f4_stage_b_planner": (33, 1, 0, 5400),
+        "f4_stage_b_planner": (42, 1, 0, 5400),
         "f4_single_role_physical": (24, 1, 1, 5400),
         "f4_temporal_root": (96, 4, 3, 14400),
     }

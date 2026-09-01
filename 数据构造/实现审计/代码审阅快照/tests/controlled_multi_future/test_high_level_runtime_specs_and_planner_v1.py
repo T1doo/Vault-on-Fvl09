@@ -189,10 +189,10 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
             self.assertFalse(budget["stage1_authorized"])
             self.assertFalse(budget["automatic_retry"])
         self.assertEqual(job_budget_v1("f4_stage_a_planner")["planner_query_limit"], 48)
-        self.assertEqual(job_budget_v1("f4_stage_b_planner")["planner_query_limit"], 33)
+        self.assertEqual(job_budget_v1("f4_stage_b_planner")["planner_query_limit"], 42)
         self.assertEqual(
             job_budget_v1("f4_stage_b_planner")["planner_query_limit"],
-            3 + 30,
+            3 * 4 + 30,
         )
 
     def test_adapter_constructors_bind_exact_specs_without_scene_creation(self):
