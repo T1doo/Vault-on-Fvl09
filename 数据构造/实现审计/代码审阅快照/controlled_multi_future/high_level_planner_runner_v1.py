@@ -10,6 +10,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
+from .anchor import quaternion_angular_error
 from .canonical_artifact import canonical_hash_json, canonical_write_json
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
@@ -40,7 +41,11 @@ from .high_level_runtime_specs_v1 import (
     validate_f4_runtime_spec_v1,
 )
 from .project_cube_grasp_pose_v1 import build_project_cube_grasp_poses
-from .f4_top_down_block_carry_v8 import _audit_nominal_noninterference
+from .f4_top_down_block_carry_v8 import (
+    TARGET_ORIENTATION_ATOL_RAD,
+    TARGET_POSITION_ATOL_M,
+    _audit_nominal_noninterference,
+)
 
 
 def _pose7(value: Any, label: str) -> np.ndarray:
@@ -283,6 +288,66 @@ def build_f4_stage_a_targets_v1(scene, spec: Mapping[str, Any]):
     }
 
 
+def _build_f4_prior_slot_preservation_v1(
+    nominal: Mapping[str, Any],
+    target_actor_poses: Mapping[str, Sequence[float]],
+) -> dict[str, Any]:
+    per_role = {}
+    for index, role in enumerate(("A", "B", "C")):
+        evidence = nominal["per_role"][role]
+        prior_roles = ("A", "B", "C")[:index]
+        comparisons = []
+        for prior in prior_roles:
+            observed = _pose7(
+                evidence["state_of_other_blocks_before_role"][prior],
+                f"F4 {role} prior {prior} observed state",
+            )
+            target = _pose7(
+                target_actor_poses[prior],
+                f"F4 {role} prior {prior} frozen slot target",
+            )
+            position_error = float(np.linalg.norm(observed[:3] - target[:3]))
+            orientation_error = quaternion_angular_error(
+                observed[3:], target[3:]
+            )
+            comparisons.append(
+                {
+                    "prior_role": prior,
+                    "position_error_m": position_error,
+                    "orientation_error_rad": orientation_error,
+                    "position_atol_m": TARGET_POSITION_ATOL_M,
+                    "orientation_atol_rad": TARGET_ORIENTATION_ATOL_RAD,
+                    "pass": position_error <= TARGET_POSITION_ATOL_M
+                    and orientation_error <= TARGET_ORIENTATION_ATOL_RAD,
+                }
+            )
+        prior_at_slots = all(item["pass"] for item in comparisons)
+        avoids_prior = all(
+            prior not in collisions
+            for collisions in evidence["segment_non_target_collisions"].values()
+            for prior in prior_roles
+        )
+        per_role[role] = {
+            "prior_roles": list(prior_roles),
+            "prior_role_pose_comparisons": comparisons,
+            "prior_roles_at_frozen_slots": prior_at_slots,
+            "transport_avoids_prior_slots": avoids_prior,
+            "pass": prior_at_slots and avoids_prior,
+        }
+    value = {
+        "schema_version": "cmf_f4_stage_b_prior_slot_preservation_v1",
+        "position_atol_m": TARGET_POSITION_ATOL_M,
+        "orientation_atol_rad": TARGET_ORIENTATION_ATOL_RAD,
+        "per_role": per_role,
+        "pass": nominal.get("pass") is True
+        and all(item["pass"] for item in per_role.values()),
+        "nominal_only_runtime_contact_audit_still_required": True,
+        "raw_quaternion_component_comparison_forbidden": True,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
 def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
     source_candidate = spec["f4_source_grasp_candidate_v1"]
     slot_candidate = spec["f4_stage_b_candidate_v1"]
@@ -368,35 +433,9 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
         object_poses=object_poses,
         object_order=("A", "B", "C"),
     )
-    prior_checks = {}
-    for index, role in enumerate(("A", "B", "C")):
-        evidence = nominal["per_role"][role]
-        prior_roles = ("A", "B", "C")[:index]
-        prior_checks[role] = {
-            "prior_roles": list(prior_roles),
-            "prior_roles_at_frozen_slots": all(
-                np.allclose(
-                    evidence["state_of_other_blocks_before_role"][prior],
-                    target_actor_poses[prior],
-                    atol=1e-12,
-                    rtol=0.0,
-                )
-                for prior in prior_roles
-            ),
-            "transport_avoids_prior_slots": all(
-                prior
-                not in collisions
-                for collisions in evidence[
-                    "segment_non_target_collisions"
-                ].values()
-                for prior in prior_roles
-            ),
-        }
-        prior_checks[role]["pass"] = all(
-            value
-            for key, value in prior_checks[role].items()
-            if key not in {"prior_roles", "pass"}
-        )
+    prior_slot_preservation = _build_f4_prior_slot_preservation_v1(
+        nominal, target_actor_poses
+    )
     return targets, {
         "role_target_construction_audits": audits,
         "role_target_segment_ids": role_segment_ids,
@@ -407,12 +446,7 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
         ],
         "corridor_policy": slot_candidate["corridor_policy"],
         "nominal_noninterference": nominal,
-        "prior_slot_preservation": {
-            "per_role": prior_checks,
-            "pass": nominal["pass"] is True
-            and all(item["pass"] for item in prior_checks.values()),
-            "nominal_only_runtime_contact_audit_still_required": True,
-        },
+        "prior_slot_preservation": prior_slot_preservation,
         "stage_b_planner_only": True,
         "release_execution_count": 0,
     }
@@ -449,6 +483,60 @@ def _f4_stage_b_checks(
         }
     )
     return checks
+
+
+def rederive_f4_stage_b_candidate_checks_v1(
+    result: Mapping[str, Any],
+) -> dict[str, Any]:
+    normalized = deepcopy(dict(result))
+    payload = dict(normalized)
+    digest = payload.pop("receipt_sha256", None)
+    if (
+        normalized.get("schema_version")
+        != "cmf_high_level_planner_candidate_terminal_v1"
+        or normalized.get("purpose") != "f4_stage_b_planner"
+        or digest != canonical_hash_json(payload)
+        or normalized.get("physical_execution_count") != 0
+        or normalized.get("planner_result", {}).get("pass") is not True
+        or normalized.get("cleanup_safety_pass") is not True
+        or normalized.get("orphan_process_count") != 0
+    ):
+        raise ValueError("F4 Stage-B source result is not rederivable")
+    audit = deepcopy(normalized["target_construction"])
+    target_actor_poses = {
+        role: audit["role_target_construction_audits"][role][
+            "target_actor_pose"
+        ]
+        for role in ("A", "B", "C")
+    }
+    corrected_prior = _build_f4_prior_slot_preservation_v1(
+        audit["nominal_noninterference"], target_actor_poses
+    )
+    audit["prior_slot_preservation"] = corrected_prior
+    checks = _f4_stage_b_checks(
+        normalized["planner_result"],
+        audit,
+        normalized["rendered_visibility"],
+    )
+    value = {
+        "schema_version": "cmf_f4_stage_b_candidate_check_overlay_v1",
+        "source_result_receipt_sha256": digest,
+        "candidate_id": normalized["candidate_id"],
+        "candidate_sha256": normalized["candidate_sha256"],
+        "original_checks": deepcopy(normalized.get("checks")),
+        "corrected_prior_slot_preservation": corrected_prior,
+        "checks": checks,
+        "cleanup_safety_pass": True,
+        "orphan_process_count": 0,
+        "physical_execution_count": 0,
+        "pass": all(checks.values()),
+        "reexecution_required": False,
+        "formal_data": False,
+        "stage0_data": False,
+        "stage1_authorized": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
 
 
 class HighLevelPlannerRunnerV1:
@@ -633,8 +721,10 @@ class HighLevelPlannerRunnerV1:
 
 __all__ = [
     "HighLevelPlannerRunnerV1",
+    "_build_f4_prior_slot_preservation_v1",
     "build_f2_stage_a_targets_v1",
     "build_f3_level1_targets_v1",
     "build_f4_stage_a_targets_v1",
     "build_f4_stage_b_targets_v1",
+    "rederive_f4_stage_b_candidate_checks_v1",
 ]

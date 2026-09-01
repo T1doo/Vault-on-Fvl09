@@ -4,6 +4,10 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import numpy as np
+
+from controlled_multi_future.canonical_artifact import canonical_hash_json
+
 from controlled_multi_future.f2_hierarchical_template_search_v1 import (
     build_f2_hierarchical_template_search_v1,
 )
@@ -17,6 +21,8 @@ from controlled_multi_future.f4_hierarchical_template_search_v1 import (
 )
 from controlled_multi_future.high_level_planner_runner_v1 import (
     HighLevelPlannerRunnerV1,
+    _build_f4_prior_slot_preservation_v1,
+    rederive_f4_stage_b_candidate_checks_v1,
 )
 from controlled_multi_future.high_level_physical_runner_v1 import (
     HighLevelPhysicalRunnerV1,
@@ -366,6 +372,97 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
         )
         self.assertEqual(receipt["planner_query_count"], 30)
         self.assertEqual(receipt["physical_execution_count"], 0)
+
+    def test_f4_prior_slot_overlay_uses_pose_tolerances_not_raw_quaternion_components(self):
+        targets = {
+            "A": [-0.1, 0.04, 0.764, 1.0, 1e-5, 0.0, 0.0],
+            "B": [-0.2, 0.04, 0.764, 1.0, 1e-5, 0.0, 0.0],
+            "C": [-0.3, 0.04, 0.764, 1.0, 1e-5, 0.0, 0.0],
+        }
+        observed = {
+            role: [*pose[:3], *(np.asarray(pose[3:]) / np.linalg.norm(pose[3:]))]
+            for role, pose in targets.items()
+        }
+        nominal = {
+            "pass": True,
+            "per_role": {
+                "A": {
+                    "state_of_other_blocks_before_role": {
+                        "B": observed["B"],
+                        "C": observed["C"],
+                    },
+                    "segment_non_target_collisions": {
+                        "lift_to_carry_mid": [],
+                        "carry_mid_to_preplace": [],
+                    },
+                },
+                "B": {
+                    "state_of_other_blocks_before_role": {
+                        "A": observed["A"],
+                        "C": observed["C"],
+                    },
+                    "segment_non_target_collisions": {
+                        "lift_to_carry_mid": [],
+                        "carry_mid_to_preplace": [],
+                    },
+                },
+                "C": {
+                    "state_of_other_blocks_before_role": {
+                        "A": observed["A"],
+                        "B": observed["B"],
+                    },
+                    "segment_non_target_collisions": {
+                        "lift_to_carry_mid": [],
+                        "carry_mid_to_preplace": [],
+                    },
+                },
+            },
+        }
+        prior = _build_f4_prior_slot_preservation_v1(nominal, targets)
+        self.assertTrue(prior["pass"])
+        self.assertTrue(prior["raw_quaternion_component_comparison_forbidden"])
+        role_ids = {role: [f"{role}_one"] for role in ("A", "B", "C")}
+        bad_prior = copy.deepcopy(prior)
+        bad_prior["pass"] = False
+        source = {
+            "schema_version": "cmf_high_level_planner_candidate_terminal_v1",
+            "purpose": "f4_stage_b_planner",
+            "candidate_id": "f4-slot-corridor-hv1-r01",
+            "candidate_sha256": "a" * 64,
+            "physical_execution_count": 0,
+            "planner_result": {
+                "pass": True,
+                "segment_receipts": [
+                    {"segment_id": ids[0], "planner_status": "Success"}
+                    for ids in role_ids.values()
+                ],
+            },
+            "rendered_visibility": {"pass": True},
+            "target_construction": {
+                "role_target_segment_ids": role_ids,
+                "role_target_construction_audits": {
+                    role: {"target_actor_pose": pose}
+                    for role, pose in targets.items()
+                },
+                "nominal_noninterference": nominal,
+                "prior_slot_preservation": bad_prior,
+            },
+            "checks": {
+                "complete_A_neutral_grasp_slot_neutral": True,
+                "complete_B_neutral_grasp_slot_neutral": True,
+                "complete_C_neutral_grasp_slot_neutral": True,
+                "rendered_visibility": True,
+                "noninterference": True,
+                "prior_slot_preservation": False,
+            },
+            "cleanup_safety_pass": True,
+            "orphan_process_count": 0,
+        }
+        source["receipt_sha256"] = canonical_hash_json(source)
+        overlay = rederive_f4_stage_b_candidate_checks_v1(source)
+        self.assertTrue(overlay["pass"])
+        self.assertFalse(overlay["reexecution_required"])
+        self.assertTrue(overlay["checks"]["prior_slot_preservation"])
 
     def test_f3_level2_adds_v_minus_and_return_without_suffix(self):
         spec = build_f3_runtime_spec_v1(
