@@ -110,6 +110,12 @@ from .development_consolidation_authorization_v1 import (
     load as load_development_consolidation_v1,
     validate_consumption as validate_development_consolidation_consumption_v1,
 )
+from .high_level_authorization_v1 import (
+    IMPLEMENTATION_VERSION as HIGH_LEVEL_IMPLEMENTATION_VERSION,
+    consume as consume_high_level_v1,
+    load as load_high_level_v1,
+    validate_consumption as validate_high_level_consumption_v1,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -149,6 +155,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == HIGH_LEVEL_IMPLEMENTATION_VERSION:
+        return load_high_level_v1(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
         return load_development_consolidation_v1(
             path, requested_scope=requested_scope, **kwargs
@@ -205,6 +215,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == HIGH_LEVEL_IMPLEMENTATION_VERSION:
+        return consume_high_level_v1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
         return consume_development_consolidation_v1(
             authorization, ledger_directory=ledger_directory
@@ -263,6 +277,8 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == HIGH_LEVEL_IMPLEMENTATION_VERSION:
+        return validate_high_level_consumption_v1(consumption, authorization)
     if authorization.get("implementation_version") == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
         return validate_development_consolidation_consumption_v1(
             consumption, authorization
@@ -816,6 +832,9 @@ def main() -> int:
     development_consolidation_v1_mode = raw_authorization.get(
         "implementation_version"
     ) == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION
+    high_level_v1_mode = raw_authorization.get(
+        "implementation_version"
+    ) == HIGH_LEVEL_IMPLEMENTATION_VERSION
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
@@ -841,6 +860,8 @@ def main() -> int:
             if f4_selected_layout_v2_mode
             else "development_pipeline_consolidation_v1"
             if development_consolidation_v1_mode
+            else "high_level_template_redesign_v1"
+            if high_level_v1_mode
             else "pre_stage0_nonformal_validation"
         ),
         "formal_data": False,

@@ -25,6 +25,7 @@ from controlled_multi_future.high_level_runtime_specs_v1 import (
 )
 from controlled_multi_future.probes import high_level_authorization_v1 as auth
 from controlled_multi_future.probes import high_level_scope_runner_v1 as scope_runner
+from controlled_multi_future.probes import gpu_guard_v2_4 as guard
 
 
 class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
@@ -167,6 +168,40 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
         }
         value["consumption_receipt_sha256"] = auth.consumption_sha(value)
         self.assertEqual(auth.validate_consumption(value, authorization), value)
+
+    def test_gpu_guard_dispatches_high_level_load_consume_and_validate(self):
+        path = Path("/nfs_share/lijunhui/Robotwin2/tmp/high-level-auth-test.json")
+        with patch.object(
+            guard, "_authorization_implementation", return_value=auth.IMPLEMENTATION_VERSION
+        ), patch.object(guard, "load_high_level_v1", return_value={"loaded": True}) as loader:
+            self.assertEqual(
+                guard._load_runtime_authorization(
+                    path, requested_scope="f2_stage_a_planner"
+                ),
+                {"loaded": True},
+            )
+            loader.assert_called_once()
+        authorization = {"implementation_version": auth.IMPLEMENTATION_VERSION}
+        with patch.object(
+            guard, "consume_high_level_v1", return_value={"consumed": True}
+        ) as consume:
+            self.assertEqual(
+                guard._consume_runtime_authorization(
+                    authorization, ledger_directory=Path("/nfs_share/lijunhui/Robotwin2/tmp")
+                ),
+                {"consumed": True},
+            )
+            consume.assert_called_once()
+        with patch.object(
+            guard,
+            "validate_high_level_consumption_v1",
+            return_value={"validated": True},
+        ) as validate:
+            self.assertEqual(
+                guard._validate_runtime_consumption({}, authorization),
+                {"validated": True},
+            )
+            validate.assert_called_once()
 
 
 if __name__ == "__main__":
