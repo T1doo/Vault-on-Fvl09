@@ -1,0 +1,965 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_request_file_sha256": "dcbcc89aff26ca976d52f7f9514a0a565cd29cbb2b46b30bd88a70f278734d7c",
+  "approval_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r07-run1.request.json",
+  "approval_request_sha256": "b2c9065a683755ac5680132ae9af9c2de8c4fbc614b387481b20694d3bb2f248",
+  "approved": true,
+  "approved_scopes": [
+    "f4_stage_b_planner"
+  ],
+  "atomic_guard_recheck_before_launch": true,
+  "authorization_id": "high-level-v1-2-f4-stage-b-r07-run1",
+  "authorized_command_sha256": "93db3e6dc2ee729405bfd28b202f48d3285cf17339d4b1da179b7f0038760148",
+  "authorized_run_id": "high-level-v1-2-f4-stage-b-r07-run1-run",
+  "automatic_gpu0_fallback": false,
+  "automatic_retry": false,
+  "budget": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "automatic_retry": false,
+    "budget_receipt_sha256": "b0ffde25aae22954425fb7a3e2051527d9587017db56d5c606a973342972824a",
+    "controlled_action_limit": 0,
+    "formal_data": false,
+    "fresh_scene_limit": 1,
+    "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+    "maximum_scope_invocations": 1,
+    "one_project_job_per_gpu": true,
+    "one_root_one_gpu": true,
+    "physical_execution_limit": 0,
+    "physics_step_limit": -1,
+    "planner_query_limit": 32,
+    "purpose": "f4_stage_b_planner",
+    "recovery_attempts": 0,
+    "root_sharding_authorized": false,
+    "schema_version": "cmf_high_level_runtime_job_budget_v1",
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "timeout_seconds": 5400
+  },
+  "budget_receipt_sha256": "b0ffde25aae22954425fb7a3e2051527d9587017db56d5c606a973342972824a",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "controlled_action_limit": 0,
+  "dynamic_fresh_idle_selection": true,
+  "expires_at": "2026-09-01T16:59:46.406964+00:00",
+  "family": "F4",
+  "formal_data": false,
+  "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+  "gpu_policy_version": "cmf_gpu_parallel_policy_v2",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r07-run1.guard.json",
+  "implementation_source_sha256": "e00bdce7b99f67ccf858e27554d892011d3278c2a2cdc964b30101c2b0cd2c36",
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1_2",
+  "issued_at": "2026-09-01T15:59:46.406964+00:00",
+  "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+  "job_inputs": {
+    "selected_source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+    "stage_a_selection_receipt_file_sha256": "7cde7d53d58d7b18f389ef8d624ae2043fdfd64996a0a7ee647851c834fd1975",
+    "stage_a_selection_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_STAGE_A_PLANNER_SELECTION_RUN2.json",
+    "stage_a_selection_receipt_sha256": "95668c8150c97ea188b13dfb57caff608b5af292860fc0b9d1df626cc63a9acb",
+    "stage_b_candidate_id": "f4-slot-corridor-hv1-r07"
+  },
+  "job_kind": "F4_STAGE_B_PLANNER",
+  "max_invocations": 1,
+  "one_project_job_per_gpu": true,
+  "one_root_one_gpu": true,
+  "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r07-run1",
+  "parallel_different_cards_authorized": true,
+  "parent_user_authorization_file_sha256": "d2cc5328d25fcaf3246ee598df46c3796be910b64b9d56b9f8405e8515a6490e",
+  "parent_user_authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/HIGH_LEVEL_TEMPLATE_REDESIGN_V1_2_PARENT_AUTHORIZATION.json",
+  "parent_user_authorization_sha256": "2cd774339c40a9b176ee79820c5730d28017d8998aa1ace24c2cb6ece0a92979",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "arm": "left",
+    "automatic_retry": false,
+    "f4_source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+    "f4_source_grasp_candidate_v1": {
+      "A_pregrasp_differs_from_old_f4": true,
+      "A_pregrasp_xyz_m": [
+        -0.2,
+        0.02,
+        0.972
+      ],
+      "arm": "left",
+      "automatic_retry": false,
+      "block_half_extents_m": [
+        0.022,
+        0.022,
+        0.022
+      ],
+      "branch_neutral_policy": "arm_original_pose_after_each_role",
+      "candidate_id": "f4-source-grasp-hv1-r01",
+      "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "common_x_tray_changed": false,
+      "f1_15_of_15_execution_claim_applies_to_candidate": true,
+      "f1_report_payload_sha256": "dd3d371c54b7abe3b3f54d511a4c848d3262ec67f858e4829456d9a7f92b166c",
+      "grasp_policy": {
+        "collision_aware_orientation_adjustment": true,
+        "grasp_offset_world_m": [
+          0.0,
+          0.0,
+          0.12
+        ],
+        "lift_mid_offset_world_m": [
+          0.0,
+          0.0,
+          0.16
+        ],
+        "lift_total_offset_world_m": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "policy": "f1_planner_assisted_top_down_v3_3",
+        "pregrasp_offset_world_m": [
+          0.0,
+          0.0,
+          0.21
+        ],
+        "uniform_carry_hub": true
+      },
+      "grasp_policy_source": "F1 accepted 5-root/15-trajectory development batch",
+      "minimum_pairwise_block_surface_clearance_m": 0.046,
+      "object_slot_mapping_changed": false,
+      "online_fallback": false,
+      "programs_changed": false,
+      "rank": 1,
+      "slot_fields_present": false,
+      "source_layout": {
+        "A": [
+          -0.2,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.11,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.02,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "source_layout_sha256": "651112a51224c2d9f2c058c8c372ad4656db3bf96503e8ae26233b1fffb5f999",
+      "verifier_thresholds_changed": false
+    },
+    "f4_stage_a_terminal_sha256": "95668c8150c97ea188b13dfb57caff608b5af292860fc0b9d1df626cc63a9acb",
+    "f4_stage_a_terminal_v1": {
+      "evaluated_candidate_receipts": [
+        {
+          "candidate_id": "f4-source-grasp-hv1-r01",
+          "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "pass": true,
+          "source_candidate_receipt_sha256": "958e312a7ab3b58c75f549642767c37162cf1f6fd5035d280dc1c814a0207d1c"
+        },
+        {
+          "candidate_id": "f4-source-grasp-hv1-r03",
+          "candidate_sha256": "a08f692921a5a2ad80b2f4d5fa3254de393f38192546c694930da527ae40e2c8",
+          "pass": true,
+          "redundant_concurrent_race_evidence": true,
+          "selection_effect": false,
+          "source_candidate_receipt_sha256": "8167127cac8d42c9f8ef6883a1fa615dce6baae94ed9775891f73a2b11888c36"
+        }
+      ],
+      "formal_data": false,
+      "receipt_sha256": "95668c8150c97ea188b13dfb57caff608b5af292860fc0b9d1df626cc63a9acb",
+      "schema_version": "cmf_f4_hierarchical_stage_a_sequential_terminal_v1",
+      "search_contract_sha256": "5b9128fda11b52428f9e0a342d59b953d489432c60cbdbe1911ae904e9ae7341",
+      "selected_source_grasp": {
+        "A_pregrasp_differs_from_old_f4": true,
+        "A_pregrasp_xyz_m": [
+          -0.2,
+          0.02,
+          0.972
+        ],
+        "arm": "left",
+        "automatic_retry": false,
+        "block_half_extents_m": [
+          0.022,
+          0.022,
+          0.022
+        ],
+        "branch_neutral_policy": "arm_original_pose_after_each_role",
+        "candidate_id": "f4-source-grasp-hv1-r01",
+        "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+        "common_x_tray_changed": false,
+        "f1_15_of_15_execution_claim_applies_to_candidate": true,
+        "f1_report_payload_sha256": "dd3d371c54b7abe3b3f54d511a4c848d3262ec67f858e4829456d9a7f92b166c",
+        "grasp_policy": {
+          "collision_aware_orientation_adjustment": true,
+          "grasp_offset_world_m": [
+            0.0,
+            0.0,
+            0.12
+          ],
+          "lift_mid_offset_world_m": [
+            0.0,
+            0.0,
+            0.16
+          ],
+          "lift_total_offset_world_m": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "policy": "f1_planner_assisted_top_down_v3_3",
+          "pregrasp_offset_world_m": [
+            0.0,
+            0.0,
+            0.21
+          ],
+          "uniform_carry_hub": true
+        },
+        "grasp_policy_source": "F1 accepted 5-root/15-trajectory development batch",
+        "minimum_pairwise_block_surface_clearance_m": 0.046,
+        "object_slot_mapping_changed": false,
+        "online_fallback": false,
+        "programs_changed": false,
+        "rank": 1,
+        "slot_fields_present": false,
+        "source_layout": {
+          "A": [
+            -0.2,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            -0.11,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "C": [
+            -0.02,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "source_layout_sha256": "651112a51224c2d9f2c058c8c372ad4656db3bf96503e8ae26233b1fffb5f999",
+        "verifier_thresholds_changed": false
+      },
+      "selection_rule": "lowest-ranked full pass; stop once global minimum rank passes",
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stage_b_authorized_by_result": true,
+      "status": "SOURCE_GRASP_PASS_REQUIRES_STAGE_B_SLOT_SEARCH",
+      "unconsumed_higher_rank_authorization_ids": [
+        "high-level-v1-f4-stage-a-r02-run2",
+        "high-level-v1-f4-stage-a-r04-run2",
+        "high-level-v1-f4-stage-a-r05-run2",
+        "high-level-v1-f4-stage-a-r06-run2",
+        "high-level-v1-f4-stage-a-r07-run2",
+        "high-level-v1-f4-stage-a-r08-run2"
+      ]
+    },
+    "f4_stage_b_candidate_sha256": "4ca80a5bf07ccc8f3d37c9bba399294b275280b2262c37614d6819bafa71ab80",
+    "f4_stage_b_candidate_v1": {
+      "arm": "left",
+      "automatic_retry": false,
+      "candidate_id": "f4-slot-corridor-hv1-r07",
+      "candidate_sha256": "4ca80a5bf07ccc8f3d37c9bba399294b275280b2262c37614d6819bafa71ab80",
+      "corridor_policy": "lower_carry_height",
+      "object_slot_mapping": {
+        "A": "slot_A",
+        "B": "slot_B",
+        "C": "slot_C"
+      },
+      "online_fallback": false,
+      "program_specific_layout_allowed": false,
+      "rank": 7,
+      "slot_poses": {
+        "A": [
+          -0.06,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.18,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.34,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses_sha256": "5b98b2b4644e16a24039013ba6d3ccca3dab4f5c2bbc06f03b40ee12c25e02e9",
+      "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+      "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "temporary_waypoint_allowed": false
+    },
+    "f4_stage_b_contract_sha256": "d713dae557a0e8860d238375a1f18e2b8a2833552f48f83ec41d2024f57267bc",
+    "f4_stage_b_contract_v1": {
+      "candidates": [
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r01",
+          "candidate_sha256": "b642a25cca281bdf7cb256e4735f6ffe97f68cf550ca07609ddf6d2c2f564308",
+          "corridor_policy": "lower_carry_height",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 1,
+          "slot_poses": {
+            "A": [
+              -0.1,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.205,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.355,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "ff236c608b242b15cf300db3aa731767cf67f9ae418df5deb0481646cfb47ee2",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r02",
+          "candidate_sha256": "b5dd19b579866f1225b22459c725520f0e1fbae7b74d21dcf78db4c9a7b85f1e",
+          "corridor_policy": "f1_uniform_cluster_center_carry_hub",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 2,
+          "slot_poses": {
+            "A": [
+              -0.1,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.205,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.355,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "ff236c608b242b15cf300db3aa731767cf67f9ae418df5deb0481646cfb47ee2",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r03",
+          "candidate_sha256": "02e4e520597a2cd5acdb567059deeda519d32ecf722542cc3099b58cef061da4",
+          "corridor_policy": "lower_carry_height",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 3,
+          "slot_poses": {
+            "A": [
+              -0.08,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.2,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.36,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "616b6fa2db0f72dd9053166983f4651b999f2bad950316de65532a3685e7a971",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r04",
+          "candidate_sha256": "0a02a9aaf512b78ca2789f6a2830edf4a9675b327682f6b6a4dd022954abf421",
+          "corridor_policy": "f1_uniform_cluster_center_carry_hub",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 4,
+          "slot_poses": {
+            "A": [
+              -0.08,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.2,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.36,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "616b6fa2db0f72dd9053166983f4651b999f2bad950316de65532a3685e7a971",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r05",
+          "candidate_sha256": "ecc12367b689516fc2fa16cf5c8838b298180f5a4804ce1f1875da9334198086",
+          "corridor_policy": "lower_carry_height",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 5,
+          "slot_poses": {
+            "A": [
+              -0.07,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.195,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.36,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "990516495d0a001f70773a9e3af91df2d16d2f8b0ba0e74fd6bcf23a73e250d5",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r06",
+          "candidate_sha256": "2bb2d4e90abbb1dd1b6e2e97593f0a835eae4e8232932b5d9b0a209e4cc680c6",
+          "corridor_policy": "f1_uniform_cluster_center_carry_hub",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 6,
+          "slot_poses": {
+            "A": [
+              -0.07,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.195,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.36,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "990516495d0a001f70773a9e3af91df2d16d2f8b0ba0e74fd6bcf23a73e250d5",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r07",
+          "candidate_sha256": "4ca80a5bf07ccc8f3d37c9bba399294b275280b2262c37614d6819bafa71ab80",
+          "corridor_policy": "lower_carry_height",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 7,
+          "slot_poses": {
+            "A": [
+              -0.06,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.18,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.34,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "5b98b2b4644e16a24039013ba6d3ccca3dab4f5c2bbc06f03b40ee12c25e02e9",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        },
+        {
+          "arm": "left",
+          "automatic_retry": false,
+          "candidate_id": "f4-slot-corridor-hv1-r08",
+          "candidate_sha256": "6147bc54a00681aac5332bd8a4cbeb6bd612080a1e97c839c6909a3c36d2edb1",
+          "corridor_policy": "f1_uniform_cluster_center_carry_hub",
+          "object_slot_mapping": {
+            "A": "slot_A",
+            "B": "slot_B",
+            "C": "slot_C"
+          },
+          "online_fallback": false,
+          "program_specific_layout_allowed": false,
+          "rank": 8,
+          "slot_poses": {
+            "A": [
+              -0.06,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.18,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.34,
+              0.04,
+              0.742,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "slot_poses_sha256": "5b98b2b4644e16a24039013ba6d3ccca3dab4f5c2bbc06f03b40ee12c25e02e9",
+          "source_grasp_candidate_id": "f4-source-grasp-hv1-r01",
+          "source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+          "temporary_waypoint_allowed": false
+        }
+      ],
+      "fixed_candidate_order": [
+        "f4-slot-corridor-hv1-r01",
+        "f4-slot-corridor-hv1-r02",
+        "f4-slot-corridor-hv1-r03",
+        "f4-slot-corridor-hv1-r04",
+        "f4-slot-corridor-hv1-r05",
+        "f4-slot-corridor-hv1-r06",
+        "f4-slot-corridor-hv1-r07",
+        "f4-slot-corridor-hv1-r08"
+      ],
+      "formal_data": false,
+      "maximum_candidate_count": 8,
+      "parent_search_contract_sha256": "5b9128fda11b52428f9e0a342d59b953d489432c60cbdbe1911ae904e9ae7341",
+      "schema_version": "cmf_f4_hierarchical_stage_b_contract_v1",
+      "selected_source_grasp": {
+        "A_pregrasp_differs_from_old_f4": true,
+        "A_pregrasp_xyz_m": [
+          -0.2,
+          0.02,
+          0.972
+        ],
+        "arm": "left",
+        "automatic_retry": false,
+        "block_half_extents_m": [
+          0.022,
+          0.022,
+          0.022
+        ],
+        "branch_neutral_policy": "arm_original_pose_after_each_role",
+        "candidate_id": "f4-source-grasp-hv1-r01",
+        "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+        "common_x_tray_changed": false,
+        "f1_15_of_15_execution_claim_applies_to_candidate": true,
+        "f1_report_payload_sha256": "dd3d371c54b7abe3b3f54d511a4c848d3262ec67f858e4829456d9a7f92b166c",
+        "grasp_policy": {
+          "collision_aware_orientation_adjustment": true,
+          "grasp_offset_world_m": [
+            0.0,
+            0.0,
+            0.12
+          ],
+          "lift_mid_offset_world_m": [
+            0.0,
+            0.0,
+            0.16
+          ],
+          "lift_total_offset_world_m": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "policy": "f1_planner_assisted_top_down_v3_3",
+          "pregrasp_offset_world_m": [
+            0.0,
+            0.0,
+            0.21
+          ],
+          "uniform_carry_hub": true
+        },
+        "grasp_policy_source": "F1 accepted 5-root/15-trajectory development batch",
+        "minimum_pairwise_block_surface_clearance_m": 0.046,
+        "object_slot_mapping_changed": false,
+        "online_fallback": false,
+        "programs_changed": false,
+        "rank": 1,
+        "slot_fields_present": false,
+        "source_layout": {
+          "A": [
+            -0.2,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "B": [
+            -0.11,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "C": [
+            -0.02,
+            0.02,
+            0.762,
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "source_layout_sha256": "651112a51224c2d9f2c058c8c372ad4656db3bf96503e8ae26233b1fffb5f999",
+        "verifier_thresholds_changed": false
+      },
+      "selection_rule": "lowest-ranked full planner-only pass",
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "stage_b_contract_sha256": "d713dae557a0e8860d238375a1f18e2b8a2833552f48f83ec41d2024f57267bc"
+    },
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_f4_hierarchical_runtime_v1",
+    "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+    "maximum_physical_execution_count": 0,
+    "parent_search_contract_sha256": "5b9128fda11b52428f9e0a342d59b953d489432c60cbdbe1911ae904e9ae7341",
+    "planned_scope_spec_sha256": "c345a495bb577260d7f6e4927c5a944a0b76203d28602a22e7325cfef0c229f3",
+    "purpose": "f4_stage_b_planner",
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_hierarchical_stage_b_slot_corridor_v1_r07",
+      "object_poses": {
+        "A": [
+          -0.2,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.11,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.02,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          -0.06,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.18,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.34,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "stage_a_slot_placeholders_fixed_not_searched": false,
+      "stage_a_source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "stage_b_corridor_policy": "lower_carry_height",
+      "stage_b_slot_corridor_candidate_sha256": "4ca80a5bf07ccc8f3d37c9bba399294b275280b2262c37614d6819bafa71ab80",
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "scene_layout_sha256": "d9e34559576751b051ac150b7874243669501b941b725dbef1980a0140c38654",
+    "schema_version": "cmf_f4_high_level_runtime_spec_v1",
+    "scope": "f4_stage_b_planner",
+    "seed": 2026091407,
+    "slot_id": "f4_stage_b_planner-07",
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "stage_a_slot_search_active": false,
+    "stage_b_slot_search_active": true
+  },
+  "planned_root_slot_spec_sha256": "c345a495bb577260d7f6e4927c5a944a0b76203d28602a22e7325cfef0c229f3",
+  "planner_query_limit": 32,
+  "receipt_sha256": "fb3f1382388c99fc57af782b79ae05216da1ebd109734ed7f4efae7a718aefc9",
+  "recovery_attempts": 0,
+  "reviewed_content_commit": "7c7517058d06844c2dee16e045a47bf0e98e685d",
+  "root_sharding_authorized": false,
+  "scene_seed": 2026091407,
+  "schema_version": "cmf_high_level_template_redesign_authorization_v1",
+  "share_busy_gpu_authorized": false,
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/high_level_template_redesign_v1/f4_e00bdce7b99f67ccf858e27554d892011d3278c2a2cdc964b30101c2b0cd2c36_20260901T155946403473Z.json",
+  "source_lock_receipt_sha256": "b2250978fdd02530d09cfbecca6cde741f567366cfb0af937181dd47a05bae3e",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "timeout_seconds": 5400
+}
