@@ -1,0 +1,296 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_request_file_sha256": "b79586b597b6c4ea0494ad8138be2f4fa4d00055733388687596fc048228e825",
+  "approval_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/scope_requests/high_level_template_redesign_v1/high-level-v1-f4-stage-a-r01-run2.request.json",
+  "approval_request_sha256": "70fa2eff749b98ebe07b2463fe7080a8f982c7586faa9a98d0feb5dddf80c9b1",
+  "approved": true,
+  "approved_scopes": [
+    "f4_stage_a_planner"
+  ],
+  "atomic_guard_recheck_before_launch": true,
+  "authorization_id": "high-level-v1-f4-stage-a-r01-run2",
+  "authorized_command_sha256": "72fff5282ca78858007596709cebff8fdfd95d0fadde2907432c41c3d9590c32",
+  "authorized_run_id": "high-level-v1-f4-stage-a-r01-run2-run",
+  "automatic_gpu0_fallback": false,
+  "automatic_retry": false,
+  "budget": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "automatic_retry": false,
+    "budget_receipt_sha256": "ad8ebf0b3fb1c80de293e1aa80bd71862044cd3afb863024ef0fee3b4262f48b",
+    "controlled_action_limit": 0,
+    "formal_data": false,
+    "fresh_scene_limit": 1,
+    "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+    "maximum_scope_invocations": 1,
+    "one_project_job_per_gpu": true,
+    "one_root_one_gpu": true,
+    "physical_execution_limit": 0,
+    "physics_step_limit": -1,
+    "planner_query_limit": 48,
+    "purpose": "f4_stage_a_planner",
+    "recovery_attempts": 0,
+    "root_sharding_authorized": false,
+    "schema_version": "cmf_high_level_runtime_job_budget_v1",
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "timeout_seconds": 5400
+  },
+  "budget_receipt_sha256": "ad8ebf0b3fb1c80de293e1aa80bd71862044cd3afb863024ef0fee3b4262f48b",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "controlled_action_limit": 0,
+  "dynamic_fresh_idle_selection": true,
+  "expires_at": "2026-09-01T15:33:59.616005+00:00",
+  "family": "F4",
+  "formal_data": false,
+  "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+  "gpu_policy_version": "cmf_gpu_parallel_policy_v2",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-f4-stage-a-r01-run2.guard.json",
+  "implementation_source_sha256": "c7b6357d6dc8d0ec9630b4f3569c4d0218aca972e0519443c49591fbb900bb61",
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1",
+  "issued_at": "2026-09-01T14:33:59.616005+00:00",
+  "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+  "job_inputs": {},
+  "job_kind": "F4_STAGE_A_PLANNER",
+  "max_invocations": 1,
+  "one_project_job_per_gpu": true,
+  "one_root_one_gpu": true,
+  "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-f4-stage-a-r01-run2",
+  "parallel_different_cards_authorized": true,
+  "parent_user_authorization_file_sha256": "91bf121e81f21f1a457d06c2ce261809d0430d3d35c363453cc20813611f7fd1",
+  "parent_user_authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/HIGH_LEVEL_TEMPLATE_REDESIGN_V1_PARENT_AUTHORIZATION.json",
+  "parent_user_authorization_sha256": "c3c1703bc3a11a0567fa7567a82dbb9a172bb34a286add24825e4daa0140b1cc",
+  "physics_step_limit": -1,
+  "planned_root_slot_spec": {
+    "arm": "left",
+    "automatic_retry": false,
+    "f4_source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+    "f4_source_grasp_candidate_v1": {
+      "A_pregrasp_differs_from_old_f4": true,
+      "A_pregrasp_xyz_m": [
+        -0.2,
+        0.02,
+        0.972
+      ],
+      "arm": "left",
+      "automatic_retry": false,
+      "block_half_extents_m": [
+        0.022,
+        0.022,
+        0.022
+      ],
+      "branch_neutral_policy": "arm_original_pose_after_each_role",
+      "candidate_id": "f4-source-grasp-hv1-r01",
+      "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "common_x_tray_changed": false,
+      "f1_15_of_15_execution_claim_applies_to_candidate": true,
+      "f1_report_payload_sha256": "dd3d371c54b7abe3b3f54d511a4c848d3262ec67f858e4829456d9a7f92b166c",
+      "grasp_policy": {
+        "collision_aware_orientation_adjustment": true,
+        "grasp_offset_world_m": [
+          0.0,
+          0.0,
+          0.12
+        ],
+        "lift_mid_offset_world_m": [
+          0.0,
+          0.0,
+          0.16
+        ],
+        "lift_total_offset_world_m": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "policy": "f1_planner_assisted_top_down_v3_3",
+        "pregrasp_offset_world_m": [
+          0.0,
+          0.0,
+          0.21
+        ],
+        "uniform_carry_hub": true
+      },
+      "grasp_policy_source": "F1 accepted 5-root/15-trajectory development batch",
+      "minimum_pairwise_block_surface_clearance_m": 0.046,
+      "object_slot_mapping_changed": false,
+      "online_fallback": false,
+      "programs_changed": false,
+      "rank": 1,
+      "slot_fields_present": false,
+      "source_layout": {
+        "A": [
+          -0.2,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.11,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.02,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "source_layout_sha256": "651112a51224c2d9f2c058c8c372ad4656db3bf96503e8ae26233b1fffb5f999",
+      "verifier_thresholds_changed": false
+    },
+    "family": "F4",
+    "formal_data": false,
+    "generator": "controlled_multi_future_f4_hierarchical_runtime_v1",
+    "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+    "maximum_physical_execution_count": 0,
+    "parent_search_contract_sha256": "5b9128fda11b52428f9e0a342d59b953d489432c60cbdbe1911ae904e9ae7341",
+    "planned_scope_spec_sha256": "3a252cb181941fe733e6744e4fe5deec4aafe29494df4fb6a6519b4d3719eba5",
+    "purpose": "f4_stage_a_planner",
+    "recovery_attempts": 0,
+    "scene_layout": {
+      "branch_neutral_pose": [
+        0.15,
+        -0.02,
+        0.95,
+        0.5243570072481656,
+        -0.47439082845243685,
+        0.4743935067167858,
+        0.5243604405510669
+      ],
+      "common_x_pose": [
+        0.28,
+        0.1,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_version": "f4_hierarchical_stage_a_source_grasp_v1_r01",
+      "object_poses": {
+        "A": [
+          -0.2,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.11,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.02,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "slot_poses": {
+        "A": [
+          0.1,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          0.205,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          0.355,
+          0.08,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "stage_a_slot_placeholders_fixed_not_searched": true,
+      "stage_a_source_grasp_candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "tray": {
+        "model_id": 0,
+        "modelname": "008_tray",
+        "pose": [
+          0.28,
+          -0.12,
+          0.76,
+          0.706527,
+          0.706483,
+          -0.0291356,
+          -0.0291767
+        ]
+      }
+    },
+    "scene_layout_sha256": "46cd7022528abdcdfa4faaa5bd3fca311492bfa923fdea5f6c990c325f47c966",
+    "schema_version": "cmf_f4_high_level_runtime_spec_v1",
+    "scope": "f4_stage_a_planner",
+    "seed": 2026091301,
+    "slot_id": "f4_stage_a_planner-01",
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "stage_a_slot_search_active": false
+  },
+  "planned_root_slot_spec_sha256": "3a252cb181941fe733e6744e4fe5deec4aafe29494df4fb6a6519b4d3719eba5",
+  "planner_query_limit": 48,
+  "receipt_sha256": "92142630acf832e74fe8d4a6840b6e3fee0242e4aefaa920eea1495819e7d42f",
+  "recovery_attempts": 0,
+  "reviewed_content_commit": "ec2b5c891b84675761571361a22ec344cecd4d14",
+  "root_sharding_authorized": false,
+  "scene_seed": 2026091301,
+  "schema_version": "cmf_high_level_template_redesign_authorization_v1",
+  "share_busy_gpu_authorized": false,
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/source_locks/high_level_template_redesign_v1/f4_c7b6357d6dc8d0ec9630b4f3569c4d0218aca972e0519443c49591fbb900bb61.json",
+  "source_lock_receipt_sha256": "e3b7a36a037e7fc0814d58c7e9e582ff6648d96df41e535725d76b4a3d5e8385",
+  "stage0_authorized": false,
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "timeout_seconds": 5400
+}
