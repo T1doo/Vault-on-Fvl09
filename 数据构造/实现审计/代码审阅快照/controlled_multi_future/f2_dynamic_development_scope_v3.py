@@ -9,13 +9,13 @@ from typing import Any, Mapping
 
 
 SCOPE = "F2_asset_redesign_dynamic_12_then_one_root_v3"
-NAMESPACE = "post_stage0_f2_asset_redesign_dynamic_v3_run1"
+NAMESPACE = "post_stage0_f2_asset_redesign_dynamic_v3_run2"
 AUTHORIZATION_SCHEMA = "cmf_f2_dynamic_development_authorization_v3"
 IMPLEMENTATION_VERSION = "controlled_multi_future_f2_asset_redesign_dynamic_v3"
 ROOT = Path("/nfs_share/lijunhui")
 AUDIT = ROOT / "Vault-on-Fvl09/数据构造/实现审计"
 GROUP = "controlled_multi_future_post_stage0_f2_asset_redesign_v3"
-AUTH_ID = "post-stage0-f2-asset-redesign-v3-run1"
+AUTH_ID = "post-stage0-f2-asset-redesign-v3-run2"
 OUTPUT = ROOT / "Robotwin2/datasets" / GROUP / NAMESPACE
 PARENT = AUDIT / "USER_AUTHORIZATION_F2_ASSET_REDESIGN_V3_20260831.json"
 BUDGET = AUDIT / "POST_STAGE0_F2_ASSET_REDESIGN_V3_BUDGET.json"
