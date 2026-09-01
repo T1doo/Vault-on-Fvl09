@@ -14,7 +14,11 @@ from typing import Any, Mapping
 
 import numpy as np
 
-from .current_hasher import hash_json
+from .canonical_artifact import (
+    canonical_hash_json,
+    canonical_jsonable,
+    canonical_write_json,
+)
 from .raw_writer import ACTION_LAYOUT_VERSION, PRIMARY_ACTION_DIM, PRIMARY_FREQUENCY_HZ
 
 
@@ -45,15 +49,7 @@ ARRAY_FIELDS = (
 
 
 def canonical_json_sha256(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def file_sha256(path: Path) -> str:
@@ -189,8 +185,8 @@ def _expected_end_state_aliases(anchor: Mapping[str, Any]) -> tuple[dict, dict]:
         }
         objects = {"actor_poses": anchor["actor_poses"]}
     return (
-        json.loads(json.dumps(robot, sort_keys=True)),
-        json.loads(json.dumps(objects, sort_keys=True)),
+        canonical_jsonable(robot),
+        canonical_jsonable(objects),
     )
 
 
@@ -270,11 +266,11 @@ def build_canonical_prefix_artifact(
         "family": family,
         "reference_current_sha256": reference_current_sha256,
         "reference_anchor_sha256": reference_anchor.get("anchor_sha256"),
-        "reference_anchor": json.loads(json.dumps(reference_anchor, sort_keys=True)),
-        "prefix_contract": json.loads(json.dumps(prefix_contract, sort_keys=True)),
-        "prefix_contract_sha256": hash_json(prefix_contract),
+        "reference_anchor": canonical_jsonable(reference_anchor),
+        "prefix_contract": canonical_jsonable(prefix_contract),
+        "prefix_contract_sha256": canonical_hash_json(prefix_contract),
         "planner_seed": int(planner_seed),
-        "planner_query_receipts": json.loads(json.dumps(planner_query_receipts, sort_keys=True)),
+        "planner_query_receipts": canonical_jsonable(planner_query_receipts),
         "planner_source_hash": planner_source_hash,
         "action_layout_version": ACTION_LAYOUT_VERSION,
         "action_frequency_hz": PRIMARY_FREQUENCY_HZ,
@@ -283,21 +279,17 @@ def build_canonical_prefix_artifact(
         "semantic_prefix_step_count": int(n),
         "prefix_action_sha256": prefix_action_sha256(normalized["effective_setpoint_actions"]),
         "array_hashes": array_hashes,
-        "semantic_prefix_end_anchor": json.loads(json.dumps(semantic_prefix_end_anchor, sort_keys=True)),
+        "semantic_prefix_end_anchor": canonical_jsonable(semantic_prefix_end_anchor),
         "semantic_prefix_end_anchor_sha256": semantic_prefix_end_anchor.get("anchor_sha256"),
-        "acceptance_prefix_end_anchor": json.loads(json.dumps(acceptance_prefix_end_anchor, sort_keys=True)),
+        "acceptance_prefix_end_anchor": canonical_jsonable(acceptance_prefix_end_anchor),
         "acceptance_prefix_end_anchor_sha256": acceptance_prefix_end_anchor.get("anchor_sha256"),
         "expected_prefix_end_robot_state": expected_robot_state,
         "expected_prefix_end_object_state": expected_object_state,
         "prefix_end_tolerance_version": PREFIX_END_TOLERANCE_VERSION,
         "settling_step_count_excluded_from_semantic_prefix": settling_step_count,
-        "settling_policy": json.loads(json.dumps(settling_policy, sort_keys=True)),
-        "prefix_physical_acceptance": json.loads(
-            json.dumps(prefix_physical_acceptance, sort_keys=True)
-        ),
-        "reference_trace_source": json.loads(
-            json.dumps(reference_trace_source, sort_keys=True)
-        ),
+        "settling_policy": canonical_jsonable(settling_policy),
+        "prefix_physical_acceptance": canonical_jsonable(prefix_physical_acceptance),
+        "reference_trace_source": canonical_jsonable(reference_trace_source),
         "settling_is_part_of_semantic_prefix": False,
         "reference_event_boundaries": boundaries,
         "prefix_arrays_file": "prefix_arrays.npz",
@@ -311,7 +303,7 @@ def validate_canonical_prefix_artifact(
 ) -> tuple[dict, dict[str, np.ndarray]]:
     if not isinstance(manifest, Mapping) or manifest.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("canonical prefix artifact schema mismatch")
-    value = json.loads(json.dumps(manifest, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    value = canonical_jsonable(manifest)
     expected_artifact_hash = value.pop("artifact_sha256", None)
     value.pop("prefix_arrays_npz_sha256", None)
     if not isinstance(expected_artifact_hash, str) or canonical_json_sha256(value) != expected_artifact_hash:
@@ -365,10 +357,7 @@ def write_canonical_prefix_artifact(
     with_file = dict(validated)
     with_file["prefix_arrays_npz_sha256"] = file_sha256(arrays_path)
     manifest_path = output_dir / "canonical_prefix_artifact.json"
-    manifest_path.write_text(
-        json.dumps(with_file, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(manifest_path, with_file, mode=0o600)
     return with_file
 
 

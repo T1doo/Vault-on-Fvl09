@@ -10,7 +10,11 @@ import re
 from pathlib import Path
 
 from ..closure_f3_scope_v2_1 import *
-from ..current_hasher import hash_json
+from ..canonical_artifact import (
+    canonical_hash_json as hash_json,
+    canonical_jsonable,
+    canonical_write_json,
+)
 from ..f3_common_grasp_prefix_v2_1 import IMPLEMENTATION_VERSION
 from ..gpu_parallel_policy_v2 import validate_current_gpu_authorization
 from ..runtime_source_lock_v1 import load_runtime_source_lock
@@ -76,7 +80,7 @@ def validate(
 ):
     if requested_scope != SCOPE:
         raise AuthorizationBindingError("scope mismatch")
-    result = json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
+    result = canonical_jsonable(value)
     fixed = {
         "schema_version": AUTH_SCHEMA,
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -222,13 +226,9 @@ def consume(authorization, *, ledger_directory):
     }
     value["consumption_receipt_sha256"] = consumption_sha(value)
     try:
-        descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        canonical_write_json(path, value, exclusive=True, mode=0o600)
     except FileExistsError as exc:
         raise AuthorizationReplayError("consumed") from exc
-    with os.fdopen(descriptor, "wb") as handle:
-        handle.write((json.dumps(value, indent=2, sort_keys=True) + "\n").encode())
-        handle.flush()
-        os.fsync(handle.fileno())
     return {**value, "path": str(path)}
 
 

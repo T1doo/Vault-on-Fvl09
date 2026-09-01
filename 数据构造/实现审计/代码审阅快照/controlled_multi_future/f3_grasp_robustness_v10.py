@@ -9,13 +9,13 @@ or any frozen verifier threshold.
 
 from __future__ import annotations
 
-import hashlib
 import json
 from typing import Any, Mapping, Sequence
 
 import numpy as np
 
 from .anchor import quaternion_angular_error
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .geometry import quaternion_matrix, relative_pose
 
 
@@ -66,15 +66,7 @@ R9_FORENSIC_OUTPUT_SHA256 = (
 
 
 def _canonical_sha256(value: Mapping[str, Any]) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _target_from_pregrasp(pregrasp: Sequence[float]) -> np.ndarray:
@@ -147,9 +139,7 @@ def build_f3_common_grasp_contract_v10() -> dict[str, Any]:
 
 
 def validate_f3_common_grasp_contract_v10(value: Mapping[str, Any]) -> dict[str, Any]:
-    result = json.loads(
-        json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
-    )
+    result = canonical_jsonable(value)
     digest = result.pop("contract_sha256", None)
     if not isinstance(digest, str) or digest != _canonical_sha256(result):
         raise ValueError("F3 common-grasp contract hash mismatch")

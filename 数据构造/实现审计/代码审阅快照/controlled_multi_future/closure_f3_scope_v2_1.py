@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 from pathlib import Path
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .f3_common_grasp_prefix_v2 import PROGRAM_IDS, build_f3_common_grasp_prefix_v2
 from .f3_common_grasp_prefix_v2_1 import IMPLEMENTATION_VERSION
 
@@ -30,15 +29,7 @@ GUARD = AUDIT / "gpu_guards" / GROUP / f"{NAMESPACE}.guard.json"
 
 
 def _sha(value):
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode()
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def budget():

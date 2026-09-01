@@ -17,6 +17,8 @@ import subprocess
 import sys
 from typing import Any, Mapping, Sequence
 
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
+
 
 SOURCE_LOCK_SCHEMA_VERSION = "cmf_runtime_source_lock_v1"
 SOURCE_COMMIT = "c3ddfa8b97d5519efa828b075999bd0006778e5e"
@@ -96,15 +98,7 @@ class SourceLockError(RuntimeError):
 
 
 def _canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _sha256_file(path: Path) -> str:
@@ -287,7 +281,7 @@ def validate_runtime_source_lock(
 ) -> dict:
     if not isinstance(value, Mapping) or value.get("schema_version") != SOURCE_LOCK_SCHEMA_VERSION:
         raise SourceLockError("runtime source lock schema mismatch")
-    receipt = json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    receipt = canonical_jsonable(value)
     sealed = dict(receipt)
     expected_hash = sealed.pop("source_lock_receipt_sha256", None)
     if not isinstance(expected_hash, str) or _canonical_sha256(sealed) != expected_hash:

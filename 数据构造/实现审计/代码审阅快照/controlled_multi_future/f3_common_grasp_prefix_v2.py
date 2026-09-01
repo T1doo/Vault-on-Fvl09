@@ -7,10 +7,9 @@ thresholds remain unchanged.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from typing import Any, Mapping
 
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .f3_grasp_robustness_v10 import build_f3_common_grasp_contract_v10
 
 
@@ -23,9 +22,7 @@ POST_CLOSE_SETTLE_FRAMES = 250
 
 
 def _sha(value: Mapping[str, Any]) -> str:
-    return hashlib.sha256(
-        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def build_f3_common_grasp_prefix_v2() -> dict[str, Any]:
@@ -80,7 +77,7 @@ def build_f3_common_grasp_prefix_v2() -> dict[str, Any]:
 
 
 def validate_f3_common_grasp_prefix_v2(value: Mapping[str, Any]) -> dict[str, Any]:
-    normalized = json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    normalized = canonical_jsonable(value)
     digest = normalized.pop("contract_sha256", None)
     if not isinstance(digest, str) or digest != _sha(normalized):
         raise ValueError("F3CommonGraspPrefixV2 hash mismatch")

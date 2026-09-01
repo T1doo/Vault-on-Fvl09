@@ -9,7 +9,7 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Mapping, Sequence
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 
 
 SCHEMA_VERSION = "cmf_f1_batch_generation_pilot_plan_v1"

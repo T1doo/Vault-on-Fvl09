@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
 import traceback
 from typing import Any, Mapping
 
+from ..canonical_artifact import (
+    build_self_hashed_receipt,
+    canonical_hash_json,
+    canonical_write_json,
+)
 from ..f2_asset_bound_runtime_v3 import (
     RoboTwinRealSapienF2AssetBoundAdapterV3,
 )
@@ -41,9 +45,7 @@ from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(value, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _terminal_gate_chain(
@@ -441,11 +443,8 @@ def main(argv=None) -> int:
         "stage0_authorized": False,
         "stage1_authorized": False,
     }
-    aggregate["receipt_sha256"] = _hash_json(aggregate)
-    (output / "receipt.json").write_text(
-        json.dumps(aggregate, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    aggregate = build_self_hashed_receipt(aggregate)
+    canonical_write_json(output / "receipt.json", aggregate)
     try:
         result = F2DynamicThenDevelopmentRunnerV3(
             matrix=_load(Path(authorization["matrix_publication_path"])),
@@ -475,13 +474,9 @@ def main(argv=None) -> int:
             "message": str(exc),
             "traceback": traceback.format_exc(),
         }
-    aggregate["receipt_sha256"] = _hash_json(
-        {key: value for key, value in aggregate.items() if key != "receipt_sha256"}
-    )
-    (output / "receipt.json").write_text(
-        json.dumps(aggregate, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    aggregate.pop("receipt_sha256", None)
+    aggregate = build_self_hashed_receipt(aggregate)
+    canonical_write_json(output / "receipt.json", aggregate)
     return 0 if aggregate["pass"] else 1
 
 

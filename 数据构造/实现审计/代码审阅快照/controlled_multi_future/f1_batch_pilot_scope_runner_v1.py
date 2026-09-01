@@ -8,7 +8,7 @@ from pathlib import Path
 import traceback
 from typing import Any, Callable, Mapping
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .f1_batch_generation_pilot_v1 import validate_f1_batch_pilot_plan_v1
 from .f1_batch_pilot_finalizer_v1 import (
     build_reserve_activation_receipt_v1,

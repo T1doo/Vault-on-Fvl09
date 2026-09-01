@@ -8,6 +8,7 @@ import os
 import traceback
 from pathlib import Path
 
+from ..canonical_artifact import canonical_write_json
 from ..f1_batch_generation_pilot_v1 import IMPLEMENTATION_VERSION
 from ..f1_batch_pilot_root_runner_v1 import F1BatchPilotRootRunnerV1
 from ..f1_batch_pilot_scope_runner_v1 import F1BatchPilotScopeRunnerV1
@@ -18,11 +19,7 @@ from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 
 
 def _write(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(path, value)
 
 
 def main():

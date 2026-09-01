@@ -8,6 +8,7 @@ import os
 import traceback
 from pathlib import Path
 
+from ..canonical_artifact import canonical_write_json
 from ..closure_f3_scope_v2_1 import SCOPE, budget
 from ..f3_common_grasp_prefix_v2_1 import IMPLEMENTATION_VERSION
 from ..f3_shared_prefix_no_suffix_diagnostic_v1_1 import (
@@ -21,11 +22,7 @@ from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 
 
 def _write(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(path, value)
 
 
 def _cleanup(rows):

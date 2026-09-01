@@ -8,13 +8,14 @@ frames.  A video never substitutes for raw actions, states or verifier truth.
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 from pathlib import Path
 from typing import Any, Mapping
 
 import imageio.v2 as imageio
 import numpy as np
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 
 SCHEMA_VERSION = "cmf_stage0_trajectory_mp4_v1"
@@ -25,15 +26,7 @@ CAMERA_NAME = "head_camera"
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _file_sha256(path: Path) -> str:
@@ -178,7 +171,7 @@ def validate_stage0_trajectory_mp4_receipt_v1(
 ) -> dict[str, Any]:
     if not isinstance(value, Mapping):
         raise ValueError("Stage 0 trajectory video receipt is missing")
-    receipt = json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
+    receipt = canonical_jsonable(value)
     payload = dict(receipt)
     digest = payload.pop("receipt_sha256", None)
     path = Path(str(receipt.get("path", ""))).resolve()

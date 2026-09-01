@@ -18,6 +18,7 @@ import subprocess
 import time
 from typing import Any, Mapping, Sequence
 
+from ..canonical_artifact import canonical_hash_json, canonical_write_json
 from ..runtime_source_lock_v1 import SourceLockError, load_runtime_source_lock
 from .gpu_guard import (
     build_child_environment,
@@ -27,14 +28,13 @@ from .gpu_guard import (
     snapshot,
     verify_post_release,
 )
-from .gpu_guard_v2_1 import command_sha256, update_child_receipt_v2_1, write_json
+from .gpu_guard_v2_1 import command_sha256, update_child_receipt_v2_1
 from .runtime_v3_3_authorization_v1 import (
     AuthorizationBindingError,
     AuthorizationError,
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
     CANONICAL_GPU_LEASE_DIRECTORY,
     CANONICAL_JOB_CACHE_DIRECTORY,
-    canonical_sha256,
     consume_authorization_once,
     load_authorization_v3_3,
     validate_consumption_receipt,
@@ -104,6 +104,12 @@ from .f4_selected_layout_authorization_v2 import (
     load as load_f4_selected_layout_v2,
     validate_consumption as validate_f4_selected_layout_consumption_v2,
 )
+from .development_consolidation_authorization_v1 import (
+    IMPLEMENTATION_VERSION as DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION,
+    consume as consume_development_consolidation_v1,
+    load as load_development_consolidation_v1,
+    validate_consumption as validate_development_consolidation_consumption_v1,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -129,8 +135,8 @@ JOB_CACHE_ENVIRONMENT_SUBDIRECTORIES = {
 
 def _write_guard_receipt(path: Path, value: dict[str, Any]) -> None:
     value.pop("guard_receipt_sha256", None)
-    value["guard_receipt_sha256"] = canonical_sha256(value)
-    write_json(path, value)
+    value["guard_receipt_sha256"] = canonical_hash_json(value)
+    canonical_write_json(path, value, mode=0o600)
 
 
 def _authorization_implementation(path: Path) -> str:
@@ -143,6 +149,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
+        return load_development_consolidation_v1(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == "controlled_multi_future_f1_batch_pilot_v1":
         return load_f1_batch_pilot_v1(
             path, requested_scope=requested_scope, **kwargs
@@ -195,6 +205,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
+        return consume_development_consolidation_v1(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_f1_batch_pilot_v1":
         return consume_f1_batch_pilot_v1(
             authorization, ledger_directory=ledger_directory
@@ -249,6 +263,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:
+        return validate_development_consolidation_consumption_v1(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == "controlled_multi_future_f1_batch_pilot_v1":
         return validate_f1_batch_pilot_consumption_v1(consumption, authorization)
     if authorization.get("implementation_version") == "controlled_multi_future_f2_asset_redesign_dynamic_v3":
@@ -485,14 +503,7 @@ def build_isolated_child_environment(
 
 def claim_guard_receipt(path: Path, payload: Mapping[str, Any]) -> None:
     path = _require_workspace_path(Path(path), "guard receipt")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    data = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
-    fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-    with os.fdopen(fd, "wb") as handle:
-        os.fchmod(fd, 0o600)
-        handle.write(data)
-        handle.flush()
-        os.fsync(fd)
+    canonical_write_json(path, payload, exclusive=True, mode=0o600)
 
 
 def _set_parent_death_signal(
@@ -802,6 +813,9 @@ def main() -> int:
     f4_selected_layout_v2_mode = raw_authorization.get(
         "implementation_version"
     ) == "controlled_multi_future_post_stage0_f4_selected_layout_v2"
+    development_consolidation_v1_mode = raw_authorization.get(
+        "implementation_version"
+    ) == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
@@ -825,6 +839,8 @@ def main() -> int:
             if f2_dynamic_development_v3_mode
             else "post_stage0_f4_selected_layout_v2"
             if f4_selected_layout_v2_mode
+            else "development_pipeline_consolidation_v1"
+            if development_consolidation_v1_mode
             else "pre_stage0_nonformal_validation"
         ),
         "formal_data": False,
@@ -1229,7 +1245,7 @@ def main() -> int:
                 child_receipt["status"] = "failed_cleanup_uncertain"
             else:
                 child_receipt["status"] = "aborted_with_reason"
-            write_json(args.output_dir / "receipt.json", child_receipt)
+            canonical_write_json(args.output_dir / "receipt.json", child_receipt)
         if post_source_lock_pass is not True:
             child_receipt["post_source_lock_error"] = post_source_lock_error
             if (
@@ -1237,12 +1253,12 @@ def main() -> int:
                 and child_receipt.get("status") != "failed_cleanup_uncertain"
             ):
                 child_receipt["status"] = "failed_runtime_source_lock"
-            write_json(args.output_dir / "receipt.json", child_receipt)
+            canonical_write_json(args.output_dir / "receipt.json", child_receipt)
         cleanup_uncertain = cleanup_uncertain or child_receipt.get("status") == "failed_cleanup_uncertain"
         sealed = dict(child_receipt)
         sealed.pop("guard_sealed_receipt_sha256", None)
-        child_receipt["guard_sealed_receipt_sha256"] = canonical_sha256(sealed)
-        write_json(args.output_dir / "receipt.json", child_receipt)
+        child_receipt["guard_sealed_receipt_sha256"] = canonical_hash_json(sealed)
+        canonical_write_json(args.output_dir / "receipt.json", child_receipt)
     if cleanup_uncertain:
         terminal_status, return_code = classify_terminal_status(
             child_started=child is not None,
@@ -1299,7 +1315,7 @@ def main() -> int:
     guard["stdout_log"] = _file_evidence(stdout_path)
     guard["stderr_log"] = _file_evidence(stderr_path)
     guard["child_receipt_file"] = _file_evidence(args.output_dir / "receipt.json")
-    guard["guard_receipt_sha256"] = canonical_sha256(guard)
+    guard["guard_receipt_sha256"] = canonical_hash_json(guard)
     _write_guard_receipt(args.guard_receipt, guard)
     for signum, handler in original_signal_handlers.items():
         signal.signal(signum, handler)

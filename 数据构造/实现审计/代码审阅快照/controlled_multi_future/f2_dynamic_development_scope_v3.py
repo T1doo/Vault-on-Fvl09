@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 from pathlib import Path
 from typing import Any, Mapping
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 
 SCOPE = "F2_asset_redesign_dynamic_12_then_one_root_v3"
@@ -29,13 +29,11 @@ GUARD = AUDIT / "gpu_guards" / GROUP / f"{NAMESPACE}.guard.json"
 
 
 def _copy(value: Any) -> Any:
-    return json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(value, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def f2_dynamic_development_budget_v3() -> dict[str, Any]:

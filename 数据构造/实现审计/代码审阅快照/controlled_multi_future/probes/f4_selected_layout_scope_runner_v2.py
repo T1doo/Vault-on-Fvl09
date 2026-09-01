@@ -8,6 +8,7 @@ import os
 import traceback
 from pathlib import Path
 
+from ..canonical_artifact import canonical_write_json
 from ..f4_layout_candidate_search_v2 import (
     IMPLEMENTATION_VERSION,
     finalize_single_selected_layout_dispatch_v2,
@@ -23,11 +24,7 @@ from .gpu_guard_v2_4 import require_atomic_gpu_guard_v2_4
 
 
 def _write(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(path, value)
 
 
 def _cleanup(rows):

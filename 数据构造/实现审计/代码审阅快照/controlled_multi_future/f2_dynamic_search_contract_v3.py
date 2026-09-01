@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 from typing import Any, Mapping, Sequence
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 from .f2_asset_geometry_layout_v3 import (
     evaluate_asset_derived_layout_cpu_v3,
@@ -28,19 +28,11 @@ MAX_DYNAMIC_CANDIDATES = 12
 
 
 def _copy(value: Any) -> Any:
-    return json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            allow_nan=False,
-            sort_keys=True,
-            separators=(",", ":"),
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _decision(value: dict[str, Any]) -> dict[str, Any]:

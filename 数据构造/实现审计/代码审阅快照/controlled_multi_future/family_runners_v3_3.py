@@ -119,8 +119,12 @@ from .f3_symmetric_staged_release_v9 import (
 )
 from .f3_grasp_robustness_v10 import (
     POST_CLOSE_SETTLE_FRAMES as F3_POST_CLOSE_SETTLE_FRAMES_V10,
+    _target_from_pregrasp as _f3_target_from_pregrasp,
     audit_f3_grasp_robustness_diagnostic_v10,
     build_f3_common_grasp_contract_v10,
+)
+from .f3_grasp_qualification_v1 import (
+    build_f3_selected_grasp_contract_v1,
 )
 from .f3_contact_preserving_prefix_v11 import (
     build_f3_contact_preserving_prefix_contract_v11,
@@ -226,6 +230,10 @@ from .f4_layout_candidate_search_v2 import (
     SELECTED_LAYOUT_SCOPE as F4_SELECTED_LAYOUT_SCOPE_V2,
     build_selected_layout_base_targets_v2,
     validate_selected_layout_runtime_binding_v2,
+)
+from .f4_template_qualification_v1 import (
+    SCOPE as F4_TEMPLATE_QUALIFICATION_SCOPE_V1,
+    validate_f4_template_candidate_spec_v1,
 )
 from .planner_dtype_v3_2 import planner_array
 from .probes.runtime_trace import _rigid_velocity_with_provenance
@@ -3719,8 +3727,20 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         }
         repair = getattr(self, "f3_shared_prefix_repair_v11", None)
         repair_v2 = getattr(self, "f3_common_grasp_prefix_v2", None)
-        if repair is not None and repair_v2 is not None:
-            raise ValueError("F3 shared-prefix repairs are mutually exclusive")
+        qualified = getattr(self, "f3_selected_stable_grasp_contract_v1", None)
+        if sum(value is not None for value in (repair, repair_v2, qualified)) > 1:
+            raise ValueError("F3 grasp/prefix development contracts are mutually exclusive")
+        if qualified is not None:
+            qualified = build_f3_selected_grasp_contract_v1(qualified["candidate"])
+            if getattr(self, "f3_selected_stable_grasp_contract_v1") != qualified:
+                raise ValueError("F3 selected stable grasp contract changed")
+            candidate = qualified["candidate"]
+            result["prefix_id"] = "f3_selected_stable_grasp_v1_shared_first_v"
+            result["ops"][2] = "selected_stable_grasp_close_0_50_v1"
+            result["f3_selected_stable_grasp_contract_v1"] = qualified
+            result["close_normalized_target"] = candidate[
+                "close_normalized_target"
+            ]
         if repair_v2 is not None:
             repair_v2 = validate_f3_common_grasp_prefix_v2(repair_v2)
             result["prefix_id"] = "f3_common_grasp_prefix_v2_shared_first_v"
@@ -3751,6 +3771,16 @@ class F3ControllerV3_3(FamilyControllerV3_3):
     ):
         self.initialize_prefix_replay_trace(scene)
         scene.planner_query_limit = 32
+        qualified = getattr(self, "f3_selected_stable_grasp_contract_v1", None)
+        qualified_candidate = None
+        if qualified is not None:
+            qualified = build_f3_selected_grasp_contract_v1(qualified["candidate"])
+            qualified_candidate = qualified["candidate"]
+        contact_point_id = (
+            qualified_candidate["contact_point_id"]
+            if qualified_candidate is not None
+            else 0
+        )
         selected, target_construction_audit = (
             _audited_planner_assisted_target_construction(
                 scene,
@@ -3762,18 +3792,51 @@ class F3ControllerV3_3(FamilyControllerV3_3):
                     arm_tag=_arm_tag_left(),
                     pre_dis=0.09,
                     target_dis=0,
-                    contact_point_id=0,
+                    contact_point_id=contact_point_id,
                 ),
-                fixed_contact_point_ids=(0,),
+                fixed_contact_point_ids=(contact_point_id,),
             )
         )
-        pregrasp, grasp = selected
+        if qualified_candidate is None:
+            pregrasp, grasp = selected
+        else:
+            batch = target_construction_audit["batch_receipts"][0]
+            rotation_index = int(qualified_candidate["rotation_candidate_index"])
+            if (
+                batch["contact_point_id"] != contact_point_id
+                or rotation_index < 0
+                or rotation_index >= len(batch["ordered_goal_poses"])
+                or batch["candidate_statuses"][rotation_index] != "Success"
+            ):
+                raise RuntimeError("F3 qualification candidate failed planner screen")
+            pregrasp = np.asarray(
+                batch["ordered_goal_poses"][rotation_index], dtype=np.float64
+            )
+            grasp = _f3_target_from_pregrasp(pregrasp)
+            target_construction_audit["qualification_selected_candidate"] = (
+                qualified_candidate
+            )
+            target_construction_audit[
+                "qualification_selected_pregrasp_pose"
+            ] = pregrasp.tolist()
+            target_construction_audit[
+                "qualification_selected_grasp_pose"
+            ] = grasp.tolist()
+            target_construction_audit[
+                "qualification_selected_candidate_planner_status"
+            ] = batch["candidate_statuses"][rotation_index]
         frozen_grasp = build_f3_common_grasp_contract_v10()
         repair = getattr(self, "f3_shared_prefix_repair_v11", None)
         repair_v2 = getattr(self, "f3_common_grasp_prefix_v2", None)
-        if repair is not None and repair_v2 is not None:
-            raise ValueError("F3 shared-prefix repairs are mutually exclusive")
-        if repair_v2 is not None:
+        if sum(value is not None for value in (repair, repair_v2, qualified)) > 1:
+            raise ValueError("F3 grasp/prefix development contracts are mutually exclusive")
+        if qualified is not None:
+            if prefix_contract.get("f3_selected_stable_grasp_contract_v1") != qualified:
+                raise ValueError("F3 selected stable grasp binding changed")
+            close_normalized_target = qualified_candidate[
+                "close_normalized_target"
+            ]
+        elif repair_v2 is not None:
             repair_v2 = validate_f3_common_grasp_prefix_v2(repair_v2)
             if prefix_contract.get("f3_common_grasp_prefix_v2") != repair_v2:
                 raise ValueError("F3CommonGraspPrefixV2 binding changed")
@@ -3785,7 +3848,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
             close_normalized_target = repair["close_normalized_target"]
         else:
             close_normalized_target = frozen_grasp["close_normalized_target"]
-        if (
+        if qualified is None and (
             target_construction_audit["callback_selected_pose_match_count"] != 1
             or target_construction_audit["callback_selected_contact_point_id"]
             != frozen_grasp["contact_point_id"]
@@ -3805,6 +3868,7 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         target_construction_audit["frozen_selection_verified"] = True
         target_construction_audit["shared_prefix_repair_v11"] = repair
         target_construction_audit["f3_common_grasp_prefix_v2"] = repair_v2
+        target_construction_audit["f3_selected_stable_grasp_contract_v1"] = qualified
         target_construction_audit["close_normalized_target"] = (
             close_normalized_target
         )
@@ -3865,10 +3929,15 @@ class F3ControllerV3_3(FamilyControllerV3_3):
         )
         if clearance_audit["pass"] is not True:
             raise RuntimeError("F3 held-envelope clearance audit failed")
+        grasp_contract_sha256 = (
+            qualified["contract_sha256"]
+            if qualified is not None
+            else frozen_grasp["contract_sha256"]
+        )
         carry_route = build_f3_clearance_route_targets(
             post_lift_eef,
             clearance_audit,
-            grasp_contract_sha256=frozen_grasp["contract_sha256"],
+            grasp_contract_sha256=grasp_contract_sha256,
         )
         if carry_route["pass"] is not True:
             raise RuntimeError("F3 clearance carry route audit failed")
@@ -5400,6 +5469,28 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             if selected_layout_v2
             else None
         )
+        template_qualification_v1 = (
+            isinstance(planned, Mapping)
+            and planned.get("scope") == F4_TEMPLATE_QUALIFICATION_SCOPE_V1
+        )
+        template_spec_v1 = (
+            validate_f4_template_candidate_spec_v1(planned)
+            if template_qualification_v1
+            else None
+        )
+        template_candidate_v1 = (
+            next(
+                item
+                for item in template_spec_v1["f4_template_qualification_v1"][
+                    "candidates"
+                ]
+                if item["candidate_id"]
+                == template_spec_v1["selected_layout_candidate_id"]
+            )
+            if template_qualification_v1
+            else None
+        )
+        candidate_layout_development = selected_layout_v2 or template_qualification_v1
         if (
             isinstance(planned, Mapping)
             and planned.get("generator")
@@ -5410,7 +5501,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             raise ValueError(
                 "F4 Stage 0 v1.1 requires its frozen canonical neutral binding"
             )
-        if post_stage0_layout or selected_layout_v2:
+        if post_stage0_layout or candidate_layout_development:
             if (
                 (
                     post_stage0_layout
@@ -5424,11 +5515,15 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     else F4_SELECTED_LAYOUT_CORRIDOR_ID_V2
                 )
                 or (
-                    selected_layout_v2
+                    candidate_layout_development
                     and layout_version
-                    != selected_layout_binding_v2["candidate"]["layout"][
-                        "layout_version"
-                    ]
+                    != (
+                        selected_layout_binding_v2["candidate"]["layout"][
+                            "layout_version"
+                        ]
+                        if selected_layout_v2
+                        else template_candidate_v1["layout"]["layout_version"]
+                    )
                 )
             ):
                 raise ValueError("F4 post-Stage-0 layout/corridor binding changed")
@@ -5455,9 +5550,13 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             role: _pose(getattr(scene, f"slot_{role.lower()}")).tolist()
             for role in ("A", "B", "C")
         }
-        if selected_layout_v2:
+        if candidate_layout_development:
             top_down = build_selected_layout_base_targets_v2(
-                candidate=selected_layout_binding_v2["candidate"],
+                candidate=(
+                    selected_layout_binding_v2["candidate"]
+                    if selected_layout_v2
+                    else template_candidate_v1
+                ),
                 object_poses=object_poses,
                 slot_poses=slot_poses,
                 neutral_pose=neutral,
@@ -5539,7 +5638,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
         )
         post_stage0_selected = (
             planned.get("post_stage0_selected_f4_corridor_id")
-            if post_stage0_layout or selected_layout_v2
+            if post_stage0_layout or candidate_layout_development
             else None
         )
         if post_stage0_selected is not None:
@@ -5594,7 +5693,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             selected_route_version = "f4_exact_variable_length_corridor_application_v11"
             selected_route_audit = {
                 "schema_version": (
-                    "cmf_f4_selected_layout_exact_corridor_v2"
+                    "cmf_f4_template_qualification_exact_corridor_v1"
+                    if template_qualification_v1
+                    else "cmf_f4_selected_layout_exact_corridor_v2"
                     if selected_layout_v2
                     else "cmf_f4_post_stage0_selected_exact_corridor_v1"
                 ),
@@ -5617,14 +5718,17 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     if selected_layout_v2
                     else None
                 ),
+                "f4_template_qualification_candidate_spec_v1": (
+                    template_spec_v1 if template_qualification_v1 else None
+                ),
                 "selected_layout_base_target_audit_v2": (
                     top_down.get("post_derivation_target_audit")
-                    if selected_layout_v2
+                    if candidate_layout_development
                     else None
                 ),
                 "selected_layout_base_target_sha256_v2": (
                     top_down.get("post_derivation_target_sha256")
-                    if selected_layout_v2
+                    if candidate_layout_development
                     else None
                 ),
                 "post_corridor_derivation_target_sha256": hash_json(
@@ -5639,7 +5743,9 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                     ]
                 ),
                 "temporary_waypoint_added": False,
-                "automatic_fallback": False if selected_layout_v2 else None,
+                "automatic_fallback": (
+                    False if candidate_layout_development else None
+                ),
                 "pass": len(selected_groups) == 3,
             }
             exact_corridor_v11 = True
@@ -5751,7 +5857,8 @@ class F4ControllerV3_3(FamilyControllerV3_3):
                 "block_carry_route_audit": selected_route_audit,
                 "uniform_top_down_block_carry_contract_v8": top_down,
                 "exact_corridor_v11": exact_corridor_v11,
-                "scene_layout_changed": post_stage0_layout or selected_layout_v2,
+                "scene_layout_changed": post_stage0_layout
+                or candidate_layout_development,
                 "tray_pose_changed": False,
                 "program_changed": False,
                 "verifier_changed": False,

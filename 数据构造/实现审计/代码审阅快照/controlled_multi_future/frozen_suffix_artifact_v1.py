@@ -9,8 +9,9 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
+from .canonical_artifact import canonical_hash_json, canonical_jsonable, canonical_write_json
 from .canonical_prefix_artifact_v1 import array_sha256, canonical_json_sha256, file_sha256
-from .current_hasher import hash_array, hash_json
+from .current_hasher import hash_array
 from .planner_dtype_v3_2 import normalize_planner_control
 
 
@@ -69,15 +70,15 @@ def build_frozen_suffix_artifact(
                 "position_sha256": array_sha256(position),
                 "velocity_sha256": array_sha256(velocity),
                 "control_step_count": int(position.shape[0]),
-                "planner_query": json.loads(
-                    json.dumps(raw_control.get("_cmf_planner_query"), sort_keys=True)
+                "planner_query": canonical_jsonable(
+                    raw_control.get("_cmf_planner_query")
                 )
                 if isinstance(raw_control, Mapping)
                 and isinstance(raw_control.get("_cmf_planner_query"), Mapping)
                 else None,
             }
         )
-    public_spec = json.loads(json.dumps(execution_spec, ensure_ascii=False, sort_keys=True))
+    public_spec = canonical_jsonable(execution_spec)
     public_spec.pop("control_cache_key", None)
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -93,10 +94,8 @@ def build_frozen_suffix_artifact(
         "prefix_artifact_sha256": prefix_artifact_sha256,
         "actual_prefix_end_qpos_sha256": hash_array(qpos),
         "execution_spec": public_spec,
-        "execution_spec_sha256": hash_json(public_spec),
-        "planner_query_receipts": json.loads(
-            json.dumps(planner_query_receipts, ensure_ascii=False, sort_keys=True)
-        ),
+        "execution_spec_sha256": canonical_hash_json(public_spec),
+        "planner_query_receipts": canonical_jsonable(planner_query_receipts),
         "segments": segments,
         "array_hashes": {key: array_sha256(value) for key, value in arrays.items()},
         "arrays_file": "suffix_controls.npz",
@@ -110,7 +109,7 @@ def validate_frozen_suffix_artifact(
 ) -> tuple[dict, dict[str, np.ndarray], list[dict]]:
     if not isinstance(manifest, Mapping) or manifest.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("frozen suffix artifact schema mismatch")
-    value = json.loads(json.dumps(manifest, ensure_ascii=False, sort_keys=True))
+    value = canonical_jsonable(manifest)
     expected_hash = value.pop("artifact_sha256", None)
     value.pop("arrays_file_sha256", None)
     if not isinstance(expected_hash, str) or canonical_json_sha256(value) != expected_hash:
@@ -222,9 +221,8 @@ def write_frozen_suffix_artifact(
     np.savez_compressed(arrays_path, **normalized)
     with_file = dict(validated)
     with_file["arrays_file_sha256"] = file_sha256(arrays_path)
-    (output_dir / "frozen_suffix_artifact.json").write_text(
-        json.dumps(with_file, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    canonical_write_json(
+        output_dir / "frozen_suffix_artifact.json", with_file, mode=0o600
     )
     return with_file
 

@@ -7,9 +7,9 @@ are supplied, the runner fails closed before constructing any scene.
 
 from __future__ import annotations
 
-import hashlib
-import json
 from typing import Any, Callable, Mapping
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 from .f2_official_asset_compatibility_matrix_v3 import (
     PROGRAM_IDS,
@@ -25,19 +25,11 @@ GPU_POLICY_VERSION = "cmf_gpu_parallel_policy_v2"
 
 
 def _copy(value: Any) -> Any:
-    return json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            allow_nan=False,
-            sort_keys=True,
-            separators=(",", ":"),
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def f2_development_budget_v3() -> dict[str, Any]:

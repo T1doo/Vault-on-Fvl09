@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .development_video_capture_v1 import (
     validate_development_trajectory_mp4_receipt_v1,
 )

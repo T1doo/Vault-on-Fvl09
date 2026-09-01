@@ -10,9 +10,10 @@ require separately hash-bound evidence.
 from __future__ import annotations
 
 import hashlib
-import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 
 SCHEMA_VERSION = "cmf_f2_official_asset_compatibility_matrix_v3"
@@ -55,19 +56,11 @@ MINIMUM_STRICT_INSIDE_MARGIN_M = 0.005
 
 
 def _copy(value: Any) -> Any:
-    return json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            allow_nan=False,
-            sort_keys=True,
-            separators=(",", ":"),
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _sha256_file(path: Path) -> str:

@@ -9,7 +9,7 @@ from typing import Any, Mapping
 
 import numpy as np
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json, canonical_write_json
 from .schemas import validate_primary_stream
 
 
@@ -566,7 +566,7 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
     manifest["manifest_payload_sha256"] = hash_json(manifest)
     manifest["manifest_sha256"] = manifest["manifest_payload_sha256"]
     manifest_path = output_dir / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    canonical_write_json(manifest_path, manifest, mode=0o600)
     # A file cannot contain its own final hash without a self-reference paradox.
     # Store the actual manifest-file digest in a sidecar and copy it into the
     # returned receipt descriptor.
@@ -581,10 +581,7 @@ def write_raw_attempt(output_dir: Path, streams: Mapping[str, Any], audit_stream
         "trace_source_sha256": trace_source_sha256,
     }
     sidecar_path = output_dir / "manifest.sha256.json"
-    sidecar_path.write_text(
-        json.dumps(sidecar, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(sidecar_path, sidecar, mode=0o600)
     result = dict(manifest)
     result["manifest_file_sha256"] = manifest_file_sha256
     result["manifest_integrity_sidecar"] = "manifest.sha256.json"

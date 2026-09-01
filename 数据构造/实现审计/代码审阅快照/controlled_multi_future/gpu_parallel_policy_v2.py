@@ -12,10 +12,11 @@ UUID/idle check immediately before authorization consumption and launch.
 from __future__ import annotations
 
 from datetime import datetime, timezone
-import hashlib
 import json
 import re
 from typing import Any, Mapping, Sequence
+
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
 
 
 POLICY_VERSION = "cmf_gpu_parallel_policy_v2"
@@ -32,15 +33,7 @@ class GpuPolicyError(ValueError):
 
 
 def _canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _parse_time(value: Any) -> datetime:
@@ -97,9 +90,7 @@ def _normalize_gpu_snapshot(
                 "memory_used_mib": memory,
                 "utilization_percent": utilization,
                 "pstate": pstate,
-                "compute_processes": json.loads(
-                    json.dumps(processes, sort_keys=True, allow_nan=False)
-                ),
+                "compute_processes": canonical_jsonable(processes),
                 "captured_at": captured.isoformat(),
                 "snapshot_age_seconds": age,
                 "checks": checks,
@@ -135,7 +126,7 @@ def validate_current_gpu_authorization(value: Mapping[str, Any]) -> dict[str, An
     }
     if mismatches:
         raise GpuPolicyError(f"current GPU authorization policy mismatch: {mismatches}")
-    return json.loads(json.dumps(value, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def current_gpu_policy_artifact() -> dict[str, Any]:

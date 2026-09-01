@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 from pathlib import Path
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json
 from .f1_batch_generation_pilot_v1 import (
     IMPLEMENTATION_VERSION,
     build_f1_batch_pilot_plan_v1,
@@ -31,15 +29,7 @@ GUARD = AUDIT / "gpu_guards" / GROUP / f"{NAMESPACE}.guard.json"
 
 
 def _sha(value):
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode()
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def budget():
@@ -121,7 +111,7 @@ def parent():
         "pi05_authorized": False,
         "user_direction_source": "https://chatgpt.com/s/t_6a95674546fc81918e8287f959e8e46c",
     }
-    value["parent_user_authorization_sha256"] = hash_json(value)
+    value["parent_user_authorization_sha256"] = canonical_hash_json(value)
     return value
 
 

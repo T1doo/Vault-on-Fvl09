@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 from pathlib import Path
 import time
@@ -14,6 +13,7 @@ import numpy as np
 
 from .anchor import compare_anchors
 from .candidate_freezer import freeze_candidate_universe
+from .canonical_artifact import canonical_hash_json as hash_json, canonical_write_json
 from .canonical_prefix_artifact_v1 import (
     build_canonical_prefix_artifact,
     write_canonical_prefix_artifact,
@@ -21,7 +21,6 @@ from .canonical_prefix_artifact_v1 import (
 from .canonical_prefix_replay_v1 import replay_canonical_prefix
 from .current_hasher import (
     SameCurrentMismatch,
-    hash_json,
     require_same_current,
 )
 from .development_video_capture_v1 import (
@@ -75,25 +74,7 @@ class TaskAnchorMismatch(ValueError):
 
 
 def _write_json_atomic(path: Path, value: Mapping[str, Any]) -> None:
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    data = (
-        json.dumps(dict(value), ensure_ascii=False, indent=2, sort_keys=True)
-        + "\n"
-    ).encode("utf-8")
-    temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
-    fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    try:
-        offset = 0
-        while offset < len(data):
-            written = os.write(fd, data[offset:])
-            if written <= 0:
-                raise OSError("short write while sealing JSON receipt")
-            offset += written
-        os.fsync(fd)
-    finally:
-        os.close(fd)
-    os.replace(temporary, path)
+    canonical_write_json(path, value, mode=0o600)
 
 
 def _require_same_current_and_persist(

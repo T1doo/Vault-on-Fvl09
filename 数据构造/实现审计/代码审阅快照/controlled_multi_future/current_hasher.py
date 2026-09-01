@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import hashlib
-import json
 from typing import Any, Mapping
 
 import numpy as np
+
+from .canonical_artifact import (
+    canonical_hash_json,
+    canonical_json_bytes,
+    canonical_jsonable,
+)
 
 
 CURRENT_CONTEXT_SCHEMA_VERSION = "current_context_hash_v2"
@@ -103,7 +108,7 @@ PHYSICAL_ENTITY_REQUIRED_FIELDS = (
 
 
 def _json_bytes(value: Any) -> bytes:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    return canonical_json_bytes(value)
 
 
 def hash_array(array) -> str:
@@ -116,19 +121,11 @@ def hash_array(array) -> str:
 
 
 def hash_json(value: Any) -> str:
-    return hashlib.sha256(_json_bytes(value)).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _jsonable(value: Any) -> Any:
-    if isinstance(value, np.ndarray):
-        return value.tolist()
-    if isinstance(value, np.generic):
-        return value.item()
-    if isinstance(value, Mapping):
-        return {str(key): _jsonable(item) for key, item in value.items()}
-    if isinstance(value, (list, tuple)):
-        return [_jsonable(item) for item in value]
-    return value
+    return canonical_jsonable(value)
 
 
 def validate_camera_configuration(value: Mapping[str, Any]) -> dict:

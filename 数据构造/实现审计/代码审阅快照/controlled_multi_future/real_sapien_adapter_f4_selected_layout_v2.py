@@ -7,7 +7,7 @@ from typing import Any
 
 import numpy as np
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .f4_layout_candidate_search_v2 import IMPLEMENTATION_VERSION
 from .real_sapien_adapter_closure_f4_v2 import (
     RoboTwinRealSapienClosureF4V2Adapter,

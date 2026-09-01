@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 from typing import Any, Mapping
 
 import numpy as np
+
+from .canonical_artifact import canonical_hash_json
 
 from .f2_beside_historical_safe_route_v4 import actor_origin_z_for_table_support
 from .f2_official_asset_compatibility_matrix_v3 import (
@@ -42,15 +43,7 @@ PLANNER_ONLY_STOP_SCHEMA = "cmf_f2_asset_bound_planner_only_stop_v3"
 
 
 def _hash_json(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            allow_nan=False,
-            sort_keys=True,
-            separators=(",", ":"),
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _actor_pose_centered_on_support(

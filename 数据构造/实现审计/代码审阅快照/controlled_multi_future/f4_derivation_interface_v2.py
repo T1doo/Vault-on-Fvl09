@@ -4,10 +4,10 @@ Normalizes the historical A-role special case (which had no top-level pass)
 and rejects scalar/sentinel/non-finite/non-pose targets before any IK query.
 """
 from __future__ import annotations
-import hashlib,json
 from typing import Any,Mapping
 import numpy as np
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 SCHEMA_VERSION="cmf_f4_derivation_interface_v2"
 def _target_hash(targets):
  normalized=[]
@@ -17,7 +17,7 @@ def _target_hash(targets):
   if not isinstance(sid,str) or not sid or pose.shape!=(7,) or not np.all(np.isfinite(pose)):raise ValueError(f"target {i} must be finite shape-(7,)")
   if float(np.linalg.norm(pose[3:]))<=1e-12:raise ValueError(f"target {i} quaternion invalid")
   normalized.append({"segment_id":sid,"pose":pose.tolist()})
- return hashlib.sha256(json.dumps(normalized,sort_keys=True,separators=(",",":"),allow_nan=False).encode()).hexdigest(),normalized
+ return canonical_hash_json(normalized),normalized
 def validate_f4_derivation_interface_v2(derived:Mapping[str,Any],*,role:str,selected_candidate:Mapping[str,Any]):
  if not isinstance(derived,Mapping) or role not in ("A","B","C"):raise ValueError("F4 derivation mapping/role invalid")
  if derived.get("role")!=role or derived.get("selected_candidate_id")!=selected_candidate.get("candidate_id"):raise ValueError("F4 derivation identity mismatch")

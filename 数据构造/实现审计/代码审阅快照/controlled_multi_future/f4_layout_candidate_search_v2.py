@@ -14,7 +14,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .f4_arm_asset_layout_v3_2 import (
     RIGHT_ARM_COMMON_GRASP_ORIENTATION_WXYZ,
     audit_layout,
@@ -594,8 +594,12 @@ def build_selected_layout_base_targets_v2(
     order = tuple(object_order)
     if order not in PROGRAM_ORDERS:
         raise ValueError("F4 selected-layout V2 program order changed")
-    if candidate.get("candidate_id") != "f4-layout-v2-c01":
-        raise ValueError("F4 selected-layout V2 only permits frozen c01")
+    frozen_candidates = {
+        item["candidate_id"]: item for item in preregistered_f4_layout_candidates_v2()
+    }
+    frozen = frozen_candidates.get(candidate.get("candidate_id"))
+    if frozen is None or dict(candidate) != frozen:
+        raise ValueError("F4 selected-layout targets require an exact frozen V2 candidate")
     if candidate.get("temporary_waypoint_allowed") is not False or candidate.get(
         "added_waypoints"
     ) != []:

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
-from .current_hasher import hash_json
+from .canonical_artifact import canonical_hash_json as hash_json
 from .f3_common_grasp_prefix_v2 import (
     CONTRACT_VERSION,
     build_f3_common_grasp_prefix_v2,

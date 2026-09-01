@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 from pathlib import Path
 from typing import Any, Mapping
 
+from .canonical_artifact import canonical_hash_json
 from .stage0_video_capture_v1 import Stage0TrajectoryMP4RecorderV1
 
 
@@ -15,15 +15,7 @@ SCHEMA_VERSION = "cmf_development_trajectory_mp4_v1"
 
 
 def _sha(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(
-            value,
-            ensure_ascii=False,
-            sort_keys=True,
-            separators=(",", ":"),
-            allow_nan=False,
-        ).encode("utf-8")
-    ).hexdigest()
+    return canonical_hash_json(value)
 
 
 def _file_sha256(path: Path) -> str:

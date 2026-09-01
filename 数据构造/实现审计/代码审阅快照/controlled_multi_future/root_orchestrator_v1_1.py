@@ -12,7 +12,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from copy import deepcopy
 import hashlib
-import json
 from pathlib import Path
 import time
 import traceback
@@ -22,7 +21,13 @@ import numpy as np
 
 from .anchor import compare_anchors, quaternion_angular_error
 from .candidate_freezer import freeze_candidate_universe
-from .current_hasher import hash_json, require_same_current
+from .canonical_artifact import (
+    canonical_json_bytes,
+    canonical_jsonable,
+    canonical_write_json,
+)
+from .canonical_artifact import canonical_hash_json as hash_json
+from .current_hasher import require_same_current
 from .raw_writer import write_raw_attempt
 from .schemas import validate_exactly_three_programs
 
@@ -109,24 +114,11 @@ class RealSapienPilotRootAdapterV1_1(ABC):
 
 def _json_compatible(value: Any) -> Any:
     """Normalize runtime NumPy values before sealing audit JSON."""
-
-    if isinstance(value, np.ndarray):
-        return [_json_compatible(item) for item in value.tolist()]
-    if isinstance(value, np.generic):
-        return value.item()
-    if isinstance(value, Mapping):
-        return {str(key): _json_compatible(item) for key, item in value.items()}
-    if isinstance(value, (list, tuple)):
-        return [_json_compatible(item) for item in value]
-    return value
+    return canonical_jsonable(value)
 
 
 def _write_json(path: Path, value: Mapping[str, Any] | Sequence[Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(_json_compatible(value), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    canonical_write_json(path, value)
 
 
 def _save_partial_trace_if_available(scene: Any, branch_dir: Path, branch: MutableMapping[str, Any]) -> None:
@@ -149,12 +141,7 @@ def _save_partial_trace_if_available(scene: Any, branch_dir: Path, branch: Mutab
 
 def _append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(
-        _json_compatible(value),
-        ensure_ascii=False,
-        sort_keys=True,
-        separators=(",", ":"),
-    )
+    payload = canonical_json_bytes(value).decode("utf-8")
     with path.open("a", encoding="utf-8") as handle:
         handle.write(payload + "\n")
         handle.flush()
@@ -162,8 +149,7 @@ def _append_jsonl(path: Path, value: Mapping[str, Any]) -> None:
 
 def _immutable_copy(value: Any) -> Any:
     """Return a detached JSON copy so adapters never receive canonical objects."""
-
-    return json.loads(json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False))
+    return canonical_jsonable(value)
 
 
 def _require_unchanged(value: Any, expected_sha256: str, label: str) -> None:
