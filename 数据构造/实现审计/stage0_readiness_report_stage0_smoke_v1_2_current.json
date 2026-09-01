@@ -3,6 +3,10 @@
   "decision": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
   "next_stage_cpu_freeze_version": "V1_3",
   "next_stage_implementation_source_sha256": "9873bbe87ed44f7d54003e831ddf9015159036da8078e5cab29ccdc9fcd9fc72",
+  "next_stage_development_result": "COMPLETED_WITH_MIXED_TEMPLATE_EVIDENCE",
+  "next_stage_development_report": "NEXT_STAGE_TEMPLATE_DEVELOPMENT_RESULT_V1.json",
+  "stage1_ready_families": ["F1"],
+  "stage1_blocked_families": ["F2", "F3", "F4"],
   "superseded_unconsumed_prelaunch_bundles": ["F1-run1", "F3-run1", "F4-run1", "F1-run2", "F3-run2", "F4-run2"],
   "stage0_completed": true,
   "active_stage0_slot_count": 12,
@@ -15,9 +19,13 @@
     "stage0_status": "PASS",
     "stage1_candidate_ready": true,
     "batch_pilot_cpu_implemented": true,
-    "batch_pilot_gpu_status": "PENDING_RUN4_NOT_RUN",
+    "batch_pilot_gpu_status": "PASS_5_OF_5_ROOTS_15_OF_15_TRAJECTORIES",
     "batch_pilot_target_roots": 5,
-    "batch_pilot_target_development_trajectories": 15
+    "batch_pilot_target_development_trajectories": 15,
+    "batch_pilot_accepted_roots": 5,
+    "batch_pilot_accepted_development_trajectories": 15,
+    "batch_pilot_reserve_activations": 0,
+    "batch_pilot_formal_increment": 0
   },
   "F2": {
     "stage0_replacement_result": {
@@ -28,9 +36,11 @@
     "development_template_ready": false,
     "asset_matrix_cpu_status": "PASS_1650_ROWS_860_STATIC_ADMISSIBLE",
     "bounded_dynamic_candidate_ranks": [50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61],
-    "dynamic_gpu_status": "PENDING_RUN2_NOT_RUN",
+    "dynamic_gpu_status": "FAILED_INFRASTRUCTURE_NUMPY_BOOL_JSON_SERIALIZATION",
     "selected_asset_layout_binding": null,
-    "blocker": "pending_bounded_dynamic_asset_physics_and_planner_gate"
+    "development_execution_count": 0,
+    "new_physical_conclusion": null,
+    "blocker": "normalize_numpy_bool_before_dynamic_receipt_hash_and_reenter_under_new_version"
   },
   "F3": {
     "stage0_status": "FAILED_EXECUTION_WITH_EVIDENCE",
@@ -38,12 +48,12 @@
     "post_stage0_diagnostic_status": "FAILED_INFRASTRUCTURE_BEFORE_PHYSICAL_DIAGNOSTIC",
     "closure_v1_physical_prefix_attempts": 0,
     "v2_1_interface_cpu_status": "PASS",
-    "v2_1_physical_prefix_attempts": 0,
+    "v2_1_physical_prefix_attempts": 1,
     "v2_1_new_namespace_diagnostic_authorized": true,
-    "v2_1_gpu_status": "PENDING_RUN4_NOT_RUN",
+    "v2_1_gpu_status": "FAILED_PHYSICAL_REAL_PREFIX_EXECUTION",
     "old_closure_v1_retry_allowed": false,
-    "task_asset_redesign_required_only_after_real_v2_1_physical_failure": true,
-    "blocker": "pending_first_real_F3CommonGraspPrefixV2_1_three_scene_diagnostic"
+    "task_asset_redesign_required": true,
+    "blocker": "close_0_50_unstable_grasp_contact_and_bottle_not_off_support"
   },
   "F4": {
     "stage0_status": "FAILED_PLANNER_WITH_EVIDENCE",
@@ -57,9 +67,10 @@
     "finite_layout_search_cpu_status": "PASS",
     "cpu_selected_layout_candidate": "f4-layout-v2-c01",
     "cpu_selection_is_ik_evidence": false,
-    "selected_layout_gpu_status": "PENDING_RUN4_NOT_RUN",
+    "selected_layout_gpu_status": "FAILED_A_PREGRASP_IK_NO_FALLBACK",
     "automatic_fallback_allowed": false,
-    "blocker": "pending_selected_layout_c01_complete_planner_only_gate"
+    "rendered_visibility_pass": false,
+    "blocker": "c01_A_pregrasp_motiongen_ik_fail_and_visibility_aggregate_fail"
   },
   "canonical_stage1_authorized": false,
   "formal_collection_authorized": false,
