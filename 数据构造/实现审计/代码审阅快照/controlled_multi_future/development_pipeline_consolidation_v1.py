@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 from typing import Any, Mapping
 
 from .canonical_artifact import canonical_hash_json, canonical_write_json
@@ -234,6 +235,24 @@ def issue_job_bundle_v1(
 ) -> dict[str, Any]:
     if HEX40.fullmatch(reviewed_content_commit) is None:
         raise ValueError("reviewed Vault commit must be a 40-character SHA")
+    local_head = subprocess.run(
+        ["git", "-C", str(AUDIT.parents[1]), "rev-parse", "HEAD"],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout.strip()
+    remote_head = subprocess.run(
+        ["git", "-C", str(AUDIT.parents[1]), "rev-parse", "origin/main"],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout.strip()
+    if reviewed_content_commit != local_head or local_head != remote_head:
+        raise ValueError(
+            "reviewed Vault commit must equal clean published local HEAD and origin/main"
+        )
     if not re.fullmatch(r"[a-z0-9][a-z0-9._-]+", authorization_id):
         raise ValueError("authorization ID is not path-safe")
     spec = _validate_spec_for_job(job_kind, planned_root_slot_spec)

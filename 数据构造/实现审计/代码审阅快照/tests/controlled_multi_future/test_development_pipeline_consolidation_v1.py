@@ -6,6 +6,7 @@ from controlled_multi_future.canonical_artifact import canonical_hash_json
 from controlled_multi_future.development_pipeline_consolidation_v1 import (
     build_cpu_registry_v1,
     build_parent_authorization_v1,
+    issue_job_bundle_v1,
 )
 
 
@@ -43,6 +44,15 @@ class DevelopmentPipelineConsolidationV1Tests(unittest.TestCase):
         payload = dict(registry)
         digest = payload.pop("registry_sha256")
         self.assertEqual(canonical_hash_json(payload), digest)
+
+    def test_bundle_issuer_rejects_non_head_reviewed_commit_before_writes(self):
+        with self.assertRaises(ValueError):
+            issue_job_bundle_v1(
+                job_kind="F3_PLANNER_SCREEN",
+                authorization_id="must-not-be-written-wrong-commit",
+                planned_root_slot_spec={},
+                reviewed_content_commit="0" * 40,
+            )
 
 
 if __name__ == "__main__":
