@@ -1,0 +1,119 @@
+{
+  "evaluated_candidate_receipts": [
+    {
+      "candidate_id": "f4-source-grasp-hv1-r01",
+      "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+      "pass": true,
+      "source_candidate_receipt_sha256": "958e312a7ab3b58c75f549642767c37162cf1f6fd5035d280dc1c814a0207d1c"
+    },
+    {
+      "candidate_id": "f4-source-grasp-hv1-r03",
+      "candidate_sha256": "a08f692921a5a2ad80b2f4d5fa3254de393f38192546c694930da527ae40e2c8",
+      "pass": true,
+      "redundant_concurrent_race_evidence": true,
+      "selection_effect": false,
+      "source_candidate_receipt_sha256": "8167127cac8d42c9f8ef6883a1fa615dce6baae94ed9775891f73a2b11888c36"
+    }
+  ],
+  "formal_data": false,
+  "receipt_sha256": "95668c8150c97ea188b13dfb57caff608b5af292860fc0b9d1df626cc63a9acb",
+  "schema_version": "cmf_f4_hierarchical_stage_a_sequential_terminal_v1",
+  "search_contract_sha256": "5b9128fda11b52428f9e0a342d59b953d489432c60cbdbe1911ae904e9ae7341",
+  "selected_source_grasp": {
+    "A_pregrasp_differs_from_old_f4": true,
+    "A_pregrasp_xyz_m": [
+      -0.2,
+      0.02,
+      0.972
+    ],
+    "arm": "left",
+    "automatic_retry": false,
+    "block_half_extents_m": [
+      0.022,
+      0.022,
+      0.022
+    ],
+    "branch_neutral_policy": "arm_original_pose_after_each_role",
+    "candidate_id": "f4-source-grasp-hv1-r01",
+    "candidate_sha256": "8699b046869821e8214e12b1cd42e20001d0ed46608d416a2e584f437f52927c",
+    "common_x_tray_changed": false,
+    "f1_15_of_15_execution_claim_applies_to_candidate": true,
+    "f1_report_payload_sha256": "dd3d371c54b7abe3b3f54d511a4c848d3262ec67f858e4829456d9a7f92b166c",
+    "grasp_policy": {
+      "collision_aware_orientation_adjustment": true,
+      "grasp_offset_world_m": [
+        0.0,
+        0.0,
+        0.12
+      ],
+      "lift_mid_offset_world_m": [
+        0.0,
+        0.0,
+        0.16
+      ],
+      "lift_total_offset_world_m": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "policy": "f1_planner_assisted_top_down_v3_3",
+      "pregrasp_offset_world_m": [
+        0.0,
+        0.0,
+        0.21
+      ],
+      "uniform_carry_hub": true
+    },
+    "grasp_policy_source": "F1 accepted 5-root/15-trajectory development batch",
+    "minimum_pairwise_block_surface_clearance_m": 0.046,
+    "object_slot_mapping_changed": false,
+    "online_fallback": false,
+    "programs_changed": false,
+    "rank": 1,
+    "slot_fields_present": false,
+    "source_layout": {
+      "A": [
+        -0.2,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "B": [
+        -0.11,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "C": [
+        -0.02,
+        0.02,
+        0.762,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "source_layout_sha256": "651112a51224c2d9f2c058c8c372ad4656db3bf96503e8ae26233b1fffb5f999",
+    "verifier_thresholds_changed": false
+  },
+  "selection_rule": "lowest-ranked full pass; stop once global minimum rank passes",
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "stage_b_authorized_by_result": true,
+  "status": "SOURCE_GRASP_PASS_REQUIRES_STAGE_B_SLOT_SEARCH",
+  "unconsumed_higher_rank_authorization_ids": [
+    "high-level-v1-f4-stage-a-r02-run2",
+    "high-level-v1-f4-stage-a-r04-run2",
+    "high-level-v1-f4-stage-a-r05-run2",
+    "high-level-v1-f4-stage-a-r06-run2",
+    "high-level-v1-f4-stage-a-r07-run2",
+    "high-level-v1-f4-stage-a-r08-run2"
+  ]
+}
