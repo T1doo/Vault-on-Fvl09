@@ -1,0 +1,122 @@
+{
+  "candidate_rank_changed": false,
+  "candidate_set_changed": false,
+  "deterministic_minimum_query_count": {
+    "minimum_total": 33,
+    "official_left_grasp_target_batches": 3,
+    "planner_chain_segments": 30
+  },
+  "executed_infrastructure_failures": [
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r01-run1",
+      "authorization_receipt_sha256": "9653062cb441c57d731baf28f77684bfd4d4fb75ea97b743aecb579ef9f65144",
+      "candidate_id": "f4-slot-corridor-hv1-r01",
+      "child_exit_code": 1,
+      "error_message": "planner query limit exhausted: 32/32",
+      "error_type": "PlannerQueryLimitExceeded",
+      "gpu_returned_to_idle_baseline": true,
+      "guard_file_sha256": "b0c035485f6234cf83ddb598a318f979158ef5822f6b1afb2f6ee625c75a6cb5",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r01-run1.guard.json",
+      "guard_receipt_sha256": "fd986df6a1f2a014edb1d70233764e31f56015860663edba4246416229479877",
+      "guard_status": "completed_child_failed",
+      "orphan_process_count": 0,
+      "outer_receipt_file_sha256": "928432092da80096dbb8f5633b686f4af9a608a68aacd93e97798f219c290ab2",
+      "outer_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r01-run1/receipt.json",
+      "outer_receipt_sha256": "fffa0be42efa33c90bb9b921b6e5a067cbe60de23fa5e6e0860dc703585be97e",
+      "outer_status": "failed_infrastructure",
+      "physical_execution_count": 0,
+      "planner_query_count": 32,
+      "result_receipt_sha256": "27f3471d4da929aa06ea241c9fe5d1eb1f4e471911add744f1ef5c481f558917",
+      "result_status": "planner_candidate_failed_execution_or_infrastructure",
+      "task_owned_cleanup_pass": true
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r02-run1",
+      "authorization_receipt_sha256": "bc112ce1c5891cf2cacb95852d534bc0b65e3de7bc1d80d4481857354d94ebea",
+      "candidate_id": "f4-slot-corridor-hv1-r02",
+      "child_exit_code": 1,
+      "error_message": "planner query limit exhausted: 32/32",
+      "error_type": "PlannerQueryLimitExceeded",
+      "gpu_returned_to_idle_baseline": true,
+      "guard_file_sha256": "09fb768831528283b0b969146db88e605fb9fc69fd6cee937b65024666432853",
+      "guard_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r02-run1.guard.json",
+      "guard_receipt_sha256": "af951f7c023cd9fedc287be86c2c5069ee0a0d14853bd2b53192ddbf72c3849e",
+      "guard_status": "completed_child_failed",
+      "orphan_process_count": 0,
+      "outer_receipt_file_sha256": "eca98c04f5a6a6a1f234c7ddc1704f77b7169ccbc98602462c14e3bfef2b76a9",
+      "outer_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-2-f4-stage-b-r02-run1/receipt.json",
+      "outer_receipt_sha256": "50a9d62d1786ff5564c166fa1aee52e59802f8241d2f931e5e119ef2cb0ec682",
+      "outer_status": "failed_infrastructure",
+      "physical_execution_count": 0,
+      "planner_query_count": 32,
+      "result_receipt_sha256": "e5f6dff04c7f5bf0dd3ea46608233658d0f3d5a80b8f126e52568c44a521c21e",
+      "result_status": "planner_candidate_failed_execution_or_infrastructure",
+      "task_owned_cleanup_pass": true
+    }
+  ],
+  "formal_data": false,
+  "frozen_planner_query_limit": 32,
+  "implementation_source_sha256": "e00bdce7b99f67ccf858e27554d892011d3278c2a2cdc964b30101c2b0cd2c36",
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1_2",
+  "new_trajectory_count": 0,
+  "physical_execution_count": 0,
+  "replacement_requires_new_source_version_and_authorization": true,
+  "report_sha256": "acfb7018e2960de8f756b25e79bdbce64e1368d4f350c59a19dda0ee9dda29bb",
+  "root_cause": "planner query budget 32 is less than deterministic minimum 33 for selected left-arm Stage-A source",
+  "run1_rerun_allowed": false,
+  "schema_version": "cmf_f4_stage_b_run1_budget_failure_and_supersession_v1",
+  "scientific_gate_changed": false,
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "status": "RUN1_BUDGET_UNDERSPECIFIED_ALL_SCOPES_SUPERSEDED_DO_NOT_RUN",
+  "unconsumed_superseded": [
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r03-run1",
+      "authorization_receipt_sha256": "07a4c9c6c95e4f80d15a348264c7ec4ca3f7d3dff4c7227906097f37710657e3",
+      "candidate_id": "f4-slot-corridor-hv1-r03",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r04-run1",
+      "authorization_receipt_sha256": "656e8e6262e9a55a9b909dc8768192a968b261144e5bacfe4e40575f785325b2",
+      "candidate_id": "f4-slot-corridor-hv1-r04",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r05-run1",
+      "authorization_receipt_sha256": "c5e00fba47da4cad59d4f8aae4adfd6ff6d7fb61f8d3cb78b15dd288fee7c663",
+      "candidate_id": "f4-slot-corridor-hv1-r05",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r06-run1",
+      "authorization_receipt_sha256": "ecfbaba54352847cbdbc4cd7ba91855b1b773e50d76fdb886d31f87347962436",
+      "candidate_id": "f4-slot-corridor-hv1-r06",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r07-run1",
+      "authorization_receipt_sha256": "fb3f1382388c99fc57af782b79ae05216da1ebd109734ed7f4efae7a718aefc9",
+      "candidate_id": "f4-slot-corridor-hv1-r07",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    },
+    {
+      "authorization_id": "high-level-v1-2-f4-stage-b-r08-run1",
+      "authorization_receipt_sha256": "fd1200142f35eec52613f5ef70b9b220536e78b791b146a7361aa1564903b4c3",
+      "candidate_id": "f4-slot-corridor-hv1-r08",
+      "consumption_exists": false,
+      "guard_exists": false,
+      "output_exists": false
+    }
+  ]
+}
