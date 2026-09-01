@@ -326,6 +326,60 @@ def build_f4_stage_b_candidates_v1(
     return value
 
 
+def select_f4_stage_b_layout_v1(
+    contract: Mapping[str, Any],
+    stage_a_terminal: Mapping[str, Any],
+    planner_receipts: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    checked = validate_f4_hierarchical_template_search_v1(contract)
+    stage_b = build_f4_stage_b_candidates_v1(checked, stage_a_terminal)
+    order = stage_b["fixed_candidate_order"]
+    by_id = {
+        str(item.get("candidate_id")): canonical_jsonable(item)
+        for item in planner_receipts
+    }
+    if set(by_id) != set(order) or len(by_id) != len(order):
+        raise ValueError("F4 Stage-B receipts must cover all eight candidates")
+    candidates = {
+        item["candidate_id"]: item for item in stage_b["candidates"]
+    }
+    ordered = [by_id[candidate_id] for candidate_id in order]
+    passing = []
+    for receipt in ordered:
+        candidate = candidates[receipt["candidate_id"]]
+        checks = receipt.get("checks")
+        if receipt.get("candidate_sha256") != candidate["candidate_sha256"]:
+            raise ValueError("F4 Stage-B receipt candidate hash mismatch")
+        if (
+            isinstance(checks, Mapping)
+            and set(checks) == set(checked["stage_b_required_gates"])
+            and all(
+                checks[name] is True
+                for name in checked["stage_b_required_gates"]
+            )
+            and receipt.get("cleanup_safety_pass") is True
+            and receipt.get("orphan_process_count") == 0
+        ):
+            passing.append(candidate)
+    selected = passing[0] if passing else None
+    value = {
+        "schema_version": "cmf_f4_hierarchical_stage_b_terminal_v1",
+        "parent_search_contract_sha256": checked["search_contract_sha256"],
+        "stage_a_terminal_sha256": stage_a_terminal.get("receipt_sha256"),
+        "stage_b_contract_sha256": stage_b["stage_b_contract_sha256"],
+        "planner_receipts": ordered,
+        "selected_slot_corridor": selected,
+        "single_role_physical_authorized_by_result": selected is not None,
+        "status": (
+            "SLOT_CORRIDOR_PASS_REQUIRES_A_ONLY_EXECUTION"
+            if selected is not None
+            else checked["stage_a_exhaustion_status"]
+        ),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
 __all__ = [
     "MAXIMUM_SLOT_CORRIDOR_CANDIDATES",
     "MAXIMUM_SOURCE_GRASP_CANDIDATES",
@@ -333,5 +387,6 @@ __all__ = [
     "build_f4_stage_b_candidates_v1",
     "preregistered_f4_source_grasp_candidates_v1",
     "select_f4_stage_a_source_v1",
+    "select_f4_stage_b_layout_v1",
     "validate_f4_hierarchical_template_search_v1",
 ]

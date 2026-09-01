@@ -7,6 +7,7 @@ from controlled_multi_future.f4_hierarchical_template_search_v1 import (
     build_f4_hierarchical_template_search_v1,
     build_f4_stage_b_candidates_v1,
     select_f4_stage_a_source_v1,
+    select_f4_stage_b_layout_v1,
     validate_f4_hierarchical_template_search_v1,
 )
 
@@ -91,6 +92,26 @@ class F4HierarchicalTemplateSearchV1Tests(unittest.TestCase):
                 for item in stage_b["candidates"]
             )
         )
+        stage_b_receipts = []
+        for candidate in reversed(stage_b["candidates"]):
+            passed = candidate["rank"] in {2, 5}
+            stage_b_receipts.append(
+                {
+                    "candidate_id": candidate["candidate_id"],
+                    "candidate_sha256": candidate["candidate_sha256"],
+                    "checks": {
+                        name: passed
+                        for name in self.contract["stage_b_required_gates"]
+                    },
+                    "cleanup_safety_pass": True,
+                    "orphan_process_count": 0,
+                }
+            )
+        selected = select_f4_stage_b_layout_v1(
+            self.contract, terminal, stage_b_receipts
+        )
+        self.assertEqual(selected["selected_slot_corridor"]["rank"], 2)
+        self.assertTrue(selected["single_role_physical_authorized_by_result"])
 
     def test_contract_tamper_fails_closed(self):
         changed = copy.deepcopy(self.contract)

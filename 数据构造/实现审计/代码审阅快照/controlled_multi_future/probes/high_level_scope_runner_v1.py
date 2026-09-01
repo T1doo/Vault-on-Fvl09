@@ -54,6 +54,7 @@ def _dispatch(authorization, work: Path):
         "F2_STAGE_A_PLANNER",
         "F3_LEVEL1_PLANNER",
         "F4_STAGE_A_PLANNER",
+        "F4_STAGE_B_PLANNER",
     }:
         result = HighLevelPlannerRunnerV1(adapter).run(
             output_dir=work / "candidate", planned_spec=spec

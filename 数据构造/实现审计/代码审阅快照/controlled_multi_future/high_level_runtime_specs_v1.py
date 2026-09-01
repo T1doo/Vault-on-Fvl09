@@ -28,6 +28,7 @@ from .f3_asset_grasp_qualification_v2 import (
 )
 from .f4_hierarchical_template_search_v1 import (
     build_f4_hierarchical_template_search_v1,
+    build_f4_stage_b_candidates_v1,
 )
 from .f4_post_stage0_layout_v1 import LAYOUT as F4_REFERENCE_LAYOUT
 
@@ -285,33 +286,121 @@ def _f4_stage_a_scene_layout(candidate: Mapping[str, Any]) -> dict[str, Any]:
     return value
 
 
-def build_f4_runtime_spec_v1(candidate_id: str, *, purpose: str) -> dict[str, Any]:
-    if purpose != "f4_stage_a_planner":
-        raise ValueError("only F4 Stage-A planner specs exist before Stage-A selection")
+def _validate_f4_stage_a_terminal_for_stage_b_v1(
+    value: Mapping[str, Any],
+) -> dict[str, Any]:
+    normalized = canonical_jsonable(value)
+    payload = dict(normalized)
+    digest = payload.pop("receipt_sha256", None)
     contract = build_f4_hierarchical_template_search_v1()
-    candidate = _candidate(
-        contract["stage_a_candidates"],
-        identity_field="candidate_id",
-        identity=candidate_id,
-        label="F4 Stage-A candidate",
+    source = normalized.get("selected_source_grasp")
+    expected_source = next(
+        (
+            item
+            for item in contract["stage_a_candidates"]
+            if isinstance(source, Mapping)
+            and item["candidate_id"] == source.get("candidate_id")
+            and item["candidate_sha256"] == source.get("candidate_sha256")
+        ),
+        None,
     )
-    layout = _f4_stage_a_scene_layout(candidate)
+    if (
+        normalized.get("schema_version")
+        not in {
+            "cmf_f4_hierarchical_stage_a_terminal_v1",
+            "cmf_f4_hierarchical_stage_a_sequential_terminal_v1",
+        }
+        or digest != canonical_hash_json(payload)
+        or normalized.get("search_contract_sha256")
+        != contract["search_contract_sha256"]
+        or expected_source is None
+        or canonical_jsonable(source) != expected_source
+        or normalized.get("stage_b_authorized_by_result") is not True
+        or normalized.get("status")
+        != "SOURCE_GRASP_PASS_REQUIRES_STAGE_B_SLOT_SEARCH"
+    ):
+        raise ValueError("F4 Stage-A terminal does not authorize Stage B")
+    return normalized
+
+
+def _f4_stage_b_scene_layout(
+    source: Mapping[str, Any], candidate: Mapping[str, Any]
+) -> dict[str, Any]:
+    value = canonical_jsonable(F4_REFERENCE_LAYOUT)
+    value["layout_version"] = (
+        f"f4_hierarchical_stage_b_slot_corridor_v1_r{int(candidate['rank']):02d}"
+    )
+    value["object_poses"] = deepcopy(source["source_layout"])
+    value["slot_poses"] = deepcopy(candidate["slot_poses"])
+    value["stage_a_source_grasp_candidate_sha256"] = source[
+        "candidate_sha256"
+    ]
+    value["stage_b_slot_corridor_candidate_sha256"] = candidate[
+        "candidate_sha256"
+    ]
+    value["stage_b_corridor_policy"] = candidate["corridor_policy"]
+    value["stage_a_slot_placeholders_fixed_not_searched"] = False
+    return value
+
+
+def build_f4_runtime_spec_v1(
+    candidate_id: str,
+    *,
+    purpose: str,
+    stage_a_terminal: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    if purpose not in {"f4_stage_a_planner", "f4_stage_b_planner"}:
+        raise ValueError("invalid F4 high-level runtime purpose")
+    contract = build_f4_hierarchical_template_search_v1()
+    if purpose == "f4_stage_a_planner":
+        if stage_a_terminal is not None:
+            raise ValueError("F4 Stage-A spec cannot carry a Stage-A terminal")
+        source = _candidate(
+            contract["stage_a_candidates"],
+            identity_field="candidate_id",
+            identity=candidate_id,
+            label="F4 Stage-A candidate",
+        )
+        candidate = source
+        layout = _f4_stage_a_scene_layout(source)
+        rank = int(source["rank"])
+        seed = 2026091300 + rank
+        stage_b = None
+        terminal = None
+    else:
+        if stage_a_terminal is None:
+            raise ValueError("F4 Stage-B spec requires the passing Stage-A terminal")
+        terminal = _validate_f4_stage_a_terminal_for_stage_b_v1(
+            stage_a_terminal
+        )
+        source = terminal["selected_source_grasp"]
+        stage_b = build_f4_stage_b_candidates_v1(contract, terminal)
+        candidate = _candidate(
+            stage_b["candidates"],
+            identity_field="candidate_id",
+            identity=candidate_id,
+            label="F4 Stage-B candidate",
+        )
+        layout = _f4_stage_b_scene_layout(source, candidate)
+        rank = int(candidate["rank"])
+        seed = 2026091400 + rank
     value = {
         "schema_version": "cmf_f4_high_level_runtime_spec_v1",
         "implementation_version": IMPLEMENTATION_VERSION,
-        "slot_id": f"{purpose}-{candidate['rank']:02d}",
+        "slot_id": f"{purpose}-{rank:02d}",
         "scope": purpose,
         "family": "F4",
-        "arm": candidate["arm"],
-        "seed": 2026091300 + int(candidate["rank"]),
+        "arm": source["arm"],
+        "seed": seed,
         "generator": "controlled_multi_future_f4_hierarchical_runtime_v1",
         "purpose": purpose,
-        "f4_source_grasp_candidate_v1": candidate,
-        "f4_source_grasp_candidate_sha256": candidate["candidate_sha256"],
+        "f4_source_grasp_candidate_v1": source,
+        "f4_source_grasp_candidate_sha256": source["candidate_sha256"],
         "parent_search_contract_sha256": contract["search_contract_sha256"],
         "scene_layout": layout,
         "scene_layout_sha256": canonical_hash_json(layout),
         "stage_a_slot_search_active": False,
+        "stage_b_slot_search_active": purpose == "f4_stage_b_planner",
         "maximum_physical_execution_count": 0,
         "automatic_retry": False,
         "recovery_attempts": 0,
@@ -319,18 +408,45 @@ def build_f4_runtime_spec_v1(candidate_id: str, *, purpose: str) -> dict[str, An
         "stage0_data": False,
         "stage1_authorized": False,
     }
+    if purpose == "f4_stage_b_planner":
+        value.update(
+            {
+                "f4_stage_a_terminal_v1": terminal,
+                "f4_stage_a_terminal_sha256": terminal["receipt_sha256"],
+                "f4_stage_b_contract_v1": stage_b,
+                "f4_stage_b_contract_sha256": stage_b[
+                    "stage_b_contract_sha256"
+                ],
+                "f4_stage_b_candidate_v1": candidate,
+                "f4_stage_b_candidate_sha256": candidate[
+                    "candidate_sha256"
+                ],
+            }
+        )
     value["planned_scope_spec_sha256"] = canonical_hash_json(value)
     return value
 
 
 def validate_f4_runtime_spec_v1(value: Mapping[str, Any]) -> dict[str, Any]:
     normalized = canonical_jsonable(value)
-    candidate = normalized.get("f4_source_grasp_candidate_v1")
     purpose = normalized.get("purpose")
-    if not isinstance(candidate, Mapping) or not isinstance(purpose, str):
+    if not isinstance(purpose, str):
         raise ValueError("F4 runtime spec is incomplete")
+    candidate = (
+        normalized.get("f4_stage_b_candidate_v1")
+        if purpose == "f4_stage_b_planner"
+        else normalized.get("f4_source_grasp_candidate_v1")
+    )
+    if not isinstance(candidate, Mapping):
+        raise ValueError("F4 runtime spec candidate is incomplete")
     expected = build_f4_runtime_spec_v1(
-        str(candidate.get("candidate_id")), purpose=purpose
+        str(candidate.get("candidate_id")),
+        purpose=purpose,
+        stage_a_terminal=(
+            normalized.get("f4_stage_a_terminal_v1")
+            if purpose == "f4_stage_b_planner"
+            else None
+        ),
     )
     if normalized != expected:
         raise ValueError("F4 runtime spec changed")

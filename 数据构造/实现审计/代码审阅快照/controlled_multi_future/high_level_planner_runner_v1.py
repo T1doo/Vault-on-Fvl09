@@ -29,6 +29,7 @@ from .geometry import (
     matrix_pose,
     obb_inside_local_cavity,
     pose_matrix,
+    relative_pose,
     world_axis_offset_pose,
 )
 from .high_level_runtime_specs_v1 import (
@@ -39,6 +40,7 @@ from .high_level_runtime_specs_v1 import (
     validate_f4_runtime_spec_v1,
 )
 from .project_cube_grasp_pose_v1 import build_project_cube_grasp_poses
+from .f4_top_down_block_carry_v8 import _audit_nominal_noninterference
 
 
 def _pose7(value: Any, label: str) -> np.ndarray:
@@ -281,6 +283,174 @@ def build_f4_stage_a_targets_v1(scene, spec: Mapping[str, Any]):
     }
 
 
+def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
+    source_candidate = spec["f4_source_grasp_candidate_v1"]
+    slot_candidate = spec["f4_stage_b_candidate_v1"]
+    arm = source_candidate["arm"]
+    rest = _arm_original_pose(scene, arm)
+    neutral = rest.copy()
+    neutral[:3] = [-0.11 if arm == "left" else 0.11, 0.02, 0.95]
+    targets = []
+    groups = []
+    audits = {}
+    target_actor_poses = {}
+    role_segment_ids = {}
+    for role in ("A", "B", "C"):
+        actor = getattr(scene, role.lower())
+        source_actor = _pose(actor)
+        pregrasp, grasp, audit = _f4_role_grasp(
+            scene, source_candidate, role
+        )
+        lift_mid = world_axis_offset_pose(grasp, 0.04)
+        lift = world_axis_offset_pose(grasp, 0.08)
+        slot = _pose7(slot_candidate["slot_poses"][role], f"F4 {role} slot")
+        target_actor = source_actor.copy()
+        target_actor[:3] = slot[:3] + np.asarray(
+            [0.0, 0.0, BLOCK_HALF_EXTENTS[2]], dtype=np.float64
+        )
+        release = actor_target_to_eef_pose(grasp, source_actor, target_actor)
+        preplace = world_axis_offset_pose(release, 0.10)
+        retreat = preplace.copy()
+        carry_mid = lift.copy()
+        if slot_candidate["corridor_policy"] == "lower_carry_height":
+            carry_mid[:2] = 0.5 * (lift[:2] + preplace[:2])
+            carry_mid[2] = max(float(lift[2]), float(preplace[2]))
+        elif (
+            slot_candidate["corridor_policy"]
+            == "f1_uniform_cluster_center_carry_hub"
+        ):
+            carry_mid[:2] = neutral[:2]
+            carry_mid[2] = max(
+                float(lift[2]), float(preplace[2]), float(neutral[2])
+            )
+        else:
+            raise ValueError("F4 Stage-B corridor policy changed")
+        group_targets = [
+            {"segment_id": f"{role}_neutral_start", "pose": neutral},
+            {"segment_id": f"{role}_pregrasp", "pose": pregrasp},
+            {"segment_id": f"{role}_grasp", "pose": grasp},
+            {"segment_id": f"{role}_lift_mid", "pose": lift_mid},
+            {"segment_id": f"{role}_lift", "pose": lift},
+            {"segment_id": f"{role}_carry_mid", "pose": carry_mid},
+            {"segment_id": f"{role}_preplace", "pose": preplace},
+            {"segment_id": f"{role}_release", "pose": release},
+            {"segment_id": f"{role}_retreat", "pose": retreat},
+            {"segment_id": f"{role}_neutral", "pose": neutral},
+        ]
+        payload = _targets_payload(group_targets)
+        targets.extend(payload)
+        role_segment_ids[role] = [item["segment_id"] for item in payload]
+        target_actor_poses[role] = target_actor.tolist()
+        groups.append(
+            {
+                "role": role,
+                "targets": payload,
+                "frozen_eef_to_actor_pose": relative_pose(
+                    grasp, source_actor
+                ).tolist(),
+                "target_actor_pose": target_actor.tolist(),
+            }
+        )
+        audits[role] = {
+            "target_construction": audit,
+            "source_actor_pose": source_actor.tolist(),
+            "slot_pose": slot.tolist(),
+            "target_actor_pose": target_actor.tolist(),
+            "release_eef_pose": release.tolist(),
+            "corridor_policy": slot_candidate["corridor_policy"],
+        }
+    object_poses = {
+        role: _pose(getattr(scene, role.lower())).tolist()
+        for role in ("A", "B", "C")
+    }
+    nominal = _audit_nominal_noninterference(
+        groups=groups,
+        object_poses=object_poses,
+        object_order=("A", "B", "C"),
+    )
+    prior_checks = {}
+    for index, role in enumerate(("A", "B", "C")):
+        evidence = nominal["per_role"][role]
+        prior_roles = ("A", "B", "C")[:index]
+        prior_checks[role] = {
+            "prior_roles": list(prior_roles),
+            "prior_roles_at_frozen_slots": all(
+                np.allclose(
+                    evidence["state_of_other_blocks_before_role"][prior],
+                    target_actor_poses[prior],
+                    atol=1e-12,
+                    rtol=0.0,
+                )
+                for prior in prior_roles
+            ),
+            "transport_avoids_prior_slots": all(
+                prior
+                not in collisions
+                for collisions in evidence[
+                    "segment_non_target_collisions"
+                ].values()
+                for prior in prior_roles
+            ),
+        }
+        prior_checks[role]["pass"] = all(
+            value
+            for key, value in prior_checks[role].items()
+            if key not in {"prior_roles", "pass"}
+        )
+    return targets, {
+        "role_target_construction_audits": audits,
+        "role_target_segment_ids": role_segment_ids,
+        "shared_neutral_pose": neutral.tolist(),
+        "slot_corridor_candidate_id": slot_candidate["candidate_id"],
+        "slot_corridor_candidate_sha256": slot_candidate[
+            "candidate_sha256"
+        ],
+        "corridor_policy": slot_candidate["corridor_policy"],
+        "nominal_noninterference": nominal,
+        "prior_slot_preservation": {
+            "per_role": prior_checks,
+            "pass": nominal["pass"] is True
+            and all(item["pass"] for item in prior_checks.values()),
+            "nominal_only_runtime_contact_audit_still_required": True,
+        },
+        "stage_b_planner_only": True,
+        "release_execution_count": 0,
+    }
+
+
+def _f4_stage_b_checks(
+    planned: Mapping[str, Any],
+    target_audit: Mapping[str, Any],
+    visibility: Mapping[str, Any],
+) -> dict[str, bool]:
+    by_id = {
+        str(item.get("segment_id")): item
+        for item in planned.get("segment_receipts", [])
+    }
+    checks = {}
+    for role in ("A", "B", "C"):
+        ids = target_audit["role_target_segment_ids"][role]
+        checks[f"complete_{role}_neutral_grasp_slot_neutral"] = all(
+            isinstance(by_id.get(segment_id), Mapping)
+            and by_id[segment_id].get("planner_status") == "Success"
+            for segment_id in ids
+        )
+    checks.update(
+        {
+            "rendered_visibility": visibility.get("pass") is True,
+            "noninterference": target_audit["nominal_noninterference"].get(
+                "pass"
+            )
+            is True,
+            "prior_slot_preservation": target_audit[
+                "prior_slot_preservation"
+            ].get("pass")
+            is True,
+        }
+    )
+    return checks
+
+
 class HighLevelPlannerRunnerV1:
     def __init__(self, adapter):
         self.adapter = adapter
@@ -301,9 +471,16 @@ class HighLevelPlannerRunnerV1:
             trace_actor_name = "bottle"
         elif family == "F4":
             spec = validate_f4_runtime_spec_v1(planned_spec)
-            if spec["purpose"] != "f4_stage_a_planner":
+            if spec["purpose"] not in {
+                "f4_stage_a_planner",
+                "f4_stage_b_planner",
+            }:
                 raise ValueError("planner runner received non-planner F4 purpose")
-            builder = build_f4_stage_a_targets_v1
+            builder = (
+                build_f4_stage_a_targets_v1
+                if spec["purpose"] == "f4_stage_a_planner"
+                else build_f4_stage_b_targets_v1
+            )
             trace_actor_name = "a"
         else:
             raise ValueError("planner runner family must be F2, F3, or F4")
@@ -332,14 +509,22 @@ class HighLevelPlannerRunnerV1:
                 if family == "F2"
                 else spec["f3_asset_grasp_tuple_v2"]["tuple_id"]
                 if family == "F3"
-                else spec["f4_source_grasp_candidate_v1"]["candidate_id"]
+                else (
+                    spec["f4_stage_b_candidate_v1"]["candidate_id"]
+                    if spec["purpose"] == "f4_stage_b_planner"
+                    else spec["f4_source_grasp_candidate_v1"]["candidate_id"]
+                )
             ),
             "candidate_sha256": (
                 spec["candidate_sha256"]
                 if family == "F2"
                 else spec["f3_asset_grasp_tuple_sha256"]
                 if family == "F3"
-                else spec["f4_source_grasp_candidate_sha256"]
+                else (
+                    spec["f4_stage_b_candidate_sha256"]
+                    if spec["purpose"] == "f4_stage_b_planner"
+                    else spec["f4_source_grasp_candidate_sha256"]
+                )
             ),
             "arm": spec["arm"],
             "fresh_scene_count": 0,
@@ -361,7 +546,10 @@ class HighLevelPlannerRunnerV1:
                         scene, phase=spec["purpose"]
                     )
                     receipt["rendered_visibility"] = visibility
-                    if visibility.get("pass") is not True:
+                    if (
+                        spec["purpose"] == "f4_stage_a_planner"
+                        and visibility.get("pass") is not True
+                    ):
                         raise RuntimeError("F4 Stage-A rendered visibility failed")
                 trace_actor = getattr(scene, trace_actor_name)
                 scene.initialize_trace(
@@ -386,9 +574,18 @@ class HighLevelPlannerRunnerV1:
                 receipt["planner_reset_receipt"] = reset
                 receipt["planner_result"] = _planner_payload(planned)
                 receipt["planner_query_count"] = int(scene.planner_query_count)
+                if family == "F4" and spec["purpose"] == "f4_stage_b_planner":
+                    receipt["checks"] = _f4_stage_b_checks(
+                        planned, target_audit, receipt["rendered_visibility"]
+                    )
                 receipt["status"] = (
                     "planner_candidate_pass"
                     if planned.get("pass") is True
+                    and (
+                        family != "F4"
+                        or spec["purpose"] != "f4_stage_b_planner"
+                        or all(receipt["checks"].values())
+                    )
                     else "planner_candidate_failed"
                 )
         except BaseException as exc:
@@ -439,4 +636,5 @@ __all__ = [
     "build_f2_stage_a_targets_v1",
     "build_f3_level1_targets_v1",
     "build_f4_stage_a_targets_v1",
+    "build_f4_stage_b_targets_v1",
 ]

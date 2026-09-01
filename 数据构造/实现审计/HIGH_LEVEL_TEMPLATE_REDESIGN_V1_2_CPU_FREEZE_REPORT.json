@@ -1,0 +1,97 @@
+{
+  "active_full_suite": {
+    "elapsed_seconds": 366.403,
+    "failed": 0,
+    "passed": 705
+  },
+  "active_snapshot_source": {
+    "byte_equal": true,
+    "implementation_source_sha256": "e00bdce7b99f67ccf858e27554d892011d3278c2a2cdc964b30101c2b0cd2c36",
+    "python_file_count": 268,
+    "tree_sha256": "e00bdce7b99f67ccf858e27554d892011d3278c2a2cdc964b30101c2b0cd2c36"
+  },
+  "active_snapshot_tests": {
+    "byte_equal": true,
+    "python_file_count": 132,
+    "tree_sha256": "7127e0c1ded5fea617abeb11b99ea1aaa58e7afd68623b6e33eb9cd4b38f1d70"
+  },
+  "compression_authorized": false,
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "f2_terminal_status": "DIVERSE_INSIDE_SEARCH_EXHAUSTED_REQUIRES_BROADER_ASSET_FAMILY",
+  "f3_terminal_status": "LEVEL1_PREGRASP_PLANNER_SEARCH_EXHAUSTED",
+  "f4_stage_a_selection": {
+    "file_sha256": "7cde7d53d58d7b18f389ef8d624ae2043fdfd64996a0a7ee647851c834fd1975",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_STAGE_A_PLANNER_SELECTION_RUN2.json",
+    "receipt_sha256": "95668c8150c97ea188b13dfb57caff608b5af292860fc0b9d1df626cc63a9acb",
+    "selected_source_grasp_candidate_id": "f4-source-grasp-hv1-r01"
+  },
+  "f4_stage_b": {
+    "candidate_count": 8,
+    "file_sha256": "e50f129c8fb428d01bfdcb1ac859cd1b4fafaed1510326d49742e62be9b92f3b",
+    "fixed_candidate_order": [
+      "f4-slot-corridor-hv1-r01",
+      "f4-slot-corridor-hv1-r02",
+      "f4-slot-corridor-hv1-r03",
+      "f4-slot-corridor-hv1-r04",
+      "f4-slot-corridor-hv1-r05",
+      "f4-slot-corridor-hv1-r06",
+      "f4-slot-corridor-hv1-r07",
+      "f4-slot-corridor-hv1-r08"
+    ],
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_HIERARCHICAL_STAGE_B_SEARCH_V1.json",
+    "physical_execution_limit": 0,
+    "planner_query_limit": 32,
+    "planner_segments_per_candidate": 30,
+    "selection_rule": "lowest-ranked full planner-only pass",
+    "stage_b_contract_sha256": "d713dae557a0e8860d238375a1f18e2b8a2833552f48f83ec41d2024f57267bc"
+  },
+  "focused_cpu": {
+    "actual_stage_a_bound_stage_b_specs": 8,
+    "actual_stage_a_bound_target_builds": 8,
+    "f4_contract": {
+      "failed": 0,
+      "passed": 5
+    },
+    "gpu_guard": {
+      "failed": 0,
+      "passed": 6
+    },
+    "high_level_authorization": {
+      "failed": 0,
+      "passed": 8
+    },
+    "runtime_planner": {
+      "failed": 0,
+      "passed": 11
+    }
+  },
+  "formal_360_authorized": false,
+  "formal_data": false,
+  "gpu_job_count": 0,
+  "h_reveal_authorized": false,
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1_2",
+  "new_trajectory_count": 0,
+  "next_safe_step": "publish V1.2 CPU/source freeze, then issue eight F4 Stage-B planner-only single-use jobs bound to the published Stage-A selection",
+  "parent_authorization": {
+    "file_sha256": "d2cc5328d25fcaf3246ee598df46c3796be910b64b9d56b9f8405e8515a6490e",
+    "parent_user_authorization_sha256": "2cd774339c40a9b176ee79820c5730d28017d8998aa1ace24c2cb6ece0a92979",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/HIGH_LEVEL_TEMPLATE_REDESIGN_V1_2_PARENT_AUTHORIZATION.json"
+  },
+  "pi05_authorized": false,
+  "registry": {
+    "file_sha256": "de3c2037002b75a68460d83579e761106f65053b114f72c16ff4a6bb480fedf7",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/HIGH_LEVEL_TEMPLATE_REDESIGN_V1_2_REGISTRY.json",
+    "registry_sha256": "669326949ce134d519e35e7a0354b7ce463572c91da880931f0162c02f715472"
+  },
+  "report_sha256": "1f7d1e09d4ac862f638c03c75b985c9629596b86f031d91df9d50ca14bad3e88",
+  "schema_version": "cmf_high_level_template_redesign_cpu_freeze_v1_2",
+  "snapshot_full_suite": {
+    "elapsed_seconds": 250.623,
+    "failed": 0,
+    "passed": 705
+  },
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "status": "CPU_SOURCE_SNAPSHOT_FROZEN_F4_STAGE_B_GPU_NOT_RUN",
+  "training_authorized": false
+}

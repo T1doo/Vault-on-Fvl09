@@ -12,6 +12,8 @@ from controlled_multi_future.f3_asset_grasp_qualification_v2 import (
 )
 from controlled_multi_future.f4_hierarchical_template_search_v1 import (
     build_f4_hierarchical_template_search_v1,
+    build_f4_stage_b_candidates_v1,
+    select_f4_stage_a_source_v1,
 )
 from controlled_multi_future.high_level_planner_runner_v1 import (
     HighLevelPlannerRunnerV1,
@@ -42,6 +44,9 @@ class _FakeScene:
     def __init__(self):
         self.can = object()
         self.bottle = object()
+        self.a = object()
+        self.b = object()
+        self.c = object()
         self.planner_query_count = 0
         self.role_actors = {"main_can": self.can}
 
@@ -86,6 +91,9 @@ class _FakeAdapter:
     def capture_current(self, scene):
         return {"current_sha256": "1" * 64}
 
+    def audit_current_rendered_visibility(self, scene, *, phase):
+        return {"phase": phase, "pass": True}
+
 
 class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
     @classmethod
@@ -93,6 +101,24 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
         cls.f2 = build_f2_hierarchical_template_search_v1()
         cls.f3 = build_f3_asset_grasp_qualification_v2()
         cls.f4 = build_f4_hierarchical_template_search_v1()
+
+    def _f4_stage_a_terminal(self):
+        gates = self.f4["stage_a_required_gates"]
+        return select_f4_stage_a_source_v1(
+            self.f4,
+            [
+                {
+                    "candidate_id": item["candidate_id"],
+                    "candidate_sha256": item["candidate_sha256"],
+                    "checks": {
+                        name: item["rank"] == 1 for name in gates
+                    },
+                    "cleanup_safety_pass": True,
+                    "orphan_process_count": 0,
+                }
+                for item in self.f4["stage_a_candidates"]
+            ],
+        )
 
     def test_every_stage_a_spec_is_rebuildable_and_hash_bound(self):
         for candidate_id in self.f2["fixed_inside_candidate_order"]:
@@ -108,6 +134,15 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
         for candidate_id in self.f4["fixed_stage_a_order"]:
             spec = build_f4_runtime_spec_v1(
                 candidate_id, purpose="f4_stage_a_planner"
+            )
+            self.assertEqual(validate_f4_runtime_spec_v1(spec), spec)
+        terminal = self._f4_stage_a_terminal()
+        stage_b = build_f4_stage_b_candidates_v1(self.f4, terminal)
+        for candidate_id in stage_b["fixed_candidate_order"]:
+            spec = build_f4_runtime_spec_v1(
+                candidate_id,
+                purpose="f4_stage_b_planner",
+                stage_a_terminal=terminal,
             )
             self.assertEqual(validate_f4_runtime_spec_v1(spec), spec)
 
@@ -146,6 +181,7 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
             "f3_level1_planner",
             "f3_level2_physical",
             "f4_stage_a_planner",
+            "f4_stage_b_planner",
         ):
             budget = job_budget_v1(purpose)
             self.assertEqual(validate_job_budget_v1(budget), budget)
@@ -153,6 +189,7 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
             self.assertFalse(budget["stage1_authorized"])
             self.assertFalse(budget["automatic_retry"])
         self.assertEqual(job_budget_v1("f4_stage_a_planner")["planner_query_limit"], 48)
+        self.assertEqual(job_budget_v1("f4_stage_b_planner")["planner_query_limit"], 32)
 
     def test_adapter_constructors_bind_exact_specs_without_scene_creation(self):
         f2_spec = build_f2_runtime_spec_v1(
@@ -248,6 +285,83 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
         changed["arm"] = "right" if spec["arm"] == "left" else "left"
         with self.assertRaises(ValueError):
             validate_f3_runtime_spec_v1(changed)
+
+    def test_f4_stage_b_runner_requires_all_three_complete_role_chains(self):
+        terminal = self._f4_stage_a_terminal()
+        stage_b = build_f4_stage_b_candidates_v1(self.f4, terminal)
+        spec = build_f4_runtime_spec_v1(
+            stage_b["fixed_candidate_order"][0],
+            purpose="f4_stage_b_planner",
+            stage_a_terminal=terminal,
+        )
+        adapter = _FakeAdapter(spec)
+        adapter.context.scene.role_actors = {
+            "A": adapter.context.scene.a,
+            "B": adapter.context.scene.b,
+            "C": adapter.context.scene.c,
+        }
+        role_ids = {
+            role: [f"{role}_segment_{index}" for index in range(10)]
+            for role in ("A", "B", "C")
+        }
+        targets = [
+            {
+                "segment_id": segment_id,
+                "pose": [0, 0, 1, 1, 0, 0, 0],
+            }
+            for role in ("A", "B", "C")
+            for segment_id in role_ids[role]
+        ]
+        audit = {
+            "role_target_segment_ids": role_ids,
+            "nominal_noninterference": {"pass": True},
+            "prior_slot_preservation": {"pass": True},
+        }
+
+        def fake_plan(scene, requested, *, query_limit, arm):
+            self.assertEqual(requested, targets)
+            scene.planner_query_count = len(requested)
+            return {
+                "pass": True,
+                "segment_receipts": [
+                    {
+                        "segment_id": item["segment_id"],
+                        "planner_status": "Success",
+                    }
+                    for item in requested
+                ],
+                "planner_query_count": len(requested),
+                "terminal_qpos": [0.0],
+                "terminal_qpos_sha256": "4" * 64,
+                "controls": [{} for _ in requested],
+            }
+
+        with tempfile.TemporaryDirectory(
+            dir="/nfs_share/lijunhui/Robotwin2/tmp"
+        ) as temporary:
+            output = Path(temporary) / "f4-stage-b"
+            with patch(
+                "controlled_multi_future.high_level_planner_runner_v1."
+                "build_f4_stage_b_targets_v1",
+                return_value=(targets, audit),
+            ), patch(
+                "controlled_multi_future.high_level_planner_runner_v1."
+                "_planner_reset",
+                return_value={"reset_performed": True},
+            ), patch(
+                "controlled_multi_future.high_level_planner_runner_v1."
+                "_plan_chain",
+                side_effect=fake_plan,
+            ):
+                receipt = HighLevelPlannerRunnerV1(adapter).run(
+                    output_dir=output, planned_spec=spec
+                )
+        self.assertTrue(receipt["pass"])
+        self.assertEqual(
+            set(receipt["checks"]), set(self.f4["stage_b_required_gates"])
+        )
+        self.assertEqual(receipt["planner_query_count"], 30)
+        self.assertEqual(receipt["physical_execution_count"], 0)
 
     def test_f3_level2_adds_v_minus_and_return_without_suffix(self):
         spec = build_f3_runtime_spec_v1(

@@ -13,6 +13,11 @@ from controlled_multi_future.f2_hierarchical_template_search_v1 import (
     build_f2_hierarchical_template_search_v1,
     select_inside_physical_candidates_v1,
 )
+from controlled_multi_future.f4_hierarchical_template_search_v1 import (
+    build_f4_hierarchical_template_search_v1,
+    build_f4_stage_b_candidates_v1,
+    select_f4_stage_a_source_v1,
+)
 from controlled_multi_future.high_level_bundle_v1 import (
     build_cpu_registry_v1,
     build_parent_authorization_v1,
@@ -32,6 +37,25 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.f2 = build_f2_hierarchical_template_search_v1()
+        cls.f4 = build_f4_hierarchical_template_search_v1()
+
+    def _f4_stage_a_terminal(self):
+        gates = self.f4["stage_a_required_gates"]
+        return select_f4_stage_a_source_v1(
+            self.f4,
+            [
+                {
+                    "candidate_id": item["candidate_id"],
+                    "candidate_sha256": item["candidate_sha256"],
+                    "checks": {
+                        name: item["rank"] == 1 for name in gates
+                    },
+                    "cleanup_safety_pass": True,
+                    "orphan_process_count": 0,
+                }
+                for item in self.f4["stage_a_candidates"]
+            ],
+        )
 
     def test_parent_and_registry_bind_exact_initial_job_set(self):
         parent = build_parent_authorization_v1()
@@ -64,6 +88,17 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
             "f4-source-grasp-hv1-r01", purpose="f4_stage_a_planner"
         )
         self.assertEqual(auth._validate_job_spec("F4_STAGE_A_PLANNER", f4), f4)
+        terminal = self._f4_stage_a_terminal()
+        stage_b = build_f4_stage_b_candidates_v1(self.f4, terminal)
+        f4_stage_b = build_f4_runtime_spec_v1(
+            stage_b["fixed_candidate_order"][0],
+            purpose="f4_stage_b_planner",
+            stage_a_terminal=terminal,
+        )
+        self.assertEqual(
+            auth._validate_job_spec("F4_STAGE_B_PLANNER", f4_stage_b),
+            f4_stage_b,
+        )
 
     def test_physical_input_requires_rank_ordered_selection_receipt(self):
         candidates = self.f2["inside_candidates"]
@@ -116,6 +151,48 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
                 planned_root_slot_spec=spec,
                 reviewed_content_commit="0" * 40,
             )
+
+    def test_f4_stage_b_input_is_bound_to_stage_a_selection_and_candidate(self):
+        terminal = self._f4_stage_a_terminal()
+        stage_b = build_f4_stage_b_candidates_v1(self.f4, terminal)
+        candidate_id = stage_b["fixed_candidate_order"][0]
+        spec = build_f4_runtime_spec_v1(
+            candidate_id,
+            purpose="f4_stage_b_planner",
+            stage_a_terminal=terminal,
+        )
+        with tempfile.TemporaryDirectory(
+            dir="/nfs_share/lijunhui/Robotwin2/tmp"
+        ) as temporary:
+            path = Path(temporary) / "f4-stage-a-selection.json"
+            canonical_write_json(path, terminal)
+            inputs = {
+                "stage_a_selection_receipt_path": str(path.resolve()),
+                "stage_a_selection_receipt_file_sha256": hashlib.sha256(
+                    path.read_bytes()
+                ).hexdigest(),
+                "stage_a_selection_receipt_sha256": terminal[
+                    "receipt_sha256"
+                ],
+                "selected_source_grasp_candidate_id": terminal[
+                    "selected_source_grasp"
+                ]["candidate_id"],
+                "stage_b_candidate_id": candidate_id,
+            }
+            self.assertEqual(
+                auth._validate_job_inputs(
+                    "F4_STAGE_B_PLANNER", inputs, spec
+                ),
+                inputs,
+            )
+            changed = dict(inputs)
+            changed["stage_b_candidate_id"] = stage_b[
+                "fixed_candidate_order"
+            ][-1]
+            with self.assertRaises(Exception):
+                auth._validate_job_inputs(
+                    "F4_STAGE_B_PLANNER", changed, spec
+                )
 
     def test_scope_dispatch_preserves_candidate_terminal(self):
         spec = build_f2_runtime_spec_v1(

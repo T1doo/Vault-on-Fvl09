@@ -33,7 +33,7 @@ from .runtime_v3_3_authorization_v1 import (
 )
 
 
-IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1"
+IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1_2"
 AUTH_SCHEMA = "cmf_high_level_template_redesign_authorization_v1"
 CONSUMPTION_SCHEMA = "cmf_high_level_template_redesign_consumption_v1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -44,6 +44,7 @@ JOB_PURPOSES = {
     "F3_LEVEL1_PLANNER": "f3_level1_planner",
     "F3_LEVEL2_PHYSICAL": "f3_level2_physical",
     "F4_STAGE_A_PLANNER": "f4_stage_a_planner",
+    "F4_STAGE_B_PLANNER": "f4_stage_b_planner",
 }
 JOB_KINDS = frozenset(JOB_PURPOSES)
 
@@ -146,6 +147,50 @@ def _validate_job_inputs(
     }:
         if inputs:
             raise AuthorizationBindingError("planner candidate job cannot carry inputs")
+        return inputs
+    if job_kind == "F4_STAGE_B_PLANNER":
+        required = {
+            "stage_a_selection_receipt_path",
+            "stage_a_selection_receipt_file_sha256",
+            "stage_a_selection_receipt_sha256",
+            "selected_source_grasp_candidate_id",
+            "stage_b_candidate_id",
+        }
+        if set(inputs) != required:
+            raise AuthorizationBindingError(
+                "F4 Stage-B selection input fields changed"
+            )
+        path = _path(
+            inputs["stage_a_selection_receipt_path"],
+            "F4 Stage-A selection receipt",
+            file_required=True,
+        )
+        source = json.loads(path.read_text(encoding="utf-8"))
+        embedded = spec.get("f4_stage_a_terminal_v1")
+        if (
+            _file_sha(path)
+            != inputs["stage_a_selection_receipt_file_sha256"]
+            or source.get("receipt_sha256")
+            != inputs["stage_a_selection_receipt_sha256"]
+            or source.get("schema_version")
+            not in {
+                "cmf_f4_hierarchical_stage_a_terminal_v1",
+                "cmf_f4_hierarchical_stage_a_sequential_terminal_v1",
+            }
+            or canonical_jsonable(source) != canonical_jsonable(embedded)
+            or source.get("stage_b_authorized_by_result") is not True
+            or source.get("selected_source_grasp", {}).get("candidate_id")
+            != inputs["selected_source_grasp_candidate_id"]
+            or spec.get("f4_source_grasp_candidate_v1", {}).get(
+                "candidate_id"
+            )
+            != inputs["selected_source_grasp_candidate_id"]
+            or spec.get("f4_stage_b_candidate_v1", {}).get("candidate_id")
+            != inputs["stage_b_candidate_id"]
+        ):
+            raise AuthorizationBindingError(
+                "F4 Stage-B selection receipt or candidate binding changed"
+            )
         return inputs
     return _validate_selection_source(job_kind, inputs, spec)
 
