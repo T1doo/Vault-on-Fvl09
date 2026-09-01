@@ -198,8 +198,35 @@ class F3Scene(AuditScene):
     family_id = "F3"
 
     def load_actors(self):
-        self.pad = create_box(self, sapien.Pose([-0.18, -0.06, 0.745]), F3_PAD_HALF_SIZE_M, color=(0.4, 0.4, 0.4), is_static=True, name="f3_original_pad")
-        self.bottle = create_actor(self, sapien.Pose([-0.18, -0.06, 0.785], [0, 0, 1, 0]), "001_bottle", convex=True, model_id=13)
+        planned = getattr(self, "_cmf_planned_root_slot_spec", {})
+        tuple_value = (
+            planned.get("f3_asset_grasp_tuple_v2")
+            if isinstance(planned, dict)
+            else None
+        )
+        if tuple_value is None:
+            model_id = 13
+            source_x = -0.18
+        else:
+            from ..f3_asset_grasp_qualification_v2 import (
+                build_f3_asset_grasp_qualification_v2,
+            )
+
+            contract = build_f3_asset_grasp_qualification_v2()
+            matches = [
+                item
+                for item in contract["grasp_tuples"]
+                if item["tuple_id"] == tuple_value.get("tuple_id")
+                and item["tuple_sha256"] == tuple_value.get("tuple_sha256")
+            ]
+            if len(matches) != 1 or matches[0] != tuple_value:
+                raise ValueError("F3 scene received an unfrozen asset/grasp tuple")
+            frozen = matches[0]
+            model_id = int(frozen["asset"]["model_id"])
+            source_x = -0.18 if frozen["arm"] == "left" else 0.18
+            self._cmf_f3_asset_grasp_tuple_v2 = dict(frozen)
+        self.pad = create_box(self, sapien.Pose([source_x, -0.06, 0.745]), F3_PAD_HALF_SIZE_M, color=(0.4, 0.4, 0.4), is_static=True, name="f3_original_pad")
+        self.bottle = create_actor(self, sapien.Pose([source_x, -0.06, 0.785], [0, 0, 1, 0]), "001_bottle", convex=True, model_id=model_id)
         self.bottle.set_name("f3_main_bottle")
         self.bottle.set_mass(0.01)
         self.central_marker = create_visual_box(self, sapien.Pose([0.0, -0.05, 0.95]), (0.015, 0.015, 0.015), color=(1, 1, 0), name="f3_central_marker")
