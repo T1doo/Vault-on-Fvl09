@@ -146,7 +146,16 @@ class F4TopDownBlockCarryV8Test(unittest.TestCase):
                 self.assertTrue(role_audit["pass"])
                 self.assertEqual(
                     role_audit["segment_non_target_collisions"],
-                    {"lift_to_carry_mid": [], "carry_mid_to_preplace": []},
+                    {
+                        "lift_to_carry_mid": [],
+                        "carry_mid_to_preplace": [],
+                        "preplace_to_release": [],
+                    },
+                )
+                self.assertTrue(
+                    role_audit["checks"][
+                        "release_target_obb_avoids_current_other_blocks_with_10mm_clearance"
+                    ]
                 )
 
     def test_uniform_right_arm_contract_has_no_role_exception_or_layout_change(self):

@@ -51,6 +51,7 @@ from .runtime_source_lock_v1 import (
     capture_runtime_source_lock,
     load_runtime_source_lock,
 )
+from .generation_repair_v2 import assert_high_level_gpu_issuance_disabled_v2
 
 
 WORKSPACE = Path("/nfs_share/lijunhui")
@@ -229,6 +230,7 @@ def issue_job_bundle_v1(
     reviewed_content_commit: str,
     job_inputs: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    assert_high_level_gpu_issuance_disabled_v2()
     _published_head(reviewed_content_commit)
     if job_kind not in JOB_KINDS:
         raise ValueError("unsupported high-level job kind")

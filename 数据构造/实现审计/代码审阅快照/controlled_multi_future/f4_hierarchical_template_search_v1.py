@@ -13,10 +13,14 @@ from typing import Any, Mapping, Sequence
 
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .project_cube_grasp_pose_v1 import build_project_cube_grasp_poses
+from .f4_stage_b_geometry_contract_v2 import (
+    SAFE_SLOT_ROWS_V2,
+    audit_f4_stage_b_candidate_geometry_v2,
+)
 
 
 SCHEMA_VERSION = "cmf_f4_hierarchical_template_search_v1"
-IMPLEMENTATION_VERSION = "controlled_multi_future_f4_hierarchical_template_search_v1"
+IMPLEMENTATION_VERSION = "controlled_multi_future_f4_hierarchical_template_search_v2"
 SCOPE = "F4_HIERARCHICAL_TEMPLATE_SEARCH_V1"
 PROGRAM_IDS = ("F4-ABC", "F4-ACB", "F4-BAC")
 ROLES = ("A", "B", "C")
@@ -66,12 +70,7 @@ _SOURCE_ROWS = (
     ("right", (0.20, 0.02, 0.11)),
 )
 
-_SLOT_ROWS = (
-    (0.100, 0.205, 0.355),
-    (0.080, 0.200, 0.360),
-    (0.070, 0.195, 0.360),
-    (0.060, 0.180, 0.340),
-)
+_SLOT_ROWS = SAFE_SLOT_ROWS_V2
 _CORRIDOR_POLICIES = (
     "lower_carry_height",
     "f1_uniform_cluster_center_carry_hub",
@@ -283,17 +282,23 @@ def build_f4_stage_b_candidates_v1(
     )
     if canonical_source is None:
         raise ValueError("F4 Stage-A selected source is outside the frozen set")
-    mirror = -1.0 if canonical_source["arm"] == "left" else 1.0
     candidates = []
     for slot_row in _SLOT_ROWS:
         for corridor_policy in _CORRIDOR_POLICIES:
             slot_poses = {
-                role: [mirror * float(x), 0.04, 0.742, 1.0, 0.0, 0.0, 0.0]
-                for role, x in zip(ROLES, slot_row)
+                role: [float(xy[0]), float(xy[1]), 0.742, 1.0, 0.0, 0.0, 0.0]
+                for role, xy in zip(ROLES, slot_row)
             }
+            geometry = audit_f4_stage_b_candidate_geometry_v2(
+                source_layout=canonical_source["source_layout"],
+                slot_poses=slot_poses,
+                corridor_policy=corridor_policy,
+                arm=canonical_source["arm"],
+                program_orders=checked["program_orders"],
+            )
             candidate = {
                 "rank": len(candidates) + 1,
-                "candidate_id": f"f4-slot-corridor-hv1-r{len(candidates) + 1:02d}",
+                "candidate_id": f"f4-slot-corridor-hv2-r{len(candidates) + 1:02d}",
                 "source_grasp_candidate_id": canonical_source["candidate_id"],
                 "source_grasp_candidate_sha256": canonical_source["candidate_sha256"],
                 "arm": canonical_source["arm"],
@@ -305,11 +310,27 @@ def build_f4_stage_b_candidates_v1(
                 "program_specific_layout_allowed": False,
                 "automatic_retry": False,
                 "online_fallback": False,
+                "construction_valid": geometry["construction_valid"],
+                "construction_failure_codes": geometry[
+                    "construction_failure_codes"
+                ],
+                "program_state_transition_audit_sha256": geometry[
+                    "geometry_contract_sha256"
+                ],
+                "program_state_transition_audit": geometry,
+                "minimum_terminal_clearance_m": geometry[
+                    "minimum_terminal_clearance_m"
+                ],
+                "minimum_swept_clearance_m": geometry[
+                    "minimum_swept_clearance_m"
+                ],
             }
             candidate["candidate_sha256"] = canonical_hash_json(candidate)
             candidates.append(candidate)
     if len(candidates) != MAXIMUM_SLOT_CORRIDOR_CANDIDATES:
         raise AssertionError("F4 Stage-B slot/corridor candidate bound changed")
+    if not all(candidate["construction_valid"] for candidate in candidates):
+        raise AssertionError("F4 Stage-B V2 emitted a construction-invalid candidate")
     value = {
         "schema_version": "cmf_f4_hierarchical_stage_b_contract_v1",
         "parent_search_contract_sha256": checked["search_contract_sha256"],
@@ -351,6 +372,8 @@ def select_f4_stage_b_layout_v1(
         if receipt.get("candidate_sha256") != candidate["candidate_sha256"]:
             raise ValueError("F4 Stage-B receipt candidate hash mismatch")
         if (
+            candidate.get("construction_valid") is True
+            and
             isinstance(checks, Mapping)
             and set(checks) == set(checked["stage_b_required_gates"])
             and all(

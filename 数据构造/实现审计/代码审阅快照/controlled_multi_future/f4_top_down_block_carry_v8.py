@@ -43,10 +43,14 @@ from .geometry import (
     actor_target_to_eef_pose,
     compose_pose,
     relative_pose,
-    segment_intersects_aabb,
     world_axis_offset_pose,
 )
 from .project_cube_grasp_pose_v1 import FROZEN_CUBE_HALF_EXTENTS_M
+from .f4_stage_b_geometry_contract_v2 import (
+    EXTRA_SAFETY_CLEARANCE_M,
+    audit_obb_clearance_v2,
+    audit_translation_sweep_v2,
+)
 
 
 SCHEMA_VERSION = "cmf_f4_top_down_block_carry_v8"
@@ -335,21 +339,27 @@ def _audit_nominal_noninterference(
         segment_collisions = {
             "lift_to_carry_mid": [],
             "carry_mid_to_preplace": [],
+            "preplace_to_release": [],
+        }
+        segment_clearance_audits: dict[str, dict[str, Any]] = {
+            key: {} for key in segment_collisions
         }
         for segment_id, start, end in (
             ("lift_to_carry_mid", held["lift"], held["carry_mid"]),
             ("carry_mid_to_preplace", held["carry_mid"], held["preplace"]),
+            ("preplace_to_release", held["preplace"], held["release"]),
         ):
             for other_role, obstacle in states.items():
                 if other_role == role:
                     continue
-                if segment_intersects_aabb(
-                    start[:3],
-                    end[:3],
-                    obstacle[:3] - half,
-                    obstacle[:3] + half,
-                    swept_half_extents=half,
-                ):
+                clearance = audit_translation_sweep_v2(
+                    start,
+                    end,
+                    obstacle,
+                    required_clearance_m=EXTRA_SAFETY_CLEARANCE_M,
+                )
+                segment_clearance_audits[segment_id][other_role] = clearance
+                if clearance["pass"] is not True:
                     segment_collisions[segment_id].append(other_role)
         transport = (held["lift"], held["carry_mid"], held["preplace"])
         inside_table = all(
@@ -380,6 +390,15 @@ def _audit_nominal_noninterference(
             )
             <= TARGET_ORIENTATION_ATOL_RAD
         )
+        target_clearance = {
+            other_role: audit_obb_clearance_v2(
+                target,
+                obstacle,
+                required_clearance_m=EXTRA_SAFETY_CLEARANCE_M,
+            )
+            for other_role, obstacle in states.items()
+            if other_role != role
+        }
         checks = {
             "nominal_swept_block_avoids_current_other_blocks": all(
                 not values for values in segment_collisions.values()
@@ -387,6 +406,15 @@ def _audit_nominal_noninterference(
             "all_held_waypoints_inside_table_xy": bool(inside_table),
             "transport_block_bottom_above_table": minimum_transport_bottom > 0.0,
             "release_reconstructs_same_role_slot_target": release_matches_target,
+            "preplace_to_release_avoids_current_other_blocks": all(
+                item["pass"] is True
+                for item in segment_clearance_audits[
+                    "preplace_to_release"
+                ].values()
+            ),
+            "release_target_obb_avoids_current_other_blocks_with_10mm_clearance": all(
+                item["pass"] is True for item in target_clearance.values()
+            ),
         }
         per_role[role] = {
             "held_actor_poses": {
@@ -398,6 +426,8 @@ def _audit_nominal_noninterference(
                 if key != role
             },
             "segment_non_target_collisions": segment_collisions,
+            "segment_clearance_audits": segment_clearance_audits,
+            "release_target_clearance_audits": target_clearance,
             "minimum_transport_bottom_clearance_m": minimum_transport_bottom,
             "release_bottom_above_table_m": release_bottom,
             "checks": checks,
@@ -413,6 +443,7 @@ def _audit_nominal_noninterference(
             "whole robot, common-X, tray, and runtime contacts remain authoritative"
         ),
         "table_top_z_m": TABLE_TOP_Z_M,
+        "required_extra_safety_clearance_m": EXTRA_SAFETY_CLEARANCE_M,
         "table_bounds_xy": {
             key: list(value) for key, value in TABLE_BOUNDS_XY.items()
         },

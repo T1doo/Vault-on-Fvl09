@@ -1,0 +1,1845 @@
+{
+  "invalidation": {
+    "geometry_audit": {
+      "arm": "left",
+      "construction_failure_codes": [
+        "ABC:A:CARRIED_BLOCK_SWEEP_INTERSECTS_CURRENT_OTHER_OBJECT",
+        "ABC:A:TARGET_OVERLAPS_CURRENT_OTHER_OBJECT",
+        "ACB:A:CARRIED_BLOCK_SWEEP_INTERSECTS_CURRENT_OTHER_OBJECT",
+        "ACB:A:TARGET_OVERLAPS_CURRENT_OTHER_OBJECT",
+        "BAC:B:CARRIED_BLOCK_SWEEP_INTERSECTS_CURRENT_OTHER_OBJECT",
+        "BAC:B:TARGET_OVERLAPS_CURRENT_OTHER_OBJECT"
+      ],
+      "construction_valid": false,
+      "corridor_policy": "lower_carry_height",
+      "equal_final_world_state": true,
+      "formal_data": false,
+      "geometry_contract_sha256": "d0c3acba23e44ac16f4745bbe8028f2bdb70807679b0fd8ed37ac1ce7ee01c78",
+      "implementation_version": "controlled_multi_future_high_level_generation_repair_v2_0",
+      "minimum_swept_clearance_m": -0.023999999999999997,
+      "minimum_terminal_clearance_m": -0.023999999999999997,
+      "program_state_transition_audits": {
+        "ABC": {
+          "final_mapping": {
+            "A": [
+              -0.1,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.205,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.355,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "final_mapping_sha256": "5cf12987b8bd78234d07ec466ef5e0a21b894d10c1eae140fe936ac4fada1de9",
+          "order": [
+            "A",
+            "B",
+            "C"
+          ],
+          "pass": false,
+          "role_audits": [
+            {
+              "all_three_translation_sweeps_pass": false,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.15000000000000002,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.2,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.1,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": false,
+              "role": "A",
+              "state_of_other_blocks_before_role": {
+                "B": [
+                  -0.11,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.02,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03905555555555554,
+                    "pass": true,
+                    "receipt_sha256": "339cd5d2c58259d4a1bb24734635ed80314111b19c72a080b7af0c2f4302d09d",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.08600000000000003,
+                    "pass": true,
+                    "receipt_sha256": "3f65868ff78f37a426bfc96665686a582f76e4a4188625833a093aec793da00a",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": true,
+                    "minimum_linf_surface_clearance_m": -0.023999999999999997,
+                    "pass": false,
+                    "receipt_sha256": "47046e238b95a9f465ec11e3951fde352dddaac187b73cb87117f26e0404442b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.036000000000000004,
+                    "pass": true,
+                    "receipt_sha256": "9cd087213e0cf63be56530cd41a6646666bd8fe9be4a1ed8cf6409ac33214c76",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.1,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "B": {
+                  "maximum_separating_axis_gap_m": -0.023999999999999997,
+                  "obb_intersects_without_margin": true,
+                  "pass": false,
+                  "receipt_sha256": "b6323671ab04747f332d75bcf7462a7c64bbed5a31864c017e6ed04fed30dfef",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.036000000000000004,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "14433e763ca99ca9adceb2719a5687560b5cfe4825b6d67bbbe8a9128fb2b243",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": false
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1575,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.11,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.205,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "B",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.02,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.09350000000000001,
+                    "pass": true,
+                    "receipt_sha256": "909dc474aea8966ba30827c1316e73decb40258a6da0e2c5322750e72880bf29",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03399999999999996,
+                    "pass": true,
+                    "receipt_sha256": "b24b4c4cd4b899644efbca27eb3384d191874480335085b0490faa88c4d15a1b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.046,
+                    "pass": true,
+                    "receipt_sha256": "d20e2bc7b0b6f6704b458a50c7d5e98402ca788d18b01b7a1dcebaa7e80cf042",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.060999999999999985,
+                    "pass": true,
+                    "receipt_sha256": "eb5f7b51fc78c8ef7aaa501ee6faba646628ef4e8abe6eabeb9097fd12c815b9",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.14100000000000001,
+                    "pass": true,
+                    "receipt_sha256": "c79227e6bc25fd168d5c61340fb92984e739b59240bc7fdf2badecf65d1ce98e",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.205,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": 0.06099999999999999,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "8487e5e9a0dfbed7a861a9216e4508c14c2bd3b5050025647f614ec6b2f5faa2",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.14100000000000001,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "4e48629f5ee05504709303c47359e65865fd731eca081ecbab08774dd2b58c21",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1875,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.02,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.355,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.355,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "C",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "B": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03423218997361474,
+                    "pass": true,
+                    "receipt_sha256": "c8e7509ea1434507084b8e37fea21599730ba2919b4ab3a36dca9b9ed941ae5e",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.04642216358839048,
+                    "pass": true,
+                    "receipt_sha256": "73582ed664919bef017fa010349ace04c0c3c2aebca07843db86e4a2712943ae",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.21100000000000002,
+                    "pass": true,
+                    "receipt_sha256": "09cc3f9e9e387ad35e09f7672050077d12563e69be1a8414e697c5b79da42d54",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.106,
+                    "pass": true,
+                    "receipt_sha256": "0fdb2c7614dc30b027d1227934bd702197635b72698aad4ff80030821382f83f",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.355,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": 0.21100000000000002,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "6c4e331b81ccb450848c91dc82bf140c94770dbbc789aeec760df97ea79c3090",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "B": {
+                  "maximum_separating_axis_gap_m": 0.10600000000000001,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "040cd90403f7dc309e2baf69209f5dbbabcb74d087d6b9ef74f9fa614bcc56c7",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            }
+          ]
+        },
+        "ACB": {
+          "final_mapping": {
+            "A": [
+              -0.1,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.205,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.355,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "final_mapping_sha256": "5cf12987b8bd78234d07ec466ef5e0a21b894d10c1eae140fe936ac4fada1de9",
+          "order": [
+            "A",
+            "C",
+            "B"
+          ],
+          "pass": false,
+          "role_audits": [
+            {
+              "all_three_translation_sweeps_pass": false,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.15000000000000002,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.2,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.1,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": false,
+              "role": "A",
+              "state_of_other_blocks_before_role": {
+                "B": [
+                  -0.11,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.02,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03905555555555554,
+                    "pass": true,
+                    "receipt_sha256": "339cd5d2c58259d4a1bb24734635ed80314111b19c72a080b7af0c2f4302d09d",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.08600000000000003,
+                    "pass": true,
+                    "receipt_sha256": "3f65868ff78f37a426bfc96665686a582f76e4a4188625833a093aec793da00a",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": true,
+                    "minimum_linf_surface_clearance_m": -0.023999999999999997,
+                    "pass": false,
+                    "receipt_sha256": "47046e238b95a9f465ec11e3951fde352dddaac187b73cb87117f26e0404442b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.036000000000000004,
+                    "pass": true,
+                    "receipt_sha256": "9cd087213e0cf63be56530cd41a6646666bd8fe9be4a1ed8cf6409ac33214c76",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.1,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "B": {
+                  "maximum_separating_axis_gap_m": -0.023999999999999997,
+                  "obb_intersects_without_margin": true,
+                  "pass": false,
+                  "receipt_sha256": "b6323671ab04747f332d75bcf7462a7c64bbed5a31864c017e6ed04fed30dfef",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.036000000000000004,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "14433e763ca99ca9adceb2719a5687560b5cfe4825b6d67bbbe8a9128fb2b243",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": false
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1875,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.02,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.355,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.355,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "C",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "B": [
+                  -0.11,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03423218997361474,
+                    "pass": true,
+                    "receipt_sha256": "c8e7509ea1434507084b8e37fea21599730ba2919b4ab3a36dca9b9ed941ae5e",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03716094986807385,
+                    "pass": true,
+                    "receipt_sha256": "c97c7899a609c7dea1173dce4fbb2faf69a91de5497aed6648293cc5d71e2b76",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.21100000000000002,
+                    "pass": true,
+                    "receipt_sha256": "09cc3f9e9e387ad35e09f7672050077d12563e69be1a8414e697c5b79da42d54",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.201,
+                    "pass": true,
+                    "receipt_sha256": "4bb4980babfded37b1f56c2a9d318b37e0544a262b2aaace1c09ff6d1064f9f0",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.355,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": 0.21100000000000002,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "6c4e331b81ccb450848c91dc82bf140c94770dbbc789aeec760df97ea79c3090",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "B": {
+                  "maximum_separating_axis_gap_m": 0.201,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "00c1e718e63e3c8201c0a0e43d787726739a9bb27815bd305e8cb8d7e24d17de",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1575,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.11,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.205,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "B",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.355,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.106,
+                    "pass": true,
+                    "receipt_sha256": "0fdb2c7614dc30b027d1227934bd702197635b72698aad4ff80030821382f83f",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03399999999999996,
+                    "pass": true,
+                    "receipt_sha256": "b24b4c4cd4b899644efbca27eb3384d191874480335085b0490faa88c4d15a1b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.15349999999999997,
+                    "pass": true,
+                    "receipt_sha256": "0142ccfac98abd67e534d4421b28f22a018d91daed0caef154b122cb0129b748",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.060999999999999985,
+                    "pass": true,
+                    "receipt_sha256": "eb5f7b51fc78c8ef7aaa501ee6faba646628ef4e8abe6eabeb9097fd12c815b9",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.106,
+                    "pass": true,
+                    "receipt_sha256": "0fdb2c7614dc30b027d1227934bd702197635b72698aad4ff80030821382f83f",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.205,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": 0.06099999999999999,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "8487e5e9a0dfbed7a861a9216e4508c14c2bd3b5050025647f614ec6b2f5faa2",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.10600000000000001,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "040cd90403f7dc309e2baf69209f5dbbabcb74d087d6b9ef74f9fa614bcc56c7",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            }
+          ]
+        },
+        "BAC": {
+          "final_mapping": {
+            "A": [
+              -0.1,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "B": [
+              -0.205,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "C": [
+              -0.355,
+              0.04,
+              0.764,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "final_mapping_sha256": "5cf12987b8bd78234d07ec466ef5e0a21b894d10c1eae140fe936ac4fada1de9",
+          "order": [
+            "B",
+            "A",
+            "C"
+          ],
+          "pass": false,
+          "role_audits": [
+            {
+              "all_three_translation_sweeps_pass": false,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1575,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.11,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.205,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": false,
+              "role": "B",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.2,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.02,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.09350000000000001,
+                    "pass": true,
+                    "receipt_sha256": "909dc474aea8966ba30827c1316e73decb40258a6da0e2c5322750e72880bf29",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03916546762589926,
+                    "pass": true,
+                    "receipt_sha256": "5164779066bcfadbb31a2e8274beaf65d632a4a0cec5e133a28214f21eeb6895",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.046,
+                    "pass": true,
+                    "receipt_sha256": "d20e2bc7b0b6f6704b458a50c7d5e98402ca788d18b01b7a1dcebaa7e80cf042",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": true,
+                    "minimum_linf_surface_clearance_m": -0.023999999999999997,
+                    "pass": false,
+                    "receipt_sha256": "47046e238b95a9f465ec11e3951fde352dddaac187b73cb87117f26e0404442b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.14100000000000001,
+                    "pass": true,
+                    "receipt_sha256": "c79227e6bc25fd168d5c61340fb92984e739b59240bc7fdf2badecf65d1ce98e",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.205,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": -0.023999999999999997,
+                  "obb_intersects_without_margin": true,
+                  "pass": false,
+                  "receipt_sha256": "b6323671ab04747f332d75bcf7462a7c64bbed5a31864c017e6ed04fed30dfef",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.14100000000000001,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "4e48629f5ee05504709303c47359e65865fd731eca081ecbab08774dd2b58c21",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": false
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.15000000000000002,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.2,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.1,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "A",
+              "state_of_other_blocks_before_role": {
+                "B": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "C": [
+                  -0.02,
+                  0.02,
+                  0.762,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05799999999999998,
+                    "pass": true,
+                    "receipt_sha256": "adcdcc1eb26085d6651181f0be20cac7464d7efe4b61e0cfe817169f97ed9dbe",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03399999999999996,
+                    "pass": true,
+                    "receipt_sha256": "b24b4c4cd4b899644efbca27eb3384d191874480335085b0490faa88c4d15a1b",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.08600000000000003,
+                    "pass": true,
+                    "receipt_sha256": "3f65868ff78f37a426bfc96665686a582f76e4a4188625833a093aec793da00a",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.060999999999999985,
+                    "pass": true,
+                    "receipt_sha256": "eb5f7b51fc78c8ef7aaa501ee6faba646628ef4e8abe6eabeb9097fd12c815b9",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "C": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.036000000000000004,
+                    "pass": true,
+                    "receipt_sha256": "9cd087213e0cf63be56530cd41a6646666bd8fe9be4a1ed8cf6409ac33214c76",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.1,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "B": {
+                  "maximum_separating_axis_gap_m": 0.06099999999999999,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "8487e5e9a0dfbed7a861a9216e4508c14c2bd3b5050025647f614ec6b2f5faa2",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "C": {
+                  "maximum_separating_axis_gap_m": 0.036000000000000004,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "14433e763ca99ca9adceb2719a5687560b5cfe4825b6d67bbbe8a9128fb2b243",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            },
+            {
+              "all_three_translation_sweeps_pass": true,
+              "nominal_actor_path": {
+                "carry_mid": [
+                  -0.1875,
+                  0.03,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "lift": [
+                  -0.02,
+                  0.02,
+                  0.842,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "preplace": [
+                  -0.355,
+                  0.04,
+                  0.864,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "release": [
+                  -0.355,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "pass": true,
+              "role": "C",
+              "state_of_other_blocks_before_role": {
+                "A": [
+                  -0.1,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "B": [
+                  -0.205,
+                  0.04,
+                  0.764,
+                  1.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              },
+              "sweep_clearance": {
+                "carry_mid_to_preplace": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.05599999999999998,
+                    "pass": true,
+                    "receipt_sha256": "0d8e04a4ba8ccd884c596bea715bb09f09e78bdb736176ea4c4bb306d502fe94",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "lift_to_carry_mid": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.03423218997361474,
+                    "pass": true,
+                    "receipt_sha256": "c8e7509ea1434507084b8e37fea21599730ba2919b4ab3a36dca9b9ed941ae5e",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.04642216358839048,
+                    "pass": true,
+                    "receipt_sha256": "73582ed664919bef017fa010349ace04c0c3c2aebca07843db86e4a2712943ae",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                },
+                "preplace_to_release": {
+                  "A": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.21100000000000002,
+                    "pass": true,
+                    "receipt_sha256": "09cc3f9e9e387ad35e09f7672050077d12563e69be1a8414e697c5b79da42d54",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  },
+                  "B": {
+                    "conservative_minkowski_half_extents_m": [
+                      0.054,
+                      0.054,
+                      0.054
+                    ],
+                    "intersects_expanded_obstacle": false,
+                    "minimum_linf_surface_clearance_m": 0.106,
+                    "pass": true,
+                    "receipt_sha256": "0fdb2c7614dc30b027d1227934bd702197635b72698aad4ff80030821382f83f",
+                    "required_clearance_m": 0.01,
+                    "schema_version": "cmf_f4_translation_sweep_clearance_v2"
+                  }
+                }
+              },
+              "target_actor_pose": [
+                -0.355,
+                0.04,
+                0.764,
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "target_clearance": {
+                "A": {
+                  "maximum_separating_axis_gap_m": 0.21100000000000002,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "6c4e331b81ccb450848c91dc82bf140c94770dbbc789aeec760df97ea79c3090",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                },
+                "B": {
+                  "maximum_separating_axis_gap_m": 0.10600000000000001,
+                  "obb_intersects_without_margin": false,
+                  "pass": true,
+                  "receipt_sha256": "040cd90403f7dc309e2baf69209f5dbbabcb74d087d6b9ef74f9fa614bcc56c7",
+                  "required_clearance_m": 0.01,
+                  "schema_version": "cmf_f4_obb_clearance_v2"
+                }
+              },
+              "target_terminal_pass": true
+            }
+          ]
+        }
+      },
+      "required_extra_safety_clearance_m": 0.01,
+      "schema_version": "cmf_f4_stage_b_geometry_contract_v2",
+      "slot_poses": {
+        "A": [
+          -0.1,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.205,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.355,
+          0.04,
+          0.742,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "source_layout": {
+        "A": [
+          -0.2,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.11,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.02,
+          0.02,
+          0.762,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "target_actor_poses": {
+        "A": [
+          -0.1,
+          0.04,
+          0.764,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "B": [
+          -0.205,
+          0.04,
+          0.764,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "C": [
+          -0.355,
+          0.04,
+          0.764,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "legacy_candidate_id": "f4-slot-corridor-hv1-r01",
+    "old_receipts_remain_factual": true,
+    "receipt_sha256": "ae95cf1b8b42e900bc117e13a13d527f04d0a201d257e06d2bee1bb5436b55cb",
+    "reexecution_required": false,
+    "schema_version": "cmf_f4_legacy_r01_invalidation_v2",
+    "status": "INVALID_BY_CONSTRUCTION_TARGET_OVERLAPS_UNMOVED_OBJECT"
+  },
+  "legacy_physical_terminal_file_sha256": "b7dd1f892541192390b8e5e6ebb7e5e5680abeaefc9605ccbef454ada7592604",
+  "legacy_physical_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_A_ONLY_PHYSICAL_TERMINAL_V1_2_9.json",
+  "legacy_physical_terminal_sha256": "9381b47bac3270c294ef674fe07479bd7a0710ff065691dd09e01d8872da2ccc",
+  "legacy_stage_b_selection_file_sha256": "76298f51dde7289f430415e31025d80f2c23072b5402a1fe6990fcaaad4b997b",
+  "legacy_stage_b_selection_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_STAGE_B_PLANNER_SELECTION_V1_2_6.json",
+  "legacy_stage_b_selection_receipt_sha256": "93310c04143895e831e8976912ec2a6a0028c14d6027129b261920b6fbaf8025",
+  "old_receipts_remain_factual": true,
+  "overlay_sha256": "7bc2492d288b171e2f8f64dc6a1c1e66113f34714f1528facafed24ea0dbf302",
+  "reexecution_required": false,
+  "schema_version": "cmf_f4_stage_b_legacy_r01_construction_invalidation_overlay_v2"
+}

@@ -11,7 +11,11 @@ from typing import Any, Mapping, Sequence
 import numpy as np
 
 from .anchor import quaternion_angular_error
-from .canonical_artifact import canonical_hash_json, canonical_write_json
+from .canonical_artifact import (
+    canonical_hash_json,
+    canonical_jsonable,
+    canonical_write_json,
+)
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     _actor_local_geometry_bounds,
@@ -45,6 +49,9 @@ from .f4_top_down_block_carry_v8 import (
     TARGET_ORIENTATION_ATOL_RAD,
     TARGET_POSITION_ATOL_M,
     _audit_nominal_noninterference,
+)
+from .f4_stage_b_geometry_contract_v2 import (
+    audit_f4_stage_b_candidate_geometry_v2,
 )
 
 
@@ -185,40 +192,10 @@ def _f3_region_shift_world(scene, candidate: Mapping[str, Any]) -> np.ndarray:
 
 
 def build_f3_level1_targets_v1(scene, spec: Mapping[str, Any]):
-    candidate = spec["f3_asset_grasp_tuple_v2"]
-    arm = candidate["arm"]
-    pregrasp, grasp, audit = _chosen_grasp(
-        scene,
-        scene.bottle,
-        arm=arm,
-        variant_id=f"f3_asset_grasp_level1:{candidate['tuple_id']}",
-        pregrasp_distance_m=candidate["pregrasp_distance_m"],
-        target_distance_m=candidate["target_distance_m"],
-        fixed_contact_point_id=candidate["official_contact_point_id"],
+    raise RuntimeError(
+        "legacy F3 V2 target construction is superseded: it mutated the "
+        "selected pose after planner qualification; use final-pose V3"
     )
-    shift = _f3_region_shift_world(scene, candidate)
-    pregrasp = pregrasp.copy()
-    grasp = grasp.copy()
-    pregrasp[:3] += shift
-    grasp[:3] += shift
-    lift = world_axis_offset_pose(grasp, 0.10)
-    central = grasp.copy()
-    central[:3] = [0.0, -0.05, 0.95]
-    v_positive = world_axis_offset_pose(central, 0.055)
-    targets = [
-        {"segment_id": "f3_level1_pregrasp", "pose": pregrasp},
-        {"segment_id": "f3_level1_grasp", "pose": grasp},
-        {"segment_id": "f3_level1_lift", "pose": lift},
-        {"segment_id": "f3_level1_central", "pose": central},
-        {"segment_id": "f3_level1_one_V", "pose": v_positive},
-        {"segment_id": "f3_level1_return", "pose": central},
-    ]
-    return _targets_payload(targets), {
-        "target_construction_audit": audit,
-        "grasp_region_world_shift_m": shift.tolist(),
-        "one_V_amplitude_m": 0.055,
-        "one_V_axis": "+z_table",
-    }
 
 
 def _f4_role_grasp(scene, candidate: Mapping[str, Any], role: str):
@@ -351,6 +328,20 @@ def _build_f4_prior_slot_preservation_v1(
 def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
     source_candidate = spec["f4_source_grasp_candidate_v1"]
     slot_candidate = spec["f4_stage_b_candidate_v1"]
+    embedded_geometry = slot_candidate.get("program_state_transition_audit")
+    recomputed_geometry = audit_f4_stage_b_candidate_geometry_v2(
+        source_layout=source_candidate["source_layout"],
+        slot_poses=slot_candidate["slot_poses"],
+        corridor_policy=slot_candidate["corridor_policy"],
+        arm=source_candidate["arm"],
+    )
+    if (
+        slot_candidate.get("construction_valid") is not True
+        or not isinstance(embedded_geometry, Mapping)
+        or canonical_jsonable(embedded_geometry) != recomputed_geometry
+        or recomputed_geometry["construction_valid"] is not True
+    ):
+        raise ValueError("F4 Stage-B candidate failed construction geometry V2")
     arm = source_candidate["arm"]
     rest = _arm_original_pose(scene, arm)
     neutral = rest.copy()
@@ -449,6 +440,7 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
         "prior_slot_preservation": prior_slot_preservation,
         "stage_b_planner_only": True,
         "release_execution_count": 0,
+        "construction_geometry_v2": recomputed_geometry,
     }
 
 

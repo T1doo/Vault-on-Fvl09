@@ -1,0 +1,552 @@
+"""CPU contracts for repaired F2 geometry, grasp and controlled insertion."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any, Mapping, Sequence
+
+import numpy as np
+
+from .anchor import quaternion_angular_error
+from .canonical_artifact import canonical_hash_json, canonical_jsonable
+from .f2_asset_geometry_layout_v3 import (
+    ROLE_ORIENTATION_WXYZ,
+    _asset_path,
+    _cavity_proposal,
+    _collision_geometry,
+)
+from .f2_official_asset_compatibility_matrix_v3 import ASSET_ROOT
+from .geometry import actor_target_to_eef_pose, relative_pose
+
+
+SCHEMA_VERSION = "cmf_f2_inside_control_search_v2"
+IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_generation_repair_v2_0"
+ARMS = ("left", "right")
+OFFICIAL_ROTATION_INDICES = tuple(range(10))
+AXIAL_GRASP_OFFSETS_M = (-0.02, 0.0, 0.02)
+PREGRASP_DISTANCES_M = (0.06, 0.09, 0.12)
+TARGET_DISTANCE_M = 0.0
+GRASP_TRANSLATION_DRIFT_LIMIT_M = 0.005
+GRASP_ORIENTATION_DRIFT_LIMIT_RAD = 0.050
+TRACKING_ALLOCATION_M = 0.005
+SAFETY_MARGIN_M = 0.010
+PREINSERT_CLEARANCE_M = 0.030
+SLOW_RELEASE_TARGETS = (0.2, 0.4, 0.6, 0.8, 1.0)
+SLOW_RELEASE_FRAMES_PER_TARGET = 10
+GEOMETRY_POSITION_ATOL_M = 1e-6
+GEOMETRY_ORIENTATION_ATOL_RAD = 1e-7
+DEFAULT_SCREENING_PATH = Path(
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CPU_STATIC_SCREENING_V3.json"
+)
+
+
+def _vector3(value: Sequence[float], label: str) -> np.ndarray:
+    result = np.asarray(value, dtype=np.float64).reshape(-1)
+    if result.shape != (3,) or not np.all(np.isfinite(result)):
+        raise ValueError(f"{label} must be one finite vector3")
+    return result
+
+
+def _pose7(value: Sequence[float], label: str) -> np.ndarray:
+    result = np.asarray(value, dtype=np.float64).reshape(-1)
+    if result.shape != (7,) or not np.all(np.isfinite(result)):
+        raise ValueError(f"{label} must be one finite pose7")
+    norm = float(np.linalg.norm(result[3:]))
+    if norm <= 1e-12:
+        raise ValueError(f"{label} quaternion norm must be positive")
+    result = result.copy()
+    result[3:] /= norm
+    return result
+
+
+def build_f2_geometry_certificate_v4(
+    *, main_object_model_id: int, plastic_box_model_id: int
+) -> dict[str, Any]:
+    can = _collision_geometry("071_can", int(main_object_model_id))
+    box = _collision_geometry("062_plasticbox", int(plastic_box_model_id))
+    cavity = _cavity_proposal(int(plastic_box_model_id))
+    can_model_data_path = (
+        ASSET_ROOT / "071_can" / f"model_data{int(main_object_model_id)}.json"
+    )
+    box_model_data_path = (
+        ASSET_ROOT
+        / "062_plasticbox"
+        / f"model_data{int(plastic_box_model_id)}.json"
+    )
+    can_model_data = json.loads(can_model_data_path.read_text(encoding="utf-8"))
+    box_model_data = json.loads(box_model_data_path.read_text(encoding="utf-8"))
+    can_collision_path = _asset_path(
+        "071_can", int(main_object_model_id), "collision"
+    )
+    box_collision_path = _asset_path(
+        "062_plasticbox", int(plastic_box_model_id), "collision"
+    )
+
+    def file_sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def scale(data: Mapping[str, Any]) -> list[float]:
+        value = np.asarray(data.get("scale", [1.0, 1.0, 1.0]), dtype=np.float64).reshape(-1)
+        if value.size == 1:
+            value = np.repeat(value, 3)
+        return _vector3(value, "asset scale").tolist()
+
+    value = {
+        "schema_version": "cmf_f2_geometry_certificate_v4",
+        "implementation_version": IMPLEMENTATION_VERSION,
+        "main_object_model_id": int(main_object_model_id),
+        "plastic_box_model_id": int(plastic_box_model_id),
+        "main_object_collision_path": can["collision_path"],
+        "plastic_box_collision_path": box["collision_path"],
+        "main_object_model_data_sha256": file_sha(can_model_data_path),
+        "plastic_box_model_data_sha256": file_sha(box_model_data_path),
+        "main_object_collision_sha256": file_sha(can_collision_path),
+        "plastic_box_collision_sha256": file_sha(box_collision_path),
+        "main_object_scale": scale(can_model_data),
+        "plastic_box_scale": scale(box_model_data),
+        "main_object_spawn_orientation_wxyz": ROLE_ORIENTATION_WXYZ[
+            "main_object"
+        ].tolist(),
+        "plastic_box_spawn_orientation_wxyz": ROLE_ORIENTATION_WXYZ[
+            "plastic_box"
+        ].tolist(),
+        "main_object_local_lower_m": can["lower"].tolist(),
+        "main_object_local_upper_m": can["upper"].tolist(),
+        "main_object_local_center_m": can["center"].tolist(),
+        "main_object_local_dimensions_m": can["dimensions"].tolist(),
+        "plastic_box_local_lower_m": box["lower"].tolist(),
+        "plastic_box_local_upper_m": box["upper"].tolist(),
+        "plastic_box_local_center_m": box["center"].tolist(),
+        "plastic_box_local_dimensions_m": box["dimensions"].tolist(),
+        "cavity_raw_lower_m": cavity["raw_lower"].tolist(),
+        "cavity_raw_upper_m": cavity["raw_upper"].tolist(),
+        "cavity_center_m": cavity["center"].tolist(),
+        "source_of_truth": "scaled collision mesh and model transform used by f2_asset_geometry_layout_v3",
+        "runtime_revalidation_required": True,
+        "formal_data": False,
+        "stage1_authorized": False,
+    }
+    value["certificate_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def compare_f2_runtime_geometry_v4(
+    certificate: Mapping[str, Any], runtime_observation: Mapping[str, Any]
+) -> dict[str, Any]:
+    cert = canonical_jsonable(certificate)
+    payload = dict(cert)
+    digest = payload.pop("certificate_sha256", None)
+    if digest != canonical_hash_json(payload):
+        raise ValueError("F2 V4 geometry certificate hash mismatch")
+    runtime = canonical_jsonable(runtime_observation)
+    vector_fields = (
+        "main_object_scale",
+        "plastic_box_scale",
+        "main_object_local_lower_m",
+        "main_object_local_upper_m",
+        "main_object_local_center_m",
+        "main_object_local_dimensions_m",
+        "plastic_box_local_lower_m",
+        "plastic_box_local_upper_m",
+        "plastic_box_local_center_m",
+        "plastic_box_local_dimensions_m",
+        "cavity_raw_lower_m",
+        "cavity_raw_upper_m",
+        "cavity_center_m",
+    )
+    errors = {
+        field: float(
+            np.max(
+                np.abs(
+                    _vector3(runtime[field], f"runtime {field}")
+                    - _vector3(cert[field], f"certificate {field}")
+                )
+            )
+        )
+        for field in vector_fields
+    }
+    checks = {
+        "model_ids_match": runtime.get("main_object_model_id")
+        == cert["main_object_model_id"]
+        and runtime.get("plastic_box_model_id")
+        == cert["plastic_box_model_id"],
+        "collision_paths_match": runtime.get("main_object_collision_path")
+        == cert["main_object_collision_path"]
+        and runtime.get("plastic_box_collision_path")
+        == cert["plastic_box_collision_path"],
+        "asset_hashes_match": all(
+            runtime.get(field) == cert[field]
+            for field in (
+                "main_object_model_data_sha256",
+                "plastic_box_model_data_sha256",
+                "main_object_collision_sha256",
+                "plastic_box_collision_sha256",
+            )
+        ),
+        "all_geometry_vectors_match_1um": all(
+            value <= GEOMETRY_POSITION_ATOL_M for value in errors.values()
+        ),
+        "spawn_orientations_match": all(
+            quaternion_angular_error(
+                runtime[field], cert[field]
+            )
+            <= GEOMETRY_ORIENTATION_ATOL_RAD
+            for field in (
+                "main_object_spawn_orientation_wxyz",
+                "plastic_box_spawn_orientation_wxyz",
+            )
+        ),
+    }
+    value = {
+        "schema_version": "cmf_f2_cpu_runtime_geometry_comparison_v4",
+        "certificate_sha256": digest,
+        "maximum_absolute_errors_m": errors,
+        "position_atol_m": GEOMETRY_POSITION_ATOL_M,
+        "orientation_atol_rad": GEOMETRY_ORIENTATION_ATOL_RAD,
+        "checks": checks,
+        "status": "PASS" if all(checks.values()) else "CPU_RUNTIME_GEOMETRY_CERTIFICATE_MISMATCH",
+        "pass": all(checks.values()),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def build_f2_geometry_certificate_inventory_v4(
+    screening_path: Path = DEFAULT_SCREENING_PATH,
+) -> dict[str, Any]:
+    screening = json.loads(Path(screening_path).read_text(encoding="utf-8"))
+    rows = screening.get("terminal_cpu_candidate_receipts")
+    if not isinstance(rows, list) or len(rows) != 1650:
+        raise ValueError("F2 V4 certificate inventory requires all 1,650 rows")
+    pairs = sorted(
+        {
+            (
+                int(row["candidate_key"]["main_object_model_id"]),
+                int(row["candidate_key"]["plastic_box_model_id"]),
+            )
+            for row in rows
+        }
+    )
+    if len(pairs) != 66:
+        raise ValueError("F2 V4 certificate inventory expected 66 can/box pairs")
+    certificates = []
+    failures = []
+    for can_id, box_id in pairs:
+        try:
+            certificates.append(
+                build_f2_geometry_certificate_v4(
+                    main_object_model_id=can_id,
+                    plastic_box_model_id=box_id,
+                )
+            )
+        except Exception as exc:
+            failures.append(
+                {
+                    "main_object_model_id": can_id,
+                    "plastic_box_model_id": box_id,
+                    "error_type": type(exc).__name__,
+                    "error_message": str(exc),
+                }
+            )
+    value = {
+        "schema_version": "cmf_f2_geometry_certificate_inventory_v4",
+        "implementation_version": IMPLEMENTATION_VERSION,
+        "source_screening_sha256": screening.get("screening_sha256"),
+        "source_row_count": len(rows),
+        "distinct_pair_count": len(pairs),
+        "certificate_count": len(certificates),
+        "certificate_failures": failures,
+        "certificates": certificates,
+        "runtime_qualified_pair_count": 0,
+        "grasp_recipe_pool_generated": False,
+        "planner_execution_authorized": False,
+        "physical_execution_authorized": False,
+        "stage1_authorized": False,
+    }
+    value["inventory_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def build_f2_grasp_recipe_universe_v2(
+    geometry_qualified_pairs: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    recipes = []
+    for pair in canonical_jsonable(geometry_qualified_pairs):
+        contact_count = int(pair["official_can_contact_point_count"])
+        if contact_count <= 0:
+            raise ValueError("F2 pair has no official contact points")
+        for arm in ARMS:
+            for contact_id in range(contact_count):
+                for rotation_index in OFFICIAL_ROTATION_INDICES:
+                    for axial_offset in AXIAL_GRASP_OFFSETS_M:
+                        for pregrasp_distance in PREGRASP_DISTANCES_M:
+                            rank = len(recipes) + 1
+                            value = {
+                                "rank": rank,
+                                "recipe_id": f"f2-final-grasp-v2-r{rank:06d}",
+                                "main_object_model_id": int(pair["main_object_model_id"]),
+                                "plastic_box_model_id": int(pair["plastic_box_model_id"]),
+                                "geometry_certificate_sha256": pair[
+                                    "geometry_certificate_sha256"
+                                ],
+                                "arm": arm,
+                                "official_contact_point_id": contact_id,
+                                "official_rotation_candidate_index": rotation_index,
+                                "axial_grasp_offset_m": axial_offset,
+                                "pregrasp_distance_m": pregrasp_distance,
+                                "target_distance_m": TARGET_DISTANCE_M,
+                                "selection_rule": "rank only after exact final-pose IK/collision/planner and post-close drift gates",
+                                "first_planner_success_selection_forbidden": True,
+                                "physical_execution_authorized": False,
+                            }
+                            value["recipe_sha256"] = canonical_hash_json(value)
+                            recipes.append(value)
+    result = {
+        "schema_version": "cmf_f2_grasp_recipe_universe_v2",
+        "implementation_version": IMPLEMENTATION_VERSION,
+        "pair_count": len(geometry_qualified_pairs),
+        "recipe_count": len(recipes),
+        "axes": {
+            "arms": list(ARMS),
+            "official_rotation_candidate_indices": list(OFFICIAL_ROTATION_INDICES),
+            "axial_grasp_offsets_m": list(AXIAL_GRASP_OFFSETS_M),
+            "pregrasp_distances_m": list(PREGRASP_DISTANCES_M),
+        },
+        "recipes": recipes,
+        "planner_execution_authorized": False,
+        "physical_execution_authorized": False,
+        "stage1_authorized": False,
+    }
+    result["universe_sha256"] = canonical_hash_json(result)
+    return result
+
+
+def audit_f2_horizontal_margin_budget_v2(
+    *, signed_horizontal_margin_m: float, object_half_extents_m: Sequence[float]
+) -> dict[str, Any]:
+    half = _vector3(object_half_extents_m, "F2 object half extents")
+    rotational_envelope = float(
+        np.linalg.norm(half[:2]) * np.sin(GRASP_ORIENTATION_DRIFT_LIMIT_RAD)
+    )
+    required = (
+        TRACKING_ALLOCATION_M
+        + GRASP_TRANSLATION_DRIFT_LIMIT_M
+        + rotational_envelope
+        + SAFETY_MARGIN_M
+    )
+    margin = float(signed_horizontal_margin_m)
+    value = {
+        "schema_version": "cmf_f2_horizontal_margin_budget_v2",
+        "signed_horizontal_margin_m": margin,
+        "components_m": {
+            "tracking_allocation_m": TRACKING_ALLOCATION_M,
+            "grasp_translation_allocation_m": GRASP_TRANSLATION_DRIFT_LIMIT_M,
+            "orientation_rotational_envelope_m": rotational_envelope,
+            "safety_margin_m": SAFETY_MARGIN_M,
+        },
+        "required_horizontal_margin_m": required,
+        "pass": margin + 1e-12 >= required,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def audit_f2_post_close_grasp_transform_v2(
+    *,
+    planned_eef_pose: Sequence[float],
+    planned_actor_pose: Sequence[float],
+    actual_eef_pose: Sequence[float],
+    actual_actor_pose: Sequence[float],
+    selected_contact_continuous: bool,
+    selected_actor_identity_continuous: bool,
+    actor_table_contact: bool,
+    evidence_complete: bool,
+) -> dict[str, Any]:
+    planned = relative_pose(
+        _pose7(planned_eef_pose, "planned EEF"),
+        _pose7(planned_actor_pose, "planned actor"),
+    )
+    actual = relative_pose(
+        _pose7(actual_eef_pose, "actual EEF"),
+        _pose7(actual_actor_pose, "actual actor"),
+    )
+    translation = float(np.linalg.norm(actual[:3] - planned[:3]))
+    orientation = quaternion_angular_error(actual[3:], planned[3:])
+    checks = {
+        "translation_drift_within_5mm": translation
+        <= GRASP_TRANSLATION_DRIFT_LIMIT_M,
+        "orientation_drift_within_50mrad": orientation
+        <= GRASP_ORIENTATION_DRIFT_LIMIT_RAD,
+        "selected_finger_contact_continuous": bool(selected_contact_continuous),
+        "selected_actor_identity_continuous": bool(
+            selected_actor_identity_continuous
+        ),
+        "actor_off_table_after_lift": not bool(actor_table_contact),
+        "evidence_complete": bool(evidence_complete),
+    }
+    value = {
+        "schema_version": "cmf_f2_post_close_grasp_transform_gate_v2",
+        "planned_eef_to_actor_pose": planned.tolist(),
+        "actual_eef_to_actor_pose": actual.tolist(),
+        "translation_drift_m": translation,
+        "orientation_drift_rad": orientation,
+        "checks": checks,
+        "status": "PASS" if all(checks.values()) else "POST_CLOSE_GRASP_NOT_ACQUIRED_OR_RETAINED",
+        "pass": all(checks.values()),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def build_f2_controlled_insertion_suffix_v2(
+    *,
+    actual_eef_pose: Sequence[float],
+    actual_actor_pose: Sequence[float],
+    target_actor_pose: Sequence[float],
+    opening_normal_world: Sequence[float],
+    grasp_gate: Mapping[str, Any],
+    margin_gate: Mapping[str, Any],
+) -> dict[str, Any]:
+    if grasp_gate.get("pass") is not True or margin_gate.get("pass") is not True:
+        raise ValueError("F2 suffix requires passing grasp-transform and margin gates")
+    actual_eef = _pose7(actual_eef_pose, "actual EEF")
+    actual_actor = _pose7(actual_actor_pose, "actual actor")
+    target_actor = _pose7(target_actor_pose, "target actor")
+    normal = _vector3(opening_normal_world, "opening normal")
+    norm = float(np.linalg.norm(normal))
+    if norm <= 1e-12:
+        raise ValueError("F2 opening normal must be nonzero")
+    normal /= norm
+    preinsert_actor = target_actor.copy()
+    preinsert_actor[:3] += PREINSERT_CLEARANCE_M * normal
+    lift_eef = actual_eef.copy()
+    lift_eef[2] += 0.12
+    preinsert_eef = actor_target_to_eef_pose(
+        actual_eef, actual_actor, preinsert_actor
+    )
+    supported_eef = actor_target_to_eef_pose(
+        actual_eef, actual_actor, target_actor
+    )
+    targets = [
+        {"segment_id": "f2_v2_lift", "pose": lift_eef.tolist()},
+        {"segment_id": "f2_v2_preinsert_30mm", "pose": preinsert_eef.tolist()},
+        {"segment_id": "f2_v2_controlled_descend_to_support", "pose": supported_eef.tolist()},
+    ]
+    value = {
+        "schema_version": "cmf_f2_controlled_insertion_suffix_v2",
+        "actual_grasp_transform_receipt_sha256": grasp_gate[
+            "receipt_sha256"
+        ],
+        "margin_budget_receipt_sha256": margin_gate["receipt_sha256"],
+        "actual_eef_to_actor_pose": grasp_gate["actual_eef_to_actor_pose"],
+        "target_actor_pose": target_actor.tolist(),
+        "opening_normal_world": normal.tolist(),
+        "targets": targets,
+        "targets_sha256": canonical_hash_json(targets),
+        "support_stability_gate_before_open": {
+            "required": True,
+            "frames": 50,
+        },
+        "slow_release_schedule": [
+            {
+                "normalized_open_target": target,
+                "control_frames": SLOW_RELEASE_FRAMES_PER_TARGET,
+            }
+            for target in SLOW_RELEASE_TARGETS
+        ],
+        "post_release_settle_frames": 250,
+        "primary_10cm_gravity_drop": False,
+        "gravity_drop_diagnostic_authorized": False,
+        "suffix_built_from_actual_grasp_transform": True,
+        "physical_execution_authorized": False,
+    }
+    value["suffix_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def validate_f2_controlled_insertion_event_order_v2(
+    events: Sequence[str], *, support_gate_pass: bool
+) -> dict[str, Any]:
+    expected = [
+        "post_close_settle_250",
+        "post_close_grasp_transform_gate",
+        "suffix_planned_from_actual_transform",
+        "lift",
+        "preinsert_30mm",
+        "controlled_descend_to_support",
+        "support_stability_gate_50",
+        *[f"slow_release_{index}" for index in range(1, 6)],
+        "post_release_settle_250",
+        "retreat_neutral",
+    ]
+    observed = [str(event) for event in events]
+    first_release = next(
+        (index for index, event in enumerate(observed) if event.startswith("slow_release_")),
+        None,
+    )
+    support_index = (
+        observed.index("support_stability_gate_50")
+        if "support_stability_gate_50" in observed
+        else None
+    )
+    checks = {
+        "exact_event_order": observed == expected,
+        "support_gate_pass": bool(support_gate_pass),
+        "support_precedes_release": first_release is not None
+        and support_index is not None
+        and support_index < first_release,
+        "five_monotonic_release_steps": observed[7:12]
+        == [f"slow_release_{index}" for index in range(1, 6)],
+        "gravity_drop_absent": all("gravity_drop" not in event for event in observed),
+    }
+    value = {
+        "schema_version": "cmf_f2_controlled_insertion_event_order_v2",
+        "expected_events": expected,
+        "observed_events": observed,
+        "checks": checks,
+        "pass": all(checks.values()),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def expand_legacy_f2_preload_failure_v2(
+    *, candidate_id: str, outer_receipt: Mapping[str, Any]
+) -> dict[str, Any]:
+    outer = canonical_jsonable(outer_receipt)
+    physical = outer.get("result", {}).get("physical_result", {})
+    preload = physical.get("preload_entry_gate_v11")
+    if not isinstance(preload, Mapping) or preload.get("pass") is not False:
+        raise ValueError("legacy F2 receipt is not one preload failure")
+    checks = canonical_jsonable(preload.get("checks"))
+    failed = sorted(key for key, value in checks.items() if value is not True)
+    value = {
+        "schema_version": "cmf_f2_legacy_preload_failure_expansion_v2",
+        "candidate_id": candidate_id,
+        "outer_receipt_sha256": outer.get("receipt_sha256"),
+        "preload_entry_gate_v11_sha256": preload.get("receipt_sha256"),
+        "hard_checks": checks,
+        "failed_hard_checks": failed,
+        "final_geometry_gate": preload.get("final_geometry_gate"),
+        "unintended_contact_count": len(preload.get("unintended_contacts", [])),
+        "corrected_status": "GRASP_NOT_ACQUIRED_OR_RETAINED_BEFORE_PRELOAD_ENTRY",
+        "broader_asset_family_exhaustion_supported": False,
+        "reexecution_required": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+__all__ = [
+    "audit_f2_horizontal_margin_budget_v2",
+    "audit_f2_post_close_grasp_transform_v2",
+    "build_f2_controlled_insertion_suffix_v2",
+    "build_f2_geometry_certificate_v4",
+    "build_f2_geometry_certificate_inventory_v4",
+    "build_f2_grasp_recipe_universe_v2",
+    "compare_f2_runtime_geometry_v4",
+    "expand_legacy_f2_preload_failure_v2",
+    "validate_f2_controlled_insertion_event_order_v2",
+]

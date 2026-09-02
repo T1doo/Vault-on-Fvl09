@@ -100,11 +100,11 @@ class CanonicalArtifactV1Test(unittest.TestCase):
             canonical_hash_json(fixture),
         )
 
-    def test_f1_f3_f4_frozen_semantics_unchanged_by_migration(self):
+    def test_f1_f3_hashes_and_intentionally_repaired_f4_hash_are_frozen(self):
         expected = {
             "f1": "60d303df5392b139eac29ed189e287e77988c08b6ee7554e1e4b1941451a78e7",
             "f3": "570520bb3d6799a1667177256c5ce9ead5d732ae9ce13ca2922c7a371981d4a5",
-            "f4": "91393164e99d9f04deeea08987ba6284c33a29556b016606f90f94bb2b4a29d2",
+            "f4": "25ddeb4596d405ea2f9cc49f4c0225fff04f4b66aeb7362c0cb715c1cb5af8d3",
         }
         actual = {
             "f1": canonical_hash_json(build_f1_batch_pilot_plan_v1()),
@@ -112,6 +112,10 @@ class CanonicalArtifactV1Test(unittest.TestCase):
             "f4": canonical_hash_json(build_f4_layout_candidate_search_v2()),
         }
         self.assertEqual(actual, expected)
+        self.assertNotEqual(
+            actual["f4"],
+            "91393164e99d9f04deeea08987ba6284c33a29556b016606f90f94bb2b4a29d2",
+        )
 
 
 if __name__ == "__main__":
