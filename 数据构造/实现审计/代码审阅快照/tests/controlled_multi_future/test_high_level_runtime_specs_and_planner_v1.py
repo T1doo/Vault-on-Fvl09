@@ -296,13 +296,16 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
                 return True
 
         receipt = _build_render_device_binding_receipt_v1(
-            selected=selected, device=Device()
+            selected=selected,
+            device=Device(),
+            legacy_renderer_pinned=True,
         )
         self.assertTrue(receipt["pass"])
         self.assertEqual(receipt["render_device_cuda_id"], 0)
         self.assertEqual(
             receipt["render_device_pci_bus_id"], selected["pci_bus_id"]
         )
+        self.assertTrue(receipt["legacy_sapien_renderer_pinned"])
 
     def test_runner_writes_candidate_bound_terminal_and_never_executes(self):
         spec = build_f2_runtime_spec_v1(

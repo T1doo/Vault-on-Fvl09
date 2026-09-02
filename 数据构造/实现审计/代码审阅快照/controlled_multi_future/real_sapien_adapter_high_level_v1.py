@@ -87,7 +87,10 @@ def _selected_nvidia_device_v1() -> dict[str, Any]:
 
 
 def _build_render_device_binding_receipt_v1(
-    *, selected: Mapping[str, Any], device: Any
+    *,
+    selected: Mapping[str, Any],
+    device: Any,
+    legacy_renderer_pinned: bool,
 ) -> dict[str, Any]:
     actual_pci = _normalize_pci_bus_id(device.pci_string)
     checks = {
@@ -96,6 +99,8 @@ def _build_render_device_binding_receipt_v1(
         "render_device_is_cuda": device.is_cuda() is True,
         "render_device_pci_matches_selected_uuid_pci": actual_pci
         == selected["pci_bus_id"],
+        "legacy_sapien_renderer_pinned_to_logical_cuda_0":
+        legacy_renderer_pinned is True,
     }
     value = {
         "schema_version": RENDER_DEVICE_BINDING_SCHEMA,
@@ -106,6 +111,7 @@ def _build_render_device_binding_receipt_v1(
         "render_device_name": device.name,
         "render_device_cuda_id": int(device.cuda_id),
         "render_device_pci_bus_id": actual_pci,
+        "legacy_sapien_renderer_pinned": bool(legacy_renderer_pinned),
         "checks": checks,
         "pass": all(checks.values()),
     }
@@ -126,14 +132,27 @@ class _PinnedSapienRenderDeviceContextV1:
 
         selected = _selected_nvidia_device_v1()
         original_create_scene = sapien.Engine.create_scene
+        original_legacy_renderer = sapien.SapienRenderer
         created: dict[str, Any] = {}
+
+        def create_legacy_renderer_on_selected_device(*args, **kwargs):
+            if args or kwargs:
+                raise RuntimeError(
+                    "legacy SapienRenderer arguments changed from reviewed Base_Task"
+                )
+            created["legacy_renderer_pinned"] = True
+            return sapien.render.SapienRenderer(sapien.Device("cuda:0"))
 
         def create_scene_on_selected_device(engine, config):
             sapien.physx.set_scene_config(config)
             device = sapien.Device("cuda:0")
             render_system = sapien.render.RenderSystem(device)
             binding = _build_render_device_binding_receipt_v1(
-                selected=selected, device=render_system.device
+                selected=selected,
+                device=render_system.device,
+                legacy_renderer_pinned=created.get(
+                    "legacy_renderer_pinned", False
+                ),
             )
             if binding["pass"] is not True:
                 raise RuntimeError("SAPIEN render device differs from selected Guard GPU")
@@ -142,11 +161,13 @@ class _PinnedSapienRenderDeviceContextV1:
                 [sapien.physx.PhysxCpuSystem(), render_system]
             )
 
+        sapien.SapienRenderer = create_legacy_renderer_on_selected_device
         sapien.Engine.create_scene = create_scene_on_selected_device
         try:
             handle = self.inner.__enter__()
         finally:
             sapien.Engine.create_scene = original_create_scene
+            sapien.SapienRenderer = original_legacy_renderer
         binding = created.get("binding")
         if not isinstance(binding, Mapping) or binding.get("pass") is not True:
             self.inner.__exit__(RuntimeError, RuntimeError("missing render binding"), None)
