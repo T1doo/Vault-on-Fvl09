@@ -17,6 +17,7 @@ from controlled_multi_future.f4_hierarchical_template_search_v1 import (
     build_f4_hierarchical_template_search_v1,
     build_f4_stage_b_candidates_v1,
     select_f4_stage_a_source_v1,
+    select_f4_stage_b_layout_v1,
 )
 from controlled_multi_future.high_level_bundle_v1 import (
     build_cpu_registry_v1,
@@ -56,6 +57,28 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
                 for item in self.f4["stage_a_candidates"]
             ],
         )
+
+    def _f4_stage_b_terminal(self):
+        stage_a = self._f4_stage_a_terminal()
+        stage_b = build_f4_stage_b_candidates_v1(self.f4, stage_a)
+        gates = self.f4["stage_b_required_gates"]
+        terminal = select_f4_stage_b_layout_v1(
+            self.f4,
+            stage_a,
+            [
+                {
+                    "candidate_id": item["candidate_id"],
+                    "candidate_sha256": item["candidate_sha256"],
+                    "checks": {
+                        name: item["rank"] == 1 for name in gates
+                    },
+                    "cleanup_safety_pass": True,
+                    "orphan_process_count": 0,
+                }
+                for item in stage_b["candidates"]
+            ],
+        )
+        return stage_a, terminal
 
     def test_parent_and_registry_bind_exact_initial_job_set(self):
         parent = build_parent_authorization_v1()
@@ -98,6 +121,18 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
         self.assertEqual(
             auth._validate_job_spec("F4_STAGE_B_PLANNER", f4_stage_b),
             f4_stage_b,
+        )
+        stage_a, stage_b_terminal = self._f4_stage_b_terminal()
+        selected = stage_b_terminal["selected_slot_corridor"]
+        f4_physical = build_f4_runtime_spec_v1(
+            selected["candidate_id"],
+            purpose="f4_single_role_physical",
+            stage_a_terminal=stage_a,
+            stage_b_terminal=stage_b_terminal,
+        )
+        self.assertEqual(
+            auth._validate_job_spec("F4_A_ONLY_PHYSICAL", f4_physical),
+            f4_physical,
         )
 
     def test_physical_input_requires_rank_ordered_selection_receipt(self):
@@ -193,6 +228,37 @@ class HighLevelAuthorizationBundleV1Tests(unittest.TestCase):
                 auth._validate_job_inputs(
                     "F4_STAGE_B_PLANNER", changed, spec
                 )
+
+    def test_f4_a_only_input_is_bound_to_stage_b_selection(self):
+        stage_a, terminal = self._f4_stage_b_terminal()
+        selected = terminal["selected_slot_corridor"]
+        spec = build_f4_runtime_spec_v1(
+            selected["candidate_id"],
+            purpose="f4_single_role_physical",
+            stage_a_terminal=stage_a,
+            stage_b_terminal=terminal,
+        )
+        with tempfile.TemporaryDirectory(
+            dir="/nfs_share/lijunhui/Robotwin2/tmp"
+        ) as temporary:
+            path = Path(temporary) / "f4-stage-b-selection.json"
+            canonical_write_json(path, terminal)
+            inputs = {
+                "stage_b_selection_receipt_path": str(path.resolve()),
+                "stage_b_selection_receipt_file_sha256": hashlib.sha256(
+                    path.read_bytes()
+                ).hexdigest(),
+                "stage_b_selection_receipt_sha256": terminal[
+                    "receipt_sha256"
+                ],
+                "selected_candidate_id": selected["candidate_id"],
+            }
+            self.assertEqual(
+                auth._validate_job_inputs(
+                    "F4_A_ONLY_PHYSICAL", inputs, spec
+                ),
+                inputs,
+            )
 
     def test_scope_dispatch_preserves_candidate_terminal(self):
         spec = build_f2_runtime_spec_v1(

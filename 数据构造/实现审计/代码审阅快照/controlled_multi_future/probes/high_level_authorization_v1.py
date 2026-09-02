@@ -33,7 +33,7 @@ from .runtime_v3_3_authorization_v1 import (
 )
 
 
-IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1_2_6"
+IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1_2_7"
 AUTH_SCHEMA = "cmf_high_level_template_redesign_authorization_v1"
 CONSUMPTION_SCHEMA = "cmf_high_level_template_redesign_consumption_v1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
@@ -45,6 +45,7 @@ JOB_PURPOSES = {
     "F3_LEVEL2_PHYSICAL": "f3_level2_physical",
     "F4_STAGE_A_PLANNER": "f4_stage_a_planner",
     "F4_STAGE_B_PLANNER": "f4_stage_b_planner",
+    "F4_A_ONLY_PHYSICAL": "f4_single_role_physical",
 }
 JOB_KINDS = frozenset(JOB_PURPOSES)
 
@@ -190,6 +191,45 @@ def _validate_job_inputs(
         ):
             raise AuthorizationBindingError(
                 "F4 Stage-B selection receipt or candidate binding changed"
+            )
+        return inputs
+    if job_kind == "F4_A_ONLY_PHYSICAL":
+        required = {
+            "stage_b_selection_receipt_path",
+            "stage_b_selection_receipt_file_sha256",
+            "stage_b_selection_receipt_sha256",
+            "selected_candidate_id",
+        }
+        if set(inputs) != required:
+            raise AuthorizationBindingError(
+                "F4 A-only selection input fields changed"
+            )
+        path = _path(
+            inputs["stage_b_selection_receipt_path"],
+            "F4 Stage-B selection receipt",
+            file_required=True,
+        )
+        source = json.loads(path.read_text(encoding="utf-8"))
+        embedded = spec.get("f4_stage_b_terminal_v1")
+        candidate_id = spec.get("f4_stage_b_candidate_v1", {}).get(
+            "candidate_id"
+        )
+        if (
+            _file_sha(path)
+            != inputs["stage_b_selection_receipt_file_sha256"]
+            or source.get("receipt_sha256")
+            != inputs["stage_b_selection_receipt_sha256"]
+            or source.get("schema_version")
+            != "cmf_f4_hierarchical_stage_b_terminal_v1"
+            or canonical_jsonable(source) != canonical_jsonable(embedded)
+            or source.get("single_role_physical_authorized_by_result")
+            is not True
+            or source.get("selected_slot_corridor", {}).get("candidate_id")
+            != candidate_id
+            or inputs["selected_candidate_id"] != candidate_id
+        ):
+            raise AuthorizationBindingError(
+                "F4 A-only Stage-B selection binding changed"
             )
         return inputs
     return _validate_selection_source(job_kind, inputs, spec)

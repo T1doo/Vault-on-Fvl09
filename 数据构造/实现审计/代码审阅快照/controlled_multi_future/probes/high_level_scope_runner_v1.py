@@ -59,7 +59,11 @@ def _dispatch(authorization, work: Path):
         result = HighLevelPlannerRunnerV1(adapter).run(
             output_dir=work / "candidate", planned_spec=spec
         )
-    elif job_kind in {"F2_INSIDE_PHYSICAL", "F3_LEVEL2_PHYSICAL"}:
+    elif job_kind in {
+        "F2_INSIDE_PHYSICAL",
+        "F3_LEVEL2_PHYSICAL",
+        "F4_A_ONLY_PHYSICAL",
+    }:
         result = HighLevelPhysicalRunnerV1(adapter).run(
             output_dir=work / "candidate", planned_spec=spec
         )

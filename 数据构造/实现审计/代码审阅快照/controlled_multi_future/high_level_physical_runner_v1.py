@@ -10,7 +10,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
-from .anchor import quaternion_angular_error
+from .anchor import capture_anchor, quaternion_angular_error
 from .canonical_artifact import canonical_hash_json, canonical_write_json
 from .f2_preload_entry_evidence_gate_v11 import (
     audit_f2_preload_entry_evidence_gate_v11,
@@ -40,7 +40,10 @@ from .family_runners_v3_1 import (
     _pose,
     _wait_and_record,
 )
-from .family_runners_v3_3 import _realized_event_metrics
+from .family_runners_v3_3 import (
+    _realized_event_metrics,
+    get_family_controller_v3_3,
+)
 from .geometry import (
     obb_corners,
     pose_matrix,
@@ -52,12 +55,14 @@ from .high_level_planner_runner_v1 import (
     _targets_payload,
     build_f2_stage_a_targets_v1,
     build_f3_level1_targets_v1,
+    build_f4_stage_b_targets_v1,
 )
 from .high_level_runtime_specs_v1 import (
     IMPLEMENTATION_VERSION,
     job_budget_v1,
     validate_f2_runtime_spec_v1,
     validate_f3_runtime_spec_v1,
+    validate_f4_runtime_spec_v1,
 )
 from .runtime_v2_contracts import PROVISIONAL_RUNTIME_THRESHOLDS
 from .verifiers.f3 import verify_realized_motion_metrics
@@ -588,6 +593,149 @@ def execute_f3_level2_physical_v1(scene, spec: Mapping[str, Any]) -> dict[str, A
     }
 
 
+def execute_f4_a_only_physical_v1(
+    scene, spec: Mapping[str, Any]
+) -> dict[str, Any]:
+    controller = get_family_controller_v3_3("F4")
+    controller.initialize_prefix_replay_trace(scene)
+    prefix = controller.plan_and_execute_canonical_prefix(
+        scene,
+        controller.canonical_prefix_contract([]),
+        capture_anchor=capture_anchor,
+    )
+    prefix_pass = (
+        prefix.get("prefix_physical_acceptance", {}).get("pass") is True
+    )
+    if not prefix_pass:
+        return {
+            "prefix": prefix,
+            "planner_result": None,
+            "execution_receipts": [],
+            "verifier": {"prefix_physical_acceptance": False},
+            "sequence_complete": False,
+        }
+    common_after_prefix = _pose(scene.common_x).copy()
+    non_targets_before = {
+        role: _pose(getattr(scene, role.lower())).copy()
+        for role in ("B", "C")
+    }
+    scene.initialize_trace(
+        scene.a, spec["arm"], role_actors=scene.role_actors
+    )
+    scene.planner_query_limit = 32
+    targets, target_audit = build_f4_stage_b_targets_v1(scene, spec)
+    a_targets = targets[:10]
+    reset = _planner_reset(
+        scene,
+        planner_seed=20260830,
+        variant_id=f"f4_high_level_a_only:{spec['slot_id']}",
+        arm=spec["arm"],
+    )
+    planned = _plan_chain(
+        scene, a_targets, query_limit=32, arm=spec["arm"]
+    )
+    if planned.get("pass") is not True:
+        return {
+            "prefix": prefix,
+            "target_construction": target_audit,
+            "planner_reset_receipt": reset,
+            "planner_result": _planner_payload(planned),
+            "execution_receipts": [],
+            "verifier": {"a_only_planner_chain": False},
+            "sequence_complete": False,
+        }
+    controls = planned["controls"]
+    execution_receipts = []
+    for index in (0, 1, 2):
+        execution_receipts.append(
+            _execute_planned_segment(
+                scene, controls, a_targets, index, spec["arm"]
+            )
+        )
+    _must_action(
+        scene,
+        scene.close_gripper(_arm_tag(spec["arm"]), pos=0.0),
+        "f4_high_level_A_close_gripper",
+    )
+    for index in (3, 4, 5, 6, 7):
+        execution_receipts.append(
+            _execute_planned_segment(
+                scene, controls, a_targets, index, spec["arm"]
+            )
+        )
+    _must_action(
+        scene,
+        scene.open_gripper(_arm_tag(spec["arm"]), pos=1.0),
+        "f4_high_level_A_release",
+    )
+    for index in (8, 9):
+        execution_receipts.append(
+            _execute_planned_segment(
+                scene, controls, a_targets, index, spec["arm"]
+            )
+        )
+    _wait_and_record(scene, 75)
+    slot = controller._slot_state_receipt(
+        scene, role="A", actor=scene.a, slot=scene.slot_a
+    )
+    common_displacement = float(
+        np.linalg.norm(_pose(scene.common_x)[:3] - common_after_prefix[:3])
+    )
+    non_target_displacements = {
+        role: float(
+            np.linalg.norm(
+                _pose(getattr(scene, role.lower()))[:3]
+                - non_targets_before[role][:3]
+            )
+        )
+        for role in ("B", "C")
+    }
+    neutral = np.asarray(a_targets[-1]["pose"], dtype=np.float64)
+    realized = _arm_eef_pose(scene, spec["arm"])
+    neutral_position_error = float(
+        np.linalg.norm(realized[:3] - neutral[:3])
+    )
+    neutral_orientation_error = quaternion_angular_error(
+        realized[3:], neutral[3:]
+    )
+    checks = {
+        "common_x_prefix_physical_acceptance": prefix_pass,
+        "a_only_planner_chain": planned.get("pass") is True,
+        "a_slot_state": slot["pass"] is True,
+        "common_x_preserved": common_displacement
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["non_target_displacement_m"],
+        "B_C_preserved": all(
+            value
+            <= PROVISIONAL_RUNTIME_THRESHOLDS[
+                "non_target_displacement_m"
+            ]
+            for value in non_target_displacements.values()
+        ),
+        "selected_gripper_open": _arm_gripper_open(scene, spec["arm"]),
+        "selected_arm_neutral_position": neutral_position_error
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["neutral_position_error_m"],
+        "selected_arm_neutral_orientation": neutral_orientation_error
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"],
+    }
+    return {
+        "prefix": prefix,
+        "target_construction": target_audit,
+        "planner_reset_receipt": reset,
+        "planner_result": _planner_payload(planned),
+        "execution_receipts": execution_receipts,
+        "verifier": {
+            "checks": checks,
+            "A_slot_state": slot,
+            "common_x_displacement_m": common_displacement,
+            "non_target_displacements_m": non_target_displacements,
+            "neutral_position_error_m": neutral_position_error,
+            "neutral_orientation_error_rad": neutral_orientation_error,
+            "pass": all(checks.values()),
+        },
+        "sequence_complete": all(checks.values()),
+    }
+
+
 class HighLevelPhysicalRunnerV1:
     def __init__(self, adapter):
         self.adapter = adapter
@@ -612,8 +760,14 @@ class HighLevelPhysicalRunnerV1:
                 raise ValueError("physical runner received invalid F3 purpose")
             execute = execute_f3_level2_physical_v1
             trace_actor_name = "bottle"
+        elif family == "F4":
+            spec = validate_f4_runtime_spec_v1(planned_spec)
+            if spec["purpose"] != "f4_single_role_physical":
+                raise ValueError("physical runner received invalid F4 purpose")
+            execute = execute_f4_a_only_physical_v1
+            trace_actor_name = "common_x"
         else:
-            raise ValueError("physical runner currently supports F2/F3 qualification")
+            raise ValueError("physical runner family is unsupported")
         if self.adapter.planned_spec != spec:
             raise ValueError("physical runner adapter/spec binding mismatch")
         budget = job_budget_v1(spec["purpose"])
@@ -638,11 +792,15 @@ class HighLevelPhysicalRunnerV1:
                 spec["candidate"]["candidate_id"]
                 if family == "F2"
                 else spec["f3_asset_grasp_tuple_v2"]["tuple_id"]
+                if family == "F3"
+                else spec["f4_stage_b_candidate_v1"]["candidate_id"]
             ),
             "candidate_sha256": (
                 spec["candidate_sha256"]
                 if family == "F2"
                 else spec["f3_asset_grasp_tuple_sha256"]
+                if family == "F3"
+                else spec["f4_stage_b_candidate_sha256"]
             ),
             "arm": spec["arm"],
             "fresh_scene_count": 0,
@@ -659,6 +817,18 @@ class HighLevelPhysicalRunnerV1:
                 scene = handle.scene
                 receipt["fresh_scene_count"] = 1
                 receipt["current"] = self.adapter.capture_current(scene)
+                if family == "F4":
+                    render_binding = getattr(
+                        scene, "_cmf_render_device_binding_v1", None
+                    )
+                    if (
+                        not isinstance(render_binding, Mapping)
+                        or render_binding.get("pass") is not True
+                    ):
+                        raise RuntimeError(
+                            "F4 physical scene lacks render-device binding"
+                        )
+                    receipt["render_device_binding"] = dict(render_binding)
                 trace_actor = getattr(scene, trace_actor_name)
                 scene.initialize_trace(
                     trace_actor, spec["arm"], role_actors=scene.role_actors
@@ -735,4 +905,5 @@ __all__ = [
     "build_f3_level2_targets_v1",
     "execute_f2_inside_physical_v1",
     "execute_f3_level2_physical_v1",
+    "execute_f4_a_only_physical_v1",
 ]

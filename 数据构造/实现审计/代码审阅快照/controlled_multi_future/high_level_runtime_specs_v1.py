@@ -343,17 +343,60 @@ def _f4_stage_b_scene_layout(
     return value
 
 
+def _validate_f4_stage_b_terminal_for_physical_v1(
+    value: Mapping[str, Any],
+    *,
+    stage_a_terminal: Mapping[str, Any],
+) -> dict[str, Any]:
+    normalized = canonical_jsonable(value)
+    payload = dict(normalized)
+    digest = payload.pop("receipt_sha256", None)
+    contract = build_f4_hierarchical_template_search_v1()
+    stage_b = build_f4_stage_b_candidates_v1(contract, stage_a_terminal)
+    selected = normalized.get("selected_slot_corridor")
+    expected = next(
+        (
+            item
+            for item in stage_b["candidates"]
+            if isinstance(selected, Mapping)
+            and item["candidate_id"] == selected.get("candidate_id")
+            and item["candidate_sha256"] == selected.get("candidate_sha256")
+        ),
+        None,
+    )
+    if (
+        normalized.get("schema_version")
+        != "cmf_f4_hierarchical_stage_b_terminal_v1"
+        or digest != canonical_hash_json(payload)
+        or normalized.get("stage_b_contract_sha256")
+        != stage_b["stage_b_contract_sha256"]
+        or expected is None
+        or canonical_jsonable(selected) != expected
+        or normalized.get("single_role_physical_authorized_by_result")
+        is not True
+        or normalized.get("status")
+        != "SLOT_CORRIDOR_PASS_REQUIRES_A_ONLY_EXECUTION"
+    ):
+        raise ValueError("F4 Stage-B terminal does not authorize A-only physical")
+    return normalized
+
+
 def build_f4_runtime_spec_v1(
     candidate_id: str,
     *,
     purpose: str,
     stage_a_terminal: Mapping[str, Any] | None = None,
+    stage_b_terminal: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    if purpose not in {"f4_stage_a_planner", "f4_stage_b_planner"}:
+    if purpose not in {
+        "f4_stage_a_planner",
+        "f4_stage_b_planner",
+        "f4_single_role_physical",
+    }:
         raise ValueError("invalid F4 high-level runtime purpose")
     contract = build_f4_hierarchical_template_search_v1()
     if purpose == "f4_stage_a_planner":
-        if stage_a_terminal is not None:
+        if stage_a_terminal is not None or stage_b_terminal is not None:
             raise ValueError("F4 Stage-A spec cannot carry a Stage-A terminal")
         source = _candidate(
             contract["stage_a_candidates"],
@@ -375,6 +418,19 @@ def build_f4_runtime_spec_v1(
         )
         source = terminal["selected_source_grasp"]
         stage_b = build_f4_stage_b_candidates_v1(contract, terminal)
+        physical_terminal = None
+        if purpose == "f4_single_role_physical":
+            if stage_b_terminal is None:
+                raise ValueError(
+                    "F4 A-only spec requires the passing Stage-B terminal"
+                )
+            physical_terminal = _validate_f4_stage_b_terminal_for_physical_v1(
+                stage_b_terminal, stage_a_terminal=terminal
+            )
+            if physical_terminal["selected_slot_corridor"]["candidate_id"] != candidate_id:
+                raise ValueError("F4 A-only candidate differs from Stage-B selection")
+        elif stage_b_terminal is not None:
+            raise ValueError("F4 Stage-B planner spec cannot carry Stage-B terminal")
         candidate = _candidate(
             stage_b["candidates"],
             identity_field="candidate_id",
@@ -383,7 +439,11 @@ def build_f4_runtime_spec_v1(
         )
         layout = _f4_stage_b_scene_layout(source, candidate)
         rank = int(candidate["rank"])
-        seed = 2026091400 + rank
+        seed = (
+            2026091500 + rank
+            if purpose == "f4_single_role_physical"
+            else 2026091400 + rank
+        )
     value = {
         "schema_version": "cmf_f4_high_level_runtime_spec_v1",
         "implementation_version": IMPLEMENTATION_VERSION,
@@ -401,14 +461,18 @@ def build_f4_runtime_spec_v1(
         "scene_layout_sha256": canonical_hash_json(layout),
         "stage_a_slot_search_active": False,
         "stage_b_slot_search_active": purpose == "f4_stage_b_planner",
-        "maximum_physical_execution_count": 0,
+        "selected_stage_b_layout_active": purpose
+        == "f4_single_role_physical",
+        "maximum_physical_execution_count": 1
+        if purpose == "f4_single_role_physical"
+        else 0,
         "automatic_retry": False,
         "recovery_attempts": 0,
         "formal_data": False,
         "stage0_data": False,
         "stage1_authorized": False,
     }
-    if purpose == "f4_stage_b_planner":
+    if purpose in {"f4_stage_b_planner", "f4_single_role_physical"}:
         value.update(
             {
                 "f4_stage_a_terminal_v1": terminal,
@@ -423,6 +487,17 @@ def build_f4_runtime_spec_v1(
                 ],
             }
         )
+        if purpose == "f4_single_role_physical":
+            value.update(
+                {
+                    "f4_stage_b_terminal_v1": physical_terminal,
+                    "f4_stage_b_terminal_sha256": physical_terminal[
+                        "receipt_sha256"
+                    ],
+                    "single_role": "A",
+                    "common_x_completed_first": True,
+                }
+            )
     value["planned_scope_spec_sha256"] = canonical_hash_json(value)
     return value
 
@@ -434,7 +509,7 @@ def validate_f4_runtime_spec_v1(value: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("F4 runtime spec is incomplete")
     candidate = (
         normalized.get("f4_stage_b_candidate_v1")
-        if purpose == "f4_stage_b_planner"
+        if purpose in {"f4_stage_b_planner", "f4_single_role_physical"}
         else normalized.get("f4_source_grasp_candidate_v1")
     )
     if not isinstance(candidate, Mapping):
@@ -444,7 +519,12 @@ def validate_f4_runtime_spec_v1(value: Mapping[str, Any]) -> dict[str, Any]:
         purpose=purpose,
         stage_a_terminal=(
             normalized.get("f4_stage_a_terminal_v1")
-            if purpose == "f4_stage_b_planner"
+            if purpose in {"f4_stage_b_planner", "f4_single_role_physical"}
+            else None
+        ),
+        stage_b_terminal=(
+            normalized.get("f4_stage_b_terminal_v1")
+            if purpose == "f4_single_role_physical"
             else None
         ),
     )
@@ -465,7 +545,7 @@ def job_budget_v1(purpose: str) -> dict[str, Any]:
         "f3_temporal_root": (72, 4, 3, 14400),
         "f4_stage_a_planner": (48, 1, 0, 5400),
         "f4_stage_b_planner": (42, 1, 0, 5400),
-        "f4_single_role_physical": (24, 1, 1, 5400),
+        "f4_single_role_physical": (32, 1, 1, 7200),
         "f4_temporal_root": (96, 4, 3, 14400),
     }
     planner, scenes, executions, timeout = limits[purpose]
