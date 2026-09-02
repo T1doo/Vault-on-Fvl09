@@ -1,0 +1,89 @@
+{
+  "actual_counts": {
+    "accepted_development_roots": 5,
+    "accepted_development_trajectories": 15,
+    "accepted_formal_roots": 0,
+    "accepted_formal_trajectories": 0,
+    "accepted_stage1_pilot_trajectories": 0,
+    "infrastructure_errors": 0,
+    "physical_gate_attempts": 0,
+    "physical_gate_passes": 0,
+    "planner_candidate_failures": 0,
+    "planner_candidate_passes": 0,
+    "real_gpu_scene_jobs": 0,
+    "real_planner_jobs": 0
+  },
+  "authorization": {
+    "formal_360": false,
+    "gpu_execution": false,
+    "job_authorization_created": false,
+    "operational_wave_approval_created": false,
+    "physical_execution": false,
+    "planner_execution": false,
+    "stage1": false
+  },
+  "bindings": {
+    "f4_manifest_v1_1_sha256": "18f04654a898b4bea42f16b9e7f8728c9db87a7b54bb4d2d85771e53dfeb7d1c",
+    "full_panel_proposal_v2_sha256": "86efb9133c681d6590504ea35b2e0272893ad4bd36ed05a40c9e843d3666a342",
+    "hotfix_contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+    "manifest_bundle_v2_3_1a_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "smoke_proposal_v2_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+    "wave_approval_schema_v2_sha256": "c5f817e461a1f56aa2d280285d9f2daef270bb0b415aada59b259aaaf74638d0",
+    "wave_driver_contract_sha256": "4c88fd1fdb3767849a82469fb8e4caf8c9a61f8f4799fd75aca0536c2b26feff"
+  },
+  "contract_publication_commit": "620e392bc48cd1a518c7ce318b77c9c787e7480b",
+  "earliest_failure_point_after_hotfix": null,
+  "earliest_failure_point_before_hotfix": "F4_PROGRAM_PANEL_MANIFEST_V1 query accounting",
+  "failure_class_before_hotfix": "INFRASTRUCTURE_CONTRACT_MISMATCH",
+  "file_sha256s": {
+    "f4_manifest_v1_1": "276722d1cad972ba7dcde3baa58e2e0bce752784816b82671e52dd681dc64fe9",
+    "full_panel_proposal_v2": "0ff86ab2e05017de47ef96d2f47426a5b71438aa5120c66af692e32276d4cfd9",
+    "hotfix_contract": "382c7420ca04dbf3bc101105f7b52a1ca057a7fd866312d00ed36a289b1eaadd",
+    "manifest_bundle_v2_3_1a": "e493a0918bc994ac52bb3504cd0c960cb3be1bc2c88af78e46ab03805e67e7d2",
+    "smoke_proposal_v2": "5da683e99c25cd495bf5247c1564c0f3533bfbee4025b93c902e6355f99d9293",
+    "wave_driver_contract": "ea2b85a9d700eee6624c9dabc636b7c2ffce2e4359913e407d1943f04bb8dfcf"
+  },
+  "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+  "next_single_gate": "independent exact approval of the 152-query PLANNER_WIRING_SMOKE_V1 wave",
+  "requirements": {
+    "authorization_seed_equals_actual_setup_seed": true,
+    "disk_authoritative_wave_driver_and_o_excl_ledger": true,
+    "exact_bridge_envelope_before_authorization": true,
+    "f3_mismatch_evidence_complete": true,
+    "f3_stage_b_seed_inheritance_and_scene_separation": true,
+    "f4_12_plus_30_equals_42_and_panel_1008": true,
+    "f4_program_seed_equal_and_scene_ids_distinct": true,
+    "guard_purpose_exact": true,
+    "no_valid_grasp_is_candidate_fail": true,
+    "planner_reset_nonce_semantics_honest": true,
+    "publication_head_may_follow_source_freeze": true,
+    "query_miscount_is_infrastructure_error": true,
+    "source_change_invalidates_approval_and_authorization": true
+  },
+  "review_sha256": "d98515156ac7debd2cb6d40b6a3ec8fb4da33b0814c9b1258ba75472208a930d",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "schema_version": "cmf_v2_3_1a_pre_smoke_operational_hotfix_review",
+  "source_changed": true,
+  "source_freeze_commit": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+  "status": "PHASE0_SEALED_AWAITING_EXACT_WAVE_APPROVAL",
+  "tests": {
+    "active_full": {
+      "elapsed_seconds": 1637.081,
+      "failed": 0,
+      "passed": 772
+    },
+    "active_snapshot_byte_equal": true,
+    "focused_compatibility": {
+      "f4": "5/5",
+      "guard": "6/6",
+      "v2_3": "8/8",
+      "v2_3_1": "4/4"
+    },
+    "focused_hotfix": "18/18",
+    "snapshot_full": {
+      "elapsed_seconds": 1641.248,
+      "failed": 0,
+      "passed": 772
+    }
+  }
+}
