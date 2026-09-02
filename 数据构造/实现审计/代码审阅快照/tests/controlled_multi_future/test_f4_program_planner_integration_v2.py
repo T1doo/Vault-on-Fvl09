@@ -45,6 +45,7 @@ def candidates():
 
 
 def successful_plan(scene, targets, *, query_limit, arm):
+    scene.planner_query_count += len(targets)
     return {
         "pass": True,
         "segment_receipts": [
@@ -54,7 +55,7 @@ def successful_plan(scene, targets, *, query_limit, arm):
             }
             for item in targets
         ],
-        "planner_query_count": len(targets),
+        "planner_query_count": scene.planner_query_count,
         "terminal_qpos": [0.0],
         "terminal_qpos_sha256": "a" * 64,
         "controls": [{} for _ in targets],
@@ -65,9 +66,11 @@ class Scene:
     def __init__(self, scene_id):
         self._cmf_scene_instance_id = scene_id
         self._cmf_scene_lifecycle = "fresh"
+        self.planner_query_count = 0
 
 
 def fake_target_builder(scene, spec):
+    scene.planner_query_count += 12
     order = spec["program_order"]
     targets = [
         {
@@ -100,6 +103,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                     self.slot,
                     program_id=program_id,
                     slot_id=f"slot-{program_id}",
+                    planner_rng_seed=2026091601,
                 )
                 self.assertEqual(spec["purpose"], PURPOSE)
                 self.assertEqual(spec["program_order"], list(order))
@@ -110,6 +114,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                 self.slot,
                 program_id="F4-CAB",
                 slot_id="bad",
+                planner_rng_seed=2026091601,
             )
 
     def test_all_three_independent_scenes_required_not_abc_only(self):
@@ -120,6 +125,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                 self.slot,
                 program_id=program_id,
                 slot_id=f"slot-{program_id}",
+                planner_rng_seed=2026091601 + index,
             )
             terminals.append(
                 self._run(Scene(f"fresh-{index}"), spec)
@@ -153,6 +159,11 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
 
     def _run(self, scene, spec):
         with patch(
+            "controlled_multi_future.f4_program_planner_integration_v2."
+            "_planner_reset",
+            create=True,
+            return_value={"reset_performed": True, "planner_seed": spec["planner_rng_seed"]},
+        ), patch(
             "controlled_multi_future.f4_program_planner_integration_v2._plan_chain",
             side_effect=successful_plan,
         ), patch(
@@ -164,7 +175,11 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
 
     def test_planner_collision_scope_is_explicit_and_missing_scope_fails(self):
         spec = build_f4_program_planner_spec_v2(
-            self.source, self.slot, program_id="F4-ABC", slot_id="scope"
+            self.source,
+            self.slot,
+            program_id="F4-ABC",
+            slot_id="scope",
+            planner_rng_seed=2026091601,
         )
         terminal = self._run(Scene("scope-scene"), spec)
         self.assertEqual(terminal["planner_collision_scope"], PLANNER_COLLISION_SCOPE)
@@ -198,6 +213,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
             self.slot,
             program_id="F4-ACB",
             slot_id="builder-acb",
+            planner_rng_seed=2026091601,
         )
 
         class Actor:

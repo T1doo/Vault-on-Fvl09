@@ -86,6 +86,7 @@ def build_f3_stage_a_planner_spec_v3_1(
     *,
     slot_id: str,
     panel_sha256: str,
+    planner_rng_seed: int,
 ) -> dict[str, Any]:
     recipe_value = _recipe(recipe)
     binding = _scene_binding(scene_binding)
@@ -102,6 +103,7 @@ def build_f3_stage_a_planner_spec_v3_1(
         "scene_binding": binding,
         "ordered_segments": ["pregrasp", "grasp", "lift"],
         "planner_query_limit": STAGE_A_QUERY_COUNT,
+        "planner_rng_seed": int(planner_rng_seed),
         "arbitrary_callable_injection_allowed": False,
         "physical_execution_count_limit": 0,
         "planner_execution_authorized": False,
@@ -120,6 +122,7 @@ def validate_f3_stage_a_planner_spec_v3_1(spec: Mapping[str, Any]) -> dict[str, 
         value["scene_binding"],
         slot_id=value["slot_id"],
         panel_sha256=value["panel_sha256"],
+        planner_rng_seed=value["planner_rng_seed"],
     )
     if value != rebuilt:
         raise ValueError("F3 V2.3 Stage-A spec differs from canonical rebuild")
@@ -148,7 +151,7 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
     ]
     reset = _planner_reset(
         scene,
-        planner_seed=20260903,
+        planner_seed=value["planner_rng_seed"],
         variant_id=f"{STAGE_A_PURPOSE}:{recipe['recipe_id']}",
         arm=recipe["arm"],
     )
@@ -206,6 +209,7 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         "stage_a_terminal_qpos": deepcopy(terminal_qpos),
         "stage_a_terminal_qpos_sha256": planned.get("terminal_qpos_sha256"),
         "planner_rng_reset": canonical_jsonable(reset),
+        "planner_rng_seed": value["planner_rng_seed"],
         "planner_result": _planner_summary(planned),
         "stage_a_pass": passed,
         "planner_qualified_for_physical_probe": False,
@@ -240,6 +244,7 @@ def build_f3_stage_b_planner_spec_v3_1(
     *,
     slot_id: str,
     selection_policy_sha256: str,
+    planner_rng_seed: int,
 ) -> dict[str, Any]:
     stage_a = validate_f3_stage_a_terminal_v3_1(stage_a_terminal, stage_a_spec)
     if stage_a.get("stage_a_pass") is not True:
@@ -264,6 +269,7 @@ def build_f3_stage_b_planner_spec_v3_1(
             "H_plus", "H_minus", "central_3",
         ],
         "planner_query_limit": STAGE_B_QUERY_COUNT,
+        "planner_rng_seed": int(planner_rng_seed),
         "initial_eef_position_atol_m": POSITION_ATOL_M,
         "initial_eef_orientation_atol_rad": ORIENTATION_ATOL_RAD,
         "arbitrary_callable_injection_allowed": False,
@@ -329,7 +335,7 @@ def run_f3_stage_b_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         raise ValueError("F3 V2.3 Stage-B execution arm is missing")
     reset = _planner_reset(
         scene,
-        planner_seed=20260903,
+        planner_seed=value["planner_rng_seed"],
         variant_id=f"{STAGE_B_PURPOSE}:{value['recipe_sha256']}",
         arm=arm,
     )
@@ -388,6 +394,7 @@ def run_f3_stage_b_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         ],
         "continuity_gate": continuity_gate,
         "planner_rng_reset": canonical_jsonable(reset),
+        "planner_rng_seed": value["planner_rng_seed"],
         "targets": targets,
         "targets_sha256": canonical_hash_json(targets),
         "planner_result": _planner_summary(planned),

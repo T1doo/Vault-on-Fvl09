@@ -429,9 +429,10 @@ def _audited_planner_assisted_target_construction(
         raise RuntimeError("fixed target-construction contact points must be unique")
     if not contact_point_ids:
         raise RuntimeError("planner-assisted target construction has no contact points")
+    bound_seed = int(getattr(scene, "_cmf_planner_rng_seed", PLANNER_SEED))
     target_reset = _planner_reset(
         scene,
-        planner_seed=PLANNER_SEED,
+        planner_seed=bound_seed,
         variant_id=variant_id,
         arm=arm,
     )

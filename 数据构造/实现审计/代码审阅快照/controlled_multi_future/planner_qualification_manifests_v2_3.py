@@ -131,13 +131,17 @@ def build_f2_planner_panel_manifest_v1() -> dict[str, Any]:
     return value
 
 
-def _f3_scene_binding(recipe: Mapping[str, Any]) -> dict[str, Any]:
-    source_x = -0.18 if recipe["arm"] == "left" else 0.18
-    bottle_pose = [source_x, -0.06, 0.785, 0.0, 0.0, 1.0, 0.0]
+def build_f3_scene_binding_from_values_v1(
+    recipe: Mapping[str, Any],
+    *,
+    bottle_pose,
+    original_pad_pose,
+    central_marker_pose,
+) -> dict[str, Any]:
     layout = {
-        "bottle_pose": bottle_pose,
-        "original_pad_pose": [source_x, -0.06, 0.745, 1.0, 0.0, 0.0, 0.0],
-        "central_marker_pose": [0.0, -0.05, 0.95, 1.0, 0.0, 0.0, 0.0],
+        "bottle_pose": canonical_jsonable(bottle_pose),
+        "original_pad_pose": canonical_jsonable(original_pad_pose),
+        "central_marker_pose": canonical_jsonable(central_marker_pose),
         "asset": recipe["asset"],
     }
     scene_spec = {
@@ -155,9 +159,19 @@ def _f3_scene_binding(recipe: Mapping[str, Any]) -> dict[str, Any]:
         "scene_spec_sha256": canonical_hash_json(scene_spec),
         "scene_layout_sha256": canonical_hash_json(layout),
         "bottle_asset_sha256": recipe["asset_record_sha256"],
-        "bottle_actor_pose_sha256": canonical_hash_json(bottle_pose),
+        "bottle_actor_pose_sha256": canonical_hash_json(layout["bottle_pose"]),
         "robot_config_sha256": canonical_hash_json(robot_config),
     }
+
+
+def _f3_scene_binding(recipe: Mapping[str, Any]) -> dict[str, Any]:
+    source_x = -0.18 if recipe["arm"] == "left" else 0.18
+    return build_f3_scene_binding_from_values_v1(
+        recipe,
+        bottle_pose=[source_x, -0.06, 0.785, 0.0, 0.0, 1.0, 0.0],
+        original_pad_pose=[source_x, -0.06, 0.745, 1.0, 0.0, 0.0, 0.0],
+        central_marker_pose=[0.0, -0.05, 0.95, 1.0, 0.0, 0.0, 0.0],
+    )
 
 
 def build_f3_stage_a_panel_manifest_v1() -> dict[str, Any]:
@@ -301,6 +315,7 @@ def validate_panel_manifest(value: Mapping[str, Any]) -> dict[str, Any]:
 
 __all__ = [
     "build_f2_planner_panel_manifest_v1",
+    "build_f3_scene_binding_from_values_v1",
     "build_f3_stage_a_panel_manifest_v1",
     "build_f3_stage_b_selection_policy_v1",
     "build_f4_program_panel_manifest_v1",

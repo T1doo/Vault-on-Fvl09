@@ -60,6 +60,7 @@ def build_f2_final_grasp_stage_a_spec_v2(
     *,
     slot_id: str,
     panel_sha256: str,
+    planner_rng_seed: int,
 ) -> dict[str, Any]:
     recipe_value = _recipe(recipe)
     certificate = _certificate(geometry_certificate)
@@ -102,6 +103,7 @@ def build_f2_final_grasp_stage_a_spec_v2(
         "scene_spec_sha256": canonical_hash_json(scene_spec),
         "ordered_segments": ["pregrasp", "grasp", "qualification_micro_lift_25mm"],
         "planner_query_limit": QUERY_COUNT,
+        "planner_rng_seed": int(planner_rng_seed),
         "old_gravity_drop_builder_allowed": False,
         "arbitrary_callable_injection_allowed": False,
         "physical_execution_count_limit": 0,
@@ -124,6 +126,7 @@ def validate_f2_final_grasp_stage_a_spec_v2(
         value["binding"],
         slot_id=value["slot_id"],
         panel_sha256=value["panel_sha256"],
+        planner_rng_seed=value["planner_rng_seed"],
     )
     if value != rebuilt:
         raise ValueError("F2 Stage-A spec differs from canonical rebuild")
@@ -174,7 +177,7 @@ def run_f2_final_grasp_stage_a_planner_v2(
     ]
     reset = _planner_reset(
         scene,
-        planner_seed=20260903,
+        planner_seed=value["planner_rng_seed"],
         variant_id=f"{PURPOSE}:{recipe['recipe_id']}",
         arm=recipe["arm"],
     )
@@ -207,6 +210,7 @@ def run_f2_final_grasp_stage_a_planner_v2(
         "raw_pose_validation": raw_validation,
         "final_grasp_pose_freeze": freeze,
         "planner_rng_reset": canonical_jsonable(reset),
+        "planner_rng_seed": value["planner_rng_seed"],
         "planner_result": _planner_summary(planned),
         "ordered_target_ids": exact_ids,
         "ordered_targets_sha256": canonical_hash_json(targets),

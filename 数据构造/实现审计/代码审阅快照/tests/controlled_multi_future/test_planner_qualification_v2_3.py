@@ -158,6 +158,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             self.f2["bindings_by_arm"][recipe["arm"]],
             slot_id="f2-test",
             panel_sha256=self.f2["panel_sha256"],
+            planner_rng_seed=2026091601,
         )
 
         class Scene:
@@ -219,6 +220,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             entry["scene_binding"],
             slot_id="f3-a",
             panel_sha256=self.f3["panel_sha256"],
+            planner_rng_seed=2026091602,
         )
         actor_pose = [
             -0.18 if recipe["arm"] == "left" else 0.18,
@@ -265,7 +267,8 @@ class PlannerQualificationV23Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "mismatch"):
             build_f2_final_grasp_stage_a_spec_v2(
                 changed_recipe, certificate, binding,
-                slot_id="bad-recipe", panel_sha256=self.f2["panel_sha256"]
+                slot_id="bad-recipe", panel_sha256=self.f2["panel_sha256"],
+                planner_rng_seed=2026091601,
             )
         changed_certificate = copy.deepcopy(certificate)
         changed_certificate["main_object_model_id"] = 1
@@ -275,7 +278,8 @@ class PlannerQualificationV23Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "mismatch"):
             build_f2_final_grasp_stage_a_spec_v2(
                 recipe, changed_certificate, binding,
-                slot_id="bad-certificate", panel_sha256=self.f2["panel_sha256"]
+                slot_id="bad-certificate", panel_sha256=self.f2["panel_sha256"],
+                planner_rng_seed=2026091601,
             )
         changed_binding = copy.deepcopy(binding)
         changed_binding["selected_candidate_key"]["main_object_model_id"] = 1
@@ -285,11 +289,13 @@ class PlannerQualificationV23Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "mismatch"):
             build_f2_final_grasp_stage_a_spec_v2(
                 recipe, certificate, changed_binding,
-                slot_id="bad-binding", panel_sha256=self.f2["panel_sha256"]
+                slot_id="bad-binding", panel_sha256=self.f2["panel_sha256"],
+                planner_rng_seed=2026091601,
             )
         spec = build_f2_final_grasp_stage_a_spec_v2(
             recipe, certificate, binding,
-            slot_id="bad-raw", panel_sha256=self.f2["panel_sha256"]
+            slot_id="bad-raw", panel_sha256=self.f2["panel_sha256"],
+            planner_rng_seed=2026091601,
         )
         bad_raw = raw_receipt(recipe, family="F2", actor_pose=[0, 0, 0.8, 1, 0, 0, 0])
         bad_raw["contact_point_id"] += 1
@@ -324,6 +330,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             stage_a_spec,
             slot_id="f3-b",
             selection_policy_sha256=self.f3_policy["policy_sha256"],
+            planner_rng_seed=2026091606,
         )
         targets = build_f3_stage_b_targets_v3_1(spec)
         self.assertEqual(len(targets), 7)

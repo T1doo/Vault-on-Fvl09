@@ -11,7 +11,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
-from .family_runners_v3_1 import _plan_chain
+from .family_runners_v3_1 import _plan_chain, _planner_reset
 from .high_level_planner_runner_v1 import build_f4_stage_b_targets_v1
 
 
@@ -22,6 +22,9 @@ PROGRAMS = {
     "F4-BAC": ("B", "A", "C"),
 }
 SEGMENTS_PER_ROLE = 10
+TARGET_CONSTRUCTION_QUERY_COUNT = 12
+CHAIN_QUERY_COUNT = 30
+TOTAL_QUERY_COUNT = 42
 PLANNER_COLLISION_SCOPE = {
     "configured_world_objects": ["table"],
     "scene_dynamic_objects_in_curobo_world": False,
@@ -46,6 +49,7 @@ def build_f4_program_planner_spec_v2(
     *,
     program_id: str,
     slot_id: str,
+    planner_rng_seed: int,
 ) -> dict[str, Any]:
     source = _self_hashed(source_candidate, "candidate_sha256")
     candidate = _self_hashed(slot_candidate, "candidate_sha256")
@@ -73,7 +77,10 @@ def build_f4_program_planner_spec_v2(
         "actual_source_layout_gate_required": True,
         "actual_source_geometry_v2_rerun_required": True,
         "planner_collision_scope": PLANNER_COLLISION_SCOPE,
-        "planner_query_limit": SEGMENTS_PER_ROLE * 3,
+        "planner_rng_seed": int(planner_rng_seed),
+        "target_construction_query_limit": TARGET_CONSTRUCTION_QUERY_COUNT,
+        "chain_query_limit": CHAIN_QUERY_COUNT,
+        "planner_query_limit": TOTAL_QUERY_COUNT,
         "planner_execution_authorized": False,
         "gpu_execution_authorized": False,
         "physical_execution_authorized": False,
@@ -99,7 +106,21 @@ def run_f4_program_planner_v2(
     lifecycle = getattr(scene, "_cmf_scene_lifecycle", None)
     if lifecycle not in ("fresh", "reconstructed"):
         raise ValueError("F4 V2 program planner requires a fresh/reconstructed scene")
+    initial_query_count = int(getattr(scene, "planner_query_count", 0))
+    scene._cmf_planner_rng_seed = checked["planner_rng_seed"]
+    first_reset = _planner_reset(
+        scene,
+        planner_seed=checked["planner_rng_seed"],
+        variant_id=f"{PURPOSE}:{checked['candidate_id']}:{program_id}",
+        arm=checked["f4_source_grasp_candidate_v1"]["arm"],
+    )
     targets, audit = build_f4_stage_b_targets_v1(scene, checked)
+    after_target_construction = int(getattr(scene, "planner_query_count", 0))
+    target_construction_queries = after_target_construction - initial_query_count
+    if target_construction_queries != TARGET_CONSTRUCTION_QUERY_COUNT:
+        raise RuntimeError(
+            "F4 target-construction planner query count differs from frozen 12"
+        )
     expected_roles = list(PROGRAMS[program_id])
     if (
         audit.get("program_id") != program_id
@@ -120,6 +141,11 @@ def run_f4_program_planner_v2(
     if not isinstance(planned, Mapping):
         raise TypeError("F4 V2 planner callback must return a mapping")
     receipts = deepcopy(planned.get("segment_receipts", []))
+    after_chain = int(planned.get("planner_query_count", getattr(scene, "planner_query_count", 0)))
+    chain_queries = after_chain - after_target_construction
+    total_queries = after_chain - initial_query_count
+    if chain_queries > CHAIN_QUERY_COUNT or total_queries > TOTAL_QUERY_COUNT:
+        raise RuntimeError("F4 planner query budget exhausted or miscounted")
     observed_roles = []
     for item in receipts:
         role = str(item.get("segment_id", "")).split("_", 1)[0]
@@ -128,6 +154,7 @@ def run_f4_program_planner_v2(
     passed = (
         planned.get("pass") is True
         and len(receipts) == SEGMENTS_PER_ROLE * 3
+        and chain_queries == CHAIN_QUERY_COUNT
         and all(item.get("planner_status") == "Success" for item in receipts)
         and observed_roles == expected_roles
     )
@@ -151,6 +178,15 @@ def run_f4_program_planner_v2(
             "terminal_qpos": deepcopy(planned.get("terminal_qpos")),
             "terminal_qpos_sha256": planned.get("terminal_qpos_sha256"),
             "controls_retained_in_receipt": False,
+        },
+        "planner_rng_seed": checked["planner_rng_seed"],
+        "planner_rng_reset": canonical_jsonable(first_reset),
+        "planner_query_accounting": {
+            "target_construction_queries": target_construction_queries,
+            "chain_queries": chain_queries,
+            "total_queries": total_queries,
+            "total_query_limit": TOTAL_QUERY_COUNT,
+            "budget_exhaustion_is_infrastructure_error": True,
         },
         "planner_collision_scope": deepcopy(PLANNER_COLLISION_SCOPE),
         "result_semantics": {
