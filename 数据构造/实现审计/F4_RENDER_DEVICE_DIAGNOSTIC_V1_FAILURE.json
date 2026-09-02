@@ -1,0 +1,55 @@
+{
+  "authorization_id": "high-level-v1-2-4-f4-stage-b-r01-render-diag-run1",
+  "authorization_receipt_sha256": "baa42ae138c3d017374255de2d82efd5c8678c0dae403c255238701b3a145e45",
+  "candidate_conclusion_allowed": false,
+  "formal_data": false,
+  "guard_receipt_file_sha256": "2bde02cdf9967d6271e79111de473ee68b777afd57d37bc94d4e01824f16b8a1",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-2-4-f4-stage-b-r01-render-diag-run1.guard.json",
+  "guard_receipt_sha256": "2a6d324d332891b0f8e0a6e1c2e5053f3780b78b093f0d940fcf830309ade13d",
+  "guard_reported_orphan_pids": [
+    3154872
+  ],
+  "guard_status": "failed_cleanup_uncertain",
+  "implementation_source_sha256": "202ba7cba388fb7d18684be60a90f13c69178a8212bb3cc281b97a09719a6c4f",
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1_2_4",
+  "mid_run_full_pids": {
+    "nonselected_gpu3": {
+      "process_type": "G",
+      "used_memory_mib": 4
+    },
+    "other_nonselected_idle_gpus_with_task_pid": [],
+    "pass": false,
+    "selected_gpu0": {
+      "process_type": "C+G",
+      "used_memory_mib": 399
+    },
+    "task_pid": 3154872
+  },
+  "new_trajectory_count": 0,
+  "outer_receipt_file_sha256": "feca3b70c395d65677534a4ec78c3c1a3d6db94be4f506699a7af21d31ead491",
+  "outer_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-2-4-f4-stage-b-r01-render-diag-run1/receipt.json",
+  "physical_execution_count": 0,
+  "post_abort_confirmation": {
+    "full_gpu_pids_contains_task_pid": false,
+    "nonselected_gpu3_returned_to_baseline": true,
+    "selected_gpu0_returned_to_baseline": true,
+    "task_pid_absent": true
+  },
+  "report_sha256": "a74b02994ba09384f4cd9aefe3f9a98b239eff2318ca1ed5e9ac8f8d0e17870e",
+  "required_fix": {
+    "new_source_and_authorization_required": true,
+    "pin_legacy_sapien_renderer_to_logical_cuda_0": true,
+    "pin_render_system_to_logical_cuda_0": true,
+    "verify_full_pids_single_card": true
+  },
+  "root_cause": "Base_Task.setup_scene constructs legacy sapien.core.SapienRenderer() before Engine.create_scene; V1.2.4 pinned RenderSystem but not the legacy renderer object",
+  "schema_version": "cmf_f4_render_device_diagnostic_v1_failure",
+  "selected_physical_gpu": {
+    "index": 0,
+    "pci_bus_id": "0000:01:00.0",
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "status": "EXPLICIT_RENDER_SYSTEM_PIN_INCOMPLETE_LEGACY_RENDERER_CROSS_CARD"
+}
