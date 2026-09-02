@@ -90,7 +90,7 @@ def _build_render_device_binding_receipt_v1(
     *,
     selected: Mapping[str, Any],
     device: Any,
-    legacy_renderer_pinned: bool,
+    legacy_renderer_suppressed: bool,
 ) -> dict[str, Any]:
     actual_pci = _normalize_pci_bus_id(device.pci_string)
     checks = {
@@ -99,8 +99,8 @@ def _build_render_device_binding_receipt_v1(
         "render_device_is_cuda": device.is_cuda() is True,
         "render_device_pci_matches_selected_uuid_pci": actual_pci
         == selected["pci_bus_id"],
-        "legacy_sapien_renderer_pinned_to_logical_cuda_0":
-        legacy_renderer_pinned is True,
+        "unused_legacy_sapien_renderer_suppressed":
+        legacy_renderer_suppressed is True,
     }
     value = {
         "schema_version": RENDER_DEVICE_BINDING_SCHEMA,
@@ -111,7 +111,9 @@ def _build_render_device_binding_receipt_v1(
         "render_device_name": device.name,
         "render_device_cuda_id": int(device.cuda_id),
         "render_device_pci_bus_id": actual_pci,
-        "legacy_sapien_renderer_pinned": bool(legacy_renderer_pinned),
+        "legacy_sapien_renderer_suppressed": bool(
+            legacy_renderer_suppressed
+        ),
         "checks": checks,
         "pass": all(checks.values()),
     }
@@ -135,13 +137,13 @@ class _PinnedSapienRenderDeviceContextV1:
         original_legacy_renderer = sapien.SapienRenderer
         created: dict[str, Any] = {}
 
-        def create_legacy_renderer_on_selected_device(*args, **kwargs):
+        def suppress_unused_legacy_renderer(*args, **kwargs):
             if args or kwargs:
                 raise RuntimeError(
                     "legacy SapienRenderer arguments changed from reviewed Base_Task"
                 )
-            created["legacy_renderer_pinned"] = True
-            return sapien.render.SapienRenderer(sapien.Device("cuda:0"))
+            created["legacy_renderer_suppressed"] = True
+            return None
 
         def create_scene_on_selected_device(engine, config):
             sapien.physx.set_scene_config(config)
@@ -150,8 +152,8 @@ class _PinnedSapienRenderDeviceContextV1:
             binding = _build_render_device_binding_receipt_v1(
                 selected=selected,
                 device=render_system.device,
-                legacy_renderer_pinned=created.get(
-                    "legacy_renderer_pinned", False
+                legacy_renderer_suppressed=created.get(
+                    "legacy_renderer_suppressed", False
                 ),
             )
             if binding["pass"] is not True:
@@ -161,7 +163,7 @@ class _PinnedSapienRenderDeviceContextV1:
                 [sapien.physx.PhysxCpuSystem(), render_system]
             )
 
-        sapien.SapienRenderer = create_legacy_renderer_on_selected_device
+        sapien.SapienRenderer = suppress_unused_legacy_renderer
         sapien.Engine.create_scene = create_scene_on_selected_device
         try:
             handle = self.inner.__enter__()
@@ -172,6 +174,13 @@ class _PinnedSapienRenderDeviceContextV1:
         if not isinstance(binding, Mapping) or binding.get("pass") is not True:
             self.inner.__exit__(RuntimeError, RuntimeError("missing render binding"), None)
             raise RuntimeError("SAPIEN scene lacks selected render-device binding")
+        if int(getattr(handle.scene, "render_freq", -1)) != 0:
+            self.inner.__exit__(
+                RuntimeError,
+                RuntimeError("legacy renderer suppression requires render_freq=0"),
+                None,
+            )
+            raise RuntimeError("F4 render_freq changed from frozen zero")
         handle.scene._cmf_render_device_binding_v1 = dict(binding)
         return handle
 

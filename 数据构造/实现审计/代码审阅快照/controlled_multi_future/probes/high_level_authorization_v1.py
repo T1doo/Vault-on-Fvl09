@@ -33,7 +33,7 @@ from .runtime_v3_3_authorization_v1 import (
 )
 
 
-IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1_2_5"
+IMPLEMENTATION_VERSION = "controlled_multi_future_high_level_template_redesign_v1_2_6"
 AUTH_SCHEMA = "cmf_high_level_template_redesign_authorization_v1"
 CONSUMPTION_SCHEMA = "cmf_high_level_template_redesign_consumption_v1"
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
