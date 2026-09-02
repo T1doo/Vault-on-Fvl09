@@ -10,7 +10,7 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
-from .anchor import capture_anchor, quaternion_angular_error
+from .anchor import quaternion_angular_error
 from .canonical_artifact import canonical_hash_json, canonical_write_json
 from .f2_preload_entry_evidence_gate_v11 import (
     audit_f2_preload_entry_evidence_gate_v11,
@@ -594,14 +594,19 @@ def execute_f3_level2_physical_v1(scene, spec: Mapping[str, Any]) -> dict[str, A
 
 
 def execute_f4_a_only_physical_v1(
-    scene, spec: Mapping[str, Any]
+    scene,
+    spec: Mapping[str, Any],
+    *,
+    capture_anchor_callback,
 ) -> dict[str, Any]:
+    if not callable(capture_anchor_callback):
+        raise TypeError("F4 A-only requires an adapter-bound anchor callback")
     controller = get_family_controller_v3_3("F4")
     controller.initialize_prefix_replay_trace(scene)
     prefix = controller.plan_and_execute_canonical_prefix(
         scene,
         controller.canonical_prefix_contract([]),
-        capture_anchor=capture_anchor,
+        capture_anchor=capture_anchor_callback,
     )
     prefix_pass = (
         prefix.get("prefix_physical_acceptance", {}).get("pass") is True
@@ -764,7 +769,11 @@ class HighLevelPhysicalRunnerV1:
             spec = validate_f4_runtime_spec_v1(planned_spec)
             if spec["purpose"] != "f4_single_role_physical":
                 raise ValueError("physical runner received invalid F4 purpose")
-            execute = execute_f4_a_only_physical_v1
+            execute = lambda scene, value: execute_f4_a_only_physical_v1(
+                scene,
+                value,
+                capture_anchor_callback=self.adapter.capture_anchor,
+            )
             trace_actor_name = "common_x"
         else:
             raise ValueError("physical runner family is unsupported")

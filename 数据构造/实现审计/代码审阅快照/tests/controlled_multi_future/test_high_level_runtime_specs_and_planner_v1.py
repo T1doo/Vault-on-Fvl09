@@ -104,6 +104,9 @@ class _FakeAdapter:
     def capture_current(self, scene):
         return {"current_sha256": "1" * 64}
 
+    def capture_anchor(self, scene):
+        return {"anchor_sha256": "2" * 64}
+
     def audit_current_rendered_visibility(self, scene, *, phase):
         return {"phase": phase, "pass": True}
 
@@ -686,7 +689,13 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
             "C": adapter.context.scene.c,
         }
 
-        def fake_execute(scene, value):
+        callback_receipt = {}
+
+        def fake_execute(scene, value, *, capture_anchor_callback):
+            callback_receipt["same_bound_method"] = (
+                capture_anchor_callback == adapter.capture_anchor
+            )
+            callback_receipt["scene_anchor"] = capture_anchor_callback(scene)
             scene.planner_query_count = 32
             scene.trace = [{}]
             return {"sequence_complete": True, "verifier": {"pass": True}}
@@ -704,6 +713,10 @@ class HighLevelRuntimeSpecsAndPlannerV1Tests(unittest.TestCase):
                     output_dir=output, planned_spec=spec
                 )
         self.assertTrue(receipt["pass"])
+        self.assertTrue(callback_receipt["same_bound_method"])
+        self.assertEqual(
+            callback_receipt["scene_anchor"], adapter.capture_anchor(adapter.context.scene)
+        )
         self.assertEqual(receipt["physical_execution_count"], 1)
         self.assertEqual(
             receipt["candidate_sha256"], selected["candidate_sha256"]
