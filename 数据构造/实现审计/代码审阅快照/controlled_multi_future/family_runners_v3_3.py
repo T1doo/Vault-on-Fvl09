@@ -5407,6 +5407,7 @@ class F4ControllerV3_3(FamilyControllerV3_3):
             {
                 "variant_id": "route1_minimum_height_segmented",
                 "execution_scope": "common_x_route_repair",
+                "execution_arm_override": "right",
                 "common_grasp_mode": "project_cube_grasp_v1",
             },
         )

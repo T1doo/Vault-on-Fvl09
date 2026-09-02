@@ -91,6 +91,17 @@ def _execution_arm(scene) -> str:
     return arm
 
 
+def _f4_target_construction_arm(scene, planner_variant, execution_scope) -> str:
+    override = planner_variant.get("execution_arm_override")
+    if override is None:
+        return _execution_arm(scene)
+    if execution_scope != "common_x_route_repair" or override != "right":
+        raise ValueError(
+            "F4 execution-arm override is restricted to the right-arm common-X prefix"
+        )
+    return "right"
+
+
 def _arm_entity(scene, arm: str):
     return getattr(scene.robot, f"{arm}_entity")
 
@@ -1561,7 +1572,9 @@ class F4RunnerV3_1(BaseFamilyRunnerV3_1):
 
     def build_targets(self, scene, program, planner_variant):
         execution_scope = planner_variant.get("execution_scope", "full_three_program_root")
-        arm = _execution_arm(scene)
+        arm = _f4_target_construction_arm(
+            scene, planner_variant, execution_scope
+        )
         common_grasp_mode = planner_variant.get("common_grasp_mode")
         if common_grasp_mode == "project_cube_grasp_v1":
             common_pregrasp, common_grasp, common_grasp_contract = (

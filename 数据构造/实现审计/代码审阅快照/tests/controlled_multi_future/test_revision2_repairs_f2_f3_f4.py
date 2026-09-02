@@ -3,7 +3,10 @@ import unittest
 
 import numpy as np
 
-from controlled_multi_future.family_runners_v3_1 import F4RunnerV3_1
+from controlled_multi_future.family_runners_v3_1 import (
+    F4RunnerV3_1,
+    _f4_target_construction_arm,
+)
 from controlled_multi_future.family_runners_v3_3 import (
     F2ControllerV3_3,
     F3ControllerV3_3,
@@ -98,6 +101,7 @@ class Revision2RepairsF2F3F4Test(unittest.TestCase):
         self.assertIn('common_grasp_mode == "project_cube_grasp_v1"', legacy_source)
         self.assertIn("build_project_cube_grasp_poses", legacy_source)
         self.assertIn('"common_grasp_mode": "project_cube_grasp_v1"', current_source)
+        self.assertIn('"execution_arm_override": "right"', current_source)
         self.assertNotIn("_audited_planner_assisted_target_construction", current_source)
         self.assertEqual(
             planned_scope_spec("F4_block_root_per_revision", revision_index=2)["arm"],
@@ -112,6 +116,31 @@ class Revision2RepairsF2F3F4Test(unittest.TestCase):
             execute_source.index("common_angular_speeds ="),
             execute_source.index('"stable_window"'),
         )
+
+    def test_f4_common_prefix_right_arm_does_not_inherit_left_a_only_arm(self):
+        scene = type(
+            "PlannedLeftF4Scene",
+            (),
+            {"_cmf_planned_root_slot_spec": {"arm": "left"}},
+        )()
+        self.assertEqual(
+            _f4_target_construction_arm(
+                scene,
+                {"execution_arm_override": "right"},
+                "common_x_route_repair",
+            ),
+            "right",
+        )
+        self.assertEqual(
+            _f4_target_construction_arm(scene, {}, "full_three_program_root"),
+            "left",
+        )
+        with self.assertRaisesRegex(ValueError, "restricted"):
+            _f4_target_construction_arm(
+                scene,
+                {"execution_arm_override": "right"},
+                "full_three_program_root",
+            )
 
     def test_f4_target_structure_requires_exact_common_and_three_groups(self):
         common = [
