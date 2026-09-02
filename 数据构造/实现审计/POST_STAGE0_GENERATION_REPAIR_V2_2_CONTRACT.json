@@ -1,0 +1,53 @@
+{
+  "authorization": {
+    "compression": false,
+    "formal_360": false,
+    "gpu_execution": false,
+    "h_reveal": false,
+    "physical_execution": false,
+    "pi_0_5": false,
+    "planner_execution": false,
+    "stage1": false,
+    "training": false
+  },
+  "base_vault_commit": "0dd38a2fca83ba41304bc526f663c8a1522cf594",
+  "contract_sha256": "01de4afdeea71e15102e0b9c3f15efe966df937dd1765652ed74f2263efc62b4",
+  "dispatch": {
+    "legacy_high_level_dispatch_activated": false,
+    "planner_only_design_budget_proposal_allowed": true,
+    "v2_2_planner_issuer_implemented": false
+  },
+  "f2": {
+    "executor_parameters": ["scene", "arm", "binding", "recipe", "final_grasp_freeze", "final_grasp_qualification", "geometry_certificate", "planner_query_limit"],
+    "forbidden_external_geometry_parameters_absent": true,
+    "ordered_phases": ["pregrasp", "grasp", "close", "settle_250", "pre_lift_gate_table_support_allowed", "qualification_micro_lift_25mm", "post_lift_hold_50", "post_lift_off_table_retention_gate", "suffix_from_post_lift_actual_transform", "preinsert_descend_support_release_retreat"],
+    "planner_query_minimum": 8,
+    "post_lift_drift_limits": {"orientation_rad": 0.05, "translation_m": 0.005},
+    "runtime_asset_metadata_independent_of_certificate": true
+  },
+  "f3": {
+    "both_stages_required": true,
+    "official_raw_pose_generation_receipt_required": true,
+    "stage_a_alone_candidate_ready": false,
+    "stage_a_order": ["pregrasp", "grasp", "lift"],
+    "stage_a_purpose": "f3_final_pose_v3_stage_a_planner",
+    "stage_b_order": ["lift", "central", "V_plus", "V_minus", "central", "H_plus", "H_minus", "central"],
+    "stage_b_purpose": "f3_final_pose_v3_stage_b_planner"
+  },
+  "f4": {
+    "abc_only_candidate_qualification_forbidden": true,
+    "actual_source_layout_gate_before_planner": true,
+    "all_three_programs_required_per_hv2_candidate": true,
+    "geometry_v2_rerun_from_actual_source_poses": true,
+    "independent_fresh_or_reconstructed_scene_per_program": true,
+    "program_id_order_exact_binding_required": true,
+    "program_orders": {"F4-ABC": ["A", "B", "C"], "F4-ACB": ["A", "C", "B"], "F4-BAC": ["B", "A", "C"]},
+    "purpose": "f4_program_v2_planner"
+  },
+  "formal_trajectory_increment": 0,
+  "implementation_version": "controlled_multi_future_generation_repair_v2_2",
+  "new_trajectory_count": 0,
+  "schema_version": "cmf_generation_repair_v2_2_contract",
+  "scope": "CPU-only Generation Repair V2.2",
+  "stage0_reopened_or_rerun": false
+}

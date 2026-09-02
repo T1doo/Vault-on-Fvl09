@@ -18,7 +18,17 @@ from .f2_asset_geometry_layout_v3 import (
     _collision_geometry,
 )
 from .f2_official_asset_compatibility_matrix_v3 import ASSET_ROOT
-from .geometry import actor_target_to_eef_pose, pose_matrix, relative_pose
+from .geometry import (
+    actor_target_to_eef_pose,
+    compose_pose,
+    matrix_pose,
+    obb_inside_local_cavity,
+    pose_matrix,
+    relative_pose,
+)
+from .official_raw_pose_generation_v1 import (
+    validate_official_raw_pose_receipt_v1,
+)
 
 
 SCHEMA_VERSION = "cmf_f2_inside_control_search_v2"
@@ -35,6 +45,8 @@ SAFETY_MARGIN_M = 0.010
 PREINSERT_CLEARANCE_M = 0.030
 SLOW_RELEASE_TARGETS = (0.2, 0.4, 0.6, 0.8, 1.0)
 SLOW_RELEASE_FRAMES_PER_TARGET = 10
+QUALIFICATION_MICRO_LIFT_M = 0.025
+POST_LIFT_HOLD_FRAMES = 50
 GEOMETRY_POSITION_ATOL_M = 1e-6
 GEOMETRY_ORIENTATION_ATOL_RAD = 1e-7
 DEFAULT_SCREENING_PATH = Path(
@@ -68,12 +80,27 @@ def build_f2_controlled_insertion_contract_v2() -> dict[str, Any]:
             "safety_margin_m": SAFETY_MARGIN_M,
         },
         "two_phase_planning": [
-            "exact_final_pregrasp_grasp",
+            "exact_final_pregrasp_grasp_and_25mm_qualification_micro_lift",
             "close_and_settle_250",
-            "runtime_geometry_and_actual_grasp_transform_gates",
-            "rebuild_suffix_from_actual_eef_to_actor_transform",
+            "pre_lift_contact_identity_and_initial_transform_gate_table_support_allowed",
+            "execute_qualification_micro_lift_and_hold_50",
+            "post_lift_off_table_contact_identity_and_transform_drift_gate",
+            "rebuild_suffix_from_post_lift_actual_eef_to_actor_transform",
             "plan_lift_preinsert_descend_retreat_neutral",
         ],
+        "minimum_planner_queries": {
+            "approach_and_qualification": 3,
+            "post_lift_suffix": 5,
+            "total": 8,
+        },
+        "runtime_geometry_derivation": {
+            "planned_actor_pose_source": "final_grasp_pose_freeze",
+            "target_actor_pose_source": "scene+binding+certificate",
+            "opening_normal_source": "runtime_box_pose",
+            "horizontal_margin_source": "runtime_true_cavity_fit",
+            "external_target_pose_opening_normal_or_margin_allowed": False,
+            "runtime_asset_metadata_source": "adapter scene construction; independent of certificate",
+        },
         "controlled_insertion": {
             "preinsert_clearance_m": PREINSERT_CLEARANCE_M,
             "support_stability_frames_before_open": 50,
@@ -268,6 +295,100 @@ def compare_f2_runtime_geometry_v4(
     return value
 
 
+def build_f2_runtime_asset_metadata_receipt_v4(
+    entity_payloads: Mapping[str, Mapping[str, Any]],
+) -> dict[str, Any]:
+    payloads = canonical_jsonable(entity_payloads)
+    if not {"main_can", "box"}.issubset(payloads):
+        raise ValueError("F2 runtime metadata requires main_can and box entities")
+    can = payloads["main_can"]
+    box = payloads["box"]
+    if can.get("modelname") != "071_can" or box.get("modelname") != "062_plasticbox":
+        raise ValueError("F2 runtime entity roles have unexpected asset families")
+    can_id = int(can["model_id"])
+    box_id = int(box["model_id"])
+    can_model = ASSET_ROOT / "071_can" / f"model_data{can_id}.json"
+    box_model = ASSET_ROOT / "062_plasticbox" / f"model_data{box_id}.json"
+    can_collision = _asset_path("071_can", can_id, "collision")
+    box_collision = _asset_path("062_plasticbox", box_id, "collision")
+    cavity = _cavity_proposal(box_id)
+
+    def file_sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    resolved_can_collision_sha = file_sha(can_collision)
+    resolved_box_collision_sha = file_sha(box_collision)
+    checks = {
+        "runtime_collision_hashes_match_resolved_assets": can.get(
+            "collision_asset_hash"
+        )
+        == resolved_can_collision_sha
+        and box.get("collision_asset_hash") == resolved_box_collision_sha,
+        "runtime_scales_are_finite_positive": all(
+            np.all(np.isfinite(_vector3(item["scale"], "runtime scale")))
+            and np.all(_vector3(item["scale"], "runtime scale") > 0.0)
+            for item in (can, box)
+        ),
+        "runtime_actor_names_present": bool(can.get("actor_name"))
+        and bool(box.get("actor_name")),
+    }
+    value = {
+        "schema_version": "cmf_f2_runtime_asset_metadata_receipt_v4",
+        "source": "adapter._entity_payloads(scene) plus independently resolved workspace assets",
+        "main_object_model_id": can_id,
+        "plastic_box_model_id": box_id,
+        "main_object_actor_name": can["actor_name"],
+        "plastic_box_actor_name": box["actor_name"],
+        "main_object_collision_path": str(
+            can_collision.relative_to(
+                Path("/nfs_share/lijunhui/Robotwin2/project/RoboTwin")
+            )
+        ),
+        "plastic_box_collision_path": str(
+            box_collision.relative_to(
+                Path("/nfs_share/lijunhui/Robotwin2/project/RoboTwin")
+            )
+        ),
+        "main_object_model_data_sha256": file_sha(can_model),
+        "plastic_box_model_data_sha256": file_sha(box_model),
+        "main_object_collision_sha256": resolved_can_collision_sha,
+        "plastic_box_collision_sha256": resolved_box_collision_sha,
+        "main_object_scale": can["scale"],
+        "plastic_box_scale": box["scale"],
+        "main_object_spawn_orientation_wxyz": _pose7(
+            can["pose"], "runtime can pose"
+        )[3:].tolist(),
+        "plastic_box_spawn_orientation_wxyz": _pose7(
+            box["pose"], "runtime box pose"
+        )[3:].tolist(),
+        "cavity_raw_lower_m": cavity["raw_lower"].tolist(),
+        "cavity_raw_upper_m": cavity["raw_upper"].tolist(),
+        "cavity_center_m": cavity["center"].tolist(),
+        "checks": checks,
+        "pass": all(checks.values()),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def validate_f2_runtime_asset_metadata_receipt_v4(
+    receipt: Mapping[str, Any]
+) -> dict[str, Any]:
+    value = canonical_jsonable(receipt)
+    payload = dict(value)
+    digest = payload.pop("receipt_sha256", None)
+    if (
+        value.get("schema_version")
+        != "cmf_f2_runtime_asset_metadata_receipt_v4"
+        or digest != canonical_hash_json(payload)
+        or value.get("pass") is not True
+        or not isinstance(value.get("checks"), Mapping)
+        or not all(value["checks"].values())
+    ):
+        raise ValueError("F2 runtime asset metadata receipt is invalid")
+    return value
+
+
 def build_f2_geometry_certificate_inventory_v4(
     screening_path: Path = DEFAULT_SCREENING_PATH,
 ) -> dict[str, Any]:
@@ -381,23 +502,26 @@ def build_f2_grasp_recipe_universe_v2(
 def freeze_f2_final_grasp_pose_v2(
     recipe: Mapping[str, Any],
     *,
-    actor_pose: Sequence[float],
-    raw_official_pregrasp_pose: Sequence[float],
-    raw_official_grasp_pose: Sequence[float],
-    raw_rotation_candidate_index: int,
+    raw_pose_generation_receipt: Mapping[str, Any],
 ) -> dict[str, Any]:
     recipe_value = canonical_jsonable(recipe)
     payload = dict(recipe_value)
     digest = payload.pop("recipe_sha256", None)
     if digest != canonical_hash_json(payload):
         raise ValueError("F2 final-grasp recipe hash mismatch")
-    if int(raw_rotation_candidate_index) != int(
-        recipe_value["official_rotation_candidate_index"]
-    ):
-        raise ValueError("F2 raw rotation differs from frozen recipe")
-    actor = _pose7(actor_pose, "F2 actor")
-    pregrasp = _pose7(raw_official_pregrasp_pose, "F2 raw pregrasp")
-    grasp = _pose7(raw_official_grasp_pose, "F2 raw grasp")
+    raw_validation = validate_official_raw_pose_receipt_v1(
+        raw_pose_generation_receipt, recipe_value, family="F2"
+    )
+    if raw_validation["pass"] is not True:
+        raise ValueError("F2 official raw-pose generation receipt is invalid")
+    raw_receipt = canonical_jsonable(raw_pose_generation_receipt)
+    actor = _pose7(raw_receipt["actor_pose"], "F2 actor")
+    pregrasp = _pose7(
+        raw_receipt["selected_raw_pregrasp_pose"], "F2 raw pregrasp"
+    )
+    grasp = _pose7(
+        raw_receipt["selected_raw_grasp_pose"], "F2 raw grasp"
+    )
     local = np.zeros(3, dtype=np.float64)
     local[1] = float(recipe_value["axial_grasp_offset_m"])
     shift = pose_matrix(actor)[:3, :3] @ local
@@ -405,14 +529,25 @@ def freeze_f2_final_grasp_pose_v2(
     final_grasp = grasp.copy()
     final_pregrasp[:3] += shift
     final_grasp[:3] += shift
+    qualification_micro_lift = final_grasp.copy()
+    qualification_micro_lift[2] += QUALIFICATION_MICRO_LIFT_M
     goals = {
         "pregrasp": final_pregrasp.tolist(),
         "grasp": final_grasp.tolist(),
+        "qualification_micro_lift_25mm": qualification_micro_lift.tolist(),
     }
     value = {
         "schema_version": "cmf_f2_final_grasp_pose_freeze_v2",
         "recipe_id": recipe_value["recipe_id"],
         "recipe_sha256": digest,
+        "raw_pose_generation_receipt_sha256": raw_receipt[
+            "receipt_sha256"
+        ],
+        "raw_pose_generation_validation_sha256": raw_validation[
+            "validation_sha256"
+        ],
+        "planned_actor_pose": actor.tolist(),
+        "planned_actor_pose_sha256": canonical_hash_json(actor.tolist()),
         "raw_official_pose_hashes": {
             "pregrasp": canonical_hash_json(pregrasp.tolist()),
             "grasp": canonical_hash_json(grasp.tolist()),
@@ -423,7 +558,11 @@ def freeze_f2_final_grasp_pose_v2(
             key: canonical_hash_json(pose) for key, pose in goals.items()
         },
         "ordered_final_planner_input_sha256": canonical_hash_json(
-            [goals["pregrasp"], goals["grasp"]]
+            [
+                goals["pregrasp"],
+                goals["grasp"],
+                goals["qualification_micro_lift_25mm"],
+            ]
         ),
         "offset_applied_before_planner_qualification": True,
         "post_qualification_pose_mutation_allowed": False,
@@ -455,8 +594,14 @@ def validate_f2_final_grasp_qualification_v2(
         == freeze_value.get("ordered_final_planner_input_sha256"),
         "exact_goal_hashes_bound": receipt.get("goal_pose_hashes")
         == freeze_value.get("final_goal_pose_hashes"),
-        "pregrasp_and_grasp_planner_success": receipt.get("planner_statuses")
-        == {"pregrasp": "Success", "grasp": "Success"},
+        "pregrasp_grasp_and_micro_lift_planner_success": receipt.get(
+            "planner_statuses"
+        )
+        == {
+            "pregrasp": "Success",
+            "grasp": "Success",
+            "qualification_micro_lift_25mm": "Success",
+        },
         "ik_collision_planner_checked": receipt.get(
             "ik_collision_planner_checked"
         )
@@ -477,12 +622,12 @@ def validate_f2_final_grasp_qualification_v2(
     return value
 
 
-def capture_f2_runtime_geometry_observation_v4(
-    scene, certificate: Mapping[str, Any]
-) -> dict[str, Any]:
+def capture_f2_runtime_geometry_observation_v4(scene) -> dict[str, Any]:
     from .family_runners_v3_1 import _actor_local_geometry_bounds, _pose
 
-    cert = canonical_jsonable(certificate)
+    metadata = validate_f2_runtime_asset_metadata_receipt_v4(
+        getattr(scene, "_cmf_f2_runtime_asset_metadata_receipt_v4", None)
+    )
     can_center, can_half = _actor_local_geometry_bounds(scene.can)
     box_center, box_half = _actor_local_geometry_bounds(scene.box)
     can_center = _vector3(can_center, "runtime can local center")
@@ -504,7 +649,7 @@ def capture_f2_runtime_geometry_observation_v4(
         "cavity_raw_upper_m",
         "cavity_center_m",
     )
-    value = {key: cert[key] for key in copied}
+    value = {key: metadata[key] for key in copied}
     value.update(
         {
             "main_object_local_lower_m": (can_center - can_half).tolist(),
@@ -523,12 +668,93 @@ def capture_f2_runtime_geometry_observation_v4(
     return value
 
 
+def derive_f2_runtime_insertion_geometry_v2(
+    scene,
+    *,
+    binding: Mapping[str, Any],
+    geometry_certificate: Mapping[str, Any],
+    runtime_geometry_gate: Mapping[str, Any],
+) -> dict[str, Any]:
+    from .family_runners_v3_1 import _actor_local_geometry_bounds, _pose
+
+    if runtime_geometry_gate.get("pass") is not True:
+        raise ValueError("F2 runtime insertion geometry requires a matching certificate")
+    cert = canonical_jsonable(geometry_certificate)
+    key = canonical_jsonable(binding)["selected_candidate_key"]
+    if (
+        int(key["main_object_model_id"]) != cert["main_object_model_id"]
+        or int(key["plastic_box_model_id"]) != cert["plastic_box_model_id"]
+    ):
+        raise ValueError("F2 binding asset identity differs from geometry certificate")
+    can_local_center, can_half = _actor_local_geometry_bounds(scene.can)
+    can_local_center = _vector3(can_local_center, "runtime can local center")
+    can_half = _vector3(can_half, "runtime can half extents")
+    local_center_pose = np.asarray(
+        [*can_local_center, 1.0, 0.0, 0.0, 0.0], dtype=np.float64
+    )
+    cavity = canonical_jsonable(binding)["strict_cavity_contract"]
+    box_pose = _pose7(_pose(scene.box), "runtime box pose")
+    target_geometry = compose_pose(
+        box_pose,
+        [
+            *cavity["target_center_local_m"],
+            *canonical_jsonable(binding)["inside_object_orientation_wxyz"],
+        ],
+    )
+    target_actor = matrix_pose(
+        pose_matrix(target_geometry) @ np.linalg.inv(pose_matrix(local_center_pose))
+    )
+    fit = obb_inside_local_cavity(
+        target_geometry,
+        can_half,
+        box_pose,
+        cavity["lower_m"],
+        cavity["upper_m"],
+    )
+    horizontal_axes = (0, 2)
+    lower = np.asarray(fit["local_corner_min"], dtype=np.float64)
+    upper = np.asarray(fit["local_corner_max"], dtype=np.float64)
+    cavity_lower = np.asarray(cavity["lower_m"], dtype=np.float64)
+    cavity_upper = np.asarray(cavity["upper_m"], dtype=np.float64)
+    signed_horizontal_margin = min(
+        *[
+            float(lower[axis] - cavity_lower[axis])
+            for axis in horizontal_axes
+        ],
+        *[
+            float(cavity_upper[axis] - upper[axis])
+            for axis in horizontal_axes
+        ],
+    )
+    opening_normal = pose_matrix(box_pose)[:3, :3] @ np.asarray(
+        [0.0, 1.0, 0.0], dtype=np.float64
+    )
+    value = {
+        "schema_version": "cmf_f2_runtime_insertion_geometry_v2",
+        "runtime_geometry_gate_sha256": runtime_geometry_gate[
+            "receipt_sha256"
+        ],
+        "geometry_certificate_sha256": cert["certificate_sha256"],
+        "binding_sha256": binding["binding_sha256"],
+        "target_actor_pose": target_actor.tolist(),
+        "target_geometry_center_pose": target_geometry.tolist(),
+        "opening_normal_world": opening_normal.tolist(),
+        "signed_horizontal_margin_m": signed_horizontal_margin,
+        "runtime_true_cavity_fit": fit,
+        "all_executor_geometry_internally_derived": True,
+        "external_target_or_margin_input_allowed": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
 def audit_f2_horizontal_margin_budget_v2(
     *, signed_horizontal_margin_m: float, object_half_extents_m: Sequence[float]
 ) -> dict[str, Any]:
     half = _vector3(object_half_extents_m, "F2 object half extents")
     rotational_envelope = float(
-        np.linalg.norm(half[:2]) * np.sin(GRASP_ORIENTATION_DRIFT_LIMIT_RAD)
+        np.linalg.norm(half[[0, 2]])
+        * np.sin(GRASP_ORIENTATION_DRIFT_LIMIT_RAD)
     )
     required = (
         TRACKING_ALLOCATION_M
@@ -553,7 +779,7 @@ def audit_f2_horizontal_margin_budget_v2(
     return value
 
 
-def audit_f2_post_close_grasp_transform_v2(
+def _audit_f2_grasp_transform_v2(
     *,
     planned_eef_pose: Sequence[float],
     planned_actor_pose: Sequence[float],
@@ -563,6 +789,8 @@ def audit_f2_post_close_grasp_transform_v2(
     selected_actor_identity_continuous: bool,
     actor_table_contact: bool,
     evidence_complete: bool,
+    phase: str,
+    require_actor_off_table: bool,
 ) -> dict[str, Any]:
     planned = relative_pose(
         _pose7(planned_eef_pose, "planned EEF"),
@@ -583,21 +811,55 @@ def audit_f2_post_close_grasp_transform_v2(
         "selected_actor_identity_continuous": bool(
             selected_actor_identity_continuous
         ),
-        "actor_off_table_after_lift": not bool(actor_table_contact),
         "evidence_complete": bool(evidence_complete),
     }
+    if require_actor_off_table:
+        checks["actor_off_table_after_lift"] = not bool(actor_table_contact)
+    else:
+        checks["table_support_allowed_before_lift"] = True
     value = {
-        "schema_version": "cmf_f2_post_close_grasp_transform_gate_v2",
+        "schema_version": f"cmf_f2_{phase}_grasp_transform_gate_v2",
+        "phase": phase,
+        "actor_table_contact_observed": bool(actor_table_contact),
+        "actor_off_table_required": bool(require_actor_off_table),
         "planned_eef_to_actor_pose": planned.tolist(),
         "actual_eef_to_actor_pose": actual.tolist(),
         "translation_drift_m": translation,
         "orientation_drift_rad": orientation,
         "checks": checks,
-        "status": "PASS" if all(checks.values()) else "POST_CLOSE_GRASP_NOT_ACQUIRED_OR_RETAINED",
+        "status": "PASS" if all(checks.values()) else (
+            "POST_LIFT_GRASP_NOT_RETAINED"
+            if require_actor_off_table
+            else "PRE_LIFT_GRASP_NOT_ACQUIRED"
+        ),
         "pass": all(checks.values()),
     }
     value["receipt_sha256"] = canonical_hash_json(value)
     return value
+
+
+def audit_f2_post_close_grasp_transform_v2(
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Pre-lift acquisition Gate; normal table support is explicitly allowed."""
+
+    return _audit_f2_grasp_transform_v2(
+        **kwargs,
+        phase="pre_lift",
+        require_actor_off_table=False,
+    )
+
+
+def audit_f2_post_lift_grasp_transform_v2(
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Post-micro-lift retention Gate; the selected actor must be off-table."""
+
+    return _audit_f2_grasp_transform_v2(
+        **kwargs,
+        phase="post_lift",
+        require_actor_off_table=True,
+    )
 
 
 def build_f2_controlled_insertion_suffix_v2(
@@ -675,8 +937,11 @@ def validate_f2_controlled_insertion_event_order_v2(
 ) -> dict[str, Any]:
     expected = [
         "post_close_settle_250",
-        "post_close_grasp_transform_gate",
-        "suffix_planned_from_actual_transform",
+        "pre_lift_grasp_transform_gate",
+        "qualification_micro_lift_25mm",
+        "post_lift_hold_50",
+        "post_lift_grasp_transform_gate",
+        "suffix_planned_from_post_lift_actual_transform",
         "lift",
         "preinsert_30mm",
         "controlled_descend_to_support",
@@ -701,7 +966,7 @@ def validate_f2_controlled_insertion_event_order_v2(
         "support_precedes_release": first_release is not None
         and support_index is not None
         and support_index < first_release,
-        "five_monotonic_release_steps": observed[7:12]
+        "five_monotonic_release_steps": observed[10:15]
         == [f"slow_release_{index}" for index in range(1, 6)],
         "gravity_drop_absent": all("gravity_drop" not in event for event in observed),
     }
@@ -746,6 +1011,7 @@ def expand_legacy_f2_preload_failure_v2(
 __all__ = [
     "audit_f2_horizontal_margin_budget_v2",
     "audit_f2_post_close_grasp_transform_v2",
+    "audit_f2_post_lift_grasp_transform_v2",
     "build_f2_controlled_insertion_suffix_v2",
     "build_f2_controlled_insertion_contract_v2",
     "build_f2_geometry_certificate_v4",
@@ -753,6 +1019,9 @@ __all__ = [
     "build_f2_grasp_recipe_universe_v2",
     "capture_f2_runtime_geometry_observation_v4",
     "compare_f2_runtime_geometry_v4",
+    "derive_f2_runtime_insertion_geometry_v2",
+    "build_f2_runtime_asset_metadata_receipt_v4",
+    "validate_f2_runtime_asset_metadata_receipt_v4",
     "expand_legacy_f2_preload_failure_v2",
     "freeze_f2_final_grasp_pose_v2",
     "validate_f2_final_grasp_qualification_v2",

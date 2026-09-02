@@ -18,9 +18,11 @@ from .f2_preload_entry_evidence_gate_v11 import (
 from .f2_inside_control_search_v2 import (
     audit_f2_horizontal_margin_budget_v2,
     audit_f2_post_close_grasp_transform_v2,
+    audit_f2_post_lift_grasp_transform_v2,
     build_f2_controlled_insertion_suffix_v2,
     capture_f2_runtime_geometry_observation_v4,
     compare_f2_runtime_geometry_v4,
+    derive_f2_runtime_insertion_geometry_v2,
     validate_f2_controlled_insertion_event_order_v2,
     validate_f2_final_grasp_qualification_v2,
 )
@@ -430,24 +432,18 @@ def execute_f2_controlled_insertion_physical_v2(
     final_grasp_freeze: Mapping[str, Any],
     final_grasp_qualification: Mapping[str, Any],
     geometry_certificate: Mapping[str, Any],
-    planned_actor_pose: Sequence[float],
-    target_actor_pose: Sequence[float],
-    runtime_signed_horizontal_margin_m: float,
-    opening_normal_world: Sequence[float],
     planner_query_limit: int,
 ) -> dict[str, Any]:
     """Two-phase F2 V2 executor; unreachable from the CPU-only issuer lock."""
 
     if arm not in ("left", "right"):
         raise ValueError("F2 V2 arm must be left or right")
-    if int(planner_query_limit) < 7:
-        raise ValueError("F2 V2 requires at least two approach and five suffix queries")
+    if int(planner_query_limit) < 8:
+        raise ValueError("F2 V2 requires three approach/qualification and five suffix queries")
     qualification = validate_f2_final_grasp_qualification_v2(
         recipe, final_grasp_freeze, final_grasp_qualification
     )
-    runtime_geometry = capture_f2_runtime_geometry_observation_v4(
-        scene, geometry_certificate
-    )
+    runtime_geometry = capture_f2_runtime_geometry_observation_v4(scene)
     geometry_gate = compare_f2_runtime_geometry_v4(
         geometry_certificate, runtime_geometry
     )
@@ -464,11 +460,21 @@ def execute_f2_controlled_insertion_physical_v2(
             ),
             "release_executed": False,
         }
+    insertion_geometry = derive_f2_runtime_insertion_geometry_v2(
+        scene,
+        binding=binding,
+        geometry_certificate=geometry_certificate,
+        runtime_geometry_gate=geometry_gate,
+    )
     frozen_goals = final_grasp_freeze["final_goal_poses"]
     approach_targets = _targets_payload(
         [
             {"segment_id": "f2_v2_pregrasp", "pose": frozen_goals["pregrasp"]},
             {"segment_id": "f2_v2_grasp", "pose": frozen_goals["grasp"]},
+            {
+                "segment_id": "f2_v2_qualification_micro_lift_25mm",
+                "pose": frozen_goals["qualification_micro_lift_25mm"],
+            },
         ]
     )
     _planner_reset(
@@ -490,7 +496,7 @@ def execute_f2_controlled_insertion_physical_v2(
             "final_grasp_qualification": qualification,
             "runtime_geometry_gate": geometry_gate,
             "approach_planner_result": _planner_payload(approach),
-            "earliest_failure": "FINAL_PREGRASP_GRASP_APPROACH_PLANNER_FAILED",
+            "earliest_failure": "FINAL_PREGRASP_GRASP_MICRO_LIFT_PLANNER_FAILED",
             "release_executed": False,
         }
     approach_execution = [
@@ -523,9 +529,9 @@ def execute_f2_controlled_insertion_physical_v2(
     )
     actual_eef = _arm_eef_pose(scene, arm)
     actual_actor = _pose(scene.can)
-    grasp_gate = audit_f2_post_close_grasp_transform_v2(
+    pre_lift_gate = audit_f2_post_close_grasp_transform_v2(
         planned_eef_pose=frozen_goals["grasp"],
-        planned_actor_pose=planned_actor_pose,
+        planned_actor_pose=final_grasp_freeze["planned_actor_pose"],
         actual_eef_pose=actual_eef,
         actual_actor_pose=actual_actor,
         selected_contact_continuous=contact_continuous,
@@ -534,15 +540,7 @@ def execute_f2_controlled_insertion_physical_v2(
         evidence_complete=len(evidence_rows) == 60
         and all(_complete_contact_signal(row) for row in evidence_rows),
     )
-    half = 0.5 * np.asarray(
-        geometry_certificate["main_object_local_dimensions_m"],
-        dtype=np.float64,
-    )
-    margin_gate = audit_f2_horizontal_margin_budget_v2(
-        signed_horizontal_margin_m=runtime_signed_horizontal_margin_m,
-        object_half_extents_m=half,
-    )
-    if grasp_gate["pass"] is not True or margin_gate["pass"] is not True:
+    if pre_lift_gate["pass"] is not True:
         return {
             "sequence_complete": False,
             "strict_inside_verifier_pass": False,
@@ -550,11 +548,66 @@ def execute_f2_controlled_insertion_physical_v2(
             "runtime_geometry_gate": geometry_gate,
             "approach_planner_result": _planner_payload(approach),
             "approach_execution_receipts": approach_execution,
-            "post_close_grasp_transform_gate": grasp_gate,
+            "runtime_insertion_geometry": insertion_geometry,
+            "pre_lift_grasp_transform_gate": pre_lift_gate,
+            "earliest_failure": pre_lift_gate["status"],
+            "release_executed": False,
+        }
+    approach_execution.append(
+        _execute_planned_segment(
+            scene, approach["controls"], approach_targets, 2, arm
+        )
+    )
+    _wait_and_record(scene, 50)
+    post_lift_rows = list(scene.trace[-50:])
+    post_lift_contact = bool(post_lift_rows) and all(
+        row.get("selected_gripper_contact") is True for row in post_lift_rows
+    )
+    post_lift_identity = bool(post_lift_rows) and all(
+        str(row.get("selected_contact_actor_name")) == can_name
+        for row in post_lift_rows
+    )
+    post_lift_table_contact = any(
+        _pair_is_physical_hit_between(pair, {can_name}, {"table"})
+        for row in post_lift_rows
+        for pair in row.get("contact_pairs", [])
+    )
+    post_lift_eef = _arm_eef_pose(scene, arm)
+    post_lift_actor = _pose(scene.can)
+    post_lift_gate = audit_f2_post_lift_grasp_transform_v2(
+        planned_eef_pose=actual_eef,
+        planned_actor_pose=actual_actor,
+        actual_eef_pose=post_lift_eef,
+        actual_actor_pose=post_lift_actor,
+        selected_contact_continuous=post_lift_contact,
+        selected_actor_identity_continuous=post_lift_identity,
+        actor_table_contact=post_lift_table_contact,
+        evidence_complete=len(post_lift_rows) == 50
+        and all(_complete_contact_signal(row) for row in post_lift_rows),
+    )
+    half = 0.5 * np.asarray(
+        runtime_geometry["main_object_local_dimensions_m"], dtype=np.float64
+    )
+    margin_gate = audit_f2_horizontal_margin_budget_v2(
+        signed_horizontal_margin_m=insertion_geometry[
+            "signed_horizontal_margin_m"
+        ],
+        object_half_extents_m=half,
+    )
+    if post_lift_gate["pass"] is not True or margin_gate["pass"] is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "runtime_geometry_gate": geometry_gate,
+            "runtime_insertion_geometry": insertion_geometry,
+            "approach_planner_result": _planner_payload(approach),
+            "approach_execution_receipts": approach_execution,
+            "pre_lift_grasp_transform_gate": pre_lift_gate,
+            "post_lift_grasp_transform_gate": post_lift_gate,
             "horizontal_margin_gate": margin_gate,
             "earliest_failure": (
-                grasp_gate["status"]
-                if grasp_gate["pass"] is not True
+                post_lift_gate["status"]
+                if post_lift_gate["pass"] is not True
                 else "INSUFFICIENT_HORIZONTAL_MARGIN_BUDGET"
             ),
             "release_executed": False,
@@ -563,12 +616,12 @@ def execute_f2_controlled_insertion_physical_v2(
         _arm_original_pose(scene, arm), dtype=np.float64
     ).reshape(7)
     suffix = build_f2_controlled_insertion_suffix_v2(
-        actual_eef_pose=actual_eef,
-        actual_actor_pose=actual_actor,
-        target_actor_pose=target_actor_pose,
-        opening_normal_world=opening_normal_world,
+        actual_eef_pose=post_lift_eef,
+        actual_actor_pose=post_lift_actor,
+        target_actor_pose=insertion_geometry["target_actor_pose"],
+        opening_normal_world=insertion_geometry["opening_normal_world"],
         neutral_eef_pose=neutral,
-        grasp_gate=grasp_gate,
+        grasp_gate=post_lift_gate,
         margin_gate=margin_gate,
     )
     suffix_targets = suffix["targets"]
@@ -588,7 +641,8 @@ def execute_f2_controlled_insertion_physical_v2(
         return {
             "sequence_complete": False,
             "strict_inside_verifier_pass": False,
-            "post_close_grasp_transform_gate": grasp_gate,
+            "pre_lift_grasp_transform_gate": pre_lift_gate,
+            "post_lift_grasp_transform_gate": post_lift_gate,
             "horizontal_margin_gate": margin_gate,
             "controlled_insertion_suffix": suffix,
             "suffix_planner_result": _planner_payload(suffix_plan),
@@ -649,7 +703,8 @@ def execute_f2_controlled_insertion_physical_v2(
         return {
             "sequence_complete": False,
             "strict_inside_verifier_pass": False,
-            "post_close_grasp_transform_gate": grasp_gate,
+            "pre_lift_grasp_transform_gate": pre_lift_gate,
+            "post_lift_grasp_transform_gate": post_lift_gate,
             "horizontal_margin_gate": margin_gate,
             "controlled_insertion_suffix": suffix,
             "suffix_planner_result": _planner_payload(suffix_plan),
@@ -680,8 +735,11 @@ def execute_f2_controlled_insertion_physical_v2(
     event_order = validate_f2_controlled_insertion_event_order_v2(
         [
             "post_close_settle_250",
-            "post_close_grasp_transform_gate",
-            "suffix_planned_from_actual_transform",
+            "pre_lift_grasp_transform_gate",
+            "qualification_micro_lift_25mm",
+            "post_lift_hold_50",
+            "post_lift_grasp_transform_gate",
+            "suffix_planned_from_post_lift_actual_transform",
             "lift",
             "preinsert_30mm",
             "controlled_descend_to_support",
@@ -725,8 +783,10 @@ def execute_f2_controlled_insertion_physical_v2(
         "sequence_complete": passed,
         "strict_inside_verifier_pass": passed,
         "runtime_geometry_gate": geometry_gate,
+        "runtime_insertion_geometry": insertion_geometry,
         "final_grasp_qualification": qualification,
-        "post_close_grasp_transform_gate": grasp_gate,
+        "pre_lift_grasp_transform_gate": pre_lift_gate,
+        "post_lift_grasp_transform_gate": post_lift_gate,
         "horizontal_margin_gate": margin_gate,
         "controlled_insertion_suffix": suffix,
         "approach_planner_result": _planner_payload(approach),

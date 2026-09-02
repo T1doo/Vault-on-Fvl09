@@ -1,24 +1,69 @@
 import copy
+import inspect
 import unittest
 from unittest.mock import patch
+
+from controlled_multi_future.canonical_artifact import canonical_hash_json
 
 from controlled_multi_future.f2_inside_control_search_v2 import (
     audit_f2_horizontal_margin_budget_v2,
     audit_f2_post_close_grasp_transform_v2,
+    audit_f2_post_lift_grasp_transform_v2,
     build_f2_controlled_insertion_suffix_v2,
     build_f2_controlled_insertion_contract_v2,
     build_f2_geometry_certificate_v4,
     build_f2_geometry_certificate_inventory_v4,
     build_f2_grasp_recipe_universe_v2,
+    build_f2_runtime_asset_metadata_receipt_v4,
     compare_f2_runtime_geometry_v4,
     expand_legacy_f2_preload_failure_v2,
     freeze_f2_final_grasp_pose_v2,
     validate_f2_final_grasp_qualification_v2,
+    validate_f2_runtime_asset_metadata_receipt_v4,
     validate_f2_controlled_insertion_event_order_v2,
 )
 from controlled_multi_future.high_level_physical_runner_v1 import (
     execute_f2_controlled_insertion_physical_v2,
 )
+from controlled_multi_future.official_raw_pose_generation_v1 import (
+    OFFICIAL_GENERATOR_VERSION,
+)
+
+
+def raw_receipt(recipe, actor_pose, pregrasp, grasp):
+    value = {
+        "schema_version": "cmf_official_raw_pose_generation_v1",
+        "official_generator_version": OFFICIAL_GENERATOR_VERSION,
+        "family": "F2",
+        "recipe_id": recipe["recipe_id"],
+        "recipe_sha256": recipe["recipe_sha256"],
+        "asset": {},
+        "main_object_model_id": recipe["main_object_model_id"],
+        "arm": recipe["arm"],
+        "contact_point_id": recipe["official_contact_point_id"],
+        "rotation_candidate_index": recipe[
+            "official_rotation_candidate_index"
+        ],
+        "pregrasp_distance_m": recipe["pregrasp_distance_m"],
+        "target_distance_m": recipe["target_distance_m"],
+        "actor_pose": actor_pose,
+        "actor_pose_sha256": canonical_hash_json(actor_pose),
+        "ordered_rotation_candidate_count": 10,
+        "ordered_rotation_candidates_sha256": canonical_hash_json(
+            list(range(10))
+        ),
+        "selected_raw_pregrasp_pose": pregrasp,
+        "selected_raw_grasp_pose": grasp,
+        "raw_pregrasp_sha256": canonical_hash_json(pregrasp),
+        "raw_grasp_sha256": canonical_hash_json(grasp),
+        "source_calls": [
+            "actor.get_contact_point(contact_id, matrix/list)",
+            "scene.robot.create_target_pose_list(..., ROTATE_NUM=10)",
+        ],
+        "external_raw_pose_input_allowed": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
 
 
 class F2InsideControlSearchV2Tests(unittest.TestCase):
@@ -79,6 +124,48 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             failed["status"], "CPU_RUNTIME_GEOMETRY_CERTIFICATE_MISMATCH"
         )
 
+    def test_runtime_metadata_is_independently_resolved_and_executor_has_no_external_geometry_args(self):
+        payloads = {
+            "main_can": {
+                "actor_name": "can-runtime",
+                "modelname": "071_can",
+                "model_id": 5,
+                "collision_asset_hash": self.certificate[
+                    "main_object_collision_sha256"
+                ],
+                "scale": self.certificate["main_object_scale"],
+                "pose": [0, 0, 0.8, *self.certificate["main_object_spawn_orientation_wxyz"]],
+            },
+            "box": {
+                "actor_name": "box-runtime",
+                "modelname": "062_plasticbox",
+                "model_id": 8,
+                "collision_asset_hash": self.certificate[
+                    "plastic_box_collision_sha256"
+                ],
+                "scale": self.certificate["plastic_box_scale"],
+                "pose": [0, 0, 0.8, *self.certificate["plastic_box_spawn_orientation_wxyz"]],
+            },
+        }
+        receipt = build_f2_runtime_asset_metadata_receipt_v4(payloads)
+        self.assertEqual(
+            validate_f2_runtime_asset_metadata_receipt_v4(receipt), receipt
+        )
+        self.assertEqual(
+            receipt["main_object_collision_sha256"],
+            self.certificate["main_object_collision_sha256"],
+        )
+        parameters = inspect.signature(
+            execute_f2_controlled_insertion_physical_v2
+        ).parameters
+        for forbidden in (
+            "planned_actor_pose",
+            "target_actor_pose",
+            "runtime_signed_horizontal_margin_m",
+            "opening_normal_world",
+        ):
+            self.assertNotIn(forbidden, parameters)
+
     def test_cpu_certificate_inventory_covers_all_66_pairs_without_claiming_runtime_pass(self):
         inventory = build_f2_geometry_certificate_inventory_v4()
         self.assertEqual(inventory["distinct_pair_count"], 66)
@@ -118,12 +205,12 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
         )
         frozen = freeze_f2_final_grasp_pose_v2(
             recipe,
-            actor_pose=[0, 0, 0.8, 1, 0, 0, 0],
-            raw_official_pregrasp_pose=[0, -0.1, 0.9, 1, 0, 0, 0],
-            raw_official_grasp_pose=[0, -0.04, 0.9, 1, 0, 0, 0],
-            raw_rotation_candidate_index=recipe[
-                "official_rotation_candidate_index"
-            ],
+            raw_pose_generation_receipt=raw_receipt(
+                recipe,
+                [0, 0, 0.8, 1, 0, 0, 0],
+                [0, -0.1, 0.9, 1, 0, 0, 0],
+                [0, -0.04, 0.9, 1, 0, 0, 0],
+            ),
         )
         receipt = {
             "recipe_sha256": recipe["recipe_sha256"],
@@ -137,6 +224,7 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             "planner_statuses": {
                 "pregrasp": "Success",
                 "grasp": "Success",
+                "qualification_micro_lift_25mm": "Success",
             },
             "ik_collision_planner_checked": True,
             "post_qualification_pose_mutation": False,
@@ -196,8 +284,11 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
         )
         events = [
             "post_close_settle_250",
-            "post_close_grasp_transform_gate",
-            "suffix_planned_from_actual_transform",
+            "pre_lift_grasp_transform_gate",
+            "qualification_micro_lift_25mm",
+            "post_lift_hold_50",
+            "post_lift_grasp_transform_gate",
+            "suffix_planned_from_post_lift_actual_transform",
             "lift",
             "preinsert_30mm",
             "controlled_descend_to_support",
@@ -212,7 +303,7 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             )["pass"]
         )
         premature = list(events)
-        premature[6], premature[7] = premature[7], premature[6]
+        premature[9], premature[10] = premature[10], premature[9]
         self.assertFalse(
             validate_f2_controlled_insertion_event_order_v2(
                 premature, support_gate_pass=True
@@ -229,6 +320,37 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             evidence_complete=True,
         )
         self.assertFalse(changed["pass"])
+
+    def test_pre_lift_allows_table_support_but_post_lift_requires_retention(self):
+        common = {
+            "planned_eef_pose": [0, 0, 1.0, 1, 0, 0, 0],
+            "planned_actor_pose": [0, 0, 0.9, 1, 0, 0, 0],
+            "actual_eef_pose": [0, 0, 1.0, 1, 0, 0, 0],
+            "actual_actor_pose": [0, 0, 0.9, 1, 0, 0, 0],
+            "selected_contact_continuous": True,
+            "selected_actor_identity_continuous": True,
+            "evidence_complete": True,
+        }
+        before = audit_f2_post_close_grasp_transform_v2(
+            **common, actor_table_contact=True
+        )
+        self.assertTrue(before["pass"])
+        self.assertTrue(before["checks"]["table_support_allowed_before_lift"])
+        after_on_table = audit_f2_post_lift_grasp_transform_v2(
+            **common, actor_table_contact=True
+        )
+        self.assertFalse(after_on_table["pass"])
+        self.assertFalse(after_on_table["checks"]["actor_off_table_after_lift"])
+        after_lost = audit_f2_post_lift_grasp_transform_v2(
+            **{**common, "selected_contact_continuous": False},
+            actor_table_contact=False,
+        )
+        self.assertFalse(after_lost["pass"])
+        after_drift = audit_f2_post_lift_grasp_transform_v2(
+            **{**common, "actual_actor_pose": [0.006, 0, 0.9, 1, 0, 0, 0]},
+            actor_table_contact=False,
+        )
+        self.assertFalse(after_drift["pass"])
 
     def test_legacy_preload_overlay_expands_every_hard_check(self):
         checks = {
@@ -284,10 +406,12 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
         planned_actor = [0, 0, 0.9, 1, 0, 0, 0]
         frozen = freeze_f2_final_grasp_pose_v2(
             recipe,
-            actor_pose=planned_actor,
-            raw_official_pregrasp_pose=[0, -0.1, 1.0, 1, 0, 0, 0],
-            raw_official_grasp_pose=[0, -0.04, 1.0, 1, 0, 0, 0],
-            raw_rotation_candidate_index=0,
+            raw_pose_generation_receipt=raw_receipt(
+                recipe,
+                planned_actor,
+                [0, -0.1, 1.0, 1, 0, 0, 0],
+                [0, -0.04, 1.0, 1, 0, 0, 0],
+            ),
         )
         qualification = {
             "recipe_sha256": recipe["recipe_sha256"],
@@ -301,6 +425,7 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             "planner_statuses": {
                 "pregrasp": "Success",
                 "grasp": "Success",
+                "qualification_micro_lift_25mm": "Success",
             },
             "ik_collision_planner_checked": True,
             "post_qualification_pose_mutation": False,
@@ -373,11 +498,22 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
 
         actual_eef = [0.002, -0.06, 1.0, 1, 0, 0, 0]
         actual_actor = [0.002, 0, 0.9, 1, 0, 0, 0]
+        post_lift_eef = [0.002, -0.06, 1.025, 1, 0, 0, 0]
+        post_lift_actor = [0.002, 0, 0.925, 1, 0, 0, 0]
         neutral = [0, 0, 1.1, 1, 0, 0, 0]
         with patch(
             "controlled_multi_future.high_level_physical_runner_v1."
             "capture_f2_runtime_geometry_observation_v4",
             return_value=self._runtime_geometry(),
+        ), patch(
+            "controlled_multi_future.high_level_physical_runner_v1."
+            "derive_f2_runtime_insertion_geometry_v2",
+            return_value={
+                "target_actor_pose": [0.2, -0.2, 0.8, 1, 0, 0, 0],
+                "opening_normal_world": [0, 0, 1],
+                "signed_horizontal_margin_m": 0.04,
+                "receipt_sha256": "d" * 64,
+            },
         ), patch(
             "controlled_multi_future.high_level_physical_runner_v1._planner_reset",
             side_effect=lambda *args, **kwargs: event_log.append("reset"),
@@ -407,10 +543,10 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
             return_value=True,
         ), patch(
             "controlled_multi_future.high_level_physical_runner_v1._arm_eef_pose",
-            side_effect=[actual_eef, neutral],
+            side_effect=[actual_eef, post_lift_eef, neutral],
         ), patch(
             "controlled_multi_future.high_level_physical_runner_v1._pose",
-            return_value=actual_actor,
+            side_effect=[actual_actor, post_lift_actor],
         ), patch(
             "controlled_multi_future.high_level_physical_runner_v1."
             "_arm_original_pose",
@@ -440,15 +576,12 @@ class F2InsideControlSearchV2Tests(unittest.TestCase):
                 final_grasp_freeze=frozen,
                 final_grasp_qualification=qualification,
                 geometry_certificate=self.certificate,
-                planned_actor_pose=planned_actor,
-                target_actor_pose=[0.2, -0.2, 0.8, 1, 0, 0, 0],
-                runtime_signed_horizontal_margin_m=0.04,
-                opening_normal_world=[0, 0, 1],
                 planner_query_limit=12,
             )
         self.assertTrue(result["sequence_complete"], result)
         self.assertFalse(result["primary_10cm_gravity_drop"])
-        self.assertLess(event_log.index("wait_250"), event_log.index("plan_5"))
+        self.assertEqual(event_log.count("plan_3"), 1)
+        self.assertLess(event_log.index("wait_50"), event_log.index("plan_5"))
         self.assertLess(
             event_log.index("wait_50"),
             event_log.index("f2_v2_slow_release_1"),

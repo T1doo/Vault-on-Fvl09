@@ -17,6 +17,9 @@ from .f3_asset_grasp_qualification_v2 import (
     build_f3_asset_grasp_qualification_v2,
 )
 from .geometry import pose_matrix, world_axis_offset_pose
+from .official_raw_pose_generation_v1 import (
+    validate_official_raw_pose_receipt_v1,
+)
 
 
 SCHEMA_VERSION = "cmf_f3_final_pose_search_v3"
@@ -119,23 +122,26 @@ def build_f3_final_pose_recipe_universe_v3() -> dict[str, Any]:
 def freeze_f3_final_pose_v3(
     recipe: Mapping[str, Any],
     *,
-    actor_pose: Sequence[float],
-    raw_official_pregrasp_pose: Sequence[float],
-    raw_official_grasp_pose: Sequence[float],
-    raw_rotation_candidate_index: int,
+    raw_pose_generation_receipt: Mapping[str, Any],
 ) -> dict[str, Any]:
     recipe_value = canonical_jsonable(recipe)
     if recipe_value.get("recipe_sha256") != canonical_hash_json(
         {key: value for key, value in recipe_value.items() if key != "recipe_sha256"}
     ):
         raise ValueError("F3 V3 recipe hash mismatch")
-    if int(raw_rotation_candidate_index) != int(
-        recipe_value["official_rotation_candidate_index"]
-    ):
-        raise ValueError("raw F3 rotation candidate differs from recipe")
-    actor = _pose7(actor_pose, "F3 actor")
-    raw_pregrasp = _pose7(raw_official_pregrasp_pose, "F3 raw pregrasp")
-    raw_grasp = _pose7(raw_official_grasp_pose, "F3 raw grasp")
+    raw_validation = validate_official_raw_pose_receipt_v1(
+        raw_pose_generation_receipt, recipe_value, family="F3"
+    )
+    if raw_validation["pass"] is not True:
+        raise ValueError("F3 official raw-pose generation receipt is invalid")
+    raw_receipt = canonical_jsonable(raw_pose_generation_receipt)
+    actor = _pose7(raw_receipt["actor_pose"], "F3 actor")
+    raw_pregrasp = _pose7(
+        raw_receipt["selected_raw_pregrasp_pose"], "F3 raw pregrasp"
+    )
+    raw_grasp = _pose7(
+        raw_receipt["selected_raw_grasp_pose"], "F3 raw grasp"
+    )
     local_shift = np.zeros(3, dtype=np.float64)
     local_shift[int(recipe_value["long_axis_model_axis"])] = float(
         recipe_value["region_center_offset_m"]
@@ -155,6 +161,14 @@ def freeze_f3_final_pose_v3(
         "schema_version": "cmf_f3_final_pose_freeze_v3",
         "recipe_id": recipe_value["recipe_id"],
         "recipe_sha256": recipe_value["recipe_sha256"],
+        "raw_pose_generation_receipt_sha256": raw_receipt[
+            "receipt_sha256"
+        ],
+        "raw_pose_generation_validation_sha256": raw_validation[
+            "validation_sha256"
+        ],
+        "planned_actor_pose": actor.tolist(),
+        "planned_actor_pose_sha256": canonical_hash_json(actor.tolist()),
         "raw_official_pose_hashes": {
             "pregrasp": canonical_hash_json(raw_pregrasp.tolist()),
             "grasp": canonical_hash_json(raw_grasp.tolist()),

@@ -13,6 +13,45 @@ from controlled_multi_future.f3_final_pose_search_v3 import (
 from controlled_multi_future.high_level_planner_runner_v1 import (
     build_f3_level1_targets_v1,
 )
+from controlled_multi_future.official_raw_pose_generation_v1 import (
+    OFFICIAL_GENERATOR_VERSION,
+)
+
+
+def raw_receipt(recipe, actor_pose, pregrasp, grasp):
+    value = {
+        "schema_version": "cmf_official_raw_pose_generation_v1",
+        "official_generator_version": OFFICIAL_GENERATOR_VERSION,
+        "family": "F3",
+        "recipe_id": recipe["recipe_id"],
+        "recipe_sha256": recipe["recipe_sha256"],
+        "asset": recipe["asset"],
+        "main_object_model_id": None,
+        "arm": recipe["arm"],
+        "contact_point_id": recipe["official_contact_point_id"],
+        "rotation_candidate_index": recipe[
+            "official_rotation_candidate_index"
+        ],
+        "pregrasp_distance_m": recipe["pregrasp_distance_m"],
+        "target_distance_m": recipe["target_distance_m"],
+        "actor_pose": actor_pose,
+        "actor_pose_sha256": canonical_hash_json(actor_pose),
+        "ordered_rotation_candidate_count": 10,
+        "ordered_rotation_candidates_sha256": canonical_hash_json(
+            list(range(10))
+        ),
+        "selected_raw_pregrasp_pose": pregrasp,
+        "selected_raw_grasp_pose": grasp,
+        "raw_pregrasp_sha256": canonical_hash_json(pregrasp),
+        "raw_grasp_sha256": canonical_hash_json(grasp),
+        "source_calls": [
+            "actor.get_contact_point(contact_id, matrix/list)",
+            "scene.robot.create_target_pose_list(..., ROTATE_NUM=10)",
+        ],
+        "external_raw_pose_input_allowed": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
 
 
 class F3FinalPoseSearchV3Tests(unittest.TestCase):
@@ -50,12 +89,9 @@ class F3FinalPoseSearchV3Tests(unittest.TestCase):
         raw_grasp = [0.0, -0.04, 0.9, 1.0, 0.0, 0.0, 0.0]
         frozen = freeze_f3_final_pose_v3(
             recipe,
-            actor_pose=actor,
-            raw_official_pregrasp_pose=raw_pregrasp,
-            raw_official_grasp_pose=raw_grasp,
-            raw_rotation_candidate_index=recipe[
-                "official_rotation_candidate_index"
-            ],
+            raw_pose_generation_receipt=raw_receipt(
+                recipe, actor, raw_pregrasp, raw_grasp
+            ),
         )
         self.assertTrue(frozen["region_applied_before_planner_qualification"])
         self.assertNotEqual(
@@ -108,12 +144,12 @@ class F3FinalPoseSearchV3Tests(unittest.TestCase):
         recipe = self.universe["recipes"][1]
         frozen = freeze_f3_final_pose_v3(
             recipe,
-            actor_pose=[0, 0, 0.8, 1, 0, 0, 0],
-            raw_official_pregrasp_pose=[0, -0.1, 0.9, 1, 0, 0, 0],
-            raw_official_grasp_pose=[0, -0.04, 0.9, 1, 0, 0, 0],
-            raw_rotation_candidate_index=recipe[
-                "official_rotation_candidate_index"
-            ],
+            raw_pose_generation_receipt=raw_receipt(
+                recipe,
+                [0, 0, 0.8, 1, 0, 0, 0],
+                [0, -0.1, 0.9, 1, 0, 0, 0],
+                [0, -0.04, 0.9, 1, 0, 0, 0],
+            ),
         )
         payload = {
             "recipe_sha256": recipe["recipe_sha256"],

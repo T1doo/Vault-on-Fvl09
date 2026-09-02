@@ -16,6 +16,9 @@ from .canonical_artifact import canonical_hash_json
 from .f2_official_asset_compatibility_matrix_v3 import (
     validate_frozen_asset_layout_binding_v3,
 )
+from .f2_inside_control_search_v2 import (
+    build_f2_runtime_asset_metadata_receipt_v4,
+)
 from .high_level_runtime_specs_v1 import (
     IMPLEMENTATION_VERSION,
     validate_f2_runtime_spec_v1,
@@ -199,6 +202,35 @@ class _HighLevelSpecBindingMixin:
         )
 
 
+class _F2RuntimeMetadataContextV4:
+    """Attach scene-derived asset metadata without consulting a CPU certificate."""
+
+    def __init__(self, inner, adapter):
+        self.inner = inner
+        self.adapter = adapter
+
+    @property
+    def cleanup_receipt(self):
+        return self.inner.cleanup_receipt
+
+    def __enter__(self):
+        handle = self.inner.__enter__()
+        try:
+            receipt = build_f2_runtime_asset_metadata_receipt_v4(
+                self.adapter._entity_payloads(handle.scene)
+            )
+            if receipt["pass"] is not True:
+                raise RuntimeError("F2 runtime asset metadata did not validate")
+            handle.scene._cmf_f2_runtime_asset_metadata_receipt_v4 = receipt
+            return handle
+        except BaseException as exc:
+            self.inner.__exit__(type(exc), exc, exc.__traceback__)
+            raise
+
+    def __exit__(self, exc_type, exc, tb):
+        return self.inner.__exit__(exc_type, exc, tb)
+
+
 class RoboTwinRealSapienF2HierarchicalStageAV1Adapter(
     _HighLevelSpecBindingMixin, RoboTwinRealSapienStrictPrefixAdapterV1_5
 ):
@@ -246,6 +278,12 @@ class RoboTwinRealSapienF2HierarchicalStageAV1Adapter(
                 spec, "collision"
             )
         return payloads
+
+    def scene(self, planned_root_slot_spec, *, phase, program=None):
+        inner = super().scene(
+            planned_root_slot_spec, phase=phase, program=program
+        )
+        return _F2RuntimeMetadataContextV4(inner, self)
 
 
 class RoboTwinRealSapienF3AssetGraspV2Adapter(
@@ -327,6 +365,7 @@ __all__ = [
     "RoboTwinRealSapienF3AssetGraspV2Adapter",
     "RoboTwinRealSapienF4HierarchicalStageAV1Adapter",
     "_PinnedSapienRenderDeviceContextV1",
+    "_F2RuntimeMetadataContextV4",
     "_build_render_device_binding_receipt_v1",
     "_normalize_pci_bus_id",
     "_selected_nvidia_device_v1",

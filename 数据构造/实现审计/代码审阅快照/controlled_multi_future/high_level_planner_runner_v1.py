@@ -51,6 +51,8 @@ from .f4_top_down_block_carry_v8 import (
     _audit_nominal_noninterference,
 )
 from .f4_stage_b_geometry_contract_v2 import (
+    PROGRAM_ORDERS,
+    audit_f4_actual_source_layout_v2,
     audit_f4_stage_b_candidate_geometry_v2,
 )
 
@@ -270,9 +272,14 @@ def _build_f4_prior_slot_preservation_v1(
     target_actor_poses: Mapping[str, Sequence[float]],
 ) -> dict[str, Any]:
     per_role = {}
-    for index, role in enumerate(("A", "B", "C")):
+    order = tuple(
+        nominal.get("object_order", tuple(nominal.get("per_role", {})))
+    )
+    if order not in PROGRAM_ORDERS:
+        raise ValueError("F4 prior-slot audit lacks a supported program order")
+    for index, role in enumerate(order):
         evidence = nominal["per_role"][role]
-        prior_roles = ("A", "B", "C")[:index]
+        prior_roles = order[:index]
         comparisons = []
         for prior in prior_roles:
             observed = _pose7(
@@ -328,8 +335,17 @@ def _build_f4_prior_slot_preservation_v1(
 def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
     source_candidate = spec["f4_source_grasp_candidate_v1"]
     slot_candidate = spec["f4_stage_b_candidate_v1"]
+    program_id = str(spec.get("program_id"))
+    program_order = tuple(spec.get("program_order", ()))
+    expected_programs = {
+        "F4-ABC": ("A", "B", "C"),
+        "F4-ACB": ("A", "C", "B"),
+        "F4-BAC": ("B", "A", "C"),
+    }
+    if expected_programs.get(program_id) != program_order:
+        raise ValueError("F4 Stage-B spec must bind a matching program_id/order")
     embedded_geometry = slot_candidate.get("program_state_transition_audit")
-    recomputed_geometry = audit_f4_stage_b_candidate_geometry_v2(
+    frozen_geometry = audit_f4_stage_b_candidate_geometry_v2(
         source_layout=source_candidate["source_layout"],
         slot_poses=slot_candidate["slot_poses"],
         corridor_policy=slot_candidate["corridor_policy"],
@@ -338,10 +354,28 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
     if (
         slot_candidate.get("construction_valid") is not True
         or not isinstance(embedded_geometry, Mapping)
-        or canonical_jsonable(embedded_geometry) != recomputed_geometry
-        or recomputed_geometry["construction_valid"] is not True
+        or canonical_jsonable(embedded_geometry) != frozen_geometry
+        or frozen_geometry["construction_valid"] is not True
     ):
         raise ValueError("F4 Stage-B candidate failed construction geometry V2")
+    actual_source_layout = {
+        role: _pose(getattr(scene, role.lower())).tolist()
+        for role in ("A", "B", "C")
+    }
+    source_layout_gate = audit_f4_actual_source_layout_v2(
+        source_candidate["source_layout"], actual_source_layout
+    )
+    if source_layout_gate["pass"] is not True:
+        raise ValueError("F4 actual source layout differs from frozen source layout")
+    recomputed_geometry = audit_f4_stage_b_candidate_geometry_v2(
+        source_layout=actual_source_layout,
+        slot_poses=slot_candidate["slot_poses"],
+        corridor_policy=slot_candidate["corridor_policy"],
+        arm=source_candidate["arm"],
+        program_orders=[program_order],
+    )
+    if recomputed_geometry["construction_valid"] is not True:
+        raise ValueError("F4 actual source layout fails program geometry V2")
     arm = source_candidate["arm"]
     rest = _arm_original_pose(scene, arm)
     neutral = rest.copy()
@@ -351,7 +385,7 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
     audits = {}
     target_actor_poses = {}
     role_segment_ids = {}
-    for role in ("A", "B", "C"):
+    for role in program_order:
         actor = getattr(scene, role.lower())
         source_actor = _pose(actor)
         pregrasp, grasp, audit = _f4_role_grasp(
@@ -415,20 +449,18 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
             "release_eef_pose": release.tolist(),
             "corridor_policy": slot_candidate["corridor_policy"],
         }
-    object_poses = {
-        role: _pose(getattr(scene, role.lower())).tolist()
-        for role in ("A", "B", "C")
-    }
     nominal = _audit_nominal_noninterference(
         groups=groups,
-        object_poses=object_poses,
-        object_order=("A", "B", "C"),
+        object_poses=actual_source_layout,
+        object_order=program_order,
     )
     prior_slot_preservation = _build_f4_prior_slot_preservation_v1(
         nominal, target_actor_poses
     )
     return targets, {
         "role_target_construction_audits": audits,
+        "program_id": program_id,
+        "program_order": list(program_order),
         "role_target_segment_ids": role_segment_ids,
         "shared_neutral_pose": neutral.tolist(),
         "slot_corridor_candidate_id": slot_candidate["candidate_id"],
@@ -440,7 +472,9 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
         "prior_slot_preservation": prior_slot_preservation,
         "stage_b_planner_only": True,
         "release_execution_count": 0,
-        "construction_geometry_v2": recomputed_geometry,
+        "frozen_construction_geometry_v2": frozen_geometry,
+        "actual_source_layout_gate_v2": source_layout_gate,
+        "actual_source_construction_geometry_v2": recomputed_geometry,
     }
 
 

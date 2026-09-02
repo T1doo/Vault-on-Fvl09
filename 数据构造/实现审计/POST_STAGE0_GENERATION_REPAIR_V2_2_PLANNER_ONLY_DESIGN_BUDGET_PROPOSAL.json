@@ -1,0 +1,54 @@
+{
+  "allowed_physical_gpu_indices_if_later_authorized": [0, 1, 2, 3, 4, 5, 6, 7],
+  "authorization": {
+    "gpu_execution": false,
+    "physical_execution": false,
+    "planner_execution": false,
+    "stage1": false
+  },
+  "base_code_contract_sha256": "12a0b2cfaf95544b289f7fff83ae9a90560c86dbeafc2384549ec87b691d9ae3",
+  "base_contract_sha256": "01de4afdeea71e15102e0b9c3f15efe966df937dd1765652ed74f2263efc62b4",
+  "design_principles": {
+    "atomic_guard_uuid_lease_pre_post_cleanup_required_if_authorized": true,
+    "candidate_order_fixed_before_run": true,
+    "one_job_per_fresh_idle_gpu": true,
+    "root_or_scene_job_not_sharded": true,
+    "terminal_failure_receipts_retained": true
+  },
+  "families": {
+    "F2": {
+      "candidate_ready_from_this_planner_only_wave": false,
+      "fixed_panel": "2 arms x 16 contacts x 2 preregistered rotations; axial offset 0; pregrasp 0.09 m; first CPU-certified can/box pair only",
+      "fresh_or_reconstructed_scene_limit": 64,
+      "planner_queries_per_recipe": 3,
+      "planner_query_limit": 192,
+      "purpose": "f2_generation_repair_v2_2_stage_a_planner_only",
+      "reason_not_ready": "post-lift contact/off-table/transform and actual-transform suffix require a later separately reviewed physical scope",
+      "recipe_limit": 64,
+      "stop_condition": "all 64 terminal receipts or budget exhaustion; no automatic expansion"
+    },
+    "F3": {
+      "fresh_or_reconstructed_scene_limit": 144,
+      "planner_query_limit": 512,
+      "stage_a": {"planner_queries_per_recipe": 3, "recipe_limit": 128, "stratification": "4 assets x 2 arms x 2 regions x 8 contacts at rotation 0 and pregrasp 0.09 m"},
+      "stage_b": {"planner_queries_per_survivor": 8, "survivor_limit": 16},
+      "stop_condition": "complete the fixed 128-recipe Stage-A panel, then Stage-B for at most 16 lowest-rank Stage-A passes; no automatic universe expansion"
+    },
+    "F4": {
+      "candidate_count": 8,
+      "fresh_or_reconstructed_scene_limit": 24,
+      "planner_queries_per_program": 30,
+      "planner_query_limit": 720,
+      "programs_per_candidate": 3,
+      "stop_condition": "all 8 x 3 terminal receipts or budget exhaustion; ABC-only never selects a candidate"
+    }
+  },
+  "maximum_aggregate": {
+    "fresh_or_reconstructed_scenes": 232,
+    "planner_queries": 1424,
+    "wall_time_seconds": 86400
+  },
+  "proposal_sha256": "94aa2ad1c97416a9bfa5de62e8f5a528a75bae50242aec39e78203fdd573b982",
+  "schema_version": "cmf_generation_repair_v2_2_planner_only_design_budget_proposal_v1",
+  "status": "PROPOSAL_ONLY_NOT_AUTHORIZED"
+}

@@ -22,6 +22,8 @@ ROLES = ("A", "B", "C")
 PROGRAM_ORDERS = (("A", "B", "C"), ("A", "C", "B"), ("B", "A", "C"))
 BLOCK_HALF_EXTENTS_M = np.asarray([0.022, 0.022, 0.022], dtype=np.float64)
 EXTRA_SAFETY_CLEARANCE_M = 0.010
+SOURCE_LAYOUT_POSITION_ATOL_M = 0.001
+SOURCE_LAYOUT_ORIENTATION_ATOL_RAD = 0.001
 TABLE_BOUNDS_XY = {"x": (-0.45, 0.45), "y": (-0.35, 0.20)}
 TABLE_TOP_Z_M = 0.740
 
@@ -189,6 +191,43 @@ def _target_actor_pose(slot_pose: Sequence[float]) -> np.ndarray:
     target = slot.copy()
     target[2] += BLOCK_HALF_EXTENTS_M[2]
     return target
+
+
+def audit_f4_actual_source_layout_v2(
+    frozen_source_layout: Mapping[str, Sequence[float]],
+    actual_source_layout: Mapping[str, Sequence[float]],
+) -> dict[str, Any]:
+    if set(frozen_source_layout) != set(ROLES) or set(actual_source_layout) != set(
+        ROLES
+    ):
+        raise ValueError("F4 actual-source Gate requires exactly A/B/C")
+    roles = {}
+    for role in ROLES:
+        frozen = _pose7(frozen_source_layout[role], f"F4 frozen {role} source")
+        actual = _pose7(actual_source_layout[role], f"F4 actual {role} source")
+        position_error = float(np.linalg.norm(actual[:3] - frozen[:3]))
+        dot = float(abs(np.dot(actual[3:], frozen[3:])))
+        orientation_error = float(2.0 * np.arccos(np.clip(dot, -1.0, 1.0)))
+        roles[role] = {
+            "frozen_pose": frozen.tolist(),
+            "actual_pose": actual.tolist(),
+            "position_error_m": position_error,
+            "orientation_error_rad": orientation_error,
+            "pass": position_error <= SOURCE_LAYOUT_POSITION_ATOL_M
+            and orientation_error <= SOURCE_LAYOUT_ORIENTATION_ATOL_RAD,
+        }
+    value = {
+        "schema_version": "cmf_f4_actual_source_layout_gate_v2",
+        "position_atol_m": SOURCE_LAYOUT_POSITION_ATOL_M,
+        "orientation_atol_rad": SOURCE_LAYOUT_ORIENTATION_ATOL_RAD,
+        "roles": roles,
+        "actual_source_layout_sha256": canonical_hash_json(
+            {role: roles[role]["actual_pose"] for role in ROLES}
+        ),
+        "pass": all(item["pass"] for item in roles.values()),
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
 
 
 def _nominal_actor_path(
@@ -367,6 +406,7 @@ __all__ = [
     "PROGRAM_ORDERS",
     "SAFE_SLOT_ROWS_V2",
     "audit_f4_stage_b_candidate_geometry_v2",
+    "audit_f4_actual_source_layout_v2",
     "audit_obb_clearance_v2",
     "audit_translation_sweep_v2",
     "legacy_r01_invalidation_v2",
