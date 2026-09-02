@@ -1,28 +1,36 @@
-"""Wave-approved, Guard-compatible V2.3.1 single-job issuer."""
+"""Disk-ledger-authorized V2.3.1a single-job issuer."""
 
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
-import json
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping
 
-from .canonical_artifact import canonical_hash_json, canonical_jsonable
+from .canonical_artifact import canonical_hash_json, canonical_jsonable, canonical_write_json
 from .gpu_parallel_policy_v2 import current_gpu_policy_artifact
-from .planner_qualification_integration_v2_3 import build_manifest_bundle_v2_3
-from .planner_qualification_scene_bridges_v2_3_1 import (
-    RUNNER_SYMBOLS,
-    load_f3_stage_b_dependency_registry_v1,
+from .planner_qualification_integration_v2_3_1a import build_manifest_bundle_v2_3_1a
+from .planner_qualification_scene_bridges_v2_3_1 import RUNNER_SYMBOLS
+from .planner_qualification_scene_bridges_v2_3_1a import (
+    prepare_exact_job_bridge_envelope_v2_3_1a,
 )
-from .planner_wiring_smoke_v2_3_1 import (
-    build_updated_planner_wiring_smoke_v1_proposal,
-    validate_wave_approval_v1,
+from .planner_wiring_smoke_v2_3_1a import (
+    build_updated_planner_wiring_smoke_v1_proposal_v2,
+    validate_wave_approval_v2,
+)
+from .planner_wiring_smoke_wave_driver_v1 import (
+    build_f3_stage_b_registry_from_wave_v1,
+    load_wave_ledger_state_v1,
+    record_slot_issuance_v1,
+    validate_slot_issuance_from_ledger_v1,
 )
 from .probes.gpu_guard_v2_1 import command_sha256
-from .probes.planner_qualification_authorization_v2_3_1 import (
+from .probes.planner_qualification_authorization_v2_3_1a import (
     AUTH_SCHEMA,
+    GUARD_PURPOSE,
     IMPLEMENTATION_VERSION,
+    SCOPE,
     receipt_sha,
+    validate as validate_authorization,
 )
 from .probes.runtime_v3_3_authorization_v1 import (
     CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
@@ -33,13 +41,16 @@ from .runtime_source_lock_v1 import load_runtime_source_lock
 
 
 PYTHON = "/nfs_share/lijunhui/Robotwin2/env/bin/python"
-CHILD_MODULE = "controlled_multi_future.probes.planner_qualification_scope_runner_v2_3"
-FAMILIES = {"F2_STAGE_A": "F2", "F3_STAGE_A": "F3", "F3_STAGE_B": "F3", "F4_PROGRAM": "F4"}
-
-
-def _file_sha(path: Path) -> str:
-    import hashlib
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+CHILD_MODULE = (
+    "controlled_multi_future.probes."
+    "planner_qualification_scope_runner_v2_3_1a"
+)
+FAMILIES = {
+    "F2_STAGE_A": "F2",
+    "F3_STAGE_A": "F3",
+    "F3_STAGE_B": "F3",
+    "F4_PROGRAM": "F4",
+}
 
 
 def _workspace_new(path: Path, label: str):
@@ -51,25 +62,14 @@ def _workspace_new(path: Path, label: str):
     return value
 
 
-def exact_child_command_v2_3_1(authorization_path: Path):
-    path = Path(authorization_path).resolve()
-    return [PYTHON, "-m", CHILD_MODULE, "--authorization-receipt", str(path)]
-
-
-def _slot_allowed(slot: Mapping[str, Any], prior_terminals: Sequence[Mapping[str, Any]]):
-    by_slot = {item.get("slot"): item for item in prior_terminals}
-    earlier = ["S1", "S2", "S3", "S4", "S5"]
-    if slot["slot"] in earlier:
-        index = earlier.index(slot["slot"])
-        for prior in earlier[:index]:
-            terminal = by_slot.get(prior)
-            if terminal is None or terminal.get("failure_class") == "INFRASTRUCTURE_ERROR":
-                raise PermissionError("wave infrastructure order is not satisfied")
-    dependencies = {"S6A": "S2", "S6B": "S5", "S7A": "S3", "S7B": "S7A"}
-    if slot["slot"] in dependencies:
-        prior = by_slot.get(dependencies[slot["slot"]])
-        if prior is None or prior.get("planner_pass") is not True:
-            raise PermissionError("conditional planner-pass issuance rule is not satisfied")
+def exact_child_command_v2_3_1a(authorization_path: Path):
+    return [
+        PYTHON,
+        "-m",
+        CHILD_MODULE,
+        "--authorization-receipt",
+        str(Path(authorization_path).resolve()),
+    ]
 
 
 def _manifest_entry(bundle, slot):
@@ -95,7 +95,8 @@ def _manifest_entry(bundle, slot):
         key = "job_sha256"
         job = next(item for item in values if item[key] == identity)
         candidate = next(
-            item for item in bundle["manifests"]["F4"]["candidates"]
+            item
+            for item in bundle["manifests"]["F4"]["candidates"]
             if item["candidate_sha256"] == job["candidate_sha256"]
         )
         context = {
@@ -105,75 +106,93 @@ def _manifest_entry(bundle, slot):
         manifest_sha = bundle["f4_panel_sha256"]
     matches = [item for item in values if item.get(key) == identity]
     if len(matches) != 1:
-        raise ValueError("wave job is absent from exact manifest")
+        raise ValueError("wave job is absent from corrected manifest")
     return matches[0], context, manifest_sha
 
 
-def issue_wave_job_authorization_v2_3_1(
+def issue_wave_job_authorization_v2_3_1a(
     *,
     activation_contract: Mapping[str, Any],
-    wave_approval: Mapping[str, Any],
+    wave_ledger_directory: Path,
     job_slot: str,
     authorization_id: str,
     authorization_receipt_path: Path,
     source_lock_receipt_path: Path,
     output_namespace: Path,
     guard_receipt_path: Path,
-    prior_terminals: Sequence[Mapping[str, Any]] = (),
-    dependency_registry: Mapping[str, Any] | None = None,
     issued_at: datetime | None = None,
-) -> dict[str, Any]:
+):
+    state = load_wave_ledger_state_v1(wave_ledger_directory)
     contract = canonical_jsonable(activation_contract)
     contract_payload = dict(contract)
     contract_sha = contract_payload.pop("contract_sha256", None)
-    if contract_sha != canonical_hash_json(contract_payload):
-        raise ValueError("activation contract hash mismatch")
-    approval = validate_wave_approval_v1(
-        wave_approval, activation_contract=contract
+    if (
+        contract_sha != canonical_hash_json(contract_payload)
+        or contract != state["meta"]["activation_contract"]
+    ):
+        raise ValueError("activation contract differs from wave ledger")
+    approval = validate_wave_approval_v2(
+        state["meta"]["wave_approval"], activation_contract=contract
     )
-    proposal = build_updated_planner_wiring_smoke_v1_proposal()
-    slots = [item for item in proposal["ordered_job_slots"] if item["slot"] == job_slot]
-    if len(slots) != 1:
-        raise ValueError("unknown smoke job slot")
-    slot = slots[0]
-    _slot_allowed(slot, prior_terminals)
-    bundle = build_manifest_bundle_v2_3()
+    decision = validate_slot_issuance_from_ledger_v1(
+        wave_ledger_directory, slot=job_slot
+    )
+    proposal = build_updated_planner_wiring_smoke_v1_proposal_v2()
+    slot = next(item for item in proposal["ordered_job_slots"] if item["slot"] == job_slot)
+    bundle = build_manifest_bundle_v2_3_1a()
     entry, context, manifest_sha = _manifest_entry(bundle, slot)
-    if slot["job_kind"] == "F3_STAGE_B":
-        if dependency_registry is None:
-            raise ValueError("F3 Stage-B requires an artifact dependency registry")
-        dependency = load_f3_stage_b_dependency_registry_v1(dependency_registry)
-        if dependency["stage_a_terminal"]["recipe_sha256"] != entry["recipe_sha256"]:
-            raise ValueError("F3 Stage-B dependency recipe differs from slot")
-    elif dependency_registry is not None:
-        raise ValueError("only F3 Stage-B may carry a dependency registry")
+    dependency = (
+        build_f3_stage_b_registry_from_wave_v1(
+            wave_ledger_directory, stage_b_slot=job_slot
+        )
+        if slot["job_kind"] == "F3_STAGE_B"
+        else None
+    )
+    slot_index = proposal["ordered_job_slots"].index(slot) + 1
+    nonce = 2026091600 + slot_index
+    bridge = prepare_exact_job_bridge_envelope_v2_3_1a(
+        job_kind=slot["job_kind"],
+        job_id=authorization_id,
+        manifest_entry=entry,
+        manifest_context=context,
+        manifest_sha256=manifest_sha,
+        planner_reset_nonce=nonce,
+        dependency_registry=dependency,
+    )
+    actual_seed = bridge["actual_scene_seed"]
     auth_path = _workspace_new(authorization_receipt_path, "authorization path")
     output = _workspace_new(output_namespace, "output namespace")
     guard = _workspace_new(guard_receipt_path, "guard path")
     source_path = Path(source_lock_receipt_path).resolve()
-    source = load_runtime_source_lock(source_path, expected_family=FAMILIES[slot["job_kind"]])
+    source = load_runtime_source_lock(
+        source_path, expected_family=FAMILIES[slot["job_kind"]]
+    )
     if (
         source["snapshot"]["implementation_source_sha256"]
         != contract["implementation_source_sha256"]
-        or source["snapshot"]["official_repo_commit"] != contract["robotwin_tracked_head"]
+        or source["snapshot"]["official_repo_commit"]
+        != contract["robotwin_tracked_head"]
     ):
-        raise ValueError("source lock differs from activation contract")
-    slot_index = proposal["ordered_job_slots"].index(slot) + 1
-    planner_reset_nonce = 2026091600 + slot_index
-    scene_seed = 2026091700 + slot_index
+        raise ValueError("source lock differs from hotfix contract")
     job_spec = {
-        "schema_version": "cmf_planner_qualification_job_spec_v2_3_1",
+        "schema_version": "cmf_planner_qualification_job_spec_v2_3_1a",
+        "wave_id": approval["wave_id"],
         "job_id": authorization_id,
         "slot": slot["slot"],
         "job_kind": slot["job_kind"],
         "family": FAMILIES[slot["job_kind"]],
-        "scene_seed": scene_seed,
-        "planner_reset_nonce": planner_reset_nonce,
+        "scene_seed": actual_seed,
+        "planner_reset_nonce": nonce,
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "manifest_bundle_sha256": bundle["bundle_sha256"],
         "manifest_sha256": manifest_sha,
         "manifest_entry": entry,
         "manifest_context": context,
-        "dependency_registry": canonical_jsonable(dependency_registry),
+        "dependency_registry": dependency,
+        "bridge_envelope": bridge,
+        "bridge_envelope_sha256": bridge["bridge_envelope_sha256"],
         "planner_query_limit": slot["max_queries"],
         "physical_execution_limit": 0,
     }
@@ -188,11 +207,13 @@ def issue_wave_job_authorization_v2_3_1(
         "physical_execution_limit": 0,
     }
     budget["budget_receipt_sha256"] = canonical_hash_json(budget)
-    command = exact_child_command_v2_3_1(auth_path)
+    command = exact_child_command_v2_3_1a(auth_path)
     envelope = {
-        "schema_version": "cmf_planner_qualification_job_envelope_v2_3_1",
+        "schema_version": "cmf_planner_qualification_job_envelope_v2_3_1a",
+        "wave_id": approval["wave_id"],
         "slot": slot["slot"],
         "job_spec_sha256": job_spec["job_spec_sha256"],
+        "bridge_envelope_sha256": bridge["bridge_envelope_sha256"],
         "output_namespace": str(output),
         "guard_receipt_path": str(guard),
         "authorized_command_sha256": command_sha256(command),
@@ -205,8 +226,10 @@ def issue_wave_job_authorization_v2_3_1(
         "implementation_version": IMPLEMENTATION_VERSION,
         "authorization_id": authorization_id,
         "authorized_run_id": authorization_id + "-run",
+        "wave_id": approval["wave_id"],
+        "slot": slot["slot"],
         "approved": True,
-        "approved_scopes": ["PLANNER_WIRING_SMOKE_V1"],
+        "approved_scopes": [SCOPE],
         "issued_at": now.isoformat(),
         "expires_at": (now + timedelta(minutes=30)).isoformat(),
         "activation_contract": contract,
@@ -218,7 +241,13 @@ def issue_wave_job_authorization_v2_3_1(
         "approval_request_sha256": envelope["job_envelope_sha256"],
         "job_kind": slot["job_kind"],
         "family": job_spec["family"],
-        "scene_seed": scene_seed,
+        "scene_seed": actual_seed,
+        "planner_reset_nonce": nonce,
+        "motiongen_reset_seed_argument": True,
+        "reset_receipt_bound_to_authorization": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
+        "guard_purpose": GUARD_PURPOSE,
         "runner_symbol": RUNNER_SYMBOLS[slot["job_kind"]],
         "job_spec": job_spec,
         "job_spec_sha256": job_spec["job_spec_sha256"],
@@ -243,6 +272,10 @@ def issue_wave_job_authorization_v2_3_1(
         "implementation_source_sha256": contract["implementation_source_sha256"],
         "robotwin_tracked_head": contract["robotwin_tracked_head"],
         "reviewed_content_commit": contract["vault_head"],
+        "wave_ledger_directory": str(Path(wave_ledger_directory).resolve()),
+        "prior_normalized_terminal_sha256s": decision[
+            "prior_normalized_terminal_sha256s"
+        ],
         "consumption_ledger_directory": CANONICAL_CONSUMPTION_LEDGER_DIRECTORY,
         "gpu_lease_directory": CANONICAL_GPU_LEASE_DIRECTORY,
         "job_cache_root_directory": CANONICAL_JOB_CACHE_DIRECTORY,
@@ -251,16 +284,43 @@ def issue_wave_job_authorization_v2_3_1(
         "stage0_data": False,
         "stage1_authorized": False,
         "physical_execution_count": 0,
-        **{key: policy[key] for key in (
-            "gpu_policy_version", "allowed_physical_gpu_indices",
-            "dynamic_fresh_idle_selection", "parallel_different_cards_authorized",
-            "one_project_job_per_gpu", "one_root_one_gpu",
-            "root_sharding_authorized", "share_busy_gpu_authorized",
-            "atomic_guard_recheck_before_launch", "automatic_gpu0_fallback",
-        )},
+        **{
+            key: policy[key]
+            for key in (
+                "gpu_policy_version",
+                "allowed_physical_gpu_indices",
+                "dynamic_fresh_idle_selection",
+                "parallel_different_cards_authorized",
+                "one_project_job_per_gpu",
+                "one_root_one_gpu",
+                "root_sharding_authorized",
+                "share_busy_gpu_authorized",
+                "atomic_guard_recheck_before_launch",
+                "automatic_gpu0_fallback",
+            )
+        },
     }
     value["receipt_sha256"] = receipt_sha(value)
+    validate_authorization(
+        value,
+        requested_scope=SCOPE,
+        expected_output_namespace=str(output),
+        expected_family=value["family"],
+        expected_seed=actual_seed,
+        expected_reviewed_content_commit=contract["vault_head"],
+        now=now + timedelta(seconds=1),
+    )
+    canonical_write_json(auth_path, value, exclusive=True, mode=0o600)
+    record_slot_issuance_v1(
+        wave_ledger_directory,
+        slot=job_slot,
+        authorization_receipt_path=auth_path,
+        authorization=value,
+    )
     return value
 
 
-__all__ = ["exact_child_command_v2_3_1", "issue_wave_job_authorization_v2_3_1"]
+__all__ = [
+    "exact_child_command_v2_3_1a",
+    "issue_wave_job_authorization_v2_3_1a",
+]

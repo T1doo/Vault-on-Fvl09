@@ -103,7 +103,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                     self.slot,
                     program_id=program_id,
                     slot_id=f"slot-{program_id}",
-                    planner_rng_seed=2026091601,
+                    planner_reset_nonce=2026091601,
                 )
                 self.assertEqual(spec["purpose"], PURPOSE)
                 self.assertEqual(spec["program_order"], list(order))
@@ -114,7 +114,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                 self.slot,
                 program_id="F4-CAB",
                 slot_id="bad",
-                planner_rng_seed=2026091601,
+                planner_reset_nonce=2026091601,
             )
 
     def test_all_three_independent_scenes_required_not_abc_only(self):
@@ -125,7 +125,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                 self.slot,
                 program_id=program_id,
                 slot_id=f"slot-{program_id}",
-                planner_rng_seed=2026091601 + index,
+                planner_reset_nonce=2026091601 + index,
             )
             terminals.append(
                 self._run(Scene(f"fresh-{index}"), spec)
@@ -162,7 +162,11 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
             "controlled_multi_future.f4_program_planner_integration_v2."
             "_planner_reset",
             create=True,
-            return_value={"reset_performed": True, "planner_seed": spec["planner_rng_seed"]},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": spec["planner_reset_nonce"],
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f4_program_planner_integration_v2._plan_chain",
             side_effect=successful_plan,
@@ -179,7 +183,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
             self.slot,
             program_id="F4-ABC",
             slot_id="scope",
-            planner_rng_seed=2026091601,
+            planner_reset_nonce=2026091601,
         )
         terminal = self._run(Scene("scope-scene"), spec)
         self.assertEqual(terminal["planner_collision_scope"], PLANNER_COLLISION_SCOPE)
@@ -213,7 +217,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
             self.slot,
             program_id="F4-ACB",
             slot_id="builder-acb",
-            planner_rng_seed=2026091601,
+            planner_reset_nonce=2026091601,
         )
 
         class Actor:
@@ -228,7 +232,7 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
         def pose(actor):
             return np.asarray(actor.pose, dtype=np.float64)
 
-        def grasp(scene_arg, source, role):
+        def grasp(scene_arg, source, role, *, program_id=None):
             actor_pose = pose(getattr(scene_arg, role.lower()))
             return actor_pose.copy(), actor_pose.copy(), {"pass": True}
 

@@ -158,7 +158,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             self.f2["bindings_by_arm"][recipe["arm"]],
             slot_id="f2-test",
             panel_sha256=self.f2["panel_sha256"],
-            planner_rng_seed=2026091601,
+            planner_reset_nonce=2026091601,
         )
 
         class Scene:
@@ -195,7 +195,11 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             return_value=raw_receipt(recipe, family="F2", actor_pose=actor_pose),
         ), patch(
             "controlled_multi_future.f2_planner_integration_v2._planner_reset",
-            return_value={"seed": 20260903, "reset": True},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": 2026091601,
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f2_planner_integration_v2._plan_chain",
             side_effect=plan,
@@ -220,7 +224,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             entry["scene_binding"],
             slot_id="f3-a",
             panel_sha256=self.f3["panel_sha256"],
-            planner_rng_seed=2026091602,
+            planner_reset_nonce=2026091602,
         )
         actor_pose = [
             -0.18 if recipe["arm"] == "left" else 0.18,
@@ -246,7 +250,11 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             return_value=raw_receipt(recipe, family="F3", actor_pose=actor_pose),
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._planner_reset",
-            return_value={"reset": True},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": 2026091602,
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._plan_chain",
             side_effect=plan,
@@ -268,7 +276,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             build_f2_final_grasp_stage_a_spec_v2(
                 changed_recipe, certificate, binding,
                 slot_id="bad-recipe", panel_sha256=self.f2["panel_sha256"],
-                planner_rng_seed=2026091601,
+                planner_reset_nonce=2026091601,
             )
         changed_certificate = copy.deepcopy(certificate)
         changed_certificate["main_object_model_id"] = 1
@@ -279,7 +287,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             build_f2_final_grasp_stage_a_spec_v2(
                 recipe, changed_certificate, binding,
                 slot_id="bad-certificate", panel_sha256=self.f2["panel_sha256"],
-                planner_rng_seed=2026091601,
+                planner_reset_nonce=2026091601,
             )
         changed_binding = copy.deepcopy(binding)
         changed_binding["selected_candidate_key"]["main_object_model_id"] = 1
@@ -290,12 +298,12 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             build_f2_final_grasp_stage_a_spec_v2(
                 recipe, certificate, changed_binding,
                 slot_id="bad-binding", panel_sha256=self.f2["panel_sha256"],
-                planner_rng_seed=2026091601,
+                planner_reset_nonce=2026091601,
             )
         spec = build_f2_final_grasp_stage_a_spec_v2(
             recipe, certificate, binding,
             slot_id="bad-raw", panel_sha256=self.f2["panel_sha256"],
-            planner_rng_seed=2026091601,
+            planner_reset_nonce=2026091601,
         )
         bad_raw = raw_receipt(recipe, family="F2", actor_pose=[0, 0, 0.8, 1, 0, 0, 0])
         bad_raw["contact_point_id"] += 1
@@ -330,7 +338,7 @@ class PlannerQualificationV23Tests(unittest.TestCase):
             stage_a_spec,
             slot_id="f3-b",
             selection_policy_sha256=self.f3_policy["policy_sha256"],
-            planner_rng_seed=2026091606,
+            planner_reset_nonce=2026091606,
         )
         targets = build_f3_stage_b_targets_v3_1(spec)
         self.assertEqual(len(targets), 7)
@@ -357,7 +365,11 @@ class PlannerQualificationV23Tests(unittest.TestCase):
         entity = Entity()
         with patch(
             "controlled_multi_future.f3_planner_integration_v3_1._planner_reset",
-            return_value={"reset": True},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": 2026091606,
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._arm_entity",
             return_value=entity,
@@ -403,7 +415,11 @@ class PlannerQualificationV23Tests(unittest.TestCase):
                 run_f3_stage_b_planner_v3_1(Scene(), spec)
         with patch(
             "controlled_multi_future.f3_planner_integration_v3_1._planner_reset",
-            return_value={"reset": True},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": 2026091606,
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._arm_entity",
             return_value=entity,

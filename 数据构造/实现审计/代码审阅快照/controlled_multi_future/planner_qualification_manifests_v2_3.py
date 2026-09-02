@@ -19,7 +19,12 @@ from .f4_hierarchical_template_search_v1 import (
     build_f4_stage_b_candidates_v1,
     select_f4_stage_a_source_v1,
 )
-from .f4_program_planner_integration_v2 import PROGRAMS
+from .f4_program_planner_integration_v2 import (
+    CHAIN_QUERY_COUNT as F4_CHAIN_QUERY_COUNT,
+    PROGRAMS,
+    TARGET_CONSTRUCTION_QUERY_COUNT as F4_TARGET_CONSTRUCTION_QUERY_COUNT,
+    TOTAL_QUERY_COUNT as F4_TOTAL_QUERY_COUNT,
+)
 from .high_level_runtime_specs_v1 import build_f2_runtime_spec_v1
 
 
@@ -307,6 +312,50 @@ def build_f4_program_panel_manifest_v1() -> dict[str, Any]:
     return value
 
 
+def build_f4_program_panel_manifest_v1_1() -> dict[str, Any]:
+    """Versioned operational correction of the V1 planner-query contract.
+
+    Candidate, program, source, rank, and geometry bytes are inherited from
+    V1 unchanged.  Only the previously incomplete query-accounting schema is
+    superseded; V1 remains reproducible and is never rewritten.
+    """
+
+    value = build_f4_program_panel_manifest_v1()
+    value.pop("panel_sha256")
+    value.pop("queries_per_job")
+    value.pop("maximum_planner_queries")
+    value.update(
+        {
+            "schema_version": "cmf_f4_program_panel_manifest_v1_1",
+            "supersedes_manifest_schema": "cmf_f4_program_panel_manifest_v1",
+            "candidate_and_program_bytes_inherited_unchanged": True,
+            "target_construction_query_limit_per_job": (
+                F4_TARGET_CONSTRUCTION_QUERY_COUNT
+            ),
+            "chain_query_limit_per_job": F4_CHAIN_QUERY_COUNT,
+            "total_query_limit_per_job": F4_TOTAL_QUERY_COUNT,
+            "programs_per_candidate": len(PROGRAMS),
+            "maximum_panel_queries": (
+                len(value["ordered_jobs"]) * F4_TOTAL_QUERY_COUNT
+            ),
+            "early_candidate_failure_may_use_less_than_limit": True,
+            "stop_after_lowest_rank_complete_three_program_pass": True,
+        }
+    )
+    if (
+        value["candidate_count"] != 8
+        or value["programs_per_candidate"] != 3
+        or value["job_count"] != 24
+        or value["target_construction_query_limit_per_job"] != 12
+        or value["chain_query_limit_per_job"] != 30
+        or value["total_query_limit_per_job"] != 42
+        or value["maximum_panel_queries"] != 1008
+    ):
+        raise AssertionError("F4 V1.1 planner-query contract changed")
+    value["panel_sha256"] = canonical_hash_json(value)
+    return value
+
+
 def validate_panel_manifest(value: Mapping[str, Any]) -> dict[str, Any]:
     schema = value.get("schema_version")
     key = "policy_sha256" if schema == "cmf_f3_stage_b_selection_policy_v1" else "panel_sha256"
@@ -319,5 +368,6 @@ __all__ = [
     "build_f3_stage_a_panel_manifest_v1",
     "build_f3_stage_b_selection_policy_v1",
     "build_f4_program_panel_manifest_v1",
+    "build_f4_program_panel_manifest_v1_1",
     "validate_panel_manifest",
 ]

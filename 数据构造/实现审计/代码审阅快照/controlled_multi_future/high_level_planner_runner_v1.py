@@ -57,6 +57,37 @@ from .f4_stage_b_geometry_contract_v2 import (
 )
 
 
+class PlannerCandidateNoValidGrasp(RuntimeError):
+    """A normal frozen-candidate failure, not an infrastructure exception."""
+
+    failure_class = "PLANNER_CANDIDATE_FAIL"
+    failure_code = "NO_VALID_GRASP_TARGET"
+
+    def __init__(self, *, context: Mapping[str, Any], audit: Mapping[str, Any]):
+        self.evidence = {
+            "family": str(context.get("family", "F4")),
+            "candidate_id": context.get("candidate_id"),
+            "program_id": context.get("program_id"),
+            "failed_role": context.get("failed_role"),
+            "contact_points_attempted": list(audit.get("contact_point_ids", [])),
+            "target_construction_queries_used": int(
+                audit.get("batch_call_count", 0)
+            ),
+            "first_failure_site": (
+                "official_grasp_target_construction.no_planner_success_pose"
+            ),
+            "underlying_planner_statuses": [
+                status
+                for batch in audit.get("batch_receipts", [])
+                for status in batch.get("candidate_statuses", [])
+            ],
+            "target_construction_audit": canonical_jsonable(audit),
+        }
+        super().__init__(
+            "official grasp target construction found no planner-success pose"
+        )
+
+
 def _pose7(value: Any, label: str) -> np.ndarray:
     result = np.asarray(value, dtype=np.float64).reshape(-1)
     if result.shape != (7,) or not np.all(np.isfinite(result)):
@@ -95,6 +126,7 @@ def _chosen_grasp(
     pregrasp_distance_m: float,
     target_distance_m: float,
     fixed_contact_point_id: int | None,
+    failure_context: Mapping[str, Any] | None = None,
 ) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
     fixed = None if fixed_contact_point_id is None else (fixed_contact_point_id,)
     built, audit = _audited_planner_assisted_target_construction(
@@ -115,12 +147,18 @@ def _chosen_grasp(
         ),
         fixed_contact_point_ids=fixed,
     )
+    if audit.get("callback_selected_candidate_planner_status") != "Success":
+        if failure_context is not None:
+            raise PlannerCandidateNoValidGrasp(
+                context=failure_context, audit=audit
+            )
+        raise RuntimeError(
+            "official grasp target construction selected no planner-success pose"
+        )
     if not isinstance(built, (list, tuple)) or len(built) != 2:
         raise RuntimeError("official grasp target construction returned invalid pair")
     pregrasp = _pose7(built[0], "official pregrasp")
     grasp = _pose7(built[1], "official grasp")
-    if audit.get("callback_selected_candidate_planner_status") != "Success":
-        raise RuntimeError("official grasp target construction selected no planner-success pose")
     return pregrasp, grasp, audit
 
 
@@ -147,7 +185,13 @@ def build_f3_level1_targets_v1(scene, spec: Mapping[str, Any]):
     )
 
 
-def _f4_role_grasp(scene, candidate: Mapping[str, Any], role: str):
+def _f4_role_grasp(
+    scene,
+    candidate: Mapping[str, Any],
+    role: str,
+    *,
+    program_id: str | None = None,
+):
     actor = getattr(scene, role.lower())
     arm = candidate["arm"]
     if candidate["grasp_policy"]["policy"] == "project_cube_grasp_pose_v1":
@@ -173,6 +217,12 @@ def _f4_role_grasp(scene, candidate: Mapping[str, Any], role: str):
             pregrasp_distance_m=0.09,
             target_distance_m=0.0,
             fixed_contact_point_id=None,
+            failure_context={
+                "family": "F4",
+                "candidate_id": candidate["candidate_id"],
+                "program_id": program_id,
+                "failed_role": role,
+            },
         )
         audit = {
             "schema_version": "cmf_f4_f1_derived_target_construction_v1",
@@ -336,7 +386,7 @@ def build_f4_stage_b_targets_v1(scene, spec: Mapping[str, Any]):
         actor = getattr(scene, role.lower())
         source_actor = _pose(actor)
         pregrasp, grasp, audit = _f4_role_grasp(
-            scene, source_candidate, role
+            scene, source_candidate, role, program_id=program_id
         )
         lift_mid = world_axis_offset_pose(grasp, 0.04)
         lift = world_axis_offset_pose(grasp, 0.08)

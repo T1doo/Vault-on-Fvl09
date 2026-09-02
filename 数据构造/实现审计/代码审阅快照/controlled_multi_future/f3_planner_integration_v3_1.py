@@ -23,6 +23,7 @@ from .family_runners_v3_1 import (
 )
 from .geometry import world_axis_offset_pose
 from .official_raw_pose_generation_v1 import generate_official_raw_pose_receipt_v1
+from .planner_reset_semantics_v1 import bind_planner_reset_nonce_v1
 
 
 STAGE_A_PURPOSE = "f3_final_pose_v3_stage_a_planner"
@@ -86,7 +87,7 @@ def build_f3_stage_a_planner_spec_v3_1(
     *,
     slot_id: str,
     panel_sha256: str,
-    planner_rng_seed: int,
+    planner_reset_nonce: int,
 ) -> dict[str, Any]:
     recipe_value = _recipe(recipe)
     binding = _scene_binding(scene_binding)
@@ -103,7 +104,10 @@ def build_f3_stage_a_planner_spec_v3_1(
         "scene_binding": binding,
         "ordered_segments": ["pregrasp", "grasp", "lift"],
         "planner_query_limit": STAGE_A_QUERY_COUNT,
-        "planner_rng_seed": int(planner_rng_seed),
+        "planner_reset_nonce": int(planner_reset_nonce),
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "arbitrary_callable_injection_allowed": False,
         "physical_execution_count_limit": 0,
         "planner_execution_authorized": False,
@@ -122,7 +126,7 @@ def validate_f3_stage_a_planner_spec_v3_1(spec: Mapping[str, Any]) -> dict[str, 
         value["scene_binding"],
         slot_id=value["slot_id"],
         panel_sha256=value["panel_sha256"],
-        planner_rng_seed=value["planner_rng_seed"],
+        planner_reset_nonce=value["planner_reset_nonce"],
     )
     if value != rebuilt:
         raise ValueError("F3 V2.3 Stage-A spec differs from canonical rebuild")
@@ -151,7 +155,7 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
     ]
     reset = _planner_reset(
         scene,
-        planner_seed=value["planner_rng_seed"],
+        planner_seed=value["planner_reset_nonce"],
         variant_id=f"{STAGE_A_PURPOSE}:{recipe['recipe_id']}",
         arm=recipe["arm"],
     )
@@ -208,8 +212,14 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         "stage_a_lift_pose_sha256": freeze["final_goal_pose_hashes"]["lift"],
         "stage_a_terminal_qpos": deepcopy(terminal_qpos),
         "stage_a_terminal_qpos_sha256": planned.get("terminal_qpos_sha256"),
-        "planner_rng_reset": canonical_jsonable(reset),
-        "planner_rng_seed": value["planner_rng_seed"],
+        "planner_reset_receipt": bind_planner_reset_nonce_v1(
+            reset, planner_reset_nonce=value["planner_reset_nonce"]
+        ),
+        "planner_reset_nonce": value["planner_reset_nonce"],
+        "motiongen_reset_seed_argument": True,
+        "reset_receipt_bound_to_authorization": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "planner_result": _planner_summary(planned),
         "stage_a_pass": passed,
         "planner_qualified_for_physical_probe": False,
@@ -244,7 +254,7 @@ def build_f3_stage_b_planner_spec_v3_1(
     *,
     slot_id: str,
     selection_policy_sha256: str,
-    planner_rng_seed: int,
+    planner_reset_nonce: int,
 ) -> dict[str, Any]:
     stage_a = validate_f3_stage_a_terminal_v3_1(stage_a_terminal, stage_a_spec)
     if stage_a.get("stage_a_pass") is not True:
@@ -269,7 +279,10 @@ def build_f3_stage_b_planner_spec_v3_1(
             "H_plus", "H_minus", "central_3",
         ],
         "planner_query_limit": STAGE_B_QUERY_COUNT,
-        "planner_rng_seed": int(planner_rng_seed),
+        "planner_reset_nonce": int(planner_reset_nonce),
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "initial_eef_position_atol_m": POSITION_ATOL_M,
         "initial_eef_orientation_atol_rad": ORIENTATION_ATOL_RAD,
         "arbitrary_callable_injection_allowed": False,
@@ -335,7 +348,7 @@ def run_f3_stage_b_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         raise ValueError("F3 V2.3 Stage-B execution arm is missing")
     reset = _planner_reset(
         scene,
-        planner_seed=value["planner_rng_seed"],
+        planner_seed=value["planner_reset_nonce"],
         variant_id=f"{STAGE_B_PURPOSE}:{value['recipe_sha256']}",
         arm=arm,
     )
@@ -393,8 +406,14 @@ def run_f3_stage_b_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
             "stage_b_initial_eef_pose_sha256"
         ],
         "continuity_gate": continuity_gate,
-        "planner_rng_reset": canonical_jsonable(reset),
-        "planner_rng_seed": value["planner_rng_seed"],
+        "planner_reset_receipt": bind_planner_reset_nonce_v1(
+            reset, planner_reset_nonce=value["planner_reset_nonce"]
+        ),
+        "planner_reset_nonce": value["planner_reset_nonce"],
+        "motiongen_reset_seed_argument": True,
+        "reset_receipt_bound_to_authorization": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "targets": targets,
         "targets_sha256": canonical_hash_json(targets),
         "planner_result": _planner_summary(planned),

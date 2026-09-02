@@ -48,7 +48,10 @@ def build_v2_3_1_smoke_activation_bridge_contract(
             "reviewed_content_commit",
         ],
         "f3_stage_b_dependency_artifact_registry_required": True,
-        "planner_rng_seed_authorization_to_reset_receipt_exact": True,
+        "planner_reset_nonce_authorization_to_receipt_exact": True,
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "f4_query_accounting": {
             "target_construction_queries": 12,
             "chain_queries": 30,

@@ -12,7 +12,11 @@ from typing import Any, Mapping
 
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .family_runners_v3_1 import _plan_chain, _planner_reset
-from .high_level_planner_runner_v1 import build_f4_stage_b_targets_v1
+from .high_level_planner_runner_v1 import (
+    PlannerCandidateNoValidGrasp,
+    build_f4_stage_b_targets_v1,
+)
+from .planner_reset_semantics_v1 import bind_planner_reset_nonce_v1
 
 
 PURPOSE = "f4_program_v2_planner"
@@ -34,6 +38,15 @@ PLANNER_COLLISION_SCOPE = {
 }
 
 
+class PlannerQueryAccountingError(RuntimeError):
+    failure_class = "INFRASTRUCTURE_ERROR"
+    failure_code = "PLANNER_QUERY_ACCOUNTING_MISMATCH"
+
+    def __init__(self, message: str, **evidence):
+        self.evidence = canonical_jsonable(evidence)
+        super().__init__(message)
+
+
 def _self_hashed(value: Mapping[str, Any], key: str) -> dict[str, Any]:
     normalized = canonical_jsonable(value)
     payload = dict(normalized)
@@ -49,7 +62,7 @@ def build_f4_program_planner_spec_v2(
     *,
     program_id: str,
     slot_id: str,
-    planner_rng_seed: int,
+    planner_reset_nonce: int,
 ) -> dict[str, Any]:
     source = _self_hashed(source_candidate, "candidate_sha256")
     candidate = _self_hashed(slot_candidate, "candidate_sha256")
@@ -77,7 +90,10 @@ def build_f4_program_planner_spec_v2(
         "actual_source_layout_gate_required": True,
         "actual_source_geometry_v2_rerun_required": True,
         "planner_collision_scope": PLANNER_COLLISION_SCOPE,
-        "planner_rng_seed": int(planner_rng_seed),
+        "planner_reset_nonce": int(planner_reset_nonce),
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "target_construction_query_limit": TARGET_CONSTRUCTION_QUERY_COUNT,
         "chain_query_limit": CHAIN_QUERY_COUNT,
         "planner_query_limit": TOTAL_QUERY_COUNT,
@@ -107,19 +123,106 @@ def run_f4_program_planner_v2(
     if lifecycle not in ("fresh", "reconstructed"):
         raise ValueError("F4 V2 program planner requires a fresh/reconstructed scene")
     initial_query_count = int(getattr(scene, "planner_query_count", 0))
-    scene._cmf_planner_rng_seed = checked["planner_rng_seed"]
+    scene._cmf_planner_reset_nonce = checked["planner_reset_nonce"]
     first_reset = _planner_reset(
         scene,
-        planner_seed=checked["planner_rng_seed"],
+        planner_seed=checked["planner_reset_nonce"],
         variant_id=f"{PURPOSE}:{checked['candidate_id']}:{program_id}",
         arm=checked["f4_source_grasp_candidate_v1"]["arm"],
     )
-    targets, audit = build_f4_stage_b_targets_v1(scene, checked)
+    try:
+        targets, audit = build_f4_stage_b_targets_v1(scene, checked)
+    except PlannerCandidateNoValidGrasp as exc:
+        after_failure = int(getattr(scene, "planner_query_count", 0))
+        target_queries = after_failure - initial_query_count
+        evidence = canonical_jsonable(exc.evidence)
+        if (
+            target_queries < 0
+            or target_queries > TARGET_CONSTRUCTION_QUERY_COUNT
+            or evidence.get("target_construction_queries_used")
+            != target_queries
+        ):
+            raise PlannerQueryAccountingError(
+                "F4 no-valid-grasp query accounting is inconsistent",
+                target_construction_queries_used=target_queries,
+                total_queries_used=target_queries,
+                candidate_id=checked["candidate_id"],
+                program_id=program_id,
+            ) from exc
+        value = {
+            "schema_version": "cmf_f4_program_planner_terminal_v2",
+            "purpose": PURPOSE,
+            "slot_id": checked["slot_id"],
+            "spec_sha256": checked["spec_sha256"],
+            "candidate_id": checked["candidate_id"],
+            "candidate_sha256": checked["candidate_sha256"],
+            "program_id": program_id,
+            "program_order": list(PROGRAMS[program_id]),
+            "scene_instance_id": getattr(scene, "_cmf_scene_instance_id", None),
+            "scene_lifecycle": lifecycle,
+            "planner_pass": False,
+            "failure_class": exc.failure_class,
+            "failure_code": exc.failure_code,
+            "failed_role": evidence.get("failed_role"),
+            "contact_points_attempted": evidence.get(
+                "contact_points_attempted", []
+            ),
+            "target_construction_queries_used": target_queries,
+            "chain_queries_used": 0,
+            "total_queries_used": target_queries,
+            "first_failure_site": evidence.get("first_failure_site"),
+            "underlying_planner_statuses": evidence.get(
+                "underlying_planner_statuses", []
+            ),
+            "target_construction_failure_evidence": evidence,
+            "targets_sha256": None,
+            "planner_result": {
+                "pass": False,
+                "segment_receipts": [],
+                "planner_query_count": target_queries,
+                "terminal_qpos": None,
+                "terminal_qpos_sha256": None,
+                "controls_retained_in_receipt": False,
+            },
+            "planner_reset_nonce": checked["planner_reset_nonce"],
+            "planner_reset_receipt": bind_planner_reset_nonce_v1(
+                first_reset,
+                planner_reset_nonce=checked["planner_reset_nonce"],
+            ),
+            "motiongen_reset_seed_argument": True,
+            "reset_receipt_bound_to_authorization": True,
+            "numeric_rng_seed_application_proven": False,
+            "bitwise_determinism_claimed": False,
+            "planner_query_accounting": {
+                "target_construction_queries": target_queries,
+                "chain_queries": 0,
+                "total_queries": target_queries,
+                "total_query_limit": TOTAL_QUERY_COUNT,
+                "budget_exhaustion_is_infrastructure_error": True,
+            },
+            "planner_collision_scope": deepcopy(PLANNER_COLLISION_SCOPE),
+            "result_semantics": {
+                "robot_kinematic_table_world_planner_pass": False,
+            },
+            "robot_kinematic_table_world_planner_pass": False,
+            "planner_qualified_for_physical_probe": False,
+            "candidate_ready": False,
+            "stage1_ready": False,
+            "all_three_programs_required": True,
+            "physical_execution_count": 0,
+            "planner_execution_authorized_by_this_receipt": False,
+        }
+        value["receipt_sha256"] = canonical_hash_json(value)
+        return value
     after_target_construction = int(getattr(scene, "planner_query_count", 0))
     target_construction_queries = after_target_construction - initial_query_count
     if target_construction_queries != TARGET_CONSTRUCTION_QUERY_COUNT:
-        raise RuntimeError(
-            "F4 target-construction planner query count differs from frozen 12"
+        raise PlannerQueryAccountingError(
+            "F4 target-construction planner query count differs from frozen 12",
+            target_construction_queries_used=target_construction_queries,
+            total_queries_used=target_construction_queries,
+            candidate_id=checked["candidate_id"],
+            program_id=program_id,
         )
     expected_roles = list(PROGRAMS[program_id])
     if (
@@ -144,8 +247,20 @@ def run_f4_program_planner_v2(
     after_chain = int(planned.get("planner_query_count", getattr(scene, "planner_query_count", 0)))
     chain_queries = after_chain - after_target_construction
     total_queries = after_chain - initial_query_count
-    if chain_queries > CHAIN_QUERY_COUNT or total_queries > TOTAL_QUERY_COUNT:
-        raise RuntimeError("F4 planner query budget exhausted or miscounted")
+    if (
+        chain_queries < 0
+        or chain_queries > CHAIN_QUERY_COUNT
+        or total_queries < 0
+        or total_queries > TOTAL_QUERY_COUNT
+    ):
+        raise PlannerQueryAccountingError(
+            "F4 planner query budget exhausted or miscounted",
+            target_construction_queries_used=target_construction_queries,
+            chain_queries_used=chain_queries,
+            total_queries_used=total_queries,
+            candidate_id=checked["candidate_id"],
+            program_id=program_id,
+        )
     observed_roles = []
     for item in receipts:
         role = str(item.get("segment_id", "")).split("_", 1)[0]
@@ -179,8 +294,14 @@ def run_f4_program_planner_v2(
             "terminal_qpos_sha256": planned.get("terminal_qpos_sha256"),
             "controls_retained_in_receipt": False,
         },
-        "planner_rng_seed": checked["planner_rng_seed"],
-        "planner_rng_reset": canonical_jsonable(first_reset),
+        "planner_reset_nonce": checked["planner_reset_nonce"],
+        "planner_reset_receipt": bind_planner_reset_nonce_v1(
+            first_reset, planner_reset_nonce=checked["planner_reset_nonce"]
+        ),
+        "motiongen_reset_seed_argument": True,
+        "reset_receipt_bound_to_authorization": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "planner_query_accounting": {
             "target_construction_queries": target_construction_queries,
             "chain_queries": chain_queries,
@@ -259,6 +380,7 @@ def finalize_f4_candidate_program_qualification_v2(
 
 
 __all__ = [
+    "PlannerQueryAccountingError",
     "PROGRAMS",
     "PURPOSE",
     "build_f4_program_planner_spec_v2",

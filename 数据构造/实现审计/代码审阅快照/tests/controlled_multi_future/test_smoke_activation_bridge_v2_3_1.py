@@ -261,7 +261,11 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
                 observed_reset.update(
                     seed=planner_seed, variant_id=variant_id, arm=arm
                 )
-                return {"reset_performed": True, "planner_seed": planner_seed}
+                return {
+                    "reset_performed": True,
+                    "planner_seed": planner_seed,
+                    "reset_seed_argument": True,
+                }
 
             recipe = loaded["job_spec"]["manifest_entry"]["recipe"]
             with patch(
@@ -291,13 +295,13 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
 
             self.assertEqual(binding["scene_seed"], loaded["scene_seed"])
             self.assertEqual(binding["command_sha256"], loaded["authorized_command_sha256"])
-            self.assertEqual(observed_reset["seed"], loaded["job_spec"]["planner_rng_seed"])
+            self.assertEqual(observed_reset["seed"], loaded["job_spec"]["planner_reset_nonce"])
             self.assertEqual(terminal["runner_symbol"], RUNNER_SYMBOLS["F2_STAGE_A"])
             self.assertEqual(terminal["planner_query_count"], 3)
             self.assertTrue(terminal["planner_pass"])
             self.assertIsNone(terminal["failure_class"])
             self.assertTrue(terminal["cleanup"]["cleanup_safety_pass"])
-            self.assertEqual(terminal["job_terminal"]["planner_rng_seed"], observed_reset["seed"])
+            self.assertEqual(terminal["job_terminal"]["planner_reset_nonce"], observed_reset["seed"])
             self.assertEqual(terminal["physical_execution_count"], 0)
 
     def test_all_four_job_kinds_build_exact_production_bridge_plans(self):
@@ -309,7 +313,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
             "runner_symbol": RUNNER_SYMBOLS["F2_STAGE_A"],
             "job_spec": {
                 "job_id": "bridge-f2",
-                "planner_rng_seed": 101,
+                "planner_reset_nonce": 101,
                 "manifest_entry": f2_entry,
                 "manifest_sha256": bundle["f2_panel_sha256"],
                 "manifest_context": {
@@ -325,7 +329,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
             f3_entry["scene_binding"],
             slot_id="bridge-f3-a",
             panel_sha256=bundle["f3_stage_a_panel_sha256"],
-            planner_rng_seed=102,
+            planner_reset_nonce=102,
         )
         actor_pose = [
             -0.18 if f3_entry["recipe"]["arm"] == "left" else 0.18,
@@ -347,7 +351,11 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
             return_value=_f3_raw_pose_receipt(f3_entry["recipe"], actor_pose),
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._planner_reset",
-            return_value={"reset_performed": True, "planner_seed": 102},
+            return_value={
+                "reset_performed": True,
+                "planner_seed": 102,
+                "reset_seed_argument": True,
+            },
         ), patch(
             "controlled_multi_future.f3_planner_integration_v3_1._plan_chain",
             side_effect=_successful_plan,
@@ -375,7 +383,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
                 "runner_symbol": RUNNER_SYMBOLS["F3_STAGE_A"],
                 "job_spec": {
                     "job_id": "bridge-f3-a",
-                    "planner_rng_seed": 102,
+                    "planner_reset_nonce": 102,
                     "manifest_entry": f3_entry,
                     "manifest_sha256": bundle["f3_stage_a_panel_sha256"],
                 },
@@ -385,7 +393,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
                 "runner_symbol": RUNNER_SYMBOLS["F3_STAGE_B"],
                 "job_spec": {
                     "job_id": "bridge-f3-b",
-                    "planner_rng_seed": 103,
+                    "planner_reset_nonce": 103,
                     "manifest_entry": f3_entry,
                     "manifest_sha256": bundle["f3_stage_b_policy_sha256"],
                     "dependency_registry": registry,
@@ -406,7 +414,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
                 "runner_symbol": RUNNER_SYMBOLS["F4_PROGRAM"],
                 "job_spec": {
                     "job_id": "bridge-f4",
-                    "planner_rng_seed": 104,
+                    "planner_reset_nonce": 104,
                     "manifest_entry": f4_entry,
                     "manifest_context": {
                         "source_candidate": bundle["manifests"]["F4"][
@@ -430,7 +438,7 @@ class SmokeActivationBridgeV231Tests(unittest.TestCase):
             [item["runner_symbol"] for item in plans],
             [RUNNER_SYMBOLS[item["job_kind"]] for item in plans],
         )
-        self.assertEqual([item["planner_rng_seed"] for item in plans], [101, 102, 103, 104])
+        self.assertEqual([item["planner_reset_nonce"] for item in plans], [101, 102, 103, 104])
         self.assertEqual(plans[2]["runner_spec"]["stage_a_terminal_receipt_sha256"], f3_terminal["receipt_sha256"])
 
     def test_bridge_rejects_unknown_runner_instead_of_fallback(self):

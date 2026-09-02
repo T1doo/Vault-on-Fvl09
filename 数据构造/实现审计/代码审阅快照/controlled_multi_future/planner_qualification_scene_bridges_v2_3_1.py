@@ -128,6 +128,72 @@ def build_f3_stage_b_dependency_registry_v1(
     return value
 
 
+def build_f3_stage_b_dependency_registry_v1_1(
+    *,
+    stage_a_spec_path: Path,
+    stage_a_terminal_path: Path,
+    actual_scene_seed: int,
+    stage_a_scene_instance_id: str,
+) -> dict[str, Any]:
+    base = build_f3_stage_b_dependency_registry_v1(
+        stage_a_spec_path=stage_a_spec_path,
+        stage_a_terminal_path=stage_a_terminal_path,
+    )
+    terminal = json.loads(
+        Path(base["stage_a_terminal_path"]).read_text(encoding="utf-8")
+    )
+    if (
+        not isinstance(stage_a_scene_instance_id, str)
+        or not stage_a_scene_instance_id
+        or terminal.get("scene_instance_id") != stage_a_scene_instance_id
+    ):
+        raise ValueError("F3 Stage-B registry scene instance mismatch")
+    value = {
+        **{key: item for key, item in base.items() if key != "registry_sha256"},
+        "schema_version": "cmf_f3_stage_b_dependency_registry_v1_1",
+        "actual_scene_seed": int(actual_scene_seed),
+        "stage_a_scene_instance_id": stage_a_scene_instance_id,
+    }
+    value["registry_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def load_f3_stage_b_dependency_registry_v1_1(
+    registry: Mapping[str, Any],
+) -> dict[str, Any]:
+    value = canonical_jsonable(registry)
+    payload = dict(value)
+    digest = payload.pop("registry_sha256", None)
+    if (
+        value.get("schema_version")
+        != "cmf_f3_stage_b_dependency_registry_v1_1"
+        or digest != canonical_hash_json(payload)
+        or not isinstance(value.get("actual_scene_seed"), int)
+        or not isinstance(value.get("stage_a_scene_instance_id"), str)
+        or not value["stage_a_scene_instance_id"]
+    ):
+        raise ValueError("F3 Stage-B V1.1 dependency registry mismatch")
+    legacy = {
+        key: item
+        for key, item in value.items()
+        if key
+        not in {
+            "registry_sha256",
+            "actual_scene_seed",
+            "stage_a_scene_instance_id",
+        }
+    }
+    legacy["schema_version"] = "cmf_f3_stage_b_dependency_registry_v1"
+    legacy["registry_sha256"] = canonical_hash_json(legacy)
+    loaded = load_f3_stage_b_dependency_registry_v1(legacy)
+    if (
+        loaded["stage_a_terminal"].get("scene_instance_id")
+        != value["stage_a_scene_instance_id"]
+    ):
+        raise ValueError("F3 Stage-B V1.1 registry terminal scene mismatch")
+    return {**loaded, "registry": value}
+
+
 def _f4_synthetic_stage_a_terminal():
     contract = build_f4_hierarchical_template_search_v1()
     gates = contract["stage_a_required_gates"]
@@ -155,7 +221,7 @@ def build_production_scene_bridge_plan_v2_3_1(
     if auth.get("runner_symbol") != RUNNER_SYMBOLS.get(job_kind):
         raise ValueError("V2.3.1 runner symbol differs from production resolution")
     entry = job["manifest_entry"]
-    seed = int(job["planner_rng_seed"])
+    nonce = int(job["planner_reset_nonce"])
     if job_kind == "F2_STAGE_A":
         recipe = entry["recipe"]
         search = build_f2_hierarchical_template_search_v1()
@@ -175,7 +241,7 @@ def build_production_scene_bridge_plan_v2_3_1(
             job["manifest_context"]["bindings_by_arm"][recipe["arm"]],
             slot_id=job["job_id"],
             panel_sha256=job["manifest_sha256"],
-            planner_rng_seed=seed,
+            planner_reset_nonce=nonce,
         )
         adapter_kind = "F2"
     elif job_kind in {"F3_STAGE_A", "F3_STAGE_B"}:
@@ -196,7 +262,7 @@ def build_production_scene_bridge_plan_v2_3_1(
                 entry["scene_binding"],
                 slot_id=job["job_id"],
                 panel_sha256=job["manifest_sha256"],
-                planner_rng_seed=seed,
+                planner_reset_nonce=nonce,
             )
         else:
             dependency = load_f3_stage_b_dependency_registry_v1(
@@ -207,7 +273,7 @@ def build_production_scene_bridge_plan_v2_3_1(
                 dependency["stage_a_spec"],
                 slot_id=job["job_id"],
                 selection_policy_sha256=job["manifest_sha256"],
-                planner_rng_seed=seed,
+                planner_reset_nonce=nonce,
             )
         adapter_kind = "F3"
     elif job_kind == "F4_PROGRAM":
@@ -224,7 +290,7 @@ def build_production_scene_bridge_plan_v2_3_1(
             candidate,
             program_id=entry["program_id"],
             slot_id=job["job_id"],
-            planner_rng_seed=seed,
+            planner_reset_nonce=nonce,
         )
         adapter_kind = "F4"
     else:
@@ -238,7 +304,10 @@ def build_production_scene_bridge_plan_v2_3_1(
         "runner_spec": runner_spec,
         "runner_spec_sha256": runner_spec["spec_sha256"],
         "runner_symbol": RUNNER_SYMBOLS[job_kind],
-        "planner_rng_seed": seed,
+        "planner_reset_nonce": nonce,
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
     }
     value["bridge_plan_sha256"] = canonical_hash_json(value)
     return value

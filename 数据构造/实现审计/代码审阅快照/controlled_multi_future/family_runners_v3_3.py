@@ -65,6 +65,7 @@ from .f2_release_gates_v10 import (
 from .f2_preload_entry_evidence_gate_v11 import (
     audit_f2_preload_entry_evidence_gate_v11,
 )
+from .planner_reset_semantics_v1 import bind_planner_reset_nonce_v1
 from .family_runners_v3_1 import (
     BLOCK_HALF_EXTENTS,
     F3_H_NOMINAL_AMPLITUDE_M_V3_3,
@@ -429,7 +430,7 @@ def _audited_planner_assisted_target_construction(
         raise RuntimeError("fixed target-construction contact points must be unique")
     if not contact_point_ids:
         raise RuntimeError("planner-assisted target construction has no contact points")
-    bound_seed = int(getattr(scene, "_cmf_planner_rng_seed", PLANNER_SEED))
+    bound_seed = int(getattr(scene, "_cmf_planner_reset_nonce", PLANNER_SEED))
     target_reset = _planner_reset(
         scene,
         planner_seed=bound_seed,
@@ -581,12 +582,19 @@ def _audited_planner_assisted_target_construction(
                                 ][candidate_index],
                             }
                         )
+    reset_receipt = (
+        bind_planner_reset_nonce_v1(
+            target_reset, planner_reset_nonce=bound_seed
+        )
+        if hasattr(scene, "_cmf_planner_reset_nonce")
+        else target_reset
+    )
     return value, {
         "schema_version": "cmf_planner_assisted_target_construction_audit_v1",
         "variant_id": variant_id,
         "arm": arm,
         "actor_name": _entity(actor).get_name(),
-        "planner_reset_receipt": target_reset,
+        "planner_reset_receipt": reset_receipt,
         "contact_point_ids": contact_point_ids,
         "available_contact_point_ids": available_contact_point_ids,
         "fixed_contact_point_ids": None

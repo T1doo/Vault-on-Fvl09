@@ -24,6 +24,7 @@ from .official_raw_pose_generation_v1 import (
     generate_official_raw_pose_receipt_v1,
     validate_official_raw_pose_receipt_v1,
 )
+from .planner_reset_semantics_v1 import bind_planner_reset_nonce_v1
 
 
 PURPOSE = "f2_final_grasp_v2_stage_a_planner"
@@ -60,7 +61,7 @@ def build_f2_final_grasp_stage_a_spec_v2(
     *,
     slot_id: str,
     panel_sha256: str,
-    planner_rng_seed: int,
+    planner_reset_nonce: int,
 ) -> dict[str, Any]:
     recipe_value = _recipe(recipe)
     certificate = _certificate(geometry_certificate)
@@ -103,7 +104,10 @@ def build_f2_final_grasp_stage_a_spec_v2(
         "scene_spec_sha256": canonical_hash_json(scene_spec),
         "ordered_segments": ["pregrasp", "grasp", "qualification_micro_lift_25mm"],
         "planner_query_limit": QUERY_COUNT,
-        "planner_rng_seed": int(planner_rng_seed),
+        "planner_reset_nonce": int(planner_reset_nonce),
+        "motiongen_reset_seed_argument": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "old_gravity_drop_builder_allowed": False,
         "arbitrary_callable_injection_allowed": False,
         "physical_execution_count_limit": 0,
@@ -126,7 +130,7 @@ def validate_f2_final_grasp_stage_a_spec_v2(
         value["binding"],
         slot_id=value["slot_id"],
         panel_sha256=value["panel_sha256"],
-        planner_rng_seed=value["planner_rng_seed"],
+        planner_reset_nonce=value["planner_reset_nonce"],
     )
     if value != rebuilt:
         raise ValueError("F2 Stage-A spec differs from canonical rebuild")
@@ -177,7 +181,7 @@ def run_f2_final_grasp_stage_a_planner_v2(
     ]
     reset = _planner_reset(
         scene,
-        planner_seed=value["planner_rng_seed"],
+        planner_seed=value["planner_reset_nonce"],
         variant_id=f"{PURPOSE}:{recipe['recipe_id']}",
         arm=recipe["arm"],
     )
@@ -209,8 +213,14 @@ def run_f2_final_grasp_stage_a_planner_v2(
         "raw_pose_generation_receipt": raw,
         "raw_pose_validation": raw_validation,
         "final_grasp_pose_freeze": freeze,
-        "planner_rng_reset": canonical_jsonable(reset),
-        "planner_rng_seed": value["planner_rng_seed"],
+        "planner_reset_receipt": bind_planner_reset_nonce_v1(
+            reset, planner_reset_nonce=value["planner_reset_nonce"]
+        ),
+        "planner_reset_nonce": value["planner_reset_nonce"],
+        "motiongen_reset_seed_argument": True,
+        "reset_receipt_bound_to_authorization": True,
+        "numeric_rng_seed_application_proven": False,
+        "bitwise_determinism_claimed": False,
         "planner_result": _planner_summary(planned),
         "ordered_target_ids": exact_ids,
         "ordered_targets_sha256": canonical_hash_json(targets),

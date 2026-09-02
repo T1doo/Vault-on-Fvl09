@@ -128,6 +128,12 @@ from .planner_qualification_authorization_v2_3_1 import (
     load as load_planner_qualification_v2_3_1,
     validate_consumption as validate_planner_qualification_consumption_v2_3_1,
 )
+from .planner_qualification_authorization_v2_3_1a import (
+    IMPLEMENTATION_VERSION as PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    consume as consume_planner_qualification_v2_3_1a,
+    load as load_planner_qualification_v2_3_1a,
+    validate_consumption as validate_planner_qualification_consumption_v2_3_1a,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -151,6 +157,17 @@ JOB_CACHE_ENVIRONMENT_SUBDIRECTORIES = {
 }
 
 
+def planner_wiring_smoke_guard_purpose_v1(
+    authorization: Mapping[str, Any],
+) -> str | None:
+    if (
+        authorization.get("implementation_version")
+        == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION
+    ):
+        return "planner_wiring_smoke_v1"
+    return None
+
+
 def _write_guard_receipt(path: Path, value: dict[str, Any]) -> None:
     value.pop("guard_receipt_sha256", None)
     value["guard_receipt_sha256"] = canonical_hash_json(value)
@@ -167,6 +184,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+        return load_planner_qualification_v2_3_1a(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == PLANNER_QUALIFICATION_V2_3_1_IMPLEMENTATION_VERSION:
         return load_planner_qualification_v2_3_1(
             path, requested_scope=requested_scope, **kwargs
@@ -235,6 +256,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+        return consume_planner_qualification_v2_3_1a(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1_IMPLEMENTATION_VERSION:
         return consume_planner_qualification_v2_3_1(
             authorization, ledger_directory=ledger_directory
@@ -305,6 +330,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+        return validate_planner_qualification_consumption_v2_3_1a(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1_IMPLEMENTATION_VERSION:
         return validate_planner_qualification_consumption_v2_3_1(
             consumption, authorization
@@ -607,6 +636,10 @@ def build_guard_binding(
         "authorization_id": authorization["authorization_id"],
         "authorization_receipt_sha256": authorization["receipt_sha256"],
         "authorized_run_id": authorization["authorized_run_id"],
+        "wave_id": authorization.get("wave_id"),
+        "slot": authorization.get("slot"),
+        "planner_reset_nonce": authorization.get("planner_reset_nonce"),
+        "guard_purpose": authorization.get("guard_purpose"),
         "approved_scope": authorization["approved_scopes"][0],
         "family": authorization["family"],
         "scene_seed": authorization["scene_seed"],
@@ -663,6 +696,10 @@ def validate_guard_binding(
         "authorization_id": authorization["authorization_id"],
         "authorization_receipt_sha256": authorization["receipt_sha256"],
         "authorized_run_id": authorization["authorized_run_id"],
+        "wave_id": authorization.get("wave_id"),
+        "slot": authorization.get("slot"),
+        "planner_reset_nonce": authorization.get("planner_reset_nonce"),
+        "guard_purpose": authorization.get("guard_purpose"),
         "approved_scope": authorization["approved_scopes"][0],
         "family": authorization["family"],
         "scene_seed": authorization["scene_seed"],
@@ -871,10 +908,18 @@ def main() -> int:
     high_level_v1_mode = raw_authorization.get(
         "implementation_version"
     ) == HIGH_LEVEL_IMPLEMENTATION_VERSION
+    planner_wiring_smoke_v1_mode = raw_authorization.get(
+        "implementation_version"
+    ) == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION
+    planner_wiring_purpose = planner_wiring_smoke_guard_purpose_v1(
+        raw_authorization
+    )
     guard = {
         "schema_version": GUARD_SCHEMA_VERSION,
         "purpose": (
-            "controlled_stage0_smoke"
+            planner_wiring_purpose
+            if planner_wiring_purpose is not None
+            else "controlled_stage0_smoke"
             if stage0_mode and raw_authorization.get("stage0_data") is True
             else "pre_stage0_infrastructure_validation"
             if stage0_mode
