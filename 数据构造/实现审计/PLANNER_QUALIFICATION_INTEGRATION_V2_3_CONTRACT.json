@@ -1,0 +1,78 @@
+{
+  "active_source_tree_sha256": "b3c492656aaa8efdd00b64656bc8e3930d2fb29d7a9968afa3a8f64d602d1d1b",
+  "authorization": {
+    "compression": false,
+    "formal_360": false,
+    "gpu_execution": false,
+    "h_reveal": false,
+    "physical_execution": false,
+    "pi_0_5": false,
+    "planner_execution": false,
+    "stage1": false,
+    "training": false
+  },
+  "contract_sha256": "91c0be67a0aeeb716c627b2f94b6a999ad359d82529b8d0ed4264231d919b74c",
+  "guard_contract": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "fresh_idle_precheck": true,
+    "one_job_per_gpu": true,
+    "physical_index_uuid_pci_lease_equal": true,
+    "planner_query_scene_wall_time_hard_counted": true,
+    "pre_post_cleanup_required": true,
+    "root_or_scene_job_sharding_allowed": false
+  },
+  "implementation_version": "controlled_multi_future_planner_qualification_integration_v2_3",
+  "infrastructure_error_stops_entire_wave": true,
+  "manifest_bundle_sha256": "d4f0ec11f15e0849e4da6ab0febd0028533f09d7637cef2c05ce497d9a9814a9",
+  "manifest_sha256s": {
+    "F2": "2ee0605b47d472dcc2904d2105d8cba83de0b42011c0d31b75236efef220c6b2",
+    "F3_STAGE_A": "c87e75ae5dc5a9910d23ee961d284e20c9f4e0e1d6d92d6c84a31896e2fcc51b",
+    "F3_STAGE_B": "c621f1b0ef17d5791bc4f1a32b5a04944b1ae594aaab3e09c3e2813778e045a0",
+    "F4": "d735f3e11029a674708a9cb05142038c05bd79639246fc33221fdba28b949a95"
+  },
+  "new_trajectory_count": 0,
+  "o_excl_output_required": true,
+  "physical_execution_count": 0,
+  "planner_rng_reset_receipt_required": true,
+  "production_arbitrary_callable_injection_allowed": false,
+  "real_planner_fail_is_terminal_candidate_evidence": true,
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "runner_signatures": {
+    "F2_STAGE_A": [
+      "scene",
+      "spec"
+    ],
+    "F3_STAGE_A": [
+      "scene",
+      "spec"
+    ],
+    "F3_STAGE_B": [
+      "scene",
+      "spec"
+    ],
+    "F4_PROGRAM": [
+      "scene",
+      "spec"
+    ]
+  },
+  "runner_symbols": {
+    "F2_STAGE_A": "controlled_multi_future.f2_planner_integration_v2.run_f2_final_grasp_stage_a_planner_v2",
+    "F3_STAGE_A": "controlled_multi_future.f3_planner_integration_v3_1.run_f3_stage_a_planner_v3_1",
+    "F3_STAGE_B": "controlled_multi_future.f3_planner_integration_v3_1.run_f3_stage_b_planner_v3_1",
+    "F4_PROGRAM": "controlled_multi_future.f4_program_planner_integration_v2.run_f4_program_planner_v2"
+  },
+  "schema_version": "cmf_planner_qualification_integration_v2_3_contract",
+  "source_change_invalidates_remaining_authorizations": true,
+  "stage0_reopened": false,
+  "unique_authorization_scene_output_per_job": true,
+  "vault_head": "0244ca807426dd67694878f074651a90e25821ca"
+}
