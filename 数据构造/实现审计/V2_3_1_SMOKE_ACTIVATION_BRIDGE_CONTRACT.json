@@ -1,0 +1,70 @@
+{
+  "authorization": {
+    "formal_360": false,
+    "gpu_execution": false,
+    "physical_execution": false,
+    "planner_execution": false,
+    "stage1": false,
+    "training": false,
+    "wave_approval": false
+  },
+  "contract_sha256": "14c894e1130ed4d5d0ce707ec72c36fc79bea009ae83ed6fcec92aa5702c9e2b",
+  "f3_stage_b_dependency_artifact_registry_required": true,
+  "f4_query_accounting": {
+    "budget_exhaustion_classification": "INFRASTRUCTURE_ERROR",
+    "chain_queries": 30,
+    "target_construction_queries": 12,
+    "total_queries_per_program": 42
+  },
+  "failure_classes": {
+    "infrastructure": "stop_wave",
+    "physical_design_fail": "not_applicable_no_physical_execution",
+    "planner_candidate_fail": "retain_terminal_continue_frozen_order"
+  },
+  "implementation_source_sha256": "d5b3a2d1d88e89caa7e5f020b8eab6feaaa20e48ce13765f1d08828b9c5496f0",
+  "implementation_version": "controlled_multi_future_smoke_activation_bridge_v2_3_1",
+  "job_kinds": [
+    "F2_STAGE_A",
+    "F3_STAGE_A",
+    "F3_STAGE_B",
+    "F4_PROGRAM"
+  ],
+  "manifest_bundle_sha256": "d4f0ec11f15e0849e4da6ab0febd0028533f09d7637cef2c05ce497d9a9814a9",
+  "physical_execution_count": 0,
+  "planner_rng_seed_authorization_to_reset_receipt_exact": true,
+  "production_scene_bridge_symbol": "controlled_multi_future.planner_qualification_scene_bridges_v2_3_1.run_with_production_scene_bridge_v2_3_1",
+  "required_guard_authorization_fields": [
+    "timeout_seconds",
+    "output_namespace",
+    "authorized_command_sha256",
+    "family",
+    "scene_seed",
+    "source_lock_receipt_path",
+    "source_lock_receipt_sha256",
+    "implementation_source_sha256",
+    "budget",
+    "budget_receipt_sha256",
+    "controlled_action_limit",
+    "physics_step_limit",
+    "guard_receipt_path",
+    "consumption_ledger_directory",
+    "gpu_lease_directory",
+    "job_cache_root_directory",
+    "authorized_run_id",
+    "reviewed_content_commit"
+  ],
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "runner_symbols": {
+    "F2_STAGE_A": "controlled_multi_future.f2_planner_integration_v2.run_f2_final_grasp_stage_a_planner_v2",
+    "F3_STAGE_A": "controlled_multi_future.f3_planner_integration_v3_1.run_f3_stage_a_planner_v3_1",
+    "F3_STAGE_B": "controlled_multi_future.f3_planner_integration_v3_1.run_f3_stage_b_planner_v3_1",
+    "F4_PROGRAM": "controlled_multi_future.f4_program_planner_integration_v2.run_f4_program_planner_v2"
+  },
+  "schema_version": "cmf_v2_3_1_smoke_activation_bridge_contract",
+  "scope_runner_module": "controlled_multi_future.probes.planner_qualification_scope_runner_v2_3",
+  "stage0_reopened": false,
+  "trajectory_count": 0,
+  "updated_full_panel_proposal_sha256": "bc5519ca27fa6ccaeac638517c5b897d0f6c2df44f70a084d78d79e571de96ae",
+  "updated_smoke_proposal_sha256": "d169c646a1aeb6ecb23f8318c319547df9abd5e6f8eeeec6212b2ed0ad18e19d",
+  "vault_head": "092638dfba73c7ad70ec4f8a5b7bd1fe14c1fff9"
+}
