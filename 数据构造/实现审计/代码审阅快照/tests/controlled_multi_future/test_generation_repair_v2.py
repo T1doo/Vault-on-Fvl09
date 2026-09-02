@@ -43,6 +43,11 @@ class GenerationRepairV2Tests(unittest.TestCase):
         self.assertEqual(
             self.contract["new_cpu_contracts"]["F3"]["recipe_count"], 3840
         )
+        f2 = self.contract["new_cpu_contracts"]["F2"]
+        self.assertTrue(f2["two_phase_controlled_insertion_executor_implemented"])
+        self.assertTrue(f2["post_close_actual_transform_replan_required"])
+        self.assertTrue(f2["support_before_release_required"])
+        self.assertFalse(f2["primary_10cm_gravity_drop"])
 
     def test_high_level_gpu_bundle_issuance_is_fail_closed(self):
         with self.assertRaises(GenerationRepairExecutionDisabled):

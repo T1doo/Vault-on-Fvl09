@@ -15,6 +15,15 @@ from .canonical_artifact import canonical_hash_json, canonical_write_json
 from .f2_preload_entry_evidence_gate_v11 import (
     audit_f2_preload_entry_evidence_gate_v11,
 )
+from .f2_inside_control_search_v2 import (
+    audit_f2_horizontal_margin_budget_v2,
+    audit_f2_post_close_grasp_transform_v2,
+    build_f2_controlled_insertion_suffix_v2,
+    capture_f2_runtime_geometry_observation_v4,
+    compare_f2_runtime_geometry_v4,
+    validate_f2_controlled_insertion_event_order_v2,
+    validate_f2_final_grasp_qualification_v2,
+)
 from .f2_release_gates_v10 import (
     audit_f2_final_inside_success_gate_v10,
     audit_f2_release_safety_gate_v10,
@@ -409,6 +418,327 @@ def execute_f2_inside_physical_v1(scene, spec: Mapping[str, Any]) -> dict[str, A
             "release_safety_v10": True,
             "final_inside_v10": final_gate.get("pass") is True,
         },
+    }
+
+
+def execute_f2_controlled_insertion_physical_v2(
+    scene,
+    *,
+    arm: str,
+    binding: Mapping[str, Any],
+    recipe: Mapping[str, Any],
+    final_grasp_freeze: Mapping[str, Any],
+    final_grasp_qualification: Mapping[str, Any],
+    geometry_certificate: Mapping[str, Any],
+    planned_actor_pose: Sequence[float],
+    target_actor_pose: Sequence[float],
+    runtime_signed_horizontal_margin_m: float,
+    opening_normal_world: Sequence[float],
+    planner_query_limit: int,
+) -> dict[str, Any]:
+    """Two-phase F2 V2 executor; unreachable from the CPU-only issuer lock."""
+
+    if arm not in ("left", "right"):
+        raise ValueError("F2 V2 arm must be left or right")
+    if int(planner_query_limit) < 7:
+        raise ValueError("F2 V2 requires at least two approach and five suffix queries")
+    qualification = validate_f2_final_grasp_qualification_v2(
+        recipe, final_grasp_freeze, final_grasp_qualification
+    )
+    runtime_geometry = capture_f2_runtime_geometry_observation_v4(
+        scene, geometry_certificate
+    )
+    geometry_gate = compare_f2_runtime_geometry_v4(
+        geometry_certificate, runtime_geometry
+    )
+    if qualification["pass"] is not True or geometry_gate["pass"] is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "final_grasp_qualification": qualification,
+            "runtime_geometry_gate": geometry_gate,
+            "earliest_failure": (
+                "FINAL_GRASP_NOT_EXACTLY_QUALIFIED"
+                if qualification["pass"] is not True
+                else "CPU_RUNTIME_GEOMETRY_CERTIFICATE_MISMATCH"
+            ),
+            "release_executed": False,
+        }
+    frozen_goals = final_grasp_freeze["final_goal_poses"]
+    approach_targets = _targets_payload(
+        [
+            {"segment_id": "f2_v2_pregrasp", "pose": frozen_goals["pregrasp"]},
+            {"segment_id": "f2_v2_grasp", "pose": frozen_goals["grasp"]},
+        ]
+    )
+    _planner_reset(
+        scene,
+        planner_seed=20260902,
+        variant_id=f"f2_v2_approach:{recipe['recipe_id']}",
+        arm=arm,
+    )
+    approach = _plan_chain(
+        scene,
+        approach_targets,
+        query_limit=int(planner_query_limit),
+        arm=arm,
+    )
+    if approach.get("pass") is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "final_grasp_qualification": qualification,
+            "runtime_geometry_gate": geometry_gate,
+            "approach_planner_result": _planner_payload(approach),
+            "earliest_failure": "FINAL_PREGRASP_GRASP_APPROACH_PLANNER_FAILED",
+            "release_executed": False,
+        }
+    approach_execution = [
+        _execute_planned_segment(
+            scene, approach["controls"], approach_targets, index, arm
+        )
+        for index in range(2)
+    ]
+    _must_action(
+        scene,
+        scene.close_gripper(_arm_tag(arm), pos=0.0),
+        "f2_v2_close",
+    )
+    _wait_and_record(scene, 250)
+    evidence_rows = list(scene.trace[-60:])
+    can_name = _entity(scene.can).get_name()
+    contact_continuous = bool(evidence_rows) and all(
+        row.get("selected_gripper_contact") is True for row in evidence_rows
+    )
+    identity_continuous = bool(evidence_rows) and all(
+        str(row.get("selected_contact_actor_name")) == can_name
+        for row in evidence_rows
+    )
+    actor_table_contact = any(
+        _pair_is_physical_hit_between(
+            pair, {can_name}, {"table"}
+        )
+        for row in evidence_rows
+        for pair in row.get("contact_pairs", [])
+    )
+    actual_eef = _arm_eef_pose(scene, arm)
+    actual_actor = _pose(scene.can)
+    grasp_gate = audit_f2_post_close_grasp_transform_v2(
+        planned_eef_pose=frozen_goals["grasp"],
+        planned_actor_pose=planned_actor_pose,
+        actual_eef_pose=actual_eef,
+        actual_actor_pose=actual_actor,
+        selected_contact_continuous=contact_continuous,
+        selected_actor_identity_continuous=identity_continuous,
+        actor_table_contact=actor_table_contact,
+        evidence_complete=len(evidence_rows) == 60
+        and all(_complete_contact_signal(row) for row in evidence_rows),
+    )
+    half = 0.5 * np.asarray(
+        geometry_certificate["main_object_local_dimensions_m"],
+        dtype=np.float64,
+    )
+    margin_gate = audit_f2_horizontal_margin_budget_v2(
+        signed_horizontal_margin_m=runtime_signed_horizontal_margin_m,
+        object_half_extents_m=half,
+    )
+    if grasp_gate["pass"] is not True or margin_gate["pass"] is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "final_grasp_qualification": qualification,
+            "runtime_geometry_gate": geometry_gate,
+            "approach_planner_result": _planner_payload(approach),
+            "approach_execution_receipts": approach_execution,
+            "post_close_grasp_transform_gate": grasp_gate,
+            "horizontal_margin_gate": margin_gate,
+            "earliest_failure": (
+                grasp_gate["status"]
+                if grasp_gate["pass"] is not True
+                else "INSUFFICIENT_HORIZONTAL_MARGIN_BUDGET"
+            ),
+            "release_executed": False,
+        }
+    neutral = np.asarray(
+        _arm_original_pose(scene, arm), dtype=np.float64
+    ).reshape(7)
+    suffix = build_f2_controlled_insertion_suffix_v2(
+        actual_eef_pose=actual_eef,
+        actual_actor_pose=actual_actor,
+        target_actor_pose=target_actor_pose,
+        opening_normal_world=opening_normal_world,
+        neutral_eef_pose=neutral,
+        grasp_gate=grasp_gate,
+        margin_gate=margin_gate,
+    )
+    suffix_targets = suffix["targets"]
+    _planner_reset(
+        scene,
+        planner_seed=20260903,
+        variant_id=f"f2_v2_actual_transform_suffix:{recipe['recipe_id']}",
+        arm=arm,
+    )
+    suffix_plan = _plan_chain(
+        scene,
+        suffix_targets,
+        query_limit=int(planner_query_limit),
+        arm=arm,
+    )
+    if suffix_plan.get("pass") is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "post_close_grasp_transform_gate": grasp_gate,
+            "horizontal_margin_gate": margin_gate,
+            "controlled_insertion_suffix": suffix,
+            "suffix_planner_result": _planner_payload(suffix_plan),
+            "earliest_failure": "ACTUAL_TRANSFORM_SUFFIX_PLANNER_FAILED",
+            "release_executed": False,
+        }
+    suffix_execution = [
+        _execute_planned_segment(
+            scene, suffix_plan["controls"], suffix_targets, index, arm
+        )
+        for index in range(3)
+    ]
+    _wait_and_record(scene, 50)
+    support_rows = list(scene.trace[-50:])
+    box_name = _entity(scene.box).get_name()
+    support_contact = bool(support_rows) and all(
+        any(
+            _pair_is_physical_hit_between(pair, {can_name}, {box_name})
+            for pair in row.get("contact_pairs", [])
+        )
+        for row in support_rows
+    )
+    no_table_contact = bool(support_rows) and all(
+        not any(
+            _pair_is_physical_hit_between(pair, {can_name}, {"table"})
+            for pair in row.get("contact_pairs", [])
+        )
+        for row in support_rows
+    )
+    stable = bool(support_rows) and max(
+        float(np.linalg.norm(row["actor_linear_velocity"]))
+        for row in support_rows
+    ) <= PROVISIONAL_RUNTIME_THRESHOLDS["stable_linear_speed_mps"] and max(
+        float(np.linalg.norm(row["actor_angular_velocity"]))
+        for row in support_rows
+    ) <= PROVISIONAL_RUNTIME_THRESHOLDS["eef_stationary_angular_speed_rps"]
+    opening = _inside_opening_geometry(scene, binding)
+    support_checks = {
+        "exact_50_frame_window": len(support_rows) == 50,
+        "continuous_box_support": support_contact,
+        "no_table_contact": no_table_contact,
+        "stable_before_open": stable,
+        "opening_projection_inside": opening["opening_projection_inside"]
+        is True,
+        "selected_contact_continuous": all(
+            row.get("selected_gripper_contact") is True
+            for row in support_rows
+        ),
+    }
+    support_gate = {
+        "schema_version": "cmf_f2_controlled_insertion_support_gate_v2",
+        "checks": support_checks,
+        "opening_geometry": opening,
+        "pass": all(support_checks.values()),
+    }
+    support_gate["receipt_sha256"] = canonical_hash_json(support_gate)
+    if support_gate["pass"] is not True:
+        return {
+            "sequence_complete": False,
+            "strict_inside_verifier_pass": False,
+            "post_close_grasp_transform_gate": grasp_gate,
+            "horizontal_margin_gate": margin_gate,
+            "controlled_insertion_suffix": suffix,
+            "suffix_planner_result": _planner_payload(suffix_plan),
+            "suffix_execution_receipts": suffix_execution,
+            "support_gate": support_gate,
+            "earliest_failure": "SUPPORT_STABILITY_GATE_FAILED_BEFORE_OPEN",
+            "release_executed": False,
+        }
+    release_events = []
+    for index, target in enumerate((0.2, 0.4, 0.6, 0.8, 1.0), start=1):
+        _must_action(
+            scene,
+            scene.open_gripper(_arm_tag(arm), pos=target),
+            f"f2_v2_slow_release_{index}",
+        )
+        _wait_and_record(scene, 10)
+        release_events.append(f"slow_release_{index}")
+    final_start = len(scene.trace) - 1
+    _wait_and_record(scene, 250)
+    final_rows_raw = list(scene.trace[final_start + 1 :])
+    for index in (3, 4):
+        suffix_execution.append(
+            _execute_planned_segment(
+                scene, suffix_plan["controls"], suffix_targets, index, arm
+            )
+        )
+    _wait_and_record(scene, 75)
+    event_order = validate_f2_controlled_insertion_event_order_v2(
+        [
+            "post_close_settle_250",
+            "post_close_grasp_transform_gate",
+            "suffix_planned_from_actual_transform",
+            "lift",
+            "preinsert_30mm",
+            "controlled_descend_to_support",
+            "support_stability_gate_50",
+            *release_events,
+            "post_release_settle_250",
+            "retreat_neutral",
+        ],
+        support_gate_pass=support_gate["pass"],
+    )
+    relations = _f2_relation_predicates(scene, binding)
+    actual_rest = np.asarray(
+        _arm_eef_pose(scene, arm), dtype=np.float64
+    ).reshape(7)
+    rest_pass = bool(
+        np.linalg.norm(actual_rest[:3] - neutral[:3])
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["rest_position_error_m"]
+        and quaternion_angular_error(actual_rest[3:], neutral[3:])
+        <= PROVISIONAL_RUNTIME_THRESHOLDS["orientation_error"]
+    )
+    final_rows = [
+        {
+            "actor_linear_velocity": row["actor_linear_velocity"],
+            "actor_angular_velocity": row["actor_angular_velocity"],
+            "contact_pairs": row["contact_pairs"],
+            "contact_signal_complete": _complete_contact_signal(row),
+        }
+        for row in final_rows_raw
+    ]
+    final_gate = audit_f2_final_inside_success_gate_v10(
+        final_rows,
+        true_cavity_obb_pass=relations["inside"],
+        relation_predicates=relations,
+        gripper_full_open=_arm_gripper_open(scene, arm),
+        arm_rest_pass=rest_pass,
+        can_actor_name=can_name,
+        box_actor_name=box_name,
+    )
+    passed = final_gate.get("pass") is True and event_order["pass"] is True
+    return {
+        "sequence_complete": passed,
+        "strict_inside_verifier_pass": passed,
+        "runtime_geometry_gate": geometry_gate,
+        "final_grasp_qualification": qualification,
+        "post_close_grasp_transform_gate": grasp_gate,
+        "horizontal_margin_gate": margin_gate,
+        "controlled_insertion_suffix": suffix,
+        "approach_planner_result": _planner_payload(approach),
+        "suffix_planner_result": _planner_payload(suffix_plan),
+        "approach_execution_receipts": approach_execution,
+        "suffix_execution_receipts": suffix_execution,
+        "support_gate": support_gate,
+        "controlled_event_order": event_order,
+        "final_inside_success_gate_v10": final_gate,
+        "release_executed": True,
+        "primary_10cm_gravity_drop": False,
+        "earliest_failure": None if passed else "FINAL_INSIDE_GATE_FAILED",
     }
 
 
@@ -912,6 +1242,7 @@ class HighLevelPhysicalRunnerV1:
 __all__ = [
     "HighLevelPhysicalRunnerV1",
     "build_f3_level2_targets_v1",
+    "execute_f2_controlled_insertion_physical_v2",
     "execute_f2_inside_physical_v1",
     "execute_f3_level2_physical_v1",
     "execute_f4_a_only_physical_v1",

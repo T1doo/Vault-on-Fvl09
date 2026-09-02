@@ -7,6 +7,9 @@ from typing import Any, Mapping
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .f3_final_pose_search_v3 import build_f3_final_pose_recipe_universe_v3
 from .f4_stage_b_geometry_contract_v2 import legacy_r01_invalidation_v2
+from .f2_inside_control_search_v2 import (
+    build_f2_controlled_insertion_contract_v2,
+)
 
 
 SCHEMA_VERSION = "cmf_high_level_generation_repair_v2"
@@ -20,9 +23,11 @@ class GenerationRepairExecutionDisabled(ValueError):
 def build_generation_repair_contract_v2() -> dict[str, Any]:
     f3 = build_f3_final_pose_recipe_universe_v3()
     f4 = legacy_r01_invalidation_v2()
+    f2 = build_f2_controlled_insertion_contract_v2()
     value = {
         "schema_version": SCHEMA_VERSION,
         "implementation_version": IMPLEMENTATION_VERSION,
+        "completion_revision": "2.1",
         "scientific_design_version": "controlled_multi_future_f1_f4_v1_2",
         "scope": "F2_F3_F4_CPU_CODE_GENERATION_REPAIR_ONLY",
         "old_terminal_scope_rerun_authorized": False,
@@ -52,7 +57,19 @@ def build_generation_repair_contract_v2() -> dict[str, Any]:
             },
         },
         "new_cpu_contracts": {
-            "F2": "cmf_f2_inside_control_search_v2",
+            "F2": {
+                "schema_version": "cmf_f2_inside_control_search_v2",
+                "geometry_certificate_version": "cmf_f2_geometry_certificate_v4",
+                "final_grasp_pose_freeze_implemented": True,
+                "final_grasp_planner_hash_binding_implemented": True,
+                "runtime_geometry_observation_implemented": True,
+                "two_phase_controlled_insertion_executor_implemented": True,
+                "post_close_actual_transform_replan_required": True,
+                "support_before_release_required": True,
+                "five_step_slow_release_required": True,
+                "primary_10cm_gravity_drop": False,
+                "contract_sha256": f2["contract_sha256"],
+            },
             "F3": {
                 "schema_version": f3["schema_version"],
                 "recipe_count": f3["recipe_count"],

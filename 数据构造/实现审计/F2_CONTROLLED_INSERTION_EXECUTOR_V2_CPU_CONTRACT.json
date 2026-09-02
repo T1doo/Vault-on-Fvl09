@@ -1,0 +1,74 @@
+{
+  "contract_sha256": "0b7f55b0e794c8be93b6f347d41d3487b128e1652b800584b2f19199db1f30cc",
+  "controlled_insertion": {
+    "frames_per_release_target": 10,
+    "post_release_settle_frames": 250,
+    "preinsert_clearance_m": 0.03,
+    "primary_10cm_gravity_drop": false,
+    "slow_release_normalized_targets": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "support_stability_frames_before_open": 50
+  },
+  "final_pose_frozen_before_planner": true,
+  "geometry_certificate_version": "cmf_f2_geometry_certificate_v4",
+  "gpu_execution_authorized": false,
+  "grasp_recipe_axes": {
+    "arms": [
+      "left",
+      "right"
+    ],
+    "axial_grasp_offsets_m": [
+      -0.02,
+      0.0,
+      0.02
+    ],
+    "official_contact_points": "all available per selected can asset",
+    "official_rotation_candidate_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "pregrasp_distances_m": [
+      0.06,
+      0.09,
+      0.12
+    ]
+  },
+  "horizontal_margin_formula": {
+    "grasp_translation_allocation_m": 0.005,
+    "rotational_envelope": "norm(object_half_extents_xy)*sin(0.050 rad)",
+    "safety_margin_m": 0.01,
+    "tracking_allocation_m": 0.005
+  },
+  "implementation_version": "controlled_multi_future_high_level_generation_repair_v2_0",
+  "legacy_v1_executor_selected_for_dispatch": false,
+  "physical_execution_authorized": false,
+  "planner_execution_authorized": false,
+  "post_close_grasp_transform_thresholds": {
+    "orientation_rad": 0.05,
+    "translation_m": 0.005
+  },
+  "reason_dispatch_inactive": "CPU/code repair only; a reviewed runtime spec and finite attempt budget are required before dispatch can be activated",
+  "schema_version": "cmf_f2_controlled_insertion_cpu_contract_v2",
+  "stage1_authorized": false,
+  "two_phase_planning": [
+    "exact_final_pregrasp_grasp",
+    "close_and_settle_250",
+    "runtime_geometry_and_actual_grasp_transform_gates",
+    "rebuild_suffix_from_actual_eef_to_actor_transform",
+    "plan_lift_preinsert_descend_retreat_neutral"
+  ],
+  "v2_executor_selected_for_dispatch": false
+}

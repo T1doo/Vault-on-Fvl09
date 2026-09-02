@@ -1,0 +1,49 @@
+{
+  "canonical_stage1_authorized": false,
+  "compression_authorized": false,
+  "family_readiness": {
+    "F1": {
+      "candidate_ready": true,
+      "reason": "historical development evidence unchanged; Stage1 not authorized"
+    },
+    "F2": {
+      "candidate_ready": false,
+      "code_generation_repaired": true,
+      "reason": "implementation complete at CPU level; runtime geometry and exact final-grasp planner qualification pending",
+      "runtime_dispatch_active": false,
+      "runtime_qualified_pair_count": 0,
+      "two_phase_executor_cpu_verified": true
+    },
+    "F3": {
+      "candidate_ready": false,
+      "code_generation_repaired": true,
+      "cpu_recipe_count": 3840,
+      "planner_qualified_recipe_count": 0,
+      "reason": "exact final-pose planner qualification pending"
+    },
+    "F4": {
+      "candidate_ready": false,
+      "code_generation_repaired": true,
+      "cpu_geometry_passing_new_candidate_count": 8,
+      "legacy_r01_invalid": true,
+      "planner_qualified_new_candidate_count": 0,
+      "reason": "new layouts remain CPU-only hypotheses"
+    }
+  },
+  "formal_360_authorized": false,
+  "formal_root_increment": 0,
+  "formal_trajectory_increment": 0,
+  "generation_repair_report_sha256": "0895257fd849109c84ec4cd7f5ddba0a9ae57e088ce66c7f1cd467bc8714b4dc",
+  "gpu_execution_authorized": false,
+  "h_reveal_authorized": false,
+  "next_safe_step": "separate senior/user review of a finite planner-only qualification design and attempt budget; no runtime dispatcher or execution is authorized",
+  "physical_execution_authorized": false,
+  "pi05_authorized": false,
+  "planner_execution_authorized": false,
+  "readiness_payload_sha256": "a92171c9634be6c9989ba3be3346e3f9bd7bcbb50bf69756b7f9390c1331408d",
+  "runtime_dispatch_authorized": false,
+  "schema_version": "cmf_stage1_readiness_after_generation_repair_v4",
+  "stage0_status": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+  "status": "NOT_READY_NOT_AUTHORIZED",
+  "training_authorized": false
+}

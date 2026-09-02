@@ -18,7 +18,7 @@ from .f2_asset_geometry_layout_v3 import (
     _collision_geometry,
 )
 from .f2_official_asset_compatibility_matrix_v3 import ASSET_ROOT
-from .geometry import actor_target_to_eef_pose, relative_pose
+from .geometry import actor_target_to_eef_pose, pose_matrix, relative_pose
 
 
 SCHEMA_VERSION = "cmf_f2_inside_control_search_v2"
@@ -40,6 +40,61 @@ GEOMETRY_ORIENTATION_ATOL_RAD = 1e-7
 DEFAULT_SCREENING_PATH = Path(
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CPU_STATIC_SCREENING_V3.json"
 )
+
+
+def build_f2_controlled_insertion_contract_v2() -> dict[str, Any]:
+    value = {
+        "schema_version": "cmf_f2_controlled_insertion_cpu_contract_v2",
+        "implementation_version": IMPLEMENTATION_VERSION,
+        "geometry_certificate_version": "cmf_f2_geometry_certificate_v4",
+        "grasp_recipe_axes": {
+            "arms": list(ARMS),
+            "official_rotation_candidate_indices": list(
+                OFFICIAL_ROTATION_INDICES
+            ),
+            "axial_grasp_offsets_m": list(AXIAL_GRASP_OFFSETS_M),
+            "pregrasp_distances_m": list(PREGRASP_DISTANCES_M),
+            "official_contact_points": "all available per selected can asset",
+        },
+        "final_pose_frozen_before_planner": True,
+        "post_close_grasp_transform_thresholds": {
+            "translation_m": GRASP_TRANSLATION_DRIFT_LIMIT_M,
+            "orientation_rad": GRASP_ORIENTATION_DRIFT_LIMIT_RAD,
+        },
+        "horizontal_margin_formula": {
+            "tracking_allocation_m": TRACKING_ALLOCATION_M,
+            "grasp_translation_allocation_m": GRASP_TRANSLATION_DRIFT_LIMIT_M,
+            "rotational_envelope": "norm(object_half_extents_xy)*sin(0.050 rad)",
+            "safety_margin_m": SAFETY_MARGIN_M,
+        },
+        "two_phase_planning": [
+            "exact_final_pregrasp_grasp",
+            "close_and_settle_250",
+            "runtime_geometry_and_actual_grasp_transform_gates",
+            "rebuild_suffix_from_actual_eef_to_actor_transform",
+            "plan_lift_preinsert_descend_retreat_neutral",
+        ],
+        "controlled_insertion": {
+            "preinsert_clearance_m": PREINSERT_CLEARANCE_M,
+            "support_stability_frames_before_open": 50,
+            "slow_release_normalized_targets": list(SLOW_RELEASE_TARGETS),
+            "frames_per_release_target": SLOW_RELEASE_FRAMES_PER_TARGET,
+            "post_release_settle_frames": 250,
+            "primary_10cm_gravity_drop": False,
+        },
+        "legacy_v1_executor_selected_for_dispatch": False,
+        "v2_executor_selected_for_dispatch": False,
+        "reason_dispatch_inactive": (
+            "CPU/code repair only; a reviewed runtime spec and finite attempt "
+            "budget are required before dispatch can be activated"
+        ),
+        "planner_execution_authorized": False,
+        "gpu_execution_authorized": False,
+        "physical_execution_authorized": False,
+        "stage1_authorized": False,
+    }
+    value["contract_sha256"] = canonical_hash_json(value)
+    return value
 
 
 def _vector3(value: Sequence[float], label: str) -> np.ndarray:
@@ -323,6 +378,151 @@ def build_f2_grasp_recipe_universe_v2(
     return result
 
 
+def freeze_f2_final_grasp_pose_v2(
+    recipe: Mapping[str, Any],
+    *,
+    actor_pose: Sequence[float],
+    raw_official_pregrasp_pose: Sequence[float],
+    raw_official_grasp_pose: Sequence[float],
+    raw_rotation_candidate_index: int,
+) -> dict[str, Any]:
+    recipe_value = canonical_jsonable(recipe)
+    payload = dict(recipe_value)
+    digest = payload.pop("recipe_sha256", None)
+    if digest != canonical_hash_json(payload):
+        raise ValueError("F2 final-grasp recipe hash mismatch")
+    if int(raw_rotation_candidate_index) != int(
+        recipe_value["official_rotation_candidate_index"]
+    ):
+        raise ValueError("F2 raw rotation differs from frozen recipe")
+    actor = _pose7(actor_pose, "F2 actor")
+    pregrasp = _pose7(raw_official_pregrasp_pose, "F2 raw pregrasp")
+    grasp = _pose7(raw_official_grasp_pose, "F2 raw grasp")
+    local = np.zeros(3, dtype=np.float64)
+    local[1] = float(recipe_value["axial_grasp_offset_m"])
+    shift = pose_matrix(actor)[:3, :3] @ local
+    final_pregrasp = pregrasp.copy()
+    final_grasp = grasp.copy()
+    final_pregrasp[:3] += shift
+    final_grasp[:3] += shift
+    goals = {
+        "pregrasp": final_pregrasp.tolist(),
+        "grasp": final_grasp.tolist(),
+    }
+    value = {
+        "schema_version": "cmf_f2_final_grasp_pose_freeze_v2",
+        "recipe_id": recipe_value["recipe_id"],
+        "recipe_sha256": digest,
+        "raw_official_pose_hashes": {
+            "pregrasp": canonical_hash_json(pregrasp.tolist()),
+            "grasp": canonical_hash_json(grasp.tolist()),
+        },
+        "axial_shift_world_m": shift.tolist(),
+        "final_goal_poses": goals,
+        "final_goal_pose_hashes": {
+            key: canonical_hash_json(pose) for key, pose in goals.items()
+        },
+        "ordered_final_planner_input_sha256": canonical_hash_json(
+            [goals["pregrasp"], goals["grasp"]]
+        ),
+        "offset_applied_before_planner_qualification": True,
+        "post_qualification_pose_mutation_allowed": False,
+    }
+    value["final_grasp_pose_freeze_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def validate_f2_final_grasp_qualification_v2(
+    recipe: Mapping[str, Any],
+    freeze: Mapping[str, Any],
+    qualification_receipt: Mapping[str, Any],
+) -> dict[str, Any]:
+    recipe_value = canonical_jsonable(recipe)
+    freeze_value = canonical_jsonable(freeze)
+    receipt = canonical_jsonable(qualification_receipt)
+    receipt_payload = dict(receipt)
+    receipt_digest = receipt_payload.pop("receipt_sha256", None)
+    checks = {
+        "receipt_hash_valid": receipt_digest
+        == canonical_hash_json(receipt_payload),
+        "recipe_bound": receipt.get("recipe_sha256")
+        == recipe_value.get("recipe_sha256"),
+        "freeze_bound": receipt.get("final_grasp_pose_freeze_sha256")
+        == freeze_value.get("final_grasp_pose_freeze_sha256"),
+        "exact_ordered_input_bound": receipt.get(
+            "ordered_planner_input_sha256"
+        )
+        == freeze_value.get("ordered_final_planner_input_sha256"),
+        "exact_goal_hashes_bound": receipt.get("goal_pose_hashes")
+        == freeze_value.get("final_goal_pose_hashes"),
+        "pregrasp_and_grasp_planner_success": receipt.get("planner_statuses")
+        == {"pregrasp": "Success", "grasp": "Success"},
+        "ik_collision_planner_checked": receipt.get(
+            "ik_collision_planner_checked"
+        )
+        is True,
+        "post_qualification_mutation_absent": receipt.get(
+            "post_qualification_pose_mutation"
+        )
+        is False,
+    }
+    value = {
+        "schema_version": "cmf_f2_final_grasp_qualification_validation_v2",
+        "recipe_id": recipe_value.get("recipe_id"),
+        "checks": checks,
+        "pass": all(checks.values()),
+        "physical_execution_authorized": False,
+    }
+    value["receipt_sha256"] = canonical_hash_json(value)
+    return value
+
+
+def capture_f2_runtime_geometry_observation_v4(
+    scene, certificate: Mapping[str, Any]
+) -> dict[str, Any]:
+    from .family_runners_v3_1 import _actor_local_geometry_bounds, _pose
+
+    cert = canonical_jsonable(certificate)
+    can_center, can_half = _actor_local_geometry_bounds(scene.can)
+    box_center, box_half = _actor_local_geometry_bounds(scene.box)
+    can_center = _vector3(can_center, "runtime can local center")
+    can_half = _vector3(can_half, "runtime can half extents")
+    box_center = _vector3(box_center, "runtime box local center")
+    box_half = _vector3(box_half, "runtime box half extents")
+    copied = (
+        "main_object_model_id",
+        "plastic_box_model_id",
+        "main_object_collision_path",
+        "plastic_box_collision_path",
+        "main_object_model_data_sha256",
+        "plastic_box_model_data_sha256",
+        "main_object_collision_sha256",
+        "plastic_box_collision_sha256",
+        "main_object_scale",
+        "plastic_box_scale",
+        "cavity_raw_lower_m",
+        "cavity_raw_upper_m",
+        "cavity_center_m",
+    )
+    value = {key: cert[key] for key in copied}
+    value.update(
+        {
+            "main_object_local_lower_m": (can_center - can_half).tolist(),
+            "main_object_local_upper_m": (can_center + can_half).tolist(),
+            "main_object_local_center_m": can_center.tolist(),
+            "main_object_local_dimensions_m": (2.0 * can_half).tolist(),
+            "plastic_box_local_lower_m": (box_center - box_half).tolist(),
+            "plastic_box_local_upper_m": (box_center + box_half).tolist(),
+            "plastic_box_local_center_m": box_center.tolist(),
+            "plastic_box_local_dimensions_m": (2.0 * box_half).tolist(),
+            "main_object_spawn_orientation_wxyz": _pose(scene.can)[3:].tolist(),
+            "plastic_box_spawn_orientation_wxyz": _pose(scene.box)[3:].tolist(),
+        }
+    )
+    value["runtime_observation_sha256"] = canonical_hash_json(value)
+    return value
+
+
 def audit_f2_horizontal_margin_budget_v2(
     *, signed_horizontal_margin_m: float, object_half_extents_m: Sequence[float]
 ) -> dict[str, Any]:
@@ -406,6 +606,7 @@ def build_f2_controlled_insertion_suffix_v2(
     actual_actor_pose: Sequence[float],
     target_actor_pose: Sequence[float],
     opening_normal_world: Sequence[float],
+    neutral_eef_pose: Sequence[float],
     grasp_gate: Mapping[str, Any],
     margin_gate: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -429,10 +630,13 @@ def build_f2_controlled_insertion_suffix_v2(
     supported_eef = actor_target_to_eef_pose(
         actual_eef, actual_actor, target_actor
     )
+    neutral_eef = _pose7(neutral_eef_pose, "neutral EEF")
     targets = [
         {"segment_id": "f2_v2_lift", "pose": lift_eef.tolist()},
         {"segment_id": "f2_v2_preinsert_30mm", "pose": preinsert_eef.tolist()},
         {"segment_id": "f2_v2_controlled_descend_to_support", "pose": supported_eef.tolist()},
+        {"segment_id": "f2_v2_retreat_to_preinsert", "pose": preinsert_eef.tolist()},
+        {"segment_id": "f2_v2_neutral", "pose": neutral_eef.tolist()},
     ]
     value = {
         "schema_version": "cmf_f2_controlled_insertion_suffix_v2",
@@ -543,10 +747,14 @@ __all__ = [
     "audit_f2_horizontal_margin_budget_v2",
     "audit_f2_post_close_grasp_transform_v2",
     "build_f2_controlled_insertion_suffix_v2",
+    "build_f2_controlled_insertion_contract_v2",
     "build_f2_geometry_certificate_v4",
     "build_f2_geometry_certificate_inventory_v4",
     "build_f2_grasp_recipe_universe_v2",
+    "capture_f2_runtime_geometry_observation_v4",
     "compare_f2_runtime_geometry_v4",
     "expand_legacy_f2_preload_failure_v2",
+    "freeze_f2_final_grasp_pose_v2",
+    "validate_f2_final_grasp_qualification_v2",
     "validate_f2_controlled_insertion_event_order_v2",
 ]
