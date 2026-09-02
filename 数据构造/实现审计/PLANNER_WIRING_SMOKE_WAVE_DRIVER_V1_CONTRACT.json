@@ -1,0 +1,47 @@
+{
+  "aggregate_budget": {
+    "physical_execution_limit": 0,
+    "planner_query_limit": 152,
+    "scene_limit": 9,
+    "serial_only": true,
+    "single_fresh_idle_gpu": true,
+    "trajectory_limit": 0,
+    "wall_time_seconds": 16200
+  },
+  "base_slots": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+  ],
+  "caller_supplied_prior_terminal_dict_allowed": false,
+  "conditional_dependencies": {
+    "S6A": "S2",
+    "S6B": "S5",
+    "S7A": "S3",
+    "S7B": "S7A"
+  },
+  "contract_sha256": "4c88fd1fdb3767849a82469fb8e4caf8c9a61f8f4799fd75aca0536c2b26feff",
+  "f3_stage_b_registry_auto_built_from_stage_a_files": true,
+  "infrastructure_error_permanently_closes_wave": true,
+  "ledger_schema": "cmf_planner_wiring_smoke_wave_ledger_v1",
+  "normalized_terminal_schema": "cmf_planner_wiring_smoke_normalized_terminal_v1",
+  "o_excl_per_slot_issuance": true,
+  "o_excl_per_slot_terminal": true,
+  "operational_wave_approval_created": false,
+  "ordered_slots": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6A",
+    "S6B",
+    "S7A",
+    "S7B"
+  ],
+  "planner_execution_authorized": false,
+  "prior_terminal_source": "validated immutable files only",
+  "schema_version": "cmf_planner_wiring_smoke_wave_driver_v1_contract"
+}
