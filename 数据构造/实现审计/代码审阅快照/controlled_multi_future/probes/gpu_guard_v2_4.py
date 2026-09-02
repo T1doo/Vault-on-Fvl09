@@ -116,6 +116,12 @@ from .high_level_authorization_v1 import (
     load as load_high_level_v1,
     validate_consumption as validate_high_level_consumption_v1,
 )
+from .planner_qualification_authorization_v2_3 import (
+    IMPLEMENTATION_VERSION as PLANNER_QUALIFICATION_V2_3_IMPLEMENTATION_VERSION,
+    consume as consume_planner_qualification_v2_3,
+    load as load_planner_qualification_v2_3,
+    validate_consumption as validate_planner_qualification_consumption_v2_3,
+)
 
 
 GUARD_SCHEMA_VERSION = "cmf_gpu_guard_v2_4_1"
@@ -155,6 +161,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
+    if implementation == PLANNER_QUALIFICATION_V2_3_IMPLEMENTATION_VERSION:
+        return load_planner_qualification_v2_3(
+            path, requested_scope=requested_scope, **kwargs
+        )
     if implementation == HIGH_LEVEL_IMPLEMENTATION_VERSION:
         return load_high_level_v1(
             path, requested_scope=requested_scope, **kwargs
@@ -215,6 +225,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
+    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_IMPLEMENTATION_VERSION:
+        return consume_planner_qualification_v2_3(
+            authorization, ledger_directory=ledger_directory
+        )
     if authorization.get("implementation_version") == HIGH_LEVEL_IMPLEMENTATION_VERSION:
         return consume_high_level_v1(
             authorization, ledger_directory=ledger_directory
@@ -277,6 +291,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
+    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_IMPLEMENTATION_VERSION:
+        return validate_planner_qualification_consumption_v2_3(
+            consumption, authorization
+        )
     if authorization.get("implementation_version") == HIGH_LEVEL_IMPLEMENTATION_VERSION:
         return validate_high_level_consumption_v1(consumption, authorization)
     if authorization.get("implementation_version") == DEVELOPMENT_CONSOLIDATION_IMPLEMENTATION_VERSION:

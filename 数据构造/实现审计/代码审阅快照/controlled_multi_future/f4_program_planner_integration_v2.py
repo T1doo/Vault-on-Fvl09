@@ -8,9 +8,10 @@ issuer and does not authorize planner, GPU, physical, or Stage-1 execution.
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import Any, Callable, Mapping
+from typing import Any, Mapping
 
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
+from .family_runners_v3_1 import _plan_chain
 from .high_level_planner_runner_v1 import build_f4_stage_b_targets_v1
 
 
@@ -21,6 +22,13 @@ PROGRAMS = {
     "F4-BAC": ("B", "A", "C"),
 }
 SEGMENTS_PER_ROLE = 10
+PLANNER_COLLISION_SCOPE = {
+    "configured_world_objects": ["table"],
+    "scene_dynamic_objects_in_curobo_world": False,
+    "attached_carried_object_modeled": False,
+    "cpu_object_sweep_audit": True,
+    "robot_link_vs_scene_object_collision_proven": False,
+}
 
 
 def _self_hashed(value: Mapping[str, Any], key: str) -> dict[str, Any]:
@@ -64,6 +72,7 @@ def build_f4_program_planner_spec_v2(
         "fresh_or_reconstructed_scene_required": True,
         "actual_source_layout_gate_required": True,
         "actual_source_geometry_v2_rerun_required": True,
+        "planner_collision_scope": PLANNER_COLLISION_SCOPE,
         "planner_query_limit": SEGMENTS_PER_ROLE * 3,
         "planner_execution_authorized": False,
         "gpu_execution_authorized": False,
@@ -77,9 +86,6 @@ def build_f4_program_planner_spec_v2(
 def run_f4_program_planner_v2(
     scene,
     spec: Mapping[str, Any],
-    *,
-    plan_chain_fn: Callable[..., Mapping[str, Any]],
-    target_builder: Callable[..., Any] = build_f4_stage_b_targets_v1,
 ) -> dict[str, Any]:
     checked = _self_hashed(spec, "spec_sha256")
     program_id = checked.get("program_id")
@@ -87,12 +93,13 @@ def run_f4_program_planner_v2(
         checked.get("purpose") != PURPOSE
         or PROGRAMS.get(program_id) != tuple(checked.get("program_order", ()))
         or checked.get("planner_execution_authorized") is not False
+        or checked.get("planner_collision_scope") != PLANNER_COLLISION_SCOPE
     ):
         raise ValueError("F4 V2 planner spec purpose/order is invalid or activated")
     lifecycle = getattr(scene, "_cmf_scene_lifecycle", None)
     if lifecycle not in ("fresh", "reconstructed"):
         raise ValueError("F4 V2 program planner requires a fresh/reconstructed scene")
-    targets, audit = target_builder(scene, checked)
+    targets, audit = build_f4_stage_b_targets_v1(scene, checked)
     expected_roles = list(PROGRAMS[program_id])
     if (
         audit.get("program_id") != program_id
@@ -104,7 +111,7 @@ def run_f4_program_planner_v2(
         is not True
     ):
         raise ValueError("F4 V2 target builder did not prove program/source binding")
-    planned = plan_chain_fn(
+    planned = _plan_chain(
         scene,
         targets,
         query_limit=int(checked["planner_query_limit"]),
@@ -145,8 +152,14 @@ def run_f4_program_planner_v2(
             "terminal_qpos_sha256": planned.get("terminal_qpos_sha256"),
             "controls_retained_in_receipt": False,
         },
-        "program_planner_qualified": passed,
-        "candidate_planner_qualified": False,
+        "planner_collision_scope": deepcopy(PLANNER_COLLISION_SCOPE),
+        "result_semantics": {
+            "robot_kinematic_table_world_planner_pass": passed,
+        },
+        "robot_kinematic_table_world_planner_pass": passed,
+        "planner_qualified_for_physical_probe": False,
+        "candidate_ready": False,
+        "stage1_ready": False,
         "all_three_programs_required": True,
         "physical_execution_count": 0,
         "planner_execution_authorized_by_this_receipt": False,
@@ -171,8 +184,13 @@ def finalize_f4_candidate_program_qualification_v2(
             item.get("candidate_sha256") == candidate["candidate_sha256"]
             for item in terminals
         ),
-        "all_programs_planner_qualified": all(
-            item.get("program_planner_qualified") is True for item in terminals
+        "all_programs_table_world_planner_pass": all(
+            item.get("robot_kinematic_table_world_planner_pass") is True
+            for item in terminals
+        ),
+        "collision_scope_exact": all(
+            item.get("planner_collision_scope") == PLANNER_COLLISION_SCOPE
+            for item in terminals
         ),
         "three_independent_scene_ids": len(scene_ids) == 3
         and None not in scene_ids
@@ -193,7 +211,9 @@ def finalize_f4_candidate_program_qualification_v2(
             item["receipt_sha256"] for item in terminals
         ],
         "checks": checks,
-        "candidate_planner_qualified": all(checks.values()),
+        "planner_qualified_for_physical_probe": all(checks.values()),
+        "candidate_ready": False,
+        "stage1_ready": False,
         "abc_only_never_sufficient": True,
         "planner_execution_authorized": False,
         "physical_execution_authorized": False,

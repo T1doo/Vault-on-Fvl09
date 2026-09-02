@@ -1,0 +1,53 @@
+{
+  "F2": {
+    "different_arms": true,
+    "planner_query_limit": 6,
+    "recipe_sha256s": [
+      "ccab563086fbcd3f48bde31177d8c0a83990d8897a33680ab0b15997213b12fe",
+      "5c43c2fcbc771578760d8ed465ff229ea0dee85bf0c98f6e5085f2beafde1924"
+    ],
+    "scene_limit": 2
+  },
+  "F3": {
+    "conditional_stage_b_query_limit": 14,
+    "different_asset_and_arm": true,
+    "planner_query_limit": 20,
+    "scene_limit": 4,
+    "stage_a_query_limit": 6,
+    "stage_a_recipe_sha256s": [
+      "ad0a1f8fe83dfea9a77870c2a878520fd2315c7f2ed8492c8b86e41e7701862c",
+      "a4f721d8bac09587e538782d4248390f76f6e6b2c7b82af1bdb2a7e2932248fa"
+    ]
+  },
+  "F4": {
+    "candidate_id": "f4-slot-corridor-hv2-r01",
+    "conditional_program_order": [
+      "F4-ABC",
+      "F4-ACB",
+      "F4-BAC"
+    ],
+    "planner_query_limit": 90,
+    "scene_limit": 3
+  },
+  "aggregate": {
+    "automatic_full_panel_continuation": false,
+    "physical_execution_limit": 0,
+    "planner_query_limit": 116,
+    "scene_limit": 9,
+    "serial_only": true,
+    "single_fresh_idle_gpu": true,
+    "trajectory_limit": 0
+  },
+  "gpu_execution_authorized": false,
+  "manifest_bundle_sha256": "d4f0ec11f15e0849e4da6ab0febd0028533f09d7637cef2c05ce497d9a9814a9",
+  "physical_execution_authorized": false,
+  "planner_execution_authorized": false,
+  "proposal_sha256": "2d93d86e351250f1c4866a84b8341fae5cc8b7ea078d2c790fc8e3bb9c440481",
+  "required_terminal_artifacts": [
+    "PLANNER_WIRING_SMOKE_V1_TERMINAL",
+    "PLANNER_WIRING_SMOKE_V1_REVIEW"
+  ],
+  "schema_version": "cmf_planner_wiring_smoke_v1_proposal",
+  "stage1_authorized": false,
+  "status": "PROPOSAL_ONLY_NOT_AUTHORIZED"
+}

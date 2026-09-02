@@ -125,63 +125,10 @@ def _chosen_grasp(
 
 
 def build_f2_stage_a_targets_v1(scene, spec: Mapping[str, Any]):
-    candidate = spec["candidate"]
-    binding = spec["f2_asset_layout_binding_v3"]
-    arm = candidate["arm"]
-    pregrasp, grasp, audit = _chosen_grasp(
-        scene,
-        scene.can,
-        arm=arm,
-        variant_id=f"f2_hierarchical_stage_a:{candidate['candidate_id']}",
-        pregrasp_distance_m=candidate["grasp_pre_distance_m"],
-        target_distance_m=candidate["grasp_target_distance_m"],
-        fixed_contact_point_id=candidate["official_grasp_contact_point_id"],
+    raise RuntimeError(
+        "legacy F2 gravity-drop planner builder is permanently disabled; "
+        "use f2_final_grasp_v2_stage_a_planner"
     )
-    current_actor = _pose(scene.can)
-    can_local_center, can_half = _actor_local_geometry_bounds(scene.can)
-    local_center_pose = np.asarray(
-        [*can_local_center, 1.0, 0.0, 0.0, 0.0], dtype=np.float64
-    )
-    cavity = binding["strict_cavity_contract"]
-    target_geometry = compose_pose(
-        _pose(scene.box),
-        [
-            *cavity["target_center_local_m"],
-            *binding["inside_object_orientation_wxyz"],
-        ],
-    )
-    target_actor = matrix_pose(
-        pose_matrix(target_geometry) @ np.linalg.inv(pose_matrix(local_center_pose))
-    )
-    fit = obb_inside_local_cavity(
-        target_geometry,
-        can_half,
-        _pose(scene.box),
-        cavity["lower_m"],
-        cavity["upper_m"],
-    )
-    if fit.get("pass_true_cavity_obb") is not True:
-        raise RuntimeError("F2 Stage-A strict target actor geometry does not fit cavity")
-    release = actor_target_to_eef_pose(grasp, current_actor, target_actor)
-    preplace = world_axis_offset_pose(release, 0.16)
-    drop_release = world_axis_offset_pose(release, 0.10)
-    lift = world_axis_offset_pose(grasp, 0.12)
-    rest = _arm_original_pose(scene, arm)
-    targets = [
-        {"segment_id": "f2_stage_a_pregrasp", "pose": pregrasp},
-        {"segment_id": "f2_stage_a_grasp", "pose": grasp},
-        {"segment_id": "f2_stage_a_lift_12cm", "pose": lift},
-        {"segment_id": "f2_stage_a_inside_preplace_16cm", "pose": preplace},
-        {"segment_id": "f2_stage_a_inside_release_10cm", "pose": drop_release},
-        {"segment_id": "f2_stage_a_neutral", "pose": rest},
-    ]
-    return _targets_payload(targets), {
-        "target_construction_audit": audit,
-        "target_actor_pose": target_actor.tolist(),
-        "target_geometry_center_pose": target_geometry.tolist(),
-        "strict_full_obb_fit": fit,
-        "inside_release_is_10cm_gravity_drop_entry": True,
-    }
 
 
 def _f3_region_shift_world(scene, candidate: Mapping[str, Any]) -> np.ndarray:

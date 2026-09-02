@@ -10,6 +10,7 @@ from controlled_multi_future.f4_hierarchical_template_search_v1 import (
     select_f4_stage_a_source_v1,
 )
 from controlled_multi_future.f4_program_planner_integration_v2 import (
+    PLANNER_COLLISION_SCOPE,
     PROGRAMS,
     PURPOSE,
     build_f4_program_planner_spec_v2,
@@ -121,22 +122,18 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
                 slot_id=f"slot-{program_id}",
             )
             terminals.append(
-                run_f4_program_planner_v2(
-                    Scene(f"fresh-{index}"),
-                    spec,
-                    plan_chain_fn=successful_plan,
-                    target_builder=fake_target_builder,
-                )
+                self._run(Scene(f"fresh-{index}"), spec)
             )
         self.assertTrue(
             finalize_f4_candidate_program_qualification_v2(
                 self.slot, terminals
-            )["candidate_planner_qualified"]
+            )["planner_qualified_for_physical_probe"]
         )
         abc_only = finalize_f4_candidate_program_qualification_v2(
             self.slot, terminals[:1]
         )
-        self.assertFalse(abc_only["candidate_planner_qualified"])
+        self.assertFalse(abc_only["planner_qualified_for_physical_probe"])
+        self.assertFalse(abc_only["candidate_ready"])
         reused_scene = copy.deepcopy(terminals)
         reused_scene[1]["scene_instance_id"] = reused_scene[0]["scene_instance_id"]
         reused_scene[1]["receipt_sha256"] = __import__(
@@ -151,7 +148,39 @@ class F4ProgramPlannerIntegrationV2Tests(unittest.TestCase):
         self.assertFalse(
             finalize_f4_candidate_program_qualification_v2(
                 self.slot, reused_scene
-            )["candidate_planner_qualified"]
+            )["planner_qualified_for_physical_probe"]
+        )
+
+    def _run(self, scene, spec):
+        with patch(
+            "controlled_multi_future.f4_program_planner_integration_v2._plan_chain",
+            side_effect=successful_plan,
+        ), patch(
+            "controlled_multi_future.f4_program_planner_integration_v2."
+            "build_f4_stage_b_targets_v1",
+            side_effect=fake_target_builder,
+        ):
+            return run_f4_program_planner_v2(scene, spec)
+
+    def test_planner_collision_scope_is_explicit_and_missing_scope_fails(self):
+        spec = build_f4_program_planner_spec_v2(
+            self.source, self.slot, program_id="F4-ABC", slot_id="scope"
+        )
+        terminal = self._run(Scene("scope-scene"), spec)
+        self.assertEqual(terminal["planner_collision_scope"], PLANNER_COLLISION_SCOPE)
+        self.assertTrue(terminal["robot_kinematic_table_world_planner_pass"])
+        self.assertNotIn("physical_feasible", terminal)
+        changed = copy.deepcopy(terminal)
+        changed.pop("planner_collision_scope")
+        changed["receipt_sha256"] = __import__(
+            "controlled_multi_future.canonical_artifact", fromlist=["canonical_hash_json"]
+        ).canonical_hash_json(
+            {key: value for key, value in changed.items() if key != "receipt_sha256"}
+        )
+        self.assertFalse(
+            finalize_f4_candidate_program_qualification_v2(
+                self.slot, [changed, terminal, terminal]
+            )["planner_qualified_for_physical_probe"]
         )
 
     def test_actual_source_layout_gate_precedes_actual_geometry(self):
