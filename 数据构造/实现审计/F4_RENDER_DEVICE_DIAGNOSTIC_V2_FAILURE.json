@@ -1,0 +1,54 @@
+{
+  "authorization_id": "high-level-v1-2-5-f4-stage-b-r01-render-diag-run2",
+  "authorization_receipt_sha256": "54bab52da68f15e2b9a380b378f84b12bdea8362c01bd270d46df354e59ab8f5",
+  "candidate_conclusion_allowed": false,
+  "formal_data": false,
+  "guard_receipt_file_sha256": "fe4cc07bc248934e45fd0c4edf66e9e109eb6e03b2afdfbaa84b21fb16c365a5",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/gpu_guards/high_level_template_redesign_v1/high-level-v1-2-5-f4-stage-b-r01-render-diag-run2.guard.json",
+  "guard_receipt_sha256": "f9fd2151bf1de5a2881edfc08ffdc9d6bceb29d953f3fe856eaac2f14ed7ae77",
+  "guard_reported_orphan_pids": [
+    3174009
+  ],
+  "guard_status": "failed_cleanup_uncertain",
+  "implementation_source_sha256": "cf6fa611f7f6e234d484c1ab4fcb3774a70cb2bcadccf2293767f666b56ce927",
+  "implementation_version": "controlled_multi_future_high_level_template_redesign_v1_2_5",
+  "mid_run_full_pids": {
+    "nonselected_gpu3": {
+      "process_type": "G",
+      "used_memory_mib": 4
+    },
+    "pass": false,
+    "selected_gpu0": {
+      "process_type": "C+G",
+      "used_memory_mib": 399
+    },
+    "task_pid": 3174009
+  },
+  "new_trajectory_count": 0,
+  "outer_receipt_file_sha256": "08e6fe1b247b26af95ae493bc03525eea4475a6d0e5b4ddb42863451303c9c71",
+  "outer_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_high_level_template_redesign_v1/high-level-v1-2-5-f4-stage-b-r01-render-diag-run2/receipt.json",
+  "physical_execution_count": 0,
+  "post_abort_confirmation": {
+    "full_gpu_pids_contains_task_pid": false,
+    "gpu0_and_gpu3_baseline_restored": true,
+    "task_pid_absent": true
+  },
+  "report_sha256": "090c29d1f156cfc05bb83a6a01a3eed93a89d6cf5abfd8dd211e7775752a4f3d",
+  "required_fix": {
+    "hard_gate_render_freq_zero": true,
+    "keep_scene_render_system_pinned_to_logical_cuda_0": true,
+    "new_source_and_authorization_required": true,
+    "repeat_full_pids_diagnostic": true,
+    "suppress_legacy_sapien_renderer_construction_when_render_freq_zero": true
+  },
+  "revised_root_cause": "even the explicitly pinned legacy pybind SapienRenderer creates or retains a separate small graphics/presentation context on GPU3; render_freq is frozen to zero, so the legacy renderer can be suppressed rather than instantiated",
+  "schema_version": "cmf_f4_render_device_diagnostic_v2_failure",
+  "selected_physical_gpu": {
+    "index": 0,
+    "pci_bus_id": "0000:01:00.0",
+    "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+  },
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "status": "LEGACY_AND_SCENE_DEVICE_PIN_STILL_CROSS_CARD_GLOBAL_OR_LEGACY_CONTEXT"
+}
