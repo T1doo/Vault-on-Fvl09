@@ -1,0 +1,59 @@
+{
+  "actual_counts": {
+    "accepted_trajectories": 0,
+    "debug_videos": 0,
+    "formal_trajectories": 0,
+    "physical_executions": 0,
+    "planner_queries": 0,
+    "scenes": 4
+  },
+  "f2_rerun": false,
+  "f4_rerun": false,
+  "formal_data": false,
+  "guard": {
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "physical_gpu_index": 0,
+    "receipt_sha256": "b85945d1b07bca3b0e352d81de16ae35584e953a38cbacd26c7bc1f477339466",
+    "status": "completed",
+    "task_owned_cleanup_pass": true
+  },
+  "manifest_sha256": "d39d6ad3671744d524977aef42fedc4feec3605e78a1dcb2f1414a12c6757b93",
+  "receipt_sha256": "844506c4abfd09dd0151ac05613005720276231ca61796155122ce1bc40e95d8",
+  "repair": "validate raw pose source hash, then compare deterministic normalized pose hashes",
+  "root_cause": "scene receipt hashed raw SAPIEN quaternion while official raw-pose receipt hashed the same quaternion after normalization",
+  "rows": [
+    {
+      "candidate": "candidate_01_bottle15_left_lower_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "5be2b897a1ab3951e501ad7cd966310dc077c83502b5b0bb24dcd71babcedaff",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run4/F3/candidate_01_bottle15_left_lower_body/stage_a.json",
+      "physical_attempted": false
+    },
+    {
+      "candidate": "candidate_02_bottle5_right_lower_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "1a406585be118ffa32abe6f4e245d4ad773dd90041388701862b328e8c9458f3",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run4/F3/candidate_02_bottle5_right_lower_body/stage_a.json",
+      "physical_attempted": false
+    },
+    {
+      "candidate": "candidate_03_bottle4_left_upper_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "30052edd8472cb9df6cd339344a9dc7fe6ab0f46dce96f65324a2620d57c8d76",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run4/F3/candidate_03_bottle4_left_upper_body/stage_a.json",
+      "physical_attempted": false
+    },
+    {
+      "candidate": "candidate_04_bottle13_right_upper_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "885a9d57ab210340cdc71750c9f53fa0e7cb4526178281d5287b6113ec743260",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run4/F3/candidate_04_bottle13_right_upper_body/stage_a.json",
+      "physical_attempted": false
+    }
+  ],
+  "run_id": "production-micro-gate-v1-20260903-run4",
+  "schema_version": "cmf_production_micro_gate_run4_terminal_v1",
+  "stage1_authorized": false,
+  "status": "F3_ZERO_PHYSICAL_QUATERNION_NORMALIZATION_HASH_REPAIR_REQUIRED"
+}

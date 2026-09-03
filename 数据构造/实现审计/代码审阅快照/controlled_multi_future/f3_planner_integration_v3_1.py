@@ -70,6 +70,18 @@ def _runtime_scene_binding(scene) -> dict[str, Any]:
     return _scene_binding(getattr(scene, "_cmf_f3_scene_binding_v3_1", None))
 
 
+def _normalized_pose_sha256(value) -> str:
+    pose = np.asarray(value, dtype=np.float64).reshape(-1)
+    if pose.shape != (7,) or not np.all(np.isfinite(pose)):
+        raise ValueError("F3 actor pose must be one finite pose7")
+    norm = float(np.linalg.norm(pose[3:]))
+    if norm <= 1.0e-12:
+        raise ValueError("F3 actor quaternion norm must be positive")
+    pose = pose.copy()
+    pose[3:] /= norm
+    return canonical_hash_json(pose.tolist())
+
+
 def _runtime_equivalent_actor_pose_sha256(scene, scene_binding) -> str | None:
     receipt = getattr(scene, "_cmf_f3_scene_binding_equivalence_v1", None)
     if not isinstance(receipt, Mapping):
@@ -90,7 +102,7 @@ def _runtime_equivalent_actor_pose_sha256(scene, scene_binding) -> str | None:
         or canonical_hash_json(_pose(scene.bottle).tolist()) != actual_sha
     ):
         raise ValueError("F3 runtime scene-equivalence receipt is invalid")
-    return actual_sha
+    return _normalized_pose_sha256(value["actual_bottle_pose"])
 
 
 def _planner_summary(result: Mapping[str, Any]) -> dict[str, Any]:
@@ -173,7 +185,12 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
         if equivalent_actor_sha is not None
         else runtime_binding["bottle_actor_pose_sha256"]
     )
-    if raw["actor_pose_sha256"] != expected_actor_sha:
+    observed_actor_sha = (
+        _normalized_pose_sha256(raw["actor_pose"])
+        if equivalent_actor_sha is not None
+        else raw["actor_pose_sha256"]
+    )
+    if observed_actor_sha != expected_actor_sha:
         raise ValueError("F3 V2.3 Stage-A bottle actor pose mismatch")
     freeze = freeze_f3_final_pose_v3(recipe, raw_pose_generation_receipt=raw)
     names = ("pregrasp", "grasp", "lift")
