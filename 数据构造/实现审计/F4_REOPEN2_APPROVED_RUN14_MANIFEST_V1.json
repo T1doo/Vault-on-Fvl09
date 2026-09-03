@@ -1,0 +1,115 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approved": true,
+  "asset_hashes_by_family": {
+    "F4": {
+      "assets/objects/008_tray/collision/base0.glb": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+      "assets/objects/008_tray/model_data0.json": "d5ed105c12c12f7e2be3b2be2305c21badbd11da3a10f4f00dac0bf7d44b469f",
+      "assets/objects/008_tray/points_info.json": "8e9c29c47319ce845ef80538c25c36e4db61006a87c614931eb2fc2ff4b2a38a",
+      "assets/objects/008_tray/visual/base0.glb": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+    }
+  },
+  "automatic_continuation": false,
+  "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/f4_reopen2_run14",
+  "compression_authorized": false,
+  "external_review_decision_file_sha256": "ee818c10005d5bef0e60c46dd0d9fb4811333d1e34c65c3e350ac35bdf553d73",
+  "external_review_decision_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_POST_GATE_V2_20260904.md",
+  "f4_source_sha256": "f9f12de9f23e784fa1fa600aaa3b9e2ac27e4226d3fea8b84c466230a4f67ea8",
+  "formal_360_authorized": false,
+  "formal_data": false,
+  "gpu_execution_authorized": true,
+  "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_run14/f4-reopen2-run14-final-guard-repair-20260904/guards",
+  "guard_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/guarded_launcher.py",
+  "guard_script_sha256": "3353872b247f79dc2759704af8b720dcd14ae736a4c17cab73aa76e3b54493f1",
+  "h_reveal_authorized": false,
+  "implementation_source_sha256": "3dcef886f108efb88e81540e9f36e7fd00646165b794d0d4203fa806b7fbd3fd",
+  "jobs": [
+    {
+      "automatic_retry": false,
+      "candidate_id": "f4-slot-corridor-hv2-r01",
+      "candidate_sha256": "981d7a2ecf791b3d5545aa0ca136105e5f8e41ba4523333370de87ed5dffb2df",
+      "dry_candidate_frozen_spec_sha256": "812a90425662352ccb4f0402549aea9a879ddf17a8d189e0464a772d021bfed6",
+      "fallback_allowed": false,
+      "family": "F4",
+      "fixed_arm_schedule": {
+        "canonical_prefix": "right",
+        "program_suffix": "left"
+      },
+      "isolation_gate_receipt_sha256": "ad8f34ca9d8c1780329d95a767a90205856604aa899a2c224edc8d988cefec40",
+      "job_id": "f4-development-rpc-root-v1-run14-final-guard-repair",
+      "maximum_accepted_development_roots": 1,
+      "maximum_accepted_development_trajectories": 3,
+      "maximum_branch_executions": 3,
+      "maximum_canonical_prefix_generations": 1,
+      "maximum_debug_videos": 3,
+      "maximum_exact_prefix_replays": 3,
+      "maximum_formal_trajectories": 0,
+      "maximum_fresh_scenes": 8,
+      "maximum_planner_queries": 136,
+      "maximum_raw_trajectories": 3,
+      "maximum_robot_action_scenes": 4,
+      "maximum_root_invocations": 1,
+      "maximum_suffix_preflights": 3,
+      "mode": "ONE_F4_DEVELOPMENT_R_PC_ROOT_V1",
+      "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/f4-reopen2-run14-final-guard-repair/F4",
+      "planned_scene_spec_sha256": "99240a809efab02bb1a6afd0e47921198451dce43845c6c3e15a72307dfc00f1",
+      "program_order": [
+        "F4-ABC",
+        "F4-ACB",
+        "F4-BAC"
+      ],
+      "realization": "r_pc",
+      "second_replacement_allowed": false,
+      "source_planner_terminals": {
+        "F4-ABC": {
+          "file_sha256": "dd99c9848f0b7d10e6cf406f0463ff91bd581de4318f9cebd49c586097ba880e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-ABC/terminal.json"
+        },
+        "F4-ACB": {
+          "file_sha256": "dd0472d062d1373157e0c1d312c8f481bfbe46cbcbc57a2362e54cc93025690c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-ACB/terminal.json"
+        },
+        "F4-BAC": {
+          "file_sha256": "952b83edae2e74a20724172896a59ef97fa98c846985daa45c7622be2c352b1d",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-BAC/terminal.json"
+        }
+      },
+      "template_gate_receipt_sha256": "3bf30f95593e6e5a1534cb271bfa0e167cc685326008e3e720e9abf68275fb5c",
+      "template_gate_terminal_file_sha256": "ecf8b45cd86bad69eb5a0426dc8a6542ee14ab768992823fab9aeea8f3f01b85",
+      "template_gate_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/production_micro_gate_v1/RUN9_MICRO_GATE_TERMINAL_V1.json",
+      "timeout_seconds": 28800
+    }
+  ],
+  "manifest_contract_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/manifest_contract.py",
+  "manifest_contract_sha256": "5d5e3ed4eb02b6d6ea27cf05481c6b10c2eec49206d791f4581911e7b713046c",
+  "manifest_sha256": "cd68285859aec7c8908bb6a3c7d7ee6b7ab76ebb8e60069fd81ff8f942981620",
+  "one_job_per_gpu": true,
+  "physical_execution_authorized": true,
+  "pi05_authorized": false,
+  "prepublication_cpu_production_path_preflight_required": true,
+  "publication_vault_head": "8e9182a7e1bbd4b171a6adf59728b2fdcd46b999",
+  "reopen_ordinal_after_run13": 1,
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_sharding": false,
+  "run13_terminal_file_sha256": "3890ef5b5b09b40d6ea8a169571353006ae1f9fcc8040e5887e2293ab21d1f1a",
+  "run13_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/production_micro_gate_v1/RUN13_DEVELOPMENT_ROOT_TERMINAL_V1.json",
+  "run_id": "f4-reopen2-run14-final-guard-repair-20260904",
+  "runner_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/job_runner.py",
+  "runner_script_sha256": "7eaab9bc18c100e883651e1ffeaf65f388f192faab1e8620ae090c30aa34ffdf",
+  "schema_version": "cmf_f4_reopen2_approved_run14_manifest_v1",
+  "source_freeze_vault_head": "8e9182a7e1bbd4b171a6adf59728b2fdcd46b999",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "APPROVED_FINAL_F4_GUARD_SCHEMA_REPAIR_REOPEN2",
+  "third_reopening_authorized": false,
+  "training_authorized": false
+}
