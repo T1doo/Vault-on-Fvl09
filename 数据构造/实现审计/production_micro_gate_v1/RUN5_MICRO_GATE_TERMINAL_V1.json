@@ -1,0 +1,61 @@
+{
+  "actual_counts": {
+    "accepted_trajectories": 0,
+    "debug_videos": 0,
+    "formal_trajectories": 0,
+    "physical_executions": 0,
+    "planner_queries": 1,
+    "scenes": 4
+  },
+  "evidence": "bottle4 passed hash and reached planner; bottle15/5/13 remained equivalent-pose hash mismatches",
+  "f2_rerun": false,
+  "f4_rerun": false,
+  "formal_data": false,
+  "guard": {
+    "gpu_returned_to_idle_baseline": true,
+    "receipt_sha256": "1e80ea5096ef14c901fadd29a20ce96f5184ea83d0a4d74aea4a9e05b7d5592a",
+    "status": "completed",
+    "task_owned_cleanup_pass": true
+  },
+  "manifest_sha256": "615fb345356fbb2ee44b151f44181414aace620108de5cedd3ec9304976bb677",
+  "receipt_sha256": "7edc6298f8e94779910c36f1516aa8dcf0e63cda1134bec0f99c0833698199fa",
+  "repair": "unit quaternion plus deterministic q/-q sign canonicalization and 1e-9 quantization before exact hash",
+  "rows": [
+    {
+      "candidate": "candidate_01_bottle15_left_lower_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "972f09b8061388c15f6709a131737c541c349b90d7c320264dfc3b3bf14d377d",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run5/F3/candidate_01_bottle15_left_lower_body/stage_a.json",
+      "physical_attempted": false,
+      "stage_a_queries": 0
+    },
+    {
+      "candidate": "candidate_02_bottle5_right_lower_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "fa892b95ac31662205e9854bff50fb8e5202b3bd4fb7fc759820b3afcaaa78ac",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run5/F3/candidate_02_bottle5_right_lower_body/stage_a.json",
+      "physical_attempted": false,
+      "stage_a_queries": 0
+    },
+    {
+      "candidate": "candidate_03_bottle4_left_upper_body",
+      "failure": "STAGE_A_PLANNER_FAILED",
+      "file_sha256": "3ca8d074603286316221b4c087dc722177aeb1546178d69cdcc450462cb2f214",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run5/F3/candidate_03_bottle4_left_upper_body/stage_a.json",
+      "physical_attempted": false,
+      "stage_a_queries": 1
+    },
+    {
+      "candidate": "candidate_04_bottle13_right_upper_body",
+      "failure": "F3 V2.3 Stage-A bottle actor pose mismatch",
+      "file_sha256": "597ae3a3249a4f282222e4a1a0f40a4dc0213d829f33053f46f8be1c9945753f",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run5/F3/candidate_04_bottle13_right_upper_body/stage_a.json",
+      "physical_attempted": false,
+      "stage_a_queries": 0
+    }
+  ],
+  "run_id": "production-micro-gate-v1-20260903-run5",
+  "schema_version": "cmf_production_micro_gate_run5_terminal_v1",
+  "stage1_authorized": false,
+  "status": "F3_ZERO_PHYSICAL_SIGN_CANONICAL_QUANTIZED_POSE_HASH_REPAIR"
+}

@@ -79,6 +79,14 @@ def _normalized_pose_sha256(value) -> str:
         raise ValueError("F3 actor quaternion norm must be positive")
     pose = pose.copy()
     pose[3:] /= norm
+    quaternion = pose[3:]
+    first_nonzero = next(
+        (value for value in quaternion if abs(value) > 1.0e-15), 1.0
+    )
+    if first_nonzero < 0.0:
+        pose[3:] *= -1.0
+    pose = np.round(pose, decimals=9)
+    pose[np.abs(pose) < 0.5e-9] = 0.0
     return canonical_hash_json(pose.tolist())
 
 
