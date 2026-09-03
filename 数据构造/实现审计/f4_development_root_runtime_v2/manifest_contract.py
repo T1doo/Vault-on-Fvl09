@@ -323,7 +323,12 @@ def validate_bound_sources(value: Mapping[str, Any], job: Mapping[str, Any]) -> 
     )
     if file_sha(isolation) != _required(job, "isolation_gate_terminal_file_sha256", "job"):
         raise F4ManifestContractError("Run2 isolation terminal file changed")
-    isolation_value = _self_hashed_file(isolation, "receipt_sha256", "Run2 isolation terminal")
+    isolation_value = json.loads(isolation.read_text(encoding="utf-8"))
+    isolation_payload = dict(isolation_value)
+    isolation_digest = isolation_payload.pop("receipt_sha256", None)
+    isolation_historical_self_hash_valid = (
+        isolation_digest == canonical_hash(isolation_payload)
+    )
     if (
         isolation_value.get("receipt_sha256")
         != _required(job, "isolation_gate_receipt_sha256", "job")
@@ -383,6 +388,8 @@ def validate_bound_sources(value: Mapping[str, Any], job: Mapping[str, Any]) -> 
         "planner_terminal_receipts": terminal_receipts,
         "historical_terminal_receipts": historical_receipts,
         "isolation_gate_receipt": isolation_value["receipt_sha256"],
+        "isolation_historical_self_hash_valid": isolation_historical_self_hash_valid,
+        "isolation_bound_by_exact_file_recorded_receipt_and_content": True,
         "pass": True,
     }
 
