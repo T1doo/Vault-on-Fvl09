@@ -1,0 +1,374 @@
+{
+  "F2": {
+    "proposal": {
+      "automatic_retry": false,
+      "budget": {
+        "accepted_development_root_cap": 1,
+        "accepted_development_trajectory_cap": 3,
+        "aggregate_planner_query_cap": 75,
+        "branch_execution_cap": 3,
+        "canonical_prefix_planner_query_cap": 3,
+        "debug_video_cap": 3,
+        "formal_trajectory_cap": 0,
+        "fresh_scene_cap": 8,
+        "raw_trajectory_cap": 3,
+        "robot_action_scene_cap": 4,
+        "root_invocation_cap": 1,
+        "suffix_planner_query_cap_per_program": 24,
+        "timeout_seconds": 28800
+      },
+      "candidate_selection_rule": "lexicographically first of the two distinct top-contact physical micro successes; left arm matches the frozen F2 family arm",
+      "candidate_universe_changed": true,
+      "canonical_prefix": {
+        "arm": "left",
+        "close_forbidden_above_orientation_error_rad": 0.05,
+        "close_forbidden_above_position_error_m": 0.005,
+        "exact_frozen_pregrasp_and_grasp": true,
+        "grasp_transform_orientation_atol_rad": 0.05,
+        "grasp_transform_translation_atol_m": 0.005,
+        "lift_distance_m": 0.12,
+        "selected_contact_identity_and_continuity_required": true
+      },
+      "formal_data": false,
+      "gpu_execution_authorized": false,
+      "impact_review_required": true,
+      "implementation_version": "f2_top_contact_development_root_proposal_v1",
+      "partial_success_enters_denominator": false,
+      "physical_execution_authorized": false,
+      "program_ids": [
+        "F2-inside",
+        "F2-on",
+        "F2-beside"
+      ],
+      "proposal_sha256": "56c326af064260865ef0c3d8f2c217ff21158af8f9bef5684ba6e8a79a308723",
+      "root_atomic_acceptance": "accept only if all three branches, receipts, family verifiers, same-current, same-anchor, prefix replay, cleanup and orphan audit pass",
+      "same_current_and_anchor_required": true,
+      "schema_version": "cmf_f2_top_contact_development_root_proposal_v1",
+      "scientific_family_contract_changed": false,
+      "second_root": false,
+      "selected_candidate": {
+        "arm": "left",
+        "axial_grasp_offset_m": 0.0,
+        "beside_reference_model_id": 0,
+        "electronic_scale_model_id": 0,
+        "full_recipe": {
+          "arm": "left",
+          "axial_grasp_offset_m": 0.0,
+          "first_planner_success_selection_forbidden": true,
+          "geometry_certificate_sha256": "9dd810d711ea1ff3eeaa228f9e1b74b7b939586e54de1496cfa6147408d5fd1b",
+          "main_object_model_id": 0,
+          "official_contact_point_id": 8,
+          "official_rotation_candidate_index": 0,
+          "physical_execution_authorized": false,
+          "plastic_box_model_id": 2,
+          "pregrasp_distance_m": 0.09,
+          "rank": 725,
+          "recipe_id": "f2-final-grasp-v2-r000725",
+          "recipe_sha256": "f7270daf416afb1b84e230be7dd2418ac0e5a31d2461943da3bd77c6777cfe5e",
+          "selection_rule": "rank only after exact final-pose IK/collision/planner and post-close drift gates",
+          "target_distance_m": 0.0
+        },
+        "main_object_model_id": 0,
+        "official_contact_point_id": 8,
+        "official_rotation_candidate_index": 0,
+        "plastic_box_model_id": 2,
+        "post_lift_grasp_transform_gate_pass": true,
+        "preclose_tracking_gate_pass": true,
+        "pregrasp_distance_m": 0.09,
+        "recipe_id": "f2-final-grasp-v2-r000725",
+        "recipe_sha256": "f7270daf416afb1b84e230be7dd2418ac0e5a31d2461943da3bd77c6777cfe5e",
+        "source_physical_scene_receipt_sha256": "c3ac8155fcff909383c2ed72fe178edc10d4ca66a541a3a9b5d5f765f991bc47",
+        "source_pose_freeze_sha256": "8f45dfc03ce1b31554054286dcb5c076c68083b568898ea4bebf53c15288ce0f",
+        "source_stage_a_spec_sha256": "5cc8e10a0b4e8fabe0a835c352ba0b2c81ea6c5c6c841dd38a83531ebfdcaed4",
+        "source_stage_a_terminal_receipt_sha256": "8325086ad32dc1c2f7dc41602cc455be0da6737d7b9318776623ad7a47e4db43"
+      },
+      "source_gate_terminal_receipt_sha256": "72d206826288b432d3170397697b26076384e6a3e9ad1515c1fc75f7a9857874",
+      "stage0_reopened": false,
+      "stage1_authorized": false,
+      "status": "PROPOSAL_ONLY_NOT_AUTHORIZATION",
+      "suffixes": {
+        "fallback": false,
+        "inside_release_safety_gate_unchanged": true,
+        "reuse_existing_inside_on_beside_programs": true,
+        "reuse_existing_targets_thresholds_and_verifiers": true
+      }
+    },
+    "requested_decision": "APPROVE_AS_PROPOSED_OR_EXACT_REVISION_OR_DENY"
+  },
+  "F3": {
+    "proposal": {
+      "bounded_gate": {
+        "automatic_retry": false,
+        "conditional_no_suffix_scene_cap": 3,
+        "fallback": false,
+        "lift_centered_stage_b_query_cap": 21,
+        "minimum_new_survivors_before_physical": 1,
+        "no_suffix_only_after_two_physical_successes": true,
+        "physical_candidate_cap": 4,
+        "physical_scene_cap": 4,
+        "planner_scene_cap": 6,
+        "retained_plus_new_minimum_survivors": 2,
+        "stage_a_query_cap": 9,
+        "total_planner_query_cap": 30
+      },
+      "candidate_universe_changed": true,
+      "event_center_policy": "exact_stage_a_lift_pose",
+      "formal_data": false,
+      "gpu_execution_authorized": false,
+      "impact_review_required": true,
+      "implementation_version": "f3_post_rotation1_centralized_replacement_proposal_v1",
+      "physical_execution_authorized": false,
+      "proposal_sha256": "5203ca62afba5a594edabfd57ef0a0aa3e12106895ecf508478e4111f3451dd2",
+      "replacement_candidates": [
+        {
+          "arm": "right",
+          "asset_model_id": 5,
+          "contact_point_id": 2,
+          "failed_pregrasp_xyz_m": [
+            0.3884232591,
+            -0.0053896467,
+            0.7949262263
+          ],
+          "full_recipe": {
+            "arm": "right",
+            "asset": {
+              "model_id": 5,
+              "modelname": "001_bottle"
+            },
+            "asset_record_sha256": "4f1214e5502737c52937287b8033e603013a20738c0197c905fbd894f3426352",
+            "formal_data": false,
+            "grasp_region": "lower_body",
+            "long_axis_model_axis": 1,
+            "official_contact_point_id": 2,
+            "official_rotation_candidate_index": 1,
+            "physical_execution_authorized": false,
+            "pose_generation_order": [
+              "official_contact_pose",
+              "official_rotation_candidate",
+              "region_translation",
+              "freeze_final_pregrasp_grasp_lift",
+              "ik_collision_planner_qualification"
+            ],
+            "post_qualification_pose_mutation_allowed": false,
+            "pregrasp_distance_m": 0.09,
+            "rank": 1505,
+            "recipe_id": "f3-final-pose-v3-r1505",
+            "recipe_sha256": "88f1c0bcb521d4fc7e9b1e64b24d94f1c7d81f1703fba19cd3f622d74c591c49",
+            "region_center_fraction_from_geometric_center": -0.15,
+            "region_center_offset_m": -0.03820503186730821,
+            "stage0_data": false,
+            "stage1_authorized": false,
+            "target_distance_m": 0.0
+          },
+          "grasp_region": "lower_body",
+          "proposed_pregrasp_xyz_m": [
+            -0.029364682263148617,
+            -0.00815821148505302,
+            0.7855751946722513
+          ],
+          "recipe_id": "f3-final-pose-v3-r1505",
+          "recipe_sha256": "88f1c0bcb521d4fc7e9b1e64b24d94f1c7d81f1703fba19cd3f622d74c591c49",
+          "replaces": "bottle5-right-lower-r1445",
+          "rotation_index": 1,
+          "source_failure": "FINETUNE_TRAJOPT_FAIL"
+        },
+        {
+          "arm": "left",
+          "asset_model_id": 4,
+          "contact_point_id": 0,
+          "failed_pregrasp_xyz_m": [
+            0.0287962503,
+            0.1002881731,
+            0.7841794609
+          ],
+          "full_recipe": {
+            "arm": "left",
+            "asset": {
+              "model_id": 4,
+              "modelname": "001_bottle"
+            },
+            "asset_record_sha256": "19272fcd5b74b5a1937c66b7141af0bedd444b453c9f2352aded32b99c915835",
+            "formal_data": false,
+            "grasp_region": "upper_body",
+            "long_axis_model_axis": 1,
+            "official_contact_point_id": 0,
+            "official_rotation_candidate_index": 6,
+            "physical_execution_authorized": false,
+            "pose_generation_order": [
+              "official_contact_pose",
+              "official_rotation_candidate",
+              "region_translation",
+              "freeze_final_pregrasp_grasp_lift",
+              "ik_collision_planner_qualification"
+            ],
+            "post_qualification_pose_mutation_allowed": false,
+            "pregrasp_distance_m": 0.09,
+            "rank": 2180,
+            "recipe_id": "f3-final-pose-v3-r2180",
+            "recipe_sha256": "176bc2a145a17bf13a70ec365ed144fefcb4689a6eb4379b6d8db0645f1cefb1",
+            "region_center_fraction_from_geometric_center": 0.15,
+            "region_center_offset_m": 0.036223182448433894,
+            "stage0_data": false,
+            "stage1_authorized": false,
+            "target_distance_m": 0.0
+          },
+          "grasp_region": "upper_body",
+          "proposed_pregrasp_xyz_m": [
+            -0.006833898749067341,
+            0.0026786209706683994,
+            0.7838881406631131
+          ],
+          "recipe_id": "f3-final-pose-v3-r2180",
+          "recipe_sha256": "176bc2a145a17bf13a70ec365ed144fefcb4689a6eb4379b6d8db0645f1cefb1",
+          "replaces": "bottle4-left-upper-r2165",
+          "rotation_index": 6,
+          "source_failure": "IK_FAIL"
+        },
+        {
+          "arm": "right",
+          "asset_model_id": 13,
+          "contact_point_id": 2,
+          "failed_pregrasp_xyz_m": [
+            0.3819819242,
+            0.0781269552,
+            0.8136233195
+          ],
+          "full_recipe": {
+            "arm": "right",
+            "asset": {
+              "model_id": 13,
+              "modelname": "001_bottle"
+            },
+            "asset_record_sha256": "b5cdaaf14012e1a0183574f073a97ad85db2717724ebc654b0cc04fd3c65e356",
+            "formal_data": false,
+            "grasp_region": "upper_body",
+            "long_axis_model_axis": 1,
+            "official_contact_point_id": 2,
+            "official_rotation_candidate_index": 5,
+            "physical_execution_authorized": false,
+            "pose_generation_order": [
+              "official_contact_pose",
+              "official_rotation_candidate",
+              "region_translation",
+              "freeze_final_pregrasp_grasp_lift",
+              "ik_collision_planner_qualification"
+            ],
+            "post_qualification_pose_mutation_allowed": false,
+            "pregrasp_distance_m": 0.09,
+            "rank": 3677,
+            "recipe_id": "f3-final-pose-v3-r3677",
+            "recipe_sha256": "3d945ce11eef1ba911621dd14238ad0eb7d91e167c6aa61a8de861cca18bde44",
+            "region_center_fraction_from_geometric_center": 0.15,
+            "region_center_offset_m": 0.03719111747468449,
+            "stage0_data": false,
+            "stage1_authorized": false,
+            "target_distance_m": 0.0
+          },
+          "grasp_region": "upper_body",
+          "proposed_pregrasp_xyz_m": [
+            -0.007234217233118068,
+            -0.001372276920895102,
+            0.7571851244372944
+          ],
+          "recipe_id": "f3-final-pose-v3-r3677",
+          "recipe_sha256": "3d945ce11eef1ba911621dd14238ad0eb7d91e167c6aa61a8de861cca18bde44",
+          "replaces": "bottle13-right-upper-r3605",
+          "rotation_index": 5,
+          "source_failure": "FINETUNE_TRAJOPT_FAIL"
+        }
+      ],
+      "retained_prior_survivor": {
+        "label": "bottle15-left-lower",
+        "lift_centered_stage_b_pass": true,
+        "planner_rerun_authorized": false,
+        "recipe_id": "f3-final-pose-v3-r0005",
+        "recipe_sha256": "3638a9e93f5101b1e7a9370fe7c4735c5a1a062e890d7ac66d47f6f182cf333f",
+        "stage_a_pass": true
+      },
+      "schema_version": "cmf_f3_post_rotation1_replacement_proposal_v1",
+      "scientific_programs_changed": false,
+      "selection_basis": {
+        "method": "CPU reconstruction of official contact frames and all ten rotate_along_axis poses, followed by deterministic minimum |x|+|y| pregrasp centrality within each failed stratum",
+        "old_failed_rotation1_rerun": false,
+        "physical_success_claimed": false,
+        "planner_or_ik_success_claimed": false
+      },
+      "source_gate_terminal_receipt_sha256": "a438128e719a2fca678154673767d8459e53c291b4abd5d1434300121593bbb8",
+      "stage0_reopened": false,
+      "stage1_authorized": false,
+      "status": "PROPOSAL_ONLY_NOT_AUTHORIZATION",
+      "table_frame_axes_changed": false
+    },
+    "requested_decision": "APPROVE_AS_PROPOSED_OR_EXACT_REVISION_OR_DENY"
+  },
+  "F4": {
+    "new_reopen_currently_authorized": false,
+    "prior_reopen_consumed": true,
+    "proposal_manifest_file_sha256": "925ce833707868355a05f36373fa43b109ca6fddafe5784e5b8aec72e511afc8",
+    "proposal_manifest_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/PROPOSED_F4_GUARD_COMPLETE_REOPEN2_MANIFEST_V1.json",
+    "proposal_manifest_sha256": "70eefb49a482df5c08646af4051258d7191ae3283e14962a6c98467017040887",
+    "requested_decision": "KEEP_CLOSED_OR_REOPEN_EXACTLY_ONCE_AGAIN",
+    "static_preflight": {
+      "asset_checks": {
+        "assets/objects/008_tray/collision/base0.glb": true,
+        "assets/objects/008_tray/model_data0.json": true,
+        "assets/objects/008_tray/points_info.json": true,
+        "assets/objects/008_tray/visual/base0.glb": true
+      },
+      "checks": {
+        "all_f4_assets_exist_and_match": true,
+        "all_guard_top_level_inputs_present": true,
+        "all_job_budget_fields_present": true,
+        "exact_gpu_scope": true,
+        "exact_reviewed_caps": true,
+        "exactly_one_f4_job": true,
+        "f4_asset_map_nonempty": true,
+        "guard_file_hash_bound": true,
+        "later_stages_forbidden": true,
+        "new_output_namespace": true,
+        "no_retry_fallback_or_second_replacement": true,
+        "proposal_not_authorized": true,
+        "runner_file_hash_bound": true,
+        "self_hash_valid": true
+      },
+      "executable": false,
+      "gpu_initialized": false,
+      "manifest_sha256": "70eefb49a482df5c08646af4051258d7191ae3283e14962a6c98467017040887",
+      "pass": true,
+      "schema_version": "cmf_f4_guard_manifest_static_preflight_v1",
+      "validation_sha256": "f5e474bf8a494dddc24bade6b8cd8438f10de61f58101a394fceac9b84eef3be"
+    }
+  },
+  "approved": false,
+  "executable": false,
+  "global": {
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "compression_authorized": false,
+    "formal_360_authorized": false,
+    "h_reveal_authorized": false,
+    "one_job_per_gpu": true,
+    "pi05_authorized": false,
+    "root_sharding": false,
+    "stage0_rerun": false,
+    "stage1_authorized": false,
+    "training_authorized": false
+  },
+  "gpu_execution_authorized": false,
+  "implementation_source_sha256": "3dcef886f108efb88e81540e9f36e7fd00646165b794d0d4203fa806b7fbd3fd",
+  "packet_sha256": "bbab9424e21c1fbe3ea11bf7b1553bfb5846f9cfdd0d98aad10fa4e58c0955e2",
+  "physical_execution_authorized": false,
+  "schema_version": "cmf_proposed_next_recovery_review_packet_v2",
+  "source_freeze_pushed": false,
+  "source_freeze_vault_head": "898d4debf23dd5fb99940345c2f79fc3d8d5e18b",
+  "source_terminal_receipt_sha256": "32fcabf494f43b855b90f91672404a522371479c018857378ccedb58b42975df",
+  "status": "PROPOSAL_ONLY_AWAITING_EXTERNAL_REVIEW"
+}
