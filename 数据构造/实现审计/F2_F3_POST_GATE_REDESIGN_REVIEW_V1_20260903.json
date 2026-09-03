@@ -1,0 +1,65 @@
+{
+  "F2": {
+    "gpu_authorized": false,
+    "historical_physical_rows": [
+      {
+        "can_maximum_displacement_m": 0.0,
+        "candidate": "can0+box2-left",
+        "grasp_tracking_orientation_error_rad": 0.5666507601999321,
+        "grasp_tracking_position_error_m": 0.19659606049842349,
+        "maximum_joint_tracking_error_l2_rad": 0.5300820995010217,
+        "minimum_eef_to_can_center_distance_m": 0.2503662530293693,
+        "pregrasp_tracking_orientation_error_rad": 0.7828048013005048,
+        "pregrasp_tracking_position_error_m": 0.21191978052659685,
+        "selected_contact_frames": 0
+      },
+      {
+        "can_maximum_displacement_m": 0.0,
+        "candidate": "can5+box8-left",
+        "grasp_tracking_orientation_error_rad": 0.4081453948546177,
+        "grasp_tracking_position_error_m": 0.14274589410344182,
+        "maximum_joint_tracking_error_l2_rad": 0.570012935977292,
+        "minimum_eef_to_can_center_distance_m": 0.24709309039619376,
+        "pregrasp_tracking_orientation_error_rad": 0.5372658532389946,
+        "pregrasp_tracking_position_error_m": 0.13995445257260042,
+        "selected_contact_frames": 0
+      }
+    ],
+    "implementation": "f2_precontact_tracking_recovery_v1.py",
+    "new_contract_sha256": "1b1edd046e4c9e58c0490d129967219657403d5f79cae509bba633396829129d",
+    "next_candidate_freeze": "pending external review; same can0+box2/can5+box8 x left/right, planner-assisted official pose selection, exact pose freeze, preclose tracking hard Gate",
+    "reclassified_failure": "PRECONTACT_ARM_TRACKING_FAILURE_NOT_GRASP_RETENTION_OR_INSERTION",
+    "terminal_receipt_sha256": "995c015be6342160eef00579801f268279bfd7c52ebd6b51f47a5afafca17bf1"
+  },
+  "F3": {
+    "H_distance_m": 0.05,
+    "V_distance_m": 0.055,
+    "candidate_freeze": "pending external review; current four strata are terminal evidence and cannot be rerun",
+    "gpu_authorized": false,
+    "implementation": "f3_lift_anchored_event_center_v1.py",
+    "new_contract_sha256": "e12a9165f6a952248f723376a57df9d1f56866f2c498569e65fa5e0a4dcac3ba",
+    "new_first_target_displacement_from_lift_m": 0.0,
+    "old_stage_b_failure": "MotionGenStatus.FINETUNE_TRAJOPT_FAIL on central_1 after 10 attempts",
+    "old_stage_b_first_target_displacement_from_lift_m": 0.13732683401686,
+    "stage_a_queries_passed": 3,
+    "stage_a_survivor": "bottle15-left-lower",
+    "target_audit_receipt_sha256": "d42e9db609b52e8c0344015cd87c9e6cc9e52df8d524134a26f861243880c17a",
+    "terminal_receipt_sha256": "73e0802219c9d2e4695aad2a2764eb19a702ce91b3b988c800215aef927fb9d3"
+  },
+  "F4": {
+    "development_root_status": "final incomplete; no replacement authorized",
+    "post_terminal_code_status": "implemented_unvalidated",
+    "template_status": "3/3 real full-program pass"
+  },
+  "as_of": "2026-09-03",
+  "formal_360_authorized": false,
+  "gpu_runs_authorized": false,
+  "review_sha256": "5abdf436ed092bc9c761869615b6f93cd834864d641298e7ba8e87ddaaf7a3d5",
+  "schema_version": "cmf_f2_f3_post_gate_redesign_review_v1",
+  "source_after_sha256": "c7736781acba1b7182387d7071d3a1dd8950c4e053d8a0f1297b8e4568e81bb1",
+  "source_before_sha256": "569e8d79a78debf8d706190b6c761c65e57aeb79e4ea35a0e73e450527c4514a",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "CPU_REDESIGN_IMPLEMENTED_AWAITING_EXTERNAL_REVIEW_AND_NEW_GPU_AUTHORIZATION",
+  "training_authorized": false
+}
