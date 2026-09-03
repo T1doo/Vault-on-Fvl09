@@ -1,0 +1,103 @@
+{
+  "compression_authorized": false,
+  "contract_sha256": "5d3fa3dded178e5a7eb8474c2dfcaada2fe71529b6fb3ba7a9b86527b30d8476",
+  "design_version": "controlled_multi_future_f1_f4_v1_2",
+  "f2": {
+    "development_asset_pairs": [
+      {
+        "box_model_id": 2,
+        "can_model_id": 0
+      },
+      {
+        "box_model_id": 8,
+        "can_model_id": 5
+      }
+    ],
+    "legacy_dispatcher_disabled": true,
+    "maximum_physical_attempts": 4,
+    "planner_dependency_required": true,
+    "planner_query_limit_per_physical_attempt": 8,
+    "production_runner": "controlled_multi_future.f2_controlled_insertion_physical_v2.run_f2_controlled_insertion_physical_v2"
+  },
+  "f3": {
+    "asset_model_ids": [
+      15,
+      5,
+      4,
+      13
+    ],
+    "bottle_orientation_atol_rad": 0.2,
+    "bottle_position_atol_m": 0.01,
+    "maximum_physical_candidates": 4,
+    "maximum_three_scene_no_suffix_diagnostics": 1,
+    "planner_stage_b_proves_physical_grasp": false,
+    "scene_binding_gate": "controlled_multi_future.f3_scene_binding_equivalence_v1.audit_f3_scene_binding_equivalence_v1"
+  },
+  "f4": {
+    "collision_capability_audit_receipt_sha256": "dd0124a0070c958bf7174def5ff0b80c303e610fdd4eb8e2e1c838feb314bc6e",
+    "dynamic_or_attached_collision_available": false,
+    "full_1696_query_panel_next": false,
+    "maximum_development_roots": 1,
+    "selected_route": "bounded_staged_physical_noninterference"
+  },
+  "formal_360_authorized": false,
+  "h_reveal_authorized": false,
+  "implementation_version": "controlled_multi_future_production_recovery_v1",
+  "next_authorized_scope_after_phase_a": "none_until_new_gpu_micro_qualification_approval",
+  "objective": "repair production paths before further broad planner search",
+  "phase_a_budget": {
+    "gpu": 0,
+    "physical_executions": 0,
+    "real_planner_queries": 0,
+    "sapien_scenes": 0,
+    "trajectories": 0
+  },
+  "pi05_authorized": false,
+  "runtime_source_lock_assets": {
+    "F2": [
+      "assets/objects/071_can/model_data0.json",
+      "assets/objects/071_can/visual/base0.glb",
+      "assets/objects/071_can/collision/base0.glb",
+      "assets/objects/071_can/model_data5.json",
+      "assets/objects/071_can/visual/base5.glb",
+      "assets/objects/071_can/collision/base5.glb",
+      "assets/objects/062_plasticbox/model_data2.json",
+      "assets/objects/062_plasticbox/visual/base2.glb",
+      "assets/objects/062_plasticbox/collision/base2.glb",
+      "assets/objects/062_plasticbox/model_data8.json",
+      "assets/objects/062_plasticbox/visual/base8.glb",
+      "assets/objects/062_plasticbox/collision/base8.glb",
+      "assets/objects/072_electronicscale/model_data0.json",
+      "assets/objects/072_electronicscale/visual/base0.glb",
+      "assets/objects/072_electronicscale/collision/base0.glb",
+      "assets/objects/074_displaystand/model_data0.json",
+      "assets/objects/074_displaystand/visual/base0.glb",
+      "assets/objects/074_displaystand/collision/base0.glb"
+    ],
+    "F3": [
+      "assets/objects/001_bottle/points_info.json",
+      "assets/objects/001_bottle/model_data15.json",
+      "assets/objects/001_bottle/visual/base15.glb",
+      "assets/objects/001_bottle/collision/base15.glb",
+      "assets/objects/001_bottle/model_data5.json",
+      "assets/objects/001_bottle/visual/base5.glb",
+      "assets/objects/001_bottle/collision/base5.glb",
+      "assets/objects/001_bottle/model_data4.json",
+      "assets/objects/001_bottle/visual/base4.glb",
+      "assets/objects/001_bottle/collision/base4.glb",
+      "assets/objects/001_bottle/model_data13.json",
+      "assets/objects/001_bottle/visual/base13.glb",
+      "assets/objects/001_bottle/collision/base13.glb"
+    ],
+    "F4": [
+      "assets/objects/008_tray/model_data0.json",
+      "assets/objects/008_tray/points_info.json",
+      "assets/objects/008_tray/visual/base0.glb",
+      "assets/objects/008_tray/collision/base0.glb"
+    ]
+  },
+  "schema_version": "cmf_production_recovery_contract_v1",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "training_authorized": false
+}

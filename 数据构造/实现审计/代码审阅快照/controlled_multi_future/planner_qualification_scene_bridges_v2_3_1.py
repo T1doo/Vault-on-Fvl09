@@ -228,17 +228,34 @@ def build_production_scene_bridge_plan_v2_3_1(
         candidate = next(
             item
             for item in search["inside_candidates"]
-            if item["main_object_model_id"] == 0
-            and item["plastic_box_model_id"] == 2
+            if item["main_object_model_id"]
+            == recipe["main_object_model_id"]
+            and item["plastic_box_model_id"]
+            == recipe["plastic_box_model_id"]
             and item["arm"] == recipe["arm"]
         )
         legacy = build_f2_runtime_spec_v1(
             candidate["candidate_id"], purpose="f2_stage_a_planner"
         )
+        pair_id = (
+            f"can{recipe['main_object_model_id']}-"
+            f"box{recipe['plastic_box_model_id']}"
+        )
+        context = job["manifest_context"]
+        certificate = (
+            context["certificates_by_pair"][pair_id]
+            if "certificates_by_pair" in context
+            else context["certificate"]
+        )
+        binding = (
+            context["bindings_by_pair_and_arm"][pair_id][recipe["arm"]]
+            if "bindings_by_pair_and_arm" in context
+            else context["bindings_by_arm"][recipe["arm"]]
+        )
         runner_spec = build_f2_final_grasp_stage_a_spec_v2(
             recipe,
-            job["manifest_context"]["certificate"],
-            job["manifest_context"]["bindings_by_arm"][recipe["arm"]],
+            certificate,
+            binding,
             slot_id=job["job_id"],
             panel_sha256=job["manifest_sha256"],
             planner_reset_nonce=nonce,

@@ -11,6 +11,9 @@ import numpy as np
 from .anchor import quaternion_angular_error
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .f2_planner_integration_v2 import run_f2_final_grasp_stage_a_planner_v2
+from .f3_scene_binding_equivalence_v1 import (
+    audit_f3_scene_binding_equivalence_v1,
+)
 from .f3_planner_integration_v3_1 import (
     run_f3_stage_a_planner_v3_1,
     run_f3_stage_b_planner_v3_1,
@@ -309,6 +312,7 @@ def run_with_production_scene_bridge_v2_3_1a(
         )
     )
     terminal = None
+    f3_scene_binding_equivalence = None
     with context as handle:
         scene = handle.scene
         setup_seed = int(getattr(scene, "_cmf_setup_kwargs", {}).get("seed", -1))
@@ -321,13 +325,35 @@ def run_with_production_scene_bridge_v2_3_1a(
             recipe = auth["job_spec"]["manifest_entry"]["recipe"]
             actual = _derive_actual_f3_binding(scene, recipe)
             expected = auth["job_spec"]["manifest_entry"]["scene_binding"]
-            if actual != expected:
+            runtime_entities = adapter._entity_payloads(scene)
+            f3_scene_binding_equivalence = audit_f3_scene_binding_equivalence_v1(
+                recipe=recipe,
+                expected_scene_binding=expected,
+                actual_scene_binding=actual,
+                actual_bottle_pose=_pose(scene.bottle).tolist(),
+                actual_pad_pose=_pose(scene.pad).tolist(),
+                actual_marker_pose=_pose(scene.central_marker).tolist(),
+                scene_seed=auth["scene_seed"],
+                scene_instance_id=getattr(scene, "_cmf_scene_instance_id", None),
+                canonical_settle_steps=int(
+                    getattr(scene, "_cmf_canonical_settle_steps", -1)
+                ),
+                actor_sleep_state=_entity_sleep_state(scene.bottle),
+                contact_state=_f3_contact_state(scene),
+                runtime_asset=runtime_entities.get("bottle"),
+                runtime_tuple=getattr(scene, "_cmf_f3_asset_grasp_tuple_v2", None),
+            )
+            if f3_scene_binding_equivalence["pass"] is not True:
                 raise F3ActualSceneBindingMismatch(
-                    _f3_binding_mismatch_evidence(
-                        scene, recipe, expected, actual, auth["scene_seed"]
-                    )
+                    f3_scene_binding_equivalence
                 )
-            scene._cmf_f3_scene_binding_v3_1 = actual
+            # Planner specs bind the deterministic nominal scene identity.  The
+            # dynamic post-settle pose is retained separately in the bridge
+            # receipt and must never replace that identity hash.
+            scene._cmf_f3_scene_binding_v3_1 = expected
+            scene._cmf_f3_scene_binding_equivalence_v1 = (
+                f3_scene_binding_equivalence
+            )
         if auth["job_kind"] == "F2_STAGE_A":
             terminal = run_f2_final_grasp_stage_a_planner_v2(
                 scene, plan["runner_spec"]
@@ -349,6 +375,7 @@ def run_with_production_scene_bridge_v2_3_1a(
     return {
         "bridge_plan": plan,
         "terminal": terminal,
+        "f3_scene_binding_equivalence": f3_scene_binding_equivalence,
         "cleanup": canonical_jsonable(cleanup),
     }
 

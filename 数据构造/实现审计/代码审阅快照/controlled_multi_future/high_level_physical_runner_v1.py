@@ -803,6 +803,16 @@ def execute_f2_controlled_insertion_physical_v2(
 
 
 def build_f3_level2_targets_v1(scene, spec: Mapping[str, Any]):
+    if spec.get("purpose") == "f3_shared_v_physical_micro_v1":
+        targets = _targets_payload(spec["ordered_targets"])
+        return targets, {
+            "schema_version": "cmf_f3_shared_v_target_binding_v1",
+            "source": "Stage-A/Stage-B planner-qualified frozen targets",
+            "recipe_sha256": spec["recipe_sha256"],
+            "ordered_targets_sha256": spec["ordered_targets_sha256"],
+            "level2_closed_loop_sequence": ["V_plus", "V_minus", "return"],
+            "suffix_allowed": False,
+        }
     level1, audit = build_f3_level1_targets_v1(scene, spec)
     central = np.asarray(level1[3]["pose"], dtype=np.float64)
     v_negative = world_axis_offset_pose(central, -0.055)
@@ -841,7 +851,12 @@ def execute_f3_level2_physical_v1(scene, spec: Mapping[str, Any]) -> dict[str, A
     planned = _plan_chain(
         scene,
         targets,
-        query_limit=job_budget_v1("f3_level2_physical")["planner_query_limit"],
+        query_limit=int(
+            spec.get(
+                "planner_query_limit",
+                job_budget_v1("f3_level2_physical")["planner_query_limit"],
+            )
+        ),
         arm=arm,
     )
     gates = {name: False for name in REQUIRED_LEVEL2_GATES}
@@ -1144,11 +1159,15 @@ class HighLevelPhysicalRunnerV1:
     def run(self, *, output_dir: Path, planned_spec: Mapping[str, Any]) -> dict[str, Any]:
         family = str(planned_spec.get("family"))
         if family == "F2":
-            spec = validate_f2_runtime_spec_v1(planned_spec)
-            if spec["purpose"] != "f2_inside_physical":
-                raise ValueError("physical runner received invalid F2 purpose")
-            execute = execute_f2_inside_physical_v1
-            trace_actor_name = "can"
+            # The legacy path performs the superseded gravity-drop/release
+            # sequence and cannot consume the final-pose Stage-A dependency.
+            # Keep the implementation importable for historical receipt
+            # validation, but never dispatch a new physical job through it.
+            raise RuntimeError(
+                "legacy F2 physical dispatcher is permanently disabled; use "
+                "f2_controlled_insertion_physical_v2.run_f2_controlled_"
+                "insertion_physical_v2 with a validated Stage-A dependency"
+            )
         elif family == "F3":
             spec = validate_f3_runtime_spec_v1(planned_spec)
             if spec["purpose"] != "f3_level2_physical":

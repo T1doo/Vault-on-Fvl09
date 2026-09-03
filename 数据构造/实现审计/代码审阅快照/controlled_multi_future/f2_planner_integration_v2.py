@@ -226,6 +226,7 @@ def run_f2_final_grasp_stage_a_planner_v2(
         "ordered_targets_sha256": canonical_hash_json(targets),
         "planner_qualified_for_physical_probe": qualified,
         "runtime_qualified": False,
+        "physical_feasible": False,
         "candidate_ready": False,
         "stage1_ready": False,
         "physical_execution_authorized": False,

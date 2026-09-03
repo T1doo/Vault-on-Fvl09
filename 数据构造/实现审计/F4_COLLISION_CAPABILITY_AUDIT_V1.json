@@ -1,0 +1,45 @@
+{
+  "checks": {
+    "carried_object_attachment_absent": true,
+    "dynamic_scene_objects_absent": true,
+    "planner_scope_declares_table_only": true,
+    "robot_scene_collision_unproven": true
+  },
+  "formal_data": false,
+  "full_1696_query_panel_recommended_before_physical_micro_gate": false,
+  "gpu_execution_authorized": false,
+  "maximum_f4_development_roots": 1,
+  "ordered_physical_micro_gates": [
+    "A_only",
+    "B_only",
+    "C_only",
+    "AB_noninterference",
+    "AC_noninterference",
+    "ABC_ACB_BAC_one_development_root"
+  ],
+  "pass": true,
+  "physical_execution_authorized": false,
+  "planner_collision_scope": {
+    "attached_carried_object_modeled": false,
+    "configured_world_objects": [
+      "table"
+    ],
+    "cpu_object_sweep_audit": true,
+    "robot_link_vs_scene_object_collision_proven": false,
+    "scene_dynamic_objects_in_curobo_world": false
+  },
+  "receipt_sha256": "dd0124a0070c958bf7174def5ff0b80c303e610fdd4eb8e2e1c838feb314bc6e",
+  "reviewed_project_interface": {
+    "configured_world_objects": [
+      "table"
+    ],
+    "curobo_attached_object_api_exposed_by_robot_wrapper": false,
+    "curobo_update_point_cloud_implemented": false,
+    "curobo_world_initialization": "envs/robot/planner.py:CuroboPlanner.__init__",
+    "mplib_use_attach_arguments_are_commented_out": true
+  },
+  "schema_version": "cmf_f4_collision_capability_audit_v1",
+  "selected_recovery_route": "bounded_staged_physical_noninterference",
+  "stage1_authorized": false,
+  "table_only_planner_can_qualify_physical_noninterference": false
+}

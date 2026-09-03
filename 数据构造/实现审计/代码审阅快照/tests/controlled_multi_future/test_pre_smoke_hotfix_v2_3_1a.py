@@ -691,6 +691,10 @@ class PreSmokeHotfixV231aTests(unittest.TestCase):
                         _cmf_setup_kwargs={"seed": envelope["actual_scene_seed"]},
                         _cmf_canonical_settle_steps=60,
                         _cmf_scene_instance_id="f3-mismatch-scene",
+                        _cmf_f3_asset_grasp_tuple_v2={
+                            "asset": entry["recipe"]["asset"],
+                            "arm": entry["recipe"]["arm"],
+                        },
                     )
                 )
                 self.cleanup_receipt = None
@@ -707,6 +711,15 @@ class PreSmokeHotfixV231aTests(unittest.TestCase):
         class Adapter:
             def __init__(self, **kwargs):
                 pass
+
+            def _entity_payloads(self, scene):
+                return {
+                    "bottle": {
+                        "actor_name": "f3_main_bottle",
+                        "modelname": entry["recipe"]["asset"]["modelname"],
+                        "model_id": entry["recipe"]["asset"]["model_id"],
+                    }
+                }
 
             def scene(self, *args, **kwargs):
                 return Context()
