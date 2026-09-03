@@ -1,0 +1,48 @@
+{
+  "actual_counts": {
+    "accepted_trajectories": 0,
+    "debug_videos": 0,
+    "formal_trajectories": 0,
+    "physical_executions": 0,
+    "planner_queries": 0,
+    "scenes": 0
+  },
+  "failure": {
+    "category": "HISTORICAL_RUN2_SUMMARY_SELF_HASH_MISMATCH",
+    "message": "F4 full-program Gate lacks exact passing isolation evidence",
+    "run2_f4_all_five_isolation_stages_pass": true,
+    "run2_f4_next_required_gate": "ABC_ACB_BAC_real_physical_programs",
+    "run2_recomputed_self_hash_sha256": "bef6bd0bf08637c3717036a62edb93cdaf76ac4f0c6c048380dbead8324293b6",
+    "run2_recorded_receipt_sha256": "ad8f34ca9d8c1780329d95a767a90205856604aa899a2c224edc8d988cefec40",
+    "run2_terminal_file_sha256": "5ab36d348a574f5a53e0cee2e8e55552a10c5c533639a4d2eba155df82bc71f4"
+  },
+  "formal_data": false,
+  "guard": {
+    "cache_removed": true,
+    "child_exit_code": 1,
+    "child_pid": 1712777,
+    "child_process_group": 1712777,
+    "elapsed_seconds": 1.139845609664917,
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+    "guard_pid": 1712763,
+    "lease_released": true,
+    "physical_gpu_index": 2,
+    "receipt_sha256": "0b20deb7eef05069b02000e91f15b82566e871edd8fe7a0eb1b8b62c641eebfe",
+    "status": "failed_or_blocked_with_cleanup_evidence",
+    "task_owned_cleanup_pass": true
+  },
+  "job_terminal": {
+    "file_sha256": "fc5987e62ec17c9c3561d66735b7d09d5752eb2f4948ac16fc46a427b3dfd318",
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run7/F4/job_terminal.json",
+    "receipt_sha256": "050d155c7acebc0ee5b2c05a65310c2451d2a31f1393cd37c68e48805165e9c0"
+  },
+  "manifest_sha256": "ebf158e0425bab135a079d67a45627995535947dffd24b622c18d227c2a39f3e",
+  "receipt_sha256": "60608be676a04f13b96899422f1805595eaf1067b5f7bae95cdb6061f085d944",
+  "replacement_rule": "preserve run7; bind immutable Run2 file SHA plus recorded receipt field plus F4 5/5 content; no controlled-source/executor/verifier change",
+  "run_id": "production-micro-gate-v1-20260903-run7",
+  "schema_version": "cmf_production_micro_gate_run7_integration_terminal_v1",
+  "source_freeze_vault_head": "0596fddc8add58a75f86e93f67c61c61a3fcc578",
+  "stage1_authorized": false,
+  "status": "INTEGRATION_ERROR_BEFORE_PLANNER_SCENE_PHYSICAL_REPLACEMENT_ALLOWED"
+}
