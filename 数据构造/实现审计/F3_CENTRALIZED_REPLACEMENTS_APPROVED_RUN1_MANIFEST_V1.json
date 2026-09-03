@@ -1,0 +1,106 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approved": true,
+  "asset_hashes_by_family": {
+    "F3": {
+      "assets/objects/001_bottle/collision/base13.glb": "3e661138f5dfbcda201766d181525c8e6e2cce26400df95829eb2772fed1a9e8",
+      "assets/objects/001_bottle/collision/base15.glb": "bf233e9ae79799d063b2f968fd90d0cc332150103b5138477a7f24876253fed2",
+      "assets/objects/001_bottle/collision/base4.glb": "dabf7af41598048aa4aba500bc3d6c8b3a1a538973ca36842bb9b3ea7a8d302b",
+      "assets/objects/001_bottle/collision/base5.glb": "513213d85954ecd228af7d82ef2698d256934d7b7f2a2e469f794ecab58b06ae",
+      "assets/objects/001_bottle/model_data13.json": "a0b94d276bf41e03a7b0c2fa7f8352c8c45b7bcaa8db2925328955fc8e18ef1f",
+      "assets/objects/001_bottle/model_data15.json": "8971efc1a88ff6799f02ff576d2dafc0ddea1634dd77b0fbc274724cb0562f30",
+      "assets/objects/001_bottle/model_data4.json": "1bd52b232b290364b1100d5e9d22197e008a51d8254ed750a7bf73f3e2faad98",
+      "assets/objects/001_bottle/model_data5.json": "b534e410ac10cce52b3ebda1a2bb961716f0e36f2416f2dbcbe4f5dad380267f",
+      "assets/objects/001_bottle/points_info.json": "028dd9f34f655ce16c9c72887a6a350e4c932f8e3b5295b5a9ea72415669e2d5",
+      "assets/objects/001_bottle/visual/base13.glb": "bcf7da24d20a2d2b4b79ca6b7bf9de175ea649d53461dc820d857437df116cb7",
+      "assets/objects/001_bottle/visual/base15.glb": "d44ea24dd4e23307eef935b9406fadea5267f481dad5218a5138eba6077059a2",
+      "assets/objects/001_bottle/visual/base4.glb": "1c6746600ab1a3b750e27ceb944da0011329a7e874035b59bf852353efc2210f",
+      "assets/objects/001_bottle/visual/base5.glb": "84215ac9f998072e63fd2c2040bb75b5847810fad52d93be7c55ef32d70e51d4"
+    }
+  },
+  "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/f3_replacement_run1",
+  "compression_authorized": false,
+  "external_review_decision_file_sha256": "ee818c10005d5bef0e60c46dd0d9fb4811333d1e34c65c3e350ac35bdf553d73",
+  "external_review_decision_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_POST_GATE_V2_20260904.md",
+  "formal_360_authorized": false,
+  "formal_data": false,
+  "gpu_execution_authorized": true,
+  "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_replacement_run1/f3-centralized-replacements-run1-20260904/guards",
+  "guard_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_replacement_run1_runtime_v1/guarded_launcher.py",
+  "guard_script_sha256": "a4e8bd0614356a34e9bb27efc66893cbf0cafe6a0860967f63047d6e43ee1e65",
+  "h_reveal_authorized": false,
+  "implementation_source_sha256": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7",
+  "jobs": [
+    {
+      "automatic_retry": false,
+      "conditional_no_suffix_scene_cap": 3,
+      "fallback_allowed": false,
+      "family": "F3",
+      "formal_trajectory_cap": 0,
+      "job_id": "f3-centralized-replacements-run1",
+      "mode": "F3_CENTRALIZED_REPLACEMENT_GATE_V1",
+      "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f3_centralized_replacements_v1/f3-centralized-replacements-run1",
+      "physical_candidate_cap": 4,
+      "physical_internal_planner_queries_reported_separately": true,
+      "planner_query_cap": 30,
+      "planner_scene_cap": 6,
+      "proposal_sha256": "5203ca62afba5a594edabfd57ef0a0aa3e12106895ecf508478e4111f3451dd2",
+      "replacement_tuples": [
+        [
+          "bottle5",
+          "right",
+          "lower_body",
+          "contact2",
+          "rotation1",
+          "r1505"
+        ],
+        [
+          "bottle4",
+          "left",
+          "upper_body",
+          "contact0",
+          "rotation6",
+          "r2180"
+        ],
+        [
+          "bottle13",
+          "right",
+          "upper_body",
+          "contact2",
+          "rotation5",
+          "r3677"
+        ]
+      ],
+      "retained_survivor_qualification_rerun": false,
+      "timeout_seconds": 21600
+    }
+  ],
+  "manifest_sha256": "914571b43c55c62c46a53445b91c5ec351430fffa233c949e44e86cf48e473d5",
+  "one_job_per_gpu": true,
+  "physical_execution_authorized": true,
+  "pi05_authorized": false,
+  "retained_stage_a_file_sha256": "679c4455d2ac99e6e7246bfe22b98065ed4694b5948208b42f56350e1793ebec",
+  "retained_stage_a_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f3-rotation1-lift-center-v1-run1/candidate_01_bottle15-left-lower/stage_a.json",
+  "retained_stage_b_file_sha256": "940f9d30d71fe1bdb9fe80bee62ece521e3873c17c87dd6ed1b27500892386b4",
+  "retained_stage_b_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f3-rotation1-lift-center-v1-run1/candidate_01_bottle15-left-lower/stage_b.json",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_sharding": false,
+  "run_id": "f3-centralized-replacements-run1-20260904",
+  "runner_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_replacement_run1_runtime_v1/job_runner.py",
+  "runner_script_sha256": "36e447e8bc7b9909af4ac88dbf5930c83548d0f6c56db947e6797b7e1c3f4728",
+  "schema_version": "cmf_f3_centralized_replacements_approved_run1_manifest_v1",
+  "source_freeze_vault_head": "3c08aaf74e4a6c2fde50141330d5c0dd336cea60",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "APPROVED_F3_CENTRALIZED_REPLACEMENTS_RUN1_V1",
+  "training_authorized": false
+}
