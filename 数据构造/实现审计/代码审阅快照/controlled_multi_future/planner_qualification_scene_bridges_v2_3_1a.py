@@ -11,8 +11,8 @@ import numpy as np
 from .anchor import quaternion_angular_error
 from .canonical_artifact import canonical_hash_json, canonical_jsonable
 from .f2_planner_integration_v2 import run_f2_final_grasp_stage_a_planner_v2
-from .f3_scene_binding_equivalence_v1 import (
-    audit_f3_scene_binding_equivalence_v1,
+from .f3_scene_binding_equivalence_v1_1 import (
+    audit_f3_scene_binding_equivalence_v1_1,
 )
 from .f3_planner_integration_v3_1 import (
     run_f3_stage_a_planner_v3_1,
@@ -326,7 +326,7 @@ def run_with_production_scene_bridge_v2_3_1a(
             actual = _derive_actual_f3_binding(scene, recipe)
             expected = auth["job_spec"]["manifest_entry"]["scene_binding"]
             runtime_entities = adapter._entity_payloads(scene)
-            f3_scene_binding_equivalence = audit_f3_scene_binding_equivalence_v1(
+            f3_scene_binding_equivalence = audit_f3_scene_binding_equivalence_v1_1(
                 recipe=recipe,
                 expected_scene_binding=expected,
                 actual_scene_binding=actual,

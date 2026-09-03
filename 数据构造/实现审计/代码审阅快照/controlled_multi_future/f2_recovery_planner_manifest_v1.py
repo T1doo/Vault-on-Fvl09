@@ -15,9 +15,9 @@ from .f2_hierarchical_template_search_v1 import (
     build_f2_hierarchical_template_search_v1,
 )
 from .f2_inside_control_search_v2 import (
-    build_f2_geometry_certificate_v4,
     build_f2_grasp_recipe_universe_v2,
 )
+from .f2_runtime_geometry_v5 import build_f2_geometry_certificate_v5
 from .f2_planner_integration_v2 import (
     build_f2_final_grasp_stage_a_spec_v2,
     validate_f2_planner_terminal_v2,
@@ -46,7 +46,7 @@ def build_f2_recovery_planner_manifest_v1() -> dict[str, Any]:
     if tuple(pair_rows) != PAIR_ORDER:
         raise ValueError("F2 recovery pair order differs from frozen order")
     certificates = {
-        _pair_id(*pair): build_f2_geometry_certificate_v4(
+        _pair_id(*pair): build_f2_geometry_certificate_v5(
             main_object_model_id=pair[0], plastic_box_model_id=pair[1]
         )
         for pair in PAIR_ORDER

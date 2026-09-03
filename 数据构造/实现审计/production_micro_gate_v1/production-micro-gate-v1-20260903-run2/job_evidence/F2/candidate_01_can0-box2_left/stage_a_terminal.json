@@ -1,0 +1,146 @@
+{
+  "cleanup": {
+    "activity_monitor_restoration_error": null,
+    "activity_monitor_restoration_succeeded": true,
+    "cleanup_error": null,
+    "cleanup_safety_pass": true,
+    "development_video_error": null,
+    "development_video_finalize_succeeded": null,
+    "development_video_receipt": null,
+    "orphan_process_count": 0,
+    "outer_gpu_release_audit_required": true,
+    "owned_planner_process_ids": [],
+    "scene_cleanup_attempted": true,
+    "scene_cleanup_succeeded": true,
+    "scene_created": true,
+    "scene_instance_id": "f2-F2_MICRO_STAGE_A-v1_2-000001",
+    "stage0_video_error": null,
+    "stage0_video_finalize_succeeded": null,
+    "stage0_video_receipt": null
+  },
+  "error": {
+    "message": "F2 runtime geometry differs from certificate",
+    "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 275, in run_f2\n    stage_a = run_f2_final_grasp_stage_a_planner_v2(scene, stage_a_spec)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f2_planner_integration_v2.py\", line 162, in run_f2_final_grasp_stage_a_planner_v2\n    raise ValueError(\"F2 runtime geometry differs from certificate\")\nValueError: F2 runtime geometry differs from certificate\n",
+    "type": "ValueError"
+  },
+  "runtime_geometry": {
+    "cavity_center_m": [
+      -0.00024613475799552254,
+      0.06326539531350137,
+      -0.00023097729682913792
+    ],
+    "cavity_raw_lower_m": [
+      -0.0832461347579956,
+      0.01676539531350136,
+      -0.08323097729682921
+    ],
+    "cavity_raw_upper_m": [
+      0.08275386524200455,
+      0.10976539531350137,
+      0.08276902270317094
+    ],
+    "main_object_collision_path": "assets/objects/071_can/collision/base0.glb",
+    "main_object_collision_sha256": "599bd4d8a598def3a24ce52118a681c9457c94dd5bc28c41b5ad36fddee2c2ef",
+    "main_object_local_center_m": [
+      -1.079751295975455e-05,
+      0.047754681682482036,
+      9.404121786554337e-06
+    ],
+    "main_object_local_dimensions_m": [
+      0.07114912222011581,
+      0.09646788818255601,
+      0.07118775383879648
+    ],
+    "main_object_local_lower_m": [
+      -0.03558535862301766,
+      -0.00047926240879597043,
+      -0.035584472797611684
+    ],
+    "main_object_local_upper_m": [
+      0.03556376359709815,
+      0.09598862577376005,
+      0.0356032810411848
+    ],
+    "main_object_model_data_sha256": "78eb137b42da2d6fa0b9208717964838e01cf6c65c5c6b14ad7c988d6ff2acfb",
+    "main_object_model_id": 0,
+    "main_object_scale": [
+      0.05,
+      0.05,
+      0.05
+    ],
+    "main_object_spawn_orientation_wxyz": [
+      0.4997241497039795,
+      0.5002058744430542,
+      0.5002367496490479,
+      0.49983319640159607
+    ],
+    "plastic_box_collision_path": "assets/objects/062_plasticbox/collision/base2.glb",
+    "plastic_box_collision_sha256": "089b4b11fac544d2225fc8d7b0113b6059322047e57167559360444457b5838b",
+    "plastic_box_local_center_m": [
+      4.0775340749317516e-06,
+      0.054234044624490996,
+      -7.246972706694114e-07
+    ],
+    "plastic_box_local_dimensions_m": [
+      0.19351303806867404,
+      0.11193995890665649,
+      0.19347189040131754
+    ],
+    "plastic_box_local_lower_m": [
+      -0.09675244150026209,
+      -0.0017359348288372503,
+      -0.09673666989792944
+    ],
+    "plastic_box_local_upper_m": [
+      0.09676059656841195,
+      0.11020402407781923,
+      0.0967352205033881
+    ],
+    "plastic_box_model_data_sha256": "e2712f8aa9f0e53a2a7f24a6ee815a488faf7f19abc82cb0697cdd9b4ce7dbbf",
+    "plastic_box_model_id": 2,
+    "plastic_box_scale": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "plastic_box_spawn_orientation_wxyz": [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "runtime_observation_sha256": "e31866a2a45b4f1c021fedbba7a970cc617998ba70480b8ff796a43617c90b34"
+  },
+  "runtime_geometry_gate": {
+    "certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+    "checks": {
+      "all_geometry_vectors_match_1um": false,
+      "asset_hashes_match": true,
+      "collision_paths_match": true,
+      "model_ids_match": true,
+      "spawn_orientations_match": false
+    },
+    "maximum_absolute_errors_m": {
+      "cavity_center_m": 0.0,
+      "cavity_raw_lower_m": 0.0,
+      "cavity_raw_upper_m": 0.0,
+      "main_object_local_center_m": 1.302361384054028e-05,
+      "main_object_local_dimensions_m": 0.02037423090388285,
+      "main_object_local_lower_m": 0.010187241319169395,
+      "main_object_local_upper_m": 0.010200139065781967,
+      "main_object_scale": 0.0,
+      "plastic_box_local_center_m": 6.342130945656529e-07,
+      "plastic_box_local_dimensions_m": 1.1345058343825709e-05,
+      "plastic_box_local_lower_m": 6.3067422664819794e-06,
+      "plastic_box_local_upper_m": 5.333971558260653e-06,
+      "plastic_box_scale": 0.0
+    },
+    "orientation_atol_rad": 1e-07,
+    "pass": false,
+    "position_atol_m": 1e-06,
+    "receipt_sha256": "1a53d9c9b511f91477755ff98d763710f5a009127f75bdcec2b0d9b8c051258c",
+    "schema_version": "cmf_f2_cpu_runtime_geometry_comparison_v4",
+    "status": "CPU_RUNTIME_GEOMETRY_CERTIFICATE_MISMATCH"
+  },
+  "terminal": null
+}

@@ -26,6 +26,10 @@ from .f2_inside_control_search_v2 import (
     validate_f2_controlled_insertion_event_order_v2,
     validate_f2_final_grasp_qualification_v2,
 )
+from .f2_runtime_geometry_v5 import (
+    capture_f2_runtime_geometry_observation_v5,
+    compare_f2_runtime_geometry_v5,
+)
 from .f2_release_gates_v10 import (
     audit_f2_final_inside_success_gate_v10,
     audit_f2_release_safety_gate_v10,
@@ -443,8 +447,8 @@ def execute_f2_controlled_insertion_physical_v2(
     qualification = validate_f2_final_grasp_qualification_v2(
         recipe, final_grasp_freeze, final_grasp_qualification
     )
-    runtime_geometry = capture_f2_runtime_geometry_observation_v4(scene)
-    geometry_gate = compare_f2_runtime_geometry_v4(
+    runtime_geometry = capture_f2_runtime_geometry_observation_v5(scene)
+    geometry_gate = compare_f2_runtime_geometry_v5(
         geometry_certificate, runtime_geometry
     )
     if qualification["pass"] is not True or geometry_gate["pass"] is not True:

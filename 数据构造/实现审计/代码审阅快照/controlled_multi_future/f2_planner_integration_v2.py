@@ -16,6 +16,10 @@ from .f2_inside_control_search_v2 import (
     compare_f2_runtime_geometry_v4,
     freeze_f2_final_grasp_pose_v2,
 )
+from .f2_runtime_geometry_v5 import (
+    capture_f2_runtime_geometry_observation_v5,
+    compare_f2_runtime_geometry_v5,
+)
 from .f2_official_asset_compatibility_matrix_v3 import (
     validate_frozen_asset_layout_binding_v3,
 )
@@ -45,7 +49,10 @@ def _self_hashed(value: Mapping[str, Any], key: str, label: str) -> dict[str, An
 
 def _certificate(value: Mapping[str, Any]) -> dict[str, Any]:
     result = _self_hashed(value, "certificate_sha256", "geometry certificate")
-    if result.get("schema_version") != "cmf_f2_geometry_certificate_v4":
+    if result.get("schema_version") not in {
+        "cmf_f2_geometry_certificate_v4",
+        "cmf_f2_geometry_certificate_v5",
+    }:
         raise ValueError("F2 geometry certificate schema mismatch")
     return result
 
@@ -154,10 +161,16 @@ def run_f2_final_grasp_stage_a_planner_v2(
 ) -> dict[str, Any]:
     value = validate_f2_final_grasp_stage_a_spec_v2(spec)
     recipe = value["recipe"]
-    runtime = capture_f2_runtime_geometry_observation_v4(scene)
-    geometry_gate = compare_f2_runtime_geometry_v4(
-        value["geometry_certificate"], runtime
-    )
+    if value["geometry_certificate"]["schema_version"].endswith("_v5"):
+        runtime = capture_f2_runtime_geometry_observation_v5(scene)
+        geometry_gate = compare_f2_runtime_geometry_v5(
+            value["geometry_certificate"], runtime
+        )
+    else:
+        runtime = capture_f2_runtime_geometry_observation_v4(scene)
+        geometry_gate = compare_f2_runtime_geometry_v4(
+            value["geometry_certificate"], runtime
+        )
     if geometry_gate["pass"] is not True:
         raise ValueError("F2 runtime geometry differs from certificate")
     raw = generate_official_raw_pose_receipt_v1(
