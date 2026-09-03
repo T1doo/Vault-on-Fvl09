@@ -1,0 +1,419 @@
+{
+  "F2": {
+    "gate_pass": true,
+    "guard_terminal_file_sha256": "106a09bce8037cb02d776ac7940f8290c2816b181d8c203ebf3973434e484e6b",
+    "guard_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/post_recovery_gate_v1/post-recovery-approved-f2-f3-gate-v1-20260903/guards/f2-top-contact-selection-tracking-v1-run1.terminal.json",
+    "guard_terminal_receipt_sha256": "496268837b0d9b7d7c6f9f51495398392eb374d33bb77f2ca17c645eb5828106",
+    "job_terminal_file_sha256": "89e2f41c0f8b1678fa7aaa5db8f0bbf3d3fbdec5b31287b40ded8db784a96c1d",
+    "job_terminal_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/job_terminal.json",
+    "job_terminal_receipt_sha256": "72d206826288b432d3170397697b26076384e6a3e9ad1515c1fc75f7a9857874",
+    "physical_execution_count": 2,
+    "physical_success_count": 2,
+    "planner_queries_used": 22,
+    "planner_query_cap": 44,
+    "proposal_sha256": "aa05bfeef85d67c5d396182977af8852f2733d4f737bb945116f018db3de7594",
+    "rows": [
+      {
+        "debug_video_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_01_can0-box2_left/physical/trajectory.mp4",
+        "debug_video_sha256": "57cd7839236ad0c230b60c3b20e1c38bb9524e93ac83f85650e8189a979e11c8",
+        "physical_pass": true,
+        "physical_replan_queries": 0,
+        "planner_queries": 11,
+        "post_lift_grasp_transform_gate": {
+          "actor_off_table_required": true,
+          "actor_table_contact_observed": false,
+          "actual_eef_to_actor_pose": [
+            0.18908791437802686,
+            0.001284626884575979,
+            4.326692612528771e-05,
+            0.5012476936148578,
+            0.49887970670965065,
+            -0.4994810553716517,
+            0.5003883124173664
+          ],
+          "checks": {
+            "actor_off_table_after_lift": true,
+            "evidence_complete": true,
+            "orientation_drift_within_50mrad": true,
+            "selected_actor_identity_continuous": true,
+            "selected_finger_contact_continuous": true,
+            "translation_drift_within_5mm": true
+          },
+          "orientation_drift_rad": 0.003337548431692405,
+          "pass": true,
+          "phase": "post_lift",
+          "planned_eef_to_actor_pose": [
+            0.18903929174158984,
+            0.001091435803988683,
+            5.743568928354842e-05,
+            0.5003316291753388,
+            0.49959361276415143,
+            -0.4987406210962508,
+            0.5013305055555073
+          ],
+          "receipt_sha256": "cfee6bf68f0c485f5457ac9fc14d4c215cc63c9bcba6960afe675f168b578856",
+          "schema_version": "cmf_f2_post_lift_grasp_transform_gate_v2",
+          "status": "PASS",
+          "translation_drift_m": 0.00019971907330550053
+        },
+        "preclose_tracking_gate": {
+          "approach_execution_receipts": [
+            {
+              "end_trace_row": 555,
+              "planner_status": "Success",
+              "segment_id": "f2_v2_pregrasp",
+              "start_trace_row": 0,
+              "tracking_orientation_error_rad": 0.00648422490488842,
+              "tracking_position_error_m": 0.0027018262070485207
+            },
+            {
+              "end_trace_row": 749,
+              "planner_status": "Success",
+              "segment_id": "f2_v2_grasp",
+              "start_trace_row": 555,
+              "tracking_orientation_error_rad": 0.005722652238904418,
+              "tracking_position_error_m": 0.002690083856693609
+            }
+          ],
+          "checks": {
+            "exact_pregrasp_grasp_order": true,
+            "orientation_tracking": true,
+            "planner_status_success": true,
+            "position_tracking": true
+          },
+          "close_gripper_allowed": true,
+          "failure_category": null,
+          "implementation_version": "f2_precontact_tracking_recovery_v1",
+          "pass": true,
+          "receipt_sha256": "28f16fb5618d1a6912545237e083d89d7a2e067cb113e038fdeb97ac4df54cdc",
+          "schema_version": "cmf_f2_preclose_tracking_gate_v1",
+          "thresholds": {
+            "orientation_atol_rad": 0.05,
+            "position_atol_m": 0.005
+          }
+        },
+        "raw_trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_01_can0-box2_left/physical/physical_trace.npz",
+        "raw_trace_sha256": "a5f976ce0bb0a12827c6c75d0eb4bbdf8efc6718c11a1f3c6beebe230a8a251f",
+        "scene_receipt_file_sha256": "fc641a6b3f4c7294fa9d6c912e57fa78209ef6a89ad795fa8c3fc2ab515fcc3c",
+        "scene_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_01_can0-box2_left/physical/scene_receipt.json",
+        "selected_tuple": [
+          8,
+          0
+        ],
+        "stratum": {
+          "arm": "left",
+          "historical_side_contact_tuple_excluded": {
+            "axial_grasp_offset_m": 0.0,
+            "official_contact_point_id": 0,
+            "official_rotation_candidate_index": 0,
+            "pregrasp_distance_m": 0.09
+          },
+          "main_object_model_id": 0,
+          "plastic_box_model_id": 2,
+          "rotation_indices_in_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "top_contact_ids_in_order": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        }
+      },
+      {
+        "debug_video_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_02_can0-box2_right/physical/trajectory.mp4",
+        "debug_video_sha256": "7077cb9de922337414da3660bf3ae7e1201ab8e11493ec34b4603b56a72477bb",
+        "physical_pass": true,
+        "physical_replan_queries": 0,
+        "planner_queries": 11,
+        "post_lift_grasp_transform_gate": {
+          "actor_off_table_required": true,
+          "actor_table_contact_observed": false,
+          "actual_eef_to_actor_pose": [
+            0.18893732352659498,
+            0.0012161458038336126,
+            -0.00012959844618754685,
+            0.500663967523845,
+            0.49935272136667325,
+            -0.49913158858082723,
+            0.5008493871092984
+          ],
+          "checks": {
+            "actor_off_table_after_lift": true,
+            "evidence_complete": true,
+            "orientation_drift_within_50mrad": true,
+            "selected_actor_identity_continuous": true,
+            "selected_finger_contact_continuous": true,
+            "translation_drift_within_5mm": true
+          },
+          "orientation_drift_rad": 0.00039264294923551876,
+          "pass": true,
+          "phase": "post_lift",
+          "planned_eef_to_actor_pose": [
+            0.18894679894923994,
+            0.0012916947461507622,
+            -0.00013055300001345999,
+            0.5005603489390217,
+            0.49945904186477175,
+            -0.49903937756233074,
+            0.500938820827225
+          ],
+          "receipt_sha256": "20ce3da375429ef7ceaa604898e92874af4f3b040fdd91dc7bc27f49d951db80",
+          "schema_version": "cmf_f2_post_lift_grasp_transform_gate_v2",
+          "status": "PASS",
+          "translation_drift_m": 7.614681538020549e-05
+        },
+        "preclose_tracking_gate": {
+          "approach_execution_receipts": [
+            {
+              "end_trace_row": 557,
+              "planner_status": "Success",
+              "segment_id": "f2_v2_pregrasp",
+              "start_trace_row": 0,
+              "tracking_orientation_error_rad": 0.0060767003165033235,
+              "tracking_position_error_m": 0.0027116483377734586
+            },
+            {
+              "end_trace_row": 751,
+              "planner_status": "Success",
+              "segment_id": "f2_v2_grasp",
+              "start_trace_row": 557,
+              "tracking_orientation_error_rad": 0.005819994251760565,
+              "tracking_position_error_m": 0.0026580695841949154
+            }
+          ],
+          "checks": {
+            "exact_pregrasp_grasp_order": true,
+            "orientation_tracking": true,
+            "planner_status_success": true,
+            "position_tracking": true
+          },
+          "close_gripper_allowed": true,
+          "failure_category": null,
+          "implementation_version": "f2_precontact_tracking_recovery_v1",
+          "pass": true,
+          "receipt_sha256": "306c25be1d751abdccb1c38d2f56f23f135cf2b7ea8fc242ff35dd5a8a0b0f82",
+          "schema_version": "cmf_f2_preclose_tracking_gate_v1",
+          "thresholds": {
+            "orientation_atol_rad": 0.05,
+            "position_atol_m": 0.005
+          }
+        },
+        "raw_trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_02_can0-box2_right/physical/physical_trace.npz",
+        "raw_trace_sha256": "c2b25647b9980ae97797dfdd8ad7d7d2b63e4fec0e1583fdba9e1e6696cc96f7",
+        "scene_receipt_file_sha256": "fe9ede4fd5e310c24db22aa429fcb4ed2871a0cfd09154c99c3b0ece6cf00712",
+        "scene_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f2-top-contact-selection-tracking-v1-run1/stratum_02_can0-box2_right/physical/scene_receipt.json",
+        "selected_tuple": [
+          8,
+          0
+        ],
+        "stratum": {
+          "arm": "right",
+          "historical_side_contact_tuple_excluded": {
+            "axial_grasp_offset_m": 0.0,
+            "official_contact_point_id": 0,
+            "official_rotation_candidate_index": 0,
+            "pregrasp_distance_m": 0.09
+          },
+          "main_object_model_id": 0,
+          "plastic_box_model_id": 2,
+          "rotation_indices_in_order": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "top_contact_ids_in_order": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        }
+      }
+    ],
+    "stopped_after_two_successes": true
+  },
+  "F3": {
+    "gate_pass": false,
+    "guard_terminal_file_sha256": "1a7f8ed641813e898631dfa92ebb2c06b7b9ca8553b037cad1af996e6e7baff6",
+    "guard_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/post_recovery_gate_v1/post-recovery-approved-f2-f3-gate-v1-20260903/guards/f3-rotation1-lift-center-v1-run1.terminal.json",
+    "guard_terminal_receipt_sha256": "d53a8603a40f5147e1f1312dc385d5b1d5f970cbe4877a9ecfee551b3464b4cd",
+    "job_terminal_file_sha256": "5b1b1b916667685438179972357fa07ee66533ce38809cc8affc1c94e472f130",
+    "job_terminal_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_recovery_gate_v1/f3-rotation1-lift-center-v1-run1/job_terminal.json",
+    "job_terminal_receipt_sha256": "a438128e719a2fca678154673767d8459e53c291b4abd5d1434300121593bbb8",
+    "no_suffix_triggered": false,
+    "physical_execution_count": 0,
+    "physical_success_count": 0,
+    "planner_queries_used": 13,
+    "planner_query_cap": 40,
+    "planner_survivor_count": 1,
+    "proposal_sha256": "0645a46c72c3b87bdebca19c2cf21db36784498817b7eb5d82a0543ca92b89e9",
+    "rows": [
+      {
+        "candidate": {
+          "arm": "left",
+          "asset_model_id": 15,
+          "grasp_region": "lower_body",
+          "label": "bottle15-left-lower",
+          "new_recipe_id": "f3-final-pose-v3-r0005",
+          "new_recipe_sha256": "3638a9e93f5101b1e7a9370fe7c4735c5a1a062e890d7ac66d47f6f182cf333f",
+          "official_contact_point_id": 0,
+          "official_rotation_candidate_index": 1,
+          "old_recipe_id": "f3-final-pose-v3-r0002",
+          "old_rotation0_candidate_rerun": false,
+          "pregrasp_distance_m": 0.09
+        },
+        "failure_category": null,
+        "lift_center_first_target_equals_lift": true,
+        "stage_a_file_sha256": "679c4455d2ac99e6e7246bfe22b98065ed4694b5948208b42f56350e1793ebec",
+        "stage_a_pass": true,
+        "stage_a_query_count": 3,
+        "stage_a_statuses": [
+          "Success",
+          "Success",
+          "Success"
+        ],
+        "stage_b_file_sha256": "940f9d30d71fe1bdb9fe80bee62ece521e3873c17c87dd6ed1b27500892386b4",
+        "stage_b_pass": true,
+        "stage_b_query_count": 7
+      },
+      {
+        "candidate": {
+          "arm": "right",
+          "asset_model_id": 5,
+          "grasp_region": "lower_body",
+          "label": "bottle5-right-lower",
+          "new_recipe_id": "f3-final-pose-v3-r1445",
+          "new_recipe_sha256": "90a1cfd4c7a6ffa5e5379a6efc54d31d355c1e815f59789d58fe049e69390d72",
+          "official_contact_point_id": 0,
+          "official_rotation_candidate_index": 1,
+          "old_recipe_id": "f3-final-pose-v3-r1442",
+          "old_rotation0_candidate_rerun": false,
+          "pregrasp_distance_m": 0.09
+        },
+        "failure_category": "F3_STAGE_A_FAILED",
+        "lift_center_first_target_equals_lift": null,
+        "stage_a_file_sha256": "e8caf1150578851b6c1a05c296ea7b50b69d86d295ea601aad713977e9f943ad",
+        "stage_a_pass": false,
+        "stage_a_query_count": 1,
+        "stage_a_statuses": [
+          "Fail"
+        ],
+        "stage_b_file_sha256": null,
+        "stage_b_pass": false,
+        "stage_b_query_count": 0
+      },
+      {
+        "candidate": {
+          "arm": "left",
+          "asset_model_id": 4,
+          "grasp_region": "upper_body",
+          "label": "bottle4-left-upper",
+          "new_recipe_id": "f3-final-pose-v3-r2165",
+          "new_recipe_sha256": "f6d56955c3aeb9ffb61a5dd2e7a18282da416a7396f7637171570b0a226188ac",
+          "official_contact_point_id": 0,
+          "official_rotation_candidate_index": 1,
+          "old_recipe_id": "f3-final-pose-v3-r2162",
+          "old_rotation0_candidate_rerun": false,
+          "pregrasp_distance_m": 0.09
+        },
+        "failure_category": "F3_STAGE_A_FAILED",
+        "lift_center_first_target_equals_lift": null,
+        "stage_a_file_sha256": "0287edb254563127403dfbf251a7959cc01df7fcd48433c64618ea1188e92a85",
+        "stage_a_pass": false,
+        "stage_a_query_count": 1,
+        "stage_a_statuses": [
+          "Fail"
+        ],
+        "stage_b_file_sha256": null,
+        "stage_b_pass": false,
+        "stage_b_query_count": 0
+      },
+      {
+        "candidate": {
+          "arm": "right",
+          "asset_model_id": 13,
+          "grasp_region": "upper_body",
+          "label": "bottle13-right-upper",
+          "new_recipe_id": "f3-final-pose-v3-r3605",
+          "new_recipe_sha256": "b6b1e41a69db68e35dfb98a0d2f1b3c0449f09fee018abf339c88dee6a46c27f",
+          "official_contact_point_id": 0,
+          "official_rotation_candidate_index": 1,
+          "old_recipe_id": "f3-final-pose-v3-r3602",
+          "old_rotation0_candidate_rerun": false,
+          "pregrasp_distance_m": 0.09
+        },
+        "failure_category": "F3_STAGE_A_FAILED",
+        "lift_center_first_target_equals_lift": null,
+        "stage_a_file_sha256": "991ffee0a7273e65beb9785c9174323842bb5dafba9bb8f0fb4197c7f7a89797",
+        "stage_a_pass": false,
+        "stage_a_query_count": 1,
+        "stage_a_statuses": [
+          "Fail"
+        ],
+        "stage_b_file_sha256": null,
+        "stage_b_pass": false,
+        "stage_b_query_count": 0
+      }
+    ]
+  },
+  "final_gpu_snapshot": {
+    "all_gpu_compute_processes": [],
+    "selected_gpu0": {
+      "compute_processes": [],
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0
+    },
+    "selected_gpu1": {
+      "compute_processes": [],
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0
+    }
+  },
+  "formal_accepted_roots": 0,
+  "formal_accepted_trajectories": 0,
+  "initial_direct_exec_launch_errors": {
+    "authorization_consumed": false,
+    "correction": "invoke the same hash-bound Guard through the project Python interpreter",
+    "count": 2,
+    "gpu_initialized": false,
+    "guard_reached": false,
+    "type": "PermissionDenied"
+  },
+  "manifest_sha256": "1b9bce0ee24b4730b05e5cf8138587925b5dbfebca049bb4de851655447b4d89",
+  "next_safe_action": "update unified Stage 1 readiness; obtain new review before any additional F2/F3/F4 GPU work",
+  "receipt_sha256": "32fcabf494f43b855b90f91672404a522371479c018857378ccedb58b42975df",
+  "schema_version": "cmf_post_recovery_f2_f3_gate_terminal_v1",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "F2_GATE_PASS_F3_GATE_FAIL_WITH_EVIDENCE",
+  "task_owned_processes_remaining": [],
+  "training_authorized": false
+}
