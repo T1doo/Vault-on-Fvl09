@@ -1,0 +1,56 @@
+{
+  "authorization_consumed": false,
+  "cpu_review_status": "PASS_READY_FOR_EXTERNAL_REVIEW",
+  "fail_closed_history": [
+    {
+      "attempt": 1,
+      "category": "historical_Run2_receipt_uses_legacy_noncanonical_self_hash",
+      "resolution": "bind exact file SHA, recorded receipt field and 5/5 content; report historical self-hash false"
+    },
+    {
+      "attempt": 2,
+      "category": "proposal_planned_scene_sha_one_character_transcription_error",
+      "resolution": "correct unissued proposal to the immutable scene SHA and recompute manifest self-hash"
+    },
+    {
+      "attempt": 3,
+      "category": "precommit_full_lifecycle_pass",
+      "resolution": "preserved as PRECOMMIT_DRAFT1 and rerun after source-freeze commit"
+    },
+    {
+      "attempt": 4,
+      "category": "final_full_lifecycle_pass",
+      "resolution": "authoritative final CPU lifecycle receipt"
+    }
+  ],
+  "gpu_context_created": false,
+  "lifecycle": {
+    "file_sha256": "33f2bc3f9036fe602d48fcc8acf3927018cec7c41923aae9ae1cbd95be058b01",
+    "historical_regressions_pass": true,
+    "negative_test_count": 13,
+    "receipt_sha256": "3df1f4c21fec4c1b7f304c8a0f08351179f0eaf1dad2039e699be02547d3a3ba",
+    "runner_entry_subprocess_pass": true,
+    "temporary_paths_cleaned": true
+  },
+  "nvidia_smi_called": false,
+  "proposal": {
+    "approved": false,
+    "file_sha256": "227cb378f662885a3151182756fdccdd21b2c966e75846641d32cb5a6e9afe94",
+    "gpu_execution_authorized": false,
+    "manifest_sha256": "8afaf49a83aaaedc9473cd20866ad06e2b18e1f8adfcd1e6747baa401ce0a4f5",
+    "physical_execution_authorized": false
+  },
+  "receipt_sha256": "27685393a762a0ab12ad332dc717dd4b80b0fd16e328484374d712ca803e180a",
+  "runtime_files": {
+    "guarded_launcher.py": "884ccd6c946991b95f8a92e2c7740bc83eb6e6a4d4ae09d0a047cd1f4f7d7702",
+    "job_runner.py": "e9217b437e360e0fdd2540420ff86b094c5ec4f8e59c1aebd37458aa1e89e175",
+    "lifecycle_preflight.py": "cc3c1db3b12a8e735d4c24e3afd7e3b195257a14bcad5430a9d4c7a9781c5c36",
+    "manifest_contract.py": "64484a94d436e5c521975b8906c427965235865c278f16e7a935a63376f58bb9"
+  },
+  "runtime_source_freeze_vault_head": "9b4efa5691a746688c2516abb3d99b5659d66eb8",
+  "scene_created": false,
+  "schema_version": "cmf_f4_development_root_runtime_v2_cpu_review_v1",
+  "source_execution_plan_sha256": "f219a4e57f617b322a9526f939bf9498716f4e428ba220bbd80e64e21e7cfe12",
+  "status": "F4_PHYSICALLY_QUALIFIED_ROOT_INFRASTRUCTURE_CPU_REPAIR_COMPLETE",
+  "still_requires_external_gpu_root_authorization": true
+}

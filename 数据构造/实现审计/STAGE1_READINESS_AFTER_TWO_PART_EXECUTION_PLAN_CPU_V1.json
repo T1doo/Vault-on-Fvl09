@@ -1,0 +1,60 @@
+{
+  "active_gpu_jobs": 0,
+  "authorization_consumed": {
+    "F2_planner_only_gate": false,
+    "F3_reissue_v2": false,
+    "F4_root": false
+  },
+  "families": {
+    "F1": {
+      "accepted_development_r_pc_roots": 5,
+      "blocker": "real r_inv_path/r_inv_motion and atomic 9/9 completion missing",
+      "stage1_ready": false
+    },
+    "F2": {
+      "approved_manifest_sha256": "b08933bf17707bfa8b8700f6b384eecf72b9d5e7b5aac7bc38bcb26f875210d8",
+      "next": "run unchanged 11-query planner-only Gate first after two-round driver recovery Gate",
+      "output_exists": false,
+      "stage1_ready": false
+    },
+    "F3": {
+      "approved_manifest_v2_sha256": "fd1eee1c31e72cb922ed3e782b15feaabcd87ac808ffa963bacb089eecd504f5",
+      "next": "run V2 only after F2 clean postcheck; no-suffix remains a later independent Gate",
+      "output_exists": false,
+      "stage1_ready": false,
+      "v1_status": "SUPERSEDED_UNCONSUMED_BY_F3_REISSUE_V2_BUDGET_CLARIFICATION"
+    },
+    "F4": {
+      "cpu_review_receipt_sha256": "27685393a762a0ab12ad332dc717dd4b80b0fd16e328484374d712ca803e180a",
+      "next": "await external review of the approved=false infrastructure-corrected root proposal",
+      "proposal_manifest_sha256": "8afaf49a83aaaedc9473cd20866ad06e2b18e1f8adfcd1e6747baa401ce0a4f5",
+      "root_status": "INFRASTRUCTURE_BLOCKED_BEFORE_BRANCH",
+      "scientific_status": "PHYSICALLY_QUALIFIED",
+      "stage1_ready": false
+    }
+  },
+  "formal_accepted_roots": 0,
+  "formal_accepted_trajectories": 0,
+  "later_stages": {
+    "compression": false,
+    "formal_360": false,
+    "h_reveal": false,
+    "pi05": false,
+    "stage0_rerun": false,
+    "stage1": false,
+    "training": false
+  },
+  "last_verified_driver_state": "NVIDIA_SMI_DRIVER_COMMUNICATION_FAILED",
+  "receipt_sha256": "e02ca42df65b7241b6905e0cc0ad2ff897d6824aab847599eba647ac779e1ca4",
+  "required_execution_order": [
+    "two_round_driver_recovery_gate",
+    "F2_11_query_planner_only_gate",
+    "F2_clean_GPU_postcheck",
+    "F3_reissue_V2_gate",
+    "F3_clean_GPU_postcheck",
+    "F4_wait_for_new_external_review"
+  ],
+  "schema_version": "cmf_stage1_readiness_after_two_part_execution_plan_cpu_v1",
+  "source_execution_plan_sha256": "f219a4e57f617b322a9526f939bf9498716f4e428ba220bbd80e64e21e7cfe12",
+  "status": "NOT_READY_F2_F3_QUEUED_F4_CPU_READY_FOR_REVIEW"
+}
