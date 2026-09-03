@@ -5,6 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Mapping
 
+import numpy as np
+
+from .anchor import quaternion_angular_error
 from .canonical_artifact import canonical_jsonable
 from .f4_full_program_physical_v1 import (
     PROGRAM_IDS,
@@ -15,6 +18,7 @@ from .f4_full_program_physical_v1 import (
 from .real_sapien_adapter_high_level_v1 import (
     RoboTwinRealSapienF4HierarchicalStageAV1Adapter,
 )
+from .family_runners_v3_1 import _pose
 
 
 ADAPTER_VERSION = "RoboTwinRealSapienF4QualifiedDevelopmentRootV1Adapter"
@@ -76,6 +80,78 @@ class RoboTwinRealSapienF4QualifiedDevelopmentRootV1Adapter(
             replay,
             self.full_program_specs[program["program_id"]],
         )
+
+    def audit_task_physical_feasibility(self, scene, program):
+        legacy = super().audit_task_physical_feasibility(scene, program)
+        candidate = self.full_program_specs["F4-ABC"][
+            "f4_stage_b_candidate_v1"
+        ]
+        position_errors = {}
+        orientation_errors = {}
+        for role in ("A", "B", "C"):
+            actual = _pose(getattr(scene, f"slot_{role.lower()}"))
+            expected = np.asarray(candidate["slot_poses"][role], dtype=np.float64)
+            position_errors[role] = float(
+                np.linalg.norm(actual[:3] - expected[:3])
+            )
+            orientation_errors[role] = quaternion_angular_error(
+                actual[3:], expected[3:]
+            )
+        legacy_evidence = dict(legacy.get("evidence", {}))
+        other_legacy_checks = {
+            key: value
+            for key, value in legacy_evidence.items()
+            if key != "slots_pairwise_separated"
+        }
+        replacement_checks = {
+            "legacy_non_slot_checks": bool(other_legacy_checks)
+            and all(other_legacy_checks.values()),
+            "r01_candidate_construction_valid": candidate.get(
+                "construction_valid"
+            )
+            is True,
+            "r01_candidate_no_online_fallback": candidate.get(
+                "online_fallback"
+            )
+            is False,
+            "r01_positive_terminal_surface_clearance": float(
+                candidate.get("minimum_terminal_clearance_m", 0.0)
+            )
+            > 0.0,
+            "runtime_slot_positions_bound_within_1um": all(
+                error <= 1.0e-6 for error in position_errors.values()
+            ),
+            "runtime_slot_orientations_bound_within_1urad": all(
+                error <= 1.0e-6 for error in orientation_errors.values()
+            ),
+        }
+        passed = all(replacement_checks.values())
+        legacy.update(
+            {
+                "status": "passed" if passed else "failed",
+                "task_feasible": passed,
+                "physical_feasible": passed,
+                "failure_type": None
+                if passed
+                else "f4_r01_task_physical_contract",
+                "evidence": {
+                    **other_legacy_checks,
+                    "legacy_fixed_0_10m_slot_center_check": legacy_evidence.get(
+                        "slots_pairwise_separated"
+                    ),
+                    "legacy_fixed_0_10m_check_is_diagnostic": True,
+                    "r01_candidate_id": candidate["candidate_id"],
+                    "r01_candidate_sha256": candidate["candidate_sha256"],
+                    "r01_minimum_terminal_surface_clearance_m": candidate[
+                        "minimum_terminal_clearance_m"
+                    ],
+                    "runtime_slot_position_errors_m": position_errors,
+                    "runtime_slot_orientation_errors_rad": orientation_errors,
+                    "replacement_checks": replacement_checks,
+                },
+            }
+        )
+        return legacy
 
     def execute_frozen_suffix_spec(
         self,

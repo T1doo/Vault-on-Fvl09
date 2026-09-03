@@ -59,3 +59,8 @@ Root orchestrator必须产生并验证：
 
 Controlled source SHA=`a7fbc996760136017bbf757d05d5af4e6aecc54a5b019f4abf5d10ba86666002`。
 
+## 7. Run10 integration evidence 与唯一 replacement
+
+Run10 在 candidate freeze、prefix planning 和 branch execution 之前终止。旧 F4 task-feasibility audit 固定要求 slot center distance ≥0.10 m；r01 相邻 slot center distance 为0.09 m，但 block width=0.044 m，真实表面间隙=0.046 m，且 Run9 已真实完成三条程序。该旧 center-distance heuristic 与 r01 的 versioned corridor certificate/真实物理证据不兼容。
+
+Replacement 只在 qualified-root adapter 内将旧0.10 m check降为diagnostic，并要求：原有非slot checks全过、r01 candidate self-hashed construction valid、no online fallback、positive terminal surface clearance、runtime static slot pose相对candidate spec的position/orientation误差分别≤1 µm/1 µrad。没有改变slot/final-state verifier、program、candidate、物理阈值或执行器。Run10 branch/raw/video/planner/action消费均为0，因此允许一个同root、同预算的新namespace integration replacement；若同层再次失败则停止。
