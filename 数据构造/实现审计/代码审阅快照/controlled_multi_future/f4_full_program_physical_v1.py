@@ -186,6 +186,8 @@ def execute_f4_full_program_physical_v1(
         role_actors=scene.role_actors,
     )
     scene.planner_query_limit = int(value["planner_query_limit"])
+    scene.planner_query_limit = int(value["planner_query_limit"])
+    total_before = int(getattr(scene, "planner_query_count", 0))
     targets, target_audit = build_f4_stage_b_targets_v1(
         scene, value["source_planner_spec"]
     )
@@ -407,14 +409,17 @@ def plan_f4_full_program_suffix_from_replayed_prefix_v1(
         variant_id=f"f4_qualified_root:{program_id}:{value['candidate_sha256']}",
         arm=arm,
     )
-    before = int(getattr(scene, "planner_query_count", 0))
-    scene.planner_query_limit = int(value["planner_query_limit"])
+    chain_before = int(getattr(scene, "planner_query_count", 0))
     planned = _plan_chain(
         scene, targets, query_limit=value["planner_query_limit"], arm=arm
     )
-    query_count = int(getattr(scene, "planner_query_count", 0)) - before
-    if query_count != len(planned["segment_receipts"]):
-        raise RuntimeError("F4 qualified-root planner query accounting changed")
+    total_after = int(getattr(scene, "planner_query_count", 0))
+    chain_query_count = total_after - chain_before
+    query_count = total_after - total_before
+    if chain_query_count != len(planned["segment_receipts"]):
+        raise RuntimeError("F4 qualified-root chain query accounting changed")
+    if query_count != int(value["planner_query_limit"]):
+        raise RuntimeError("F4 qualified-root total query accounting changed")
     result = _cache_preplanned_suffix_controls(
         scene,
         program_id=program_id,

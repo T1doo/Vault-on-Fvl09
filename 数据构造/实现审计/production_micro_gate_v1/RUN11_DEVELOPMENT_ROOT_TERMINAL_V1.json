@@ -1,0 +1,61 @@
+{
+  "actual_counts": {
+    "branch_executions": 0,
+    "debug_videos": 0,
+    "development_accepted_roots": 0,
+    "development_accepted_trajectories": 0,
+    "formal_trajectories": 0,
+    "fresh_scenes": 8,
+    "manifest_planner_query_limit": 100,
+    "planner_budget_accounting_overrun": 36,
+    "planner_queries": 136,
+    "raw_trajectories": 0,
+    "robot_action_scenes": 4
+  },
+  "formal_data": false,
+  "guard": {
+    "cache_removed": true,
+    "child_exit_code": 0,
+    "child_pid": 1816345,
+    "child_process_group": 1816345,
+    "elapsed_seconds": 496.0915904045105,
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+    "guard_pid": 1816310,
+    "lease_released": true,
+    "physical_gpu_index": 2,
+    "receipt_sha256": "c1619185ee5b98a8f8dbddbb3963f48a08426ee49c39070c3554880860134397",
+    "status": "completed",
+    "task_owned_cleanup_pass": true
+  },
+  "job_terminal": {
+    "file_sha256": "677b8d23d7f1918b094c5ecab5b3175d3fbc409819252732098ca46240ce459a",
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run11/F4/job_terminal.json",
+    "receipt_sha256": "2b5a031cd2be9af0868353d55353c005baf51806131098817ce1614f2ac15485"
+  },
+  "manifest_sha256": "cd01f363a24651253377a84fd97caae8d54ae2e6589436dcdc224449dee2d1bb",
+  "receipt_sha256": "b5b86b70cf9aa9755dbeda2d959f806c2c8abaa75ac338f1b7027dbea223fd99",
+  "replacement_rule": "preserve run11; count the 12 target-construction queries plus 30 chain queries per suffix, correct aggregate budget to 136, and allow one final zero-branch same-root replacement; no program/candidate/executor/verifier change",
+  "root": {
+    "branch_execution_attempt_count": 0,
+    "canonical_prefix_artifact_sha256": "d53db3083aa8e07ed4d68adc54813d1b2488db2399846c2710d2c2b9c9c2154d",
+    "canonical_prefix_generation_count": 1,
+    "canonical_prefix_planner_queries": 10,
+    "canonical_prefix_reference_execution_count": 1,
+    "canonical_prefix_step_count": 2846,
+    "freeze_call_count": 1,
+    "root_receipt_file_sha256": "d55dfb1a81b5720f332a028ecab2ca6213a627e6231efa665ba482e22bf799a0",
+    "root_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run11/F4/development_root/root_receipt.json",
+    "status": "failed_implementation_error",
+    "suffix_prefix_replay_count": 3,
+    "suffix_preflight_actual_queries_each": 42,
+    "suffix_preflight_adapter_reported_queries_each": 30,
+    "suffix_preflight_failure": "suffix planner API count differs from its reported count",
+    "task_physical_feasibility_pass": "3/3"
+  },
+  "run_id": "production-micro-gate-v1-20260903-run11",
+  "schema_version": "cmf_production_micro_gate_run11_terminal_v1",
+  "source_freeze_vault_head": "fbebcd61a562963ffc09269e9e7bed3dcadcf54c",
+  "stage1_authorized": false,
+  "status": "F4_DEVELOPMENT_ROOT_INCOMPLETE_SUFFIX_QUERY_ACCOUNTING_INTEGRATION_ERROR"
+}
