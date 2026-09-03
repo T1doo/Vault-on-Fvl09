@@ -1,0 +1,89 @@
+{
+  "actual_counts": {
+    "accepted_development_roots": 0,
+    "accepted_development_trajectories": 0,
+    "branch_executions": 0,
+    "debug_videos": 0,
+    "formal_trajectories": 0,
+    "fresh_scenes": 8,
+    "planner_queries": 9,
+    "raw_trajectories": 0,
+    "robot_action_scenes": 4
+  },
+  "automatic_retry_authorized": false,
+  "cache_removed": true,
+  "canonical_prefix_artifact_sha256": "c2d9276ebecb08443297e5177a8dc106e994579aa2ef16be4c101c391a0d36d3",
+  "canonical_prefix_reference_execution_count": 1,
+  "development_root_pass": false,
+  "family_suffix_gate": {
+    "checks": {
+      "actual_prefix_end_qpos_recorded": true,
+      "three_planner_solvable": false,
+      "three_programs": true
+    },
+    "evidence_checks": {
+      "actual_prefix_end_qpos_recorded": true,
+      "three_programs": true
+    },
+    "evidence_complete": true,
+    "family": "F2",
+    "pass": false,
+    "schema_version": "cmf_family_suffix_gate_v1",
+    "scientific_checks": {
+      "three_planner_solvable": false
+    },
+    "scientific_gate_pass": false
+  },
+  "formal_data": false,
+  "gpu_returned_to_idle_baseline": true,
+  "guard_terminal_file_sha256": "1b8b4ae8b98e5a38be87f42cfd9c5b5d82c0f546e47e15555565e295b7503568",
+  "guard_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_top_contact_root_run1/f2-top-contact-development-root-run1-20260904/guards/f2-top-contact-development-rpc-root-v1-run1.terminal.json",
+  "guard_terminal_receipt_sha256": "7e142b419f734c6468efe3c9a12121185a384fa080cb321a1e621ee101585851",
+  "lease_released": true,
+  "manifest_sha256": "0eea730682a0d7b90f91301373eb4f0560759a2f8476ea730f1f86090e9804df",
+  "next_safe_action": "seal F2; continue only the independently approved F3 replacements",
+  "receipt_sha256": "4cc6180edf819452745b5eb6c8f8de2363cff2ccddfb24d19249ed0b0f3ff75e",
+  "root_error": "not all three suffix planners passed from actual replay-end qpos",
+  "root_error_type": "SuffixPlannerError",
+  "root_receipt_file_sha256": "3a416d4ae6bb2de21adf41c7710ba4817f159fb411a0a58ecda1b5020f9cdb90",
+  "root_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f2_top_contact_root_v1/f2-top-contact-development-rpc-root-v1-run1/root/root_receipt.json",
+  "root_status": "failed_planner",
+  "schema_version": "cmf_f2_top_contact_development_root_run1_terminal_v1",
+  "second_root_authorized": false,
+  "secondary_runner_packaging_error": {
+    "after_root_receipt_written": true,
+    "message": "Object of type bool_ is not JSON serializable",
+    "type": "TypeError"
+  },
+  "selected_binding_sha256": "985515944a97b59621067e662b2e33614ebc08c772de74659c01a1c8ae559f0d",
+  "selected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+  "selected_physical_gpu_index": 1,
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "F2_ROOT_FAILED_SUFFIX_PLANNER_WITH_EVIDENCE",
+  "suffix_results": {
+    "F2-beside": {
+      "failure_type": "chained_suffix_planner_failure",
+      "first_motiongen_status": "MotionGenStatus.IK_FAIL",
+      "first_planner_status": "Fail",
+      "planner_query_count": 1,
+      "status": "failed"
+    },
+    "F2-inside": {
+      "failure_type": "chained_suffix_planner_failure",
+      "first_motiongen_status": "MotionGenStatus.IK_FAIL",
+      "first_planner_status": "Fail",
+      "planner_query_count": 1,
+      "status": "failed"
+    },
+    "F2-on": {
+      "failure_type": null,
+      "first_motiongen_status": null,
+      "first_planner_status": "Success",
+      "planner_query_count": 4,
+      "status": "passed"
+    }
+  },
+  "task_feasibility_pass_count": 0,
+  "task_owned_cleanup_pass": true
+}
