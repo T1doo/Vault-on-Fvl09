@@ -1,0 +1,89 @@
+{
+  "accepted_development": {
+    "F1": {
+      "r_pc_trajectories": 15,
+      "roots": 5
+    },
+    "F2": {
+      "roots": 0,
+      "trajectories": 0
+    },
+    "F3": {
+      "roots": 0,
+      "trajectories": 0
+    },
+    "F4": {
+      "roots": 0,
+      "trajectories": 0
+    }
+  },
+  "active_gpu_jobs": 0,
+  "as_of": "2026-09-03",
+  "compression_authorized": false,
+  "controlled_source_freeze_vault_head": "e70d9c42ec5f678687fa8182c9cbc1c3e054e44d",
+  "controlled_source_sha256": "c7736781acba1b7182387d7071d3a1dd8950c4e053d8a0f1297b8e4568e81bb1",
+  "external_review_inputs": [
+    "F2_F3_POST_GATE_REDESIGN_REVIEW_V1_20260903.md",
+    "STAGE1_READINESS_AFTER_FINAL_RECOVERY_EXECUTION_V1.md",
+    "RUN12_DEVELOPMENT_ROOT_TERMINAL_V1.json"
+  ],
+  "families": {
+    "F1": {
+      "development_r_pc_roots": 5,
+      "development_r_pc_trajectories": 15,
+      "next": "implement real r_inv_path/r_inv_motion and root-atomic 9/9",
+      "stage1_family_ready": false
+    },
+    "F2": {
+      "contract_sha256": "1b1edd046e4c9e58c0490d129967219657403d5f79cae509bba633396829129d",
+      "cpu_redesign_status": "implemented_cpu_validated",
+      "exact_candidate_freeze_status": "pending external review",
+      "failure_reclassified": "PRECONTACT_ARM_TRACKING_FAILURE",
+      "gpu_authorized": false,
+      "grasp_candidate_policy": "planner-assisted official candidates then exact freeze",
+      "preclose_tracking_gate": "5mm/0.05rad",
+      "stage1_family_ready": false,
+      "terminal_physical_successes": "0/2"
+    },
+    "F3": {
+      "H_distance_m": 0.05,
+      "V_distance_m": 0.055,
+      "candidate_universe_freeze_status": "pending external review",
+      "contract_sha256": "e12a9165f6a952248f723376a57df9d1f56866f2c498569e65fa5e0a4dcac3ba",
+      "cpu_redesign_status": "implemented_cpu_validated",
+      "gpu_authorized": false,
+      "new_center_policy": "exact Stage-A lift pose",
+      "old_stage_b_central_jump_m": 0.13732683401686,
+      "stage1_family_ready": false,
+      "terminal_physical_attempts": 0
+    },
+    "F4": {
+      "development_r_pc_roots": 0,
+      "development_root_status": "final incomplete no replacement",
+      "full_program_template_pass": "3/3",
+      "gpu_authorized": false,
+      "physical_isolation_pass": "5/5",
+      "post_terminal_source_repair": "implemented_unvalidated",
+      "stage1_family_ready": false
+    }
+  },
+  "formal_360_authorized": false,
+  "formal_accepted_roots": 0,
+  "formal_accepted_trajectories": 0,
+  "gpu_post_release_all_idle": true,
+  "gpu_runs_authorized": false,
+  "h_reveal_authorized": false,
+  "next_authorization_must_define": [
+    "exact F2 candidate pose-freeze process and bounded physical budget",
+    "exact F3 candidate universe and lift-anchored Stage-B bounded planner/physical budget",
+    "whether F4 final root replacement may be reopened"
+  ],
+  "pi05_authorized": false,
+  "readiness_sha256": "36ed92e736fbb3d2e1d35e1c0b6561c49daff481178c8db689084fa9486aff56",
+  "schema_version": "cmf_stage1_readiness_after_f2_f3_cpu_redesign_v1",
+  "stage0_authoritative_status": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "NOT_READY_CPU_REDESIGN_READY_FOR_EXTERNAL_REVIEW_GPU_NOT_AUTHORIZED",
+  "training_authorized": false
+}
