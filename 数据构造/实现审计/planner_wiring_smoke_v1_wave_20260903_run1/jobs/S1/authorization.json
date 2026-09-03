@@ -1,0 +1,1285 @@
+{
+  "activation_contract": {
+    "authorization": {
+      "formal_360": false,
+      "gpu_execution": false,
+      "operational_wave_approval": false,
+      "physical_execution": false,
+      "planner_execution": false,
+      "stage1": false,
+      "training": false
+    },
+    "authorization_scene_seed_equals_legacy_setup_seed": true,
+    "contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+    "exact_bridge_envelope_precedes_authorization": true,
+    "f3_stage_b_inherits_stage_a_scene_seed": true,
+    "f4_manifest_v1_1_sha256": "18f04654a898b4bea42f16b9e7f8728c9db87a7b54bb4d2d85771e53dfeb7d1c",
+    "f4_programs_share_candidate_scene_seed_and_use_distinct_scenes": true,
+    "f4_query_accounting": {
+      "chain_per_job": 30,
+      "maximum_panel_queries": 1008,
+      "target_construction_per_job": 12,
+      "total_per_job": 42
+    },
+    "failure_classes": {
+      "NO_VALID_GRASP_TARGET": "PLANNER_CANDIDATE_FAIL",
+      "query_or_schema_or_binding_error": "INFRASTRUCTURE_ERROR"
+    },
+    "guard_purpose": "planner_wiring_smoke_v1",
+    "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+    "implementation_version": "controlled_multi_future_pre_smoke_hotfix_v2_3_1a",
+    "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "planner_reset_semantics": {
+      "bitwise_determinism_claimed": false,
+      "field": "planner_reset_nonce",
+      "motiongen_reset_seed_argument": true,
+      "numeric_rng_seed_application_proven": false,
+      "reset_receipt_bound_to_authorization": true
+    },
+    "real_counts": {
+      "formal_trajectories": 0,
+      "gpu_scene_jobs": 0,
+      "new_trajectories": 0,
+      "physical_gate_attempts": 0,
+      "planner_jobs": 0
+    },
+    "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "schema_version": "cmf_v2_3_1a_pre_smoke_operational_hotfix_contract",
+    "stage0_reopened": false,
+    "updated_full_panel_proposal_v2_sha256": "86efb9133c681d6590504ea35b2e0272893ad4bd36ed05a40c9e843d3666a342",
+    "updated_smoke_proposal_v2_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+    "vault_head": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+    "wave_driver_contract_sha256": "4c88fd1fdb3767849a82469fb8e4caf8c9a61f8f4799fd75aca0536c2b26feff"
+  },
+  "activation_contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_request_sha256": "e21a34480abf31e4bf5990c87bea1dbb5d87eee13f7a43fa119750e08b2bc9ea",
+  "approved": true,
+  "approved_scopes": [
+    "PLANNER_WIRING_SMOKE_V1"
+  ],
+  "atomic_guard_recheck_before_launch": true,
+  "authorization_id": "planner-wiring-smoke-v1-20260903-run1-s1",
+  "authorization_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/jobs/S1/authorization.json",
+  "authorized_command": [
+    "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+    "-m",
+    "controlled_multi_future.probes.planner_qualification_scope_runner_v2_3_1a",
+    "--authorization-receipt",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/jobs/S1/authorization.json"
+  ],
+  "authorized_command_sha256": "b9ae8a5fdcff6f669245b1e683ed71057f44c4232faf7757b4090a71737c0ad2",
+  "authorized_run_id": "planner-wiring-smoke-v1-20260903-run1-s1-run",
+  "automatic_gpu0_fallback": false,
+  "automatic_retry": false,
+  "bitwise_determinism_claimed": false,
+  "budget": {
+    "budget_receipt_sha256": "39032a7247b28638a6e0e12ebbb0fafd30c1761aa2b9931a7e4f5326aaa0ef00",
+    "controlled_action_limit": 0,
+    "physical_execution_limit": 0,
+    "physics_step_limit": 5000,
+    "planner_query_limit": 3,
+    "scene_limit": 1,
+    "timeout_seconds": 1800
+  },
+  "budget_receipt_sha256": "39032a7247b28638a6e0e12ebbb0fafd30c1761aa2b9931a7e4f5326aaa0ef00",
+  "consumption_ledger_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/authorizations",
+  "controlled_action_limit": 0,
+  "dynamic_fresh_idle_selection": true,
+  "expires_at": "2026-09-03T04:16:57.786159+00:00",
+  "fallback_allowed": false,
+  "family": "F2",
+  "family_revision_index": null,
+  "formal_data": false,
+  "gpu_lease_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_authorization_ledger/gpu_leases",
+  "gpu_policy_version": "cmf_gpu_parallel_policy_v2",
+  "guard_purpose": "planner_wiring_smoke_v1",
+  "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/guards/S1.json",
+  "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+  "implementation_version": "controlled_multi_future_pre_smoke_hotfix_v2_3_1a",
+  "issued_at": "2026-09-03T03:46:57.786159+00:00",
+  "job_cache_root_directory": "/nfs_share/lijunhui/Robotwin2/runtime_v3_3_job_caches",
+  "job_envelope": {
+    "authorized_command_sha256": "b9ae8a5fdcff6f669245b1e683ed71057f44c4232faf7757b4090a71737c0ad2",
+    "bridge_envelope_sha256": "c599cf35d2b817b76f03c5a56dadd2b2b7b5bb80cf56b9e6b492cb6f2325ad19",
+    "guard_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/guards/S1.json",
+    "job_envelope_sha256": "e21a34480abf31e4bf5990c87bea1dbb5d87eee13f7a43fa119750e08b2bc9ea",
+    "job_spec_sha256": "125bf7414742710638076afe4e11ee9b5f1b91e1f10f4c4cdabb737d147f6cf6",
+    "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/outputs/S1",
+    "schema_version": "cmf_planner_qualification_job_envelope_v2_3_1a",
+    "slot": "S1",
+    "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+  },
+  "job_envelope_sha256": "e21a34480abf31e4bf5990c87bea1dbb5d87eee13f7a43fa119750e08b2bc9ea",
+  "job_kind": "F2_STAGE_A",
+  "job_spec": {
+    "bitwise_determinism_claimed": false,
+    "bridge_envelope": {
+      "actual_scene_seed": 2026091101,
+      "bitwise_determinism_claimed": false,
+      "bridge_envelope_sha256": "c599cf35d2b817b76f03c5a56dadd2b2b7b5bb80cf56b9e6b492cb6f2325ad19",
+      "job_id": "planner-wiring-smoke-v1-20260903-run1-s1",
+      "job_kind": "F2_STAGE_A",
+      "legacy_scene_spec": {
+        "arm": "left",
+        "automatic_retry": false,
+        "candidate": {
+          "arm": "left",
+          "asset_derived_layout_transform": "identity",
+          "automatic_retry": false,
+          "beside_reference_model_id": null,
+          "candidate_id": "f2-inside-hv1-r01",
+          "candidate_sha256": "6fdff4e15c62be79f1db8ef52fe018243061835a48e91ea28f81b7cc6370076c",
+          "electronic_scale_model_id": null,
+          "grasp_pre_distance_m": 0.09,
+          "grasp_target_distance_m": 0.0,
+          "inside_actor_orientation_wxyz": [
+            -0.0,
+            0.0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "inside_pair_sha256": "13be14bcfe905c1576c0e596a3c47ac9f93e4bc4d6b54f7deecb943deb150d66",
+          "main_object_model_id": 0,
+          "official_can_contact_point_count": 16,
+          "official_grasp_contact_point_id": 0,
+          "official_grasp_rotation_selection_rule": "first_planner_success_in_official_ROTATE_NUM_order",
+          "online_fallback": false,
+          "plastic_box_model_id": 2,
+          "rank": 1,
+          "scale_or_stand_used_for_stage_a_rank": false,
+          "stage_a_sequence": [
+            "fresh_scene",
+            "grasp_lift_planner",
+            "inside_preplace_release_planner"
+          ],
+          "strict_inside_margin_m": 0.005,
+          "workspace_margin_m": 0.12
+        },
+        "candidate_sha256": "6fdff4e15c62be79f1db8ef52fe018243061835a48e91ea28f81b7cc6370076c",
+        "f2_asset_layout_binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+        "f2_asset_layout_binding_v3": {
+          "asset_record_sha256s": {
+            "beside_reference": "66f4e1ebfe61903f2d3efbf3d0192706e24e4669a6965a20fd4327bf8045c3cf",
+            "electronic_scale": "3957f9c96144c08d410516f4df7e474cd0487d9f25e2c8bb85f3c2c521d83f58",
+            "main_object": "fcf4b211d700a41746c681b0061bfd86f4445bf0cc81d5ccc7db844d5fbec699",
+            "plastic_box": "8584f06317a04fd804bc604e355a26949c2c240eb40782740fcd33f218a2ecd9"
+          },
+          "binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+          "branch_specific_asset_or_arm_selection_allowed": false,
+          "cpu_screening_sha256": "3b7b7239ef93e20351bb8a5667fee6cee68d8ad485c17fbbef5da7c4d5e1d14e",
+          "design_version": "controlled_multi_future_f1_f4_v1_2",
+          "development_execution_authorized": false,
+          "dynamic_scope_sha256": "a43be1b35a96352096da383622d6e14efc675e7c2db6a5d3d922a67d21e550b5",
+          "formal_data": false,
+          "hierarchical_stage_a_candidate_id": "f2-inside-hv1-r01",
+          "hierarchical_stage_a_candidate_sha256": "6fdff4e15c62be79f1db8ef52fe018243061835a48e91ea28f81b7cc6370076c",
+          "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+          "inside_object_orientation_wxyz": [
+            -0.0,
+            0.0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "layout_payload": {
+            "beside_candidate_xy_m": [
+              [
+                0.2,
+                0.12
+              ],
+              [
+                0.12000000000000001,
+                0.1
+              ],
+              [
+                0.08000000000000002,
+                0.07
+              ]
+            ],
+            "candidate_key": {
+              "beside_reference_model_id": 0,
+              "electronic_scale_model_id": 0,
+              "main_object_model_id": 0,
+              "plastic_box_model_id": 2
+            },
+            "facility_orientation_wxyz": {
+              "beside_reference": [
+                0.7071067811865476,
+                0.7071067811865476,
+                0.0,
+                0.0
+              ],
+              "electronic_scale": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "plastic_box": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "facility_pose_xyz": {
+              "beside_reference": [
+                0.2,
+                -0.03,
+                0.7417331816256046
+              ],
+              "electronic_scale": [
+                -0.1,
+                -0.2,
+                0.7413806296885014
+              ],
+              "plastic_box": [
+                -0.29,
+                -0.2,
+                0.7417346046864987
+              ]
+            },
+            "inside_region_center_xy_m": [
+              -0.2902309772968291,
+              -0.20024613475799552
+            ],
+            "inside_region_half_xy_m": [
+              0.08300000000000007,
+              0.08300000000000007
+            ],
+            "layout_version": "f2_hierarchical_stage_a_left_v1",
+            "main_object_orientation_wxyz": [
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "main_object_pose_xyz": [
+              -0.28,
+              0.04,
+              0.740429634284228
+            ],
+            "on_region_center_xy_m": [
+              -0.09996428489685058,
+              -0.19999571323394777
+            ],
+            "on_region_half_xy_m": [
+              0.07235326766967773,
+              0.05235082626342775
+            ],
+            "table_plane_z_m": 0.74
+          },
+          "layout_payload_sha256": "2a2c430187cafca695d601c39ae70b647b74f7fdb77a3164cdbbefd98d648a52",
+          "layout_version": "f2_hierarchical_stage_a_left_v1",
+          "matrix_sha256": "2789dbaa70e139ebb270cabf8f7e634b4c5bc23555aa3fe9349425bebcfa3645",
+          "program_ids": [
+            "F2-inside",
+            "F2-on",
+            "F2-beside"
+          ],
+          "provisional_dynamic_candidate": true,
+          "right_layout_transform_is_position_x_mirror_only": false,
+          "same_execution_arm_for_all_programs": true,
+          "same_main_object_for_all_programs": true,
+          "scale_and_stand_are_fixed_inert_stage_a_scene_assets": true,
+          "scale_or_stand_used_for_stage_a_rank": false,
+          "schema_version": "cmf_f2_frozen_asset_layout_binding_v3",
+          "selected": false,
+          "selected_candidate_key": {
+            "beside_reference_model_id": 0,
+            "electronic_scale_model_id": 0,
+            "main_object_model_id": 0,
+            "plastic_box_model_id": 2
+          },
+          "selected_evaluated_row_sha256": "b0bb561ffd79431c6fadd36382d8088239ca5c3cd8e4577ebeb8f92f5b40f6f8",
+          "selected_execution_arm": "left",
+          "stage0_data": false,
+          "stage1_authorized": false,
+          "strict_cavity_contract": {
+            "coordinate_frame": "062_plasticbox/base2 actor-local xyz",
+            "derivation": "full margin-inflated envelope vs every convex collision piece LP certificate",
+            "full_envelope_evidence_sha256": "c453bf5122aa8654601a096a1187be341fb86617bad95548b2d432bafc3b93cf",
+            "lower_m": [
+              -0.07824613475799559,
+              0.02176539531350136,
+              -0.07823097729682921
+            ],
+            "safety_margin_per_side_m": 0.005,
+            "target_center_local_m": [
+              -0.00024613475799552254,
+              0.06326539531350137,
+              -0.00023097729682913792
+            ],
+            "upper_m": [
+              0.07775386524200455,
+              0.10476539531350136,
+              0.07776902270317093
+            ]
+          }
+        },
+        "family": "F2",
+        "formal_data": false,
+        "generator": "controlled_multi_future_f2_hierarchical_runtime_v1",
+        "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+        "maximum_physical_execution_count": 0,
+        "parent_search_contract_sha256": "a43be1b35a96352096da383622d6e14efc675e7c2db6a5d3d922a67d21e550b5",
+        "planned_scope_spec_sha256": "9f919badc54050d8e20e276edaa81dd12c63c02d1738579fb101708539d916d3",
+        "planner_only": true,
+        "purpose": "f2_stage_a_planner",
+        "recovery_attempts": 0,
+        "schema_version": "cmf_f2_high_level_runtime_spec_v1",
+        "scope": "f2_stage_a_planner",
+        "seed": 2026091101,
+        "slot_id": "f2_stage_a_planner-01",
+        "stage0_data": false,
+        "stage1_authorized": false
+      },
+      "legacy_scene_spec_sha256": "9f919badc54050d8e20e276edaa81dd12c63c02d1738579fb101708539d916d3",
+      "motiongen_reset_seed_argument": true,
+      "numeric_rng_seed_application_proven": false,
+      "planner_reset_nonce": 2026091601,
+      "reset_receipt_bound_to_authorization": true,
+      "runner_spec": {
+        "arbitrary_callable_injection_allowed": false,
+        "binding": {
+          "asset_record_sha256s": {
+            "beside_reference": "66f4e1ebfe61903f2d3efbf3d0192706e24e4669a6965a20fd4327bf8045c3cf",
+            "electronic_scale": "3957f9c96144c08d410516f4df7e474cd0487d9f25e2c8bb85f3c2c521d83f58",
+            "main_object": "fcf4b211d700a41746c681b0061bfd86f4445bf0cc81d5ccc7db844d5fbec699",
+            "plastic_box": "8584f06317a04fd804bc604e355a26949c2c240eb40782740fcd33f218a2ecd9"
+          },
+          "binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+          "branch_specific_asset_or_arm_selection_allowed": false,
+          "cpu_screening_sha256": "3b7b7239ef93e20351bb8a5667fee6cee68d8ad485c17fbbef5da7c4d5e1d14e",
+          "design_version": "controlled_multi_future_f1_f4_v1_2",
+          "development_execution_authorized": false,
+          "dynamic_scope_sha256": "a43be1b35a96352096da383622d6e14efc675e7c2db6a5d3d922a67d21e550b5",
+          "formal_data": false,
+          "hierarchical_stage_a_candidate_id": "f2-inside-hv1-r01",
+          "hierarchical_stage_a_candidate_sha256": "6fdff4e15c62be79f1db8ef52fe018243061835a48e91ea28f81b7cc6370076c",
+          "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+          "inside_object_orientation_wxyz": [
+            -0.0,
+            0.0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "layout_payload": {
+            "beside_candidate_xy_m": [
+              [
+                0.2,
+                0.12
+              ],
+              [
+                0.12000000000000001,
+                0.1
+              ],
+              [
+                0.08000000000000002,
+                0.07
+              ]
+            ],
+            "candidate_key": {
+              "beside_reference_model_id": 0,
+              "electronic_scale_model_id": 0,
+              "main_object_model_id": 0,
+              "plastic_box_model_id": 2
+            },
+            "facility_orientation_wxyz": {
+              "beside_reference": [
+                0.7071067811865476,
+                0.7071067811865476,
+                0.0,
+                0.0
+              ],
+              "electronic_scale": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "plastic_box": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "facility_pose_xyz": {
+              "beside_reference": [
+                0.2,
+                -0.03,
+                0.7417331816256046
+              ],
+              "electronic_scale": [
+                -0.1,
+                -0.2,
+                0.7413806296885014
+              ],
+              "plastic_box": [
+                -0.29,
+                -0.2,
+                0.7417346046864987
+              ]
+            },
+            "inside_region_center_xy_m": [
+              -0.2902309772968291,
+              -0.20024613475799552
+            ],
+            "inside_region_half_xy_m": [
+              0.08300000000000007,
+              0.08300000000000007
+            ],
+            "layout_version": "f2_hierarchical_stage_a_left_v1",
+            "main_object_orientation_wxyz": [
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "main_object_pose_xyz": [
+              -0.28,
+              0.04,
+              0.740429634284228
+            ],
+            "on_region_center_xy_m": [
+              -0.09996428489685058,
+              -0.19999571323394777
+            ],
+            "on_region_half_xy_m": [
+              0.07235326766967773,
+              0.05235082626342775
+            ],
+            "table_plane_z_m": 0.74
+          },
+          "layout_payload_sha256": "2a2c430187cafca695d601c39ae70b647b74f7fdb77a3164cdbbefd98d648a52",
+          "layout_version": "f2_hierarchical_stage_a_left_v1",
+          "matrix_sha256": "2789dbaa70e139ebb270cabf8f7e634b4c5bc23555aa3fe9349425bebcfa3645",
+          "program_ids": [
+            "F2-inside",
+            "F2-on",
+            "F2-beside"
+          ],
+          "provisional_dynamic_candidate": true,
+          "right_layout_transform_is_position_x_mirror_only": false,
+          "same_execution_arm_for_all_programs": true,
+          "same_main_object_for_all_programs": true,
+          "scale_and_stand_are_fixed_inert_stage_a_scene_assets": true,
+          "scale_or_stand_used_for_stage_a_rank": false,
+          "schema_version": "cmf_f2_frozen_asset_layout_binding_v3",
+          "selected": false,
+          "selected_candidate_key": {
+            "beside_reference_model_id": 0,
+            "electronic_scale_model_id": 0,
+            "main_object_model_id": 0,
+            "plastic_box_model_id": 2
+          },
+          "selected_evaluated_row_sha256": "b0bb561ffd79431c6fadd36382d8088239ca5c3cd8e4577ebeb8f92f5b40f6f8",
+          "selected_execution_arm": "left",
+          "stage0_data": false,
+          "stage1_authorized": false,
+          "strict_cavity_contract": {
+            "coordinate_frame": "062_plasticbox/base2 actor-local xyz",
+            "derivation": "full margin-inflated envelope vs every convex collision piece LP certificate",
+            "full_envelope_evidence_sha256": "c453bf5122aa8654601a096a1187be341fb86617bad95548b2d432bafc3b93cf",
+            "lower_m": [
+              -0.07824613475799559,
+              0.02176539531350136,
+              -0.07823097729682921
+            ],
+            "safety_margin_per_side_m": 0.005,
+            "target_center_local_m": [
+              -0.00024613475799552254,
+              0.06326539531350137,
+              -0.00023097729682913792
+            ],
+            "upper_m": [
+              0.07775386524200455,
+              0.10476539531350136,
+              0.07776902270317093
+            ]
+          }
+        },
+        "binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+        "bitwise_determinism_claimed": false,
+        "family": "F2",
+        "geometry_certificate": {
+          "cavity_center_m": [
+            -0.00024613475799552254,
+            0.06326539531350137,
+            -0.00023097729682913792
+          ],
+          "cavity_raw_lower_m": [
+            -0.0832461347579956,
+            0.01676539531350136,
+            -0.08323097729682921
+          ],
+          "cavity_raw_upper_m": [
+            0.08275386524200455,
+            0.10976539531350137,
+            0.08276902270317094
+          ],
+          "certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+          "formal_data": false,
+          "implementation_version": "controlled_multi_future_high_level_generation_repair_v2_0",
+          "main_object_collision_path": "assets/objects/071_can/collision/base0.glb",
+          "main_object_collision_sha256": "599bd4d8a598def3a24ce52118a681c9457c94dd5bc28c41b5ad36fddee2c2ef",
+          "main_object_local_center_m": [
+            -2.9668211936947214e-06,
+            0.04776370921172202,
+            -3.6194920539859426e-06
+          ],
+          "main_object_local_dimensions_m": [
+            0.05079030096530915,
+            0.09638668699190021,
+            0.05081352293491363
+          ],
+          "main_object_local_lower_m": [
+            -0.025398117303848267,
+            -0.0004296342842280865,
+            -0.025410380959510804
+          ],
+          "main_object_local_upper_m": [
+            0.025392183661460878,
+            0.09595705270767213,
+            0.025403141975402832
+          ],
+          "main_object_model_data_sha256": "78eb137b42da2d6fa0b9208717964838e01cf6c65c5c6b14ad7c988d6ff2acfb",
+          "main_object_model_id": 0,
+          "main_object_scale": [
+            0.05,
+            0.05,
+            0.05
+          ],
+          "main_object_spawn_orientation_wxyz": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "plastic_box_collision_path": "assets/objects/062_plasticbox/collision/base2.glb",
+          "plastic_box_collision_sha256": "089b4b11fac544d2225fc8d7b0113b6059322047e57167559360444457b5838b",
+          "plastic_box_local_center_m": [
+            4.7117471694974045e-06,
+            0.054234384372830395,
+            -5.453824996892731e-07
+          ],
+          "plastic_box_local_dimensions_m": [
+            0.1935016930103302,
+            0.11193797811865806,
+            0.19346086382865907
+          ],
+          "plastic_box_local_lower_m": [
+            -0.09674613475799561,
+            -0.001734604686498642,
+            -0.09673097729682922
+          ],
+          "plastic_box_local_upper_m": [
+            0.0967555582523346,
+            0.11020337343215943,
+            0.09672988653182985
+          ],
+          "plastic_box_model_data_sha256": "e2712f8aa9f0e53a2a7f24a6ee815a488faf7f19abc82cb0697cdd9b4ce7dbbf",
+          "plastic_box_model_id": 2,
+          "plastic_box_scale": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "plastic_box_spawn_orientation_wxyz": [
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "runtime_revalidation_required": true,
+          "schema_version": "cmf_f2_geometry_certificate_v4",
+          "source_of_truth": "scaled collision mesh and model transform used by f2_asset_geometry_layout_v3",
+          "stage1_authorized": false
+        },
+        "geometry_certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+        "gpu_execution_authorized": false,
+        "motiongen_reset_seed_argument": true,
+        "numeric_rng_seed_application_proven": false,
+        "old_gravity_drop_builder_allowed": false,
+        "ordered_segments": [
+          "pregrasp",
+          "grasp",
+          "qualification_micro_lift_25mm"
+        ],
+        "panel_sha256": "2ee0605b47d472dcc2904d2105d8cba83de0b42011c0d31b75236efef220c6b2",
+        "physical_execution_authorized": false,
+        "physical_execution_count_limit": 0,
+        "planner_execution_authorized": false,
+        "planner_query_limit": 3,
+        "planner_reset_nonce": 2026091601,
+        "purpose": "f2_final_grasp_v2_stage_a_planner",
+        "recipe": {
+          "arm": "left",
+          "axial_grasp_offset_m": 0.0,
+          "first_planner_success_selection_forbidden": true,
+          "geometry_certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+          "main_object_model_id": 0,
+          "official_contact_point_id": 0,
+          "official_rotation_candidate_index": 0,
+          "physical_execution_authorized": false,
+          "plastic_box_model_id": 2,
+          "pregrasp_distance_m": 0.09,
+          "rank": 5,
+          "recipe_id": "f2-final-grasp-v2-r000005",
+          "recipe_sha256": "ccab563086fbcd3f48bde31177d8c0a83990d8897a33680ab0b15997213b12fe",
+          "selection_rule": "rank only after exact final-pose IK/collision/planner and post-close drift gates",
+          "target_distance_m": 0.0
+        },
+        "recipe_sha256": "ccab563086fbcd3f48bde31177d8c0a83990d8897a33680ab0b15997213b12fe",
+        "scene_spec": {
+          "layout_payload_sha256": "2a2c430187cafca695d601c39ae70b647b74f7fdb77a3164cdbbefd98d648a52",
+          "layout_version": "f2_hierarchical_stage_a_left_v1",
+          "selected_candidate_key": {
+            "beside_reference_model_id": 0,
+            "electronic_scale_model_id": 0,
+            "main_object_model_id": 0,
+            "plastic_box_model_id": 2
+          },
+          "selected_execution_arm": "left"
+        },
+        "scene_spec_sha256": "9ae5f7ae7cffc509f1573a6edb17ea575e88f3162b6c538abaabbd5624ac860e",
+        "schema_version": "cmf_f2_final_grasp_stage_a_spec_v2",
+        "slot_id": "planner-wiring-smoke-v1-20260903-run1-s1",
+        "spec_sha256": "1d9caf103a5e0cf10635ad2e7cc3112be3c651a9d0a3f0382c2d28b36f6034d6",
+        "stage1_authorized": false
+      },
+      "runner_spec_sha256": "1d9caf103a5e0cf10635ad2e7cc3112be3c651a9d0a3f0382c2d28b36f6034d6",
+      "runner_symbol": "controlled_multi_future.f2_planner_integration_v2.run_f2_final_grasp_stage_a_planner_v2",
+      "scene_and_spec_bindings": {
+        "f2_asset_layout_binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+        "f3_expected_scene_binding": null,
+        "legacy_scene_spec_sha256": "9f919badc54050d8e20e276edaa81dd12c63c02d1738579fb101708539d916d3",
+        "runner_spec_sha256": "1d9caf103a5e0cf10635ad2e7cc3112be3c651a9d0a3f0382c2d28b36f6034d6",
+        "scene_layout_sha256": null
+      },
+      "schema_version": "cmf_exact_job_bridge_envelope_v2_3_1a"
+    },
+    "bridge_envelope_sha256": "c599cf35d2b817b76f03c5a56dadd2b2b7b5bb80cf56b9e6b492cb6f2325ad19",
+    "dependency_registry": null,
+    "family": "F2",
+    "job_id": "planner-wiring-smoke-v1-20260903-run1-s1",
+    "job_kind": "F2_STAGE_A",
+    "job_spec_sha256": "125bf7414742710638076afe4e11ee9b5f1b91e1f10f4c4cdabb737d147f6cf6",
+    "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "manifest_context": {
+      "bindings_by_arm": {
+        "left": {
+          "asset_record_sha256s": {
+            "beside_reference": "66f4e1ebfe61903f2d3efbf3d0192706e24e4669a6965a20fd4327bf8045c3cf",
+            "electronic_scale": "3957f9c96144c08d410516f4df7e474cd0487d9f25e2c8bb85f3c2c521d83f58",
+            "main_object": "fcf4b211d700a41746c681b0061bfd86f4445bf0cc81d5ccc7db844d5fbec699",
+            "plastic_box": "8584f06317a04fd804bc604e355a26949c2c240eb40782740fcd33f218a2ecd9"
+          },
+          "binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+          "branch_specific_asset_or_arm_selection_allowed": false,
+          "cpu_screening_sha256": "3b7b7239ef93e20351bb8a5667fee6cee68d8ad485c17fbbef5da7c4d5e1d14e",
+          "design_version": "controlled_multi_future_f1_f4_v1_2",
+          "development_execution_authorized": false,
+          "dynamic_scope_sha256": "a43be1b35a96352096da383622d6e14efc675e7c2db6a5d3d922a67d21e550b5",
+          "formal_data": false,
+          "hierarchical_stage_a_candidate_id": "f2-inside-hv1-r01",
+          "hierarchical_stage_a_candidate_sha256": "6fdff4e15c62be79f1db8ef52fe018243061835a48e91ea28f81b7cc6370076c",
+          "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+          "inside_object_orientation_wxyz": [
+            -0.0,
+            0.0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "layout_payload": {
+            "beside_candidate_xy_m": [
+              [
+                0.2,
+                0.12
+              ],
+              [
+                0.12000000000000001,
+                0.1
+              ],
+              [
+                0.08000000000000002,
+                0.07
+              ]
+            ],
+            "candidate_key": {
+              "beside_reference_model_id": 0,
+              "electronic_scale_model_id": 0,
+              "main_object_model_id": 0,
+              "plastic_box_model_id": 2
+            },
+            "facility_orientation_wxyz": {
+              "beside_reference": [
+                0.7071067811865476,
+                0.7071067811865476,
+                0.0,
+                0.0
+              ],
+              "electronic_scale": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "plastic_box": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "facility_pose_xyz": {
+              "beside_reference": [
+                0.2,
+                -0.03,
+                0.7417331816256046
+              ],
+              "electronic_scale": [
+                -0.1,
+                -0.2,
+                0.7413806296885014
+              ],
+              "plastic_box": [
+                -0.29,
+                -0.2,
+                0.7417346046864987
+              ]
+            },
+            "inside_region_center_xy_m": [
+              -0.2902309772968291,
+              -0.20024613475799552
+            ],
+            "inside_region_half_xy_m": [
+              0.08300000000000007,
+              0.08300000000000007
+            ],
+            "layout_version": "f2_hierarchical_stage_a_left_v1",
+            "main_object_orientation_wxyz": [
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "main_object_pose_xyz": [
+              -0.28,
+              0.04,
+              0.740429634284228
+            ],
+            "on_region_center_xy_m": [
+              -0.09996428489685058,
+              -0.19999571323394777
+            ],
+            "on_region_half_xy_m": [
+              0.07235326766967773,
+              0.05235082626342775
+            ],
+            "table_plane_z_m": 0.74
+          },
+          "layout_payload_sha256": "2a2c430187cafca695d601c39ae70b647b74f7fdb77a3164cdbbefd98d648a52",
+          "layout_version": "f2_hierarchical_stage_a_left_v1",
+          "matrix_sha256": "2789dbaa70e139ebb270cabf8f7e634b4c5bc23555aa3fe9349425bebcfa3645",
+          "program_ids": [
+            "F2-inside",
+            "F2-on",
+            "F2-beside"
+          ],
+          "provisional_dynamic_candidate": true,
+          "right_layout_transform_is_position_x_mirror_only": false,
+          "same_execution_arm_for_all_programs": true,
+          "same_main_object_for_all_programs": true,
+          "scale_and_stand_are_fixed_inert_stage_a_scene_assets": true,
+          "scale_or_stand_used_for_stage_a_rank": false,
+          "schema_version": "cmf_f2_frozen_asset_layout_binding_v3",
+          "selected": false,
+          "selected_candidate_key": {
+            "beside_reference_model_id": 0,
+            "electronic_scale_model_id": 0,
+            "main_object_model_id": 0,
+            "plastic_box_model_id": 2
+          },
+          "selected_evaluated_row_sha256": "b0bb561ffd79431c6fadd36382d8088239ca5c3cd8e4577ebeb8f92f5b40f6f8",
+          "selected_execution_arm": "left",
+          "stage0_data": false,
+          "stage1_authorized": false,
+          "strict_cavity_contract": {
+            "coordinate_frame": "062_plasticbox/base2 actor-local xyz",
+            "derivation": "full margin-inflated envelope vs every convex collision piece LP certificate",
+            "full_envelope_evidence_sha256": "c453bf5122aa8654601a096a1187be341fb86617bad95548b2d432bafc3b93cf",
+            "lower_m": [
+              -0.07824613475799559,
+              0.02176539531350136,
+              -0.07823097729682921
+            ],
+            "safety_margin_per_side_m": 0.005,
+            "target_center_local_m": [
+              -0.00024613475799552254,
+              0.06326539531350137,
+              -0.00023097729682913792
+            ],
+            "upper_m": [
+              0.07775386524200455,
+              0.10476539531350136,
+              0.07776902270317093
+            ]
+          }
+        },
+        "right": {
+          "asset_record_sha256s": {
+            "beside_reference": "66f4e1ebfe61903f2d3efbf3d0192706e24e4669a6965a20fd4327bf8045c3cf",
+            "electronic_scale": "3957f9c96144c08d410516f4df7e474cd0487d9f25e2c8bb85f3c2c521d83f58",
+            "main_object": "fcf4b211d700a41746c681b0061bfd86f4445bf0cc81d5ccc7db844d5fbec699",
+            "plastic_box": "8584f06317a04fd804bc604e355a26949c2c240eb40782740fcd33f218a2ecd9"
+          },
+          "binding_sha256": "0311a935ed79ba1e940ac69e78b77490791207a9e813d0131860385508cdda65",
+          "branch_specific_asset_or_arm_selection_allowed": false,
+          "cpu_screening_sha256": "3b7b7239ef93e20351bb8a5667fee6cee68d8ad485c17fbbef5da7c4d5e1d14e",
+          "design_version": "controlled_multi_future_f1_f4_v1_2",
+          "development_execution_authorized": false,
+          "dynamic_scope_sha256": "a43be1b35a96352096da383622d6e14efc675e7c2db6a5d3d922a67d21e550b5",
+          "formal_data": false,
+          "hierarchical_stage_a_candidate_id": "f2-inside-hv1-r02",
+          "hierarchical_stage_a_candidate_sha256": "1142e1f5571a2bb38bb8ac7d480a40a86a83211b370e3dfd57a5f797576c6ba1",
+          "implementation_version": "controlled_multi_future_high_level_runtime_specs_v1",
+          "inside_object_orientation_wxyz": [
+            -0.0,
+            0.0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "layout_payload": {
+            "beside_candidate_xy_m": [
+              [
+                -0.2,
+                0.12
+              ],
+              [
+                -0.12000000000000001,
+                0.1
+              ],
+              [
+                -0.08000000000000002,
+                0.07
+              ]
+            ],
+            "candidate_key": {
+              "beside_reference_model_id": 0,
+              "electronic_scale_model_id": 0,
+              "main_object_model_id": 0,
+              "plastic_box_model_id": 2
+            },
+            "facility_orientation_wxyz": {
+              "beside_reference": [
+                0.7071067811865476,
+                0.7071067811865476,
+                0.0,
+                0.0
+              ],
+              "electronic_scale": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "plastic_box": [
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "facility_pose_xyz": {
+              "beside_reference": [
+                -0.2,
+                -0.03,
+                0.7417331816256046
+              ],
+              "electronic_scale": [
+                0.1,
+                -0.2,
+                0.7413806296885014
+              ],
+              "plastic_box": [
+                0.29,
+                -0.2,
+                0.7417346046864987
+              ]
+            },
+            "inside_region_center_xy_m": [
+              0.2902309772968291,
+              -0.20024613475799552
+            ],
+            "inside_region_half_xy_m": [
+              0.08300000000000007,
+              0.08300000000000007
+            ],
+            "layout_version": "f2_hierarchical_stage_a_right_mirror_v1",
+            "main_object_orientation_wxyz": [
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "main_object_pose_xyz": [
+              0.28,
+              0.04,
+              0.740429634284228
+            ],
+            "on_region_center_xy_m": [
+              0.09996428489685058,
+              -0.19999571323394777
+            ],
+            "on_region_half_xy_m": [
+              0.07235326766967773,
+              0.05235082626342775
+            ],
+            "table_plane_z_m": 0.74
+          },
+          "layout_payload_sha256": "21bd6d55f03f0dac02742b509fd6f76a665c000d20013d3f2590d0140947cad2",
+          "layout_version": "f2_hierarchical_stage_a_right_mirror_v1",
+          "matrix_sha256": "2789dbaa70e139ebb270cabf8f7e634b4c5bc23555aa3fe9349425bebcfa3645",
+          "program_ids": [
+            "F2-inside",
+            "F2-on",
+            "F2-beside"
+          ],
+          "provisional_dynamic_candidate": true,
+          "right_layout_transform_is_position_x_mirror_only": true,
+          "same_execution_arm_for_all_programs": true,
+          "same_main_object_for_all_programs": true,
+          "scale_and_stand_are_fixed_inert_stage_a_scene_assets": true,
+          "scale_or_stand_used_for_stage_a_rank": false,
+          "schema_version": "cmf_f2_frozen_asset_layout_binding_v3",
+          "selected": false,
+          "selected_candidate_key": {
+            "beside_reference_model_id": 0,
+            "electronic_scale_model_id": 0,
+            "main_object_model_id": 0,
+            "plastic_box_model_id": 2
+          },
+          "selected_evaluated_row_sha256": "b0bb561ffd79431c6fadd36382d8088239ca5c3cd8e4577ebeb8f92f5b40f6f8",
+          "selected_execution_arm": "right",
+          "stage0_data": false,
+          "stage1_authorized": false,
+          "strict_cavity_contract": {
+            "coordinate_frame": "062_plasticbox/base2 actor-local xyz",
+            "derivation": "full margin-inflated envelope vs every convex collision piece LP certificate",
+            "full_envelope_evidence_sha256": "c453bf5122aa8654601a096a1187be341fb86617bad95548b2d432bafc3b93cf",
+            "lower_m": [
+              -0.07824613475799559,
+              0.02176539531350136,
+              -0.07823097729682921
+            ],
+            "safety_margin_per_side_m": 0.005,
+            "target_center_local_m": [
+              -0.00024613475799552254,
+              0.06326539531350137,
+              -0.00023097729682913792
+            ],
+            "upper_m": [
+              0.07775386524200455,
+              0.10476539531350136,
+              0.07776902270317093
+            ]
+          }
+        }
+      },
+      "certificate": {
+        "cavity_center_m": [
+          -0.00024613475799552254,
+          0.06326539531350137,
+          -0.00023097729682913792
+        ],
+        "cavity_raw_lower_m": [
+          -0.0832461347579956,
+          0.01676539531350136,
+          -0.08323097729682921
+        ],
+        "cavity_raw_upper_m": [
+          0.08275386524200455,
+          0.10976539531350137,
+          0.08276902270317094
+        ],
+        "certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+        "formal_data": false,
+        "implementation_version": "controlled_multi_future_high_level_generation_repair_v2_0",
+        "main_object_collision_path": "assets/objects/071_can/collision/base0.glb",
+        "main_object_collision_sha256": "599bd4d8a598def3a24ce52118a681c9457c94dd5bc28c41b5ad36fddee2c2ef",
+        "main_object_local_center_m": [
+          -2.9668211936947214e-06,
+          0.04776370921172202,
+          -3.6194920539859426e-06
+        ],
+        "main_object_local_dimensions_m": [
+          0.05079030096530915,
+          0.09638668699190021,
+          0.05081352293491363
+        ],
+        "main_object_local_lower_m": [
+          -0.025398117303848267,
+          -0.0004296342842280865,
+          -0.025410380959510804
+        ],
+        "main_object_local_upper_m": [
+          0.025392183661460878,
+          0.09595705270767213,
+          0.025403141975402832
+        ],
+        "main_object_model_data_sha256": "78eb137b42da2d6fa0b9208717964838e01cf6c65c5c6b14ad7c988d6ff2acfb",
+        "main_object_model_id": 0,
+        "main_object_scale": [
+          0.05,
+          0.05,
+          0.05
+        ],
+        "main_object_spawn_orientation_wxyz": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "plastic_box_collision_path": "assets/objects/062_plasticbox/collision/base2.glb",
+        "plastic_box_collision_sha256": "089b4b11fac544d2225fc8d7b0113b6059322047e57167559360444457b5838b",
+        "plastic_box_local_center_m": [
+          4.7117471694974045e-06,
+          0.054234384372830395,
+          -5.453824996892731e-07
+        ],
+        "plastic_box_local_dimensions_m": [
+          0.1935016930103302,
+          0.11193797811865806,
+          0.19346086382865907
+        ],
+        "plastic_box_local_lower_m": [
+          -0.09674613475799561,
+          -0.001734604686498642,
+          -0.09673097729682922
+        ],
+        "plastic_box_local_upper_m": [
+          0.0967555582523346,
+          0.11020337343215943,
+          0.09672988653182985
+        ],
+        "plastic_box_model_data_sha256": "e2712f8aa9f0e53a2a7f24a6ee815a488faf7f19abc82cb0697cdd9b4ce7dbbf",
+        "plastic_box_model_id": 2,
+        "plastic_box_scale": [
+          0.1,
+          0.1,
+          0.1
+        ],
+        "plastic_box_spawn_orientation_wxyz": [
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "runtime_revalidation_required": true,
+        "schema_version": "cmf_f2_geometry_certificate_v4",
+        "source_of_truth": "scaled collision mesh and model transform used by f2_asset_geometry_layout_v3",
+        "stage1_authorized": false
+      }
+    },
+    "manifest_entry": {
+      "arm": "left",
+      "axial_grasp_offset_m": 0.0,
+      "binding_sha256": "88cec1666501aef56f2f0b62f3fe0df3dabe1ed1445cb80543e9738f2ff74121",
+      "contact_point_id": 0,
+      "entry_sha256": "9f73b86b66c63795e0ef39725dad4e567f06d59fe2c3cd899e1d30f4d094b91c",
+      "panel_rank": 1,
+      "pregrasp_distance_m": 0.09,
+      "recipe": {
+        "arm": "left",
+        "axial_grasp_offset_m": 0.0,
+        "first_planner_success_selection_forbidden": true,
+        "geometry_certificate_sha256": "49362187dc39f4b8263ae4608dae86e22f4e892f64966bb8ff897ba375b2cd70",
+        "main_object_model_id": 0,
+        "official_contact_point_id": 0,
+        "official_rotation_candidate_index": 0,
+        "physical_execution_authorized": false,
+        "plastic_box_model_id": 2,
+        "pregrasp_distance_m": 0.09,
+        "rank": 5,
+        "recipe_id": "f2-final-grasp-v2-r000005",
+        "recipe_sha256": "ccab563086fbcd3f48bde31177d8c0a83990d8897a33680ab0b15997213b12fe",
+        "selection_rule": "rank only after exact final-pose IK/collision/planner and post-close drift gates",
+        "target_distance_m": 0.0
+      },
+      "recipe_id": "f2-final-grasp-v2-r000005",
+      "recipe_sha256": "ccab563086fbcd3f48bde31177d8c0a83990d8897a33680ab0b15997213b12fe",
+      "rotation_index": 0
+    },
+    "manifest_sha256": "2ee0605b47d472dcc2904d2105d8cba83de0b42011c0d31b75236efef220c6b2",
+    "motiongen_reset_seed_argument": true,
+    "numeric_rng_seed_application_proven": false,
+    "physical_execution_limit": 0,
+    "planner_query_limit": 3,
+    "planner_reset_nonce": 2026091601,
+    "scene_seed": 2026091101,
+    "schema_version": "cmf_planner_qualification_job_spec_v2_3_1a",
+    "slot": "S1",
+    "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+  },
+  "job_spec_sha256": "125bf7414742710638076afe4e11ee9b5f1b91e1f10f4c4cdabb737d147f6cf6",
+  "max_invocations": 1,
+  "motiongen_reset_seed_argument": true,
+  "numeric_rng_seed_application_proven": false,
+  "one_project_job_per_gpu": true,
+  "one_root_one_gpu": true,
+  "output_namespace": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/outputs/S1",
+  "parallel_different_cards_authorized": true,
+  "parent_user_authorization_sha256": "6b6e36cb577e21a70636092d690c8f512f1930c3c590de7908683089ddde813f",
+  "physical_execution_count": 0,
+  "physical_execution_limit": 0,
+  "physics_step_limit": 5000,
+  "planned_root_slot_spec_sha256": "125bf7414742710638076afe4e11ee9b5f1b91e1f10f4c4cdabb737d147f6cf6",
+  "planner_query_limit": 3,
+  "planner_reset_nonce": 2026091601,
+  "prior_normalized_terminal_sha256s": [],
+  "receipt_sha256": "a204867a3d6da3e4d44039b83ec7baae4646f5f5501a8f54fcf7678e241037a9",
+  "reset_receipt_bound_to_authorization": true,
+  "reviewed_content_commit": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_sharding_authorized": false,
+  "runner_symbol": "controlled_multi_future.f2_planner_integration_v2.run_f2_final_grasp_stage_a_planner_v2",
+  "scene_seed": 2026091101,
+  "schema_version": "cmf_planner_qualification_authorization_v2_3_1a",
+  "share_busy_gpu_authorized": false,
+  "slot": "S1",
+  "source_lock_receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/source_lock_f2.json",
+  "source_lock_receipt_sha256": "5c7ebeb7373d6ac8017c990b8c91a34346359a6a01b70ea4ba05126249d5ef46",
+  "stage0_data": false,
+  "stage1_authorized": false,
+  "timeout_seconds": 1800,
+  "wave_approval": {
+    "activation_contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+    "aggregate_budget": {
+      "physical_execution_limit": 0,
+      "planner_query_limit": 152,
+      "scene_limit": 9,
+      "serial_only": true,
+      "single_fresh_idle_gpu": true,
+      "trajectory_limit": 0,
+      "wall_time_seconds": 16200
+    },
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "approval_evidence": {
+      "interpreted_gate": "Phase 1 exact 152-query planner wiring smoke only",
+      "phase0_terminal": "PHASE0_SEALED_AWAITING_EXACT_WAVE_APPROVAL",
+      "user_message": "请继续！"
+    },
+    "approved": true,
+    "approved_scope": "PLANNER_WIRING_SMOKE_V1",
+    "automatic_full_panel_continuation": false,
+    "conditional_issuance_rules": {
+      "S1_to_S5": "serial; any INFRASTRUCTURE_ERROR stops later issuance",
+      "S6A": "only if S2 planner_pass",
+      "S6B": "only if S5 planner_pass",
+      "S7A": "only if S3 planner_pass",
+      "S7B": "only if S7A planner_pass"
+    },
+    "formal_360_authorized": false,
+    "host_scheduler_constraint": "single serial wave on physical GPU3 only when fresh-idle, because F4 compute/render/presentation co-location is validated there",
+    "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+    "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "ordered_job_slots": [
+      {
+        "condition": "always",
+        "entry_sha256": "9f73b86b66c63795e0ef39725dad4e567f06d59fe2c3cd899e1d30f4d094b91c",
+        "job_kind": "F2_STAGE_A",
+        "max_queries": 3,
+        "slot": "S1"
+      },
+      {
+        "condition": "S1 infrastructure-clean",
+        "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+        "job_kind": "F3_STAGE_A",
+        "max_queries": 3,
+        "slot": "S2"
+      },
+      {
+        "condition": "S1-S2 infrastructure-clean",
+        "entry_sha256": "a128fe53380684bcf73143087cba19d8b872f1c8251b5d5e5f608a978696d628",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S3"
+      },
+      {
+        "condition": "S1-S3 infrastructure-clean",
+        "entry_sha256": "468915221947772cb4a3c1fd3b443556a8739845ce42eab43ac2122a70dd52db",
+        "job_kind": "F2_STAGE_A",
+        "max_queries": 3,
+        "slot": "S4"
+      },
+      {
+        "condition": "S1-S4 infrastructure-clean",
+        "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+        "job_kind": "F3_STAGE_A",
+        "max_queries": 3,
+        "slot": "S5"
+      },
+      {
+        "condition": "S2 planner pass",
+        "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+        "job_kind": "F3_STAGE_B",
+        "max_queries": 7,
+        "slot": "S6A"
+      },
+      {
+        "condition": "S5 planner pass",
+        "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+        "job_kind": "F3_STAGE_B",
+        "max_queries": 7,
+        "slot": "S6B"
+      },
+      {
+        "condition": "S3 planner pass",
+        "entry_sha256": "6e1dc438d7b19a35721dc89c66cd79ce43063ff0abafdf6718b928c0a1ff2271",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S7A"
+      },
+      {
+        "condition": "S7A planner pass",
+        "entry_sha256": "ef892cd5af47e67cd6ef07822d6361ab2544210ce4ed9fd386cd12fa3695901b",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S7B"
+      }
+    ],
+    "physical_execution_authorized": false,
+    "proposal_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+    "publication_head_at_approval": "7a24721671673d82cd8a0fff24f0753543cbfe43",
+    "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "schema_version": "cmf_planner_wiring_smoke_v1_wave_approval_v2",
+    "stage1_authorized": false,
+    "training_authorized": false,
+    "trajectory_collection_authorized": false,
+    "vault_head": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+    "wave_approval_sha256": "6b6e36cb577e21a70636092d690c8f512f1930c3c590de7908683089ddde813f",
+    "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+  },
+  "wave_id": "planner-wiring-smoke-v1-20260903-run1",
+  "wave_ledger_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1"
+}
