@@ -1,0 +1,92 @@
+{
+  "F2_proposal": {
+    "asset_metadata_audits": {
+      "can0": "2a4cbff14f21b5175b1471fd152c3c8dafaa886aa0fddb4a5eeb5434d187b5f6",
+      "can5": "0be3be202be7c91a7463016f7951d91afc2285cdbb56b20d0724e629a02524a3"
+    },
+    "formal_trajectories": 0,
+    "grasp_change": "official top-contact IDs 8-15 only; historical side contact0 excluded",
+    "minimum_successes": 2,
+    "physical_candidate_cap": 4,
+    "physical_scenes_cap": 4,
+    "planner_query_cap": 44,
+    "preclose_tracking_gate": "5mm/0.05rad before close",
+    "proposal_sha256": "aa05bfeef85d67c5d396182977af8852f2733d4f737bb945116f018db3de7594",
+    "selection": "8 deterministic contact batches x 10 rotations, select lowest planner-success pose, exact freeze, then 3-query chained Stage A with no fallback",
+    "selection_scenes_cap": 4,
+    "stop": "two consecutive same failure categories",
+    "strata": [
+      "can0+box2-left",
+      "can0+box2-right",
+      "can5+box8-left",
+      "can5+box8-right"
+    ]
+  },
+  "F3_proposal": {
+    "candidate_change": "same asset/arm/region/contact0/pregrasp0.09; rotation0 terminal tuples excluded and replaced by exact rotation1 recipes",
+    "candidate_order": [
+      {
+        "label": "bottle15-left-lower",
+        "recipe_id": "f3-final-pose-v3-r0005",
+        "recipe_sha256": "3638a9e93f5101b1e7a9370fe7c4735c5a1a062e890d7ac66d47f6f182cf333f"
+      },
+      {
+        "label": "bottle5-right-lower",
+        "recipe_id": "f3-final-pose-v3-r1445",
+        "recipe_sha256": "90a1cfd4c7a6ffa5e5379a6efc54d31d355c1e815f59789d58fe049e69390d72"
+      },
+      {
+        "label": "bottle4-left-upper",
+        "recipe_id": "f3-final-pose-v3-r2165",
+        "recipe_sha256": "f6d56955c3aeb9ffb61a5dd2e7a18282da416a7396f7637171570b0a226188ac"
+      },
+      {
+        "label": "bottle13-right-upper",
+        "recipe_id": "f3-final-pose-v3-r3605",
+        "recipe_sha256": "b6b1e41a69db68e35dfb98a0d2f1b3c0449f09fee018abf339c88dee6a46c27f"
+      }
+    ],
+    "conditional_no_suffix_scenes_cap": 3,
+    "formal_trajectories": 0,
+    "minimum_successes": 2,
+    "physical_candidate_cap": 4,
+    "planner_query_cap": 40,
+    "planner_scenes_cap": 8,
+    "proposal_sha256": "0645a46c72c3b87bdebca19c2cf21db36784498817b7eb5d82a0543ca92b89e9",
+    "source_recipe_universe_sha256": "4bc99d0957dcd2dd955e6060cbe2a077cec1a2cd71ef7eecf1eca9375b16de46",
+    "stage_b_center": "exact Stage-A lift pose"
+  },
+  "F4_static_repair_audit": {
+    "assignment_dominates_use_in_linear_function_body": true,
+    "ast_parse_pass": true,
+    "function": "plan_f4_full_program_suffix_from_replayed_prefix_v1",
+    "gpu_validated": false,
+    "root_replacement_authorized": false,
+    "source_file_sha256": "f9f12de9f23e784fa1fa600aaa3b9e2ac27e4226d3fea8b84c466230a4f67ea8",
+    "total_before_assignment_line": 382,
+    "total_before_use_line": 418
+  },
+  "as_of": "2026-09-03",
+  "controlled_source_sha256": "8ab82a65375eb5d423ee679c485df8d4761d2a0e2cb5e8049454bc93d4c0e15e",
+  "decisions_requested": [
+    "authorize F2 proposal exactly as bounded or return changes",
+    "authorize F3 proposal exactly as bounded or return changes",
+    "explicitly decide whether one F4 post-terminal root replacement may reopen; default no"
+  ],
+  "formal_data": false,
+  "global_forbidden": [
+    "Stage0 rerun",
+    "Stage1",
+    "formal360",
+    "training",
+    "H-reveal",
+    "compression",
+    "pi0.5"
+  ],
+  "gpu_execution_authorized": false,
+  "packet_sha256": "ab682283dc22a3e5627dc24735b2206d68d7428f370b74ea8b5134a7af899318",
+  "schema_version": "cmf_post_recovery_next_gate_review_packet_v1",
+  "source_parent_vault_head": "743fdde0b5fc60b56fefa97760005f541349f278",
+  "stage1_authorized": false,
+  "status": "PROPOSAL_ONLY_NOT_AUTHORIZATION"
+}
