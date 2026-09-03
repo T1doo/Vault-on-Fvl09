@@ -1,0 +1,47 @@
+{
+  "formal_data": false,
+  "full_manifest_schema": "cmf_f2_recovery_planner_manifest_v1",
+  "full_manifest_sha256": "ca627919d74f4434d048aab7e33e3bdfb00379ae59f5aa3cfc1934104c8a9cc9",
+  "implementation_source_sha256": "e1624a58ad424db6826dbe2b7938ec632dcab90ce89734fc5ef9713c6009979a",
+  "maximum_physical_survivors": 4,
+  "maximum_stage_a_queries": 384,
+  "pair_order": [
+    {
+      "main_object_model_id": 0,
+      "pair_id": "can0-box2",
+      "plastic_box_model_id": 2,
+      "selection_basis": "current_static_margin_pair"
+    },
+    {
+      "main_object_model_id": 5,
+      "pair_id": "can5-box8",
+      "plastic_box_model_id": 8,
+      "selection_basis": "historical_full_chain_planner_survivor_pair"
+    }
+  ],
+  "physical_execution_authorized": false,
+  "recipe_count": 128,
+  "schema_version": "cmf_f2_production_recovery_planner_manifest_summary_v1",
+  "source_freeze_vault_head": "02d3b65198c2482b4f84dcab705f8e5379aa733f",
+  "stage1_authorized": false,
+  "stage_a_queries_per_recipe": 3,
+  "stratum_order": [
+    {
+      "arm": "left",
+      "pair_id": "can0-box2"
+    },
+    {
+      "arm": "right",
+      "pair_id": "can0-box2"
+    },
+    {
+      "arm": "left",
+      "pair_id": "can5-box8"
+    },
+    {
+      "arm": "right",
+      "pair_id": "can5-box8"
+    }
+  ],
+  "summary_sha256": "c68096cfdf20faaccb01b8cb2d7274b0b93b9005c333c2432aa5ab965c74a8df"
+}
