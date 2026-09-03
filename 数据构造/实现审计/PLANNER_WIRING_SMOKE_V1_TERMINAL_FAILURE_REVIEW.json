@@ -1,0 +1,92 @@
+{
+  "actual_counts": {
+    "elapsed_seconds": 22.695908546447754,
+    "physical_execution_count": 0,
+    "planner_query_count": 0,
+    "scene_count": 0,
+    "trajectory_count": 0
+  },
+  "authorization_consumed": false,
+  "authorization_receipt_sha256": "a204867a3d6da3e4d44039b83ec7baae4646f5f5501a8f54fcf7678e241037a9",
+  "direct_root_cause": {
+    "candidate_failure": false,
+    "gpu_resource_failure": false,
+    "guard_order": "claim_guard_receipt precedes initial authorization validation",
+    "planner_failure": false,
+    "self_conflict": true,
+    "validator_rule": "allow_completed_paths=False rejects output.exists() or guard.exists()"
+  },
+  "earliest_failure_point": "gpu_guard_v2_4 claimed the authorized Guard receipt and then V2.3.1a authorization validation rejected that same path as existing",
+  "failure_class": "INFRASTRUCTURE_ERROR",
+  "failure_code": "PREVALIDATION_GUARD_RECEIPT_O_EXCL_SELF_CONFLICT",
+  "family_planner_qualified_counts": {
+    "F2": 0,
+    "F3": 0,
+    "F4": 0
+  },
+  "full_panel_started": false,
+  "guard": {
+    "child_started": false,
+    "error_message": "V2.3.1a command/O_EXCL mismatch",
+    "error_type": "AuthorizationBindingError",
+    "file_sha256": "357529a83aef2c47ad6211d1698f214c3e3372037c27b75c1506452ccd98a0aa",
+    "job_cache_created": false,
+    "lease_acquired": false,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/planner_wiring_smoke_v1_wave_20260903_run1/guards/S1.json",
+    "receipt_sha256": "6f41bb84983d5e802503e9a7075989b6a56c3ba3c6634e2a908655e627840a76",
+    "status": "failed_authorization_binding"
+  },
+  "guard_attempts": 1,
+  "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+  "new_trajectories": 0,
+  "phase0_coverage_gap": "mock E2E reached build_guard_binding but did not execute the real gpu_guard_v2_4 main prevalidation order",
+  "physical_execution_started": false,
+  "planner_jobs_started": 0,
+  "published_s1_bundle_commit": "6418de8",
+  "recommended_next_gate": {
+    "full_panel_authorized": false,
+    "must_preserve": [
+      "output namespace O_EXCL",
+      "Guard receipt immutability",
+      "single-use authorization and no retry",
+      "152-query/9-scene/0-physical/0-trajectory smoke protocol",
+      "candidate programs and verifier thresholds"
+    ],
+    "name": "V2_3_1B_GUARD_PREVALIDATION_INTEGRATION_REPAIR",
+    "replacement_smoke_authorized": false,
+    "scope": "CPU/source only: eliminate the preclaimed-Guard O_EXCL self-conflict; add a real Guard-main subprocess regression and a production API for pre-child Guard failure terminalization",
+    "source_repair_authorized": false
+  },
+  "repair_required": true,
+  "review_sha256": "98a2c16c2692d3485613efb069a4c00b80a82dd00beb81ce8eb848a7c0be6471",
+  "review_status": "TERMINAL_INFRASTRUCTURE_ERROR_BEFORE_PLANNER",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "schema_version": "cmf_planner_wiring_smoke_v1_terminal_failure_review",
+  "scientific_support_added": false,
+  "source_changed_during_phase1": false,
+  "source_freeze_vault_head": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+  "stage0_reopened": false,
+  "stage1_started": false,
+  "terminalization": {
+    "closed_sha256": "bf5cf85375ed557d04c6c8675665e0abf08752f70a150f0c4a2dbcbd7073790f",
+    "kind": "manual_fail_closed_prevalidation_terminalization_v1",
+    "normalized_terminal_sha256": "56e9870b31dc1b7d1024e15cf799d8011845807e200040be87a917b25bdd81a9",
+    "reason": "the production normalizer requires a child outer terminal, which cannot exist when Guard fails before child launch",
+    "skipped_slots": {
+      "S2": "wave_closed_after_infrastructure_error",
+      "S3": "wave_closed_after_infrastructure_error",
+      "S4": "wave_closed_after_infrastructure_error",
+      "S5": "wave_closed_after_infrastructure_error",
+      "S6A": "wave_closed_after_infrastructure_error",
+      "S6B": "wave_closed_after_infrastructure_error",
+      "S7A": "wave_closed_after_infrastructure_error",
+      "S7B": "wave_closed_after_infrastructure_error"
+    },
+    "wave_status": "INFRASTRUCTURE_ERROR_STOPPED",
+    "wave_terminal_sha256": "e010a21445b3e9b2529653d070cbc9c7c9859115fc6cd7e6a523bd6974244633"
+  },
+  "trigger_job_kind": "F2_STAGE_A",
+  "trigger_slot": "S1",
+  "wave_approval_sha256": "6b6e36cb577e21a70636092d690c8f512f1930c3c590de7908683089ddde813f",
+  "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+}
