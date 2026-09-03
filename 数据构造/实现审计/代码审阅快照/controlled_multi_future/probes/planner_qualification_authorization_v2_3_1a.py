@@ -1,4 +1,4 @@
-"""Guard-compatible authorization for V2.3.1a smoke-wave jobs."""
+"""Guard-compatible authorization for V2.3.1a/b smoke-wave jobs."""
 
 from __future__ import annotations
 
@@ -37,9 +37,16 @@ from .runtime_v3_3_authorization_v1 import (
 )
 
 
-IMPLEMENTATION_VERSION = "controlled_multi_future_pre_smoke_hotfix_v2_3_1a"
-AUTH_SCHEMA = "cmf_planner_qualification_authorization_v2_3_1a"
-CONSUMPTION_SCHEMA = "cmf_planner_qualification_consumption_v2_3_1a"
+LEGACY_IMPLEMENTATION_VERSION = "controlled_multi_future_pre_smoke_hotfix_v2_3_1a"
+IMPLEMENTATION_VERSION = "controlled_multi_future_pre_smoke_hotfix_v2_3_1b"
+SUPPORTED_IMPLEMENTATION_VERSIONS = (
+    LEGACY_IMPLEMENTATION_VERSION,
+    IMPLEMENTATION_VERSION,
+)
+LEGACY_AUTH_SCHEMA = "cmf_planner_qualification_authorization_v2_3_1a"
+AUTH_SCHEMA = "cmf_planner_qualification_authorization_v2_3_1b"
+LEGACY_CONSUMPTION_SCHEMA = "cmf_planner_qualification_consumption_v2_3_1a"
+CONSUMPTION_SCHEMA = "cmf_planner_qualification_consumption_v2_3_1b"
 SCOPE = "PLANNER_WIRING_SMOKE_V1"
 GUARD_PURPOSE = "planner_wiring_smoke_v1"
 QUERY_LIMITS = {
@@ -81,6 +88,57 @@ def _time(value: Any) -> datetime:
     return result.astimezone(timezone.utc)
 
 
+def _validate_guard_receipt_state(
+    guard: Path,
+    *,
+    result: Mapping[str, Any],
+    mode: str,
+) -> None:
+    try:
+        receipt = canonical_jsonable(
+            json.loads(guard.read_text(encoding="utf-8"))
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        raise AuthorizationBindingError(
+            "V2.3.1b Guard receipt is unreadable"
+        ) from exc
+    if mode == "preclaimed":
+        expected = {
+            "schema_version": "cmf_gpu_guard_v2_4_1",
+            "purpose": GUARD_PURPOSE,
+            "formal_data": False,
+            "stage0_data": False,
+            "stage0_authorized": False,
+            "status": "starting",
+        }
+        if receipt != expected:
+            raise AuthorizationBindingError(
+                "V2.3.1b preclaimed Guard receipt is not the exact starting claim"
+            )
+        return
+    if mode != "active":
+        raise AuthorizationBindingError("V2.3.1b Guard receipt mode is invalid")
+    sealed = dict(receipt)
+    digest = sealed.pop("guard_receipt_sha256", None)
+    binding = receipt.get("binding")
+    if (
+        digest != canonical_hash_json(sealed)
+        or receipt.get("schema_version") != "cmf_gpu_guard_v2_4_1"
+        or receipt.get("purpose") != GUARD_PURPOSE
+        or receipt.get("status") not in {"precheck_passed", "running"}
+        or not isinstance(binding, Mapping)
+        or binding.get("authorization_id") != result.get("authorization_id")
+        or binding.get("authorization_receipt_sha256")
+        != result.get("receipt_sha256")
+        or binding.get("output_namespace") != result.get("output_namespace")
+        or binding.get("command_sha256")
+        != result.get("authorized_command_sha256")
+    ):
+        raise AuthorizationBindingError(
+            "V2.3.1b active Guard receipt binding mismatch"
+        )
+
+
 def validate(
     value: Mapping[str, Any],
     *,
@@ -90,12 +148,21 @@ def validate(
     expected_seed: int | None = None,
     expected_reviewed_content_commit: str | None = None,
     allow_completed_paths: bool = False,
+    allow_preclaimed_guard_receipt: bool = False,
+    allow_active_guard_receipt: bool = False,
     now: datetime | None = None,
 ) -> dict[str, Any]:
     result = canonical_jsonable(value)
+    identity = (
+        result.get("schema_version"),
+        result.get("implementation_version"),
+    )
     if (
-        result.get("schema_version") != AUTH_SCHEMA
-        or result.get("implementation_version") != IMPLEMENTATION_VERSION
+        identity
+        not in {
+            (LEGACY_AUTH_SCHEMA, LEGACY_IMPLEMENTATION_VERSION),
+            (AUTH_SCHEMA, IMPLEMENTATION_VERSION),
+        }
         or result.get("receipt_sha256") != receipt_sha(result)
         or result.get("approved") is not True
         or result.get("approved_scopes") != [requested_scope]
@@ -106,6 +173,17 @@ def validate(
     current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     if not 0 < (expires - issued).total_seconds() <= 3600:
         raise AuthorizationExpiredError("V2.3.1a lifetime is invalid")
+    if sum(
+        bool(item)
+        for item in (
+            allow_completed_paths,
+            allow_preclaimed_guard_receipt,
+            allow_active_guard_receipt,
+        )
+    ) > 1:
+        raise AuthorizationBindingError(
+            "V2.3.1b Guard/path validation modes are mutually exclusive"
+        )
     if not allow_completed_paths and not issued <= current < expires:
         raise AuthorizationExpiredError("V2.3.1a authorization inactive")
     validate_current_gpu_authorization(result)
@@ -283,12 +361,28 @@ def validate(
             "--authorization-receipt",
             str(auth_path),
         ]
-        or (
-            not allow_completed_paths
-            and (output.exists() or guard.exists())
-        )
+        or (not allow_completed_paths and output.exists())
     ):
         raise AuthorizationBindingError("V2.3.1a command/O_EXCL mismatch")
+    if not allow_completed_paths:
+        if allow_preclaimed_guard_receipt:
+            if not guard.is_file():
+                raise AuthorizationBindingError(
+                    "V2.3.1b preclaimed Guard receipt is missing"
+                )
+            _validate_guard_receipt_state(
+                guard, result=result, mode="preclaimed"
+            )
+        elif allow_active_guard_receipt:
+            if not guard.is_file():
+                raise AuthorizationBindingError(
+                    "V2.3.1b active Guard receipt is missing"
+                )
+            _validate_guard_receipt_state(guard, result=result, mode="active")
+        elif guard.exists():
+            raise AuthorizationBindingError(
+                "V2.3.1a command/O_EXCL mismatch"
+            )
     if expected_output_namespace is not None and output != Path(expected_output_namespace).resolve():
         raise AuthorizationBindingError("V2.3.1a output namespace changed")
     if expected_family is not None and family != expected_family:
@@ -323,9 +417,18 @@ def consume(authorization: Mapping[str, Any], *, ledger_directory: Path):
         raise AuthorizationBindingError("V2.3.1a ledger mismatch")
     directory.mkdir(parents=True, exist_ok=True)
     path = directory / f"{authorization['authorization_id']}.json"
+    implementation = authorization.get("implementation_version")
+    if implementation not in SUPPORTED_IMPLEMENTATION_VERSIONS:
+        raise AuthorizationBindingError(
+            "V2.3.1a/b authorization implementation mismatch"
+        )
     value = {
-        "schema_version": CONSUMPTION_SCHEMA,
-        "implementation_version": IMPLEMENTATION_VERSION,
+        "schema_version": (
+            LEGACY_CONSUMPTION_SCHEMA
+            if implementation == LEGACY_IMPLEMENTATION_VERSION
+            else CONSUMPTION_SCHEMA
+        ),
+        "implementation_version": implementation,
         "authorization_id": authorization["authorization_id"],
         "authorization_receipt_sha256": authorization["receipt_sha256"],
         "wave_id": authorization["wave_id"],
@@ -344,8 +447,16 @@ def consume(authorization: Mapping[str, Any], *, ledger_directory: Path):
 
 def validate_consumption(consumption, authorization):
     value = canonical_jsonable(consumption)
+    implementation = authorization.get("implementation_version")
+    expected_schema = (
+        LEGACY_CONSUMPTION_SCHEMA
+        if implementation == LEGACY_IMPLEMENTATION_VERSION
+        else CONSUMPTION_SCHEMA
+    )
     if (
-        value.get("schema_version") != CONSUMPTION_SCHEMA
+        implementation not in SUPPORTED_IMPLEMENTATION_VERSIONS
+        or value.get("schema_version") != expected_schema
+        or value.get("implementation_version") != implementation
         or value.get("consumption_receipt_sha256") != consumption_sha(value)
         or value.get("authorization_id") != authorization.get("authorization_id")
         or value.get("authorization_receipt_sha256")

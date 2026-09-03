@@ -117,6 +117,7 @@ def main(argv=None):
         args.authorization_receipt,
         requested_scope=raw["approved_scopes"][0],
         expected_output_namespace=raw["output_namespace"],
+        allow_active_guard_receipt=True,
     )
     consumption_path = os.environ.get("CMF_AUTHORIZATION_CONSUMPTION_RECEIPT")
     guard_path = os.environ.get("CMF_GPU_GUARD_RECEIPT")

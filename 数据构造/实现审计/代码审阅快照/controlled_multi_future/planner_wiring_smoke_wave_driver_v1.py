@@ -558,6 +558,167 @@ def record_outer_terminal_v1(
     return normalized
 
 
+def record_guard_prevalidation_terminal_v1(
+    ledger_directory: Path,
+    *,
+    authorization_receipt_path: Path,
+    guard_receipt_path: Path,
+    failure_code: str,
+):
+    """Fail-close a wave when Guard rejects a job before consumption/child."""
+
+    state = load_wave_ledger_state_v1(ledger_directory)
+    auth_path = _workspace(
+        authorization_receipt_path, "authorization", file=True
+    )
+    guard_path = _workspace(guard_receipt_path, "Guard receipt", file=True)
+    auth = _self_hashed(_load(auth_path), "receipt_sha256", "authorization")
+    guard = _self_hashed(
+        _load(guard_path), "guard_receipt_sha256", "Guard receipt"
+    )
+    slot = auth.get("slot")
+    allowed_statuses = {
+        "failed_authorization_binding",
+        "failed_guard_authorization_mismatch",
+        "failed_guard_budget_mismatch",
+        "failed_guard_internal_prevalidation",
+        "failed_runtime_source_lock",
+    }
+    consumption_path = (
+        Path(auth.get("consumption_ledger_directory", ""))
+        / f"{auth.get('authorization_id')}.json"
+    )
+    output_path = Path(auth.get("output_namespace", ""))
+    if (
+        state["closed"] is not None
+        or slot not in state["issued"]
+        or slot in state["terminals"]
+        or slot in state["skipped"]
+        or state["issued"][slot]["authorization_receipt_path"]
+        != str(auth_path)
+        or state["issued"][slot]["authorization_receipt_sha256"]
+        != auth["receipt_sha256"]
+        or Path(auth.get("guard_receipt_path", "")).resolve() != guard_path
+        or guard.get("schema_version") != "cmf_gpu_guard_v2_4_1"
+        or guard.get("purpose") != "planner_wiring_smoke_v1"
+        or guard.get("status") not in allowed_statuses
+        or not isinstance(guard.get("error"), Mapping)
+        or "child_pid" in guard
+        or "binding" in guard
+        or consumption_path.exists()
+        or output_path.exists()
+        or not isinstance(failure_code, str)
+        or not failure_code
+    ):
+        raise ValueError("Guard prevalidation terminal evidence is invalid")
+    elapsed = guard.get("elapsed_seconds")
+    if not isinstance(elapsed, (int, float)) or elapsed < 0:
+        raise ValueError("Guard prevalidation elapsed time is invalid")
+
+    outer = {
+        "schema_version": (
+            "cmf_planner_wiring_smoke_prevalidation_outer_terminal_v1"
+        ),
+        "wave_id": auth["wave_id"],
+        "slot": slot,
+        "job_kind": auth["job_kind"],
+        "family": auth["family"],
+        "authorization_id": auth["authorization_id"],
+        "authorization_receipt_sha256": auth["receipt_sha256"],
+        "guard_receipt_path": str(guard_path),
+        "guard_receipt_file_sha256": _file_sha(guard_path),
+        "guard_receipt_sha256": guard["guard_receipt_sha256"],
+        "status": "failed_guard_prevalidation_before_consumption",
+        "planner_pass": False,
+        "failure_class": "INFRASTRUCTURE_ERROR",
+        "failure_code": failure_code,
+        "failure_message": str(guard["error"].get("message", "")),
+        "child_started": False,
+        "authorization_consumed": False,
+        "lease_acquired": False,
+        "job_cache_created": False,
+        "output_namespace_created": False,
+        "planner_query_count": 0,
+        "scene_count": 0,
+        "physical_execution_count": 0,
+        "trajectory_count": 0,
+        "elapsed_seconds": float(elapsed),
+        "terminalization_kind": "guard_prevalidation_terminal_v1",
+        "not_a_child_output": True,
+    }
+    outer["receipt_sha256"] = canonical_hash_json(outer)
+    outer_path = state["root"] / "prevalidation" / f"{slot}_outer_terminal.json"
+    canonical_write_json(outer_path, outer, exclusive=True, mode=0o600)
+
+    normalized = {
+        "schema_version": NORMALIZED_SCHEMA,
+        "wave_id": auth["wave_id"],
+        "slot": slot,
+        "job_kind": auth["job_kind"],
+        "family": auth["family"],
+        "authorization_id": auth["authorization_id"],
+        "authorization_receipt_path": str(auth_path),
+        "authorization_receipt_file_sha256": _file_sha(auth_path),
+        "authorization_receipt_sha256": auth["receipt_sha256"],
+        "outer_terminal_path": str(outer_path),
+        "outer_terminal_file_sha256": _file_sha(outer_path),
+        "outer_terminal_receipt_sha256": outer["receipt_sha256"],
+        "scene_instance_id": None,
+        "scene_seed": auth["scene_seed"],
+        "planner_query_count": 0,
+        "planner_pass": False,
+        "failure_class": "INFRASTRUCTURE_ERROR",
+        "failure_code": failure_code,
+        "scene_count": 0,
+        "elapsed_seconds": float(elapsed),
+        "guard_receipt_path": str(guard_path),
+        "guard_receipt_file_sha256": _file_sha(guard_path),
+        "guard_receipt_sha256": guard["guard_receipt_sha256"],
+        "cleanup_safety_pass": True,
+        "cleanup_semantics": (
+            "Guard failed before consumption, lease, cache, child, or GPU precheck"
+        ),
+        "orphan_process_count": 0,
+        "physical_execution_count": 0,
+        "trajectory_count": 0,
+        "normalizer_path": "guard_prevalidation_terminal_v1",
+        "production_child_normalizer_applicable": False,
+    }
+    normalized["normalized_terminal_sha256"] = canonical_hash_json(normalized)
+    canonical_write_json(
+        state["root"] / "terminals" / f"{slot}.json",
+        normalized,
+        exclusive=True,
+        mode=0o600,
+    )
+    closure = {
+        "schema_version": "cmf_planner_wiring_smoke_wave_closure_v1",
+        "wave_id": auth["wave_id"],
+        "trigger_slot": slot,
+        "failure_code": failure_code,
+        "permanently_closed": True,
+        "normalized_terminal_sha256": normalized[
+            "normalized_terminal_sha256"
+        ],
+        "guard_receipt_sha256": guard["guard_receipt_sha256"],
+        "authorization_consumed": False,
+        "planner_query_count": 0,
+        "scene_count": 0,
+        "physical_execution_count": 0,
+        "trajectory_count": 0,
+        "closure_origin": "guard_prevalidation_terminal_v1",
+        "retry_authorized": False,
+    }
+    closure["closed_sha256"] = canonical_hash_json(closure)
+    canonical_write_json(
+        state["root"] / "closed.json",
+        closure,
+        exclusive=True,
+        mode=0o600,
+    )
+    return normalized
+
+
 def build_f3_stage_b_registry_from_wave_v1(
     ledger_directory: Path, *, stage_b_slot: str
 ):
@@ -707,6 +868,7 @@ __all__ = [
     "initialize_wave_ledger_v1",
     "load_wave_ledger_state_v1",
     "normalize_outer_terminal_from_disk_v1",
+    "record_guard_prevalidation_terminal_v1",
     "record_outer_terminal_v1",
     "record_slot_issuance_v1",
     "reconcile_skipped_slots_v1",

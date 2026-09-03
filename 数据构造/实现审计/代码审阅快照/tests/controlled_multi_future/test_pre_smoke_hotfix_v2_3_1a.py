@@ -1,6 +1,9 @@
 import copy
 import hashlib
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from datetime import datetime, timezone
@@ -45,6 +48,7 @@ from controlled_multi_future.planner_wiring_smoke_wave_driver_v1 import (
     initialize_wave_ledger_v1,
     load_wave_ledger_state_v1,
     normalize_outer_terminal_from_disk_v1,
+    record_guard_prevalidation_terminal_v1,
     record_outer_terminal_v1,
     record_slot_issuance_v1,
     validate_slot_issuance_from_ledger_v1,
@@ -54,8 +58,13 @@ from controlled_multi_future.pre_smoke_operational_hotfix_v2_3_1a import (
 )
 from controlled_multi_future.probes.gpu_guard_v2_4 import planner_wiring_smoke_guard_purpose_v1
 from controlled_multi_future.probes.planner_qualification_authorization_v2_3_1a import (
+    IMPLEMENTATION_VERSION,
     SCOPE,
     validate as validate_authorization,
+)
+from controlled_multi_future.runtime_source_lock_v1 import (
+    capture_runtime_source_lock,
+    write_runtime_source_lock,
 )
 
 
@@ -610,6 +619,12 @@ class PreSmokeHotfixV231aTests(unittest.TestCase):
     def test_14_guard_purpose_is_planner_wiring_smoke(self):
         value = {"implementation_version": "controlled_multi_future_pre_smoke_hotfix_v2_3_1a"}
         self.assertEqual(planner_wiring_smoke_guard_purpose_v1(value), "planner_wiring_smoke_v1")
+        self.assertEqual(
+            planner_wiring_smoke_guard_purpose_v1(
+                {"implementation_version": IMPLEMENTATION_VERSION}
+            ),
+            "planner_wiring_smoke_v1",
+        )
 
     def issue_s1(self, suffix="source"):
         ledger, c, _ = self.init_ledger(f"issuer-{suffix}")
@@ -754,6 +769,233 @@ class PreSmokeHotfixV231aTests(unittest.TestCase):
         self.assertEqual(digest, canonical_hash_json(payload))
         self.assertEqual(terminal["status"], "INFRASTRUCTURE_ERROR_STOPPED")
         self.assertEqual(set(terminal["skipped_slots"]), set(("S2", "S3", "S4", "S5", "S6A", "S6B", "S7A", "S7B")))
+
+    def test_19_preclaimed_guard_is_narrowly_accepted(self):
+        auth, source, _ = self.issue_s1("preclaimed")
+        self.assertEqual(auth["implementation_version"], IMPLEMENTATION_VERSION)
+        guard_path = Path(auth["guard_receipt_path"])
+        starting = {
+            "schema_version": "cmf_gpu_guard_v2_4_1",
+            "purpose": "planner_wiring_smoke_v1",
+            "formal_data": False,
+            "stage0_data": False,
+            "stage0_authorized": False,
+            "status": "starting",
+        }
+        canonical_write_json(guard_path, starting, exclusive=True, mode=0o600)
+        source_patch = patch(
+            "controlled_multi_future.probes."
+            "planner_qualification_authorization_v2_3_1a."
+            "load_runtime_source_lock",
+            return_value=source,
+        )
+        with source_patch:
+            checked = validate_authorization(
+                auth,
+                requested_scope=SCOPE,
+                allow_preclaimed_guard_receipt=True,
+                now=datetime.now(timezone.utc),
+            )
+        self.assertEqual(checked["receipt_sha256"], auth["receipt_sha256"])
+        with source_patch:
+            with self.assertRaisesRegex(Exception, "O_EXCL"):
+                validate_authorization(
+                    auth,
+                    requested_scope=SCOPE,
+                    now=datetime.now(timezone.utc),
+                )
+        starting["status"] = "precheck_passed"
+        canonical_write_json(guard_path, starting, mode=0o600)
+        with source_patch:
+            with self.assertRaisesRegex(Exception, "exact starting"):
+                validate_authorization(
+                    auth,
+                    requested_scope=SCOPE,
+                    allow_preclaimed_guard_receipt=True,
+                    now=datetime.now(timezone.utc),
+                )
+
+    def test_20_active_guard_requires_self_hash_and_authorization_binding(self):
+        auth, source, _ = self.issue_s1("active")
+        guard_path = Path(auth["guard_receipt_path"])
+        active = {
+            "schema_version": "cmf_gpu_guard_v2_4_1",
+            "purpose": "planner_wiring_smoke_v1",
+            "formal_data": False,
+            "stage0_data": False,
+            "stage0_authorized": False,
+            "status": "precheck_passed",
+            "binding": {
+                "authorization_id": auth["authorization_id"],
+                "authorization_receipt_sha256": auth["receipt_sha256"],
+                "output_namespace": auth["output_namespace"],
+                "command_sha256": auth["authorized_command_sha256"],
+            },
+        }
+        active["guard_receipt_sha256"] = canonical_hash_json(active)
+        canonical_write_json(guard_path, active, exclusive=True, mode=0o600)
+        source_patch = patch(
+            "controlled_multi_future.probes."
+            "planner_qualification_authorization_v2_3_1a."
+            "load_runtime_source_lock",
+            return_value=source,
+        )
+        with source_patch:
+            checked = validate_authorization(
+                auth,
+                requested_scope=SCOPE,
+                allow_active_guard_receipt=True,
+                now=datetime.now(timezone.utc),
+            )
+        self.assertEqual(checked["authorization_id"], auth["authorization_id"])
+        active["binding"]["output_namespace"] = str(self.root / "tampered")
+        active.pop("guard_receipt_sha256")
+        active["guard_receipt_sha256"] = canonical_hash_json(active)
+        canonical_write_json(guard_path, active, mode=0o600)
+        with source_patch:
+            with self.assertRaisesRegex(Exception, "active Guard"):
+                validate_authorization(
+                    auth,
+                    requested_scope=SCOPE,
+                    allow_active_guard_receipt=True,
+                    now=datetime.now(timezone.utc),
+                )
+
+    def test_21_prevalidation_terminal_api_closes_without_manual_artifacts(self):
+        auth, _, _ = self.issue_s1("prechild")
+        ledger = Path(auth["wave_ledger_directory"])
+        guard_path = Path(auth["guard_receipt_path"])
+        guard = {
+            "schema_version": "cmf_gpu_guard_v2_4_1",
+            "purpose": "planner_wiring_smoke_v1",
+            "formal_data": False,
+            "stage0_data": False,
+            "stage0_authorized": False,
+            "status": "failed_authorization_binding",
+            "error": {
+                "type": "AuthorizationBindingError",
+                "message": "synthetic prevalidation failure",
+            },
+            "elapsed_seconds": 0.25,
+        }
+        guard["guard_receipt_sha256"] = canonical_hash_json(guard)
+        canonical_write_json(guard_path, guard, exclusive=True, mode=0o600)
+        normalized = record_guard_prevalidation_terminal_v1(
+            ledger,
+            authorization_receipt_path=Path(
+                auth["authorization_receipt_path"]
+            ),
+            guard_receipt_path=guard_path,
+            failure_code="TEST_PREVALIDATION_FAILURE",
+        )
+        self.assertEqual(normalized["planner_query_count"], 0)
+        self.assertEqual(normalized["scene_count"], 0)
+        terminal = finalize_wave_terminal_v1(ledger)
+        self.assertEqual(terminal["status"], "INFRASTRUCTURE_ERROR_STOPPED")
+        self.assertEqual(terminal["aggregate"]["planner_query_count"], 0)
+        self.assertEqual(
+            set(terminal["skipped_slots"]),
+            {"S2", "S3", "S4", "S5", "S6A", "S6B", "S7A", "S7B"},
+        )
+        with self.assertRaises(Exception):
+            record_guard_prevalidation_terminal_v1(
+                ledger,
+                authorization_receipt_path=Path(
+                    auth["authorization_receipt_path"]
+                ),
+                guard_receipt_path=guard_path,
+                failure_code="TEST_DUPLICATE",
+            )
+
+    def test_22_real_guard_main_crosses_prevalidation_before_fake_busy_gate(self):
+        source = capture_runtime_source_lock(family="F2")
+        source_path = self.root / "real-source-lock.json"
+        write_runtime_source_lock(source_path, source)
+        c = contract(
+            source_sha=source["snapshot"]["implementation_source_sha256"]
+        )
+        ledger = self.root / "real-guard-ledger"
+        initialize_wave_ledger_v1(
+            ledger,
+            activation_contract=c,
+            wave_approval=approval(c, wave_id="wave-real-guard-main"),
+        )
+        auth = issue_wave_job_authorization_v2_3_1a(
+            activation_contract=c,
+            wave_ledger_directory=ledger,
+            job_slot="S1",
+            authorization_id=f"real-guard-{self.root.name}",
+            authorization_receipt_path=self.root / "real-guard-auth.json",
+            source_lock_receipt_path=source_path,
+            output_namespace=self.root / "real-guard-output",
+            guard_receipt_path=self.root / "real-guard.json",
+            issued_at=datetime.now(timezone.utc),
+        )
+        fake_bin = self.root / "fake-bin"
+        fake_bin.mkdir()
+        fake_smi = fake_bin / "nvidia-smi"
+        fake_smi.write_text(
+            "#!/bin/sh\n"
+            "case \"$1\" in\n"
+            "  --query-gpu=*) printf '0, GPU-test, 500, 99, P2\\n' ;;\n"
+            "  --query-compute-apps=*) printf 'GPU-test, 424242, 500\\n' ;;\n"
+            "  *) exit 2 ;;\n"
+            "esac\n",
+            encoding="utf-8",
+        )
+        fake_smi.chmod(0o755)
+        environment = os.environ.copy()
+        environment["PATH"] = str(fake_bin) + ":" + environment.get("PATH", "")
+        environment["PYTHONDONTWRITEBYTECODE"] = "1"
+        environment["PYTHONPATH"] = "/nfs_share/lijunhui/Robotwin2/project/RoboTwin"
+        environment.pop("LD_LIBRARY_PATH", None)
+        command = [
+            sys.executable,
+            "-m",
+            "controlled_multi_future.probes.gpu_guard_v2_4",
+            "--authorization-receipt",
+            auth["authorization_receipt_path"],
+            "--consumption-ledger-dir",
+            auth["consumption_ledger_directory"],
+            "--physical-index",
+            "0",
+            "--expected-uuid",
+            "GPU-test",
+            "--timeout-seconds",
+            str(auth["timeout_seconds"]),
+            "--guard-receipt",
+            auth["guard_receipt_path"],
+            "--output-dir",
+            auth["output_namespace"],
+            "--",
+            *auth["authorized_command"],
+        ]
+        completed = subprocess.run(
+            command,
+            cwd="/nfs_share/lijunhui/Robotwin2/project/RoboTwin",
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=180,
+            check=False,
+        )
+        self.assertEqual(
+            completed.returncode,
+            42,
+            msg=f"stdout={completed.stdout}\nstderr={completed.stderr}",
+        )
+        guard = json.loads(Path(auth["guard_receipt_path"]).read_text())
+        self.assertEqual(guard["status"], "blocked_precheck_not_idle")
+        self.assertNotEqual(guard["status"], "failed_authorization_binding")
+        self.assertTrue(guard["job_cache_cleanup"]["succeeded"])
+        self.assertTrue(guard["gpu_lease_release"]["released"])
+        self.assertFalse(Path(auth["output_namespace"]).exists())
+        self.assertFalse(
+            (
+                Path(auth["consumption_ledger_directory"])
+                / f"{auth['authorization_id']}.json"
+            ).exists()
+        )
 
 
 if __name__ == "__main__":

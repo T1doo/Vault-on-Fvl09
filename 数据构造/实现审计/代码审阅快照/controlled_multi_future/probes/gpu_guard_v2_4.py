@@ -130,6 +130,7 @@ from .planner_qualification_authorization_v2_3_1 import (
 )
 from .planner_qualification_authorization_v2_3_1a import (
     IMPLEMENTATION_VERSION as PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    LEGACY_IMPLEMENTATION_VERSION as PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
     consume as consume_planner_qualification_v2_3_1a,
     load as load_planner_qualification_v2_3_1a,
     validate_consumption as validate_planner_qualification_consumption_v2_3_1a,
@@ -162,7 +163,10 @@ def planner_wiring_smoke_guard_purpose_v1(
 ) -> str | None:
     if (
         authorization.get("implementation_version")
-        == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION
+        in {
+            PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
+            PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+        }
     ):
         return "planner_wiring_smoke_v1"
     return None
@@ -184,7 +188,10 @@ def _authorization_implementation(path: Path) -> str:
 
 def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
     implementation = _authorization_implementation(path)
-    if implementation == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+    if implementation in {
+        PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
+        PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    }:
         return load_planner_qualification_v2_3_1a(
             path, requested_scope=requested_scope, **kwargs
         )
@@ -256,7 +263,10 @@ def _load_runtime_authorization(path: Path, *, requested_scope: str, **kwargs):
 
 
 def _consume_runtime_authorization(authorization, *, ledger_directory):
-    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+    if authorization.get("implementation_version") in {
+        PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
+        PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    }:
         return consume_planner_qualification_v2_3_1a(
             authorization, ledger_directory=ledger_directory
         )
@@ -330,7 +340,10 @@ def _consume_runtime_authorization(authorization, *, ledger_directory):
 
 
 def _validate_runtime_consumption(consumption, authorization):
-    if authorization.get("implementation_version") == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION:
+    if authorization.get("implementation_version") in {
+        PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
+        PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    }:
         return validate_planner_qualification_consumption_v2_3_1a(
             consumption, authorization
         )
@@ -910,7 +923,10 @@ def main() -> int:
     ) == HIGH_LEVEL_IMPLEMENTATION_VERSION
     planner_wiring_smoke_v1_mode = raw_authorization.get(
         "implementation_version"
-    ) == PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION
+    ) in {
+        PLANNER_QUALIFICATION_V2_3_1A_LEGACY_IMPLEMENTATION_VERSION,
+        PLANNER_QUALIFICATION_V2_3_1A_IMPLEMENTATION_VERSION,
+    }
     planner_wiring_purpose = planner_wiring_smoke_guard_purpose_v1(
         raw_authorization
     )
@@ -960,6 +976,11 @@ def main() -> int:
             args.authorization_receipt,
             requested_scope=scope,
             expected_output_namespace=str(args.output_dir),
+            **(
+                {"allow_preclaimed_guard_receipt": True}
+                if planner_wiring_smoke_v1_mode
+                else {}
+            ),
         )
         if args.timeout_seconds != authorization["timeout_seconds"]:
             raise GuardBudgetMismatch("guard timeout does not match authorization")
