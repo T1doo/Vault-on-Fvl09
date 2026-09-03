@@ -1,0 +1,75 @@
+{
+  "accepted_trajectory_count": 0,
+  "cpu_contract_pass": true,
+  "error": null,
+  "family": "F4",
+  "formal_data": false,
+  "full_program_pass": false,
+  "job_id": "f4-micro-gate-v1",
+  "manifest_sha256": "e38f126c784033f91064f5ca783eec12646acc58c2452b3ecac8ab3b2a5725e4",
+  "pass": true,
+  "physical_primitive_pass": false,
+  "planner_pass": false,
+  "receipt_sha256": "6646c0268b2daa025f7d997b798b8f53ad132c36d7542efe3b63249e08ef9ec2",
+  "result": {
+    "family": "F4",
+    "full_program_pass": false,
+    "next_required_gate": "repair_failed_primitive_or_noninterference",
+    "physical_execution_count": 0,
+    "physical_isolation_gate_pass": false,
+    "planner_gate_pass": false,
+    "planner_pass_count": 0,
+    "planner_programs": {
+      "F4-ABC": {
+        "nonce": 2026093501,
+        "pass": false,
+        "slot": "f4-abc",
+        "terminal": null
+      },
+      "F4-ACB": {
+        "nonce": 2026093502,
+        "pass": false,
+        "slot": "f4-acb",
+        "terminal": null
+      },
+      "F4-BAC": {
+        "nonce": 2026093503,
+        "pass": false,
+        "slot": "f4-bac",
+        "terminal": null
+      }
+    },
+    "rows": [
+      {
+        "reason": "required_program_planner_failed",
+        "skipped": true,
+        "stage": "A_ONLY"
+      },
+      {
+        "reason": "required_program_planner_failed",
+        "skipped": true,
+        "stage": "B_ONLY"
+      },
+      {
+        "reason": "required_program_planner_failed",
+        "skipped": true,
+        "stage": "C_ONLY"
+      },
+      {
+        "reason": "singles_not_all_pass",
+        "skipped": true,
+        "stage": "AB_NONINTERFERENCE"
+      },
+      {
+        "reason": "singles_not_all_pass",
+        "skipped": true,
+        "stage": "AC_NONINTERFERENCE"
+      }
+    ],
+    "template_qualification_pass": false
+  },
+  "run_id": "production-micro-gate-v1-20260903-run1",
+  "schema_version": "cmf_production_micro_gate_job_terminal_v1",
+  "template_qualification_pass": false,
+  "training_data": false
+}

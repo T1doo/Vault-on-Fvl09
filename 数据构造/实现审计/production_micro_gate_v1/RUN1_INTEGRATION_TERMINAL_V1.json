@@ -1,0 +1,95 @@
+{
+  "actual_counts": {
+    "accepted_trajectories": 0,
+    "debug_videos": 0,
+    "formal_trajectories": 0,
+    "physical_executions": 0
+  },
+  "classification": "INTEGRATION_ERROR_BEFORE_PHYSICAL_REPLACEMENT_ALLOWED",
+  "failures": {
+    "F2": "runtime geometry differs from certificate for can0-box2 left/right; stopped after same category twice",
+    "F3": "all four candidates rejected by scene physical-equivalence gate before planner; mismatch evidence was not persisted by run1 runner",
+    "F4": "all three program planners lacked initialized planner audit state"
+  },
+  "followup_post_release_snapshot": {
+    "captured_at": "2026-09-03T09:16:37.566436+00:00",
+    "compute_processes": [],
+    "gpus": [
+      {
+        "index": 0,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+      },
+      {
+        "index": 1,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      {
+        "index": 2,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      {
+        "index": 3,
+        "memory_used_mib": 15,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+      },
+      {
+        "index": 4,
+        "memory_used_mib": 12,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+      },
+      {
+        "index": 5,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+      },
+      {
+        "index": 6,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+      },
+      {
+        "index": 7,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+      }
+    ]
+  },
+  "followup_release_verified_all_gpu0_7": true,
+  "guard_immediate_post_issue": "memory returned to baseline and no compute process, but transient utilization/P0 made immediate post gate false",
+  "guard_terminal_receipt_sha256s": {
+    "f2-micro-gate-v1.terminal.json": "38eeb8162db9349ca2cdb1478811d9501eb12bedeb7c261a26155688628504f8",
+    "f3-micro-gate-v1.terminal.json": "cf563f1842585a809d0925e6d0569554eec1f3fd138ecabff69fc42e96c33a05",
+    "f4-micro-gate-v1.terminal.json": "65fe2352f694c5d22db771c603a1409b1ae84584ac2a6233997c1fd802e11562"
+  },
+  "job_terminal_receipt_sha256s": {
+    "F2": "6ad1fdb9617bfe4dfb2df83d0b361be6136955e7e1ccd6430b8f3c3bbc30a961",
+    "F3": "86de192e71e1d86725fb7e32cc67921d5c7049b4e2b58b6b9514ae9f3d4dbbac",
+    "F4": "6646c0268b2daa025f7d997b798b8f53ad132c36d7542efe3b63249e08ef9ec2"
+  },
+  "manifest_sha256": "e38f126c784033f91064f5ca783eec12646acc58c2452b3ecac8ab3b2a5725e4",
+  "old_outputs_immutable": true,
+  "receipt_sha256": "b42b7b1ffadc87ea5eff70345f402ba913cf584ba2e40a4788e732db50430ead",
+  "replacement_physical_budget_unchanged": true,
+  "run_id": "production-micro-gate-v1-20260903-run1",
+  "schema_version": "cmf_production_micro_gate_run1_integration_terminal_v1",
+  "task_owned_processes_remaining": 0
+}

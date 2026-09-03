@@ -1,0 +1,27 @@
+{
+  "cleanup": {
+    "activity_monitor_restoration_error": null,
+    "activity_monitor_restoration_succeeded": true,
+    "cleanup_error": null,
+    "cleanup_safety_pass": true,
+    "development_video_error": null,
+    "development_video_finalize_succeeded": null,
+    "development_video_receipt": null,
+    "orphan_process_count": 0,
+    "outer_gpu_release_audit_required": true,
+    "owned_planner_process_ids": [],
+    "scene_cleanup_attempted": true,
+    "scene_cleanup_succeeded": true,
+    "scene_created": true,
+    "scene_instance_id": "f2-F2_MICRO_STAGE_A-v1_2-000002",
+    "stage0_video_error": null,
+    "stage0_video_finalize_succeeded": null,
+    "stage0_video_receipt": null
+  },
+  "error": {
+    "message": "F2 runtime geometry differs from certificate",
+    "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 263, in run_f2\n    stage_a = run_f2_final_grasp_stage_a_planner_v2(scene, stage_a_spec)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f2_planner_integration_v2.py\", line 162, in run_f2_final_grasp_stage_a_planner_v2\n    raise ValueError(\"F2 runtime geometry differs from certificate\")\nValueError: F2 runtime geometry differs from certificate\n",
+    "type": "ValueError"
+  },
+  "terminal": null
+}

@@ -1,0 +1,91 @@
+{
+  "binding": null,
+  "cleanup": {
+    "activity_monitor_restoration_error": null,
+    "activity_monitor_restoration_succeeded": true,
+    "cleanup_error": null,
+    "cleanup_safety_pass": true,
+    "development_video_error": null,
+    "development_video_finalize_succeeded": null,
+    "development_video_receipt": null,
+    "orphan_process_count": 0,
+    "outer_gpu_release_audit_required": true,
+    "owned_planner_process_ids": [],
+    "scene_cleanup_attempted": true,
+    "scene_cleanup_succeeded": true,
+    "scene_created": true,
+    "scene_instance_id": "f3-F3_STAGE_A-v1_2-000002",
+    "stage0_video_error": null,
+    "stage0_video_finalize_succeeded": null,
+    "stage0_video_receipt": null
+  },
+  "error": {
+    "message": "F3_ACTUAL_SCENE_BINDING_NOT_PHYSICALLY_EQUIVALENT",
+    "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 461, in run_f3\n    binding_a = prepare_f3_scene(scene, adapter_a, recipe, entry[\"scene_binding\"])\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 393, in prepare_f3_scene\n    raise RuntimeError(\nRuntimeError: F3_ACTUAL_SCENE_BINDING_NOT_PHYSICALLY_EQUIVALENT\n",
+    "type": "RuntimeError"
+  },
+  "spec": {
+    "arbitrary_callable_injection_allowed": false,
+    "bitwise_determinism_claimed": false,
+    "family": "F3",
+    "gpu_execution_authorized": false,
+    "motiongen_reset_seed_argument": true,
+    "numeric_rng_seed_application_proven": false,
+    "ordered_segments": [
+      "pregrasp",
+      "grasp",
+      "lift"
+    ],
+    "panel_sha256": "c87e75ae5dc5a9910d23ee961d284e20c9f4e0e1d6d92d6c84a31896e2fcc51b",
+    "physical_execution_authorized": false,
+    "physical_execution_count_limit": 0,
+    "planner_execution_authorized": false,
+    "planner_query_limit": 3,
+    "planner_reset_nonce": 2026093320,
+    "purpose": "f3_final_pose_v3_stage_a_planner",
+    "recipe": {
+      "arm": "right",
+      "asset": {
+        "model_id": 5,
+        "modelname": "001_bottle"
+      },
+      "asset_record_sha256": "4f1214e5502737c52937287b8033e603013a20738c0197c905fbd894f3426352",
+      "formal_data": false,
+      "grasp_region": "lower_body",
+      "long_axis_model_axis": 1,
+      "official_contact_point_id": 0,
+      "official_rotation_candidate_index": 0,
+      "physical_execution_authorized": false,
+      "pose_generation_order": [
+        "official_contact_pose",
+        "official_rotation_candidate",
+        "region_translation",
+        "freeze_final_pregrasp_grasp_lift",
+        "ik_collision_planner_qualification"
+      ],
+      "post_qualification_pose_mutation_allowed": false,
+      "pregrasp_distance_m": 0.09,
+      "rank": 1442,
+      "recipe_id": "f3-final-pose-v3-r1442",
+      "recipe_sha256": "a4f721d8bac09587e538782d4248390f76f6e6b2c7b82af1bdb2a7e2932248fa",
+      "region_center_fraction_from_geometric_center": -0.15,
+      "region_center_offset_m": -0.03820503186730821,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "target_distance_m": 0.0
+    },
+    "recipe_sha256": "a4f721d8bac09587e538782d4248390f76f6e6b2c7b82af1bdb2a7e2932248fa",
+    "scene_binding": {
+      "bottle_actor_pose_sha256": "b2f8fe6236ca1c9d15b9ea37341f11fe0fed768f9277f187652b60101cb38e28",
+      "bottle_asset_sha256": "4f1214e5502737c52937287b8033e603013a20738c0197c905fbd894f3426352",
+      "robot_config_sha256": "6c76434413d36775b6eabc0c79a641269398ff4ee5d8025192bf34c59cf03a72",
+      "scene_layout_sha256": "415951bb632550e3983e1f423ef06e938639a717c30fd02a84e6455adf527007",
+      "scene_spec_sha256": "0d6bdd90de788ab66134a444b6b54e6a380018ad4e4d3e7757cadf3c4ad5edca"
+    },
+    "schema_version": "cmf_f3_stage_a_planner_spec_v3_1",
+    "slot_id": "f3-micro-gate-v1-a-2",
+    "spec_sha256": "31014a40947991a4d04fa510391314396ffd8190fae6f71d8a6832c1a6d78be3",
+    "stage1_authorized": false
+  },
+  "terminal": null
+}
