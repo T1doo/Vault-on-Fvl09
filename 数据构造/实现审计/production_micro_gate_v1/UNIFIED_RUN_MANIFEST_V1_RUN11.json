@@ -1,0 +1,145 @@
+{
+  "aggregate_budget": {
+    "accepted_formal_trajectories": 0,
+    "automatic_retry": false,
+    "formal_trajectories": 0,
+    "maximum_branch_executions": 3,
+    "maximum_debug_videos": 3,
+    "maximum_fresh_scenes": 11,
+    "maximum_planner_queries": 100,
+    "maximum_raw_trajectories": 3,
+    "maximum_robot_action_scenes": 7,
+    "maximum_root_invocations": 1
+  },
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_interpretation": "Run10 stopped before candidate freeze/prefix/planner/branch because a legacy fixed 0.10m slot-center heuristic conflicted with the hash-bound and physically validated r01 0.046m surface-clearance contract; one same-root zero-action replacement",
+  "approval_source_url": "https://chatgpt.com/s/t_6a9936946bf88191b0d85b3b3f1bd7ae",
+  "approved": true,
+  "asset_hashes_by_family": {
+    "F4": {
+      "assets/objects/008_tray/collision/base0.glb": "77d926998fb1a58ea2c2951be3221fff561c5e8df5af317fa0dd23bdbd6b7373",
+      "assets/objects/008_tray/model_data0.json": "d5ed105c12c12f7e2be3b2be2305c21badbd11da3a10f4f00dac0bf7d44b469f",
+      "assets/objects/008_tray/points_info.json": "8e9c29c47319ce845ef80538c25c36e4db61006a87c614931eb2fc2ff4b2a38a",
+      "assets/objects/008_tray/visual/base0.glb": "5ec991fae6cad57abbf9d17b262d4ba0b84abd9bdb5f51fa8d7a66ad59e504a2"
+    }
+  },
+  "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/pmg/r11",
+  "f2_rerun_forbidden": true,
+  "f3_rerun_forbidden": true,
+  "f4_isolation_rerun_forbidden": true,
+  "family_jobs_may_run_in_parallel_on_different_fresh_idle_gpus": true,
+  "forbidden": [
+    "F2_rerun",
+    "F3_rerun",
+    "F4_template_or_isolation_rerun",
+    "second_F4_development_root",
+    "automatic_retry",
+    "candidate_search",
+    "seed_retry",
+    "Stage1",
+    "formal360",
+    "training",
+    "H_reveal",
+    "compression",
+    "pi0.5"
+  ],
+  "formal_data": false,
+  "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/production_micro_gate_v1/production-micro-gate-v1-20260903-run11/guards",
+  "guard_script_path": "/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/guarded_launcher.py",
+  "guard_script_sha256": "ad0c4d929143335d067ac4d31b60749577c39cdfa0cec08b6761d494c1c910d5",
+  "implementation_source_sha256": "82ea474e870ed211c1fb0be51dddb1ee1d460e192d70c2a20c74f0480f91f141",
+  "jobs": [
+    {
+      "automatic_retry": false,
+      "candidate_id": "f4-slot-corridor-hv2-r01",
+      "dry_candidate_frozen_spec_sha256": "812a90425662352ccb4f0402549aea9a879ddf17a8d189e0464a772d021bfed6",
+      "family": "F4",
+      "fixed_arm_schedule": {
+        "canonical_prefix": "right",
+        "program_suffix": "left"
+      },
+      "isolation_gate_receipt_sha256": "ad8f34ca9d8c1780329d95a767a90205856604aa899a2c224edc8d988cefec40",
+      "job_id": "f4-development-rpc-root-v1",
+      "maximum_branch_executions": 3,
+      "maximum_debug_videos": 3,
+      "maximum_fresh_scenes": 11,
+      "maximum_new_invocations": 1,
+      "maximum_planner_queries": 100,
+      "maximum_raw_trajectories": 3,
+      "maximum_robot_action_scenes": 7,
+      "maximum_root_invocations": 1,
+      "mode": "ONE_F4_DEVELOPMENT_R_PC_ROOT_V1",
+      "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run11/F4",
+      "planned_scene_spec_sha256": "99240a809efab02bb1a6afd0e47921198451dce43845c6c3e15a72307dfc00f1",
+      "program_order": [
+        "F4-ABC",
+        "F4-ACB",
+        "F4-BAC"
+      ],
+      "realization": "r_pc",
+      "replacement_of_run10_zero_action": true,
+      "source_planner_terminals": {
+        "F4-ABC": {
+          "file_sha256": "dd99c9848f0b7d10e6cf406f0463ff91bd581de4318f9cebd49c586097ba880e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-ABC/terminal.json"
+        },
+        "F4-ACB": {
+          "file_sha256": "dd0472d062d1373157e0c1d312c8f481bfbe46cbcbc57a2362e54cc93025690c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-ACB/terminal.json"
+        },
+        "F4-BAC": {
+          "file_sha256": "952b83edae2e74a20724172896a59ef97fa98c846985daa45c7622be2c352b1d",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run2/F4/planner/F4-BAC/terminal.json"
+        }
+      },
+      "successful_root_limit": 1,
+      "template_gate_receipt_sha256": "3bf30f95593e6e5a1534cb271bfa0e167cc685326008e3e720e9abf68275fb5c",
+      "template_gate_terminal_file_sha256": "ecf8b45cd86bad69eb5a0426dc8a6542ee14ab768992823fab9aeea8f3f01b85",
+      "template_gate_terminal_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/production_micro_gate_v1/RUN9_MICRO_GATE_TERMINAL_V1.json",
+      "timeout_seconds": 28800
+    }
+  ],
+  "mandatory_terminal_columns": [
+    "cpu_contract_pass",
+    "planner_pass",
+    "physical_primitive_pass",
+    "template_qualification_pass",
+    "full_program_pass",
+    "accepted_trajectory_count"
+  ],
+  "manifest_sha256": "cd01f363a24651253377a84fd97caae8d54ae2e6589436dcdc224449dee2d1bb",
+  "no_further_same_task_feasibility_replacement": true,
+  "one_job_per_gpu": true,
+  "prior_run10_consumption": {
+    "branch_executions": 0,
+    "fresh_scenes": 4,
+    "planner_queries": 0,
+    "raw_trajectories": 0,
+    "robot_action_scenes": 0
+  },
+  "prior_run10_terminal_receipt_sha256": "b4c7a978a6ec46300993a8208dbecee4f5e80d49e52faf96ce4a5d6fe8a8e32e",
+  "prior_run9_terminal_receipt_sha256": "3bf30f95593e6e5a1534cb271bfa0e167cc685326008e3e720e9abf68275fb5c",
+  "publication_vault_head": "fbebcd61a562963ffc09269e9e7bed3dcadcf54c",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_sharding": false,
+  "run_id": "production-micro-gate-v1-20260903-run11",
+  "runner_script_path": "/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py",
+  "runner_script_sha256": "376ddfbe07b1c9ae3e6e3b2d1975344a8605c6e81e49f27e92241c88a851a1d4",
+  "schema_version": "cmf_production_micro_gate_unified_run_manifest_v1",
+  "second_f4_development_root_forbidden": true,
+  "source_freeze_vault_head": "fbebcd61a562963ffc09269e9e7bed3dcadcf54c",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "APPROVED_F4_DEVELOPMENT_ROOT_RUN11_ZERO_ACTION_INTEGRATION_REPLACEMENT",
+  "supersedes_manifest_sha256": "ce7176c4521f7e5f92ac56839b2c2b5baea4b496211becbd43a1b33669817c46",
+  "training_data": false
+}
