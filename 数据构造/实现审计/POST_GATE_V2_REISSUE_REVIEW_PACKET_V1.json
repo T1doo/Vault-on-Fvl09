@@ -1,0 +1,86 @@
+{
+  "artifact_type": "external_review_request_not_authorization",
+  "current_readiness": "NOT_READY_ALL_AUTHORIZED_RECOVERY_JOBS_TERMINAL",
+  "evidence": {
+    "f2_terminal_file_sha256": "1bff9daa7d221ad9b6a9f5b0ca1f96196734dfba3d1c81c9934b688a011af879",
+    "f3_terminal_file_sha256": "f9e7d24ae1ad40ce951b359a089cb0ee607ec9302c61db2ed37adae73ed20ef6",
+    "f4_terminal_file_sha256": "23c18198aa7428042379e628487a864b7ef47f662d0832c968ae4ba91e5d41a8",
+    "readiness_file_sha256": "349af02dcd6b3006c51ee8ca67a09c23a62d33edc4f28e8926a9c03c75ee58b7",
+    "vault_head_before_packet": "af9e5d7d031c16ce94ce5c0560cee5ffb2cec10d"
+  },
+  "f2": {
+    "decision_options": [
+      "KEEP_CLOSED",
+      "APPROVE_PLANNER_ONLY_ROUTE_GATE",
+      "REVISE"
+    ],
+    "proposal": {
+      "accepted_root_cap": 0,
+      "branch_execution_cap": 0,
+      "formal_trajectory_cap": 0,
+      "fresh_planner_scene_cap": 2,
+      "inside_route": {
+        "new_first_segment": "inside_high_carry_same_xy_and_orientation_z_not_below_sealed_prefix_end",
+        "remaining_segments": [
+          "inside_drop_release_10cm",
+          "inside_retreat_16cm",
+          "f2_rest"
+        ]
+      },
+      "physical_execution_cap": 0,
+      "planner_query_cap": 10,
+      "raw_trajectory_cap": 0,
+      "reuse_sealed_actual_prefix_end_qpos": true,
+      "run_both_program_chains_once_without_fallback": true,
+      "beside_route": {
+        "frozen_layout_candidate_index": 2,
+        "target_xy_m": [
+          0.08000000000000002,
+          0.07
+        ],
+        "unchanged_six_segment_route": true
+      },
+      "stop_condition": "seal both one-pass planner results; no root retry or automatic continuation",
+      "video_cap": 0
+    }
+  },
+  "f3": {
+    "decision_options": [
+      "KEEP_CLOSED",
+      "REISSUE_ZERO_SCENE_WIRING_ONCE",
+      "REVISE"
+    ],
+    "proposal": {
+      "conditional_no_suffix_fresh_scene_cap": 3,
+      "formal_trajectory_cap": 0,
+      "new_tuples": [
+        "bottle5/right/lower/contact2/rotation1/r1505",
+        "bottle4/left/upper/contact0/rotation6/r2180",
+        "bottle13/right/upper/contact2/rotation5/r3677"
+      ],
+      "old_survivor": "bottle15/left/lower/contact0/rotation0/r0005",
+      "old_survivor_qualification_rerun": false,
+      "physical_candidate_cap": 4,
+      "planner_query_cap": 30,
+      "planner_scene_cap": 6,
+      "reissue_count_cap": 1,
+      "stop_condition": "first implementation, Guard, planner, or physical terminal follows the existing bounded stop rules; no fallback tuple or second reissue",
+      "wiring_overlay_sha256": "586384db1676c3a4ec1cfa78f90f5de624059640da34e2c4707c6681dd9b9347",
+      "wiring_preflight_pass": true
+    }
+  },
+  "f4": {
+    "decision": "CLOSED_NO_REOPEN_REQUESTED",
+    "third_reopen_allowed": false
+  },
+  "later_stage_authorization": {
+    "compression": false,
+    "formal_360": false,
+    "h_reveal": false,
+    "pi_0_5": false,
+    "stage0_rerun": false,
+    "stage1": false,
+    "training": false
+  },
+  "schema_version": "cmf_post_gate_v2_reissue_review_packet_v1"
+}
