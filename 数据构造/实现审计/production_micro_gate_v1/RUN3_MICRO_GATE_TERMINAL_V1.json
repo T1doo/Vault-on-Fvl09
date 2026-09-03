@@ -1,0 +1,174 @@
+{
+  "F2": {
+    "physical_execution_count": 2,
+    "physical_success_count": 0,
+    "rows": [
+      {
+        "candidate": "candidate_01_can0-box2_left",
+        "failure_category": "PRE_LIFT_GRASP_NOT_ACQUIRED",
+        "geometry_v5_pass": true,
+        "orientation_drift_rad": 0.5661824156014678,
+        "physical_attempted": true,
+        "physical_pass": false,
+        "scene_receipt_sha256": "9ef2d33bd2530d55edda0a0cab95afa65c91822a3e0d1b6e2fbc5aa876377967",
+        "selected_finger_contact_continuous": false,
+        "stage_a_planner_pass": true,
+        "stage_a_planner_queries": 3,
+        "translation_drift_m": 0.26798197738069035
+      },
+      {
+        "candidate": "candidate_02_can0-box2_right",
+        "geometry_v5_pass": true,
+        "physical_attempted": false,
+        "stage_a_planner_pass": false,
+        "stage_a_planner_queries": 1
+      },
+      {
+        "candidate": "candidate_03_can5-box8_left",
+        "failure_category": "PRE_LIFT_GRASP_NOT_ACQUIRED",
+        "geometry_v5_pass": true,
+        "orientation_drift_rad": 0.40428829183456555,
+        "physical_attempted": true,
+        "physical_pass": false,
+        "scene_receipt_sha256": "b345cf655f8bfdd784b9ffc9c81f3c03a706c15b6a92b46dcfc06baa86d40b67",
+        "selected_finger_contact_continuous": false,
+        "stage_a_planner_pass": true,
+        "stage_a_planner_queries": 3,
+        "translation_drift_m": 0.1887089403547664
+      },
+      {
+        "candidate": "candidate_04_can5-box8_right",
+        "geometry_v5_pass": true,
+        "physical_attempted": false,
+        "stage_a_planner_pass": false,
+        "stage_a_planner_queries": 1
+      }
+    ],
+    "same_physical_failure_category_twice": true,
+    "terminal_classification": "ASSET_GRASP_POSE_OR_GRIPPER_REDESIGN_REQUIRED_NOT_INSERTION_TUNING"
+  },
+  "F2_further_micro_candidates_authorized": false,
+  "F3": {
+    "physical_execution_count": 0,
+    "rows": [
+      {
+        "candidate": "candidate_01_bottle15_left_lower_body",
+        "failure_category": "F3 V2.3 Stage-A bottle actor pose mismatch",
+        "physical_attempted": false,
+        "runtime_file_sha256": "5b545d937623b059440356eb00f0fd12e8d9cdd5f1465ee524a7047ca59fe6d4",
+        "stage_a_planner_pass": false
+      },
+      {
+        "candidate": "candidate_02_bottle5_right_lower_body",
+        "failure_category": "F3 V2.3 Stage-A bottle actor pose mismatch",
+        "physical_attempted": false,
+        "runtime_file_sha256": "aba7b9a28f2eebefba9afaa63f941fe25c9b15e951bf9c976076576f574f5005",
+        "stage_a_planner_pass": false
+      },
+      {
+        "candidate": "candidate_03_bottle4_left_upper_body",
+        "failure_category": "F3 V2.3 Stage-A bottle actor pose mismatch",
+        "physical_attempted": false,
+        "runtime_file_sha256": "1ef21175f5f66b34feb1a7f5a8ca624d757ab7650d9cf5b9cf0be3e3865a88a4",
+        "stage_a_planner_pass": false
+      },
+      {
+        "candidate": "candidate_04_bottle13_right_upper_body",
+        "failure_category": "F3 V2.3 Stage-A bottle actor pose mismatch",
+        "physical_attempted": false,
+        "runtime_file_sha256": "1d81d796b3e6feb85df29305aba1c8696269cf7ed818c1e48901f3d6b0523954",
+        "stage_a_planner_pass": false
+      }
+    ],
+    "terminal_classification": "SCENE_EQUIVALENCE_CONSUMER_DUPLICATE_NOMINAL_POSE_HASH_CHECK"
+  },
+  "F3_replacement_allowed_because_physical_consumed": 0,
+  "actual_counts": {
+    "accepted_trajectories": 0,
+    "debug_videos": 2,
+    "formal_trajectories": 0,
+    "physical_executions": 2,
+    "planner_queries": 14,
+    "scenes": 10
+  },
+  "formal_data": false,
+  "guard_terminals": {
+    "f2-micro-gate-v1.terminal.json": {
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "physical_gpu_index": 0,
+      "receipt_sha256": "943b4c48409ff70217e76af4715a1612e893ebfc340d419df7403385a9470bd1",
+      "status": "completed",
+      "task_owned_cleanup_pass": true
+    },
+    "f3-micro-gate-v1.terminal.json": {
+      "gpu_returned_to_idle_baseline": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "physical_gpu_index": 1,
+      "receipt_sha256": "4dfabf1fcd2000a239df6be4444b852b6ecc92adb2fc41ab0af55d0e9bd63516",
+      "status": "completed",
+      "task_owned_cleanup_pass": true
+    }
+  },
+  "manifest_sha256": "d10fbe8ce6e1ddabe6aadaf15019c2dc9be79187f44077490710783ef96bc753",
+  "raw_artifact_inventory": [
+    {
+      "bytes": 51497,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_01_can0-box2_left/physical/scene_receipt.json",
+      "sha256": "1e19f8e8ac04bfa2f894a4bc5d90764dd48e53ef39a7441da52621759ac6128c"
+    },
+    {
+      "bytes": 81070,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_01_can0-box2_left/physical/trajectory.mp4",
+      "sha256": "050471f24201c0a4e3df500a1433ca9a23bcce31cb8efe90780006582a6cae7e"
+    },
+    {
+      "bytes": 39549894,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_01_can0-box2_left/physical/physical_trace.npz",
+      "sha256": "220df452397a093d312114b0c8dca0ad9865ee4222c8d669a4d7d479239a5beb"
+    },
+    {
+      "bytes": 51271,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_03_can5-box8_left/physical/scene_receipt.json",
+      "sha256": "b1262b8cbf28a3c6b3b09febbbe2a9593334e7fc39ebdb9f8507969d9c17a345"
+    },
+    {
+      "bytes": 74513,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_03_can5-box8_left/physical/trajectory.mp4",
+      "sha256": "1af08a2ddae127651c6ea1e2b67dc2ee567158988bce9229891e43e02a060b94"
+    },
+    {
+      "bytes": 43570701,
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run3/F2/candidate_03_can5-box8_left/physical/physical_trace.npz",
+      "sha256": "ef9f6a729e7f1d214e4a5b16bd0ea6d2e949a26a678e7043b915ddda5f6fe500"
+    }
+  ],
+  "receipt_sha256": "995c015be6342160eef00579801f268279bfd7c52ebd6b51f47a5afafca17bf1",
+  "run_id": "production-micro-gate-v1-20260903-run3",
+  "schema_version": "cmf_production_micro_gate_run3_terminal_v1",
+  "stage1_authorized": false,
+  "status": "F2_STOPPED_AFTER_TWO_CONSECUTIVE_PHYSICAL_GRASP_FAILURES_F3_ZERO_PHYSICAL_CONSUMER_REPAIR_REQUIRED",
+  "terminal_matrix": {
+    "F2": {
+      "accepted_trajectory_count": 0,
+      "cpu_contract_pass": true,
+      "full_program_pass": false,
+      "physical_primitive_pass": false,
+      "planner_pass": false
+    },
+    "F3": {
+      "accepted_trajectory_count": 0,
+      "cpu_contract_pass": true,
+      "full_program_pass": false,
+      "physical_primitive_pass": false,
+      "planner_pass": false
+    },
+    "F4_prior": {
+      "accepted_trajectory_count": 0,
+      "cpu_contract_pass": true,
+      "full_program_pass": false,
+      "physical_primitive_pass": true,
+      "planner_pass": true
+    }
+  }
+}

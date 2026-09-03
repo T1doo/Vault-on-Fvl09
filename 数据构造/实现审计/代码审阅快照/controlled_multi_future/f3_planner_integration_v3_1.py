@@ -70,6 +70,29 @@ def _runtime_scene_binding(scene) -> dict[str, Any]:
     return _scene_binding(getattr(scene, "_cmf_f3_scene_binding_v3_1", None))
 
 
+def _runtime_equivalent_actor_pose_sha256(scene, scene_binding) -> str | None:
+    receipt = getattr(scene, "_cmf_f3_scene_binding_equivalence_v1", None)
+    if not isinstance(receipt, Mapping):
+        return None
+    value = canonical_jsonable(receipt)
+    payload = dict(value)
+    digest = payload.pop("receipt_sha256", None)
+    actual = value.get("actual_scene_binding_observation", {})
+    actual_sha = actual.get("bottle_actor_pose_sha256")
+    if (
+        value.get("schema_version")
+        != "cmf_f3_scene_binding_equivalence_v1_1"
+        or digest != canonical_hash_json(payload)
+        or value.get("pass") is not True
+        or value.get("expected_scene_binding") != scene_binding
+        or not isinstance(actual_sha, str)
+        or len(actual_sha) != 64
+        or canonical_hash_json(_pose(scene.bottle).tolist()) != actual_sha
+    ):
+        raise ValueError("F3 runtime scene-equivalence receipt is invalid")
+    return actual_sha
+
+
 def _planner_summary(result: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "pass": result.get("pass") is True,
@@ -142,7 +165,15 @@ def run_f3_stage_a_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
     raw = generate_official_raw_pose_receipt_v1(
         scene, scene.bottle, recipe, family="F3"
     )
-    if raw["actor_pose_sha256"] != runtime_binding["bottle_actor_pose_sha256"]:
+    equivalent_actor_sha = _runtime_equivalent_actor_pose_sha256(
+        scene, runtime_binding
+    )
+    expected_actor_sha = (
+        equivalent_actor_sha
+        if equivalent_actor_sha is not None
+        else runtime_binding["bottle_actor_pose_sha256"]
+    )
+    if raw["actor_pose_sha256"] != expected_actor_sha:
         raise ValueError("F3 V2.3 Stage-A bottle actor pose mismatch")
     freeze = freeze_f3_final_pose_v3(recipe, raw_pose_generation_receipt=raw)
     names = ("pregrasp", "grasp", "lift")
@@ -343,8 +374,14 @@ def run_f3_stage_b_planner_v3_1(scene, spec: Mapping[str, Any]) -> dict[str, Any
     runtime_binding = _runtime_scene_binding(scene)
     if runtime_binding != value["scene_binding"]:
         raise ValueError("F3 V2.3 Stage-B reconstructed scene binding mismatch")
+    equivalent_actor_sha = _runtime_equivalent_actor_pose_sha256(
+        scene, runtime_binding
+    )
     actor_hash = canonical_hash_json(_pose(scene.bottle).tolist())
-    if actor_hash != runtime_binding["bottle_actor_pose_sha256"]:
+    if (
+        equivalent_actor_sha is None
+        and actor_hash != runtime_binding["bottle_actor_pose_sha256"]
+    ):
         raise ValueError("F3 V2.3 Stage-B bottle actor pose mismatch")
     arm = value["arm"]
     if arm not in ("left", "right"):

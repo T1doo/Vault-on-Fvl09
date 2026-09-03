@@ -1,0 +1,77 @@
+{
+  "accepted_trajectory_count": 0,
+  "cpu_contract_pass": true,
+  "error": null,
+  "family": "F2",
+  "formal_data": false,
+  "full_program_pass": false,
+  "job_id": "f2-micro-gate-v1",
+  "manifest_sha256": "d10fbe8ce6e1ddabe6aadaf15019c2dc9be79187f44077490710783ef96bc753",
+  "pass": true,
+  "physical_primitive_pass": false,
+  "planner_pass": false,
+  "receipt_sha256": "ef64f7aa256cfd83dca94d07cf3dfd6bf99993943a078a68e9f9886eddf1b85e",
+  "result": {
+    "family": "F2",
+    "physical_execution_count": 2,
+    "physical_success_count": 0,
+    "planner_gate_pass": false,
+    "planner_pass_count": 2,
+    "rows": [
+      {
+        "candidate": {
+          "arm": "left",
+          "contact_point_id": 0,
+          "pair_id": "can0-box2",
+          "rotation_index": 0
+        },
+        "failure_category": "PRE_LIFT_GRASP_NOT_ACQUIRED",
+        "physical_attempted": true,
+        "physical_pass": false,
+        "planner_pass": true,
+        "scene_receipt_sha256": "9ef2d33bd2530d55edda0a0cab95afa65c91822a3e0d1b6e2fbc5aa876377967"
+      },
+      {
+        "candidate": {
+          "arm": "right",
+          "contact_point_id": 0,
+          "pair_id": "can0-box2",
+          "rotation_index": 0
+        },
+        "failure_category": "STAGE_A_PLANNER_OR_BINDING_FAILED",
+        "physical_attempted": false,
+        "planner_pass": false
+      },
+      {
+        "candidate": {
+          "arm": "left",
+          "contact_point_id": 0,
+          "pair_id": "can5-box8",
+          "rotation_index": 0
+        },
+        "failure_category": "PRE_LIFT_GRASP_NOT_ACQUIRED",
+        "physical_attempted": true,
+        "physical_pass": false,
+        "planner_pass": true,
+        "scene_receipt_sha256": "b345cf655f8bfdd784b9ffc9c81f3c03a706c15b6a92b46dcfc06baa86d40b67"
+      },
+      {
+        "candidate": {
+          "arm": "right",
+          "contact_point_id": 0,
+          "pair_id": "can5-box8",
+          "rotation_index": 0
+        },
+        "failure_category": "STAGE_A_PLANNER_OR_BINDING_FAILED",
+        "physical_attempted": false,
+        "planner_pass": false
+      }
+    ],
+    "stopped_after_same_failure_twice": false,
+    "template_qualification_pass": false
+  },
+  "run_id": "production-micro-gate-v1-20260903-run3",
+  "schema_version": "cmf_production_micro_gate_job_terminal_v1",
+  "template_qualification_pass": false,
+  "training_data": false
+}

@@ -1,0 +1,91 @@
+{
+  "binding": null,
+  "cleanup": {
+    "activity_monitor_restoration_error": null,
+    "activity_monitor_restoration_succeeded": true,
+    "cleanup_error": null,
+    "cleanup_safety_pass": true,
+    "development_video_error": null,
+    "development_video_finalize_succeeded": null,
+    "development_video_receipt": null,
+    "orphan_process_count": 0,
+    "outer_gpu_release_audit_required": true,
+    "owned_planner_process_ids": [],
+    "scene_cleanup_attempted": true,
+    "scene_cleanup_succeeded": true,
+    "scene_created": true,
+    "scene_instance_id": "f3-F3_STAGE_A-v1_2-000001",
+    "stage0_video_error": null,
+    "stage0_video_finalize_succeeded": null,
+    "stage0_video_receipt": null
+  },
+  "error": {
+    "message": "F3 V2.3 Stage-A bottle actor pose mismatch",
+    "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 478, in run_f3\n    terminal_a = run_f3_stage_a_planner_v3_1(scene, spec_a)\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f3_planner_integration_v3_1.py\", line 146, in run_f3_stage_a_planner_v3_1\n    raise ValueError(\"F3 V2.3 Stage-A bottle actor pose mismatch\")\nValueError: F3 V2.3 Stage-A bottle actor pose mismatch\n",
+    "type": "ValueError"
+  },
+  "spec": {
+    "arbitrary_callable_injection_allowed": false,
+    "bitwise_determinism_claimed": false,
+    "family": "F3",
+    "gpu_execution_authorized": false,
+    "motiongen_reset_seed_argument": true,
+    "numeric_rng_seed_application_proven": false,
+    "ordered_segments": [
+      "pregrasp",
+      "grasp",
+      "lift"
+    ],
+    "panel_sha256": "c87e75ae5dc5a9910d23ee961d284e20c9f4e0e1d6d92d6c84a31896e2fcc51b",
+    "physical_execution_authorized": false,
+    "physical_execution_count_limit": 0,
+    "planner_execution_authorized": false,
+    "planner_query_limit": 3,
+    "planner_reset_nonce": 2026095310,
+    "purpose": "f3_final_pose_v3_stage_a_planner",
+    "recipe": {
+      "arm": "left",
+      "asset": {
+        "model_id": 15,
+        "modelname": "001_bottle"
+      },
+      "asset_record_sha256": "6900ed8d1c2cd40d7613fdde3412622b7811e1887c8d75f06702043822df1b3c",
+      "formal_data": false,
+      "grasp_region": "lower_body",
+      "long_axis_model_axis": 1,
+      "official_contact_point_id": 0,
+      "official_rotation_candidate_index": 0,
+      "physical_execution_authorized": false,
+      "pose_generation_order": [
+        "official_contact_pose",
+        "official_rotation_candidate",
+        "region_translation",
+        "freeze_final_pregrasp_grasp_lift",
+        "ik_collision_planner_qualification"
+      ],
+      "post_qualification_pose_mutation_allowed": false,
+      "pregrasp_distance_m": 0.09,
+      "rank": 2,
+      "recipe_id": "f3-final-pose-v3-r0002",
+      "recipe_sha256": "ad0a1f8fe83dfea9a77870c2a878520fd2315c7f2ed8492c8b86e41e7701862c",
+      "region_center_fraction_from_geometric_center": -0.15,
+      "region_center_offset_m": -0.03835427389196681,
+      "stage0_data": false,
+      "stage1_authorized": false,
+      "target_distance_m": 0.0
+    },
+    "recipe_sha256": "ad0a1f8fe83dfea9a77870c2a878520fd2315c7f2ed8492c8b86e41e7701862c",
+    "scene_binding": {
+      "bottle_actor_pose_sha256": "d3284e3553217ee556fdb9ac986c9182d2ab717d4687a9fadd5b6e7a1c2c9e61",
+      "bottle_asset_sha256": "6900ed8d1c2cd40d7613fdde3412622b7811e1887c8d75f06702043822df1b3c",
+      "robot_config_sha256": "3df933fc6abdb1a0af661d07f120f8e194fec9d46267e3297b45b51e15cd9d6f",
+      "scene_layout_sha256": "76278460d07c62ab6e9edfdd6993824d06815b26acdb36e4c0cb8ab051656e26",
+      "scene_spec_sha256": "6e64a5cc46cb91934f0f7e2e110bc500b9eff55876965fdc75f624d75cfba213"
+    },
+    "schema_version": "cmf_f3_stage_a_planner_spec_v3_1",
+    "slot_id": "f3-micro-gate-v1-a-1",
+    "spec_sha256": "7f8199eff8a2c9a0eedaef4fc5c08fce08d025620f25fab4f9c1b8484f79328a",
+    "stage1_authorized": false
+  },
+  "terminal": null
+}
