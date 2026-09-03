@@ -1,0 +1,93 @@
+{
+  "accepted_development": {
+    "F1": {
+      "r_pc_trajectories": 15,
+      "roots": 5
+    },
+    "F2": {
+      "roots": 0,
+      "trajectories": 0
+    },
+    "F3": {
+      "roots": 0,
+      "trajectories": 0
+    },
+    "F4": {
+      "roots": 0,
+      "trajectories": 0
+    }
+  },
+  "as_of": "2026-09-03",
+  "compression_authorized": false,
+  "controlled_source_freeze_vault_head": "0596fddc8add58a75f86e93f67c61c61a3fcc578",
+  "controlled_source_sha256": "24a3a3bf1b367761e65f296f8251395292680643e54e16682a96c5c303fb73db",
+  "evidence_vault_head": "ffa855881cc4ab0d51d76078f55c08e86bcdb7fe",
+  "families": {
+    "F1": {
+      "cpu_contract_pass": true,
+      "development_r_pc_roots": 5,
+      "development_r_pc_trajectories": 15,
+      "next_blocker": "r_inv_path_and_r_inv_motion_not_implemented_for_stage1",
+      "physical_template_pass": true,
+      "stage1_family_ready": false
+    },
+    "F2": {
+      "cpu_contract_pass": true,
+      "decision": "ASSET_GRASP_POSE_OR_GRIPPER_REDESIGN_REQUIRED_NOT_INSERTION_TUNING",
+      "development_r_pc_roots": 0,
+      "failure": "two consecutive PRE_LIFT_GRASP_NOT_ACQUIRED with no continuous selected-finger contact",
+      "physical_attempts": 2,
+      "physical_successes": 0,
+      "planner_evidence": "two left-arm Stage-A 3-query passes; two right-arm Stage-A pregrasp failures",
+      "stage1_family_ready": false,
+      "terminal_receipt_sha256": "995c015be6342160eef00579801f268279bfd7c52ebd6b51f47a5afafca17bf1"
+    },
+    "F3": {
+      "canonical_pose_repair_validated": true,
+      "cpu_contract_pass": true,
+      "decision": "CANDIDATE_LAYOUT_GRASP_CORRIDOR_PLANNER_SOLVABILITY_IMPACT_REVIEW_REQUIRED_NO_BLIND_RETRY",
+      "development_r_pc_roots": 0,
+      "failure": "one candidate Stage-A pass then Stage-B first-query FINETUNE_TRAJOPT_FAIL; three candidates Stage-A first-query fail",
+      "physical_attempts": 0,
+      "physical_successes": 0,
+      "planner_queries": 7,
+      "same_prefix_three_scene_no_suffix_diagnostic_run": false,
+      "stage1_family_ready": false,
+      "terminal_receipt_sha256": "73e0802219c9d2e4695aad2a2764eb19a702ce91b3b988c800215aef927fb9d3"
+    },
+    "F4": {
+      "accepted_trajectories": 0,
+      "cpu_contract_pass": true,
+      "development_r_pc_roots": 0,
+      "final_state_equivalence_pass": true,
+      "full_program_physical_pass": "3/3",
+      "next_blocker": "ONE_F4_DEVELOPMENT_R_PC_ROOT",
+      "physical_isolation_stages_pass": "5/5",
+      "same_anchor_pass": true,
+      "same_current_pass": true,
+      "source_planner_programs_pass": "3/3",
+      "stage1_family_ready": false,
+      "template_qualification_pass": true,
+      "terminal_receipt_sha256": "3bf30f95593e6e5a1534cb271bfa0e167cc685326008e3e720e9abf68275fb5c"
+    }
+  },
+  "formal_360_authorized": false,
+  "formal_accepted_roots": 0,
+  "formal_accepted_trajectories": 0,
+  "h_reveal_authorized": false,
+  "next_order": [
+    "F4: execute at most one development r_pc root using the qualified template",
+    "F2: impact-review and version asset/grasp-pose/gripper redesign, then a new bounded physical qualification only",
+    "F3: impact-review and version candidate/layout/grasp-corridor planner-solvability redesign, then a new bounded qualification only",
+    "After each family has a development r_pc root: implement and verify real r_inv_path and r_inv_motion plus root-atomic finalization before requesting Stage1"
+  ],
+  "pi05_authorized": false,
+  "readiness_sha256": "9f03f2a0fa7faff58fcd9f52a48c45a644e55680a7667ec39db2333224cf29c3",
+  "schema_version": "cmf_stage1_readiness_after_production_micro_gate_v1",
+  "stage0_authoritative_status": "STAGE0_COMPLETED_WITH_FAILURE_EVIDENCE",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "stage1_pilot_trajectories": 0,
+  "status": "NOT_READY_F2_F3_TEMPLATE_BLOCKED_F4_DEVELOPMENT_ROOT_PENDING",
+  "training_authorized": false
+}
