@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/job_runner.py", line 163, in <module>
+    raise SystemExit(main())
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/job_runner.py", line 159, in main
+    return base.main(["--manifest", str(args.manifest), "--job-id", args.job_id])
+  File "/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py", line 1057, in main
+    manifest = load_manifest(args.manifest)
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/job_runner.py", line 156, in shared_loader
+    return load_and_validate_manifest_job(Path(path), args.job_id)["manifest"]
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/manifest_contract.py", line 135, in load_and_validate_manifest_job
+    guard_directory = _workspace_path(
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_reopen2_runtime_v1/manifest_contract.py", line 99, in _workspace_path
+    raise ManifestContractError(f"{label} must be a new path")
+manifest_contract.ManifestContractError: guard_directory must be a new path
