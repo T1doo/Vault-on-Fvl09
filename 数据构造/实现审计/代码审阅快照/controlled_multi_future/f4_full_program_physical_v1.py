@@ -186,8 +186,6 @@ def execute_f4_full_program_physical_v1(
         role_actors=scene.role_actors,
     )
     scene.planner_query_limit = int(value["planner_query_limit"])
-    scene.planner_query_limit = int(value["planner_query_limit"])
-    total_before = int(getattr(scene, "planner_query_count", 0))
     targets, target_audit = build_f4_stage_b_targets_v1(
         scene, value["source_planner_spec"]
     )
@@ -380,6 +378,8 @@ def plan_f4_full_program_suffix_from_replayed_prefix_v1(
         is not True
     ):
         raise ValueError("F4 qualified-root suffix lacks its exact replayed prefix")
+    scene.planner_query_limit = int(value["planner_query_limit"])
+    total_before = int(getattr(scene, "planner_query_count", 0))
     targets, target_audit = build_f4_stage_b_targets_v1(
         scene, value["source_planner_spec"]
     )

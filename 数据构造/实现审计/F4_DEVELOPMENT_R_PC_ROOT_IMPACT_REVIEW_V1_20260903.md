@@ -66,3 +66,5 @@ Run10 在 candidate freeze、prefix planning 和 branch execution 之前终止�
 Replacement 只在 qualified-root adapter 内将旧0.10 m check降为diagnostic，并要求：原有非slot checks全过、r01 candidate self-hashed construction valid、no online fallback、positive terminal surface clearance、runtime static slot pose相对candidate spec的position/orientation误差分别≤1 µm/1 µrad。没有改变slot/final-state verifier、program、candidate、物理阈值或执行器。Run10 branch/raw/video/planner/action消费均为0，因此允许一个同root、同预算的新namespace integration replacement；若同层再次失败则停止。
 
 Run11验证上述task-feasibility repair为3/3 pass，并成功冻结candidate及生成/replay canonical prefix；但suffix适配层遗漏了target construction本身的12个planner queries，只上报30个chain queries，而root观察到42。Run11三preflight各42 queries、branch/raw/video=0，并暴露原manifest aggregate planner上限应为`10 + 3×42 = 136`而非100。Final replacement只修计数边界并把预算改为136，不改变target、planner调用、control、executor或verifier。
+
+Run12仍在branch前以`NameError: total_before is not defined`终止：计数patch的前半部分误命中了standalone physical函数，而qualified-root函数只收到后半部分。依Run12 manifest，任何失败后不再replacement。终止后已把变量定义移到正确函数、移除standalone函数的误插入，309-file AST与active/review一致性通过；该修复没有GPU验证，不能据此宣称root ready。
