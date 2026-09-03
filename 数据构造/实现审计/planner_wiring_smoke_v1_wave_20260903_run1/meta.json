@@ -1,0 +1,254 @@
+{
+  "activation_contract": {
+    "authorization": {
+      "formal_360": false,
+      "gpu_execution": false,
+      "operational_wave_approval": false,
+      "physical_execution": false,
+      "planner_execution": false,
+      "stage1": false,
+      "training": false
+    },
+    "authorization_scene_seed_equals_legacy_setup_seed": true,
+    "contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+    "exact_bridge_envelope_precedes_authorization": true,
+    "f3_stage_b_inherits_stage_a_scene_seed": true,
+    "f4_manifest_v1_1_sha256": "18f04654a898b4bea42f16b9e7f8728c9db87a7b54bb4d2d85771e53dfeb7d1c",
+    "f4_programs_share_candidate_scene_seed_and_use_distinct_scenes": true,
+    "f4_query_accounting": {
+      "chain_per_job": 30,
+      "maximum_panel_queries": 1008,
+      "target_construction_per_job": 12,
+      "total_per_job": 42
+    },
+    "failure_classes": {
+      "NO_VALID_GRASP_TARGET": "PLANNER_CANDIDATE_FAIL",
+      "query_or_schema_or_binding_error": "INFRASTRUCTURE_ERROR"
+    },
+    "guard_purpose": "planner_wiring_smoke_v1",
+    "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+    "implementation_version": "controlled_multi_future_pre_smoke_hotfix_v2_3_1a",
+    "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "planner_reset_semantics": {
+      "bitwise_determinism_claimed": false,
+      "field": "planner_reset_nonce",
+      "motiongen_reset_seed_argument": true,
+      "numeric_rng_seed_application_proven": false,
+      "reset_receipt_bound_to_authorization": true
+    },
+    "real_counts": {
+      "formal_trajectories": 0,
+      "gpu_scene_jobs": 0,
+      "new_trajectories": 0,
+      "physical_gate_attempts": 0,
+      "planner_jobs": 0
+    },
+    "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "schema_version": "cmf_v2_3_1a_pre_smoke_operational_hotfix_contract",
+    "stage0_reopened": false,
+    "updated_full_panel_proposal_v2_sha256": "86efb9133c681d6590504ea35b2e0272893ad4bd36ed05a40c9e843d3666a342",
+    "updated_smoke_proposal_v2_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+    "vault_head": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+    "wave_driver_contract_sha256": "4c88fd1fdb3767849a82469fb8e4caf8c9a61f8f4799fd75aca0536c2b26feff"
+  },
+  "activation_contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+  "aggregate_budget": {
+    "physical_execution_limit": 0,
+    "planner_query_limit": 152,
+    "scene_limit": 9,
+    "serial_only": true,
+    "single_fresh_idle_gpu": true,
+    "trajectory_limit": 0,
+    "wall_time_seconds": 16200
+  },
+  "closed": false,
+  "ledger_sha256": "be155dd44df12f00b1263e45a54bef01c65372da663427155d52b8698c534461",
+  "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+  "operational_execution_started": false,
+  "ordered_job_slots": [
+    {
+      "condition": "always",
+      "entry_sha256": "9f73b86b66c63795e0ef39725dad4e567f06d59fe2c3cd899e1d30f4d094b91c",
+      "job_kind": "F2_STAGE_A",
+      "max_queries": 3,
+      "slot": "S1"
+    },
+    {
+      "condition": "S1 infrastructure-clean",
+      "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+      "job_kind": "F3_STAGE_A",
+      "max_queries": 3,
+      "slot": "S2"
+    },
+    {
+      "condition": "S1-S2 infrastructure-clean",
+      "entry_sha256": "a128fe53380684bcf73143087cba19d8b872f1c8251b5d5e5f608a978696d628",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S3"
+    },
+    {
+      "condition": "S1-S3 infrastructure-clean",
+      "entry_sha256": "468915221947772cb4a3c1fd3b443556a8739845ce42eab43ac2122a70dd52db",
+      "job_kind": "F2_STAGE_A",
+      "max_queries": 3,
+      "slot": "S4"
+    },
+    {
+      "condition": "S1-S4 infrastructure-clean",
+      "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+      "job_kind": "F3_STAGE_A",
+      "max_queries": 3,
+      "slot": "S5"
+    },
+    {
+      "condition": "S2 planner pass",
+      "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+      "job_kind": "F3_STAGE_B",
+      "max_queries": 7,
+      "slot": "S6A"
+    },
+    {
+      "condition": "S5 planner pass",
+      "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+      "job_kind": "F3_STAGE_B",
+      "max_queries": 7,
+      "slot": "S6B"
+    },
+    {
+      "condition": "S3 planner pass",
+      "entry_sha256": "6e1dc438d7b19a35721dc89c66cd79ce43063ff0abafdf6718b928c0a1ff2271",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S7A"
+    },
+    {
+      "condition": "S7A planner pass",
+      "entry_sha256": "ef892cd5af47e67cd6ef07822d6361ab2544210ce4ed9fd386cd12fa3695901b",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S7B"
+    }
+  ],
+  "proposal_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+  "schema_version": "cmf_planner_wiring_smoke_wave_ledger_v1",
+  "wave_approval": {
+    "activation_contract_sha256": "5d6baaba2ae07ec3b3ab5511b3a80caf2c0a24474de4d627ac5adf6bfd6333d0",
+    "aggregate_budget": {
+      "physical_execution_limit": 0,
+      "planner_query_limit": 152,
+      "scene_limit": 9,
+      "serial_only": true,
+      "single_fresh_idle_gpu": true,
+      "trajectory_limit": 0,
+      "wall_time_seconds": 16200
+    },
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "approval_evidence": {
+      "interpreted_gate": "Phase 1 exact 152-query planner wiring smoke only",
+      "phase0_terminal": "PHASE0_SEALED_AWAITING_EXACT_WAVE_APPROVAL",
+      "user_message": "请继续！"
+    },
+    "approved": true,
+    "approved_scope": "PLANNER_WIRING_SMOKE_V1",
+    "automatic_full_panel_continuation": false,
+    "conditional_issuance_rules": {
+      "S1_to_S5": "serial; any INFRASTRUCTURE_ERROR stops later issuance",
+      "S6A": "only if S2 planner_pass",
+      "S6B": "only if S5 planner_pass",
+      "S7A": "only if S3 planner_pass",
+      "S7B": "only if S7A planner_pass"
+    },
+    "formal_360_authorized": false,
+    "host_scheduler_constraint": "single serial wave on physical GPU3 only when fresh-idle, because F4 compute/render/presentation co-location is validated there",
+    "implementation_source_sha256": "62245cb3a36ee1d4b6b70a5192db35cf9115bc44ef7fa6f29878125252d62109",
+    "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+    "ordered_job_slots": [
+      {
+        "condition": "always",
+        "entry_sha256": "9f73b86b66c63795e0ef39725dad4e567f06d59fe2c3cd899e1d30f4d094b91c",
+        "job_kind": "F2_STAGE_A",
+        "max_queries": 3,
+        "slot": "S1"
+      },
+      {
+        "condition": "S1 infrastructure-clean",
+        "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+        "job_kind": "F3_STAGE_A",
+        "max_queries": 3,
+        "slot": "S2"
+      },
+      {
+        "condition": "S1-S2 infrastructure-clean",
+        "entry_sha256": "a128fe53380684bcf73143087cba19d8b872f1c8251b5d5e5f608a978696d628",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S3"
+      },
+      {
+        "condition": "S1-S3 infrastructure-clean",
+        "entry_sha256": "468915221947772cb4a3c1fd3b443556a8739845ce42eab43ac2122a70dd52db",
+        "job_kind": "F2_STAGE_A",
+        "max_queries": 3,
+        "slot": "S4"
+      },
+      {
+        "condition": "S1-S4 infrastructure-clean",
+        "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+        "job_kind": "F3_STAGE_A",
+        "max_queries": 3,
+        "slot": "S5"
+      },
+      {
+        "condition": "S2 planner pass",
+        "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+        "job_kind": "F3_STAGE_B",
+        "max_queries": 7,
+        "slot": "S6A"
+      },
+      {
+        "condition": "S5 planner pass",
+        "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+        "job_kind": "F3_STAGE_B",
+        "max_queries": 7,
+        "slot": "S6B"
+      },
+      {
+        "condition": "S3 planner pass",
+        "entry_sha256": "6e1dc438d7b19a35721dc89c66cd79ce43063ff0abafdf6718b928c0a1ff2271",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S7A"
+      },
+      {
+        "condition": "S7A planner pass",
+        "entry_sha256": "ef892cd5af47e67cd6ef07822d6361ab2544210ce4ed9fd386cd12fa3695901b",
+        "job_kind": "F4_PROGRAM",
+        "max_queries": 42,
+        "slot": "S7B"
+      }
+    ],
+    "physical_execution_authorized": false,
+    "proposal_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+    "publication_head_at_approval": "7a24721671673d82cd8a0fff24f0753543cbfe43",
+    "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "schema_version": "cmf_planner_wiring_smoke_v1_wave_approval_v2",
+    "stage1_authorized": false,
+    "training_authorized": false,
+    "trajectory_collection_authorized": false,
+    "vault_head": "a9ee20c74a522120182009897ede5c0f12e6fc40",
+    "wave_approval_sha256": "6b6e36cb577e21a70636092d690c8f512f1930c3c590de7908683089ddde813f",
+    "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+  },
+  "wave_approval_sha256": "6b6e36cb577e21a70636092d690c8f512f1930c3c590de7908683089ddde813f",
+  "wave_id": "planner-wiring-smoke-v1-20260903-run1"
+}
