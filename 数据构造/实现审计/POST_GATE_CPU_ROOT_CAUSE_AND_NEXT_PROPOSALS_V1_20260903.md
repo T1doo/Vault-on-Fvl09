@@ -34,7 +34,7 @@ CPU从已实现的official contact frame、`rotate_lim=[0,1]`与`ROTATE_NUM=10`�
 
 ## F4：Guard schema预检
 
-新增CPU-only `f4_guard_manifest_static_preflight_v1.py`，它在任何GPU操作前强制检查base Guard所有top-level/job fields、F4 asset map与文件hash、source/runner/Guard binding、全部资源上限、新output namespace及所有后续阶段为false。将Run13 manifest喂入该预检时，它在CPU上确定性失败于：
+新增CPU-only `f4_guard_manifest_static_preflight_v1.py`，它在任何GPU操作前强制检查base Guard所有top-level/job fields、F4 asset map与文件hash、source/runner/Guard binding、全部资源上限、新output namespace及所有后续阶段为false。将历史Run13 manifest喂入该proposal-only预检时，会额外得到`proposal_not_authorized=false`，因为Run13本来就是`approved=true`的已消耗授权；这是预期的历史状态差异。与实际Guard `KeyError`直接对应的独立三项是：
 
 - `all_guard_top_level_inputs_present=false`；
 - `f4_asset_map_nonempty=false`；

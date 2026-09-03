@@ -8,6 +8,7 @@
 4. `POST_GATE_CPU_ROOT_CAUSE_AND_NEXT_PROPOSALS_V1_20260903.md`
 5. `PROPOSED_NEXT_RECOVERY_REVIEW_PACKET_V2.json`
 6. `PROPOSED_F4_GUARD_COMPLETE_REOPEN2_MANIFEST_V1.json`
+7. `POST_GATE_NEXT_PROPOSAL_CONTRACT_TEST_V1_20260903.md`
 
 关键新证据：F2 top-contact grasp/lift 2/2通过；F3仅1个rotation1 planner survivor，lift-centered Stage B已通过而其余失败在pregrasp；F4 Run13在child/GPU/scene前因manifest缺asset map终止，新CPU static preflight已精确复现并对含完整asset map的新提案全14项pass。
 
