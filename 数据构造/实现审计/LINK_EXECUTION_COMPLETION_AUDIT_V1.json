@@ -1,0 +1,155 @@
+{
+  "as_of": "2026-09-03",
+  "audit_sha256": "13296e690b469c83c5fd420b11137890e1e20d9413272c2f6f46693e3f586af2",
+  "blocking_external_decisions": [
+    "approve or revise exact F2 top-contact Gate",
+    "approve or revise exact F3 rotation1/lift-center Gate",
+    "explicitly reopen or deny one F4 root replacement"
+  ],
+  "completion_claim_allowed": false,
+  "controlled_source_sha256": "cb4cb3b1058f8296febddae5eeb261fa2b9c413187d50cbf45d7de6538af8a43",
+  "counts": {
+    "active_gpu_jobs": 0,
+    "complete_or_conditionally_closed": 10,
+    "formal_accepted_roots": 0,
+    "formal_accepted_trajectories": 0,
+    "incomplete_or_external": 4,
+    "requirements_total": 14
+  },
+  "evidence_vault_head": "fd7797f80808ed2d98343aeb623846c412d27fd2",
+  "formal_data": false,
+  "gpu_execution_authorized": false,
+  "objective_url": "https://chatgpt.com/s/t_6a9936946bf88191b0d85b3b3f1bd7ae",
+  "overall_status": "INCOMPLETE_AWAITING_EXTERNAL_REVIEW_AND_AUTHORIZATION",
+  "requirements": [
+    {
+      "evidence": [
+        "Stage0 seal unchanged",
+        "log sections 359-390"
+      ],
+      "id": "R01",
+      "requirement": "Preserve Phase A and do not reopen Stage0",
+      "status": "complete"
+    },
+    {
+      "evidence": [
+        "all executed manifests run1-run12 are bounded family or root jobs",
+        "no old route output created"
+      ],
+      "id": "R02",
+      "requirement": "Do not run old 152-query smoke, 1696-query panel, or aggregate planner wave",
+      "status": "complete"
+    },
+    {
+      "evidence": [
+        "RUN3 receipt 995c015b...",
+        "2 physical attempts, both PRE_LIFT_GRASP_NOT_ACQUIRED, immediate stop"
+      ],
+      "id": "R03",
+      "requirement": "F2 bounded can0+box2/can5+box8 x left/right, max4, stop after two same failures",
+      "status": "complete_with_failure_evidence"
+    },
+    {
+      "evidence": [
+        "RUN6 receipt 73e08022...",
+        "4 candidates evaluated; no StageA+StageB survivor; 0 physical"
+      ],
+      "id": "R04",
+      "requirement": "F3 max4 stratified candidates with StageA/StageB separation and at least2 physical passes to freeze",
+      "status": "complete_with_failure_evidence"
+    },
+    {
+      "evidence": [
+        "F3 had 0 physical successes; prerequisite false; diagnostic not run"
+      ],
+      "id": "R05",
+      "requirement": "At most one same-prefix x3 fresh-scene no-suffix diagnostic after F3 qualification condition",
+      "status": "not_triggered"
+    },
+    {
+      "evidence": [
+        "RUN2 receipt ad8f34ca...",
+        "5/5 real physical pass"
+      ],
+      "id": "R06",
+      "requirement": "F4 A/B/C/AB/AC isolation gates, singles before pairs",
+      "status": "complete_pass"
+    },
+    {
+      "evidence": [
+        "RUN9 receipt 3bf30f95...",
+        "3/3 physical, same current/anchor and final-state equivalence pass"
+      ],
+      "id": "R07",
+      "requirement": "F4 real ABC/ACB/BAC after isolation and final-state equivalence",
+      "status": "complete_pass"
+    },
+    {
+      "evidence": [
+        "F2/F3 template prerequisites failed",
+        "F4 run10-run12 root attempts remained incomplete; final receipt 74a915a2...",
+        "F4 accepted development roots=0"
+      ],
+      "id": "R08",
+      "requirement": "One development r_pc root per qualified F2/F3/F4 template",
+      "status": "incomplete"
+    },
+    {
+      "evidence": [
+        "F2/F3/F4 accepted r_pc root prerequisite absent",
+        "F1 historical r_pc exists but r_inv not completed"
+      ],
+      "id": "R09",
+      "requirement": "Implement and verify real r_inv_path and r_inv_motion before Stage1",
+      "status": "incomplete_not_reached"
+    },
+    {
+      "evidence": [
+        "RUN terminals and readiness artifacts use separate columns"
+      ],
+      "id": "R10",
+      "requirement": "Keep CPU contract/planner/physical/full-program/accepted counts distinct",
+      "status": "complete"
+    },
+    {
+      "evidence": [
+        "Guard receipts for every run",
+        "all final GPU postchecks baseline",
+        "Run11 manifest understated planner budget 100 vs actual136; preserved in terminal evidence"
+      ],
+      "id": "R11",
+      "requirement": "Every GPU job uses fresh snapshot, UUID, lease, one job/card, PID cleanup, post release",
+      "status": "complete_with_recorded_budget_exception"
+    },
+    {
+      "evidence": [
+        "all authorization flags false",
+        "formal accepted roots/trajectories 0/0"
+      ],
+      "id": "R12",
+      "requirement": "No Stage1, formal360, training, H-reveal, compression, or pi0.5",
+      "status": "complete"
+    },
+    {
+      "evidence": [
+        "F2 top-contact/tracking proposal",
+        "F3 rotation1/lift-centered proposal",
+        "F4 total_before scope repair static audit"
+      ],
+      "id": "R13",
+      "requirement": "Evidence-driven repair after terminal failures",
+      "status": "implemented_cpu_only"
+    },
+    {
+      "evidence": [
+        "PROPOSED_NEXT_GATE_MANIFEST_V1 approved=false and executable=false",
+        "F4 reopen default false"
+      ],
+      "id": "R14",
+      "requirement": "New exact authorization before next GPU work",
+      "status": "missing_external_decision"
+    }
+  ],
+  "schema_version": "cmf_link_execution_completion_audit_v1",
+  "stage1_authorized": false
+}
