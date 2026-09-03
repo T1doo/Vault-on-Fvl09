@@ -1,0 +1,114 @@
+{
+  "activation_contract_sha256": "708b0f13eb7a659222930a9f3c3936da2afd4d69bc64f22d0d93bb9aaef3b305",
+  "aggregate_budget": {
+    "physical_execution_limit": 0,
+    "planner_query_limit": 152,
+    "scene_limit": 9,
+    "serial_only": true,
+    "single_fresh_idle_gpu": true,
+    "trajectory_limit": 0,
+    "wall_time_seconds": 16200
+  },
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_evidence": {
+    "interpretation": "authorize the minimum V2.3.1b fix and one same-scope replacement smoke; not full panel, physical execution, Stage1, or formal collection",
+    "superseded_failed_wave": "planner-wiring-smoke-v1-20260903-run1",
+    "user_message": "加快进度，直接修好，然后我们赶快开始造数据"
+  },
+  "approved": true,
+  "approved_scope": "PLANNER_WIRING_SMOKE_V1",
+  "automatic_full_panel_continuation": false,
+  "conditional_issuance_rules": {
+    "S1_to_S5": "serial; any INFRASTRUCTURE_ERROR stops later issuance",
+    "S6A": "only if S2 planner_pass",
+    "S6B": "only if S5 planner_pass",
+    "S7A": "only if S3 planner_pass",
+    "S7B": "only if S7A planner_pass"
+  },
+  "host_scheduler_constraint": "single serial wave on fresh-idle physical GPU3",
+  "implementation_source_sha256": "4f99db8a22acb3df3f723442f819877087cf7edad7f4ab78b596e16d5af24186",
+  "manifest_bundle_sha256": "31fde740b4b7a19257375429f2afeb4e17cbaffb5f98a440eb4e7214e390f041",
+  "ordered_job_slots": [
+    {
+      "condition": "always",
+      "entry_sha256": "9f73b86b66c63795e0ef39725dad4e567f06d59fe2c3cd899e1d30f4d094b91c",
+      "job_kind": "F2_STAGE_A",
+      "max_queries": 3,
+      "slot": "S1"
+    },
+    {
+      "condition": "S1 infrastructure-clean",
+      "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+      "job_kind": "F3_STAGE_A",
+      "max_queries": 3,
+      "slot": "S2"
+    },
+    {
+      "condition": "S1-S2 infrastructure-clean",
+      "entry_sha256": "a128fe53380684bcf73143087cba19d8b872f1c8251b5d5e5f608a978696d628",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S3"
+    },
+    {
+      "condition": "S1-S3 infrastructure-clean",
+      "entry_sha256": "468915221947772cb4a3c1fd3b443556a8739845ce42eab43ac2122a70dd52db",
+      "job_kind": "F2_STAGE_A",
+      "max_queries": 3,
+      "slot": "S4"
+    },
+    {
+      "condition": "S1-S4 infrastructure-clean",
+      "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+      "job_kind": "F3_STAGE_A",
+      "max_queries": 3,
+      "slot": "S5"
+    },
+    {
+      "condition": "S2 planner pass",
+      "entry_sha256": "a11eeed5ffd7f2fbf37d0e6366065194701d21e3580ba58e83f55280a7dcf12c",
+      "job_kind": "F3_STAGE_B",
+      "max_queries": 7,
+      "slot": "S6A"
+    },
+    {
+      "condition": "S5 planner pass",
+      "entry_sha256": "5779ff72194c37f476e7d17ad4421c3e93fa80cf65ec11a6834747cd5077d88f",
+      "job_kind": "F3_STAGE_B",
+      "max_queries": 7,
+      "slot": "S6B"
+    },
+    {
+      "condition": "S3 planner pass",
+      "entry_sha256": "6e1dc438d7b19a35721dc89c66cd79ce43063ff0abafdf6718b928c0a1ff2271",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S7A"
+    },
+    {
+      "condition": "S7A planner pass",
+      "entry_sha256": "ef892cd5af47e67cd6ef07822d6361ab2544210ce4ed9fd386cd12fa3695901b",
+      "job_kind": "F4_PROGRAM",
+      "max_queries": 42,
+      "slot": "S7B"
+    }
+  ],
+  "physical_execution_authorized": false,
+  "proposal_sha256": "36b6bac57fb6c7cceb6f7fc35858c1cb25492cd2106b662d878a4a475d01b801",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "schema_version": "cmf_planner_wiring_smoke_v1_wave_approval_v2",
+  "stage1_authorized": false,
+  "trajectory_collection_authorized": false,
+  "vault_head": "2017f9e2a2f54a1be2e61c0c59f08d9acff0bc52",
+  "wave_approval_sha256": "9df86ee340710ed5e960fbd24ef89a8eee3274d62d5b672495c9c2f27bc37e98",
+  "wave_id": "planner-wiring-smoke-v1-replacement-20260903-run2"
+}
