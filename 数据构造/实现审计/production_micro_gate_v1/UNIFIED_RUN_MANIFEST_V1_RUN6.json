@@ -1,0 +1,140 @@
+{
+  "aggregate_budget": {
+    "accepted_trajectories": 0,
+    "formal_trajectories": 0,
+    "maximum_debug_videos": 4,
+    "maximum_physical_executions": 4,
+    "maximum_planner_queries": 68,
+    "maximum_scenes": 12,
+    "prior_f2_physical_executions_not_repeated": 2,
+    "prior_f4_physical_executions_not_repeated": 5
+  },
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approval_interpretation": "F3 canonical normalized sign-fixed 1e-9 pose representation verification; no F2/F4 rerun",
+  "approval_source_url": "https://chatgpt.com/s/t_6a9936946bf88191b0d85b3b3f1bd7ae",
+  "approved": true,
+  "asset_hashes_by_family": {
+    "F3": {
+      "assets/objects/001_bottle/collision/base13.glb": "3e661138f5dfbcda201766d181525c8e6e2cce26400df95829eb2772fed1a9e8",
+      "assets/objects/001_bottle/collision/base15.glb": "bf233e9ae79799d063b2f968fd90d0cc332150103b5138477a7f24876253fed2",
+      "assets/objects/001_bottle/collision/base4.glb": "dabf7af41598048aa4aba500bc3d6c8b3a1a538973ca36842bb9b3ea7a8d302b",
+      "assets/objects/001_bottle/collision/base5.glb": "513213d85954ecd228af7d82ef2698d256934d7b7f2a2e469f794ecab58b06ae",
+      "assets/objects/001_bottle/model_data13.json": "a0b94d276bf41e03a7b0c2fa7f8352c8c45b7bcaa8db2925328955fc8e18ef1f",
+      "assets/objects/001_bottle/model_data15.json": "8971efc1a88ff6799f02ff576d2dafc0ddea1634dd77b0fbc274724cb0562f30",
+      "assets/objects/001_bottle/model_data4.json": "1bd52b232b290364b1100d5e9d22197e008a51d8254ed750a7bf73f3e2faad98",
+      "assets/objects/001_bottle/model_data5.json": "b534e410ac10cce52b3ebda1a2bb961716f0e36f2416f2dbcbe4f5dad380267f",
+      "assets/objects/001_bottle/points_info.json": "028dd9f34f655ce16c9c72887a6a350e4c932f8e3b5295b5a9ea72415669e2d5",
+      "assets/objects/001_bottle/visual/base13.glb": "bcf7da24d20a2d2b4b79ca6b7bf9de175ea649d53461dc820d857437df116cb7",
+      "assets/objects/001_bottle/visual/base15.glb": "d44ea24dd4e23307eef935b9406fadea5267f481dad5218a5138eba6077059a2",
+      "assets/objects/001_bottle/visual/base4.glb": "1c6746600ab1a3b750e27ceb944da0011329a7e874035b59bf852353efc2210f",
+      "assets/objects/001_bottle/visual/base5.glb": "84215ac9f998072e63fd2c2040bb75b5847810fad52d93be7c55ef32d70e51d4"
+    }
+  },
+  "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/production_micro_gate_v1/production-micro-gate-v1-20260903-run6",
+  "f2_rerun_forbidden": true,
+  "f2_stop_receipt_sha256": "995c015be6342160eef00579801f268279bfd7c52ebd6b51f47a5afafca17bf1",
+  "f4_isolation_rerun_forbidden": true,
+  "family_jobs_may_run_in_parallel_on_different_fresh_idle_gpus": true,
+  "forbidden": [
+    "old_152_query_smoke",
+    "1696_query_full_panel",
+    "executor_change",
+    "verifier_threshold_change",
+    "seed_blind_search",
+    "Stage1",
+    "formal360",
+    "training",
+    "H_reveal",
+    "compression",
+    "pi0.5",
+    "F4_full_program_claim_from_isolation_gates"
+  ],
+  "formal_data": false,
+  "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/production_micro_gate_v1/production-micro-gate-v1-20260903-run6/guards",
+  "guard_script_path": "/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/guarded_launcher.py",
+  "guard_script_sha256": "32ef7a5505316393f8ce0c7ffe77bf7f86ae18fb8d11acf1b6901575bf646850",
+  "implementation_source_sha256": "198a8c27daf4b427e07fb99f812fae75199d710edc923d0cdb40d02de8b218dc",
+  "jobs": [
+    {
+      "candidates": [
+        {
+          "arm": "left",
+          "asset_model_id": 15,
+          "contact_point_id": 0,
+          "region": "lower_body",
+          "rotation_index": 0
+        },
+        {
+          "arm": "right",
+          "asset_model_id": 5,
+          "contact_point_id": 0,
+          "region": "lower_body",
+          "rotation_index": 0
+        },
+        {
+          "arm": "left",
+          "asset_model_id": 4,
+          "contact_point_id": 0,
+          "region": "upper_body",
+          "rotation_index": 0
+        },
+        {
+          "arm": "right",
+          "asset_model_id": 13,
+          "contact_point_id": 0,
+          "region": "upper_body",
+          "rotation_index": 0
+        }
+      ],
+      "family": "F3",
+      "job_id": "f3-micro-gate-v1",
+      "maximum_physical_executions": 4,
+      "maximum_planner_queries": 68,
+      "maximum_scenes": 12,
+      "minimum_distinct_physical_successes_for_template": 2,
+      "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_production_micro_gate_v1/production-micro-gate-v1-20260903-run6/F3",
+      "physical_reset_nonce_base": 2026098400,
+      "planner_reset_nonce_base": 2026098300,
+      "timeout_seconds": 14400
+    }
+  ],
+  "mandatory_terminal_columns": [
+    "cpu_contract_pass",
+    "planner_pass",
+    "physical_primitive_pass",
+    "template_qualification_pass",
+    "full_program_pass",
+    "accepted_trajectory_count"
+  ],
+  "manifest_sha256": "55d631651053d6ab743b00ca3475504fc37b337fec4bcc522cb8e220b3df7c03",
+  "one_job_per_gpu": true,
+  "prior_f4_isolation_gate_receipt_sha256": "ad8f34ca9d8c1780329d95a767a90205856604aa899a2c224edc8d988cefec40",
+  "publication_vault_head": "2f1b4a9be8b1ac3f4641fb918f0e324866c5cf23",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_sharding": false,
+  "run_id": "production-micro-gate-v1-20260903-run6",
+  "runner_script_path": "/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py",
+  "runner_script_sha256": "cbe7ba9b182ca2d80a1a6d9fcd9723a58e327a8552abf1ac97cee6afa3b3bc29",
+  "same_hash_layer_failure_stop_after_this_run": true,
+  "schema_version": "cmf_production_micro_gate_unified_run_manifest_v1",
+  "source_freeze_vault_head": "2f1b4a9be8b1ac3f4641fb918f0e324866c5cf23",
+  "stage0_reopened": false,
+  "stage1_authorized": false,
+  "status": "APPROVED_F3_CANONICAL_POSE_REPRESENTATION_VERIFICATION",
+  "superseded_run1_terminal_receipt_sha256": "b42b7b1ffadc87ea5eff70345f402ba913cf584ba2e40a4788e732db50430ead",
+  "superseded_run2_terminal_receipt_sha256": "ad8f34ca9d8c1780329d95a767a90205856604aa899a2c224edc8d988cefec40",
+  "superseded_run3_terminal_receipt_sha256": "995c015be6342160eef00579801f268279bfd7c52ebd6b51f47a5afafca17bf1",
+  "superseded_run4_terminal_receipt_sha256": "844506c4abfd09dd0151ac05613005720276231ca61796155122ce1bc40e95d8",
+  "superseded_run5_terminal_receipt_sha256": "7edc6298f8e94779910c36f1516aa8dcf0e63cda1134bec0f99c0833698199fa",
+  "supersedes_manifest_sha256": "615fb345356fbb2ee44b151f44181414aace620108de5cedd3ec9304976bb677",
+  "training_data": false
+}
