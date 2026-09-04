@@ -1,0 +1,79 @@
+{
+  "ast_validation": {
+    "files": 2,
+    "pass": true
+  },
+  "authorization_consumption": false,
+  "base_auditor_sha256": "a76aee0674ff641da41f5951d221d28547dc92db87e7a5c0f41558ced047251d",
+  "corrected_guard_preflight": {
+    "aggregate_planner_query_cap": 11,
+    "beside_target_count": 6,
+    "exit_code": 0,
+    "gpu_context_created": false,
+    "inside_target_count": 5,
+    "manifest_loader_pass": true,
+    "manifest_sha256": "42d4d48a41ab8fcab1515679450f20c2852dfc94a531022009a5b7fce56ff396",
+    "output_created": false,
+    "pass": true,
+    "physical_execution_authorized": false,
+    "scene_created": false
+  },
+  "first_guard_preflight_invocation": {
+    "authorization_consumption": false,
+    "classification": "INVOCATION_ENVIRONMENT_MISSING_PROJECT_PYTHONPATH_AFTER_MANIFEST_LOAD",
+    "error": "ModuleNotFoundError: No module named 'controlled_multi_future'",
+    "exit_code": 1,
+    "gpu_context_created": false,
+    "manifest_loader_reached_and_passed": true,
+    "output_created": false,
+    "scene_created": false
+  },
+  "formal_data": false,
+  "gpu_execution": false,
+  "lineage_validation": {
+    "additive_lineage_field_set_exact": true,
+    "parent_equivalent_after_four_path_normalizations": true,
+    "recovery_receipt_self_hash_pass": true,
+    "successor_manifest_self_hash_pass": true
+  },
+  "original_files_preserved": {
+    "auditor_v1_sha256": "a76aee0674ff641da41f5951d221d28547dc92db87e7a5c0f41558ced047251d",
+    "guard_sha256": "bd31e5e1c96190d7b21c27bb775b7346f5127dc7bf0c23e2c4c47edbc50bb1a8",
+    "manifest_file_sha256": "3cfe58ea26168d7c1ded0ddfa2d8d72c91223501a18a2463d2caad00eb5a5910",
+    "runner_sha256": "376a782ada5ee95b3e45b09a0af5314516004a4c360f4e9a8e3fb9647f5ace26"
+  },
+  "pre_run_auditor_cli": {
+    "exit_code": 1,
+    "failure_code": "job_start_missing",
+    "output_created": false,
+    "receipt_sha256": "c09b2cea6683b8533b1e341e3867bbb6fc19e1f74550b8bb319196cd48b1c4c4"
+  },
+  "receipt_sha256": "ac202f5e1c2cae6fc7f2763d612a3f924fc8ed0a4d7f96985ad44c1f4b976b48",
+  "recovery_receipt": {
+    "file_sha256": "0e4baca15482429c285de9edaf34402967b8f876943a20d86faa6020c1858229",
+    "receipt_sha256": "5c44f850e6e2957db932d151e52bc2977b33da9e6503a395a9f54cd3ae16e41a"
+  },
+  "schema_version": "cmf_f2_admission_reissue_run2_cpu_validation_v1",
+  "source_files": {
+    "auditor_v1_1_sha256": "4ae74fa01fb60a181a3dc2ef1d329e09452e77156a1f58b68c16a14598589a7c",
+    "test_auditor_v1_1_sha256": "b566197952c78632de692fccb5d704ce460e71bfe81dbf2b1522b25aa1a202a3"
+  },
+  "stage1_authorized": false,
+  "status": "CPU_VALIDATED_READY_FOR_IMMUTABLE_PUBLICATION_BEFORE_MANUAL_ADMISSION_REISSUE",
+  "successor_manifest": {
+    "file_sha256": "210dd17071c1f5b89aee6fb8f7451cb14949a2948c663cbc2e86c2824725ccd0",
+    "manifest_sha256": "42d4d48a41ab8fcab1515679450f20c2852dfc94a531022009a5b7fce56ff396"
+  },
+  "successor_paths_absent_after_cpu_validation": {
+    "cache_job": true,
+    "guard_directory": true,
+    "output_namespace": true
+  },
+  "test_suite": {
+    "duration_seconds": 0.099,
+    "failures": 0,
+    "pass": true,
+    "tests_run": 20
+  },
+  "vault_head_used_for_successor_issue": "8883c69669d8f433e7bb23361d71fd058c5d8c95"
+}

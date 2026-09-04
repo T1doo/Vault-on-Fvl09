@@ -1,0 +1,106 @@
+{
+  "authorization_boundary": {
+    "compression_authorized": false,
+    "formal_360_authorized": false,
+    "h_reveal_authorized": false,
+    "pi05_authorized": false,
+    "stage0_reopened": false,
+    "stage1_authorized": false,
+    "training_authorized": false
+  },
+  "consumption": {
+    "automatic_retry_consumed": false,
+    "branch_executions": 0,
+    "child_launches": 0,
+    "formal_trajectories": 0,
+    "fresh_scenes": 0,
+    "gpu_context_initializations": 0,
+    "one_shot_scientific_authorization_consumed": false,
+    "physical_executions": 0,
+    "planner_queries": 0,
+    "raw_trajectories": 0,
+    "root_invocations": 0,
+    "scientific_attempt_ordinal_consumed": 0,
+    "videos": 0
+  },
+  "dispatch_identity_reusable": false,
+  "failure": {
+    "child_exit_code": 96,
+    "classification": "GUARD_ATOMIC_IDLE_REJECTION_PRELAUNCH",
+    "message": "selected GPU is not independently fresh-idle",
+    "selected_atomic_pre_snapshot": {
+      "compute_processes": [],
+      "index": 0,
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+    },
+    "type": "RuntimeError"
+  },
+  "job_id": "f2-controlled-insertion-route-gate-run1",
+  "old_guard_terminal": {
+    "file_sha256": "8dc65036ff7c89e59e060a2ab9fe9c6daae228444c1d146374fd7474df19b30a",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1/f2-controlled-insertion-route-gate-run1-20260904/guards/f2-controlled-insertion-route-gate-run1.terminal.json",
+    "receipt_sha256": "00e3db8cf39bd9532e00d7d6d8ea91ef1bd731994fcbc9a9dc2abcdc3d46e07e",
+    "self_hash_valid": true
+  },
+  "parent_manifest": {
+    "file_sha256": "3cfe58ea26168d7c1ded0ddfa2d8d72c91223501a18a2463d2caad00eb5a5910",
+    "manifest_sha256": "b08933bf17707bfa8b8700f6b384eecf72b9d5e7b5aac7bc38bcb26f875210d8",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CONTROLLED_INSERTION_ROUTE_GATE_APPROVED_RUN1_MANIFEST_V1.json",
+    "run_id": "f2-controlled-insertion-route-gate-run1-20260904"
+  },
+  "path_observation_after_guard": {
+    "cache_job_exists": false,
+    "guard_start_exists": false,
+    "guard_stderr_exists": false,
+    "guard_stdout_exists": false,
+    "guard_terminal_exists": true,
+    "launch_snapshot_exists": false,
+    "output_namespace_exists": false
+  },
+  "preservation": {
+    "old_guard_directory_must_not_be_deleted_moved_or_overwritten": true,
+    "old_guard_terminal_must_remain_immutable": true,
+    "parent_guard_changed": false,
+    "parent_manifest_changed": false,
+    "parent_runner_changed": false
+  },
+  "receipt_sha256": "5c44f850e6e2957db932d151e52bc2977b33da9e6503a395a9f54cd3ae16e41a",
+  "reissue_policy": {
+    "automatic_retry": false,
+    "manual_path_only_admission_reissue_allowed": true,
+    "maximum_successor_dispatches": 1,
+    "new_cache_directory_required": true,
+    "new_guard_directory_required": true,
+    "new_output_namespace_required": true,
+    "new_run_id_required": true,
+    "scientific_attempt_ordinal": 1,
+    "second_admission_rejection_stop": true
+  },
+  "resource_release": {
+    "cache_removed": true,
+    "gpu_returned_to_idle_baseline": true,
+    "lease_released": true,
+    "selected_final_snapshot": {
+      "compute_processes": [],
+      "index": 0,
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+    },
+    "task_owned_child_count": 0,
+    "task_owned_cleanup_pass_field": false,
+    "task_owned_cleanup_pass_field_explanation": "false because cleanup_errors retains the admission rejection; cache, lease and selected-GPU release subchecks passed"
+  },
+  "reviewed_precedent": {
+    "classification": "authorization unconsumed before child/SAPIEN/attempt despite lease acquisition",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/STAGE0_F2_REPLACEMENT_PRELAUNCH_FAILURE_RUN1_20260831.md"
+  },
+  "schema_version": "cmf_f2_controlled_insertion_route_gate_atomic_idle_rejection_recovery_v1",
+  "status": "GUARD_ATOMIC_IDLE_REJECTED_PRELAUNCH_UNCONSUMED",
+  "successor_dispatch_ordinal": 2,
+  "vault_head_at_recovery_review": "8883c69669d8f433e7bb23361d71fd058c5d8c95"
+}
