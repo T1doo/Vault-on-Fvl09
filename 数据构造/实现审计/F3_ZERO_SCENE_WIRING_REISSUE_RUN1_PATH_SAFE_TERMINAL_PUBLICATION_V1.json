@@ -1,0 +1,590 @@
+{
+  "authorization_boundary": {
+    "additional_f3_reissue_authorized": false,
+    "automatic_retry_authorized": false,
+    "compression_authorized": false,
+    "formal_360_authorized": false,
+    "h_reveal_authorized": false,
+    "no_suffix_continuation_authorized": false,
+    "pi05_authorized": false,
+    "root_execution_authorized": false,
+    "second_reissue_authorized": false,
+    "stage0_reopened": false,
+    "stage1_authorized": false,
+    "training_authorized": false
+  },
+  "bindings": {
+    "guard_start": {
+      "file_sha256": "dce6a6e244a006d0e3bad715e6a55aca094b9ff728df783ee035e47aa105f08a",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3v21ps1/guards/f3-centralized-replacements-zero-scene-reissue-run1-v2-1.start.json",
+      "receipt_sha256": "6fd2af0e6a6edad8496e6381d277a055df278daa3b2be23acd56153a0669dbde",
+      "self_hash_valid": true
+    },
+    "guard_stderr": {
+      "byte_count": 0,
+      "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "line_count": 0,
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3v21ps1/guards/f3-centralized-replacements-zero-scene-reissue-run1-v2-1.stderr.log"
+    },
+    "guard_stdout": {
+      "byte_count": 147,
+      "file_sha256": "86f611d774bc05a3599f549c89fb3f1e42348d86cf462e84976ef9b90c111dc6",
+      "line_count": 1,
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3v21ps1/guards/f3-centralized-replacements-zero-scene-reissue-run1-v2-1.stdout.log"
+    },
+    "guard_terminal": {
+      "file_sha256": "baadaef31848ad001b3b38b10ce9911609ffd47f42bb274b0820e819939539db",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3v21ps1/guards/f3-centralized-replacements-zero-scene-reissue-run1-v2-1.terminal.json",
+      "receipt_sha256": "2d7ece52d0a6dd71b73b4e857d55cf1d7e818b976c52e4dddbaf8f142639f7d8",
+      "self_hash_valid": true
+    },
+    "job_start": {
+      "canonical_content_sha256": "741734192e19232717a1df47202b545736594174abe5ccbad4c3fe626e93adb4",
+      "file_sha256": "e4e70e25d580716e2eb0dd82a2dc02a8ef674aa975058f1d54e8dfc11b453c2c",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/job_start.json",
+      "receipt_field_present": false
+    },
+    "job_terminal": {
+      "file_sha256": "3bfbdab9b5471b5015f9e0be985fece1d76d4a05b659eae190fa848315d4ac6d",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/job_terminal.json",
+      "receipt_sha256": "33948e812bdd09fadd0aa61eb668510078709e54b2fccb0fffbdf685c2daf10e",
+      "self_hash_valid": true
+    },
+    "path_safe_manifest": {
+      "file_sha256": "a2842b569bce840f63c1c26bf21c909f2b892eafc4d3c695331dd32e995db6c9",
+      "manifest_sha256": "a344f115bdbe6103323012ef44d99dd1e52178f48a864c5c4c7319ea2ff24cc3",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_ZERO_SCENE_WIRING_REISSUE_APPROVED_RUN1_PATH_SAFE_MANIFEST_V2_1.json",
+      "self_hash_valid": true
+    },
+    "path_safe_preflight": {
+      "file_sha256": "c51cd725d2d3911c96927a856f7aad3d2e2a1e279cf86067a2a627a4b8c63f52",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_ZERO_SCENE_WIRING_REISSUE_RUN1_PATH_SAFE_PREFLIGHT_V2_1.json",
+      "receipt_sha256": "df0e3e5ac2d9b23397336cf20ac6b1a8bdb9b1e3f4d535111b491f51cf530e1f",
+      "self_hash_valid": true
+    },
+    "path_safety_impact_receipt": {
+      "file_sha256": "647816a2d338fd36f7d378a5bf0de741f84644f694ef68232eb8fb31e034ffc7",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_V2_1_UNCONSUMED_PATH_SAFETY_SUPERSESSION_RECEIPT_V1.json",
+      "receipt_sha256": "09820a981840b0048b2aa7c61448e0d1b74c245eb8ce51aab83662fe2d242bff",
+      "self_hash_valid": true
+    }
+  },
+  "classification": "FAILED_PHYSICAL_SHARED_V_GRASP_CONTINUITY_WITH_EVIDENCE",
+  "data_counts": {
+    "accepted_development_roots": 0,
+    "accepted_development_trajectories": 0,
+    "branch_executions": 0,
+    "debug_failure_videos": 4,
+    "formal_trajectories": 0,
+    "output_file_count": 24,
+    "physical_failure_traces": 4,
+    "raw_trajectories": 0,
+    "root_executions": 0
+  },
+  "family": "F3",
+  "gpu_audit": {
+    "cache_removed": true,
+    "child_pid": 3664161,
+    "child_process_group": 3664161,
+    "cleanup_errors": [],
+    "final_selected_gpu": {
+      "compute_processes": [],
+      "index": 5,
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+    },
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+    "guard_pid": 3664112,
+    "launch_selected_gpu": {
+      "compute_processes": [],
+      "index": 5,
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+    },
+    "lease_released": true,
+    "outer_clean_postcheck_confirmed_by_execution_handoff": true,
+    "physical_gpu_index": 5,
+    "post_release_poll_selected_gpus": [
+      {
+        "compute_processes": [],
+        "index": 5,
+        "memory_used_mib": 14,
+        "pstate": "P0",
+        "utilization_gpu_percent": 91,
+        "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+      },
+      {
+        "compute_processes": [],
+        "index": 5,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+      }
+    ],
+    "pre_selected_gpu": {
+      "compute_processes": [],
+      "index": 5,
+      "memory_used_mib": 14,
+      "pstate": "P8",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+    },
+    "task_owned_cleanup_pass": true
+  },
+  "job_id": "f3-centralized-replacements-zero-scene-reissue-run1-v2-1",
+  "no_suffix": {
+    "continuation_authorized": false,
+    "continuation_consumed": false,
+    "executed": false,
+    "reserved_next_cap": 3,
+    "scene_count": 0,
+    "triggered": false
+  },
+  "physical_qualification": {
+    "all_bottle_off_support_after_lift_fail": true,
+    "all_contact_fraction_after_lift_zero": true,
+    "all_planner_chains_pass": true,
+    "all_scene_executions_returned_without_exception": true,
+    "all_selected_contact_fraction_after_lift": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "all_selected_gripper_contact_continuity_fail": true,
+    "attempted_candidate_count": 4,
+    "failed_candidate_count": 4,
+    "failure_interpretation": "All four 7-query physical chains were planner-solvable and executed, but every candidate had zero selected contact after lift, lost gripper contact continuity, and failed to lift the bottle off support.",
+    "passed_candidate_count": 0,
+    "physical_planner_queries": 28,
+    "rows": [
+      {
+        "bottle_off_support_after_lift": false,
+        "orphan_process_count": 0,
+        "physical_spec": {
+          "file_sha256": "42873ba3074f2757ed2ef5cfb8adbc1ee0193a80e154aa84483f698514667169",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/retained_r0005/physical_spec.json",
+          "self_hash_valid": true,
+          "spec_sha256": "0ea00d3fabaaa5e9d70d2f5393451964e22f466ad219658b39d69e38aa2effd4"
+        },
+        "physical_terminal_receipt_sha256": "156d4717035c32bec96f599a69398aa92da935b54f4579e74c6a523d2e34a5b4",
+        "physical_terminal_self_hash_valid": true,
+        "planner_pass": true,
+        "planner_query_count_after": 7,
+        "planner_query_count_before": 0,
+        "planner_query_delta": 7,
+        "recipe_id": "f3-final-pose-v3-r0005",
+        "recipe_sha256": "3638a9e93f5101b1e7a9370fe7c4735c5a1a062e890d7ac66d47f6f182cf333f",
+        "scene_cleanup_pass": true,
+        "scene_execution_returned_without_exception": true,
+        "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000007",
+        "scene_receipt": {
+          "file_sha256": "1b9d254191e03edffb7bcb7a1b8e5b4d1c9b5299bfdbef08ac14972dc84af3c1",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/retained_r0005/physical/scene_receipt.json",
+          "receipt_sha256": "8f82cf41fc564602b6fa100e5361a5ca84967da463dbcfce82d1905f2cd9d373",
+          "self_hash_valid": true
+        },
+        "selected_contact_fraction_after_lift": 0.0,
+        "selected_gripper_contact_continuity": false,
+        "sequence_complete": false,
+        "shared_v_physically_qualified": false,
+        "trace": {
+          "byte_count": 52680567,
+          "file_sha256": "a9b41e8b1838543a9a218149e0537273be28a1c7aa166e917555945e3d0ace1b",
+          "hash_match": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/retained_r0005/physical/physical_trace.npz",
+          "receipt_sha256": "a9b41e8b1838543a9a218149e0537273be28a1c7aa166e917555945e3d0ace1b",
+          "sample_count": 2488
+        },
+        "video": {
+          "accepted_trajectory": false,
+          "byte_count": 139617,
+          "development_failure_evidence_only": true,
+          "file_sha256": "122c7d1f8fd4c314dd15fd774f59d7561508d3eff2d2c646962cac359de8d1e6",
+          "formal_data": false,
+          "frame_count": 250,
+          "hash_match": true,
+          "includes_final_frame": true,
+          "includes_initial_frame": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/retained_r0005/physical/trajectory.mp4",
+          "receipt_file_sha256": "122c7d1f8fd4c314dd15fd774f59d7561508d3eff2d2c646962cac359de8d1e6",
+          "receipt_self_hash_valid": true,
+          "receipt_sha256": "721275e90f98a6d837c1020139e3f030891e8f43f96e551a39814985b73fdbf9"
+        }
+      },
+      {
+        "bottle_off_support_after_lift": false,
+        "orphan_process_count": 0,
+        "physical_spec": {
+          "file_sha256": "c679192d67cb010f38a58e4862a98327a89c68dbf744366a52e34d8b99b8d48c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/physical_spec.json",
+          "self_hash_valid": true,
+          "spec_sha256": "ffcc18b004ef0d78edccf6f07a819f547918f8c1b423e1d33989ea5ef889070f"
+        },
+        "physical_terminal_receipt_sha256": "bf3363341271ccf802031e5f06a10e056dd51f57bc33b5b5d847bd8a005eb715",
+        "physical_terminal_self_hash_valid": true,
+        "planner_pass": true,
+        "planner_query_count_after": 7,
+        "planner_query_count_before": 0,
+        "planner_query_delta": 7,
+        "recipe_id": "f3-final-pose-v3-r1505",
+        "recipe_sha256": "88f1c0bcb521d4fc7e9b1e64b24d94f1c7d81f1703fba19cd3f622d74c591c49",
+        "scene_cleanup_pass": true,
+        "scene_execution_returned_without_exception": true,
+        "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000008",
+        "scene_receipt": {
+          "file_sha256": "971ff9c616dc977a6c5f129b2331268f158d735ee69884d734b5ee29ed673a75",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/physical/scene_receipt.json",
+          "receipt_sha256": "06860bdc64c219cb8d7ab952fa570f68a784d955ac2ad7a4b1bd0a99a2e204ea",
+          "self_hash_valid": true
+        },
+        "selected_contact_fraction_after_lift": 0.0,
+        "selected_gripper_contact_continuity": false,
+        "sequence_complete": false,
+        "shared_v_physically_qualified": false,
+        "trace": {
+          "byte_count": 48917399,
+          "file_sha256": "faa14d5fa20f1616ddcb36ea349d7a6230510739229de953df94a7cb95f216a2",
+          "hash_match": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/physical/physical_trace.npz",
+          "receipt_sha256": "faa14d5fa20f1616ddcb36ea349d7a6230510739229de953df94a7cb95f216a2",
+          "sample_count": 2477
+        },
+        "video": {
+          "accepted_trajectory": false,
+          "byte_count": 131328,
+          "development_failure_evidence_only": true,
+          "file_sha256": "71aed88f3331027370661a300a5bbc2f06f25941a573a4bf20b191f85ff209ad",
+          "formal_data": false,
+          "frame_count": 249,
+          "hash_match": true,
+          "includes_final_frame": true,
+          "includes_initial_frame": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/physical/trajectory.mp4",
+          "receipt_file_sha256": "71aed88f3331027370661a300a5bbc2f06f25941a573a4bf20b191f85ff209ad",
+          "receipt_self_hash_valid": true,
+          "receipt_sha256": "023b693cbffc1ffd75c9c245b3c1e823a75029483690c24cc7391e97ef53f716"
+        }
+      },
+      {
+        "bottle_off_support_after_lift": false,
+        "orphan_process_count": 0,
+        "physical_spec": {
+          "file_sha256": "c84b782f8c23a85f21cf6b6011ae591a7a7182a017e1c5d28cb9f60ddca0eb5c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/physical_spec.json",
+          "self_hash_valid": true,
+          "spec_sha256": "4a947ee1bdbd227980fb4649a20265360a49ded5ed4c3c97610bdf8cf217423f"
+        },
+        "physical_terminal_receipt_sha256": "cab7cb1705c590414cd30ec03c4c712f3126682426f12d7d4b970932c7446d03",
+        "physical_terminal_self_hash_valid": true,
+        "planner_pass": true,
+        "planner_query_count_after": 7,
+        "planner_query_count_before": 0,
+        "planner_query_delta": 7,
+        "recipe_id": "f3-final-pose-v3-r2180",
+        "recipe_sha256": "176bc2a145a17bf13a70ec365ed144fefcb4689a6eb4379b6d8db0645f1cefb1",
+        "scene_cleanup_pass": true,
+        "scene_execution_returned_without_exception": true,
+        "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000009",
+        "scene_receipt": {
+          "file_sha256": "a4765aee7a0770bdc4300e4fed8cf1499da3cf10c0aed7f036397c47eb8a0e63",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/physical/scene_receipt.json",
+          "receipt_sha256": "7a1515eef85c9eac3d0d572121a9bd14a52d6232fa1394b931327377cded67a6",
+          "self_hash_valid": true
+        },
+        "selected_contact_fraction_after_lift": 0.0,
+        "selected_gripper_contact_continuity": false,
+        "sequence_complete": false,
+        "shared_v_physically_qualified": false,
+        "trace": {
+          "byte_count": 57861513,
+          "file_sha256": "d9459e00db4a6bc6dd4a3d93a6b6a75bbc379ecf66f1cb24cdb37b660638b64d",
+          "hash_match": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/physical/physical_trace.npz",
+          "receipt_sha256": "d9459e00db4a6bc6dd4a3d93a6b6a75bbc379ecf66f1cb24cdb37b660638b64d",
+          "sample_count": 2879
+        },
+        "video": {
+          "accepted_trajectory": false,
+          "byte_count": 189647,
+          "development_failure_evidence_only": true,
+          "file_sha256": "72c67fed72147a4e6d372b5c34c836acc9ff8d8a738404335f4cc37558dd93df",
+          "formal_data": false,
+          "frame_count": 289,
+          "hash_match": true,
+          "includes_final_frame": true,
+          "includes_initial_frame": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/physical/trajectory.mp4",
+          "receipt_file_sha256": "72c67fed72147a4e6d372b5c34c836acc9ff8d8a738404335f4cc37558dd93df",
+          "receipt_self_hash_valid": true,
+          "receipt_sha256": "fddce5b86bb582211449799c6c068d5b8beee0eb6485e8053f3754bf9e0fbd84"
+        }
+      },
+      {
+        "bottle_off_support_after_lift": false,
+        "orphan_process_count": 0,
+        "physical_spec": {
+          "file_sha256": "2a55bb05736df8b31a0ab68b64b77399a391989c7420a17624e98e9eaaa219b1",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/physical_spec.json",
+          "self_hash_valid": true,
+          "spec_sha256": "80a69b39f328a5b11a2f0fab5893b6ad3f8384a101ac3e482e53e88cdb852e93"
+        },
+        "physical_terminal_receipt_sha256": "d855fc377db713b99f86c04cdbd4089976833e33daf6c5a9675f69bcbd63cee4",
+        "physical_terminal_self_hash_valid": true,
+        "planner_pass": true,
+        "planner_query_count_after": 7,
+        "planner_query_count_before": 0,
+        "planner_query_delta": 7,
+        "recipe_id": "f3-final-pose-v3-r3677",
+        "recipe_sha256": "3d945ce11eef1ba911621dd14238ad0eb7d91e167c6aa61a8de861cca18bde44",
+        "scene_cleanup_pass": true,
+        "scene_execution_returned_without_exception": true,
+        "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000010",
+        "scene_receipt": {
+          "file_sha256": "2a79e9e6aedd29e95502256a2713bd22a085a1219b710e82461197b20da5afdb",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/physical/scene_receipt.json",
+          "receipt_sha256": "9d8695ac59102667f2cece5c9da31f6068fb37c1e1285186b84dce8fd6b2f1e1",
+          "self_hash_valid": true
+        },
+        "selected_contact_fraction_after_lift": 0.0,
+        "selected_gripper_contact_continuity": false,
+        "sequence_complete": false,
+        "shared_v_physically_qualified": false,
+        "trace": {
+          "byte_count": 54589279,
+          "file_sha256": "be8b83227b77a9fc5c6222bfac5de021a03a494de4d3e439b4e8240c279dde05",
+          "hash_match": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/physical/physical_trace.npz",
+          "receipt_sha256": "be8b83227b77a9fc5c6222bfac5de021a03a494de4d3e439b4e8240c279dde05",
+          "sample_count": 2551
+        },
+        "video": {
+          "accepted_trajectory": false,
+          "byte_count": 146415,
+          "development_failure_evidence_only": true,
+          "file_sha256": "c1c1f20f8cc899b96ceeabdd2fb486a80da24e156cc9e77c8e2858c9b2d59d9e",
+          "formal_data": false,
+          "frame_count": 256,
+          "hash_match": true,
+          "includes_final_frame": true,
+          "includes_initial_frame": true,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/physical/trajectory.mp4",
+          "receipt_file_sha256": "c1c1f20f8cc899b96ceeabdd2fb486a80da24e156cc9e77c8e2858c9b2d59d9e",
+          "receipt_self_hash_valid": true,
+          "receipt_sha256": "86e5880c7e47096ccfaac9020f9fa24cc4d5da7c1196af85ffdf12c06fd4c643"
+        }
+      }
+    ]
+  },
+  "planner_qualification": {
+    "cumulative_survivor_count_including_retained_r0005": 4,
+    "new_survivor_count": 3,
+    "replacement_candidate_count": 3,
+    "replacement_qualification_planner_queries": 30,
+    "rows": [
+      {
+        "recipe_id": "f3-final-pose-v3-r1505",
+        "stage_a": {
+          "binding_receipt_sha256": "368aeb23b8e3cfa0d2f77f56ea9dd2ed167c257de78c1da1a5ab3bc7035cf089",
+          "binding_self_hash_valid": true,
+          "file_sha256": "794fb73f2ad91ab28c50d90d441601c7353e9eb29fcbb468f2f10056acadfbc7",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/stage_a.json",
+          "planner_pass": true,
+          "planner_query_count": 3,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000001",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "b04c1d5dd3dbc209ff7228cacb1a5d7cbcdecdd891dd1065ea53aa90b1adf266",
+          "stage_pass": true,
+          "terminal_receipt_sha256": "fed93b2a1933bfec7c86745ce872b0e6f57e043f5a5122199aced6369810083f",
+          "terminal_self_hash_valid": true
+        },
+        "stage_b": {
+          "binding_receipt_sha256": "bb6dc95d9d9caf310e0e5da7513948933756c54ab7f22f3d9f4abed826670271",
+          "binding_self_hash_valid": true,
+          "file_sha256": "4e3186be2dda52d67fdd63e595693983670eec5008385003eaa33b803dd8bd20",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_01_f3-final-pose-v3-r1505/stage_b.json",
+          "planner_pass": true,
+          "planner_query_count": 7,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000002",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "bda1957386ed3342e9c84a3671ff64762350766322584c9d41f485e939f896ba",
+          "stage_pass": true,
+          "target_audit_pass": true,
+          "target_audit_receipt_sha256": "a133dcd83bece16f3bc3d7aedb258875f1d1b2e45710bd6c576b8362556a7127",
+          "target_audit_self_hash_valid": true,
+          "terminal_receipt_sha256": "1e95ca5155fa6abc301e368ac18eb9a53773f1ec3265727eb80b9d345310bbb3",
+          "terminal_self_hash_valid": true
+        }
+      },
+      {
+        "recipe_id": "f3-final-pose-v3-r2180",
+        "stage_a": {
+          "binding_receipt_sha256": "0d1d732098da9a4569f9880c99232306a2e56a3e058a5e54b7853f0a12d14c7f",
+          "binding_self_hash_valid": true,
+          "file_sha256": "eee65ba436930576b4afe4d8e897a242b857be0abc7277ca3991e2377f7be2fa",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/stage_a.json",
+          "planner_pass": true,
+          "planner_query_count": 3,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000003",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "6d0b377d7a19628cd871f79cfd77dc8a151db0e4e1d2ac85b3bdba25fffa485e",
+          "stage_pass": true,
+          "terminal_receipt_sha256": "da43d48598a2ebaa752e914fa335384f280eca7b2dc5ca06028fae5fe3130786",
+          "terminal_self_hash_valid": true
+        },
+        "stage_b": {
+          "binding_receipt_sha256": "4cf8601954c0e98afb7c59a0e51e13e9b0de674538b7d8d5cb345b07fc9e8e47",
+          "binding_self_hash_valid": true,
+          "file_sha256": "770858d6f42be66411918cc5566631c8cd29394e975be8dcf0e1b4d60ce342f5",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_02_f3-final-pose-v3-r2180/stage_b.json",
+          "planner_pass": true,
+          "planner_query_count": 7,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000004",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "f8d6de49ff62b587cd940855c1a9a759963c76c121405711a1f68f1bf9561250",
+          "stage_pass": true,
+          "target_audit_pass": true,
+          "target_audit_receipt_sha256": "0cda3566f1c843b6c7650b6e45271d299c3caffb32840b03398a7ee614b7413f",
+          "target_audit_self_hash_valid": true,
+          "terminal_receipt_sha256": "7dbb4950639dc0031e0e153b4c6cd42c07cd00bf1381c3954fdb66e1df222577",
+          "terminal_self_hash_valid": true
+        }
+      },
+      {
+        "recipe_id": "f3-final-pose-v3-r3677",
+        "stage_a": {
+          "binding_receipt_sha256": "10937333d7fdf01d58d0b856f99a71e781524f702dbd31888cddbcb7e0b4a4dc",
+          "binding_self_hash_valid": true,
+          "file_sha256": "782193ca77f52a874f64b1b312c13809447bf8d7d545cb05139c69d781ff0717",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/stage_a.json",
+          "planner_pass": true,
+          "planner_query_count": 3,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000005",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "22fc522b79d3eb299ce3885b334eee57cb3bb7978c624953bcd941dd8028e803",
+          "stage_pass": true,
+          "terminal_receipt_sha256": "12acfc08844274a59199fa86d95aaea6ceaadaf4f67c1853736b2d0bdd551813",
+          "terminal_self_hash_valid": true
+        },
+        "stage_b": {
+          "binding_receipt_sha256": "032560978795ace1a622a0356d0f5ddf8a448c813673b1eacfd6eed8b4e39db9",
+          "binding_self_hash_valid": true,
+          "file_sha256": "3077785fbc3fa7f7d6c17b89e80d7b88cf3e819a78419537a5b1be93b9e64329",
+          "orphan_process_count": 0,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1/candidate_03_f3-final-pose-v3-r3677/stage_b.json",
+          "planner_pass": true,
+          "planner_query_count": 7,
+          "scene_cleanup_pass": true,
+          "scene_instance_id": "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000006",
+          "spec_self_hash_valid": true,
+          "spec_sha256": "ecd226f121d7b801a769b915be346afe538e820b6a4a207839fd2a4ceec6fbf8",
+          "stage_pass": true,
+          "target_audit_pass": true,
+          "target_audit_receipt_sha256": "f471c9a80c2b6e57d266660ab3f25f72c9a1f61da2b1b690c0914dd4de022452",
+          "target_audit_self_hash_valid": true,
+          "terminal_receipt_sha256": "cc3ab271feee46b1a82c775997f36b73a60778b1b98751c3b56f1e4a59faeb1a",
+          "terminal_self_hash_valid": true
+        }
+      }
+    ],
+    "stage_a_pass_count": 3,
+    "stage_a_planner_queries": 9,
+    "stage_b_pass_count": 3,
+    "stage_b_planner_queries": 21
+  },
+  "publication_checks": {
+    "all_contact_fraction_after_lift_zero": true,
+    "all_planner_artifact_hashes_valid": true,
+    "four_physical_artifact_chains_valid": true,
+    "gpu5_cleanup_and_release_pass": true,
+    "guard_start_and_terminal_self_hashes_valid": true,
+    "job_terminal_self_hash_valid": true,
+    "manifest_impact_preflight_self_hashes_valid": true,
+    "no_accepted_or_formal_data": true,
+    "no_suffix_zero": true,
+    "physical_gate_zero_of_four": true,
+    "runtime_accounting_recomputed_30_plus_28_equals_58": true,
+    "runtime_scenes_recomputed_6_plus_4_equals_10": true,
+    "three_replacements_stage_a_and_b_pass": true
+  },
+  "publication_integrity_pass": true,
+  "publication_source_vault_head": "de5f57a6db6805d63d8e62cb8e803f98bbdae1cd",
+  "receipt_sha256": "070e1bec9e46e2b5aa42c8e489fd168d073be78b77cd2d14f61a8fbc74016210",
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "run_id": "f3-v21-pathsafe-r1-20260904",
+  "runtime_accounting_recomputed": {
+    "aggregate_planner_queries": 58,
+    "aggregate_scenes": 10,
+    "conditional_no_suffix_scenes": 0,
+    "embedded_accounting_checks_all_true": true,
+    "identities": {
+      "aggregate_30_plus_28_equals_58": true,
+      "physical_4_times_7_equals_28": true,
+      "qualification_9_plus_21_equals_30": true,
+      "scenes_6_plus_4_equals_10": true
+    },
+    "physical_queries": 28,
+    "physical_queries_by_candidate": [
+      7,
+      7,
+      7,
+      7
+    ],
+    "physical_scenes": 4,
+    "planner_scenes": 6,
+    "replacement_qualification_queries": 30,
+    "scene_ids": [
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000001",
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000002",
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000003",
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000004",
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_A-v1_2-000005",
+      "f3-F3_CENTRALIZED_REPLACEMENT_STAGE_B-v1_2-000006",
+      "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000007",
+      "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000008",
+      "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000009",
+      "f3-F3_CENTRALIZED_REPLACEMENT_PHYSICAL-v1_2-000010"
+    ],
+    "scene_ids_unique": true,
+    "stage_a_queries": [
+      3,
+      3,
+      3
+    ],
+    "stage_b_queries": [
+      7,
+      7,
+      7
+    ]
+  },
+  "schema_version": "cmf_f3_path_safe_reissue_run1_terminal_publication_v1",
+  "scientific_gate_pass": false,
+  "status": "FAILED_PHYSICAL_SHARED_V_GRASP_CONTINUITY_WITH_EVIDENCE",
+  "terminal_truth": {
+    "guard_child_exit_code": 1,
+    "guard_status": "failed_or_blocked_with_cleanup_evidence",
+    "guard_transport_failure_is_scientific_failure_propagation": true,
+    "job_terminal_error": null,
+    "job_terminal_pass": false,
+    "physical_qualification_pass": false,
+    "planner_qualification_pass": true,
+    "runtime_accounting_pass": true,
+    "scientific_gate_pass": false
+  }
+}
