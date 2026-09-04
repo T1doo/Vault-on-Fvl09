@@ -1,0 +1,136 @@
+{
+  "authorization_consumed": false,
+  "candidate_id": "f4-slot-corridor-hv2-r01",
+  "checks": {
+    "all_execution_authority_false": true,
+    "authority_lineage_pass": true,
+    "hardening_matrix_exact": true,
+    "hardening_receipt_bound_to_runtime": true,
+    "hardening_receipt_self_hash_and_pass": true,
+    "prepublication_receipt_self_hash_and_pass": true,
+    "proposal_contract_prepublication_pass": true,
+    "proposal_file_matches_prepublication_receipt": true,
+    "proposal_self_hash": true,
+    "runtime_paths_absent": true,
+    "scientific_contract_unchanged": true,
+    "source_commit_is_exact_pushed_10d4ec8": true
+  },
+  "cpu_review_status": "PASS_READY_FOR_NEW_EXTERNAL_REVIEW_NO_EXECUTION_AUTHORITY",
+  "execution_authority": {
+    "approved": false,
+    "compression_authorized": false,
+    "formal_360_authorized": false,
+    "gpu_execution_authorized": false,
+    "h_reveal_authorized": false,
+    "physical_execution_authorized": false,
+    "pi05_authorized": false,
+    "planner_execution_authorized": false,
+    "root_execution_authorized": false,
+    "scene_execution_authorized": false,
+    "stage1_authorized": false,
+    "training_authorized": false
+  },
+  "fixed_arm_schedule": {
+    "canonical_prefix": "right",
+    "program_suffix": "left"
+  },
+  "frozen_caps": {
+    "maximum_accepted_development_roots": 1,
+    "maximum_accepted_development_trajectories": 3,
+    "maximum_branch_executions": 3,
+    "maximum_branch_prefix_replays": 3,
+    "maximum_canonical_prefix_generations": 1,
+    "maximum_debug_videos": 3,
+    "maximum_formal_trajectories": 0,
+    "maximum_fresh_scenes": 11,
+    "maximum_planner_queries": 136,
+    "maximum_raw_trajectories": 3,
+    "maximum_robot_action_scenes": 7,
+    "maximum_root_invocations": 1,
+    "maximum_suffix_prefix_replays": 3,
+    "maximum_suffix_preflights": 3,
+    "maximum_total_prefix_replays": 6
+  },
+  "gpu_context_created": false,
+  "hardening_test_receipt": {
+    "file_sha256": "88c9b4d94158d724dc520898d0ee48196851e86fcaac18ad986725183a7ab6f1",
+    "pass": true,
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_DEVELOPMENT_ROOT_RUNTIME_V2_1_FINALIZER_TEST_V1.json",
+    "receipt_sha256": "1c546ace3994e5d2afb46f7490b6d0d3e55d9b666cb41e9cc54658bbe4b723f2"
+  },
+  "implementation_review": {
+    "file_sha256": "419750d638252a7fdeeb663816a8f373470e05552461d0a93c6b055bdc911c38",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_DEVELOPMENT_ROOT_RUNTIME_V2_1_IMPLEMENTATION_REVIEW_20260904.md"
+  },
+  "latest_external_decision": {
+    "file_sha256": "790fc6e3e48694d212bb1c1a8833d270f2dc0dbe4748a605f319003787fd0dcd",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_F2_F3_F4_RUNTIME_V2_1_20260904.md",
+    "receipt_sha256": "c8ff692590d7cdb63995c9ce6932d851c1ef918fb5a8e8003881d2035eca7c35"
+  },
+  "next_required_action": "NEW_EXTERNAL_REVIEW_OF_RUNTIME_V2_1_HASHES_TEST_RECEIPT_AND_PROPOSAL_V2_ONLY",
+  "nvidia_smi_called": false,
+  "pass": true,
+  "physical_execution_started": false,
+  "planner_called": false,
+  "prepublication_receipt": {
+    "file_sha256": "0a8ada6fb9cd69beb13bc7508e565c9a07a6b52819d0f1484a513b3864a3705b",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_INFRASTRUCTURE_CORRECTED_ROOT_PROPOSAL_V2_PREPUBLICATION.json",
+    "phase": "PREPUBLICATION",
+    "receipt_sha256": "a585de409f4fb857ee14cf8499335e697946359457b10892d60abf5405a3f5a9"
+  },
+  "production_output_created": false,
+  "program_order": [
+    "F4-ABC",
+    "F4-ACB",
+    "F4-BAC"
+  ],
+  "proposal_v2": {
+    "file_sha256": "751ff914161456a70dd2975ada2de5f8b4aa7f70edcad2abd8291708e44d8612",
+    "manifest_sha256": "ea27ac315516b2006a96bd92594e125473970d111d2ef12434be9fecc11893e5",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/PROPOSED_F4_INFRASTRUCTURE_CORRECTED_ROOT_MANIFEST_V2.json",
+    "status": "PROPOSED_F4_INFRASTRUCTURE_CORRECTED_ROOT_V2"
+  },
+  "real_gpu_lease_acquired": false,
+  "receipt_sha256": "f1efa1fa8e093a2ca900171cab9cd72d1fb1f44f5ffbca2fff398aa58a1db166",
+  "root_execution_started": false,
+  "runtime_path_absence": {
+    "cache_job": true,
+    "guard_directory": true,
+    "output": true
+  },
+  "runtime_v2_1_files": {
+    "guarded_launcher.py": {
+      "file_sha256": "1dd8188da117876b4b452b8dc96d5b35cf8d49d0daff190ed5eac9ffb9bb5454",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_development_root_runtime_v2_1/guarded_launcher.py"
+    },
+    "job_runner.py": {
+      "file_sha256": "7b47e1a7e3ad9fd0db528e23ee9d870029d527c5b2f47a3550fc545d3a257463",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_development_root_runtime_v2_1/job_runner.py"
+    },
+    "lifecycle_preflight.py": {
+      "file_sha256": "fcb125438d19f71ff9a31ad353b7481935290c0f36a64e0e1427225369c5f0a1",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_development_root_runtime_v2_1/lifecycle_preflight.py"
+    },
+    "manifest_contract.py": {
+      "file_sha256": "eb6afbb96d4737946dd8de8d527fc41afee98fac762fb3a1255ba877c5a06b4f",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f4_development_root_runtime_v2_1/manifest_contract.py"
+    }
+  },
+  "scene_created": false,
+  "schema_version": "cmf_f4_development_root_runtime_v2_1_cpu_review_v2",
+  "source_freeze_pushed": true,
+  "source_freeze_vault_head": "10d4ec85a02e4d0bf47bee65d7022bb46f6aa98b",
+  "source_proposal_v1": {
+    "file_sha256": "227cb378f662885a3151182756fdccdd21b2c966e75846641d32cb5a6e9afe94",
+    "manifest_sha256": "8afaf49a83aaaedc9473cd20866ad06e2b18e1f8adfcd1e6747baa401ce0a4f5",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/PROPOSED_F4_INFRASTRUCTURE_CORRECTED_ROOT_MANIFEST_V1.json"
+  },
+  "test_summary": {
+    "executable_identity_negative": "3/3",
+    "finalizer": "18/18",
+    "lineage_negative": "5/5",
+    "numpy_serialization": true,
+    "post_child": "11/11",
+    "runner_environment_negative": "21/21"
+  }
+}
