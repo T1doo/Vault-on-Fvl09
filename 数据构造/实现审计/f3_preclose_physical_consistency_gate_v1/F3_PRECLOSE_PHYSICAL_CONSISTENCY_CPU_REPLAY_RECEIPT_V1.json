@@ -1,0 +1,274 @@
+{
+  "authorization": {
+    "approved": false,
+    "formal": false,
+    "gpu": false,
+    "physical": false,
+    "planner": false,
+    "raw": false,
+    "root": false,
+    "scene": false,
+    "shared_v": false,
+    "stage1": false
+  },
+  "bindings": {
+    "contact_classifier_v8": {
+      "file_sha256": "a78534268fb4f9e9e43f22e7c22fa9f35db68465b290a0a247e398a7175d91b5",
+      "path": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/f3_physical_contact_signal_v8.py"
+    },
+    "gate": {
+      "file_sha256": "ca33ced9e4da99d9c3fcc21f4e7133a99bacd6cdfecd74183fe79012de9274e1",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1/gate.py"
+    },
+    "proposal": {
+      "file_sha256": "0060cedbd95cadac31ed4caeb5672fcf2993cd6b1e207e827b36e274ace83f92",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1/proposal.py"
+    },
+    "qpos_audit_reference": {
+      "file_sha256": "e88d6e03fe3fbfb47f2d2e3a05032de037bf91b6f3e2d736101e96a8e08b53fb",
+      "path": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py"
+    },
+    "replay": {
+      "file_sha256": "e3fc6fcfec6353a04dede6704cbf4e1f8be479a4d0042d9926f99e9ee397d656",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1/replay.py"
+    },
+    "runtime_thresholds": {
+      "file_sha256": "71ac011ac9b3e57ead9836cf8fdb9c855b0832dd1952a88104d16c6f9ccc5692",
+      "path": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/runtime_v2_contracts.py"
+    },
+    "tests": {
+      "file_sha256": "69c0c6d1bfb7e44f42a2d4bb58c27e7713bf82b6af96438c946d681260acc58e",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1/test_gate.py"
+    }
+  },
+  "date": "2026-09-04",
+  "family": "F3",
+  "gate_contract": {
+    "contact_classifier": "controlled_multi_future.f3_physical_contact_signal_v8",
+    "contract_sha256": "c64d281a55963255f09e391533199476166b77e57af6c8f64e836f1d024a20db",
+    "failure_priority": [
+      "wrong_arm_or_action_routing",
+      "contact_signal_incomplete",
+      "executing_arm_self_collision",
+      "executing_arm_support_collision",
+      "premature_or_unexpected_arm_bottle_contact",
+      "bottle_displaced_before_close",
+      "selected_arm_qpos_tracking_failed",
+      "eef_tracking_failed"
+    ],
+    "failure_semantics": "any failed check stops before gripper close",
+    "formal_data": false,
+    "gpu_execution_authorized": false,
+    "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+    "ordered_stages": [
+      "pregrasp",
+      "grasp"
+    ],
+    "pair_presence_is_audit_only": true,
+    "physical_execution_authorized": false,
+    "planner_execution_authorized": false,
+    "schema_version": "cmf_f3_preclose_physical_consistency_contract_v1",
+    "stage1_authorized": false,
+    "thresholds": {
+      "bottle_preclose_displacement_m": 0.01,
+      "eef_orientation_error_rad": 0.02,
+      "eef_position_error_m": 0.03,
+      "selected_arm_qpos_max_error_rad": 0.1
+    }
+  },
+  "interpretation": {
+    "action_layout_fault": false,
+    "gripper_drive_fault": false,
+    "old_four_retry_authorized": false,
+    "primary_failure": "CuRobo approximate collision feasibility did not exclude SAPIEN executing-arm self/support collisions before close",
+    "verifier_fault": false
+  },
+  "machine_tests": {
+    "failed_count": 0,
+    "framework": "unittest",
+    "includes": [
+      "4 sealed real traces",
+      "good synthetic",
+      "wrong arm",
+      "positive-separation nonphysical pair",
+      "missing signal fail-closed",
+      "collision categories",
+      "bottle displacement",
+      "tracking boundaries",
+      "52-query proposal budget",
+      "zero file IO"
+    ],
+    "passed_count": 20,
+    "test_count": 20
+  },
+  "real_trace_replay": {
+    "all_earliest_failures_pregrasp": true,
+    "all_four_rejected_before_close": true,
+    "case_count": 4,
+    "ordered_cases": [
+      "retained_r0005",
+      "candidate_01_f3-final-pose-v3-r1505",
+      "candidate_02_f3-final-pose-v3-r2180",
+      "candidate_03_f3-final-pose-v3-r3677"
+    ],
+    "rejected_before_close_count": 4,
+    "rows": [
+      {
+        "arm": "left",
+        "earliest_cause": "executing_arm_self_collision",
+        "earliest_stage": "pregrasp",
+        "grasp_bottle_displacement_m": 0.0,
+        "pregrasp": {
+          "bottle_preclose_displacement_m": 0.0,
+          "eef_orientation_error_rad": 0.6393729102516669,
+          "eef_position_error_m": 0.07502973524930287,
+          "selected_arm_qpos_max_error_rad": 0.5684670209884644
+        },
+        "pregrasp_failures": [
+          "executing_arm_self_collision",
+          "executing_arm_support_collision",
+          "selected_arm_qpos_tracking_failed",
+          "eef_tracking_failed"
+        ],
+        "recipe_id": "f3-final-pose-v3-r0005",
+        "samples": 2488,
+        "selected_arm_only": true,
+        "self_collision": {
+          "body_a": "fl_link6",
+          "body_b": "fl_link4",
+          "impulse_norm_sum": 76.59244460640075,
+          "minimum_signed_separation_m": -0.0020255441777408123,
+          "physical_contact_reasons": [
+            "impulse_above_epsilon",
+            "nonpositive_signed_separation"
+          ]
+        },
+        "stop_before_close": true,
+        "trace_sha256": "a9b41e8b1838543a9a218149e0537273be28a1c7aa166e917555945e3d0ace1b"
+      },
+      {
+        "arm": "right",
+        "earliest_cause": "executing_arm_self_collision",
+        "earliest_stage": "pregrasp",
+        "grasp_bottle_displacement_m": 0.0,
+        "pregrasp": {
+          "bottle_preclose_displacement_m": 0.0,
+          "eef_orientation_error_rad": 0.6322097894804829,
+          "eef_position_error_m": 0.08698910927401378,
+          "selected_arm_qpos_max_error_rad": 0.8072882890701294
+        },
+        "pregrasp_failures": [
+          "executing_arm_self_collision",
+          "executing_arm_support_collision",
+          "selected_arm_qpos_tracking_failed",
+          "eef_tracking_failed"
+        ],
+        "recipe_id": "f3-final-pose-v3-r1505",
+        "samples": 2477,
+        "selected_arm_only": true,
+        "self_collision": {
+          "body_a": "fr_link6",
+          "body_b": "fr_link4",
+          "impulse_norm_sum": 63.4262647841451,
+          "minimum_signed_separation_m": -0.001559595693834126,
+          "physical_contact_reasons": [
+            "impulse_above_epsilon",
+            "nonpositive_signed_separation"
+          ]
+        },
+        "stop_before_close": true,
+        "trace_sha256": "faa14d5fa20f1616ddcb36ea349d7a6230510739229de953df94a7cb95f216a2"
+      },
+      {
+        "arm": "left",
+        "earliest_cause": "executing_arm_self_collision",
+        "earliest_stage": "pregrasp",
+        "grasp_bottle_displacement_m": 0.2217548257213813,
+        "pregrasp": {
+          "bottle_preclose_displacement_m": 0.0,
+          "eef_orientation_error_rad": 0.0899406928144396,
+          "eef_position_error_m": 0.11988349510362742,
+          "selected_arm_qpos_max_error_rad": 0.33885185420513153
+        },
+        "pregrasp_failures": [
+          "executing_arm_self_collision",
+          "executing_arm_support_collision",
+          "selected_arm_qpos_tracking_failed",
+          "eef_tracking_failed"
+        ],
+        "recipe_id": "f3-final-pose-v3-r2180",
+        "samples": 2879,
+        "selected_arm_only": true,
+        "self_collision": {
+          "body_a": "fl_link6",
+          "body_b": "fl_link4",
+          "impulse_norm_sum": 10.6798794037689,
+          "minimum_signed_separation_m": -0.00027264439268037677,
+          "physical_contact_reasons": [
+            "impulse_above_epsilon",
+            "nonpositive_signed_separation"
+          ]
+        },
+        "stop_before_close": true,
+        "trace_sha256": "d9459e00db4a6bc6dd4a3d93a6b6a75bbc379ecf66f1cb24cdb37b660638b64d"
+      },
+      {
+        "arm": "right",
+        "earliest_cause": "executing_arm_self_collision",
+        "earliest_stage": "pregrasp",
+        "grasp_bottle_displacement_m": 0.07538763047266527,
+        "pregrasp": {
+          "bottle_preclose_displacement_m": 0.03281340581795054,
+          "eef_orientation_error_rad": 0.46377752405441863,
+          "eef_position_error_m": 0.10335050986356864,
+          "selected_arm_qpos_max_error_rad": 0.6276654005050659
+        },
+        "pregrasp_failures": [
+          "executing_arm_self_collision",
+          "executing_arm_support_collision",
+          "bottle_displaced_before_close",
+          "selected_arm_qpos_tracking_failed",
+          "eef_tracking_failed"
+        ],
+        "recipe_id": "f3-final-pose-v3-r3677",
+        "samples": 2551,
+        "selected_arm_only": true,
+        "self_collision": {
+          "body_a": "fr_link6",
+          "body_b": "fr_link4",
+          "impulse_norm_sum": 35.75675012018461,
+          "minimum_signed_separation_m": -0.0008535291999578476,
+          "physical_contact_reasons": [
+            "impulse_above_epsilon",
+            "nonpositive_signed_separation"
+          ]
+        },
+        "stop_before_close": true,
+        "trace_sha256": "be8b83227b77a9fc5c6222bfac5de021a03a494de4d3e439b4e8240c279dde05"
+      }
+    ],
+    "trace_root": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_v21_pathsafe_r1"
+  },
+  "receipt_sha256": "d2a42d743ca126aab42f54009d2153b97c346efbe31ce82dccf2c3ed5607a24a",
+  "schema_version": "cmf_f3_preclose_physical_consistency_cpu_replay_receipt_v1",
+  "sealed_terminal": {
+    "file_sha256": "54a369c5539f0110cb6e0723ee002985f00b54bdbb904e60972946d317698fb1",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_ZERO_SCENE_WIRING_REISSUE_RUN1_PATH_SAFE_TERMINAL_PUBLICATION_V1.json",
+    "receipt_sha256": "070e1bec9e46e2b5aa42c8e489fd168d073be78b77cd2d14f61a8fbc74016210"
+  },
+  "side_effects": {
+    "cuda_init": 0,
+    "formal": 0,
+    "gpu_query": 0,
+    "gripper_close": 0,
+    "log_edit": 0,
+    "physical_action": 0,
+    "planner_call": 0,
+    "raw": 0,
+    "root": 0,
+    "scene_create": 0,
+    "sealed_mutation": 0,
+    "shared_v": 0
+  },
+  "status": "CPU_REPLAY_GATE_IMPLEMENTED_AND_VALIDATED"
+}

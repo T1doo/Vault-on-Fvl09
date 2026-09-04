@@ -1,0 +1,151 @@
+{
+  "approved": false,
+  "authority": {
+    "automatic_retry_authorized": false,
+    "compression_authorized": false,
+    "formal_360_authorized": false,
+    "gpu_execution_authorized": false,
+    "h_reveal_authorized": false,
+    "planner_execution_authorized": false,
+    "physical_execution_authorized": false,
+    "pi05_authorized": false,
+    "root_execution_authorized": false,
+    "scene_execution_authorized": false,
+    "stage0_rerun_authorized": false,
+    "stage1_authorized": false,
+    "training_authorized": false,
+    "third_dispatch_authorized": false
+  },
+  "bindings": {
+    "latest_external_review": {
+      "decision_file_sha256": "790fc6e3e48694d212bb1c1a8833d270f2dc0dbe4748a605f319003787fd0dcd",
+      "decision_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_F2_F3_F4_RUNTIME_V2_1_20260904.md",
+      "receipt_file_sha256": "bcd64b8e013893707565b63a312ce396b1acdad3d502f0c9fdaf37fbd951401a",
+      "receipt_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_F2_F3_F4_RUNTIME_V2_1_RECEIPT_20260904.json",
+      "receipt_sha256": "c8ff692590d7cdb63995c9ce6932d851c1ef918fb5a8e8003881d2035eca7c35"
+    },
+    "run1_prelaunch_recovery": {
+      "file_sha256": "0e4baca15482429c285de9edaf34402967b8f876943a20d86faa6020c1858229",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CONTROLLED_INSERTION_ROUTE_GATE_RUN1_ATOMIC_IDLE_REJECTION_RECOVERY_V1.json",
+      "receipt_sha256": "5c44f850e6e2957db932d151e52bc2977b33da9e6503a395a9f54cd3ae16e41a"
+    },
+    "run2_manifest": {
+      "file_sha256": "210dd17071c1f5b89aee6fb8f7451cb14949a2948c663cbc2e86c2824725ccd0",
+      "manifest_sha256": "42d4d48a41ab8fcab1515679450f20c2852dfc94a531022009a5b7fce56ff396",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CONTROLLED_INSERTION_ROUTE_GATE_ADMISSION_REISSUE_RUN2_MANIFEST_V1.json"
+    },
+    "run2_terminal_publication": {
+      "file_sha256": "c486c0489c0830e8280a0d6919be4a35855d72adb523ce4a3cae6d7d1b2a08d9",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_CONTROLLED_INSERTION_ROUTE_GATE_ADMISSION_REISSUE_RUN2_TERMINAL_PUBLICATION_V1.json",
+      "receipt_sha256": "bc28ef29817dd522d15a5379aba914f46445b11b494eb41c361cbb6c98ff8ff7",
+      "status": "FAILED_INFRASTRUCTURE_BEFORE_PLANNER_WITH_EVIDENCE"
+    }
+  },
+  "cache_path_contract": {
+    "derived_paths_utf8_bytes": {
+      "CONDA_PKGS_DIRS": 89,
+      "CUDA_CACHE_PATH": 83,
+      "HOME": 83,
+      "MPLCONFIGDIR": 89,
+      "NUMBA_CACHE_DIR": 84,
+      "TMPDIR": 82,
+      "TORCH_EXTENSIONS_DIR": 95,
+      "TORCH_HOME": 84,
+      "XDG_CACHE_HOME": 82
+    },
+    "derived_tmpdir": "/nfs_share/lijunhui/Robotwin2/cache/f2/f2-controlled-insertion-route-gate-run1/tmp",
+    "derived_tmpdir_utf8_bytes": 82,
+    "failed_run2_tmpdir_utf8_bytes": 137,
+    "future_cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/f2",
+    "maximum_derived_cache_path_utf8_bytes": 95,
+    "prelaunch_maximum_allowed_utf8_bytes": 100,
+    "all_derived_paths_within_limit": true
+  },
+  "formal_data": false,
+  "future_approved_manifest_delta": {
+    "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/f2",
+    "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_short_tmpdir_recovery_run3/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904/guards",
+    "jobs[0].output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f2_controlled_insertion_route_gate_v1/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3",
+    "only_operational_fields_may_change": [
+      "run_id",
+      "guard_directory",
+      "cache_directory",
+      "jobs[0].output_namespace"
+    ],
+    "run_id": "f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904"
+  },
+  "future_auditor_requirement": {
+    "approved_manifest_must_be_exactly_bound": true,
+    "minimum_version": "V1.2",
+    "must_retain_all_v1_1_checks": true,
+    "must_remain_read_only": true
+  },
+  "implementation_contract": {
+    "asset_hash_map_sha256": "f372b750f34e9723f1b8c60d347712eccd243cb5e7abac3c24011bad5126d018",
+    "guard_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1_runtime_v1/guarded_launcher.py",
+    "guard_script_sha256": "bd31e5e1c96190d7b21c27bb775b7346f5127dc7bf0c23e2c4c47edbc50bb1a8",
+    "implementation_source_sha256": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7",
+    "original_review_decision_file_sha256": "85023b5726611f6ed1b30365fae096c84e97c3973e1fab1bb2000d5251c540f4",
+    "original_review_decision_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_DECISION_AFTER_POST_GATE_V2_EXECUTION_V1_20260904.md",
+    "original_review_binding_must_remain_unchanged": true,
+    "runner_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1_runtime_v1/job_runner.py",
+    "runner_script_sha256": "376a782ada5ee95b3e45b09a0af5314516004a4c360f4e9a8e3fb9647f5ace26",
+    "runner_scientific_failure_exit_semantics_changed": false,
+    "runner_transport_exit_zero_is_not_scientific_success": true
+  },
+  "manifest_sha256": "f279c87521013dadf25442314123575eed1b3c209f238a21038db2fb36b56867",
+  "proposal_issue_vault_head": "be2ce89c1fc06bb2797f8f22323bc3c033066df5",
+  "proposal_only": true,
+  "proposed_scientific_contract": {
+    "accepted_root_cap": 0,
+    "allowed_physical_gpu_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "automatic_continuation": false,
+    "automatic_retry": false,
+    "beside_frozen_layout_candidate_index": 2,
+    "beside_planner_query_cap": 6,
+    "branch_execution_cap": 0,
+    "fallback_allowed": false,
+    "family": "F2",
+    "formal_trajectory_cap": 0,
+    "fresh_planner_scene_cap": 2,
+    "inside_planner_query_cap": 5,
+    "job_id": "f2-controlled-insertion-route-gate-run1",
+    "job_scientific_contract_sha256_excluding_output_namespace": "aa12b3e84a91a32231799346abb3985a8cb5a7ecfb775f3b02305bfc45b6f65f",
+    "mode": "F2_PLANNER_ONLY_CONTROLLED_INSERTION_ROUTE_GATE_V1",
+    "open_gripper_during_gate": false,
+    "physical_execution_cap": 0,
+    "planner_query_cap": 11,
+    "primary_10cm_gravity_drop": false,
+    "raw_trajectory_cap": 0,
+    "root_retry_allowed": false,
+    "target_search_allowed": false,
+    "timeout_seconds": 14400,
+    "video_cap": 0
+  },
+  "requested_approval_token": "APPROVE_ONE_F2_SHORT_TMPDIR_INFRASTRUCTURE_RECOVERY_RUN3",
+  "required_after_approval_before_execution": [
+    "issue a new self-hashed approved manifest bound to the exact approval token",
+    "issue a read-only exact-binding post-run auditor V1.2",
+    "run CPU-only manifest/Guard/auditor preflight with all execution paths absent",
+    "commit and push the approved publication",
+    "take a new complete host GPU0-7 snapshot and use one independently fresh-idle card",
+    "run the unchanged Guard with UUID binding and complete post-run cleanup/audit"
+  ],
+  "schema_version": "cmf_proposed_f2_short_tmpdir_infrastructure_recovery_run3_manifest_v1",
+  "status": "PROPOSED_AWAITING_EXTERNAL_REVIEW_NOT_EXECUTABLE",
+  "stop_rules": {
+    "additional_dispatch_after_run3": false,
+    "automatic_root_transition": false,
+    "first_terminal_result_stops": true,
+    "formal_or_stage1_transition": false
+  }
+}
