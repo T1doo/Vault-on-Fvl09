@@ -1,0 +1,59 @@
+{
+  "schema_version": "cmf_f3_post_lift_cpu_review_v1_1",
+  "status": "CPU_POST_LIFT_REVISION_COMPLETE_AWAITING_NARROW_REVIEW",
+  "proposal_manifest_sha256": "37d9a4ea7009c04ff73fb6f8f7b470e082ec8f0833bb7afc2d5ffb409f494f8a",
+  "post_lift_contract": {
+    "maximum_relative_orientation_drift_rad": 0.05,
+    "maximum_relative_translation_drift_m": 0.005,
+    "minimum_actual_bottle_rise_m": 0.02,
+    "post_lift_confirmation_frames": 50
+  },
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/manifest_contract.py": "0b12aa59d51342865fb033f127693b583a4024dbc43647e476c61b328313aefb",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/job_runner.py": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/test_post_lift.py": "0b7f290dc9d203db95cd6b2ba53fb6d5bb86574eaf46e7badd58407419f4d29c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/guarded_launcher.py": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/test_executor.py": "02afae723ec6a912fc85e1715551b754b913201ecdd9ecaf8b59ebbebf86aa8d",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/post_lift_audit.py": "096509b41491ddf0d6a97b144e2801e8e6279f2b29b1ba18ddfeac364ca09e7c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/candidate_executor.py": "40df6332a8fc796417b315ba7d8a385017e9a8af74f0a2d5cccb7922d62333b2"
+  },
+  "unchanged_byte_identity": {
+    "guarded_launcher.py": true,
+    "job_runner.py": true,
+    "test_executor.py": true
+  },
+  "candidate_freeze_sha256": "67d608c88860c3b5f9843e0ba5c3d23e0c8f2389c25b014ec94971b47fe304c6",
+  "caps": {
+    "candidate_cap": 4,
+    "formal": 0,
+    "no_suffix": 0,
+    "physical_attempt_cap": 4,
+    "physical_query_cap": 12,
+    "physical_scene_cap": 4,
+    "planner_query_cap": 52,
+    "planner_scene_cap": 8,
+    "qualification_query_cap": 40,
+    "raw": 0,
+    "root": 0,
+    "scene_cap": 12,
+    "shared_v": 0
+  },
+  "targeted_post_lift_test_count": 12,
+  "retained_test_count": 23,
+  "test_returncode": 0,
+  "test_stdout": "",
+  "test_stderr": "test_complete_valid_micro_lift (test_post_lift.PostLiftTests) ... ok\ntest_confirmation_missing_frame (test_post_lift.PostLiftTests) ... ok\ntest_contact_lost_during_lift (test_post_lift.PostLiftTests) ... ok\ntest_duplicate_step_rejected (test_post_lift.PostLiftTests) ... ok\ntest_incomplete_contact (test_post_lift.PostLiftTests) ... ok\ntest_missing_contact_field (test_post_lift.PostLiftTests) ... ok\ntest_missing_lift_receipt_field (test_post_lift.PostLiftTests) ... ok\ntest_no_actual_bottle_rise (test_post_lift.PostLiftTests) ... ok\ntest_only_last_frame_off_support_rejected (test_post_lift.PostLiftTests) ... ok\ntest_post_lift_arm_support_collision (test_post_lift.PostLiftTests) ... ok\ntest_post_lift_self_collision (test_post_lift.PostLiftTests) ... ok\ntest_transient_slip_then_return (test_post_lift.PostLiftTests) ... ok\ntest_cleanup_failure_not_success (test_executor.AccountingTests) ... ok\ntest_execution_failure_preserves_consumed_queries (test_executor.AccountingTests) ... ok\ntest_missing_counter_is_unknown_not_zero (test_executor.AccountingTests) ... ok\ntest_prepare_failure_preserves_zero_and_cleanup (test_executor.AccountingTests) ... ok\ntest_scene_setup_failure_is_recorded (test_executor.AccountingTests) ... ok\ntest_trace_failure_preserves_accounting_and_cleanup (test_executor.AccountingTests) ... ok\ntest_13_scenes_rejected (test_executor.ExecutorTests) ... ok\ntest_53_queries_rejected (test_executor.ExecutorTests) ... ok\ntest_5_physical_rejected (test_executor.ExecutorTests) ... ok\ntest_budget_52_12_4 (test_executor.ExecutorTests) ... ok\ntest_exact_candidates (test_executor.ExecutorTests) ... ok\ntest_grasp_failure_never_closes (test_executor.ExecutorTests) ... ok\ntest_invalid_counter (test_executor.ExecutorTests) ... ok\ntest_pregrasp_failure_never_grasps_or_closes (test_executor.ExecutorTests) ... ok\ntest_success_order (test_executor.ExecutorTests) ... ok\ntest_cooldown_polling_bound (test_executor.GuardTests) ... ok\ntest_cooldown_success (test_executor.GuardTests) ... ok\ntest_reaped_leader_does_not_skip_worker_kill (test_executor.GuardTests) ... ok\ntest_consistent_terminal (test_executor.TerminalTests) ... ok\ntest_forbidden_shared_v_rejected (test_executor.TerminalTests) ... ok\ntest_forged_success_rejected (test_executor.TerminalTests) ... ok\ntest_query_mismatch_rejected (test_executor.TerminalTests) ... ok\ntest_scientific_failure_is_valid_failure_receipt (test_executor.TerminalTests) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 0.261s\n\nOK\n",
+  "preflight_returncode": 0,
+  "preflight_stdout": "{\"pass\": true, \"candidates\": [\"f3-final-pose-v3-r3063\", \"f3-final-pose-v3-r0861\", \"f3-final-pose-v3-r1401\", \"f3-final-pose-v3-r2526\"], \"caps\": {\"candidate_cap\": 4, \"formal\": 0, \"no_suffix\": 0, \"physical_attempt_cap\": 4, \"physical_query_cap\": 12, \"physical_scene_cap\": 4, \"planner_query_cap\": 52, \"planner_scene_cap\": 8, \"qualification_query_cap\": 40, \"raw\": 0, \"root\": 0, \"scene_cap\": 12, \"shared_v\": 0}, \"execution_dispatch\": \"run_candidate\", \"gpu_used\": false, \"bound_stage_a_specs\": [{\"recipe_id\": \"f3-final-pose-v3-r3063\", \"spec_sha256\": \"ae6b61f8cde07312a0735cc2f02801a78e7c0e0d36c9141213e8cea55fd4ba31\"}, {\"recipe_id\": \"f3-final-pose-v3-r0861\", \"spec_sha256\": \"967727b1533154d367831fb5bd759f462d4be1591f58c9e41123d52233cb1bd8\"}, {\"recipe_id\": \"f3-final-pose-v3-r1401\", \"spec_sha256\": \"42fb6bd5b926f61d4d53e75f7f9898f01f4c40a518d2d1d733e8361d71fea656\"}, {\"recipe_id\": \"f3-final-pose-v3-r2526\", \"spec_sha256\": \"f1df2de250a1cda25ed38d18b43b1d7022bbe8dff14a10cef52f9e260c296815\"}]}\n",
+  "preflight_stderr": "",
+  "execution_paths_absent": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_preclose_micro_v1_1": true,
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3micro11/guards": true,
+    "/nfs_share/lijunhui/Robotwin2/cache/f3m11/f3-preclose-micro-v1-1": true
+  },
+  "gpu_used": false,
+  "new_scene_count": 0,
+  "old_failure_traces_reclassified": false,
+  "pass": true,
+  "receipt_sha256": "e764485818de8cfe48010dd860e070bec02f5e3cf2f630529becbdbadbd2cb72"
+}

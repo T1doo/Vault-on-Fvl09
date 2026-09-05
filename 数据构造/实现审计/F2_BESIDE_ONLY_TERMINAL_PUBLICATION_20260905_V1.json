@@ -1,0 +1,1153 @@
+{
+  "accounting_complete": true,
+  "artifacts": [
+    {
+      "file_sha256": "80caa20f048d12d2637ff75d22cb421d63491b6c2b6fe276b0f39b936bd65167",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f2_beside_only_v1/job_terminal.json"
+    },
+    {
+      "file_sha256": "2f494d4650e388c85b9d2ed67e386809812bf5242d356528789ed7f42fb8ee68",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f2_beside_only_v1/beside_scene_receipt.json"
+    },
+    {
+      "file_sha256": "eb3c9f37a975586b1e564513b26a13df8975f8b7a01cab328567d263a9ef18e7",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f2_beside_only_v1/semantic_target.json"
+    },
+    {
+      "file_sha256": "bdef66baaed84a9b84b47bcc5d9bd4f6edcd5bee132c808fe527771db1bd5a94",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.terminal.json"
+    },
+    {
+      "file_sha256": "1f5f9043cb2dd713b6d7f31f3a60df7fe3961d2cfe052a219803673ae5f91a79",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.post_child_validation.json"
+    },
+    {
+      "file_sha256": "2326f90e34e67e37d31a8d90ae2a070a701470d0a9827c1a2b88385fb09d7820",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.start.json"
+    },
+    {
+      "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.stderr.log"
+    },
+    {
+      "file_sha256": "86f611d774bc05a3599f549c89fb3f1e42348d86cf462e84976ef9b90c111dc6",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.stdout.log"
+    }
+  ],
+  "beside_chain_pass": false,
+  "combined_11_of_11_qualification": false,
+  "failure_segment": {
+    "end_qpos": [
+      0.0,
+      0.0,
+      -1.3802675837727702e-16,
+      -1.3802675837727702e-16,
+      1.498733320608181e-13,
+      1.498733320608181e-13,
+      -0.07210827618837357,
+      5.674282732570646e-08,
+      -2.780358721032883e-10,
+      -2.780026486792764e-10,
+      5.362355898781693e-18,
+      5.362355898781693e-18,
+      1.4770608510696017e-17,
+      1.4770608510696017e-17,
+      2.4237236976623535,
+      -3.514832542350632e-06,
+      -1.3968166285849293e-06,
+      -1.396813900100824e-06,
+      2.5602946281433105,
+      9.055451300810091e-06,
+      4.456925580598181e-06,
+      4.456916940398514e-06,
+      -1.705314040184021,
+      1.8138768709263786e-08,
+      8.611158008875464e-09,
+      8.60222559850854e-09,
+      0.004007689189165831,
+      -1.526817641206435e-07,
+      5.271694636377333e-09,
+      5.2698276853391235e-09,
+      -0.03871830180287361,
+      7.441730787149936e-08,
+      -1.0437975353841389e-12,
+      -1.1654773283617526e-12,
+      0.026616713032126427,
+      0.023988882079720497,
+      0.04497751593589783,
+      0.04497988522052765
+    ],
+    "end_qpos_sha256": "8895bcee71caf17721d933f4340d961c14bac22a12cc1344f0225dbc2e9a1076",
+    "executed": false,
+    "goal_eef_pose": [
+      -0.09937910691974647,
+      0.054842759211695825,
+      1.0498586893081665,
+      0.5017174026769478,
+      -0.498810972458648,
+      0.5011190506874883,
+      0.4983442170267715
+    ],
+    "planner_query_receipt": {
+      "arm": "left",
+      "dtype_contract": {
+        "control": {},
+        "geometry_dtype": "float64",
+        "goal_pose": {
+          "dtype": "float32",
+          "shape": [
+            7
+          ]
+        },
+        "planner_dtype": "float32",
+        "qpos": {
+          "dtype": "float32",
+          "shape": [
+            38
+          ]
+        },
+        "schema_version": "cmf_planner_dtype_contract_v3_2"
+      },
+      "end_step": null,
+      "goal_eef_pose": [
+        -0.09937910735607147,
+        0.054842758923769,
+        1.0498586893081665,
+        0.5017173886299133,
+        -0.4988109767436981,
+        0.501119077205658,
+        0.49834421277046204
+      ],
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 10,
+            "position_error": null,
+            "rotation_error": null,
+            "solve_time": 0.056661367416381836,
+            "status": "MotionGenStatus.IK_FAIL",
+            "success": false,
+            "total_time": 0.08637547492980957,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ],
+      "motiongen_side_channel_available": true,
+      "motiongen_side_channel_call_count": 1,
+      "motiongen_wrapper_had_instance_override": false,
+      "motiongen_wrapper_installation_error": null,
+      "motiongen_wrapper_restoration_succeeded": true,
+      "query_id": 1,
+      "source": "beside_asset_bound_carry_hub",
+      "start_step": null,
+      "status": "Fail"
+    },
+    "planner_status": "Fail",
+    "segment_id": "beside_asset_bound_carry_hub",
+    "start_qpos": [
+      0.0,
+      0.0,
+      -1.3802675837727702e-16,
+      -1.3802675837727702e-16,
+      1.498733320608181e-13,
+      1.498733320608181e-13,
+      -0.07210827618837357,
+      5.674282732570646e-08,
+      -2.780358721032883e-10,
+      -2.780026486792764e-10,
+      5.362355898781693e-18,
+      5.362355898781693e-18,
+      1.4770608510696017e-17,
+      1.4770608510696017e-17,
+      2.4237236976623535,
+      -3.514832542350632e-06,
+      -1.3968166285849293e-06,
+      -1.396813900100824e-06,
+      2.5602946281433105,
+      9.055451300810091e-06,
+      4.456925580598181e-06,
+      4.456916940398514e-06,
+      -1.705314040184021,
+      1.8138768709263786e-08,
+      8.611158008875464e-09,
+      8.60222559850854e-09,
+      0.004007689189165831,
+      -1.526817641206435e-07,
+      5.271694636377333e-09,
+      5.2698276853391235e-09,
+      -0.03871830180287361,
+      7.441730787149936e-08,
+      -1.0437975353841389e-12,
+      -1.1654773283617526e-12,
+      0.026616713032126427,
+      0.023988882079720497,
+      0.04497751593589783,
+      0.04497988522052765
+    ],
+    "start_qpos_sha256": "8895bcee71caf17721d933f4340d961c14bac22a12cc1344f0225dbc2e9a1076"
+  },
+  "guard_terminal": {
+    "cache_removed": true,
+    "child_exit_code": 1,
+    "child_pid": 1061881,
+    "child_process_group": 1061881,
+    "cleanup_errors": [],
+    "cooldown": {
+      "errors": [],
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "lease_held_during_polling": true,
+      "pass": true,
+      "physical_gpu_index": 2,
+      "poll_count": 2,
+      "snapshots": [
+        {
+          "captured_at": "2026-09-05T07:02:46.034535+00:00",
+          "gpus": [
+            {
+              "compute_processes": [
+                {
+                  "pid": 1044364,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 21296
+                }
+              ],
+              "index": 0,
+              "memory_used_mib": 21313,
+              "pstate": "P2",
+              "utilization_gpu_percent": 67,
+              "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+            },
+            {
+              "compute_processes": [],
+              "index": 1,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+            },
+            {
+              "compute_processes": [],
+              "index": 2,
+              "memory_used_mib": 14,
+              "pstate": "P0",
+              "utilization_gpu_percent": 33,
+              "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+            },
+            {
+              "compute_processes": [],
+              "index": 3,
+              "memory_used_mib": 15,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+            },
+            {
+              "compute_processes": [],
+              "index": 4,
+              "memory_used_mib": 12,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+            },
+            {
+              "compute_processes": [],
+              "index": 5,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+            },
+            {
+              "compute_processes": [],
+              "index": 6,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+            },
+            {
+              "compute_processes": [],
+              "index": 7,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+            }
+          ]
+        },
+        {
+          "captured_at": "2026-09-05T07:02:51.249440+00:00",
+          "gpus": [
+            {
+              "compute_processes": [
+                {
+                  "pid": 1044364,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 21296
+                }
+              ],
+              "index": 0,
+              "memory_used_mib": 21313,
+              "pstate": "P2",
+              "utilization_gpu_percent": 51,
+              "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+            },
+            {
+              "compute_processes": [],
+              "index": 1,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+            },
+            {
+              "compute_processes": [],
+              "index": 2,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+            },
+            {
+              "compute_processes": [],
+              "index": 3,
+              "memory_used_mib": 15,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+            },
+            {
+              "compute_processes": [],
+              "index": 4,
+              "memory_used_mib": 12,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+            },
+            {
+              "compute_processes": [],
+              "index": 5,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+            },
+            {
+              "compute_processes": [],
+              "index": 6,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+            },
+            {
+              "compute_processes": [],
+              "index": 7,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+            }
+          ]
+        }
+      ]
+    },
+    "elapsed_seconds": 52.62016248703003,
+    "execution_errors": [],
+    "family": "F2",
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+    "guard_pid": 1061757,
+    "interrupted": null,
+    "job_id": "f2-beside-only-v1",
+    "launch_snapshot": {
+      "captured_at": "2026-09-05T07:01:59.050435+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1044364,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 21296
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 21313,
+          "pstate": "P2",
+          "utilization_gpu_percent": 49,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [],
+          "index": 1,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "lease_path": "/nfs_share/lijunhui/Robotwin2/gpu_leases/production_micro_gate_v1/physical_gpu_2.lock",
+    "lease_released": true,
+    "manifest_sha256": "c025bd35ce79b2cbd5c86714c95c36663b4d9eeff284517f43733ae7cbbd81d1",
+    "output_exists": true,
+    "physical_gpu_index": 2,
+    "post_release_poll_snapshots": [
+      {
+        "captured_at": "2026-09-05T07:02:46.034535+00:00",
+        "gpus": [
+          {
+            "compute_processes": [
+              {
+                "pid": 1044364,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 21296
+              }
+            ],
+            "index": 0,
+            "memory_used_mib": 21313,
+            "pstate": "P2",
+            "utilization_gpu_percent": 67,
+            "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+          },
+          {
+            "compute_processes": [],
+            "index": 1,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+          },
+          {
+            "compute_processes": [],
+            "index": 2,
+            "memory_used_mib": 14,
+            "pstate": "P0",
+            "utilization_gpu_percent": 33,
+            "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+          },
+          {
+            "compute_processes": [],
+            "index": 3,
+            "memory_used_mib": 15,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+          },
+          {
+            "compute_processes": [],
+            "index": 4,
+            "memory_used_mib": 12,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+          },
+          {
+            "compute_processes": [],
+            "index": 5,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+          },
+          {
+            "compute_processes": [],
+            "index": 6,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+          },
+          {
+            "compute_processes": [],
+            "index": 7,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+          }
+        ]
+      },
+      {
+        "captured_at": "2026-09-05T07:02:51.249440+00:00",
+        "gpus": [
+          {
+            "compute_processes": [
+              {
+                "pid": 1044364,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 21296
+              }
+            ],
+            "index": 0,
+            "memory_used_mib": 21313,
+            "pstate": "P2",
+            "utilization_gpu_percent": 51,
+            "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+          },
+          {
+            "compute_processes": [],
+            "index": 1,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+          },
+          {
+            "compute_processes": [],
+            "index": 2,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+          },
+          {
+            "compute_processes": [],
+            "index": 3,
+            "memory_used_mib": 15,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+          },
+          {
+            "compute_processes": [],
+            "index": 4,
+            "memory_used_mib": 12,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+          },
+          {
+            "compute_processes": [],
+            "index": 5,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+          },
+          {
+            "compute_processes": [],
+            "index": 6,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+          },
+          {
+            "compute_processes": [],
+            "index": 7,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+          }
+        ]
+      }
+    ],
+    "post_snapshot": {
+      "captured_at": "2026-09-05T07:02:51.249440+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1044364,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 21296
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 21313,
+          "pstate": "P2",
+          "utilization_gpu_percent": 51,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [],
+          "index": 1,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "pre_snapshot": {
+      "captured_at": "2026-09-05T07:01:58.817812+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1044364,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 21296
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 21313,
+          "pstate": "P2",
+          "utilization_gpu_percent": 49,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [],
+          "index": 1,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "receipt_sha256": "b3e20eeffb692effffd83575adf4f8cfce72f42f50d01e38dbb549ecca2fefb4",
+    "run_id": "f2-beside-only-completion-20260905",
+    "schema_version": "cmf_f2_beside_only_v1_1_guard_terminal_v1",
+    "status": "failed_or_blocked_with_cleanup_evidence",
+    "stderr_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.stderr.log",
+    "stdout_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2bo1/guards/f2-beside-only-v1.stdout.log",
+    "task_owned_cleanup_pass": true,
+    "timed_out": false
+  },
+  "job_terminal": {
+    "accepted_root_count": 0,
+    "automatic_continuation": false,
+    "formal_trajectory_count": 0,
+    "fresh_scene_attempts": 1,
+    "inside_original_file_sha256": "be1a744fbe168d6bd1fbbf3fa5e954d0ce48c70947b5caf37f44cfb23d55c22a",
+    "inside_unchanged": true,
+    "manifest_sha256": "c025bd35ce79b2cbd5c86714c95c36663b4d9eeff284517f43733ae7cbbd81d1",
+    "pass": false,
+    "physical_execution_count": 0,
+    "planner_queries": 1,
+    "raw_trajectory_count": 0,
+    "receipt_sha256": "89d5dff647d5f4efbfe9b039d520ca003ac87a9f9f682f036259095c8348fc71",
+    "scene_receipt": {
+      "accounting_complete": true,
+      "cleanup": {
+        "activity_monitor_restoration_error": null,
+        "activity_monitor_restoration_succeeded": true,
+        "cleanup_error": null,
+        "cleanup_safety_pass": true,
+        "development_video_error": null,
+        "development_video_finalize_succeeded": null,
+        "development_video_receipt": null,
+        "orphan_process_count": 0,
+        "outer_gpu_release_audit_required": true,
+        "owned_planner_process_ids": [],
+        "scene_cleanup_attempted": true,
+        "scene_cleanup_succeeded": true,
+        "scene_created": true,
+        "scene_instance_id": "f2-F2_BESIDE_ONLY_COMPLETION-v1_2-000001",
+        "stage0_video_error": null,
+        "stage0_video_finalize_succeeded": null,
+        "stage0_video_receipt": null
+      },
+      "error": null,
+      "physical_execution_count": 0,
+      "planner_after": 1,
+      "planner_before": 0,
+      "planner_delta": 1,
+      "result": {
+        "planner_pass": false,
+        "planner_reset_receipt": {
+          "arm": "left",
+          "planner_instance_id": "inprocess:CuroboPlanner:139848096961280",
+          "planner_seed": 2026090402,
+          "reset_evidence": {
+            "planner_seed": 2026090402,
+            "reset_seed_argument": true,
+            "reset_source": "CuroboPlanner.motion_gen.reset(reset_seed=True)"
+          },
+          "reset_performed": true,
+          "rng_state_after_reset_sha256": "a4c35e85abb8f6d7b768459cdb0ad88e69e6332eca99f11777685b9fffa3d4a1",
+          "variant_id": "f2_controlled_insertion_route_gate_v1:beside"
+        },
+        "segment_receipts": [
+          {
+            "end_qpos": [
+              0.0,
+              0.0,
+              -1.3802675837727702e-16,
+              -1.3802675837727702e-16,
+              1.498733320608181e-13,
+              1.498733320608181e-13,
+              -0.07210827618837357,
+              5.674282732570646e-08,
+              -2.780358721032883e-10,
+              -2.780026486792764e-10,
+              5.362355898781693e-18,
+              5.362355898781693e-18,
+              1.4770608510696017e-17,
+              1.4770608510696017e-17,
+              2.4237236976623535,
+              -3.514832542350632e-06,
+              -1.3968166285849293e-06,
+              -1.396813900100824e-06,
+              2.5602946281433105,
+              9.055451300810091e-06,
+              4.456925580598181e-06,
+              4.456916940398514e-06,
+              -1.705314040184021,
+              1.8138768709263786e-08,
+              8.611158008875464e-09,
+              8.60222559850854e-09,
+              0.004007689189165831,
+              -1.526817641206435e-07,
+              5.271694636377333e-09,
+              5.2698276853391235e-09,
+              -0.03871830180287361,
+              7.441730787149936e-08,
+              -1.0437975353841389e-12,
+              -1.1654773283617526e-12,
+              0.026616713032126427,
+              0.023988882079720497,
+              0.04497751593589783,
+              0.04497988522052765
+            ],
+            "end_qpos_sha256": "8895bcee71caf17721d933f4340d961c14bac22a12cc1344f0225dbc2e9a1076",
+            "executed": false,
+            "goal_eef_pose": [
+              -0.09937910691974647,
+              0.054842759211695825,
+              1.0498586893081665,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "planner_query_receipt": {
+              "arm": "left",
+              "dtype_contract": {
+                "control": {},
+                "geometry_dtype": "float64",
+                "goal_pose": {
+                  "dtype": "float32",
+                  "shape": [
+                    7
+                  ]
+                },
+                "planner_dtype": "float32",
+                "qpos": {
+                  "dtype": "float32",
+                  "shape": [
+                    38
+                  ]
+                },
+                "schema_version": "cmf_planner_dtype_contract_v3_2"
+              },
+              "end_step": null,
+              "goal_eef_pose": [
+                -0.09937910735607147,
+                0.054842758923769,
+                1.0498586893081665,
+                0.5017173886299133,
+                -0.4988109767436981,
+                0.501119077205658,
+                0.49834421277046204
+              ],
+              "motiongen_result_side_channel": [
+                {
+                  "fields": {
+                    "attempts": 10,
+                    "position_error": null,
+                    "rotation_error": null,
+                    "solve_time": 0.056661367416381836,
+                    "status": "MotionGenStatus.IK_FAIL",
+                    "success": false,
+                    "total_time": 0.08637547492980957,
+                    "used_graph": false,
+                    "valid_query": true
+                  },
+                  "schema_version": "cmf_motiongen_result_side_channel_v1",
+                  "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+                }
+              ],
+              "motiongen_side_channel_available": true,
+              "motiongen_side_channel_call_count": 1,
+              "motiongen_wrapper_had_instance_override": false,
+              "motiongen_wrapper_installation_error": null,
+              "motiongen_wrapper_restoration_succeeded": true,
+              "query_id": 1,
+              "source": "beside_asset_bound_carry_hub",
+              "start_step": null,
+              "status": "Fail"
+            },
+            "planner_status": "Fail",
+            "segment_id": "beside_asset_bound_carry_hub",
+            "start_qpos": [
+              0.0,
+              0.0,
+              -1.3802675837727702e-16,
+              -1.3802675837727702e-16,
+              1.498733320608181e-13,
+              1.498733320608181e-13,
+              -0.07210827618837357,
+              5.674282732570646e-08,
+              -2.780358721032883e-10,
+              -2.780026486792764e-10,
+              5.362355898781693e-18,
+              5.362355898781693e-18,
+              1.4770608510696017e-17,
+              1.4770608510696017e-17,
+              2.4237236976623535,
+              -3.514832542350632e-06,
+              -1.3968166285849293e-06,
+              -1.396813900100824e-06,
+              2.5602946281433105,
+              9.055451300810091e-06,
+              4.456925580598181e-06,
+              4.456916940398514e-06,
+              -1.705314040184021,
+              1.8138768709263786e-08,
+              8.611158008875464e-09,
+              8.60222559850854e-09,
+              0.004007689189165831,
+              -1.526817641206435e-07,
+              5.271694636377333e-09,
+              5.2698276853391235e-09,
+              -0.03871830180287361,
+              7.441730787149936e-08,
+              -1.0437975353841389e-12,
+              -1.1654773283617526e-12,
+              0.026616713032126427,
+              0.023988882079720497,
+              0.04497751593589783,
+              0.04497988522052765
+            ],
+            "start_qpos_sha256": "8895bcee71caf17721d933f4340d961c14bac22a12cc1344f0225dbc2e9a1076"
+          }
+        ],
+        "terminal_qpos": [
+          0.0,
+          0.0,
+          -1.3802675837727702e-16,
+          -1.3802675837727702e-16,
+          1.498733320608181e-13,
+          1.498733320608181e-13,
+          -0.07210827618837357,
+          5.674282732570646e-08,
+          -2.780358721032883e-10,
+          -2.780026486792764e-10,
+          5.362355898781693e-18,
+          5.362355898781693e-18,
+          1.4770608510696017e-17,
+          1.4770608510696017e-17,
+          2.4237236976623535,
+          -3.514832542350632e-06,
+          -1.3968166285849293e-06,
+          -1.396813900100824e-06,
+          2.5602946281433105,
+          9.055451300810091e-06,
+          4.456925580598181e-06,
+          4.456916940398514e-06,
+          -1.705314040184021,
+          1.8138768709263786e-08,
+          8.611158008875464e-09,
+          8.60222559850854e-09,
+          0.004007689189165831,
+          -1.526817641206435e-07,
+          5.271694636377333e-09,
+          5.2698276853391235e-09,
+          -0.03871830180287361,
+          7.441730787149936e-08,
+          -1.0437975353841389e-12,
+          -1.1654773283617526e-12,
+          0.026616713032126427,
+          0.023988882079720497,
+          0.04497751593589783,
+          0.04497988522052765
+        ],
+        "terminal_qpos_sha256": "8895bcee71caf17721d933f4340d961c14bac22a12cc1344f0225dbc2e9a1076"
+      },
+      "scene_instance_id": "f2-F2_BESIDE_ONLY_COMPLETION-v1_2-000001",
+      "target_derivation": {
+        "state_restore_receipt": {
+          "actual_prefix_end_qpos_sha256": "8d4cb7b0571c0ba740e0406b32d4041f0dc73f48b0879a4b91567e8445f477b9",
+          "gripper_opened": false,
+          "live_prefix_end_actor_pose": [
+            -0.2817085087299347,
+            0.040292203426361084,
+            0.8608275651931763,
+            0.4978303295667699,
+            0.5000040216772088,
+            0.5012067242672367,
+            0.5009518547918199
+          ],
+          "live_prefix_end_eef_pose": [
+            -0.27999845147132874,
+            0.039805300533771515,
+            1.0498586893081665,
+            0.5005082178736291,
+            -0.49880620254094027,
+            0.5001699018905031,
+            0.5005137015012625
+          ],
+          "physical_action_executed": false,
+          "support_plane_check": {
+            "frozen": 0.74,
+            "live": 0.74,
+            "pass": true
+          },
+          "target_actor_pose": [
+            0.07999059587821346,
+            0.07001079751295976,
+            0.7404792624087959,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "target_segment_ids": [
+            "beside_asset_bound_carry_hub",
+            "beside_asset_bound_preplace",
+            "beside_asset_bound_release",
+            "beside_asset_bound_retreat",
+            "beside_asset_bound_carry_hub_return",
+            "f2_rest"
+          ],
+          "targets_sha256": "39e04cb57afeb64236a6f549e37a1dc1b9f9f09a3861908ce9eb7173e2ae51ae"
+        },
+        "targets": [
+          {
+            "pose": [
+              -0.09937910691974647,
+              0.054842759211695825,
+              1.0498586893081665,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "segment_id": "beside_asset_bound_carry_hub"
+          },
+          {
+            "pose": [
+              0.08124023763183578,
+              0.06988021788962014,
+              1.0095145728639618,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "segment_id": "beside_asset_bound_preplace"
+          },
+          {
+            "pose": [
+              0.08124023763183578,
+              0.06988021788962014,
+              0.9295145728639618,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "segment_id": "beside_asset_bound_release"
+          },
+          {
+            "pose": [
+              0.08124023763183578,
+              0.06988021788962014,
+              1.0095145728639618,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "segment_id": "beside_asset_bound_retreat"
+          },
+          {
+            "pose": [
+              -0.09937910691974647,
+              0.054842759211695825,
+              1.0498586893081665,
+              0.5017174026769478,
+              -0.498810972458648,
+              0.5011190506874883,
+              0.4983442170267715
+            ],
+            "segment_id": "beside_asset_bound_carry_hub_return"
+          },
+          {
+            "pose": [
+              -0.297923743724823,
+              -0.31380218267440796,
+              0.9419903755187988,
+              0.7000005275036494,
+              -1.61680875200991e-05,
+              6.60717435563285e-06,
+              0.7141423255833185
+            ],
+            "segment_id": "f2_rest"
+          }
+        ]
+      }
+    },
+    "schema_version": "cmf_f2_beside_only_terminal_v1"
+  },
+  "new_planner_queries": 1,
+  "physical_feasibility_disproven": false,
+  "post_child_validation": {
+    "error": null,
+    "job_id": "f2-beside-only-v1",
+    "job_succeeded": false,
+    "manifest_sha256": "c025bd35ce79b2cbd5c86714c95c36663b4d9eeff284517f43733ae7cbbd81d1",
+    "receipt_sha256": "02679552e57d831da3443fe76ca35c1d48bfe7dfe678932acf64354035aeb313",
+    "schema_version": "cmf_f2_beside_only_v1_1_post_child_validation_v1",
+    "validation_pass": true,
+    "validation_phase": "POST_CHILD"
+  },
+  "receipt_sha256": "8288e1c064bfb51e94ff30bae2b4e38f2207baf3f43a47e5a9187dde23b69e7f",
+  "retained_inside_passes": 5,
+  "retry_authorized": false,
+  "scene_cleanup_pass": true,
+  "schema_version": "cmf_f2_beside_only_terminal_publication_v1",
+  "status": "FAILED_FIRST_CARRY_HUB_IK_WITH_COMPLETE_EVIDENCE",
+  "target_derivation_passed": true
+}
