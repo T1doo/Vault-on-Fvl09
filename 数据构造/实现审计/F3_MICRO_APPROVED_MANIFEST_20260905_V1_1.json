@@ -1,0 +1,103 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "approved": true,
+  "asset_hashes_by_family": {
+    "F3": {
+      "assets/objects/001_bottle/collision/base13.glb": "3e661138f5dfbcda201766d181525c8e6e2cce26400df95829eb2772fed1a9e8",
+      "assets/objects/001_bottle/collision/base15.glb": "bf233e9ae79799d063b2f968fd90d0cc332150103b5138477a7f24876253fed2",
+      "assets/objects/001_bottle/collision/base4.glb": "dabf7af41598048aa4aba500bc3d6c8b3a1a538973ca36842bb9b3ea7a8d302b",
+      "assets/objects/001_bottle/collision/base5.glb": "513213d85954ecd228af7d82ef2698d256934d7b7f2a2e469f794ecab58b06ae",
+      "assets/objects/001_bottle/model_data13.json": "a0b94d276bf41e03a7b0c2fa7f8352c8c45b7bcaa8db2925328955fc8e18ef1f",
+      "assets/objects/001_bottle/model_data15.json": "8971efc1a88ff6799f02ff576d2dafc0ddea1634dd77b0fbc274724cb0562f30",
+      "assets/objects/001_bottle/model_data4.json": "1bd52b232b290364b1100d5e9d22197e008a51d8254ed750a7bf73f3e2faad98",
+      "assets/objects/001_bottle/model_data5.json": "b534e410ac10cce52b3ebda1a2bb961716f0e36f2416f2dbcbe4f5dad380267f",
+      "assets/objects/001_bottle/points_info.json": "028dd9f34f655ce16c9c72887a6a350e4c932f8e3b5295b5a9ea72415669e2d5",
+      "assets/objects/001_bottle/visual/base13.glb": "bcf7da24d20a2d2b4b79ca6b7bf9de175ea649d53461dc820d857437df116cb7",
+      "assets/objects/001_bottle/visual/base15.glb": "d44ea24dd4e23307eef935b9406fadea5267f481dad5218a5138eba6077059a2",
+      "assets/objects/001_bottle/visual/base4.glb": "1c6746600ab1a3b750e27ceb944da0011329a7e874035b59bf852353efc2210f",
+      "assets/objects/001_bottle/visual/base5.glb": "84215ac9f998072e63fd2c2040bb75b5847810fad52d93be7c55ef32d70e51d4"
+    }
+  },
+  "cache_directory": "/nfs_share/lijunhui/Robotwin2/cache/f3ma1",
+  "candidate_freeze_sha256": "67d608c88860c3b5f9843e0ba5c3d23e0c8f2389c25b014ec94971b47fe304c6",
+  "caps": {
+    "candidate_cap": 4,
+    "formal": 0,
+    "no_suffix": 0,
+    "physical_attempt_cap": 4,
+    "physical_query_cap": 12,
+    "physical_scene_cap": 4,
+    "planner_query_cap": 52,
+    "planner_scene_cap": 8,
+    "qualification_query_cap": 40,
+    "raw": 0,
+    "root": 0,
+    "scene_cap": 12,
+    "shared_v": 0
+  },
+  "compression_authorized": false,
+  "execution_decision_file_sha256": "07ec32a8293b57fe83c47a8a0f4416fa70acc4db27837fd516e64bd1a43b1f95",
+  "execution_decision_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_MICRO_EXECUTION_DECISION_20260905_V1.json",
+  "formal_360_authorized": false,
+  "gpu_execution_authorized": true,
+  "guard_directory": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3microa1/guards",
+  "guard_lifecycle_source": {
+    "adaptation": "F3-specific contract; retained held-lease cooldown; stronger leader-independent process-group cleanup",
+    "path": "f4_development_root_runtime_v2_2/guarded_launcher.py",
+    "sha256": "23c234b4188339986d06d5b0b9defae5e5cb8da48283f5033692d037d2db12d2"
+  },
+  "guard_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/guarded_launcher.py",
+  "guard_script_sha256": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+  "h_reveal_authorized": false,
+  "implementation_source_sha256": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7",
+  "jobs": [
+    {
+      "family": "F3",
+      "job_id": "f3-preclose-micro-v1-1",
+      "mode": "F3_PRECLOSE_CANDIDATE_MICRO_V1",
+      "output_namespace": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_micro_authorized_v1_1",
+      "timeout_seconds": 21600
+    }
+  ],
+  "manifest_sha256": "720f11926de5b17e5c41ede6ef7bbdd85deb106032840ce19da5348c7240b431",
+  "new_external_review_required": false,
+  "no_suffix_authorized": false,
+  "one_job_per_gpu": true,
+  "physical_planner_seed": 20260829,
+  "pi05_authorized": false,
+  "post_lift_contract": {
+    "maximum_relative_orientation_drift_rad": 0.05,
+    "maximum_relative_translation_drift_m": 0.005,
+    "minimum_actual_bottle_rise_m": 0.02,
+    "post_lift_confirmation_frames": 50
+  },
+  "post_lift_revision_authority": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_EXECUTION_DECISION_F4_ADOPTION_F2_F3_20260905_V1.json",
+  "raw_collection_authorized": false,
+  "robotwin_tracked_head": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+  "root_execution_authorized": false,
+  "root_sharding": false,
+  "run_id": "f3-micro-authorized-v1-1-20260905",
+  "runner_script_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/job_runner.py",
+  "runner_script_sha256": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+  "schema_version": "cmf_f3_preclose_candidate_micro_proposal_v1",
+  "shared_v_authorized": false,
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/candidate_executor.py": "40df6332a8fc796417b315ba7d8a385017e9a8af74f0a2d5cccb7922d62333b2",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/guarded_launcher.py": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/job_runner.py": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/manifest_contract.py": "0b12aa59d51342865fb033f127693b583a4024dbc43647e476c61b328313aefb",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/post_lift_audit.py": "096509b41491ddf0d6a97b144e2801e8e6279f2b29b1ba18ddfeac364ca09e7c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1_1/gate.py": "ca9a7bcf4c2e03d74716d67342457fe19b82c0fe1f089cd8f16591580b1973ad"
+  },
+  "stage1_authorized": false,
+  "training_authorized": false
+}

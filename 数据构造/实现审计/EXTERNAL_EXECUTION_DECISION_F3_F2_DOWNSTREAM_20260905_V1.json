@@ -1,0 +1,241 @@
+{
+  "authoritative_message": {
+    "file_sha256": "de335a5a68309c1320157e9e045c743ee7a14872b1f78d80522bf906820265da",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_F3_MICRO_F2_TRANSIT_DOWNSTREAM_20260905.md",
+    "url": "https://chatgpt.com/s/t_6a9bdf43fa348191b706338935fd5287"
+  },
+  "decision": {
+    "F2": {
+      "after_result_cpu_work_authorized": [
+        "publish endpoint-and-route failure matrix",
+        "freeze first complete route pass",
+        "implement post-prefix controlled-insertion root proposal",
+        "derive root budget from selected route and actual source calls"
+      ],
+      "aggregate_caps": {
+        "accepted_raw_trajectories": 0,
+        "accepted_roots": 0,
+        "branch_executions": 0,
+        "formal_trajectories": 0,
+        "fresh_planner_scenes": 2,
+        "physical_executions": 0,
+        "planner_queries": 19
+      },
+      "approval_type": "CONDITIONAL_AFTER_EXACT_CPU_IMPLEMENTATION",
+      "authorized": true,
+      "automatic_job_retry": false,
+      "automatic_root_execution": false,
+      "decision": "APPROVE_BOUNDED_F2_BESIDE_TRANSIT_DIAGNOSTIC_V1",
+      "diagnostic_order": [
+        "D0_current_pose_positive_control",
+        "D1_direct_preplace",
+        "D2_direct_release"
+      ],
+      "diagnostic_query_cap": 3,
+      "inside_rerun": false,
+      "maximum_job_executions": 1,
+      "old_job_reissue": false,
+      "pose_definitions": {
+        "C": "sealed_prefix_end_eef_pose",
+        "D": "corrected_beside_release_pose",
+        "H": "previously_failed_carry_hub_pose",
+        "H_current_orientation": "H_with_quaternion_equal_to_C_quaternion",
+        "H_low": "H_with_z_equal_to_U_z",
+        "N": "frozen_neutral_pose",
+        "U": "corrected_beside_preplace_pose"
+      },
+      "prerequisites": [
+        "exact route and target CPU tests",
+        "cumulative-counter and state-reset regression",
+        "no-physical-dispatch regression",
+        "existing Guard lifecycle preflight",
+        "fresh versioned manifest and output namespace",
+        "commit and push before execution",
+        "live GPU admission and complete cleanup"
+      ],
+      "preserve": [
+        "Run3 inside 5-of-5 evidence",
+        "selected assets and left execution arm",
+        "sealed prefix-end qpos and grasp transform",
+        "metadata geometry source",
+        "candidate-index-2 final actor pose",
+        "corrected preplace and release targets",
+        "neutral target",
+        "planner backend and collision configuration"
+      ],
+      "route_order": [
+        "R0",
+        "R1",
+        "R2"
+      ],
+      "routes": {
+        "R0": {
+          "query_cap": 4,
+          "targets": [
+            "U",
+            "D",
+            "U",
+            "N"
+          ]
+        },
+        "R1": {
+          "query_cap": 6,
+          "targets": [
+            "H_low",
+            "U",
+            "D",
+            "U",
+            "H_low",
+            "N"
+          ]
+        },
+        "R2": {
+          "query_cap": 6,
+          "targets": [
+            "H_current_orientation",
+            "U",
+            "D",
+            "U",
+            "H_current_orientation",
+            "N"
+          ]
+        }
+      },
+      "rules": [
+        "stop route comparison if D0 fails",
+        "restore and verify the sealed start state before each independent test",
+        "retain chained qpos within each route",
+        "measure query deltas with before-and-after live counters",
+        "treat scene query_limit as an absolute cumulative limit",
+        "stop each route at its first failed segment",
+        "stop the panel at the first complete route pass",
+        "freeze all target hashes before GPU execution",
+        "no physical control execution",
+        "no new route beyond R0/R1/R2",
+        "no seed search or hidden planner retry configuration changes"
+      ],
+      "second_review_after_exact_implementation": false
+    },
+    "F3": {
+      "after_result_cpu_work_authorized": [
+        "classify failures by earliest stage",
+        "freeze first successful candidate in registered order if gate passes",
+        "implement candidate-bound prefix and no-suffix proposal",
+        "implement full-root interfaces and derive actual budgets",
+        "prepare collision-model discrepancy report if gate fails"
+      ],
+      "authorized": true,
+      "automatic_job_retry": false,
+      "automatic_root_execution": false,
+      "automatic_shared_v_execution": false,
+      "candidate_freeze_sha256": "67d608c88860c3b5f9843e0ba5c3d23e0c8f2389c25b014ec94971b47fe304c6",
+      "candidate_substitution_allowed": false,
+      "caps": {
+        "candidate_cap": 4,
+        "formal": 0,
+        "no_suffix": 0,
+        "physical_attempt_cap": 4,
+        "physical_query_cap": 12,
+        "physical_scene_cap": 4,
+        "planner_query_cap": 52,
+        "planner_scene_cap": 8,
+        "qualification_query_cap": 40,
+        "raw": 0,
+        "root": 0,
+        "scene_cap": 12,
+        "shared_v": 0
+      },
+      "cpu_review_receipt_sha256": "e764485818de8cfe48010dd860e070bec02f5e3cf2f630529becbdbadbd2cb72",
+      "decision": "F3_PRECLOSE_CANDIDATE_MICRO_EXECUTION_V1",
+      "maximum_job_executions": 1,
+      "ordered_candidates": [
+        "f3-final-pose-v3-r3063",
+        "f3-final-pose-v3-r0861",
+        "f3-final-pose-v3-r1401",
+        "f3-final-pose-v3-r2526"
+      ],
+      "post_lift_contract": {
+        "maximum_relative_orientation_drift_rad": 0.05,
+        "maximum_relative_translation_drift_m": 0.005,
+        "minimum_actual_bottle_rise_m": 0.02,
+        "post_lift_confirmation_frames": 50
+      },
+      "reviewed_proposal_manifest_sha256": "37d9a4ea7009c04ff73fb6f8f7b470e082ec8f0833bb7afc2d5ffb409f494f8a",
+      "second_review_before_this_micro": false,
+      "seed_retry_allowed": false,
+      "source_files": {
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/candidate_executor.py": "40df6332a8fc796417b315ba7d8a385017e9a8af74f0a2d5cccb7922d62333b2",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/guarded_launcher.py": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/job_runner.py": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/manifest_contract.py": "0b12aa59d51342865fb033f127693b583a4024dbc43647e476c61b328313aefb",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/post_lift_audit.py": "096509b41491ddf0d6a97b144e2801e8e6279f2b29b1ba18ddfeac364ca09e7c",
+        "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1_1/gate.py": "ca9a7bcf4c2e03d74716d67342457fe19b82c0fe1f089cd8f16591580b1973ad"
+      },
+      "stop_after_qualified_micro_passes": 2,
+      "threshold_change_allowed": false
+    },
+    "F4": {
+      "acceptance_receipt_sha256": "5416dc9e94cf8c534eb91e7b35fd9e9661c1f7bc142f96d6fcc6bf3f1b817723",
+      "accepted_development_roots": 1,
+      "accepted_development_trajectories": 3,
+      "decision": "ACKNOWLEDGE_ALREADY_ADOPTED_DO_NOT_REAPPROVE",
+      "new_gpu_execution_authorized": false,
+      "original_artifact_modification_allowed": false,
+      "repeated_registration_allowed": false
+    },
+    "downstream_cpu": {
+      "active_source_changes_before_current_jobs_finish": false,
+      "authorized": true,
+      "future_root_gpu_execution_authorized": false,
+      "new_realization_gpu_collection_authorized": false,
+      "tasks": [
+        "collector late-finalization publication-order fix in isolated checkout",
+        "real publisher-to-finalizer CPU integration tests",
+        "F1 and F4 realization spec/executor/pairing implementation",
+        "separate development, pilot-A, pilot-B and formal acceptance matrices",
+        "48-cell Stage1 eligibility and acquisition manifest",
+        "pending Stage2 slot and protocol schemas"
+      ]
+    },
+    "protocol_clarification": {
+      "automatic_promotion_of_existing_development_data": false,
+      "development_rpc_root_trajectory_count": 3,
+      "formal_root_trajectory_count": 9,
+      "require_formal_9_of_9_before_stage1": false,
+      "stage1_pilot_A_trajectory_count": 6,
+      "stage1_pilot_B_trajectory_count": 6,
+      "stage1_total_trajectory_count": 48
+    },
+    "review_base": {
+      "compression_authorized": false,
+      "formal_360_authorized": false,
+      "h_reveal_authorized": false,
+      "pi05_authorized": false,
+      "review_scope": [
+        "F3 post-lift narrow review and one micro execution",
+        "F2 bounded beside transit diagnosis",
+        "downstream CPU implementation"
+      ],
+      "stage0_rerun": false,
+      "stage1_authorized": false,
+      "training_authorized": false,
+      "vault_head": "8f24ad4371858edea531822dde61eecad1d11165"
+    },
+    "scheduling": {
+      "gpu_jobs_serial": true,
+      "next_job": "F2_bounded_transit_diagnostic",
+      "preferred_first_job": "F3_micro",
+      "scientific_failure_with_clean_cleanup_blocks_other_family": false,
+      "stop_global_queue_on": [
+        "unknown resource accounting",
+        "cleanup failure",
+        "task-owned orphan process",
+        "selected GPU identity mismatch",
+        "selected GPU baseline not restored",
+        "evidence integrity failure"
+      ]
+    }
+  },
+  "receipt_sha256": "319d43069368a8221cb11591c29fb46a5d085c8b853ffe4bc3250b5d228c4a37",
+  "schema_version": "cmf_external_f3_micro_f2_transit_downstream_v1"
+}

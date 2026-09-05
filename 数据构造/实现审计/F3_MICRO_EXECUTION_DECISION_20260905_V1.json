@@ -1,0 +1,64 @@
+{
+  "after_result_cpu_work_authorized": [
+    "classify failures by earliest stage",
+    "freeze first successful candidate in registered order if gate passes",
+    "implement candidate-bound prefix and no-suffix proposal",
+    "implement full-root interfaces and derive actual budgets",
+    "prepare collision-model discrepancy report if gate fails"
+  ],
+  "authoritative_message": {
+    "file_sha256": "de335a5a68309c1320157e9e045c743ee7a14872b1f78d80522bf906820265da",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_F3_MICRO_F2_TRANSIT_DOWNSTREAM_20260905.md",
+    "url": "https://chatgpt.com/s/t_6a9bdf43fa348191b706338935fd5287"
+  },
+  "authorized": true,
+  "automatic_job_retry": false,
+  "automatic_root_execution": false,
+  "automatic_shared_v_execution": false,
+  "candidate_freeze_sha256": "67d608c88860c3b5f9843e0ba5c3d23e0c8f2389c25b014ec94971b47fe304c6",
+  "candidate_substitution_allowed": false,
+  "caps": {
+    "candidate_cap": 4,
+    "formal": 0,
+    "no_suffix": 0,
+    "physical_attempt_cap": 4,
+    "physical_query_cap": 12,
+    "physical_scene_cap": 4,
+    "planner_query_cap": 52,
+    "planner_scene_cap": 8,
+    "qualification_query_cap": 40,
+    "raw": 0,
+    "root": 0,
+    "scene_cap": 12,
+    "shared_v": 0
+  },
+  "cpu_review_receipt_sha256": "e764485818de8cfe48010dd860e070bec02f5e3cf2f630529becbdbadbd2cb72",
+  "decision": "F3_PRECLOSE_CANDIDATE_MICRO_EXECUTION_V1",
+  "maximum_job_executions": 1,
+  "ordered_candidates": [
+    "f3-final-pose-v3-r3063",
+    "f3-final-pose-v3-r0861",
+    "f3-final-pose-v3-r1401",
+    "f3-final-pose-v3-r2526"
+  ],
+  "post_lift_contract": {
+    "maximum_relative_orientation_drift_rad": 0.05,
+    "maximum_relative_translation_drift_m": 0.005,
+    "minimum_actual_bottle_rise_m": 0.02,
+    "post_lift_confirmation_frames": 50
+  },
+  "receipt_sha256": "45c8c02d29b14087c0953dc9c1cbc448accde04710a69ecc40f57c96acb6df0c",
+  "reviewed_proposal_manifest_sha256": "37d9a4ea7009c04ff73fb6f8f7b470e082ec8f0833bb7afc2d5ffb409f494f8a",
+  "second_review_before_this_micro": false,
+  "seed_retry_allowed": false,
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/candidate_executor.py": "40df6332a8fc796417b315ba7d8a385017e9a8af74f0a2d5cccb7922d62333b2",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/guarded_launcher.py": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/job_runner.py": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/manifest_contract.py": "0b12aa59d51342865fb033f127693b583a4024dbc43647e476c61b328313aefb",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1_1/post_lift_audit.py": "096509b41491ddf0d6a97b144e2801e8e6279f2b29b1ba18ddfeac364ca09e7c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_physical_consistency_gate_v1_1/gate.py": "ca9a7bcf4c2e03d74716d67342457fe19b82c0fe1f089cd8f16591580b1973ad"
+  },
+  "stop_after_qualified_micro_passes": 2,
+  "threshold_change_allowed": false
+}
