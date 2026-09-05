@@ -1,0 +1,1859 @@
+{
+  "all_four_rejected_before_close": true,
+  "case_count": 4,
+  "gpu_used": false,
+  "receipt_sha256": "4f345f185be22e93a8fc92a4387b92a8220322c18fb046850f1124e8d628a7ff",
+  "rows": [
+    {
+      "case": "retained_r0005",
+      "receipt_sha256": "e5ff231863ec6bf710674a589691096633c05eb2844e9c76d484fef3b72bf483",
+      "recipe_id": "f3-final-pose-v3-r0005",
+      "rejected_before_close": true,
+      "scene_file_sha256": "1b9d254191e03edffb7bcb7a1b8e5b4d1c9b5299bfdbef08ac14972dc84af3c1",
+      "segments": [
+        {
+          "arm": "left",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 629,
+          "endpoint_receipt": {
+            "arm": "left",
+            "checks": {
+              "bottle_not_displaced_before_close": true,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 76.59244460640075,
+                  "minimum_signed_separation_m": -0.0020255441777408123,
+                  "observed_physical_contact": true,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "d94d7d0e0a028fa4eb15985ed3c37ee8e57ccae0eabcde8a8eebfdcc4b12e4c7",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.12950985313224683,
+                  "minimum_signed_separation_m": -1.0341405868530273e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "2ef31c7feb40410ed88a37754bf65f2dc6f9ff445f82484a9532a78389256191",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fl_link2",
+                  "body_b": "fl_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.01370750367641449,
+                  "observed_physical_contact": false,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "392ca6fc9e3349a833679de04acca5036286ad38341e1b8702a25bfe55f6cf98",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link5",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.010107732377946377,
+                  "observed_physical_contact": false,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "2d2089802372b7a0990303d086f3d5891575cda50663143b4521f71259e9de30",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013227017596364021,
+                  "observed_physical_contact": false,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "433b818f308ba30f753b90eb571758927a4d0142cd4176d5e03cf299e582af76",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 76.59244460640075,
+                  "minimum_signed_separation_m": -0.0020255441777408123,
+                  "observed_physical_contact": true,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "d94d7d0e0a028fa4eb15985ed3c37ee8e57ccae0eabcde8a8eebfdcc4b12e4c7",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.12950985313224683,
+                  "minimum_signed_separation_m": -1.0341405868530273e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "2ef31c7feb40410ed88a37754bf65f2dc6f9ff445f82484a9532a78389256191",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link8",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.001371570397168398,
+                  "observed_physical_contact": false,
+                  "pair_index": 17,
+                  "pair_signal_receipt_sha256": "f65ce03f45b073c4603665bfc410489b222ed0f270b09faf6577a9d901ada58f",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.0,
+              "eef_orientation_error_rad": 0.6393729102516669,
+              "eef_position_error_m": 0.07502973524930287,
+              "selected_arm_qpos_max_error_rad": 0.5684670209884644
+            },
+            "pass": false,
+            "receipt_sha256": "cb13b2e5076370fc89f375a12513a4ffb16acebc1061fa8d32ed4c833f60973c",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "pregrasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fl_link6",
+              "body_b": "fl_link4",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 0.7100654385910978,
+              "minimum_signed_separation_m": 0.00012225969112478197,
+              "observed_physical_contact": true,
+              "pair_index": 15,
+              "pair_signal_receipt_sha256": "fecc4b402bdca91d2db52e00f0bb97ace851efe681de75814a7c73f8e9647513",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 388
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.0,
+          "maximum_relevant_impulse": 80.54096837767254,
+          "minimum_signed_separation_m": -0.002083494095131755,
+          "pass": false,
+          "receipt_sha256": "9ad5e3e0e8acf79ae2fb80ecd89228e5bce22cd523ddfce2651518faa5878a17",
+          "rows_checked": 629,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "pregrasp",
+          "start_exclusive": 0,
+          "stop_before_close": true
+        },
+        {
+          "arm": "left",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 837,
+          "endpoint_receipt": {
+            "arm": "left",
+            "checks": {
+              "bottle_not_displaced_before_close": true,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 69.43093154782751,
+                  "minimum_signed_separation_m": -0.0019046838860958815,
+                  "observed_physical_contact": true,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "a336744cc9e84398076ce7e032a522242bffa373f03f8bbfdba91c5cc5b73599",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.10740312933921894,
+                  "minimum_signed_separation_m": 6.209127604961395e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "70dbc0f8a1283b169164bbe23dd9ac76aabe3536851b083d44c8fa2d6572ead1",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fl_link2",
+                  "body_b": "fl_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.01384687703102827,
+                  "observed_physical_contact": false,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "6ad310d3adf1019577fd9899043337bb974838816432d3a99f98dcffc5d71d35",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link5",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.009908934123814106,
+                  "observed_physical_contact": false,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "e08e776447049fb216ea8bcd6f9377475731baacb0d13d5c6a25c92831b5f966",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.014716842211782932,
+                  "observed_physical_contact": false,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "5b7bab12d09c4b4c3c91348738212e1ff299443101c48d606d6b29d8e2c7ea74",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 69.43093154782751,
+                  "minimum_signed_separation_m": -0.0019046838860958815,
+                  "observed_physical_contact": true,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "a336744cc9e84398076ce7e032a522242bffa373f03f8bbfdba91c5cc5b73599",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.10740312933921894,
+                  "minimum_signed_separation_m": 6.209127604961395e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "70dbc0f8a1283b169164bbe23dd9ac76aabe3536851b083d44c8fa2d6572ead1",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link8",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.004636797122657299,
+                  "observed_physical_contact": false,
+                  "pair_index": 17,
+                  "pair_signal_receipt_sha256": "320d2f781d4ea01d54d629e0e450227c54f79adebb1f5c1ba3a2a9d5f6df2147",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.0,
+              "eef_orientation_error_rad": 0.4716840194538139,
+              "eef_position_error_m": 0.10099709266271391,
+              "selected_arm_qpos_max_error_rad": 0.8728225231170654
+            },
+            "pass": false,
+            "receipt_sha256": "3448c899f9b4007ad5829e0ba1a7d599801bff8c24c00702716b193d97a270c0",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "grasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fl_link6",
+              "body_b": "fl_link4",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 76.65369269586263,
+              "minimum_signed_separation_m": -0.002025497844442725,
+              "observed_physical_contact": true,
+              "pair_index": 15,
+              "pair_signal_receipt_sha256": "3277b8c864bcfcecfb4e28064cf84b2812e7e0a2e97b44c447e932e7edd21b81",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon",
+                "nonpositive_signed_separation"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 630
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.0,
+          "maximum_relevant_impulse": 76.67230439829284,
+          "minimum_signed_separation_m": -0.002026786096394062,
+          "pass": false,
+          "receipt_sha256": "a5446a03e583e3b1be9f84050a44cc990aa88e2f565b2a7595dc64dc0c9a6f6d",
+          "rows_checked": 208,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "grasp",
+          "start_exclusive": 629,
+          "stop_before_close": true
+        }
+      ],
+      "spec_file_sha256": "42873ba3074f2757ed2ef5cfb8adbc1ee0193a80e154aa84483f698514667169",
+      "trace_sha256": "a9b41e8b1838543a9a218149e0537273be28a1c7aa166e917555945e3d0ace1b"
+    },
+    {
+      "case": "candidate_01_f3-final-pose-v3-r1505",
+      "receipt_sha256": "0a8e073de29d68c1fac0f66564fe5d32b127e7b872511319e517e30789a42687",
+      "recipe_id": "f3-final-pose-v3-r1505",
+      "rejected_before_close": true,
+      "scene_file_sha256": "971ff9c616dc977a6c5f129b2331268f158d735ee69884d734b5ee29ed673a75",
+      "segments": [
+        {
+          "arm": "right",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 623,
+          "endpoint_receipt": {
+            "arm": "right",
+            "checks": {
+              "bottle_not_displaced_before_close": true,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 63.4262647841451,
+                  "minimum_signed_separation_m": -0.001559595693834126,
+                  "observed_physical_contact": true,
+                  "pair_index": 29,
+                  "pair_signal_receipt_sha256": "16946631afbf8f2b88614d05546add2bdd6f4f19650333108be8fffd5f733bc4",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": -6.101225153543055e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 27,
+                  "pair_signal_receipt_sha256": "e364ec36977169e62fe475c7ee42c0e13d0d28b9565f683cd1edea9c7c354d85",
+                  "physical_contact_reasons": [
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fr_link2",
+                  "body_b": "fr_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.012574253603816032,
+                  "observed_physical_contact": false,
+                  "pair_index": 25,
+                  "pair_signal_receipt_sha256": "e30dd5ca47faa8d6bb5dea72e77ce22d4de15a97b94f7177592df21aa18792c7",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link5",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.00948101095855236,
+                  "observed_physical_contact": false,
+                  "pair_index": 26,
+                  "pair_signal_receipt_sha256": "832d34d35ef88a771792eb927ffef5928ef56d03a7a3e1b32a09ea17016d53f4",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": -6.101225153543055e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 27,
+                  "pair_signal_receipt_sha256": "e364ec36977169e62fe475c7ee42c0e13d0d28b9565f683cd1edea9c7c354d85",
+                  "physical_contact_reasons": [
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.015661202371120453,
+                  "observed_physical_contact": false,
+                  "pair_index": 28,
+                  "pair_signal_receipt_sha256": "1cd43fe8aa5032033d756953d50f689891f92ac3a08481b148631a5c002455dd",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 63.4262647841451,
+                  "minimum_signed_separation_m": -0.001559595693834126,
+                  "observed_physical_contact": true,
+                  "pair_index": 29,
+                  "pair_signal_receipt_sha256": "16946631afbf8f2b88614d05546add2bdd6f4f19650333108be8fffd5f733bc4",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link7",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.001429387484677136,
+                  "observed_physical_contact": false,
+                  "pair_index": 30,
+                  "pair_signal_receipt_sha256": "aba832cf3908fe0188b204bda15b3ca10c2b6b5f8209d486da42ec4decd02c68",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.0,
+              "eef_orientation_error_rad": 0.6322097894804829,
+              "eef_position_error_m": 0.08698910927401378,
+              "selected_arm_qpos_max_error_rad": 0.8072882890701294
+            },
+            "pass": false,
+            "receipt_sha256": "a577813a3b51bea5551554a0981ca3b1f684acfd00170d450c7192298fe032e1",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "pregrasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fr_link6",
+              "body_b": "fr_link4",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 1.4884900896084257,
+              "minimum_signed_separation_m": 5.042561315349303e-05,
+              "observed_physical_contact": true,
+              "pair_index": 28,
+              "pair_signal_receipt_sha256": "efcd927b490344b5e562f0bd5449906ae8fd1c4f30f816bcda706bbb24ebaa58",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 385
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.0,
+          "maximum_relevant_impulse": 69.10928747352482,
+          "minimum_signed_separation_m": -0.0016904461663216352,
+          "pass": false,
+          "receipt_sha256": "8a8a90bf124be3a550e413c5d0cd94808d7d03d2bd3d30995941cdfbf25461cb",
+          "rows_checked": 623,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "pregrasp",
+          "start_exclusive": 0,
+          "stop_before_close": true
+        },
+        {
+          "arm": "right",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 816,
+          "endpoint_receipt": {
+            "arm": "right",
+            "checks": {
+              "bottle_not_displaced_before_close": true,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 54.966743034169745,
+                  "minimum_signed_separation_m": -0.0014050855534151196,
+                  "observed_physical_contact": true,
+                  "pair_index": 29,
+                  "pair_signal_receipt_sha256": "c2554c70943683caae7528af94a896ea80e9df518e7386dd8eedfa6822e95dd2",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.010387762628308001,
+                  "minimum_signed_separation_m": 4.144444392295554e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 27,
+                  "pair_signal_receipt_sha256": "bb91d4c258e6617db7a81e6198e350fe09b3283b950d3050cbfb78101908259f",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fr_link2",
+                  "body_b": "fr_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013335971161723137,
+                  "observed_physical_contact": false,
+                  "pair_index": 25,
+                  "pair_signal_receipt_sha256": "6133e90ebba54f3c55f390dd5b75fc34bc5ef53d28c336d3875d3ed822a21056",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link5",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.009165629744529724,
+                  "observed_physical_contact": false,
+                  "pair_index": 26,
+                  "pair_signal_receipt_sha256": "6bff1e3874c551db5ea646a9946e2ae77aea4669ad4a54a4c2f842d44a43e0d4",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.010387762628308001,
+                  "minimum_signed_separation_m": 4.144444392295554e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 27,
+                  "pair_signal_receipt_sha256": "bb91d4c258e6617db7a81e6198e350fe09b3283b950d3050cbfb78101908259f",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013663304969668388,
+                  "observed_physical_contact": false,
+                  "pair_index": 28,
+                  "pair_signal_receipt_sha256": "712319402250302f2fc0bfa8309408665df12e0f3ff316ee5dcf47edd5aa9946",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 54.966743034169745,
+                  "minimum_signed_separation_m": -0.0014050855534151196,
+                  "observed_physical_contact": true,
+                  "pair_index": 29,
+                  "pair_signal_receipt_sha256": "c2554c70943683caae7528af94a896ea80e9df518e7386dd8eedfa6822e95dd2",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link7",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.00024861731799319386,
+                  "observed_physical_contact": false,
+                  "pair_index": 30,
+                  "pair_signal_receipt_sha256": "a4b57db54f24b70f829f9ebd236f7d1d2c6d724af76704085003c06d29b6e55a",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.0,
+              "eef_orientation_error_rad": 0.5549479913095963,
+              "eef_position_error_m": 0.12159152360485596,
+              "selected_arm_qpos_max_error_rad": 1.0268690586090088
+            },
+            "pass": false,
+            "receipt_sha256": "24c29e782cb87ed29ba7f12cc8da67c9b22dd6e93a2f150de1a196b4ca2fa36c",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "grasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fr_link6",
+              "body_b": "fr_link4",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 63.455236195511894,
+              "minimum_signed_separation_m": -0.0015594398137181997,
+              "observed_physical_contact": true,
+              "pair_index": 29,
+              "pair_signal_receipt_sha256": "6569b442210f2d30421d2694f9cfd4a5a3189005ab246af760a5869305e6179b",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon",
+                "nonpositive_signed_separation"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 624
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.0,
+          "maximum_relevant_impulse": 63.562083384610006,
+          "minimum_signed_separation_m": -0.0015607730019837618,
+          "pass": false,
+          "receipt_sha256": "ad9c6ee7773861a283fa047a75bbc75b990c7ed8cbd1a65c6566a77058850642",
+          "rows_checked": 193,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "grasp",
+          "start_exclusive": 623,
+          "stop_before_close": true
+        }
+      ],
+      "spec_file_sha256": "c679192d67cb010f38a58e4862a98327a89c68dbf744366a52e34d8b99b8d48c",
+      "trace_sha256": "faa14d5fa20f1616ddcb36ea349d7a6230510739229de953df94a7cb95f216a2"
+    },
+    {
+      "case": "candidate_02_f3-final-pose-v3-r2180",
+      "receipt_sha256": "0cde4f69e39e7879a35cd74729071be258ea9cb8f9d6e34b2a98353e6443145b",
+      "recipe_id": "f3-final-pose-v3-r2180",
+      "rejected_before_close": true,
+      "scene_file_sha256": "a4765aee7a0770bdc4300e4fed8cf1499da3cf10c0aed7f036397c47eb8a0e63",
+      "segments": [
+        {
+          "arm": "left",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 572,
+          "endpoint_receipt": {
+            "arm": "left",
+            "checks": {
+              "bottle_not_displaced_before_close": true,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 10.6798794037689,
+                  "minimum_signed_separation_m": -0.00027264439268037677,
+                  "observed_physical_contact": true,
+                  "pair_index": 17,
+                  "pair_signal_receipt_sha256": "a41d1eeb5dd3939b5a8fba0b4e2edc9db99eed194b156897fcc1bb5655571567",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fl_link3",
+                  "body_b": "f3_original_pad",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 1.2780202354255468,
+                  "minimum_signed_separation_m": 2.6217447157250717e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "3379f87eea50489be0c5140adbe1ca3757f6a16958da0939d9b47577eada5c25",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fl_link2",
+                  "body_b": "fl_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.002034091856330633,
+                  "observed_physical_contact": false,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "3877de682d716135b786411f80d9d498c7cb693019faa46cc541a1f9759519fb",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link3",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.010025979951024055,
+                  "observed_physical_contact": false,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "84a7604e009f833acf9a60b6b64665f09392c0f8a316fc8737d67ff6c0dcf829",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link3",
+                  "body_b": "f3_original_pad",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 1.2780202354255468,
+                  "minimum_signed_separation_m": 2.6217447157250717e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "3379f87eea50489be0c5140adbe1ca3757f6a16958da0939d9b47577eada5c25",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link5",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.00989997573196888,
+                  "observed_physical_contact": false,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "df1fe5d2b64220871b456cccb74f04a8ac74ce5dd764bb0f962b99af38ef58a5",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013416459783911705,
+                  "observed_physical_contact": false,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "40c8f6951c8066f42d339d0ceec6c5eb7b795d140c854199a23fa9715f08cbc7",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 10.6798794037689,
+                  "minimum_signed_separation_m": -0.00027264439268037677,
+                  "observed_physical_contact": true,
+                  "pair_index": 17,
+                  "pair_signal_receipt_sha256": "a41d1eeb5dd3939b5a8fba0b4e2edc9db99eed194b156897fcc1bb5655571567",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.0,
+              "eef_orientation_error_rad": 0.0899406928144396,
+              "eef_position_error_m": 0.11988349510362742,
+              "selected_arm_qpos_max_error_rad": 0.33885185420513153
+            },
+            "pass": false,
+            "receipt_sha256": "f88720a0e3d92d37f1a12e2cf820ac2f2a4da9f416d7744a4e5e86586f3ef28a",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "pregrasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fl_link2",
+              "body_b": "fl_base_link",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 1.482953088536038,
+              "minimum_signed_separation_m": 0.00011516482481965795,
+              "observed_physical_contact": true,
+              "pair_index": 12,
+              "pair_signal_receipt_sha256": "ac9b35c91a8ee3b858a0a9805a0ed4938a8e9046a16ccf40f8a6aa8594634e7a",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 264
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.0,
+          "maximum_relevant_impulse": 21.38454515052831,
+          "minimum_signed_separation_m": -0.0003672073071356863,
+          "pass": false,
+          "receipt_sha256": "688bf49608a1cdaeed7d88b11e95c47e7aa483287c1b9ed282b9b84e973d91e2",
+          "rows_checked": 572,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "pregrasp",
+          "start_exclusive": 0,
+          "stop_before_close": true
+        },
+        {
+          "arm": "left",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 1244,
+          "endpoint_receipt": {
+            "arm": "left",
+            "checks": {
+              "bottle_not_displaced_before_close": false,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": true,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": false,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": true
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.26491001808411385,
+                  "minimum_signed_separation_m": -1.343900294159539e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 18,
+                  "pair_signal_receipt_sha256": "fd0de6cac888896cdc7a9fd2efbd9909dad4b8b12c05ea5061f4b2fdf08f662a",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 15,
+              "relevant_pairs": [
+                {
+                  "body_a": "fl_link2",
+                  "body_b": "fl_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013962315395474434,
+                  "observed_physical_contact": false,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "d3f7947713c26a994f76c5aa3383b4d1c2df407f1928325e1c3947a8cce3c293",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link3",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013177122920751572,
+                  "observed_physical_contact": false,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "011590603370e83f68bf464d6ff7095a8104fa31ba06c8582a84c611ccab9e60",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link3",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.01920437626540661,
+                  "observed_physical_contact": false,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "867c6ba519a0f81aeeab8ee640fb17510039dc7fb41d6cc0c7dabc1f10d71b50",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link4",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.017871027812361717,
+                  "observed_physical_contact": false,
+                  "pair_index": 15,
+                  "pair_signal_receipt_sha256": "a5eb6d19c11d0256567a6546a4b5ad167137707ecb55fe274feaa0fccb9891eb",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link4",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.015330672264099121,
+                  "observed_physical_contact": false,
+                  "pair_index": 16,
+                  "pair_signal_receipt_sha256": "043bb321544297bd6d9f415699df7cd4a7c9727306e4220f2be736fb8353e99a",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link5",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.009055452421307564,
+                  "observed_physical_contact": false,
+                  "pair_index": 17,
+                  "pair_signal_receipt_sha256": "d338e33f84b69e7a6082a1bb33fc64dc260a577ca547a7965bb7edeb12e30205",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.26491001808411385,
+                  "minimum_signed_separation_m": -1.343900294159539e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 18,
+                  "pair_signal_receipt_sha256": "fd0de6cac888896cdc7a9fd2efbd9909dad4b8b12c05ea5061f4b2fdf08f662a",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "f3_original_pad",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.008847869001328945,
+                  "observed_physical_contact": false,
+                  "pair_index": 19,
+                  "pair_signal_receipt_sha256": "35e8c43007007ca9a88a84af5e7cabb3f5ae835d9be4d443e60d48ae95e78237",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.019100820645689964,
+                  "observed_physical_contact": false,
+                  "pair_index": 20,
+                  "pair_signal_receipt_sha256": "96aeda7b54e38ebed715a8be313c84b99247bda03f496764ec5ead06458b232c",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "fl_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.001474112388677895,
+                  "observed_physical_contact": false,
+                  "pair_index": 21,
+                  "pair_signal_receipt_sha256": "149a7475e05d9666ba43946a8940c5f79d2923b9a23623df87b37da73e94e9b4",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.0186278335750103,
+                  "observed_physical_contact": false,
+                  "pair_index": 22,
+                  "pair_signal_receipt_sha256": "52b193e33d6d95ccf458499adc9c124f1582af576923c7e1ab5d5a20aaa57290",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0002769225487632385,
+                  "minimum_signed_separation_m": -8.968272595666349e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 23,
+                  "pair_signal_receipt_sha256": "452300e6102f85a322556e52447cf4132bddcfac4bbbb6f05409693ec7c2c805",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fl_link7",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.015280145220458508,
+                  "observed_physical_contact": false,
+                  "pair_index": 25,
+                  "pair_signal_receipt_sha256": "40077fc31ec1ae976bb8004802938b32ee8a7f0fd4029a719e72bd9059340b2f",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link8",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.001575940870679915,
+                  "observed_physical_contact": false,
+                  "pair_index": 26,
+                  "pair_signal_receipt_sha256": "2ea6a4c3579c2f63d4dfb5d95d05fc8e18ed99fab43db1eae94f648b723cea54",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fl_link8",
+                  "body_b": "f3_original_pad",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.006655603181570768,
+                  "observed_physical_contact": false,
+                  "pair_index": 27,
+                  "pair_signal_receipt_sha256": "043b2510253d8cc8d6f797707d58fee5f1d536202bb1135a016ff27369689ca8",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": [
+                {
+                  "body_a": "fl_link6",
+                  "body_b": "f3_main_bottle",
+                  "category": "bottle",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0002769225487632385,
+                  "minimum_signed_separation_m": -8.968272595666349e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 23,
+                  "pair_signal_receipt_sha256": "452300e6102f85a322556e52447cf4132bddcfac4bbbb6f05409693ec7c2c805",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ]
+            },
+            "earliest_failure_code": "executing_arm_support_collision",
+            "failure_codes": [
+              "executing_arm_support_collision",
+              "premature_or_unexpected_arm_bottle_contact",
+              "bottle_displaced_before_close",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.2217548257213813,
+              "eef_orientation_error_rad": 0.11759212406859476,
+              "eef_position_error_m": 0.044490341420216954,
+              "selected_arm_qpos_max_error_rad": 0.07079458236694336
+            },
+            "pass": false,
+            "receipt_sha256": "2e7304fcc03726883cad013a66b2cf88e1b3509dd8aa5e37fd3ac8bea2354bd4",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "grasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision"
+            ],
+            "pair": {
+              "body_a": "fl_link3",
+              "body_b": "f3_original_pad",
+              "category": "support",
+              "evidence_complete": true,
+              "impulse_norm_sum": 1.2787223769175742,
+              "minimum_signed_separation_m": 2.6290037567378022e-05,
+              "observed_physical_contact": true,
+              "pair_index": 14,
+              "pair_signal_receipt_sha256": "a2e9fd338dcfbf945e3a2564531ce4761939713fe398a8689c724ba4f88a808b",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 573
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.2217548257213813,
+          "maximum_relevant_impulse": 10.771829432691197,
+          "minimum_signed_separation_m": -0.006536378525197506,
+          "pass": false,
+          "receipt_sha256": "189af69d166fcc0577f68f810bd7d086ad0a3b83334b9a22256bb6f36550c90c",
+          "rows_checked": 672,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "grasp",
+          "start_exclusive": 572,
+          "stop_before_close": true
+        }
+      ],
+      "spec_file_sha256": "c84b782f8c23a85f21cf6b6011ae591a7a7182a017e1c5d28cb9f60ddca0eb5c",
+      "trace_sha256": "d9459e00db4a6bc6dd4a3d93a6b6a75bbc379ecf66f1cb24cdb37b660638b64d"
+    },
+    {
+      "case": "candidate_03_f3-final-pose-v3-r3677",
+      "receipt_sha256": "cc373aaab574681cafe4a925feef82e9a6d32fb53b53b64a4c76e5d3cbaa6cbc",
+      "recipe_id": "f3-final-pose-v3-r3677",
+      "rejected_before_close": true,
+      "scene_file_sha256": "2a79e9e6aedd29e95502256a2713bd22a085a1219b710e82461197b20da5afdb",
+      "segments": [
+        {
+          "arm": "right",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 569,
+          "endpoint_receipt": {
+            "arm": "right",
+            "checks": {
+              "bottle_not_displaced_before_close": false,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 35.75675012018461,
+                  "minimum_signed_separation_m": -0.0008535291999578476,
+                  "observed_physical_contact": true,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "dfa6c270439fcfc6bdf2f75097bf21db1a4a896b2b6a191eab797e133cb2a950",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.23607730535579202,
+                  "minimum_signed_separation_m": -3.516674041748047e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 10,
+                  "pair_signal_receipt_sha256": "a31ea8a00c3fe65e0abfc71444dd09b7cefaef20defd7e89aa3d77ebf49a3688",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.23607730535579202,
+                  "minimum_signed_separation_m": -3.516674041748047e-06,
+                  "observed_physical_contact": true,
+                  "pair_index": 10,
+                  "pair_signal_receipt_sha256": "a31ea8a00c3fe65e0abfc71444dd09b7cefaef20defd7e89aa3d77ebf49a3688",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.01376067940145731,
+                  "observed_physical_contact": false,
+                  "pair_index": 11,
+                  "pair_signal_receipt_sha256": "600853c6ded7f5975f373f75031cc37212d01313126047048b0f723a92a561b9",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 35.75675012018461,
+                  "minimum_signed_separation_m": -0.0008535291999578476,
+                  "observed_physical_contact": true,
+                  "pair_index": 12,
+                  "pair_signal_receipt_sha256": "dfa6c270439fcfc6bdf2f75097bf21db1a4a896b2b6a191eab797e133cb2a950",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link7",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.001913062296807766,
+                  "observed_physical_contact": false,
+                  "pair_index": 14,
+                  "pair_signal_receipt_sha256": "711f4ec133ebfd62cca3e5e7ec236df7f489334d04d486e3351878c5fdc5a0cb",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link2",
+                  "body_b": "fr_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.01314814668148756,
+                  "observed_physical_contact": false,
+                  "pair_index": 33,
+                  "pair_signal_receipt_sha256": "ec5bb94a5692fa287ec076c7e2598346ef1ad12806997f0ea807a5d2e80d9ae7",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link5",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.009788728319108486,
+                  "observed_physical_contact": false,
+                  "pair_index": 34,
+                  "pair_signal_receipt_sha256": "91d7e6611b98c6a78ac750277e69bb4a2319c250bdee894fb79c9e9a0b44c3ed",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "bottle_displaced_before_close",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.03281340581795054,
+              "eef_orientation_error_rad": 0.46377752405441863,
+              "eef_position_error_m": 0.10335050986356864,
+              "selected_arm_qpos_max_error_rad": 0.6276654005050659
+            },
+            "pass": false,
+            "receipt_sha256": "435dd20eaff72a476ba321b19b63c871f0718d4f0df1c9d9f694661d491a8b1e",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "pregrasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision"
+            ],
+            "pair": {
+              "body_a": "fr_link6",
+              "body_b": "fr_link4",
+              "category": "self",
+              "evidence_complete": true,
+              "impulse_norm_sum": 0.8405007140448095,
+              "minimum_signed_separation_m": 4.9415357352700084e-05,
+              "observed_physical_contact": true,
+              "pair_index": 10,
+              "pair_signal_receipt_sha256": "4a9e47ab2b7c2917d8c39ce301def1f3eafb68b953665c249b589b9cf8495b18",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 417
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.03281340581795054,
+          "maximum_relevant_impulse": 41.1397890939126,
+          "minimum_signed_separation_m": -0.0010025232331827283,
+          "pass": false,
+          "receipt_sha256": "6698134650f8a98472f2bdc7be0ed2718c6c426a80f59c0d78422bd69553165f",
+          "rows_checked": 569,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "pregrasp",
+          "start_exclusive": 0,
+          "stop_before_close": true
+        },
+        {
+          "arm": "right",
+          "close_permitted_by_this_check": false,
+          "end_inclusive": 898,
+          "endpoint_receipt": {
+            "arm": "right",
+            "checks": {
+              "bottle_not_displaced_before_close": false,
+              "contact_signal_complete": true,
+              "eef_orientation_tracking": false,
+              "eef_position_tracking": false,
+              "no_executing_arm_self_collision": false,
+              "no_executing_arm_support_collision": false,
+              "no_premature_or_unexpected_arm_bottle_contact": true,
+              "opposite_arm_not_commanded": true,
+              "selected_arm_commanded": true,
+              "selected_arm_qpos_tracking": false
+            },
+            "close_allowed": false,
+            "contact_audit": {
+              "allowed_selected_gripper_bottle_hits": [],
+              "executing_arm_self_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 23.076907524263635,
+                  "minimum_signed_separation_m": -0.0005905688158236444,
+                  "observed_physical_contact": true,
+                  "pair_index": 11,
+                  "pair_signal_receipt_sha256": "047fa14f4287da0a2844cf9c46aec80e7cc86c9039d863363acba15d5cebc9ec",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "executing_arm_support_collision_hits": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.3284967541694646,
+                  "minimum_signed_separation_m": 3.922171890735626e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 9,
+                  "pair_signal_receipt_sha256": "ce5e670c3b8dbcf87756955ee6f844cccd2dcaf9bad81c7776d3e4c973e14a94",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link7",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.06043068319559141,
+                  "minimum_signed_separation_m": 1.835636794567108e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "3a3dce6cd77e264d9dab03771d59c184e455b155621ec5afd3fdbed462ecfc54",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                }
+              ],
+              "incomplete_signal_pairs": [],
+              "pair_presence_alone_is_not_physical_contact": true,
+              "relevant_pair_count": 6,
+              "relevant_pairs": [
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.3284967541694646,
+                  "minimum_signed_separation_m": 3.922171890735626e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 9,
+                  "pair_signal_receipt_sha256": "ce5e670c3b8dbcf87756955ee6f844cccd2dcaf9bad81c7776d3e4c973e14a94",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013423362746834755,
+                  "observed_physical_contact": false,
+                  "pair_index": 10,
+                  "pair_signal_receipt_sha256": "649a792d4320ea1d8e8ba54937a23a973cd5c69aed5009338f5a2a8daf5ce67a",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link6",
+                  "body_b": "fr_link4",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 23.076907524263635,
+                  "minimum_signed_separation_m": -0.0005905688158236444,
+                  "observed_physical_contact": true,
+                  "pair_index": 11,
+                  "pair_signal_receipt_sha256": "047fa14f4287da0a2844cf9c46aec80e7cc86c9039d863363acba15d5cebc9ec",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon",
+                    "nonpositive_signed_separation"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link7",
+                  "body_b": "table",
+                  "category": "support",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.06043068319559141,
+                  "minimum_signed_separation_m": 1.835636794567108e-05,
+                  "observed_physical_contact": true,
+                  "pair_index": 13,
+                  "pair_signal_receipt_sha256": "3a3dce6cd77e264d9dab03771d59c184e455b155621ec5afd3fdbed462ecfc54",
+                  "physical_contact_reasons": [
+                    "impulse_above_epsilon"
+                  ],
+                  "physical_hit_for_gate": true
+                },
+                {
+                  "body_a": "fr_link2",
+                  "body_b": "fr_base_link",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.013481958769261837,
+                  "observed_physical_contact": false,
+                  "pair_index": 31,
+                  "pair_signal_receipt_sha256": "9f2d9fde008155b6439e86c2590d8939e18967cf960d34787fdfd5d153064da1",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                },
+                {
+                  "body_a": "fr_link5",
+                  "body_b": "fr_link3",
+                  "category": "self",
+                  "evidence_complete": true,
+                  "impulse_norm_sum": 0.0,
+                  "minimum_signed_separation_m": 0.009415226057171822,
+                  "observed_physical_contact": false,
+                  "pair_index": 32,
+                  "pair_signal_receipt_sha256": "c2cabe3a76c4bd2981cd13fa19cb52b7003ea360842e5f425f2b49dd3f7a17f4",
+                  "physical_contact_reasons": [],
+                  "physical_hit_for_gate": false
+                }
+              ],
+              "unexpected_arm_bottle_hits": []
+            },
+            "earliest_failure_code": "executing_arm_self_collision",
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "bottle_displaced_before_close",
+              "selected_arm_qpos_tracking_failed",
+              "eef_tracking_failed"
+            ],
+            "formal_data": false,
+            "implementation_version": "f3_preclose_physical_consistency_gate_v1",
+            "measurements": {
+              "bottle_preclose_displacement_m": 0.07538763047266527,
+              "eef_orientation_error_rad": 0.6339236495018237,
+              "eef_position_error_m": 0.06564878187826989,
+              "selected_arm_qpos_max_error_rad": 0.551305403932929
+            },
+            "pass": false,
+            "receipt_sha256": "7a345c75e35bf70f31c5226347421bbdc13a12bd659e8d1372f4e6ea3604950d",
+            "schema_version": "cmf_f3_preclose_physical_consistency_gate_v1",
+            "stage": "grasp",
+            "stage1_authorized": false,
+            "stop_before_close": true,
+            "thresholds": {
+              "bottle_preclose_displacement_m": 0.01,
+              "eef_orientation_error_rad": 0.02,
+              "eef_position_error_m": 0.03,
+              "selected_arm_qpos_max_error_rad": 0.1
+            }
+          },
+          "first_failure": {
+            "failure_codes": [
+              "executing_arm_self_collision",
+              "executing_arm_support_collision",
+              "bottle_displaced_before_close"
+            ],
+            "pair": {
+              "body_a": "fr_link6",
+              "body_b": "table",
+              "category": "support",
+              "evidence_complete": true,
+              "impulse_norm_sum": 0.23141941416483627,
+              "minimum_signed_separation_m": -9.387731552124023e-07,
+              "observed_physical_contact": true,
+              "pair_index": 10,
+              "pair_signal_receipt_sha256": "b1cdae0995d6e03ce628a240c9d3585dcff38debfff2140d6451baf392562fc7",
+              "physical_contact_reasons": [
+                "impulse_above_epsilon",
+                "nonpositive_signed_separation"
+              ],
+              "physical_hit_for_gate": true
+            },
+            "row_index": 570
+          },
+          "gpu_execution_authorized": false,
+          "maximum_bottle_displacement_m": 0.07538763047266527,
+          "maximum_relevant_impulse": 35.824979280717834,
+          "minimum_signed_separation_m": -0.0008549642516300082,
+          "pass": false,
+          "receipt_sha256": "538a7176a2a6493b4251c2db0641ce1bc540e223713d87592be883c5bb17932f",
+          "rows_checked": 329,
+          "schema_version": "cmf_f3_full_window_preclose_v1_1",
+          "stage": "grasp",
+          "start_exclusive": 569,
+          "stop_before_close": true
+        }
+      ],
+      "spec_file_sha256": "2a55bb05736df8b31a0ab68b64b77399a391989c7420a17624e98e9eaaa219b1",
+      "trace_sha256": "be8b83227b77a9fc5c6222bfac5de021a03a494de4d3e439b4e8240c279dde05"
+    }
+  ],
+  "scene_created": false,
+  "schema_version": "cmf_f3_full_window_replay_v1_1",
+  "source_mutated": false
+}

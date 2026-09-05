@@ -1,0 +1,487 @@
+{
+  "authorization_consumed": false,
+  "executable_identity_negative_tests": [
+    {
+      "error": "runner __file__ path differs from manifest",
+      "error_type": "F4ManifestContractError",
+      "label": "runner_executable_identity_wrong",
+      "rejected": true
+    },
+    {
+      "error": "guard __file__ path differs from manifest",
+      "error_type": "F4ManifestContractError",
+      "label": "guard_executable_identity_wrong",
+      "rejected": true
+    },
+    {
+      "error": "contract __file__ path differs from manifest",
+      "error_type": "F4ManifestContractError",
+      "label": "contract_executable_identity_wrong",
+      "rejected": true
+    }
+  ],
+  "execution_authorized_lifecycle_fixture": {
+    "approved_fixture": true,
+    "authorization_consumed": false,
+    "cuda_context_created": false,
+    "guard_entry_phase": "GUARD_ENTRY",
+    "nvidia_smi_called": false,
+    "parent_exclusive_flock_held": true,
+    "pass": true,
+    "planner_called": false,
+    "prepublication_phase": "PREPUBLICATION",
+    "production_output_created": false,
+    "real_gpu_lease_acquired": false,
+    "real_guard_main_called": false,
+    "require_execution_authorized": true,
+    "runner_entry_phase": "RUNNER_ENTRY",
+    "runner_entry_receipt_sha256": "9ac3bc0339d8a019334e529beb1e852c297ec8d2f3888ce54477604366bf3222",
+    "runner_entry_subprocess_returncode": 0,
+    "scene_created": false,
+    "synthetic_lease_marker_only": false,
+    "synthetic_phase_rows": 11
+  },
+  "execution_authorized_lifecycle_fixture_manifest_sha256": "b9e635c5e04533fdd0a83cf4febd3debdb26f487baf8e38d15c394a852b3656c",
+  "finalizer_test_count": 18,
+  "finalizer_tests": [
+    {
+      "expected_accept": true,
+      "failure": null,
+      "label": "accepted_three_of_three",
+      "observed_accept": true,
+      "pass": true,
+      "receipt_sha256": "39f706ffa3d46d08a8548d221139622e5a30215d7bc7270e5a527c0f35df84ba"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "failed_verifier_without_exception",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "c1a8d3642c561592b3e0ff7924646b1a186dbb1025df9aff4c7353e579fc07ed"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "missing_raw_npz",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "60ea56121b8dc5a77c72d59ea3bf19b530d5fd01197b98fa57fa298d9a5adc94"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "tampered_raw_npz",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "3fe6ab92c2acf7792c0ce91812a731db61072018d54aff6a08eb12548c286404"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "coordinated_raw_npz_manifest_sidecar_replacement",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "90cb2a5b3c80e4c5d34a08dc289cc157d160e777413385be4d32bd256574577f"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "missing_mp4",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "20ea420fd0639c2395d4b25d46f167f0e69d97369323ba1d00c678aae20850cb"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "tampered_mp4",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "f0da8fabb68f594a7c4fb78487c6730b9d29469cf08d0af3d9c8ebdec4057a9c"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "tampered_branch_receipt",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "f3a318ee2392a294bb16bfc2b9c7ebb8b29e80adab8d63f0dddd3c2d53e3009e"
+    },
+    {
+      "expected_accept": false,
+      "failure": "disk_root_matches_memory_result",
+      "label": "tampered_root_receipt",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "4dcfb719704a54dadbf8c5f59c801b170cea9f66665b86f0616cc806f0b21d80"
+    },
+    {
+      "expected_accept": false,
+      "failure": "branch_receipts_exact_three_ordered_unique_structured",
+      "label": "extra_null_branch_receipt",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "d2c7cb539e6b900f737a494bf777e8bdc41a9c1faf3ec889d012e80370df339a"
+    },
+    {
+      "expected_accept": false,
+      "failure": "branch_receipts_exact_three_ordered_unique_structured",
+      "label": "reversed_branch_program_order",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "f430908598227fa35ffe906a0c13d212ef3af0110b0a31b8083ab09cf1cd76f3"
+    },
+    {
+      "expected_accept": false,
+      "failure": "task_feasibility_three_of_three_exact_program_order",
+      "label": "duplicate_task_feasibility_program_ids",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "e9c60fe23bfbede287991a0aee4de1b823650430c9e27770a3acdc0a4dfb27ea"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_suffix_preflights_exact_12_plus_30",
+      "label": "suffix_query_not_42",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "f37f29db096d19105c42d8ef44066fd127a3e3312ac3c2c89d388bdd6ce70f26"
+    },
+    {
+      "expected_accept": false,
+      "failure": "planner_total_136",
+      "label": "planner_total_not_136",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "b7a154432066d74daf431161677d4663f2a4e37148184b7b1b246e01bc539082"
+    },
+    {
+      "expected_accept": false,
+      "failure": "fresh_scenes_11_unique",
+      "label": "duplicate_scene_id",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "e0050373e0a9b846fac74d908c52aba3ac63b9a90818c015e381a44b7720de72"
+    },
+    {
+      "expected_accept": false,
+      "failure": "exact_phase_multiset_1_3_1_3_3",
+      "label": "wrong_phase_multiset",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "669b916cf91cd7d4d849ac4503f6a5bef5571dd7942b3c20805b3796e0201d34"
+    },
+    {
+      "expected_accept": false,
+      "failure": "three_disk_branch_receipts",
+      "label": "branch_execution_planner_delta_nonzero",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "f67858f78536d8c99a93fe3309c74291112693f3886793c85b0674d67b28a36e"
+    },
+    {
+      "expected_accept": false,
+      "failure": "final_state_equivalence",
+      "label": "final_state_equivalence_false",
+      "observed_accept": false,
+      "pass": true,
+      "receipt_sha256": "c74c3d514d6109360c3b3a03063d9286c85e2e816e9e71d2129f06a7216a7377"
+    }
+  ],
+  "gpu_context_created": false,
+  "lineage_negative_test_count": 5,
+  "lineage_negative_tests": [
+    {
+      "error": "Runtime V2.1 external review decision SHA-256 mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "external_decision_file_sha_wrong",
+      "rejected": true
+    },
+    {
+      "error": "Runtime V2.1 external decision receipt changed",
+      "error_type": "F4ManifestContractError",
+      "label": "external_decision_receipt_wrong",
+      "rejected": true
+    },
+    {
+      "error": "Runtime V2 source proposal binding changed",
+      "error_type": "F4ManifestContractError",
+      "label": "source_proposal_manifest_wrong",
+      "rejected": true
+    },
+    {
+      "error": "Runtime V2 CPU review binding changed",
+      "error_type": "F4ManifestContractError",
+      "label": "source_cpu_review_receipt_wrong",
+      "rejected": true
+    },
+    {
+      "error": "Runtime V2 lifecycle receipt binding changed",
+      "error_type": "F4ManifestContractError",
+      "label": "source_lifecycle_receipt_wrong",
+      "rejected": true
+    }
+  ],
+  "numpy_serialization": {
+    "decoded": {
+      "array": [
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "bool": true,
+      "float": 1.25,
+      "int": 7
+    },
+    "pass": true,
+    "path": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/numpy_serialization.json"
+  },
+  "nvidia_smi_called": false,
+  "pass": true,
+  "planner_called": false,
+  "post_child_success": {
+    "cache_job": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/cache/f4-infrastructure-corrected-development-root-v1",
+    "guard_directory": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/guards",
+    "guard_terminal": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/guards/f4-infrastructure-corrected-development-root-v1.terminal.json",
+    "output": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/post_child_output",
+    "pass": true,
+    "phase": "POST_CHILD",
+    "phase_validation": {
+      "accepted_development_roots": 1,
+      "accepted_development_trajectories": 3,
+      "child_exit_zero": true,
+      "gpu_returned_to_idle_baseline": true,
+      "guard_cleanup_pass": true,
+      "job_succeeded": true,
+      "job_terminal_pass": true,
+      "pass": true,
+      "root_finalizer_accepted": true
+    },
+    "start_receipt": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/guards/f4-infrastructure-corrected-development-root-v1.start.json",
+    "stderr_log": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/guards/f4-infrastructure-corrected-development-root-v1.stderr.log",
+    "stdout_log": "/nfs_share/lijunhui/Robotwin2/tmp/f4_runtime_v2_2_cpu_bd00hsrk/guards/f4-infrastructure-corrected-development-root-v1.stdout.log"
+  },
+  "post_child_test_count": 11,
+  "post_child_tests": [
+    {
+      "error": "job terminal self-hash mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "job_terminal_self_hash_tamper",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD job terminal binding mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "job_terminal_binding_wrong",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD exit/pass/finalizer equivalence failed",
+      "error_type": "F4ManifestContractError",
+      "label": "child_exit_zero_but_job_pass_false",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD finalizer accepted/checks mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "root_finalizer_disagrees_with_pass",
+      "rejected": true
+    },
+    {
+      "error": "root finalizer self-hash mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "root_finalizer_self_hash_tamper",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD accepted 1/3 counts mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "accepted_counts_wrong",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD accepted result/error mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "accepted_result_counts_wrong",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD Guard/job GPU identity mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "guard_job_gpu_identity_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD Guard cleanup/baseline failed",
+      "error_type": "F4ManifestContractError",
+      "label": "guard_cleanup_false",
+      "rejected": true
+    },
+    {
+      "error": "POST_CHILD Guard cleanup/baseline failed",
+      "error_type": "F4ManifestContractError",
+      "label": "gpu_baseline_false",
+      "rejected": true
+    },
+    {
+      "job_succeeded": false,
+      "label": "consistent_failed_job_integrity_valid_but_not_success",
+      "pass": true,
+      "rejected": false
+    }
+  ],
+  "production_output_created": false,
+  "real_gpu_lease_acquired": false,
+  "receipt_sha256": "0ed086424ad68309a8584e8c4862b26843912d9ad7e025589a92507583a3f88e",
+  "runner_environment_negative_test_count": 21,
+  "runner_environment_negative_tests": [
+    {
+      "error": "RUNNER_ENTRY CUDA_VISIBLE_DEVICES is not one bound UUID",
+      "error_type": "F4ManifestContractError",
+      "label": "cuda_visible_devices_multi_uuid",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY GPU index environment mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "gpu_index_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY lease environment mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "lease_path_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY start receipt environment mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "start_receipt_path_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY CUDA_HOME mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "cuda_home_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY PYTHONPATH mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "pythonpath_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY PYTHONDONTWRITEBYTECODE mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "pythondontwritebytecode_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY requires LD_LIBRARY_PATH absent",
+      "error_type": "F4ManifestContractError",
+      "label": "ld_library_path_present",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: CONDA_PKGS_DIRS",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_CONDA_PKGS_DIRS_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: CUDA_CACHE_PATH",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_CUDA_CACHE_PATH_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: HOME",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_HOME_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: MPLCONFIGDIR",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_MPLCONFIGDIR_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: NUMBA_CACHE_DIR",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_NUMBA_CACHE_DIR_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: TMPDIR",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_TMPDIR_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: TORCH_EXTENSIONS_DIR",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_TORCH_EXTENSIONS_DIR_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: TORCH_HOME",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_TORCH_HOME_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY cache environment mismatch: XDG_CACHE_HOME",
+      "error_type": "F4ManifestContractError",
+      "label": "cache_environment_XDG_CACHE_HOME_mismatch",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY start schema/family/run/job/manifest mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "start_family_wrong",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY GPU index environment mismatch",
+      "error_type": "F4ManifestContractError",
+      "label": "start_gpu_index_wrong",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY CUDA_VISIBLE_DEVICES is not one bound UUID",
+      "error_type": "F4ManifestContractError",
+      "label": "start_gpu_uuid_wrong",
+      "rejected": true
+    },
+    {
+      "error": "RUNNER_ENTRY lease file is missing",
+      "error_type": "F4ManifestContractError",
+      "label": "lease_marker_missing",
+      "rejected": true
+    }
+  ],
+  "runtime_files": {
+    "guarded_launcher.py": "23c234b4188339986d06d5b0b9defae5e5cb8da48283f5033692d037d2db12d2",
+    "job_runner.py": "7b47e1a7e3ad9fd0db528e23ee9d870029d527c5b2f47a3550fc545d3a257463",
+    "lifecycle_preflight.py": "980d7b7c58e313ace42d6b057e607f562bf48b0cca0b24e73b24a5806bf63907",
+    "manifest_contract.py": "10716c654fadf26bf0dd690e24582830c2ab1c03afa37d42c86c29b6c0dbcf71"
+  },
+  "scene_created": false,
+  "schema_version": "cmf_f4_development_root_runtime_v2_1_finalizer_post_child_test_v1",
+  "source_lineage": {
+    "external_decision_file_sha256": "790fc6e3e48694d212bb1c1a8833d270f2dc0dbe4748a605f319003787fd0dcd",
+    "external_decision_receipt_sha256": "c8ff692590d7cdb63995c9ce6932d851c1ef918fb5a8e8003881d2035eca7c35",
+    "source_cpu_review_receipt_sha256": "27685393a762a0ab12ad332dc717dd4b80b0fd16e328484374d712ca803e180a",
+    "source_lifecycle_receipt_sha256": "3df1f4c21fec4c1b7f304c8a0f08351179f0eaf1dad2039e699be02547d3a3ba",
+    "source_proposal_manifest_sha256": "8afaf49a83aaaedc9473cd20866ad06e2b18e1f8adfcd1e6747baa401ce0a4f5"
+  },
+  "temporary_paths_cleaned": true
+}
