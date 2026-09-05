@@ -1,0 +1,76 @@
+{
+  "acceptance_thresholds_changed": false,
+  "cohorts": [
+    {
+      "checks": {
+        "gripper_state": true,
+        "head_rgb": true,
+        "left_wrist_rgb": true,
+        "model_visible_robot_state": true,
+        "right_wrist_rgb": true,
+        "storage_array_file_hash": true
+      },
+      "current_directory": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_recovery_v1_2/F1_A_path/current",
+      "current_json_file_sha256": "1d223bc7d3987c935f103c9ff8bdc44e4e2d58de48051ec1cd9102e18959be79",
+      "decoding": "float64 concat(stored_qpos[:unique_dofs], stored_qvel[:unique_dofs]); all redundant copies checked equal to raw initial state",
+      "future_state_values_used": false,
+      "model_visible_robot_state_dimension": 76,
+      "old_files_modified": false,
+      "pass": true,
+      "raw_reference_state_index": 0,
+      "storage_entity_copies": 2,
+      "trace_file_sha256": "1a465be864511fd0ad4f6502a5575a1fabc7bbb1460b6ea1c0cd013ad73a2f59",
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_recovery_v1_2/F1_A_path/branches/F1-red/trace_source.npz",
+      "unique_articulation_dofs": 38
+    },
+    {
+      "checks": {
+        "gripper_state": true,
+        "head_rgb": true,
+        "left_wrist_rgb": true,
+        "model_visible_robot_state": true,
+        "right_wrist_rgb": true,
+        "storage_array_file_hash": true
+      },
+      "current_directory": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_unattempted8_v1_3/F1_B_motion/current",
+      "current_json_file_sha256": "a65dfce96fed9227f50c36b78664e299c275e799b6b6ae3e2c97e9915b8cfda5",
+      "decoding": "float64 concat(stored_qpos[:unique_dofs], stored_qvel[:unique_dofs]); all redundant copies checked equal to raw initial state",
+      "future_state_values_used": false,
+      "model_visible_robot_state_dimension": 76,
+      "old_files_modified": false,
+      "pass": true,
+      "raw_reference_state_index": 0,
+      "storage_entity_copies": 2,
+      "trace_file_sha256": "00da6fdc0866c79cc62b253aad4944c97cd5d8106c9844694f6f1d9fc0088324",
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_unattempted8_v1_3/F1_B_motion/branches/F1-green/trace_source.npz",
+      "unique_articulation_dofs": 38
+    },
+    {
+      "checks": {
+        "gripper_state": true,
+        "head_rgb": true,
+        "left_wrist_rgb": true,
+        "model_visible_robot_state": true,
+        "right_wrist_rgb": true,
+        "storage_array_file_hash": true
+      },
+      "current_directory": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_unattempted8_v1_3/F4_A_path/current",
+      "current_json_file_sha256": "bcd03010e991dd8514bbd1fa10494f499fa860780efebd44d0a890ac1229fb6d",
+      "decoding": "float64 concat(stored_qpos[:unique_dofs], stored_qvel[:unique_dofs]); all redundant copies checked equal to raw initial state",
+      "future_state_values_used": false,
+      "model_visible_robot_state_dimension": 76,
+      "old_files_modified": false,
+      "pass": true,
+      "raw_reference_state_index": 0,
+      "storage_entity_copies": 2,
+      "trace_file_sha256": "ace2dcf26a0195679016d36d9c42f8166f6a697b0d13366076149a58abf16fa9",
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_unattempted8_v1_3/F4_A_path/branches/F4-ABC/trace_source.npz",
+      "unique_articulation_dofs": 38
+    }
+  ],
+  "new_gpu_scenes": 0,
+  "new_raw_trajectories": 0,
+  "receipt_sha256": "ab9693b305b93901ac6f14af825d3f62317f686acae9cf740629557885d7e0b5",
+  "schema_version": "cmf_realization_current_storage_layout_audit_v1",
+  "source": "runtime_trace._dual_entity_values deduplicates shared Aloha articulation; collector storage concatenated left/right aliases"
+}
