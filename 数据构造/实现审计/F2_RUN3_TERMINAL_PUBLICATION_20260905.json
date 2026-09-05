@@ -1,0 +1,76 @@
+{
+  "accepted_root": 0,
+  "beside_planner_queries": 0,
+  "beside_receipt_exists": false,
+  "beside_scene_cleanup_receipt_available": false,
+  "bindings": [
+    {
+      "file_sha256": "2aece5234569b79833f0b952966ff27159b2425bc2c70f1c9a12b866c1d7151f",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f2_controlled_insertion_route_gate_v1/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3/job_start.json"
+    },
+    {
+      "file_sha256": "f11e4233104191864c5d7d5856aa62e93f728a09bb19aeee1c5c599e06654b8e",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f2_controlled_insertion_route_gate_v1/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3/job_terminal.json"
+    },
+    {
+      "file_sha256": "be1a744fbe168d6bd1fbbf3fa5e954d0ce48c70947b5caf37f44cfb23d55c22a",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_f2_controlled_insertion_route_gate_v1/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3/inside_planner_receipt.json"
+    },
+    {
+      "file_sha256": "248a6d48cdc32289fc4324262c89bf1465d78dab62dfb5e1fcfc4381b5ff0edf",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_short_tmpdir_recovery_run3/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904/guards/f2-controlled-insertion-route-gate-run1.start.json"
+    },
+    {
+      "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_short_tmpdir_recovery_run3/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904/guards/f2-controlled-insertion-route-gate-run1.stderr.log"
+    },
+    {
+      "file_sha256": "86f611d774bc05a3599f549c89fb3f1e42348d86cf462e84976ef9b90c111dc6",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_short_tmpdir_recovery_run3/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904/guards/f2-controlled-insertion-route-gate-run1.stdout.log"
+    },
+    {
+      "file_sha256": "79f7069a75c144222db75e82375f8c4f7fce4a4681b223abaee995603019d8eb",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_short_tmpdir_recovery_run3/f2-controlled-insertion-route-gate-short-tmpdir-recovery-run3-20260904/guards/f2-controlled-insertion-route-gate-run1.terminal.json"
+    },
+    {
+      "file_sha256": "e70752914bcff44ab51f2f4384282a0ff2f957a299c577cdf988e368c037f980",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_RUN3_AUDITOR_RESULT_20260905.json"
+    },
+    {
+      "file_sha256": "7b939a897729dbf125eac2a8ff53ed960900829a10e92e57caeb719e74485117",
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_RUN3_ADMISSION_APPROVED_MANIFEST_V1.json"
+    }
+  ],
+  "cache_removed": true,
+  "child_pid": 778501,
+  "error": {
+    "message": "F2 live beside index-2 target differs from sealed layout",
+    "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1_runtime_v1/job_runner.py\", line 775, in main\n    result = run_gate(manifest, job, output)\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1_runtime_v1/job_runner.py\", line 682, in run_gate\n    targets, state_receipt = _derive_live_targets(\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_controlled_insertion_route_gate_run1_runtime_v1/job_runner.py\", line 605, in _derive_live_targets\n    raise ValueError(\"F2 live beside index-2 target differs from sealed layout\")\nValueError: F2 live beside index-2 target differs from sealed layout\n",
+    "type": "ValueError"
+  },
+  "formal": 0,
+  "fourth_dispatch_authorized": false,
+  "fully_passed_route_gate": false,
+  "gpu_index": 4,
+  "gpu_returned_to_baseline": true,
+  "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+  "guard_cleanup_pass": true,
+  "inside_planner_pass": true,
+  "inside_planner_queries": 5,
+  "inside_scene_cleanup_pass": true,
+  "lease_released": true,
+  "manifest_sha256": "ebde3c63ee2ea94b95a86f055c0166739f0fe985beb15f14a84c08f3d3b8865a",
+  "outer_postcheck": {
+    "all_eight_cards_at_baseline": true,
+    "compute_processes": [],
+    "selected_memory_mib": 12,
+    "selected_pstate": "P8",
+    "selected_utilization": 0
+  },
+  "physical": 0,
+  "raw": 0,
+  "receipt_sha256": "e2dac4c6031e5dd84097a2d4012e80d244d3f7c3829588ff60e5ec48f5e315bb",
+  "run3_consumed": true,
+  "schema_version": "cmf_f2_run3_terminal_publication_20260905_v1",
+  "status": "INSIDE_5_OF_5_PASS_BESIDE_TARGET_BINDING_FAILED"
+}
