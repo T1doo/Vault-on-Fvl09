@@ -1,0 +1,69 @@
+{
+  "F2_next": "CPU endpoint/constraint model preparation, no GPU bypass of global stop",
+  "F3_next": "CPU world/gripper repair preparation, no GPU bypass of global stop",
+  "accepted_development": {
+    "F1": {
+      "raw_trajectories": 15,
+      "roots": 5
+    },
+    "F2": {
+      "raw_trajectories": 0,
+      "roots": 0
+    },
+    "F3": {
+      "raw_trajectories": 0,
+      "roots": 0
+    },
+    "F4": {
+      "raw_trajectories": 3,
+      "roots": 1
+    },
+    "total_raw_trajectories": 18,
+    "total_roots": 6
+  },
+  "authorizations": {
+    "automatic_gpu_recovery": false,
+    "compression": false,
+    "formal_360": false,
+    "h_reveal": false,
+    "pi05": false,
+    "stage1": false,
+    "training": false
+  },
+  "evidence": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_BATCH_TERMINAL_PUBLICATION_V1_20260905.json": "48e1445233391bdebd2c70ad82595528b40cde55dff93b0650f12231cc9c9b24",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_PARENT_F1_BRIDGE_CPU_REVIEW_V1_20260905.json": "6302f10db47e278207b4d902d59a643831b0110f9a567141871151fade1250e0",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_PARENT_SOURCE_COMPATIBILITY_CPU_AUDIT_V1_20260905.json": "fe662c203fdefaee4bad5fa001497786b730f668168d7e629a71df88e8624d7f"
+  },
+  "formal": {
+    "accepted": 0,
+    "target": 360
+  },
+  "gpu_queue_stopped": true,
+  "latest_realization_batch": {
+    "fresh_scenes": 1,
+    "gpu_cleanup_verified": true,
+    "new_raw_trajectories": 0,
+    "physical_rollouts": 0,
+    "planner_queries": 0,
+    "status": "STOPPED_INFRASTRUCTURE_SAME_CURRENT_SOURCE_MISMATCH",
+    "unattempted_cells": 8
+  },
+  "old_F4_acceptance_unchanged": true,
+  "old_stage0_seal_unchanged": true,
+  "receipt_sha256": "b207fcc6c1fcd17e815a345a11010349c60b3a25ced69d6a4e9e9114b670062c",
+  "recovery_cpu": {
+    "review_file_sha256": "b43fab07ebe494d07daaacb06df25bf84e0ad51aa7f2cea0e3b5c112ea87367e",
+    "review_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_RECOVERY_CPU_REVIEW_V1_1_20260905.json",
+    "status": "CPU_IMPLEMENTED_TESTED_AWAITING_EXACT_RECOVERY_SCOPE",
+    "tests_passed": 15
+  },
+  "schema_version": "cmf_stage1_readiness_after_realization_source_mismatch_v1",
+  "stage1": {
+    "accepted": 0,
+    "automatic_promotion": false,
+    "existing_potential_reuse_cells": 9,
+    "target": 48
+  },
+  "status": "NOT_READY_REALIZATION_RECOVERY_PENDING_F2_F3_MODEL_GATES_PENDING"
+}

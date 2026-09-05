@@ -1,0 +1,737 @@
+{
+  "artifact_files": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/attempts/F1_A_path__F1-red.start.json": "7c95246cc09cfeaf1089c782a92dc7d31f1ec84ef58d9a134a695f701d9a2fdc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/attempts/F1_A_path__F1-red.terminal.json": "8c254652762ba688802ca219309ad0611a9d97d87083dbd3bc297c0e1af4f1db",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/branches/F1-red/receipt.json": "9eadcf017a0b71271207b955b39410af5f11b5e0f75b5c7ba7f1c49b48b203de",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/branches/F1-red/receipt.provisional.json": "9eadcf017a0b71271207b955b39410af5f11b5e0f75b5c7ba7f1c49b48b203de",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/root_receipt.json": "6df2c984802414d1d2f6cade2ccaa74a00362136703325da16afc54719683471",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/job_terminal.json": "f1f00e56ae21b801551dcde72b4884d347832f92ae02a6b784f17ddfda8a0a05",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.post_child_validation.json": "60ef2388a16e11d61c49bfb20b2b052d33d8b1fed4e3a3b526a64fdf0f30f73e",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.start.json": "db159c1d989a86d071244f9ece5d79e48068ffaf7dc3fafd4baa2227348e23ca",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.stdout.log": "caa5f01494fc901741dde6671fdcd08e3023d10ff7cedcec3a20e584e1a6ccee",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.terminal.json": "b1719048a9ae06310330438abd6bf953cf6d6b89e092e08dc2f9f915f65ac8d5"
+  },
+  "automatic_retry_authorized": false,
+  "first_cell_attempt_consumed": true,
+  "first_cell_failure": {
+    "accounting_complete": true,
+    "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+    "cell_id": "F1_A_path__F1-red",
+    "cleanup": {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "development_video_error": null,
+      "development_video_finalize_succeeded": null,
+      "development_video_receipt": null,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f1-strict_prefix_branch_F1-red-v1_2-000001",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    },
+    "elapsed_seconds": 51.932884365320206,
+    "error": {
+      "message": "fresh reconstruction failed same-current reconstruction_spec_aggregate_sha256",
+      "type": "SameCurrentMismatch"
+    },
+    "formal_data": false,
+    "global_stop": true,
+    "origin_kind": "new_real_rollout",
+    "parent_source_branch_sha256": "8b5cfcb1678e8c446c7b9a45f50aa5d9a97dea3b8ecc9974bb4cdeb3a80d3f8b",
+    "planner_after": 0,
+    "planner_before": 0,
+    "planner_query_delta": 0,
+    "prefix_sha256": "439040b3c258546474d2eb706897ce82af5351e38d90ce03e0d05a0387c6b447",
+    "program_id": "F1-red",
+    "raw_written": false,
+    "realization": "r_inv_path",
+    "reference_current_sha256": "61c8227fd8cd3ae64d56f6fad1e1ae473a2c3584acf96f81d65f804ed99d2a02",
+    "root_id": "f1-batch-pilot-v1-primary-01",
+    "scene_instance_id": "f1-strict_prefix_branch_F1-red-v1_2-000001",
+    "scientific_failure": null,
+    "stage0_data": false,
+    "stage1_authorized": false,
+    "status": "failed_infrastructure"
+  },
+  "formal_accepted": 0,
+  "guard_terminal": {
+    "cache_removed": true,
+    "child_exit_code": 1,
+    "child_pid": 1530253,
+    "child_process_group": 1530253,
+    "cleanup_errors": [],
+    "cooldown": {
+      "errors": [],
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "lease_held_during_polling": true,
+      "pass": true,
+      "physical_gpu_index": 2,
+      "poll_count": 2,
+      "snapshots": [
+        {
+          "captured_at": "2026-09-05T14:36:46.246466+00:00",
+          "gpus": [
+            {
+              "compute_processes": [
+                {
+                  "pid": 1459335,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 16268
+                }
+              ],
+              "index": 0,
+              "memory_used_mib": 16285,
+              "pstate": "P2",
+              "utilization_gpu_percent": 82,
+              "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+            },
+            {
+              "compute_processes": [
+                {
+                  "pid": 1251766,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 17392
+                }
+              ],
+              "index": 1,
+              "memory_used_mib": 17409,
+              "pstate": "P2",
+              "utilization_gpu_percent": 49,
+              "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+            },
+            {
+              "compute_processes": [],
+              "index": 2,
+              "memory_used_mib": 14,
+              "pstate": "P0",
+              "utilization_gpu_percent": 33,
+              "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+            },
+            {
+              "compute_processes": [],
+              "index": 3,
+              "memory_used_mib": 15,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+            },
+            {
+              "compute_processes": [],
+              "index": 4,
+              "memory_used_mib": 12,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+            },
+            {
+              "compute_processes": [],
+              "index": 5,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+            },
+            {
+              "compute_processes": [],
+              "index": 6,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+            },
+            {
+              "compute_processes": [],
+              "index": 7,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+            }
+          ]
+        },
+        {
+          "captured_at": "2026-09-05T14:36:51.419205+00:00",
+          "gpus": [
+            {
+              "compute_processes": [
+                {
+                  "pid": 1459335,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 16268
+                }
+              ],
+              "index": 0,
+              "memory_used_mib": 16285,
+              "pstate": "P2",
+              "utilization_gpu_percent": 83,
+              "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+            },
+            {
+              "compute_processes": [
+                {
+                  "pid": 1251766,
+                  "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                  "used_memory_mib": 17392
+                }
+              ],
+              "index": 1,
+              "memory_used_mib": 17409,
+              "pstate": "P2",
+              "utilization_gpu_percent": 55,
+              "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+            },
+            {
+              "compute_processes": [],
+              "index": 2,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+            },
+            {
+              "compute_processes": [],
+              "index": 3,
+              "memory_used_mib": 15,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+            },
+            {
+              "compute_processes": [],
+              "index": 4,
+              "memory_used_mib": 12,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+            },
+            {
+              "compute_processes": [],
+              "index": 5,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+            },
+            {
+              "compute_processes": [],
+              "index": 6,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+            },
+            {
+              "compute_processes": [],
+              "index": 7,
+              "memory_used_mib": 14,
+              "pstate": "P8",
+              "utilization_gpu_percent": 0,
+              "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+            }
+          ]
+        }
+      ]
+    },
+    "elapsed_seconds": 61.4186909198761,
+    "execution_errors": [],
+    "family": "F1_F4",
+    "gpu_returned_to_idle_baseline": true,
+    "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+    "guard_pid": 1530131,
+    "interrupted": null,
+    "job_id": "batch9",
+    "launch_snapshot": {
+      "captured_at": "2026-09-05T14:35:50.406879+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1459335,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 16268
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 16285,
+          "pstate": "P2",
+          "utilization_gpu_percent": 86,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [
+            {
+              "pid": 1251766,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 17392
+            }
+          ],
+          "index": 1,
+          "memory_used_mib": 17409,
+          "pstate": "P2",
+          "utilization_gpu_percent": 64,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "lease_path": "/nfs_share/lijunhui/Robotwin2/gpu_leases/production_micro_gate_v1/physical_gpu_2.lock",
+    "lease_released": true,
+    "manifest_sha256": "43aadee0e836734b36fd75eeb87d0cf143a9ce794f8122bfd590ebbfd87e8f24",
+    "output_exists": true,
+    "physical_gpu_index": 2,
+    "post_release_poll_snapshots": [
+      {
+        "captured_at": "2026-09-05T14:36:46.246466+00:00",
+        "gpus": [
+          {
+            "compute_processes": [
+              {
+                "pid": 1459335,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 16268
+              }
+            ],
+            "index": 0,
+            "memory_used_mib": 16285,
+            "pstate": "P2",
+            "utilization_gpu_percent": 82,
+            "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+          },
+          {
+            "compute_processes": [
+              {
+                "pid": 1251766,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 17392
+              }
+            ],
+            "index": 1,
+            "memory_used_mib": 17409,
+            "pstate": "P2",
+            "utilization_gpu_percent": 49,
+            "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+          },
+          {
+            "compute_processes": [],
+            "index": 2,
+            "memory_used_mib": 14,
+            "pstate": "P0",
+            "utilization_gpu_percent": 33,
+            "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+          },
+          {
+            "compute_processes": [],
+            "index": 3,
+            "memory_used_mib": 15,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+          },
+          {
+            "compute_processes": [],
+            "index": 4,
+            "memory_used_mib": 12,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+          },
+          {
+            "compute_processes": [],
+            "index": 5,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+          },
+          {
+            "compute_processes": [],
+            "index": 6,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+          },
+          {
+            "compute_processes": [],
+            "index": 7,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+          }
+        ]
+      },
+      {
+        "captured_at": "2026-09-05T14:36:51.419205+00:00",
+        "gpus": [
+          {
+            "compute_processes": [
+              {
+                "pid": 1459335,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 16268
+              }
+            ],
+            "index": 0,
+            "memory_used_mib": 16285,
+            "pstate": "P2",
+            "utilization_gpu_percent": 83,
+            "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+          },
+          {
+            "compute_processes": [
+              {
+                "pid": 1251766,
+                "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+                "used_memory_mib": 17392
+              }
+            ],
+            "index": 1,
+            "memory_used_mib": 17409,
+            "pstate": "P2",
+            "utilization_gpu_percent": 55,
+            "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+          },
+          {
+            "compute_processes": [],
+            "index": 2,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+          },
+          {
+            "compute_processes": [],
+            "index": 3,
+            "memory_used_mib": 15,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+          },
+          {
+            "compute_processes": [],
+            "index": 4,
+            "memory_used_mib": 12,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+          },
+          {
+            "compute_processes": [],
+            "index": 5,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+          },
+          {
+            "compute_processes": [],
+            "index": 6,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+          },
+          {
+            "compute_processes": [],
+            "index": 7,
+            "memory_used_mib": 14,
+            "pstate": "P8",
+            "utilization_gpu_percent": 0,
+            "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+          }
+        ]
+      }
+    ],
+    "post_snapshot": {
+      "captured_at": "2026-09-05T14:36:51.419205+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1459335,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 16268
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 16285,
+          "pstate": "P2",
+          "utilization_gpu_percent": 83,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [
+            {
+              "pid": 1251766,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 17392
+            }
+          ],
+          "index": 1,
+          "memory_used_mib": 17409,
+          "pstate": "P2",
+          "utilization_gpu_percent": 55,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "pre_snapshot": {
+      "captured_at": "2026-09-05T14:35:50.186755+00:00",
+      "gpus": [
+        {
+          "compute_processes": [
+            {
+              "pid": 1459335,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 16268
+            }
+          ],
+          "index": 0,
+          "memory_used_mib": 16285,
+          "pstate": "P2",
+          "utilization_gpu_percent": 82,
+          "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+        },
+        {
+          "compute_processes": [
+            {
+              "pid": 1251766,
+              "process_name": "/sda/private_folders/wangyouze/miniconda3/envs/STAR/bin/python",
+              "used_memory_mib": 17392
+            }
+          ],
+          "index": 1,
+          "memory_used_mib": 17409,
+          "pstate": "P2",
+          "utilization_gpu_percent": 54,
+          "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+        },
+        {
+          "compute_processes": [],
+          "index": 2,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+        },
+        {
+          "compute_processes": [],
+          "index": 3,
+          "memory_used_mib": 15,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+        },
+        {
+          "compute_processes": [],
+          "index": 4,
+          "memory_used_mib": 12,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+        },
+        {
+          "compute_processes": [],
+          "index": 5,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+        },
+        {
+          "compute_processes": [],
+          "index": 6,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+        },
+        {
+          "compute_processes": [],
+          "index": 7,
+          "memory_used_mib": 14,
+          "pstate": "P8",
+          "utilization_gpu_percent": 0,
+          "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+        }
+      ]
+    },
+    "receipt_sha256": "d37486f748eec74351b548470748bd0bb60b2a68e08b45ae71d2210c96bc9f39",
+    "run_id": "cmf_realization_batch_v1_20260905",
+    "schema_version": "cmf_realization_batch_v1_guard_terminal_v1",
+    "status": "failed_or_blocked_with_cleanup_evidence",
+    "stderr_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.stderr.log",
+    "stdout_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1_guard/batch9.stdout.log",
+    "task_owned_cleanup_pass": true,
+    "timed_out": false
+  },
+  "host_immediate_postcheck": {
+    "child_pid_absent": 1530253,
+    "compute_processes": [],
+    "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+    "guard_pid_absent": 1530131,
+    "memory_used_mib": 14,
+    "pass": true,
+    "physical_gpu_index": 2,
+    "pstate": "P8",
+    "utilization_gpu_percent": 0
+  },
+  "job_terminal": {
+    "accepted_variant_trajectory_count": 0,
+    "accounting_complete": true,
+    "cells": [
+      {
+        "accounting_complete": true,
+        "cell_id": "F1_A_path__F1-red",
+        "global_stop": true,
+        "planner_query_delta": 0,
+        "status": "failed_infrastructure"
+      }
+    ],
+    "cohorts": [
+      {
+        "cohort": "F1_A_path",
+        "new_independent_root_count": 0,
+        "root_receipt_file_sha256": "6df2c984802414d1d2f6cade2ccaa74a00362136703325da16afc54719683471",
+        "root_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_batch_v1/F1_A_path/root_receipt.json",
+        "status": "incomplete"
+      }
+    ],
+    "completed_cell_receipts": 1,
+    "elapsed_seconds": 52.105832701548934,
+    "error": null,
+    "formal_trajectory_count": 0,
+    "fresh_scene_attempts": 1,
+    "global_stop": true,
+    "manifest_sha256": "43aadee0e836734b36fd75eeb87d0cf143a9ce794f8122bfd590ebbfd87e8f24",
+    "new_independent_root_count": 0,
+    "pass": false,
+    "planner_queries": 0,
+    "raw_trajectory_count": 0,
+    "receipt_sha256": "5eecd0f547fc3ce06a66ea7ed9e09d228e611b9807f6677704a3868daeaab2bf",
+    "schema_version": "cmf_realization_batch_terminal_v1",
+    "stage1_accepted_trajectory_count": 0
+  },
+  "new_accepted_trajectories": 0,
+  "physical_action_execution_count": 0,
+  "post_child_validation": {
+    "error": null,
+    "job_id": "batch9",
+    "job_succeeded": false,
+    "manifest_sha256": "43aadee0e836734b36fd75eeb87d0cf143a9ce794f8122bfd590ebbfd87e8f24",
+    "receipt_sha256": "5e78678b7b2afefb44565fc66b2a7e49131398fd7949b65576431f16c3639172",
+    "schema_version": "cmf_realization_batch_v1_post_child_validation_v1",
+    "validation_pass": true,
+    "validation_phase": "POST_CHILD"
+  },
+  "previous_accepted_development_roots": 6,
+  "previous_accepted_development_trajectories": 18,
+  "receipt_sha256": "a1a4b557ac7141458c8ae24e9244a11c0d3d0e06ae31009be5004169e7a6f7f7",
+  "schema_version": "cmf_realization_batch_terminal_publication_v1",
+  "stage1_accepted": 0,
+  "unattempted_cells": 8
+}

@@ -1,0 +1,46 @@
+{
+  "active_source_sha256": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7",
+  "cpu_tests_passed": 15,
+  "gpu_execution_authorized": false,
+  "gpu_ready_claim": false,
+  "gpu_tests_passed": 0,
+  "new_execution_manifest_created": false,
+  "old_dataset_and_runtime_V1_immutable": true,
+  "parent_bridge_file_sha256": "b01acfe36eb460532ab17200b588ee41e74e6eb1598d2160d8d632ad05d04cc9",
+  "parent_bundle": {
+    "python_files": 245,
+    "source_sha256": "9873bbe87ed44f7d54003e831ddf9015159036da8078e5cab29ccdc9fcd9fc72",
+    "tracked_worktree_clean": true,
+    "vault_commit": "317387b",
+    "worktree": "/nfs_share/lijunhui/Robotwin2/tmp/cmf_f1_parent_317387b"
+  },
+  "proposed_recovery_scope": {
+    "automatic_retry": false,
+    "cumulative_scene_cap_if_approved": 10,
+    "first_cell_replacement_max": 1,
+    "new_planner_query_cap": 123,
+    "new_rollout_cap": 9,
+    "new_scene_cap": 9,
+    "previous_consumed_scene_count": 1,
+    "previous_planner_queries": 0,
+    "remaining_unattempted_cells": 8,
+    "stage1_promotion": false
+  },
+  "receipt_sha256": "7e07991a6d9af77afa604dd7cf5616b916c193ba3fa0a3710eae57bf634be0b0",
+  "remaining": [
+    "exact recovery approval and manifest binding",
+    "full Guard executable dispatch preflight for new approval",
+    "fresh GPU snapshot and per-cell live current/anchor gates"
+  ],
+  "schema_version": "cmf_realization_recovery_cpu_review_v1_1",
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/catalog.py": "60f468acfee3a236419887a5df5601553a861606ace58a8465b5dc1f9a3b5e4b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/guarded_launcher.py": "dd818923366c61e302f5ae621a868b545c86e298477c3981a79878eebd59acc8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/job_runner.py": "507bc9eceb6a87c79a0ec2c748dc60c789f71d38b30f5072477479ee4eb12ef5",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/manifest_contract.py": "86b3cda87a697ff8a29aab54dfb5484433270ff1ba60bff90a084155313fbf94",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/pipeline.py": "48caa34e6c1da06a5ee73afba7a66f7dba7f9d6c0441080d01ffb357d03e897a",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/retiming.py": "b5b2601701bb689ba31454df04530c5854de1a379885d3ed7dc854fe97e52adb",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/realization_batch_runtime_v1_1/test_cpu.py": "0cd53bad5767058ff871675932a4e11415683d7932dd8165c3821b452b8a4850"
+  },
+  "status": "CPU_IMPLEMENTED_TESTED_AWAITING_EXACT_RECOVERY_SCOPE"
+}
