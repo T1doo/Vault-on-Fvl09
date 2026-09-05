@@ -1,0 +1,283 @@
+{
+  "acceptance_registration_created": false,
+  "accounting_basis": "saved live raw provenance count plus eleven matching executable query receipts; old failed job terminal remains unchanged",
+  "anchor_equivalence": {
+    "candidate_sha256": "77409013d0f704a5b9955d069921b6efe9c48be2045fb9131f83b6ccea34bf7a",
+    "equivalent": true,
+    "failures": [],
+    "reference_sha256": "77409013d0f704a5b9955d069921b6efe9c48be2045fb9131f83b6ccea34bf7a"
+  },
+  "complete_partial_receipt_fields": [
+    "accounting_complete",
+    "anchor_equivalence",
+    "branch_current",
+    "candidate_universe_sha256",
+    "cell_id",
+    "cleanup",
+    "development_video_integrity",
+    "development_video_receipt",
+    "elapsed_seconds",
+    "error",
+    "executed_prefix",
+    "final_state_equivalence_payload",
+    "formal_data",
+    "global_stop",
+    "origin_kind"
+  ],
+  "control_stream_reconciliation": [
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "target_pregrasp",
+      "steps": 485
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "target_grasp",
+      "steps": 177
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "target_lift_mid",
+      "steps": 118
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "target_lift",
+      "steps": 119
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "carry_hub_low",
+      "steps": 177
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "carry_hub_high",
+      "steps": 252
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "safe_horizontal",
+      "steps": 375
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "preplace",
+      "steps": 78
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "release",
+      "steps": 202
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "retreat",
+      "steps": 197
+    },
+    {
+      "recorded_effective_position_velocity_equal_frozen_controls": true,
+      "segment_id": "rest",
+      "steps": 475
+    }
+  ],
+  "cpu_derived_not_original_ephemeral_receipt": true,
+  "incomplete_field": "parent_namespace_binding",
+  "negative_cpu_fixtures": {
+    "missing_support": "correctly_rejected",
+    "outside_cavity": "correctly_rejected"
+  },
+  "new_gpu_scenes": 0,
+  "new_raw_rollouts": 0,
+  "observed_raw_action_count": 4252,
+  "observed_raw_trajectory_count": 1,
+  "original_predicate_source": {
+    "class": "F1ControllerV3_3",
+    "extracted_verifier_statement_end_line": 1906,
+    "extracted_verifier_statement_start_line": 1845,
+    "method": "execute_frozen_suffix_spec",
+    "physical_execution_statements_excluded": true,
+    "predicate_ast_unchanged": true,
+    "receipt_sha256": "d36c293c33341322921f6f8dd8531c36d6386a5d6e5b282d90cd1ce75cddb722",
+    "source_file": "/nfs_share/lijunhui/Robotwin2/tmp/cmf_f1_parent_317387b/数据构造/实现审计/代码审阅快照/controlled_multi_future/family_runners_v3_3.py",
+    "source_file_sha256": "e9f88fc5e79b5dab442c53934b081368194369ad7e35a77a8c0efff152476017"
+  },
+  "original_six_branch_regressions": [
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_A_path__F1-red"
+    },
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_A_path__F1-green"
+    },
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_A_path__F1-blue"
+    },
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_B_motion__F1-green"
+    },
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_B_motion__F1-blue"
+    },
+    {
+      "all_nine_original_predicates_equal": true,
+      "cell_id": "F1_B_motion__F1-red"
+    }
+  ],
+  "raw_integrity_pass": true,
+  "receipt_sha256": "92c84ab3577e46d9e5d01df86576ba080e655e5f63a2fcdd1d64ec59b83ca3be",
+  "recomputed_family_semantic_verifier": {
+    "checks": {
+      "continuous_box_contact": true,
+      "eef_angular_stationary": true,
+      "eef_linear_stationary": true,
+      "gripper_open": true,
+      "non_target": true,
+      "rest_orientation": true,
+      "rest_position": true,
+      "stable": true,
+      "true_inside": true
+    },
+    "inside": {
+      "cavity_lower": [
+        -0.05,
+        0.018,
+        -0.04
+      ],
+      "cavity_upper": [
+        0.05,
+        0.07,
+        0.04
+      ],
+      "local_corner_max": [
+        0.02064345238838483,
+        0.06667075976181125,
+        0.024248565587252816
+      ],
+      "local_corner_min": [
+        -0.023986080867388737,
+        0.02143956795883084,
+        -0.02090586260244294
+      ],
+      "pass_true_cavity_obb": true
+    },
+    "non_target": {
+      "first_violation": null,
+      "pass": true,
+      "per_stage_displacement_m": {
+        "after_grasp": {
+          "blue": 0.0,
+          "green": 0.0038145278130890374
+        },
+        "after_release": {
+          "blue": 0.0,
+          "green": 0.0038145278130890374
+        },
+        "after_rest": {
+          "blue": 0.0,
+          "green": 0.0038145278130890374
+        },
+        "after_transport": {
+          "blue": 0.0,
+          "green": 0.0038145278130890374
+        },
+        "prefix_boundary": {
+          "blue": 0.0,
+          "green": 0.0
+        }
+      }
+    },
+    "pass": true,
+    "preflight_rollout_same_control_cache": true,
+    "suffix_segment_execution_receipts": [
+      {
+        "segment_id": "target_pregrasp",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "target_grasp",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "target_lift_mid",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "target_lift",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "carry_hub_low",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "carry_hub_high",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "safe_horizontal",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "preplace",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "release",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "retreat",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      },
+      {
+        "segment_id": "rest",
+        "source": "trace-query interval derived; not original ephemeral execution receipt"
+      }
+    ]
+  },
+  "recomputed_realized_variation": {
+    "measurements": [
+      {
+        "observed_endpoint_z_change_m": 0.01527947187423706,
+        "pass": true,
+        "required_minimum_m": 0.0075,
+        "segment_id": "carry_hub_low"
+      },
+      {
+        "observed_endpoint_z_change_m": 0.014258980751037598,
+        "pass": true,
+        "required_minimum_m": 0.0075,
+        "segment_id": "carry_hub_high"
+      },
+      {
+        "observed_endpoint_z_change_m": 0.015038728713989258,
+        "pass": true,
+        "required_minimum_m": 0.0075,
+        "segment_id": "safe_horizontal"
+      }
+    ],
+    "pass": true,
+    "receipt_sha256": "4865bc512497e7768f5bef4e858c6587ce0bd787e15a7defc2e363015710f09d",
+    "schema_version": "cmf_realized_variation_verifier_v1",
+    "source_trace_sha256": "4f4163b0b3d5e0611865cdaaf32c7e246d2d19cdc76003a6841d87eb8a544884",
+    "variant": "r_inv_path"
+  },
+  "reconciled_planner_queries": 11,
+  "scene_cleanup_pass": true,
+  "schema_version": "cmf_realization_trace_reconciliation_cpu_v1",
+  "stage_trace_indices": {
+    "after_grasp": 1809,
+    "after_release": 3505,
+    "after_rest": 4252,
+    "after_transport": 3130,
+    "prefix_boundary": 847
+  },
+  "target_directory": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_recovery_v1_2/F1_A_path/branches/F1-red",
+  "target_trace_sha256": "1a465be864511fd0ad4f6502a5575a1fabc7bbb1460b6ea1c0cd013ad73a2f59",
+  "video_integrity_pass": true
+}
