@@ -1,0 +1,25 @@
+{
+  "GPU_used": false,
+  "guard_byte_identical_to_preceding": true,
+  "guard_entry_pass": true,
+  "lease_created": false,
+  "manifest_sha256": "df358e0a8ea8e5ef137f80d3a2e9393cdb217c61fcbcad4dcc3e7db56b7a0a91",
+  "pass": true,
+  "preflight_returncode": 0,
+  "preflight_stderr": "",
+  "preflight_stdout": "{\"pass\": true, \"queries_cap\": 19, \"scenes_cap\": 2, \"physical\": 0, \"GPU_used\": false, \"transit_spec_sha256\": \"2722777ce6bff6d0114a655e8a157f6efd93726826f7ab852674652cd2693a6a\"}\n",
+  "receipt_sha256": "98d7411b80c147df94031e29d787442e4a97f42bd8f7ac2aea1acfb640a504f1",
+  "scene_created": false,
+  "schema_version": "cmf_f2_bounded_transit_cpu_preflight_v1",
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/guarded_launcher.py": "cdbd4fd3dbe3bd7256715a4ebe00316830cbf190fea66da4cf0227c908ce8d0c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/job_runner.py": "49f417a50e1e1bfbe462cf5814c17bd44f12f70704a1a53c4d4ba8e71e457f0e",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/manifest_contract.py": "365e785c60718151bd73e0095f6fe6fc226624b94832c315ca6e84e82ab7982b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/scene_attempt.py": "84b0a06f90c93e155fe200eb65d89a5a1edf3c165752eeb5e7d62084f412000b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/semantic_target.py": "b9a6792fbf90b3b878198b69c538bbb2efa66a21cc97dfb348218cc8d4fc295a",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_bounded_transit_runtime_v1/transit.py": "4255fcf1b825dff372f698dcf4839af4533a9d2028592416e66991a460001ecc"
+  },
+  "test_count": 23,
+  "tests_returncode": 0,
+  "tests_stderr": "test_actor_origin_contains_rotated_local_center_compensation (test_target.TargetTests) ... ok\ntest_beside_six_segment_order_unchanged (test_target.TargetTests) ... ok\ntest_candidate0_template_translated_to_candidate2_matches (test_target.TargetTests) ... ok\ntest_frozen_table_plane_checked_independently (test_target.TargetTests) ... ok\ntest_geometry_center_lands_on_candidate2_xy (test_target.TargetTests) ... ok\ntest_inside_receipt_unchanged (test_target.TargetTests) ... ok\ntest_live_table_bias_mismatch_rejected (test_target.TargetTests) ... ok\ntest_missing_post_counter_is_unknown (test_target.TargetTests) ... ok\ntest_old_xy_overwrite_rejected (test_target.TargetTests) ... ok\ntest_orientation_unchanged (test_target.TargetTests) ... ok\ntest_reviewed_target_artifact_exact (test_target.TargetTests) ... ok\ntest_support_plane_unchanged (test_target.TargetTests) ... ok\ntest_target_failure_still_writes_scene_cleanup (test_target.TargetTests) ... ok\ntest_D0_failure_stops (test_transit.TransitTests) ... ok\ntest_cumulative_limit_and_delta_not_sum_of_totals (test_transit.TransitTests) ... ok\ntest_exact_routes_and_endpoints (test_transit.TransitTests) ... ok\ntest_failed_routes_consume_only_live_deltas (test_transit.TransitTests) ... ok\ntest_first_route_pass_stops (test_transit.TransitTests) ... ok\ntest_hub_transform_only_permitted_fields (test_transit.TransitTests) ... ok\ntest_missing_counter_rejected (test_transit.TransitTests) ... ok\ntest_no_physical_control_entry (test_transit.TransitTests) ... ok\ntest_real_plan_chain_chains_qpos (test_transit.TransitTests) ... ok\ntest_total_bound (test_transit.TransitTests) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 0.872s\n\nOK\n"
+}
