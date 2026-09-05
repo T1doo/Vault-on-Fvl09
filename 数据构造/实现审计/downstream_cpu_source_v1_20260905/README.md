@@ -1,0 +1,9 @@
+# 隔离CPU源码副本
+
+对应隔离分支codex/cmf-downstream-cpu-20260905，commit05acc6625ee5e3d32c335ecac77c5939e3f912df。Python副本与隔离checkout逐文件hash一致，active RoboTwin/controlled_multi_future未修改。依赖当前原controlled源码锁3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7及官方c3ddfa8。
+
+包提供publication、分级matrix、realization操作与writer bridge、48-cell/pending Stage2生成器、同一失败证据CPU审计。测试只用workspace内临时fixture；不授予GPU或阶段权限。
+
+入口：tests_cpu/test_downstream.py；cmf_downstream_cpu.generate；cmf_downstream_cpu.model_audit。
+
+realization的具体family scene/anchor/verifier绑定及既有Guard接线尚待收口。不要手填authorized/guard_verified来绕过真实GPU Guard；这些是内部接口断言，不是新授权协议。实际realization、新root、Stage1/formal均需其对应明确决定。

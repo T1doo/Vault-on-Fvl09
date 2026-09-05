@@ -1,0 +1,132 @@
+--- a/controlled_multi_future/root_orchestrator_v1_2.py
++++ b/cmf_downstream_cpu/collector.py
+@@ -3,6 +3,8 @@
+ from __future__ import annotations
+ 
+ import hashlib
++import copy
++from cmf_downstream_cpu.collector_publication import publish_final_branch, register_completed_root
+ import os
+ from pathlib import Path
+ import time
+@@ -11,29 +13,29 @@
+ 
+ import numpy as np
+ 
+-from .anchor import compare_anchors
+-from .candidate_freezer import freeze_candidate_universe
+-from .canonical_artifact import canonical_hash_json as hash_json, canonical_write_json
+-from .canonical_prefix_artifact_v1 import (
++from controlled_multi_future.anchor import compare_anchors
++from controlled_multi_future.candidate_freezer import freeze_candidate_universe
++from controlled_multi_future.canonical_artifact import canonical_hash_json as hash_json, canonical_write_json
++from controlled_multi_future.canonical_prefix_artifact_v1 import (
+     build_canonical_prefix_artifact,
+     write_canonical_prefix_artifact,
+ )
+-from .canonical_prefix_replay_v1 import replay_canonical_prefix
+-from .current_hasher import (
++from controlled_multi_future.canonical_prefix_replay_v1 import replay_canonical_prefix
++from controlled_multi_future.current_hasher import (
+     SameCurrentMismatch,
+     require_same_current,
+ )
+-from .development_video_capture_v1 import (
++from controlled_multi_future.development_video_capture_v1 import (
+     validate_development_trajectory_mp4_receipt_v1,
+ )
+-from .family_runners_v3_3 import install_frozen_suffix_controls
+-from .frozen_suffix_artifact_v1 import (
++from controlled_multi_future.family_runners_v3_3 import install_frozen_suffix_controls
++from controlled_multi_future.frozen_suffix_artifact_v1 import (
+     build_frozen_suffix_artifact,
+     load_frozen_suffix_artifact,
+     write_frozen_suffix_artifact,
+ )
+-from .raw_writer import write_raw_attempt
+-from .root_orchestrator_v1_1 import (
++from controlled_multi_future.raw_writer import write_raw_attempt
++from controlled_multi_future.root_orchestrator_v1_1 import (
+     CandidateMutationError,
+     CleanupUncertain,
+     RealSapienPilotRootOrchestratorV1_1,
+@@ -47,8 +49,8 @@
+     finalize_three_branch_root_v1_1,
+     validate_executed_prefix_evidence,
+ )
+-from .schemas import validate_exactly_three_programs
+-from .stage0_video_capture_v1 import (
++from controlled_multi_future.schemas import validate_exactly_three_programs
++from controlled_multi_future.stage0_video_capture_v1 import (
+     validate_stage0_trajectory_mp4_receipt_v1,
+ )
+ 
+@@ -366,7 +368,7 @@
+     return receipt
+ 
+ 
+-class RealSapienStrictPrefixRootOrchestratorV1_2(
++class IsolatedTwoPhaseRootOrchestrator(
+     RealSapienPilotRootOrchestratorV1_1
+ ):
+     """Freeze once, generate one prefix, replay it in three fresh branches."""
+@@ -1444,7 +1446,7 @@
+                         _save_partial_trace_if_available(
+                             scene, branch_dir, branch
+                         )
+-                        _write_json(branch_dir / "receipt.json", branch)
++                        _write_json(branch_dir / "receipt.provisional.json", branch)
+                         if execution_planner_delta != 0:
+                             raise SuffixPlannerError(
+                                 "failed frozen suffix execution invoked planner"
+@@ -1548,7 +1550,7 @@
+                             ),
+                         }
+                     )
+-                    _write_json(branch_dir / "receipt.json", branch)
++                    _write_json(branch_dir / "receipt.provisional.json", branch)
+                     verifier = dict(self.adapter.verify(scene, candidate, result))
+                     branch["verifier"] = verifier
+                     branch["partial_output_status"] = "raw_and_verifier_complete"
+@@ -1688,9 +1690,9 @@
+                         else "failed_required_video"
+                     )
+                 receipt["branch_receipts"].append(branch)
+-                _write_json(branch_dir / "receipt.json", branch)
++                _write_json(branch_dir / "receipt.provisional.json", branch)
+                 self._append_event(
+-                    {"event": "branch_terminal_receipt", "receipt": branch}
++                    {"event": "branch_provisional_receipt", "receipt": branch}
+                 )
+ 
+             root_cleanup_pass = all(
+@@ -1698,8 +1700,9 @@
+                 and item.get("orphan_process_count") == 0
+                 for item in receipt["cleanup_records"]
+             )
++            finalized_branches = copy.deepcopy(receipt["branch_receipts"])
+             finalization = finalize_three_branch_root_v1_1(
+-                receipt["branch_receipts"],
++                finalized_branches,
+                 reference_current_sha256=reference_current["aggregate_sha256"],
+                 root_cleanup_pass=root_cleanup_pass,
+             )
+@@ -1744,6 +1747,11 @@
+                 finalization["checks"].values()
+             )
+             receipt["root_finalization"] = finalization
++            for finalized_branch in finalized_branches:
++                publish_final_branch(output_dir, finalized_branch)
++                self._append_event({"event": "branch_finalized_receipt", "receipt": finalized_branch})
++            receipt["branch_receipts"] = finalized_branches
++            receipt["publication_implementation"] = "cmf_isolated_two_phase_collector_v1"
+             terminal = "accepted" if finalization.get("accepted") else "failed_verifier"
+         except CleanupUncertain as exc:
+             terminal = "failed_cleanup_uncertain"
+@@ -1789,4 +1797,6 @@
+             ).hexdigest()
+         receipt["elapsed_seconds"] = time.time() - started
+         _write_json(output_dir / "root_receipt.json", receipt)
++        if receipt["status"] == "accepted":
++            register_completed_root(output_dir)
+         return receipt
