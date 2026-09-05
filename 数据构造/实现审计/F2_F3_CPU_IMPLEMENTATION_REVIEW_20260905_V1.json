@@ -1,0 +1,142 @@
+{
+  "F2_gpu_execution_started": false,
+  "F3_gpu_execution_authorized": false,
+  "ast_parse_count": 8,
+  "f2_geometry_source_resolution_pending": true,
+  "f3_preflight": {
+    "command": [
+      "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+      "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/guarded_launcher.py",
+      "--manifest",
+      "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/PROPOSED_F3_PRECLOSE_CANDIDATE_MICRO_MANIFEST_V1.json",
+      "--preflight-only"
+    ],
+    "result": {
+      "bound_stage_a_specs": [
+        {
+          "recipe_id": "f3-final-pose-v3-r3063",
+          "spec_sha256": "e889769c2af24e8225a447b2b7ac1bd0c54a65d95c46facad4ee219009675f8f"
+        },
+        {
+          "recipe_id": "f3-final-pose-v3-r0861",
+          "spec_sha256": "f0e6f3b97ce6d92c0b75ead8af8439062c5c4bd2cc2724a31f8fc241a3f0f4d7"
+        },
+        {
+          "recipe_id": "f3-final-pose-v3-r1401",
+          "spec_sha256": "4568e9f1493246c782c6b65b6718329c17b6d7baa2545ea7c5e96e8778fdd9ba"
+        },
+        {
+          "recipe_id": "f3-final-pose-v3-r2526",
+          "spec_sha256": "5f7cf3705e18b110ec78bf1517b2c849871325a0a8d1745264bd54d4c1714e12"
+        }
+      ],
+      "candidates": [
+        "f3-final-pose-v3-r3063",
+        "f3-final-pose-v3-r0861",
+        "f3-final-pose-v3-r1401",
+        "f3-final-pose-v3-r2526"
+      ],
+      "caps": {
+        "candidate_cap": 4,
+        "formal": 0,
+        "no_suffix": 0,
+        "physical_attempt_cap": 4,
+        "physical_query_cap": 12,
+        "physical_scene_cap": 4,
+        "planner_query_cap": 52,
+        "planner_scene_cap": 8,
+        "qualification_query_cap": 40,
+        "raw": 0,
+        "root": 0,
+        "scene_cap": 12,
+        "shared_v": 0
+      },
+      "execution_dispatch": "run_candidate",
+      "gpu_used": false,
+      "pass": true
+    },
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "{\"pass\": true, \"candidates\": [\"f3-final-pose-v3-r3063\", \"f3-final-pose-v3-r0861\", \"f3-final-pose-v3-r1401\", \"f3-final-pose-v3-r2526\"], \"caps\": {\"candidate_cap\": 4, \"formal\": 0, \"no_suffix\": 0, \"physical_attempt_cap\": 4, \"physical_query_cap\": 12, \"physical_scene_cap\": 4, \"planner_query_cap\": 52, \"planner_scene_cap\": 8, \"qualification_query_cap\": 40, \"raw\": 0, \"root\": 0, \"scene_cap\": 12, \"shared_v\": 0}, \"execution_dispatch\": \"run_candidate\", \"gpu_used\": false, \"bound_stage_a_specs\": [{\"recipe_id\": \"f3-final-pose-v3-r3063\", \"spec_sha256\": \"e889769c2af24e8225a447b2b7ac1bd0c54a65d95c46facad4ee219009675f8f\"}, {\"recipe_id\": \"f3-final-pose-v3-r0861\", \"spec_sha256\": \"f0e6f3b97ce6d92c0b75ead8af8439062c5c4bd2cc2724a31f8fc241a3f0f4d7\"}, {\"recipe_id\": \"f3-final-pose-v3-r1401\", \"spec_sha256\": \"4568e9f1493246c782c6b65b6718329c17b6d7baa2545ea7c5e96e8778fdd9ba\"}, {\"recipe_id\": \"f3-final-pose-v3-r2526\", \"spec_sha256\": \"5f7cf3705e18b110ec78bf1517b2c849871325a0a8d1745264bd54d4c1714e12\"}]}\n"
+  },
+  "f3_proposal_manifest_sha256": "a10c8969b66f44395404cb9bb6505b295f2a0055c9e77d8939c5e68be68e3ba9",
+  "gpu_scene_planner_physical_counts": {
+    "F2": 0,
+    "F3": 0
+  },
+  "pass": true,
+  "production_paths_after": {
+    "/nfs_share/lijunhui/Robotwin2/cache/f3m1/f3-preclose-micro-v1": false,
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_preclose_micro_v1": false,
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3micro1/guards": false
+  },
+  "production_paths_before": {
+    "/nfs_share/lijunhui/Robotwin2/cache/f3m1/f3-preclose-micro-v1": false,
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f3_preclose_micro_v1": false,
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3micro1/guards": false
+  },
+  "receipt_sha256": "566ee8ec93cd3ee1957a1ac44d1342b4cf217b34a1056495155d9e35527d52d4",
+  "schema_version": "cmf_f2_f3_cpu_implementation_review_v1",
+  "source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_beside_only_completion_runtime_v1/scene_attempt.py": "1eda229208f2c65d7a1d7d6292dbfbcf914af582d636197c493502f5da572c0e",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_beside_only_completion_runtime_v1/semantic_target.py": "57c7953cb2746dbe6334034faeeba457a2d9109abfb866637d1df997d9300be0",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_beside_only_completion_runtime_v1/test_target.py": "2d5fd07771d95dea9fad68d67e3c333603b02095b1f2647c293e23db8d3a57b9",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/candidate_executor.py": "bcbb738458eb266227291046170cc7c1861e597bf308627195e8cca41adbead0",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/guarded_launcher.py": "e0cbadab4814e7705c66bdadc1ffa53a5fd790ffaa5960823151a48a708c0572",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/job_runner.py": "fa1ad7649d387d31a07f55981834422d08e10da57b8b94f065768925472d1238",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/manifest_contract.py": "70ac28e9c2c0ec0e62beddadddce29deaf09fb9d3ca7fac1719d9100afdbb4ca",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_preclose_candidate_micro_runtime_v1/test_executor.py": "02afae723ec6a912fc85e1715551b754b913201ecdd9ecaf8b59ebbebf86aa8d"
+  },
+  "status": "CPU_IMPLEMENTED_TESTED_AWAITING_NARROW_REVIEW",
+  "test_suites": [
+    {
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_executor"
+      ],
+      "directory": "f3_preclose_candidate_micro_runtime_v1",
+      "expected_count": 23,
+      "pass": true,
+      "returncode": 0,
+      "stderr": "test_cleanup_failure_not_success (test_executor.AccountingTests) ... ok\ntest_execution_failure_preserves_consumed_queries (test_executor.AccountingTests) ... ok\ntest_missing_counter_is_unknown_not_zero (test_executor.AccountingTests) ... ok\ntest_prepare_failure_preserves_zero_and_cleanup (test_executor.AccountingTests) ... ok\ntest_scene_setup_failure_is_recorded (test_executor.AccountingTests) ... ok\ntest_trace_failure_preserves_accounting_and_cleanup (test_executor.AccountingTests) ... ok\ntest_13_scenes_rejected (test_executor.ExecutorTests) ... ok\ntest_53_queries_rejected (test_executor.ExecutorTests) ... ok\ntest_5_physical_rejected (test_executor.ExecutorTests) ... ok\ntest_budget_52_12_4 (test_executor.ExecutorTests) ... ok\ntest_exact_candidates (test_executor.ExecutorTests) ... ok\ntest_grasp_failure_never_closes (test_executor.ExecutorTests) ... ok\ntest_invalid_counter (test_executor.ExecutorTests) ... ok\ntest_pregrasp_failure_never_grasps_or_closes (test_executor.ExecutorTests) ... ok\ntest_success_order (test_executor.ExecutorTests) ... ok\ntest_cooldown_polling_bound (test_executor.GuardTests) ... ok\ntest_cooldown_success (test_executor.GuardTests) ... ok\ntest_reaped_leader_does_not_skip_worker_kill (test_executor.GuardTests) ... ok\ntest_consistent_terminal (test_executor.TerminalTests) ... ok\ntest_forbidden_shared_v_rejected (test_executor.TerminalTests) ... ok\ntest_forged_success_rejected (test_executor.TerminalTests) ... ok\ntest_query_mismatch_rejected (test_executor.TerminalTests) ... ok\ntest_scientific_failure_is_valid_failure_receipt (test_executor.TerminalTests) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 0.007s\n\nOK\n",
+      "stdout": "",
+      "test_count": 23
+    },
+    {
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_window"
+      ],
+      "directory": "f3_preclose_physical_consistency_gate_v1_1",
+      "expected_count": 8,
+      "pass": true,
+      "returncode": 0,
+      "stderr": "test_bottle_bump_then_return (test_window.WindowTests) ... ok\ntest_good_window (test_window.WindowTests) ... ok\ntest_incomplete_contact_signal_in_middle_row (test_window.WindowTests) ... ok\ntest_incomplete_pair (test_window.WindowTests) ... ok\ntest_missing_row_rejected (test_window.WindowTests) ... ok\ntest_positive_separation (test_window.WindowTests) ... ok\ntest_transient_mid_segment_self_collision (test_window.WindowTests) ... ok\ntest_transient_mid_segment_support_collision (test_window.WindowTests) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.007s\n\nOK\n",
+      "stdout": "",
+      "test_count": 8
+    },
+    {
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_target"
+      ],
+      "directory": "f2_beside_only_completion_runtime_v1",
+      "expected_count": 9,
+      "pass": true,
+      "returncode": 0,
+      "stderr": "test_actor_origin_contains_rotated_local_center_compensation (test_target.TargetTests) ... ok\ntest_beside_six_segment_order_unchanged (test_target.TargetTests) ... ok\ntest_candidate0_template_translated_to_candidate2_matches (test_target.TargetTests) ... ok\ntest_geometry_center_lands_on_candidate2_xy (test_target.TargetTests) ... ok\ntest_inside_receipt_unchanged (test_target.TargetTests) ... ok\ntest_old_xy_overwrite_rejected (test_target.TargetTests) ... ok\ntest_orientation_unchanged (test_target.TargetTests) ... ok\ntest_support_plane_unchanged (test_target.TargetTests) ... ok\ntest_target_failure_still_writes_scene_cleanup (test_target.TargetTests) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.192s\n\nOK\n",
+      "stdout": "",
+      "test_count": 9
+    }
+  ],
+  "tests_are_cpu_and_mock_not_physical_proof": true
+}

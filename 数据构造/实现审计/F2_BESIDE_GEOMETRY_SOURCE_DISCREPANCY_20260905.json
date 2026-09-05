@@ -1,0 +1,148 @@
+{
+  "explanation": "live _actor_local_geometry_bounds reads model_data center/extents; collision inventory differs. Corrected target from runtime metadata matches candidate0 actor pose translation; do not change bounds source or tolerance silently.",
+  "gpu_execution_performed": false,
+  "inside_rerun": false,
+  "receipt_sha256": "cd2eca9e5feb564d6b21ccb9f54d77cdb74d910c07204199da2b77449fadd6eb",
+  "review_claim": {
+    "local_center_m": [
+      -2.9668211936947214e-06,
+      0.04776370921172202,
+      -3.6194920539859426e-06
+    ],
+    "source": "F2_GEOMETRY_CERTIFICATE_INVENTORY_V4 collision bounds",
+    "xy_compensation_m": [
+      3.6194920539859426e-06,
+      2.9668211936947214e-06
+    ]
+  },
+  "runtime_derivation": {
+    "candidate_geometry_xy": [
+      0.08000000000000002,
+      0.07
+    ],
+    "candidate_index": 2,
+    "composed_geometry_center_pose": [
+      0.08000000000000002,
+      0.07,
+      0.788233944091278,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "corrected_actor_pose": [
+      0.07999059587821346,
+      0.07001079751295976,
+      0.7404792624087959,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "half_extents_m": [
+      0.035574561110057905,
+      0.04823394409127801,
+      0.03559387691939824
+    ],
+    "local_center_m": [
+      -1.079751295975455e-05,
+      0.047754681682482036,
+      9.404121786554337e-06
+    ],
+    "model_data_sha256": "78eb137b42da2d6fa0b9208717964838e01cf6c65c5c6b14ad7c988d6ff2acfb",
+    "old_xy_overwrite_position_error_m": 1.4318651916028856e-05,
+    "orientation": [
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "receipt_sha256": "7bd3593bccffbb6b83e83fc033467c2be803ec1faaa42fed1fb6e8111c6415e5",
+    "rotated_local_center": [
+      9.404121786554337e-06,
+      -1.079751295975455e-05,
+      0.047754681682482036
+    ],
+    "schema_version": "cmf_f2_beside_geometry_center_target_v1",
+    "six_targets": [
+      {
+        "pose": [
+          -0.09937910691974647,
+          0.054842759211695825,
+          1.0498586893081665,
+          0.5017174026769478,
+          -0.498810972458648,
+          0.5011190506874883,
+          0.4983442170267715
+        ],
+        "segment_id": "beside_asset_bound_carry_hub"
+      },
+      {
+        "pose": [
+          0.08124023763183578,
+          0.06988021788962014,
+          1.0095145728639618,
+          0.5017174026769478,
+          -0.498810972458648,
+          0.5011190506874883,
+          0.4983442170267715
+        ],
+        "segment_id": "beside_asset_bound_preplace"
+      },
+      {
+        "pose": [
+          0.08124023763183578,
+          0.06988021788962014,
+          0.9295145728639618,
+          0.5017174026769478,
+          -0.498810972458648,
+          0.5011190506874883,
+          0.4983442170267715
+        ],
+        "segment_id": "beside_asset_bound_release"
+      },
+      {
+        "pose": [
+          0.08124023763183578,
+          0.06988021788962014,
+          1.0095145728639618,
+          0.5017174026769478,
+          -0.498810972458648,
+          0.5011190506874883,
+          0.4983442170267715
+        ],
+        "segment_id": "beside_asset_bound_retreat"
+      },
+      {
+        "pose": [
+          -0.09937910691974647,
+          0.054842759211695825,
+          1.0498586893081665,
+          0.5017174026769478,
+          -0.498810972458648,
+          0.5011190506874883,
+          0.4983442170267715
+        ],
+        "segment_id": "beside_asset_bound_carry_hub_return"
+      },
+      {
+        "pose": [
+          -0.297923743724823,
+          -0.31380218267440796,
+          0.9419903755187988,
+          0.7000005275036494,
+          -1.61680875200991e-05,
+          6.60717435563285e-06,
+          0.7141423255833185
+        ],
+        "segment_id": "f2_rest"
+      }
+    ],
+    "support_plane_z_m": 0.74,
+    "targets_sha256": "39e04cb57afeb64236a6f549e37a1dc1b9f9f09a3861908ce9eb7173e2ae51ae",
+    "translated_candidate0_matches": true
+  },
+  "schema_version": "cmf_f2_geometry_source_discrepancy_v1",
+  "status": "CPU_FIX_TESTED_EXECUTION_PENDING_GEOMETRY_SOURCE_RESOLUTION",
+  "tests_passed": 9
+}
