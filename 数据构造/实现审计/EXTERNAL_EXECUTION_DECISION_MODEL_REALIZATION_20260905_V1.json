@@ -1,0 +1,194 @@
+{
+  "authoritative_message": {
+    "file_sha256": "c5bdaa723cc3be02633842a98293e0972fe1104b9e8243b58e2f45f3d7a96821",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_MODEL_REPAIR_REALIZATION_BATCH_20260905.md",
+    "url": "https://chatgpt.com/s/t_6a9c11c46ab88191a55188a9adb2fe5b"
+  },
+  "decision": {
+    "F2": {
+      "after_failure_cpu_work": [
+        "fixed_target_and_constraint_failure_matrix",
+        "one_versioned_local_layout_or_grasp_pose_revision_proposal",
+        "no_additional_hub_scan",
+        "no_unapproved_target_execution"
+      ],
+      "aggregate_caps": {
+        "formal": 0,
+        "fresh_planner_only_scenes": 2,
+        "ik_problems": 15,
+        "physical_executions": 0,
+        "roots": 0,
+        "total_solver_problems": 19,
+        "training_raw": 0,
+        "trajectory_queries": 4
+      },
+      "conditional_phase_2": {
+        "additional_ik_problem_cap": 6,
+        "additional_object_yaws_degrees": [
+          90,
+          -90,
+          180
+        ],
+        "goals_per_yaw": [
+          "U",
+          "D"
+        ],
+        "prerequisite": "yaw_is_not_part_of_required_task_semantics",
+        "preserve_geometry_center_and_relation": true,
+        "recompute_actor_origin_and_eef_from_grasp_transform": true
+      },
+      "conditional_phase_3": {
+        "prerequisite": "one_yaw_has_both_U_and_D_valid_under_full_constraints",
+        "selection": "first_in_preregistered_order",
+        "trajectory_query_cap": 4,
+        "trajectory_targets": [
+          "U",
+          "D",
+          "U",
+          "N"
+        ]
+      },
+      "decision": "CONDITIONAL_ENDPOINT_CONSTRAINT_DIAGNOSIS_V1",
+      "old_transit_panel_reissue": false,
+      "phase_1": {
+        "configurations": [
+          "K0_joint_limits_only",
+          "K1_joint_limits_and_self_collision",
+          "K2_joint_limits_self_collision_and_audited_world"
+        ],
+        "execution_of_collision_disabled_solutions": false,
+        "goals": [
+          "C",
+          "U",
+          "D"
+        ],
+        "ik_problem_cap": 9
+      },
+      "preserve": [
+        "original C/U/D and grasp-transform evidence",
+        "metadata geometry source",
+        "joint limits and configured solver tolerances",
+        "inside historical evidence",
+        "original failure records"
+      ]
+    },
+    "F3": {
+      "conditional_micro_caps": {
+        "additional_non_action_conformance_scenes": 2,
+        "aggregate_fresh_scenes": 4,
+        "formal": 0,
+        "no_suffix": 0,
+        "physical_attempts": 2,
+        "physical_scenes": 2,
+        "roots": 0,
+        "shared_v": 0,
+        "training_raw": 0,
+        "trajectory_queries": 6
+      },
+      "decision": "REPAIR_SCENE_AND_GRIPPER_MODEL_WITH_CONDITIONAL_TWO_CANDIDATE_MICRO",
+      "invalid_endpoint_response": [
+        "do_not_execute_it",
+        "retain_original_candidate_evidence",
+        "build_new_geometry_derived_recipe_proposal",
+        "do_not_overwrite_original_recipe_hash"
+      ],
+      "micro_order": [
+        "plan_and_execute_pregrasp_with_existing_gate",
+        "plan_and_execute_grasp_with_existing_gate",
+        "close_and_hold_only_after_gates_pass",
+        "plan_lift_from_actual_post_close_state",
+        "retain_existing_post_lift_contract",
+        "stop"
+      ],
+      "reference_candidates": [
+        "f3-final-pose-v3-r3063",
+        "f3-final-pose-v3-r1401"
+      ],
+      "required_before_physical": [
+        "verify_actual_open_gripper_joint_state_in_planner",
+        "export_table_pad_bottle_and_relevant_robot_geometry",
+        "use_one_verified_world_to_planner_transform",
+        "apply_world_to_the_actual_solver_or_worker",
+        "validate_known_clear_and_known_failure_states",
+        "classify_endpoint_collision_separately_from_path_collision",
+        "implement_explicit_approach_close_lift_contact_semantics",
+        "reject_invalid_original_grasp_endpoint",
+        "freeze_source_world_targets_and_budget_before_launch"
+      ]
+    },
+    "F4_existing": {
+      "duplicate_registration": false,
+      "original_root_rerun": false,
+      "reapproval_required": false,
+      "status": "ACCEPTED_RETAIN_UNCHANGED"
+    },
+    "downstream": {
+      "conditional_development_realization_batch": {
+        "automatic_retry": false,
+        "automatic_stage1_promotion": false,
+        "cells": {
+          "F1_A_r_inv_path": 3,
+          "F1_B_r_inv_motion": 3,
+          "F4_A_r_inv_path": 3
+        },
+        "fresh_scene_cap": 9,
+        "max_attempts_per_cell": 1,
+        "new_formal_data": 0,
+        "planner_query_cap": 156,
+        "prerequisites": [
+          "exact_family_bindings_complete",
+          "correct_pilot_root_pairing",
+          "real_disk_writer_loader_verifier_preflight",
+          "frozen_variation_specs",
+          "full_runtime_budget_verified",
+          "source_and_manifest_published",
+          "existing_GPU_Guard_checks_pass"
+        ],
+        "rollout_cap": 9,
+        "source_derived_budget_must_fit_cap": true
+      },
+      "cpu_integration_authorized": true,
+      "required": [
+        "integrate_isolated_collector_publication_fix",
+        "bind_actual_F1_and_F4_scene_anchor_and_verifier",
+        "generate_F1_A_path_from_root_A",
+        "generate_F1_B_motion_from_root_B",
+        "generate_F4_A_path_from_root_A",
+        "retain_live_query_accounting_on_failure",
+        "verify_actual_retiming_duration_and_control_consistency",
+        "validate_realized_not_just_declared_variation",
+        "preserve_stage_specific_3_6_6_9_acceptance_profiles"
+      ],
+      "retain_existing_guard_and_acceptance_framework": true
+    },
+    "global": {
+      "automatic_job_retry": false,
+      "compression_authorized": false,
+      "formal_360_authorized": false,
+      "gpu_jobs_serial": true,
+      "h_reveal_authorized": false,
+      "pi05_authorized": false,
+      "stage0_rerun": false,
+      "training_authorized": false
+    },
+    "global_stop": [
+      "resource_accounting_unknown",
+      "source_or_asset_binding_mismatch",
+      "task_owned_orphan_process",
+      "cleanup_failure",
+      "GPU_identity_or_baseline_failure",
+      "raw_receipt_or_video_integrity_failure"
+    ],
+    "later": {
+      "F2_full_root_requires_new_exact_execution_scope": true,
+      "F3_shared_v_and_full_root_require_new_exact_execution_scope": true,
+      "formal_collection_requires_protocol_freeze_and_explicit_authority": true,
+      "stage1_reuse_requires_explicit_eligibility_records": true
+    },
+    "review_base": {
+      "vault_head": "ef5cdfc8cd13fb99c73252351b2ee07276902f9b"
+    }
+  },
+  "receipt_sha256": "46c42f0470fcf5be8bb34c619606c7a4d4d5b4f72827eaae13a899eec10ac09d",
+  "schema_version": "cmf_model_repair_realization_batch_decision_v1"
+}

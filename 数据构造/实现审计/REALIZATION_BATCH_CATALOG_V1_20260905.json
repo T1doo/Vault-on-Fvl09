@@ -1,0 +1,2419 @@
+{
+  "approved_query_cap": 156,
+  "automatic_retry": false,
+  "cohorts": [
+    {
+      "cells": [
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+          "cell_id": "F1_A_path__F1-red",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_A_path",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-red",
+            "steps": [
+              {
+                "object": "red",
+                "op": "pick"
+              },
+              {
+                "object": "red",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "red"
+          },
+          "program_sha256": "1098a196a8723e4245157204df772361ebfa5c8d34965cdd9bc5d53228d9a3b3",
+          "query_cap": 11,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-red/receipt.json",
+          "source_branch_file_sha256": "8b5cfcb1678e8c446c7b9a45f50aa5d9a97dea3b8ecc9974bb4cdeb3a80d3f8b",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-red/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "c63ff77cd936f598ecc0d31c60cb2f6eb18fd3381ee6c4570d06c849421ddad5",
+          "targets": [
+            {
+              "pose": [
+                -0.2000022828578949,
+                0.020004412159323692,
+                0.9720004796981812,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.8820004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.922000479718637,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.9620004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.9770004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.035,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.035,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.0469999499525542,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                0.9469999499525541,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.0469999499525542,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "bd730ef5e77f1d8bd825be40b27ad1f4376d48b05d52e51c3f27de2b0467dba6",
+          "variant": "r_inv_path"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+          "cell_id": "F1_A_path__F1-green",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_A_path",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-green",
+            "steps": [
+              {
+                "object": "green",
+                "op": "pick"
+              },
+              {
+                "object": "green",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "green"
+          },
+          "program_sha256": "0d6bc3926217719cef1af033f2e0bc90359faf1e90ea2ad08c3f366682b72a5b",
+          "query_cap": 11,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-green/receipt.json",
+          "source_branch_file_sha256": "80c51200a91752062dd9f3f54ff0eacbb0fd1b53a1fce772049c67132481f086",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-green/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "fa161b5f68f07b17119d5fb19a40918b46f48c287e68cd3b3dd8146c3231eee9",
+          "targets": [
+            {
+              "pose": [
+                -0.11000227183103561,
+                0.020004402846097946,
+                0.9720004796981812,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.882000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.922000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.962000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.977000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.035,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.035,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.0469999499524785,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                0.9469999499524784,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.0469999499524785,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "22a5b13109568ac640f0a362fdfe3db5755eee2917d75577f00b3da8a28ca78e",
+          "variant": "r_inv_path"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "c49cb56953fd12cf7ffbcc7d1d8aaf85ef2c448c088c3efe4c63de51b0611593",
+          "cell_id": "F1_A_path__F1-blue",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_A_path",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-blue",
+            "steps": [
+              {
+                "object": "blue",
+                "op": "pick"
+              },
+              {
+                "object": "blue",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "blue"
+          },
+          "program_sha256": "cd4515a382c9fe3d88fab602cc20230bb752fc12ed62f514bed96f1960149f22",
+          "query_cap": 11,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-blue/receipt.json",
+          "source_branch_file_sha256": "a6f058fb5ba76bd3760c82441c3c0df3af455a050c170d6ce1660e3c3c33b250",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-blue/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "b7dec1961cb5dda69bd789985bd45354d0736c8a57570415b9e67a54c63bea47",
+          "targets": [
+            {
+              "pose": [
+                -0.020002226310160517,
+                -0.0009606309037001604,
+                0.9709517593364805,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.8814012109640859,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.9214012109640859,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.9614012109640858,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.9764012109640858,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.035,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.035,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.0464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                0.9464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.0464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "df206eceae99c8b3464034f3a0663a8fac86cb263265d286f794749159a26908",
+          "variant": "r_inv_path"
+        }
+      ],
+      "cohort": "F1_A_path",
+      "family": "F1",
+      "query_cap": 33,
+      "scene_cap": 3,
+      "variant": "r_inv_path"
+    },
+    {
+      "cells": [
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "aa1e72be9c320cedda9db6ec5884adff1a03d60f29046c360df8eb7db83dde99",
+          "cell_id": "F1_B_motion__F1-green",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_B_motion",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0,
+          "motion_uses_frozen_parent_controls": true,
+          "nominal_duration_scale": 1.1,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-02",
+          "path_delta_z_m": 0.0,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-green",
+            "steps": [
+              {
+                "object": "green",
+                "op": "pick"
+              },
+              {
+                "object": "green",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "green"
+          },
+          "program_sha256": "0d6bc3926217719cef1af033f2e0bc90359faf1e90ea2ad08c3f366682b72a5b",
+          "query_cap": 0,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-green/receipt.json",
+          "source_branch_file_sha256": "dc33af9a82e473197db838fcf7544751665fff668dc96551ba8e635448557998",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-green/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "8839c2b30b1d80dd7bee3a2bd08887f204f6c173203c7376d8810683b821c187",
+          "targets": [
+            {
+              "pose": [
+                -0.2000022828578949,
+                0.020004412159323692,
+                0.9720004796981812,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.8820004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.922000479718637,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.20000147551123154,
+                0.020002671406453322,
+                0.9620004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.9620004797186369,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.02,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934136867523
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.02,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.0469999499525542,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                0.9469999499525541,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000106841150774,
+                -0.15999767288487607,
+                1.0469999499525542,
+                0.49999690798034657,
+                -0.5000075772119198,
+                0.5000020935845189,
+                0.49999342110857536
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "b66bb2225dab0559c6880666877acb1278fc8145c67b3945e704896aa2c377a7",
+          "variant": "r_inv_motion"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "aa1e72be9c320cedda9db6ec5884adff1a03d60f29046c360df8eb7db83dde99",
+          "cell_id": "F1_B_motion__F1-blue",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_B_motion",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0,
+          "motion_uses_frozen_parent_controls": true,
+          "nominal_duration_scale": 1.1,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-02",
+          "path_delta_z_m": 0.0,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-blue",
+            "steps": [
+              {
+                "object": "blue",
+                "op": "pick"
+              },
+              {
+                "object": "blue",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "blue"
+          },
+          "program_sha256": "cd4515a382c9fe3d88fab602cc20230bb752fc12ed62f514bed96f1960149f22",
+          "query_cap": 0,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-blue/receipt.json",
+          "source_branch_file_sha256": "b7dcfc9aaad44a9d0df89b6319357756cf0bccd6152f6805a59c9630a678a051",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-blue/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "b3ee7366212f1eb93ec9ffbc3c66a2ccaf8ad3e02cb5d0fb3cb7f67a7a6fc57e",
+          "targets": [
+            {
+              "pose": [
+                -0.11000227183103561,
+                0.020004402846097946,
+                0.9720004796981812,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.882000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.922000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.1100014671665701,
+                0.020002664775471843,
+                0.962000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.962000479718561,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.02,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000020861625671,
+                0.4999934434890747
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.02,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.0469999499524785,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                0.9469999499524784,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000106364312498,
+                -0.15999768137850268,
+                1.0469999499524785,
+                0.4999969005299098,
+                -0.500007569761324,
+                0.500002086134005,
+                0.49999344346051317
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "29226c9a29eac23fd917129612b8d33442e940ee4078b72282620b95af39f25d",
+          "variant": "r_inv_motion"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "aa1e72be9c320cedda9db6ec5884adff1a03d60f29046c360df8eb7db83dde99",
+          "cell_id": "F1_B_motion__F1-red",
+          "changed_indices": [
+            4,
+            5,
+            6
+          ],
+          "cohort": "F1_B_motion",
+          "family": "F1",
+          "minimum_realized_path_delta_z_m": 0.0,
+          "motion_uses_frozen_parent_controls": true,
+          "nominal_duration_scale": 1.1,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root",
+          "parent_root_id": "f1-batch-pilot-v1-primary-02",
+          "path_delta_z_m": 0.0,
+          "program": {
+            "canonical_prefix_id": "f1_cluster_common_pregrasp_v1_1",
+            "program_id": "F1-red",
+            "steps": [
+              {
+                "object": "red",
+                "op": "pick"
+              },
+              {
+                "object": "red",
+                "op": "place",
+                "reference": "common_box",
+                "relation": "inside"
+              }
+            ],
+            "target_role": "red"
+          },
+          "program_sha256": "1098a196a8723e4245157204df772361ebfa5c8d34965cdd9bc5d53228d9a3b3",
+          "query_cap": 0,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-red/receipt.json",
+          "source_branch_file_sha256": "05820f7729f443d1294d6287fab1540e9af5f570f9301c5149e9739813e34710",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-red/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "b33ef9a057476f788dcc3fdbfeda1a7486f44cb9aeb8e38d7fb7b224211fb8e6",
+          "targets": [
+            {
+              "pose": [
+                -0.020002226310160517,
+                -0.0009606309037001604,
+                0.9709517593364805,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_pregrasp"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.8814012109640859,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_grasp"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.9214012109640859,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_lift_mid"
+            },
+            {
+              "pose": [
+                -0.020001438791848725,
+                0.008022647205277091,
+                0.9614012109640858,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "target_lift"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.9614012109640858,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "carry_hub_low"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                1.02,
+                0.5243617621969696,
+                -0.4743934205355519,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "carry_hub_high"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.02,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "safe_horizontal"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.0464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "preplace"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                0.9464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "release"
+            },
+            {
+              "pose": [
+                -0.08000103884468228,
+                -0.17197769894869744,
+                1.0464006811980031,
+                0.5243617621969693,
+                -0.47439342053555195,
+                0.47438779701596556,
+                0.5243585061201992
+              ],
+              "segment_id": "retreat"
+            },
+            {
+              "pose": [
+                -0.297923743724823,
+                -0.31380218267440796,
+                0.9419903755187988,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "rest"
+            }
+          ],
+          "targets_sha256": "f77c776fcb021a2bf734e8c04d1f24a1d739f58b977ba100a13b051f89534dcd",
+          "variant": "r_inv_motion"
+        }
+      ],
+      "cohort": "F1_B_motion",
+      "family": "F1",
+      "query_cap": 0,
+      "scene_cap": 3,
+      "variant": "r_inv_motion"
+    },
+    {
+      "cells": [
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "8b53c5484a9a8dc5277b28787a51c03cb7fb9b5f90aa2e3c35bbb406285c6354",
+          "cell_id": "F4_A_path__F4-ABC",
+          "changed_indices": [
+            5,
+            15,
+            25
+          ],
+          "cohort": "F4_A_path",
+          "family": "F4",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root",
+          "parent_root_id": "f4_stage_b_planner-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "program_id": "F4-ABC",
+            "steps": [
+              {
+                "object": "common_X",
+                "op": "place",
+                "reference": "common_tray",
+                "relation": "inside"
+              },
+              {
+                "object": "A",
+                "op": "place",
+                "reference": "slot_A",
+                "relation": "at_slot"
+              },
+              {
+                "object": "B",
+                "op": "place",
+                "reference": "slot_B",
+                "relation": "at_slot"
+              },
+              {
+                "object": "C",
+                "op": "place",
+                "reference": "slot_C",
+                "relation": "at_slot"
+              }
+            ]
+          },
+          "program_sha256": "1ff8b7c88387722b66c76f6e774c55ac93bff62af4beb7ee97fa14f959ec5fb4",
+          "query_cap": 30,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-ABC.resolved.json",
+          "source_branch_file_sha256": "379946b1f93703fd7065c258b9dc7425f2dbf27d4e89ba3580461a7e8b8d035b",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ABC/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "4813145a3b9a4b6a4d3654911ea958e75fb05a51d115fa7f2ccf14d51dbc91f8",
+          "targets": [
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral_start"
+            },
+            {
+              "pose": [
+                -0.2000022679567337,
+                0.02000441588461399,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_grasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift_mid"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                -0.20000126331876683,
+                -0.04999750416645574,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_carry_mid"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_preplace"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral_start"
+            },
+            {
+              "pose": [
+                -0.11000226438045502,
+                0.02000441402196884,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_pregrasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_grasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift_mid"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift"
+            },
+            {
+              "pose": [
+                -0.11000126525591777,
+                -0.04999750696042346,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_carry_mid"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_preplace"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_release"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral_start"
+            },
+            {
+              "pose": [
+                -0.02000221575503349,
+                -0.0009606271877019047,
+                0.9709517595224784,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_pregrasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.881401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_grasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.921401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift_mid"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.961401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift"
+            },
+            {
+              "pose": [
+                -0.020001241604911867,
+                -0.06197753955342777,
+                0.9984007085216798,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_carry_mid"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_preplace"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.8834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_release"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral"
+            }
+          ],
+          "targets_sha256": "7f2a2d17ccae8bd1d8f074b7bfbf4bb72bdef2d06f09622eab40335213971050",
+          "variant": "r_inv_path"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "8b53c5484a9a8dc5277b28787a51c03cb7fb9b5f90aa2e3c35bbb406285c6354",
+          "cell_id": "F4_A_path__F4-ACB",
+          "changed_indices": [
+            5,
+            15,
+            25
+          ],
+          "cohort": "F4_A_path",
+          "family": "F4",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root",
+          "parent_root_id": "f4_stage_b_planner-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "program_id": "F4-ACB",
+            "steps": [
+              {
+                "object": "common_X",
+                "op": "place",
+                "reference": "common_tray",
+                "relation": "inside"
+              },
+              {
+                "object": "A",
+                "op": "place",
+                "reference": "slot_A",
+                "relation": "at_slot"
+              },
+              {
+                "object": "C",
+                "op": "place",
+                "reference": "slot_C",
+                "relation": "at_slot"
+              },
+              {
+                "object": "B",
+                "op": "place",
+                "reference": "slot_B",
+                "relation": "at_slot"
+              }
+            ]
+          },
+          "program_sha256": "fc1cdac0440307c427f9b6747e646840c5e0475145a858a6e688bcb42a1941ad",
+          "query_cap": 30,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-ACB.resolved.json",
+          "source_branch_file_sha256": "2c996517ef6d2e0a1106608ca305b7c3e21e45f2e2ead1178672c1aa537b8c8b",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ACB/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "4988430c1f9c356c317e514daa4d537fad3ed8856353b4a3e04f87a948c74e41",
+          "targets": [
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral_start"
+            },
+            {
+              "pose": [
+                -0.2000022679567337,
+                0.02000441588461399,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_grasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift_mid"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                -0.20000126331876683,
+                -0.04999750416645574,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_carry_mid"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_preplace"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral_start"
+            },
+            {
+              "pose": [
+                -0.02000221575503349,
+                -0.0009606271877019047,
+                0.9709517595224784,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_pregrasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.881401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_grasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.921401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift_mid"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.961401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift"
+            },
+            {
+              "pose": [
+                -0.020001241604911867,
+                -0.06197753955342777,
+                0.9984007085216798,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_carry_mid"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_preplace"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.8834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_release"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral_start"
+            },
+            {
+              "pose": [
+                -0.11000226438045502,
+                0.02000441402196884,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_pregrasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_grasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift_mid"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift"
+            },
+            {
+              "pose": [
+                -0.11000126525591777,
+                -0.04999750696042346,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_carry_mid"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_preplace"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_release"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral"
+            }
+          ],
+          "targets_sha256": "85adc98430e1f714728625a23f28aa86011131be4a9bf199e1231a0313bb27e2",
+          "variant": "r_inv_path"
+        },
+        {
+          "attempt_cap": 1,
+          "candidate_universe_sha256": "8b53c5484a9a8dc5277b28787a51c03cb7fb9b5f90aa2e3c35bbb406285c6354",
+          "cell_id": "F4_A_path__F4-BAC",
+          "changed_indices": [
+            5,
+            15,
+            25
+          ],
+          "cohort": "F4_A_path",
+          "family": "F4",
+          "minimum_realized_path_delta_z_m": 0.0075,
+          "motion_uses_frozen_parent_controls": false,
+          "nominal_duration_scale": 1.0,
+          "parent_root": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root",
+          "parent_root_id": "f4_stage_b_planner-01",
+          "path_delta_z_m": 0.015,
+          "program": {
+            "program_id": "F4-BAC",
+            "steps": [
+              {
+                "object": "common_X",
+                "op": "place",
+                "reference": "common_tray",
+                "relation": "inside"
+              },
+              {
+                "object": "B",
+                "op": "place",
+                "reference": "slot_B",
+                "relation": "at_slot"
+              },
+              {
+                "object": "A",
+                "op": "place",
+                "reference": "slot_A",
+                "relation": "at_slot"
+              },
+              {
+                "object": "C",
+                "op": "place",
+                "reference": "slot_C",
+                "relation": "at_slot"
+              }
+            ]
+          },
+          "program_sha256": "7fa9de2369c01c3764b52897ca3e02a4c46dcfc9925ba61b6fd76ae2ed970158",
+          "query_cap": 30,
+          "scene_cap": 1,
+          "source_branch": "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-BAC.resolved.json",
+          "source_branch_file_sha256": "21ab68d1d4e2fdd2039b083b54e67d2146eca5e07a78254ab696c1cc2174d418",
+          "source_suffix": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-BAC/frozen_suffix_artifact.json",
+          "source_suffix_file_sha256": "7b0748f5169a679c9af148abd3fc69f66767ba29ad68fea94152435bf52b7f69",
+          "targets": [
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral_start"
+            },
+            {
+              "pose": [
+                -0.11000226438045502,
+                0.02000441402196884,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_pregrasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_grasp"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift_mid"
+            },
+            {
+              "pose": [
+                -0.11000146239828036,
+                0.020002667904703144,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_lift"
+            },
+            {
+              "pose": [
+                -0.11000126525591777,
+                -0.04999750696042346,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "B_carry_mid"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_preplace"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_release"
+            },
+            {
+              "pose": [
+                -0.11000106811355519,
+                -0.11999768182555007,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "B_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "B_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral_start"
+            },
+            {
+              "pose": [
+                -0.2000022679567337,
+                0.02000441588461399,
+                0.9720004200935364,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_pregrasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.8820004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_grasp"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9220004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift_mid"
+            },
+            {
+              "pose": [
+                -0.20000146597455906,
+                0.020002669767348293,
+                0.9620004201140481,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_lift"
+            },
+            {
+              "pose": [
+                -0.20000126331876683,
+                -0.04999750416645574,
+                0.9989999785628396,
+                0.4999969005584717,
+                -0.5000075697898865,
+                0.5000021457672119,
+                0.4999934136867523
+              ],
+              "segment_id": "A_carry_mid"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_preplace"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.8839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_release"
+            },
+            {
+              "pose": [
+                -0.2000010606629746,
+                -0.11999767810025978,
+                0.9839999785628396,
+                0.49999689307921463,
+                -0.5000075623104698,
+                0.5000021382878764,
+                0.49999340620754745
+              ],
+              "segment_id": "A_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "A_neutral"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral_start"
+            },
+            {
+              "pose": [
+                -0.02000221575503349,
+                -0.0009606271877019047,
+                0.9709517595224784,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_pregrasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.881401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_grasp"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.921401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift_mid"
+            },
+            {
+              "pose": [
+                -0.02000143975310284,
+                0.008022636243021422,
+                0.961401209677533,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_lift"
+            },
+            {
+              "pose": [
+                -0.020001241604911867,
+                -0.06197753955342777,
+                0.9984007085216798,
+                0.5243616554128253,
+                -0.47439347113399283,
+                0.4743878323659845,
+                0.5243585351467693
+              ],
+              "segment_id": "C_carry_mid"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_preplace"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.8834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_release"
+            },
+            {
+              "pose": [
+                -0.02000104345672089,
+                -0.13197771534987696,
+                0.9834007085216798,
+                0.524361655412825,
+                -0.47439347113399294,
+                0.4743878323659846,
+                0.5243585351467696
+              ],
+              "segment_id": "C_retreat"
+            },
+            {
+              "pose": [
+                -0.11,
+                0.02,
+                0.95,
+                0.7000005275036494,
+                -1.61680875200991e-05,
+                6.60717435563285e-06,
+                0.7141423255833185
+              ],
+              "segment_id": "C_neutral"
+            }
+          ],
+          "targets_sha256": "3fcf3d512e9264df81df4cffabf2cfb78c774b605bf4d7596d70422becfbc5c9",
+          "variant": "r_inv_path"
+        }
+      ],
+      "cohort": "F4_A_path",
+      "family": "F4",
+      "query_cap": 90,
+      "scene_cap": 3,
+      "variant": "r_inv_path"
+    }
+  ],
+  "dependencies": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/branches/F4-ABC/trace_source.npz": "f3577df7b5bd274adf7f97d05c3b4bf5f3561f8394afc0b7209855f68a82a925",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/branches/F4-ACB/trace_source.npz": "61364aa72b4e8e8297c5a242a908a9209771345980046f6e52040cf968cf3231",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/branches/F4-BAC/trace_source.npz": "8298b5a069c657af22526b05d4068f07458131d55ab56d08b1c38437077a1f19",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/candidate_frozen_root_spec.json": "0f352ab87aed7ed5d522d34e021f6149dc82255a24f8b07aa8230006e4329e02",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/canonical_prefix_artifact/canonical_prefix_artifact.json": "69e734dcb21ba648aa09e560d17f06785ed54555dcd9de675df981fd055a5292",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/canonical_prefix_artifact/prefix_arrays.npz": "a34589707488d9bfab0d5187d08059e36a49364f1267fa989ef45aac3a360214",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/planned_root_slot_spec.json": "6d36de1d1a2ff673c66e94ad8fc5158f5ed44e584f557b2a07058dc03c4852a7",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/reference_anchor.json": "49ad58f720dc8df66ecee667a28c04e1dcad21fd2b93f2713b0d6c63f3eebd7b",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/reference_current_hashes.json": "30e1bffd10dbc179d432cd099a670c2b947aa09c6fa1072da6c4f52d22b2accf",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ABC/frozen_suffix_artifact.json": "4813145a3b9a4b6a4d3654911ea958e75fb05a51d115fa7f2ccf14d51dbc91f8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ABC/suffix_controls.npz": "3dc59f4b6fef8f7d815df38856a63d794d10da3d40796b9e142759a4544e3e1c",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ACB/frozen_suffix_artifact.json": "4988430c1f9c356c317e514daa4d537fad3ed8856353b4a3e04f87a948c74e41",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-ACB/suffix_controls.npz": "b4b60e4aa0ca8d9447731ecdf3205e2d6e7f1aa8bb90dbad60687afd7aebce06",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-BAC/frozen_suffix_artifact.json": "7b0748f5169a679c9af148abd3fc69f66767ba29ad68fea94152435bf52b7f69",
+    "/nfs_share/lijunhui/Robotwin2/datasets/cmf_f4_v22_authorized_root1/development_root/suffix_artifacts/F4-BAC/suffix_controls.npz": "cbeb1d1918309f8e235230cee58203d2eb60f0c85e32bcac877678aa8e188090",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-blue/receipt.json": "a6f058fb5ba76bd3760c82441c3c0df3af455a050c170d6ce1660e3c3c33b250",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-blue/trace_source.npz": "5a8b6ee4b4d570d7184e138095333129e7d482c24759567be03a5d14a480e299",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-green/receipt.json": "80c51200a91752062dd9f3f54ff0eacbb0fd1b53a1fce772049c67132481f086",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-green/trace_source.npz": "1446f7883084b0525acb15ff5d4004ac932e2002e8e158e438962dd3bf0f5de4",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-red/receipt.json": "8b5cfcb1678e8c446c7b9a45f50aa5d9a97dea3b8ecc9974bb4cdeb3a80d3f8b",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/branches/F1-red/trace_source.npz": "4f4163b0b3d5e0611865cdaaf32c7e246d2d19cdc76003a6841d87eb8a544884",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/candidate_frozen_root_spec.json": "f9d0619dc368c023e57defb2ea73e18d39ac5a03561ca17e5b772247a11c5fc3",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/canonical_prefix_artifact/canonical_prefix_artifact.json": "90df3b3c28f2a21f05eb4f34b9a9d3652587078b4001c622c8fad3a71857e763",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/canonical_prefix_artifact/prefix_arrays.npz": "c0838b0ff33ca01ae1cf1149443277acd3ecaf25279ecc81f2c51ce938edbb69",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/planned_root_slot_spec.json": "d4d4ecfff98b7f37cf6ef4071657f39b20a2350fecad91a9cf6733cb7ba0f7a0",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/reference_anchor.json": "fda1404e1e750602c3f68ce33b55c4cae0f55789f30825f0dd515d1ce9caaba7",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/reference_current_hashes.json": "83588f1a9a3da8ed791a3b65f7ca80ec6eb570b1dad14eda9635fd33903d7024",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-blue/frozen_suffix_artifact.json": "b7dec1961cb5dda69bd789985bd45354d0736c8a57570415b9e67a54c63bea47",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-blue/suffix_controls.npz": "0acca17e91a9d9ede861f8067d670bbfc048583a7a8d4f6f9df6e101a98f5cca",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-green/frozen_suffix_artifact.json": "fa161b5f68f07b17119d5fb19a40918b46f48c287e68cd3b3dd8146c3231eee9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-green/suffix_controls.npz": "37bf8fb9a735fe9a8dc0d875d1461251c9f67de8d04e72c870a946cedd47612a",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-red/frozen_suffix_artifact.json": "c63ff77cd936f598ecc0d31c60cb2f6eb18fd3381ee6c4570d06c849421ddad5",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-01/root/suffix_artifacts/F1-red/suffix_controls.npz": "4f2cbf030869c6e647e3b67335254b52ee01b658e445546297aff843eface264",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-blue/receipt.json": "b7dcfc9aaad44a9d0df89b6319357756cf0bccd6152f6805a59c9630a678a051",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-blue/trace_source.npz": "bb48a7ec850647e5566eedfa513db633adc4f38aa6efb9ba9f9a506f43ba7438",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-green/receipt.json": "dc33af9a82e473197db838fcf7544751665fff668dc96551ba8e635448557998",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-green/trace_source.npz": "76a12ade243805fb3e6429737ef25caca495a6f523878b54d21071fbef0b10a2",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-red/receipt.json": "05820f7729f443d1294d6287fab1540e9af5f570f9301c5149e9739813e34710",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/branches/F1-red/trace_source.npz": "07917a674f46f79446474fe6a2560ce6548701a1cd7a059c6214f2d8d12b12f9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/candidate_frozen_root_spec.json": "21a4c3e464fec72de84d444fd00117059840456235a334ee9f557b393bb96794",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/canonical_prefix_artifact/canonical_prefix_artifact.json": "be298820787a7c695cd13aa2fea371dd9e3afb7617b0ad75877dde7a58f98ce7",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/canonical_prefix_artifact/prefix_arrays.npz": "5623648c7e7b0f074d688fb5663872b003be585fe9234e940111d1a316b62c73",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/planned_root_slot_spec.json": "775d44f13eb62f32d00522be2919ef6b22052d3e916f513a585b801c2aa2788d",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/reference_anchor.json": "d2ea5a6ebb0264ef35763782699987dcc2d7c394cc77165948621b292b8fcad2",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/reference_current_hashes.json": "2e4f6437cf823869b507804d6c48201bbd8fffb5603500cc72e9e3f9184be538",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-blue/frozen_suffix_artifact.json": "b3ee7366212f1eb93ec9ffbc3c66a2ccaf8ad3e02cb5d0fb3cb7f67a7a6fc57e",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-blue/suffix_controls.npz": "4f834ba29a06099fdda8d40c9f4d7c566fb4d8186a39fc0ca41573497bf1dbe5",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-green/frozen_suffix_artifact.json": "8839c2b30b1d80dd7bee3a2bd08887f204f6c173203c7376d8810683b821c187",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-green/suffix_controls.npz": "45de416df6eff56dccff6a5ec65a4c7235f75a24ea72c7d6ebc7e50f7194b051",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-red/frozen_suffix_artifact.json": "b33ef9a057476f788dcc3fdbfeda1a7486f44cb9aeb8e38d7fb7b224211fb8e6",
+    "/nfs_share/lijunhui/Robotwin2/datasets/controlled_multi_future_post_stage0_f1_batch_pilot_v1/post_stage0_f1_batch_pilot_v1_run4/batch/root_attempts/f1-batch-pilot-v1-primary-02/root/suffix_artifacts/F1-red/suffix_controls.npz": "84afe8e977aef735d5151f2b120b6bf2043af4418acaa6d0f1ba492520a33b00",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-ABC.resolved.json": "379946b1f93703fd7065c258b9dc7425f2dbf27d4e89ba3580461a7e8b8d035b",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-ACB.resolved.json": "2c996517ef6d2e0a1106608ca305b7c3e21e45f2e2ead1178672c1aa537b8c8b",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f4_root1_receipt_resolution_v1_1/branches/F4-BAC.resolved.json": "21ab68d1d4e2fdd2039b083b54e67d2146eca5e07a78254ab696c1cc2174d418"
+  },
+  "derived_query_cap": 123,
+  "formal_data": false,
+  "fresh_scene_cap": 9,
+  "implementation_source_sha256": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7",
+  "max_cells": 9,
+  "receipt_sha256": "ef04edb0f60cfd246e650d0cf26febbef7bf146bf6ba90cb6f52b8faa572f319",
+  "schema_version": "cmf_nine_realization_catalog_v1",
+  "stage1_authorized": false
+}
