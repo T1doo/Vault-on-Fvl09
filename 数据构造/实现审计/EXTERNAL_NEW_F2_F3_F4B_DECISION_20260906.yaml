@@ -1,0 +1,197 @@
+review_base:
+  vault_head: 9ed6a353b59c39d050a6a5b0cbfdaf4c9cdff2ad
+
+global:
+  old_consumed_jobs_reissued: false
+  automatic_retry: false
+  candidate_search_expansion: false
+  gpu_jobs_serial: true
+
+  preserve:
+    - existing_F1_F4_accepted_data
+    - existing_18_pilot_candidate_evidence
+    - original_failed_attempts
+    - separate_successful_F1_and_F4_source_profiles
+
+  stage0_rerun: false
+  stage1_promotion_authorized: false
+  formal_360_authorized: false
+  training_authorized: false
+  h_reveal_authorized: false
+  compression_authorized: false
+  pi05_authorized: false
+
+F2:
+  decision: CONDITIONALLY_APPROVE_ONE_INWARD_LAYOUT_PLANNER_GATE
+  authorized_scope: NEW_LAYOUT_PLANNER_ONLY
+  source_proposal_receipt_sha256: 11f151ca27222f1ed0c974ea7dbaaa27a03233cf1451ee864441a7127486d859
+
+  layout:
+    id: f2-beside-inward-layout-v1
+    translation_world_xy_m:
+      - -0.09966188119296109
+      - -0.008216412664910758
+    new_target_geometry_xy_m:
+      - -0.01966188119296107
+      - 0.06178358733508925
+    move_reference_and_target_together: true
+    new_root_current_anchor_lineage_required: true
+    inherit_old_inside_qualification_as_new_success: false
+
+  prerequisites:
+    - actual_table_footprint_and_support_check
+    - moving_pair_and_initial_state_geometry_check
+    - inside_on_beside_mutual_exclusivity
+    - consistent_reference_and_target_binding
+    - exact_goal_transform_and_grasp_transform_binding
+    - correct_carried_and_released_object_planning_semantics
+    - source_targets_budget_and_manifest_frozen
+    - existing_guard_preflight_and_publication
+
+  execution:
+    full_constraint_ik_goals: [C, U_new, D_new]
+    ik_problem_cap: 3
+    route_after_all_endpoints_pass: [U_new, D_new, U_new, N]
+    trajectory_query_cap: 4
+    fresh_planner_only_scene_cap: 1
+    physical_execution_cap: 0
+    accepted_raw_cap: 0
+    accepted_root_cap: 0
+
+  no_additional_yaw_or_translation_search: true
+  no_inside_old_gate_rerun: true
+  after_pass_cpu_followup:
+    - new_layout_controlled_insertion_root_implementation
+    - complete_three_relation_qualification_scope
+    - source_derived_full_root_budget
+  full_physical_root_authorized_now: false
+
+F3:
+  decision: CONDITIONALLY_APPROVE_TWO_TOPDOWN_RECIPE_QUALIFICATION_AND_MICRO
+  approved_direction: TOP_APPROACH_TRANSVERSE_GRASP
+  source_proposal: F3_GEOMETRY_TOPDOWN_PROPOSAL_V1_20260906.json
+
+  proposals:
+    - f3-final-pose-v3-r3063-topdown-geometry-v1
+    - f3-final-pose-v3-r1401-topdown-geometry-v1
+
+  prerequisites:
+    - actual_open_to_close_joint_mapping
+    - sampled_closure_geometry_and_bottle_contact_reach
+    - no_forbidden_palm_finger_support_intersection
+    - actual_flange_to_reported_goal_roundtrip_against_real_entry
+    - actual_locked_gripper_state_and_world_cache_conformance
+    - full_arm_endpoint_and_path_constraints
+    - exact_new_recipe_and_source_freeze
+
+  contact_policy:
+    retain_proposed_geometry_margin_m: 0.008
+    positive_mesh_gap_is_not_physical_success: true
+    contact_offset_band_is_not_automatic_physical_failure: true
+    contact_offset_or_rest_offset_changes_allowed: false
+    retain_existing_physical_classifier_and_thresholds: true
+    physical_weld_allowed: false
+
+  qualification:
+    goals_per_recipe: [current_control, pregrasp, grasp]
+    pregrasp_world_z_offset_m: 0.12
+    ik_problem_cap: 6
+    non_action_scene_cap: 2
+
+  conditional_micro:
+    physical_attempt_cap: 2
+    physical_scene_cap: 2
+    trajectory_query_cap: 6
+    close_target: 0.50
+    post_close_hold_frames: 250
+    lift_from_actual_post_close_state_m: 0.025
+    minimum_actual_bottle_rise_m: 0.020
+    confirmation_frames: 50
+    maximum_relative_translation_drift_m: 0.005
+    maximum_relative_orientation_drift_rad: 0.05
+
+  aggregate_fresh_scene_cap: 4
+  shared_v: 0
+  no_suffix: 0
+  accepted_root: 0
+  training_raw: 0
+
+  invalid_closure_or_endpoint:
+    physical_execution: false
+    silently_change_recipe: false
+    relax_gate: false
+
+  after_results_cpu_followup:
+    - preserve_all_stage_specific_positive_and_negative_evidence
+    - prepare_selected_recipe_shared_V_and_prefix_replay_scope
+    - prepare_full_F3_root_interface_and_exact_budget
+
+F4_B:
+  decision: CONDITIONALLY_APPROVE_ONE_NEW_DEVELOPMENT_B_ROOT_SIX_TRAJECTORIES
+  source_proposal_receipt_sha256: 39c1f6238014b0959f43d4d4748391dd79b7c1528703c5609f0039a428984e0f
+
+  layout:
+    root_slot: f4-pilot-B-layout-v1-20260906
+    seed: 2026090604
+    source_and_slot_table_x_translation_m: -0.010
+    common_X_tray_unchanged: true
+    programs: [ABC, ACB, BAC]
+
+  prerequisites:
+    - new_scene_layout_and_seed_actually_bound
+    - new_current_anchor_and_prefix_generated
+    - all_original_root_prerequisite_checks_retained
+    - corrected_collector_publication_path_used
+    - actual_runner_budget_proven_within_caps
+    - source_and_manifest_published
+    - existing_GPU_Guard_checks_pass
+
+  sequence:
+    - collect_and_accept_three_B_r_pc
+    - derive_motion_commands_from_B_own_frozen_controls
+    - execute_three_new_B_r_inv_motion_rollouts
+    - audit_six_cell_development_cohort
+
+  motion_duration_scale: 1.10
+  reuse_A_current_anchor_prefix_controls_or_raw: false
+
+  caps:
+    root_attempts: 1
+    fresh_scenes: 14
+    robot_action_scenes: 10
+    planner_queries: 136
+    r_pc: 3
+    r_inv_motion: 3
+    accepted_raw_trajectories: 6
+    new_development_roots: 1
+    formal_trajectories: 0
+
+  extra_unbudgeted_prerequisite_probe: false
+  automatic_retry: false
+  automatic_stage1_promotion: false
+  preserve_A_B_related_root_lineage: true
+  claim_independent_test_generalization: false
+
+budget_rules:
+  fixed_seed_bank_and_iteration_caps_required: true
+  batch_of_N_IK_targets_counts_as_N_problems: true
+  constraint_FK_and_geometry_checks_recorded_separately: true
+  solver_calls_cannot_be_disguised_as_geometry_checks: true
+  setup_failures_and_consumed_scenes_recorded: true
+  unknown_counter_is_not_zero: true
+  failed_job_cannot_be_reissued_under_same_consumed_authority: true
+
+scheduling:
+  CPU_work_may_run_in_isolated_parallel_tracks: true
+  GPU_jobs_must_be_serial: true
+  run_first_the_job_whose_prerequisites_are_complete: true
+  F4_B_does_not_wait_for_F2_F3_scientific_success: true
+  scientific_failure_with_clean_cleanup_does_not_block_other_family: true
+
+stop_entire_GPU_queue_on:
+  - unknown_resource_accounting
+  - source_or_asset_binding_mismatch
+  - task_owned_orphan_process
+  - cleanup_failure
+  - selected_GPU_identity_or_baseline_failure
+  - evidence_integrity_failure
