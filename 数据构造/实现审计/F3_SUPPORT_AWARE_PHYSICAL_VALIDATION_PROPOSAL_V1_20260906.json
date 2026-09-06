@@ -1,0 +1,41 @@
+{
+  "schema_version": "cmf_f3_support_aware_physical_validation_proposal_v1",
+  "approved": false,
+  "gpu_execution_authorized": false,
+  "physical_execution_authorized": false,
+  "recipe_id": "f3-final-pose-v3-r3063-topdown-geometry-v1",
+  "implementation_path": "f3_support_aware_physical_proposal_v1/micro.py",
+  "model_validation_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f3_support_model_replay_v1",
+  "changes": [
+    "recompute supported-hold and overlap witness from fresh actual state",
+    "use GPU-validated pair-specific checker only after close and hold",
+    "screen native geometry of lift controls before any lift execution"
+  ],
+  "proposed_caps": {
+    "fresh_scenes": 1,
+    "physical_attempts": 1,
+    "trajectory_queries": 3,
+    "IK_problems": 0,
+    "training_raw": 0,
+    "roots": 0,
+    "timeout_seconds": 3600
+  },
+  "unchanged": [
+    "same recipe and actual flange goals",
+    "0.12m pregrasp approach",
+    "old full-window gates",
+    "close0.50 and hold250",
+    "lift25mm planned from actual postclose state",
+    "original postlift20mm/50frames/5mm/0.05rad and contact rules"
+  ],
+  "previous_controls_not_blindly_executed_at_a_different_state": true,
+  "automatic_retry": false,
+  "r1401_not_executed": true,
+  "two_candidate_confirmation_rule_lowered": false,
+  "shared_v_authorized": false,
+  "stage1_authorized": false,
+  "formal_360_authorized": false,
+  "training_authorized": false,
+  "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "gpu_jobs_serial": true
+}
