@@ -1,0 +1,94 @@
+{
+  "schema_version": "cmf_readiness_new_conditional_scopes_cpu_progress_v1",
+  "status": "F3_READY_WAIT_IDLE_F2_PLANNER_MODEL_INTEGRATION_PENDING_F4_B_BUDGET_GAP",
+  "accepted_development": {
+    "F1": {
+      "r_inv_motion": 3,
+      "r_inv_path": 3,
+      "r_pc": 15,
+      "raw_trajectories": 21,
+      "roots": 5
+    },
+    "F2": {
+      "raw_trajectories_in_complete_roots": 0,
+      "roots": 0
+    },
+    "F3": {
+      "raw_trajectories_in_complete_roots": 0,
+      "roots": 0
+    },
+    "F4": {
+      "r_inv_path": 3,
+      "r_pc": 3,
+      "raw_trajectories": 6,
+      "roots": 1
+    },
+    "total_raw_trajectories_in_accepted_development_roots": 27,
+    "total_roots": 6
+  },
+  "stage1": {
+    "accepted": 0,
+    "authorization": false,
+    "automatic_promotion": false,
+    "candidate_cells_with_complete_evidence": 18,
+    "target": 48
+  },
+  "formal": {
+    "accepted": 0,
+    "authorization": false,
+    "target": 360
+  },
+  "current_task_GPU_jobs": 0,
+  "new_scope_consumption": {
+    "runner_launches": 0,
+    "scenes": 0,
+    "IK_problems": 0,
+    "trajectory_queries": 0,
+    "physical_attempts": 0,
+    "raw": 0,
+    "roots": 0
+  },
+  "F2": {
+    "CPU_layout_and_semantics_pass": true,
+    "new_binding_pass": true,
+    "real_carry_release_checker_integration_ready": false,
+    "scope": {
+      "IK": 3,
+      "trajectory": 4,
+      "scene": 1,
+      "physical": 0
+    }
+  },
+  "F3": {
+    "CPU_closure_inner_surface_and_original_goal_mapping_pass": true,
+    "stage_A_ready_manifest": "F3_NEW_TOPDOWN_QUALIFICATION_READY_IDLE_WAVE1_20260906.json",
+    "stage_A_executed": false,
+    "physical_micro_executed": false,
+    "waiting_for_fresh_idle_GPU": true
+  },
+  "F4_B": {
+    "conditional_cap": {
+      "scenes": 14,
+      "queries": 136
+    },
+    "direct_entry_lower_bound": {
+      "scenes": 17,
+      "queries": 262
+    },
+    "lower_bound_excludes_possible_extra_template_isolation": true,
+    "GPU_manifest_issued": false
+  },
+  "handoff": "GPT_HANDOFF_NEW_SCOPES_CPU_READY_GPU_BUSY_20260906.md",
+  "file_sha256": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_NEW_F2_F3_F4B_DECISION_20260906.yaml": "613f1a68a516f3e93374dc17269447d62c480c1317069572d228d4553ab27d9a",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_INWARD_COMPLETE_CPU_PREREQUISITES_V1_20260906.json": "d67dec1e7037f93cc891311e4f4ac3f0958767957bb3ac00b22a318660e61f57",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F2_INWARD_NEW_BINDING_ROUTE_STATE_CONTRACT_V1_20260906.json": "8ca36cea3de8fc08a136c7225800e12e36445454b9ad86744c9686bc00b0c0ef",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_TOPDOWN_CLOSURE_AND_GOAL_MAPPING_V1_20260906.json": "e62cc43d3e9b50447e0a2269c2cc961ba21beab6f914970560e9e15dab0e961a",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_TOPDOWN_INNER_SURFACE_SAME_SECTION_V1_20260906.json": "accae274b8504cf716c22eba837b0714d5dd48fb2c6a95ce1f1d9a716c4a913d",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F3_NEW_TOPDOWN_QUALIFICATION_READY_IDLE_WAVE1_20260906.json": "3764457332d9d10afc96bad2163f1132799cc4d697f55098e8c6a5311c7d4282",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/F4_B_ACTUAL_ENTRY_BUDGET_GAP_REVIEW_20260906.md": "263e6865903f60fe5a82e45a866b1cd3617de5a0879b76c0975276cfcbc6f4fc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard/qual2.terminal.json": "51948e0ec9bc11a48cea9475773a01d24c90512120fd08daca3ff4d0ec13972e",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard/qual2.post_child_validation.json": "6319964558c67f0c5c7c8c8469afed8d1a511f98f70adc82a980b204771557f7"
+  },
+  "receipt_sha256": "c2c1aab54653c0f82f00146b73752d93417ede7ff0884d5ad93196ddc52e303b"
+}
