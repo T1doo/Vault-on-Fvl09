@@ -1,0 +1,11 @@
+# B三full-program template CPU接口
+
+固定480solver/3scene/3action/0collection；各程序10 common-X+120 target-construction goals+30 chain=160。ABC→ACB→BAC顺序，任一必需失败/cleanup异常停止。当前没有真实5isolation passing证据，不签发、不GPU；所有positive tests仅CPU fixtures。
+
+输入`source_isolation_{evidence,goal_terminal,guard_terminal,manifest}_{path,file_sha256}`，必须真实720/5/5/0、五stage通过、Goal/Guard/manifest/各scene_receipt完整互认。再调用isolation.prerequisites追溯真实3program和Stage-A；B scene/payload不能改变。
+
+私有AST clone复用冻结isolation run_one bootstrap/cleanup：仅把原executor导入换为run_f4_full_program_physical_v1、pass字段换为full_program_physically_qualified、phase标签换成template；原physical targets/program/gates不变。fullspec用真实source planner slot_id（含-planner-source），不误用isolation的slot base。EpochRecorder保留10query prefix和42API suffix各自账本/诊断NPZ。所有JSON为UTF8 exclusive atomic。
+
+三个实际current aggregate哈希、三个实际anchor哈希必须完全相同；完整原F4 final_state payload(5个pose+gripper_open+arm)用原compare_three_branch_final_state_payloads的30mm/0.20rad容差逐项比较，空payload不可成功。通过才输出B_FULL_PROGRAM_TEMPLATE_PASS、isolation_receipt_sha256、三rows及same_current/same_anchor/final_state_equivalence，并实际调用root_prerequisites校验。这里仍0root/0collection，不自动执行root。
+
+源依赖：本目录及冻结f4_b_isolation_runtime_v1/runtime.py SHA cc9a4f29feff325dcf05b453022e5a11f2777796b58d1e1f519abf51fe280347，继承原program/StageA依赖、全active source/env/assets和meter。主线程派生job需验证后继承isolation manifest全部source/input并新增本目录/四份真实isolation evidence；当前无issuer。

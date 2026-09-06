@@ -1,0 +1,15 @@
+# B五isolation CPU接口，未执行
+
+run(manifest) caps固定720solver/5scene/5action/0collection。严格A_ONLY→B_ONLY→C_ONLY→AB_NONINTERFERENCE→AC_NONINTERFERENCE，任一必需失败或cleanup失败停止后续。没有issuer/reservation/GPU启动。
+
+后续增加纯CPU `runtime/issue_f4_b_isolation.py` builder：主线程提供真实reservation，函数只返回manifest，不reserve/写job/启动。五物理scene冻结child3600s、lease3780s。已只读消费真实program001 Goal terminal e4b44492c6d1cfc45826e34145ed24cc71eafc1a7edb3585bb9441e60091273e及三program envelope/Guard/manifest，并校验与source StageA完整来源一致；isolation本身仍未执行。继承parent source/input前逐hash核验，补本新源码和实证。
+
+输入必需真实3program Goal terminal/Guard terminal/manifest，使用`source_program_{goal_terminal,guard_terminal,manifest}_{path,file_sha256}`；另三原terminal envelopes字段`source_f4_abc/source_f4_acb/source_f4_bac`各有path/file_sha256。文件self-hash、450/3/0/0实际资源、panel通过、独立meter和Guard清理须一致；program manifest内的四个Stage-A引用再次验证。`b_scene_spec_sha256/b_payload_sha256`必须匹配同一个B，不继承A。
+
+run_one实际入口先capture_current/anchor并写UTF8 evidence，再initialize_trace，最后调用原run_f4_bounded_physical_micro_v1。原全部common-X、physical/window/slot/noninterference gates未改。每scene原executor会把trace重置为suffix，EpochRecorder在重置前保存prefix query ledger与诊断trace_epoch_00.npz，最后保存suffix epoch01；不把common-X十次planning漏掉，不生成训练raw或collector输出。
+
+三个single stage各10prefix+120target goals+10role=140；AB/AC各10+120+20=150，总720。独立Goal CHARGE必须与跨trace epochs计数、实际fresh scene及0collection一致。失败scene的physical slot进入不等于实际动作；实际action_scenes以独立meter为准，全部成功时必须恰5。
+
+输出isolation_evidence.json的status/B scene/B payload/五个stage physical_pass+scene_receipt_sha256结构符合V1 root_prerequisites要求，但root仍需后续3template证据；不能拿五isolation直接root。下一门3 full-program templates，各10prefix+120target+30chain=160，总480solver/3scene/3action/0collection。
+
+执行前主线程需继承并核验program manifest完整源/输入，加本目录/三program envelope及来源Goal/Guard/manifest；不可重hash放行已有source变化。当前tests仅CPU fake scene/planner，临时trace文件明确写CPU fixture，不是实际科学NPZ。本wrapper尚未GPU执行；不得把接口通过说成物理资格成功。
