@@ -1,0 +1,304 @@
+{
+  "IK_problems": 15,
+  "collision_only_explanation_supported": false,
+  "cumulative_scenes": 2,
+  "current_pose_positive_control_pass": true,
+  "diagnosis": "NO_U_D_SOLUTION_WITHIN_FIXED_BUDGET_EVEN_K0",
+  "one_proposal": {
+    "GPU_authorized": false,
+    "additional_candidates": 0,
+    "box_scale_unchanged": true,
+    "can_yaw_grasp_and_beside_relative_geometry_unchanged": true,
+    "current_layout_changes_requires_new_root_lineage": true,
+    "derivation": "toward sealed reachable held-can geometry centre; ceil(2 * max(best K0 U/D position residual) / 1cm) * 1cm + 1cm; heuristic, not solver feasibility",
+    "id": "f2-beside-inward-layout-v1",
+    "new_D_reported_goal": [
+      -0.018421643561125304,
+      0.06166380522470937,
+      0.9295145728639618,
+      0.5017174026769478,
+      -0.498810972458648,
+      0.5011190506874883,
+      0.4983442170267715
+    ],
+    "new_U_reported_goal": [
+      -0.018421643561125304,
+      0.06166380522470937,
+      1.0095145728639618,
+      0.5017174026769478,
+      -0.498810972458648,
+      0.5011190506874883,
+      0.4983442170267715
+    ],
+    "new_can_actor_pose": [
+      -0.019671285314747627,
+      0.061794384848049,
+      0.7404792624087959,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "new_stand_actor_pose": [
+      0.10033812178727115,
+      -0.038216411994358504,
+      0.741733193397522,
+      0.7071068286895752,
+      0.7071068286895752,
+      0.0,
+      0.0
+    ],
+    "new_target_geometry_xy_m": [
+      -0.01966188119296107,
+      0.06178358733508925
+    ],
+    "old_inside_5_of_5_evidence_retained_not_revalidated_for_new_scene": true,
+    "old_stand_actor_pose": [
+      0.20000000298023224,
+      -0.029999999329447746,
+      0.741733193397522,
+      0.7071068286895752,
+      0.7071068286895752,
+      0.0,
+      0.0
+    ],
+    "old_target_geometry_xy_m": [
+      0.08000000000000002,
+      0.07
+    ],
+    "pending": [
+      "CPU stand/target versus box/scale and table exact clearance",
+      "new scene/candidate-universe impact review",
+      "exact model C/U/D endpoint Gate",
+      "controlled insertion whole-root qualification"
+    ],
+    "physical_authorized": false,
+    "stand_moves_by_identical_xy_vector": true,
+    "status": "PROPOSED_NOT_IK_OR_PHYSICALLY_VALIDATED",
+    "translation_norm_m": 0.09999999999999999,
+    "translation_world_xy_m": [
+      -0.09966188119296109,
+      -0.008216412664910758
+    ]
+  },
+  "physical_attempts": 0,
+  "problems": [
+    {
+      "best_orientation_residual_rad": 0.0,
+      "best_position_residual_m": 4.489293013044602e-07,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 7,
+        "K2": 7
+      },
+      "file_sha256": "b732a82748c535f8eced28f62bdb27807e9b6775f2eedee5140f3edaf851b8b2",
+      "full_valid_count": 7,
+      "problem_id": "C_K0",
+      "profile": "K0",
+      "reported_success_count": 25
+    },
+    {
+      "best_orientation_residual_rad": 0.0,
+      "best_position_residual_m": 9.162218049870356e-07,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 9,
+        "K2": 9
+      },
+      "file_sha256": "2bb462378eaf91b2734bf6d11f7c4d40a0201fc85a523141465b0d5b0d4af2d8",
+      "full_valid_count": 9,
+      "problem_id": "C_K1",
+      "profile": "K1",
+      "reported_success_count": 9
+    },
+    {
+      "best_orientation_residual_rad": 0.0,
+      "best_position_residual_m": 6.103554777219127e-07,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 7,
+        "K2": 7
+      },
+      "file_sha256": "3b5b117c0e04c6b7a1a41364f969e1a503969dbe869b6dc9b6030191241ece4d",
+      "full_valid_count": 7,
+      "problem_id": "C_K2",
+      "profile": "K2",
+      "reported_success_count": 7
+    },
+    {
+      "best_orientation_residual_rad": 0.005299456258379921,
+      "best_position_residual_m": 0.0389436687828718,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 18,
+        "K2": 9
+      },
+      "file_sha256": "ef4ab0faa04d15bed4c995cb759b9400c7bc7e6c5abf7752d97fca5f9a0dd55e",
+      "full_valid_count": 0,
+      "problem_id": "D_K0",
+      "profile": "K0",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.005297940012542719,
+      "best_position_residual_m": 0.038793735596900386,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 17,
+        "K2": 8
+      },
+      "file_sha256": "5a9c44575efa5de6c4f175f863b745525e9b7cd733bb2895ddec5da7e9ccfae0",
+      "full_valid_count": 0,
+      "problem_id": "D_K1",
+      "profile": "K1",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.005296589550364287,
+      "best_position_residual_m": 0.033755941234946046,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 17,
+        "K2": 7
+      },
+      "file_sha256": "833e4311828057c917bc22c9416ed460f5bbd58171ad8496dd07db7d49b2e0f1",
+      "full_valid_count": 0,
+      "problem_id": "D_K2",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.005299456258379921,
+      "best_position_residual_m": 0.040155218830480226,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 16,
+        "K2": 16
+      },
+      "file_sha256": "fbf52ccb122e689ba086faf515c34ee4f2e11cf8c9a8913a73908d38c2ad4165",
+      "full_valid_count": 0,
+      "problem_id": "U_K0",
+      "profile": "K0",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.005297940012542719,
+      "best_position_residual_m": 0.02751164743171327,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 16,
+        "K2": 16
+      },
+      "file_sha256": "2b13f8e3823817d093193ec48c19fd387eaf2049741b507853218989b9a1d271",
+      "full_valid_count": 0,
+      "problem_id": "U_K1",
+      "profile": "K1",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.005282375382667864,
+      "best_position_residual_m": 0.026008450681561046,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 13,
+        "K2": 13
+      },
+      "file_sha256": "ea363d8a98a7b5690db54274c205aa7080dd80235c9e273ab72aa64576efa3bf",
+      "full_valid_count": 0,
+      "problem_id": "U_K2",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.010323726275148909,
+      "best_position_residual_m": 0.03705784582541988,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 18,
+        "K2": 4
+      },
+      "file_sha256": "0340daca51b9435136d9ebd318bc15acb54f03f13ffe13ee4d6342fef963f781",
+      "full_valid_count": 0,
+      "problem_id": "yaw_-90_D",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.009928684701691315,
+      "best_position_residual_m": 0.046377714162364456,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 11,
+        "K2": 10
+      },
+      "file_sha256": "72830aaa1d0b95b29f0c70903ea5b10c168b68eacf4306e9e3822d816ccff945",
+      "full_valid_count": 0,
+      "problem_id": "yaw_-90_U",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.010601424161468002,
+      "best_position_residual_m": 0.007536523227867448,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 14,
+        "K2": 9
+      },
+      "file_sha256": "692c144ae510e4e5bf18db4f288af22a35f1f3356ea7af301427965584fa57f9",
+      "full_valid_count": 0,
+      "problem_id": "yaw_180_D",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.009956374630792377,
+      "best_position_residual_m": 0.03903456877852973,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 12,
+        "K2": 11
+      },
+      "file_sha256": "16acc4b1cc89c402cd170f5d957e3b9171564513256db8cf1b8c7201476450f4",
+      "full_valid_count": 0,
+      "problem_id": "yaw_180_U",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.010100934039049438,
+      "best_position_residual_m": 0.039413295385105414,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 16,
+        "K2": 7
+      },
+      "file_sha256": "7f24efeafa7e71141534c55597160cab7b48279631b2568ff939cc0ce4fe7eb9",
+      "full_valid_count": 0,
+      "problem_id": "yaw_90_D",
+      "profile": "K2",
+      "reported_success_count": 0
+    },
+    {
+      "best_orientation_residual_rad": 0.010406760500460256,
+      "best_position_residual_m": 0.04474243901029363,
+      "constraint_feasible_counts": {
+        "K0": 32,
+        "K1": 14,
+        "K2": 9
+      },
+      "file_sha256": "96935f4d95c309aa462fee4dc5b11b0348c42ecd6497be62024b2cb8b7c1892d",
+      "full_valid_count": 0,
+      "problem_id": "yaw_90_U",
+      "profile": "K2",
+      "reported_success_count": 0
+    }
+  ],
+  "receipt_sha256": "11f151ca27222f1ed0c974ea7dbaaa27a03233cf1451ee864441a7127486d859",
+  "route_queries_unused": 4,
+  "schema_version": "cmf_f2_endpoint_diagnosis_and_one_layout_proposal_v1",
+  "task_infeasibility_proven": false,
+  "terminal_file": "/nfs_share/lijunhui/Robotwin2/datasets/f2_endpoint_constraint_remaining_v1_1/job_terminal.json",
+  "terminal_file_sha256": "0f2e9f9d23b9ba411b076714a3cffcf74cd38deb3ecf3abf70c06e5f8aa33e42",
+  "trajectory_queries": 0
+}
