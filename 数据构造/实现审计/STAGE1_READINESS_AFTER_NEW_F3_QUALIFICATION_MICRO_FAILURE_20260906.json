@@ -1,0 +1,87 @@
+{
+  "F2": {
+    "CPU_layout_and_semantics_pass": true,
+    "new_binding_pass": true,
+    "real_carry_release_checker_integration_ready": false,
+    "scope": {
+      "IK": 3,
+      "physical": 0,
+      "scene": 1,
+      "trajectory": 4
+    }
+  },
+  "F3": {
+    "Stage_A_consumed": true,
+    "automatic_retry_authorized": false,
+    "bootstrap_CPU_fix_tests_pass": 4,
+    "qualified_recipe": "f3-final-pose-v3-r3063-topdown-geometry-v1",
+    "r1401_pregrasp_qualified": false,
+    "r3063_micro_consumed": true,
+    "r3063_physical_grasp_success_proven": false,
+    "replacement_requires_explicit_decision": true
+  },
+  "F4_B": {
+    "GPU_manifest_issued": false,
+    "conditional_cap": {
+      "queries": 136,
+      "scenes": 14
+    },
+    "direct_entry_lower_bound": {
+      "queries": 262,
+      "scenes": 17
+    },
+    "lower_bound_excludes_possible_extra_template_isolation": true
+  },
+  "accepted_development": {
+    "F1": {
+      "r_inv_motion": 3,
+      "r_inv_path": 3,
+      "r_pc": 15,
+      "raw_trajectories": 21,
+      "roots": 5
+    },
+    "F2": {
+      "raw_trajectories_in_complete_roots": 0,
+      "roots": 0
+    },
+    "F3": {
+      "raw_trajectories_in_complete_roots": 0,
+      "roots": 0
+    },
+    "F4": {
+      "r_inv_path": 3,
+      "r_pc": 3,
+      "raw_trajectories": 6,
+      "roots": 1
+    },
+    "total_raw_trajectories_in_accepted_development_roots": 27,
+    "total_roots": 6
+  },
+  "current_task_GPU_jobs": 0,
+  "formal": {
+    "accepted": 0,
+    "authorization": false,
+    "target": 360
+  },
+  "handoff": "GPT_HANDOFF_F3_NEW_IK_AND_MICRO_BOOTSTRAP_FAILURE_20260906.md",
+  "new_scope_consumption": {
+    "IK_problems": 6,
+    "actual_arm_control_execution_reached": false,
+    "physical_attempt_slots": 1,
+    "raw": 0,
+    "roots": 0,
+    "scenes": 3,
+    "trajectory_queries": 1
+  },
+  "publication_receipt_sha256": "d4ca09642a63e90d64627c1d7d13662e1e08707fe23afb228f5017b7185632f6",
+  "receipt_sha256": "31089457f5da8c755626966e145fe264439fd4be15407a4173a9397c8d70e6d3",
+  "schema_version": "cmf_readiness_after_new_f3_qualification_micro_failure_v1",
+  "stage1": {
+    "accepted": 0,
+    "authorization": false,
+    "automatic_promotion": false,
+    "candidate_cells_with_complete_evidence": 18,
+    "target": 48
+  },
+  "status": "F3_ONE_RECIPE_QUALIFIED_MICRO_BOOTSTRAP_FAILED_REPLACEMENT_DECISION_NEEDED"
+}

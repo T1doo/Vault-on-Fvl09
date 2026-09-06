@@ -1,0 +1,4633 @@
+{
+  "bootstrap_fix_CPU_tests": {
+    "file_sha256": "8740959288da9ea771c71cdca9efead5deaa5d342611026f6d5326b9dc38bbe6",
+    "output": "test_bootstrap_before_executor_and_scientific_negative_clean (test_lifecycle.Tests) ... ok\ntest_bootstrap_failure_cannot_plan_execute_or_save_missing_trace (test_lifecycle.Tests) ... ok\ntest_save_failure_does_not_mask_primary_error (test_lifecycle.Tests) ... ok\ntest_unknown_counter_not_zero (test_lifecycle.Tests) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.276s\n\nOK\n",
+    "success": true,
+    "tests_run": 4
+  },
+  "cumulative_new_scope": {
+    "IK_problems": 6,
+    "actual_arm_control_execution_reached": false,
+    "physical_attempt_slots": 1,
+    "raw": 0,
+    "roots": 0,
+    "scenes": 3,
+    "trajectory_queries": 1
+  },
+  "file_sha256": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/current_control.json": "75fa8bd53936cd7a2539721bd37315fd69da89c90add5dfcfdbcb38283ab542a",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/current_control.start.json": "5a0f4ff8509f78b2c06a831bf1e0030de5ab3144177e8c6d3ce87ff373509ff8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/geometry.json": "177a9102da9d1a9dedc786f8168aab3a0463e8ba83ab78e837fea15860f5ed59",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/grasp.json": "a7e3b6f1dccee39aa692c5d043d866c4110ab2c0f44cb023a9865c9dcf1d552b",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/grasp.start.json": "67f17fc1c8e540ec60fa27803d4ab63fb51980f31a6bf04c9828957ba691f60e",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/model_application.json": "ab234b79b373929908593268dbb88e2feb644b49d18b54d41798b7f9295268b5",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/pregrasp.json": "9505839143254b5a7f716b1f4168d8d1e7f0234e7a8ad21115cef0b8d2a4befc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/pregrasp.start.json": "2c8eff90ffd7e3cb47e5bf4f7b1e8bb2d9a2148fa90fb9f9203348cc435a26cf",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/scene_binding.json": "c28ee63083fa1d5955ff47324b7d7b8f6e72a84108d6ca8b96b2bb68c896f9b3",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/scene_receipt.json": "1f1b25936db65bd0ec2b29fe5367ab7ee5c1abb6556bed475740de9adbe3fba3",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r1401-topdown-geometry-v1/seed_bank.npz": "353bcf7c9afddd367fc8a80f3c3e1172dedca202faa6e792fcaa67f66c834954",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/current_control.json": "fb79c142985f205d9a446057d7bf30e91eba5a249268fe8b2118694ebd1aa415",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/current_control.start.json": "5a0f4ff8509f78b2c06a831bf1e0030de5ab3144177e8c6d3ce87ff373509ff8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/geometry.json": "afca5ead420600c46464ece54bf13e1434d0636970e6271643bdc1e6e06f7dd5",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/grasp.json": "45e18dd6ac72dc056a1553e28b45c9f60e27aa7a611749b06b3a74b73e1055bc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/grasp.start.json": "9a0b55df1c8295b1e5400b143e2dc83d996900a05e934b3a9c1b8982fb95347c",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/model_application.json": "c6f730316b907448026a60ef75a5f4077c36a6e74c5fb2a1ae5e41d8bee77a4e",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/pregrasp.json": "52e3da482320ce15707c918d496489ede84fadef46ef5f9ce348bdf6871108d6",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/pregrasp.start.json": "c27be145cca65b956f07be72adf68151dcd0c4799bbd8976412c76b2af5a0090",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/scene_binding.json": "44edbf3f6768e2ef4bf8f17b6d7f2646073f21d669ddb2bcfad1b95f34709159",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/scene_receipt.json": "52ef2ce03405d08c0571a8150451030e6289595e5305192c96b0944395482c46",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/f3-final-pose-v3-r3063-topdown-geometry-v1/seed_bank.npz": "353bcf7c9afddd367fc8a80f3c3e1172dedca202faa6e792fcaa67f66c834954",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1/job_terminal.json": "db035c7a6f0af50d67e4ba4443adddee29192cf8547dfeb15734dbe7271c77a8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard_idle_wave1/qual2.post_child_validation.json": "6b0f441f1e218a8e0b68cdb7ee2a7ec41a31370225b5fdf5b13cef6525a0bee2",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard_idle_wave1/qual2.start.json": "b61ac98e4a08edf12dbae1708861d394651002567cb1c4dc7778c48caca43aa9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard_idle_wave1/qual2.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard_idle_wave1/qual2.stdout.log": "274eefd231ad975b665f74f7897d438a24be059cf3c48e145cd1ce4c28380582",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_qualification_v1_guard_idle_wave1/qual2.terminal.json": "ce31bc0e71c0c8e4df57409c55846da652e65ddd8f0d8c2b3fed385ea12cad3a",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/initial_model_application.json": "9d45f957f59ab3b5d29a360976212fa08476e5cc9324517b559d39eb411cc508",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/job_terminal.json": "15fa5b9c9902b67e1ed8a0516656de74b590919a2c36a268caab0ce50c18ed44",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/pregrasp.controls.npz": "9c9814c50893c8c894c659266dd4918af17a9b87c9c84457bd85153258fa1198",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/pregrasp.plan.json": "9fd42db4ed394314e2234f194ac388e4d913d078220488e891e5aefa7b07f764",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/pregrasp.plan.start.json": "f3979ad992404d53cf511f2c2f7bda49bb853bbf21f82fb84577d444de264dd3",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1/scene_binding.json": "ccda61429fee077beb172a469aef62119f0561f64e65dd4865e5b9255ffe9a73",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1_guard/micro1.post_child_validation.json": "7fc3c10074cb95ac0abcfea11add5df658de1b2d23ea8a8255d54e119b103fdc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1_guard/micro1.start.json": "53d9ae3893cc774903944217f862ec7b91a71a3be586c3ed845244bf2a979226",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1_guard/micro1.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1_guard/micro1.stdout.log": "86f611d774bc05a3599f549c89fb3f1e42348d86cf462e84976ef9b90c111dc6",
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_new_topdown_r3063_micro_v1_guard/micro1.terminal.json": "8e0931f18038253ab1938817fc89891a564d8730abd7272bae4ac9952410129d"
+  },
+  "micro_guard_sha256": "93a5d5fd265e3e2f57266a139dcfc864ed0ad204a974a2ea5dca87fc8c8b7adc",
+  "micro_original_terminal": {
+    "IK_problems": 0,
+    "accounting_complete": true,
+    "cleanup": {
+      "activity_monitor_restoration_error": null,
+      "activity_monitor_restoration_succeeded": true,
+      "cleanup_error": null,
+      "cleanup_safety_pass": true,
+      "development_video_error": null,
+      "development_video_finalize_succeeded": null,
+      "development_video_receipt": null,
+      "orphan_process_count": 0,
+      "outer_gpu_release_audit_required": true,
+      "owned_planner_process_ids": [],
+      "scene_cleanup_attempted": true,
+      "scene_cleanup_succeeded": true,
+      "scene_created": true,
+      "scene_instance_id": "f3-NEW_TOPDOWN_MICRO-v1_2-000001",
+      "stage0_video_error": null,
+      "stage0_video_finalize_succeeded": null,
+      "stage0_video_receipt": null
+    },
+    "error": {
+      "message": "'TraceF3RuntimeV2' object has no attribute 'markers'",
+      "traceback": "Traceback (most recent call last):\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_topdown_micro_runtime_v1/micro.py\", line 97, in run\n    binding=h.prepare_f3_scene(scene,adapter,recipe,_f3_scene_binding(recipe));write_new(out/'scene_binding.json',binding);result=execute(scene,proposal,out)\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_topdown_micro_runtime_v1/micro.py\", line 73, in execute\n    refresh_open_model(scene,derived);receipt,plan=plan_and_execute(stage,targets[stage])\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_topdown_micro_runtime_v1/micro.py\", line 70, in plan_and_execute\n    receipt=_execute_planned_segment(scene,planned['controls'],[{'segment_id':name,'pose':actual.tolist()}],0,'left');events.append(stage);return receipt,planned\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/high_level_physical_runner_v1.py\", line 184, in _execute_planned_segment\n    start = len(scene.trace) - 1\nAttributeError: 'TraceF3RuntimeV2' object has no attribute 'trace'\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_topdown_micro_runtime_v1/micro.py\", line 99, in run\n    after=scene.planner_query_count;trace=h.save_trace(scene,out/'physical_trace.npz');write_new(out/'diagnostic_trace_receipt.json',trace)\n  File \"/nfs_share/lijunhui/Robotwin2/production_micro_gate_v1/job_runner.py\", line 61, in save_trace\n    receipt = dict(scene.save_trace(path))\n  File \"/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/probes/runtime_trace.py\", line 1316, in save_trace\n    \"event_markers_json\": np.asarray(json.dumps(self.markers, sort_keys=True)),\nAttributeError: 'TraceF3RuntimeV2' object has no attribute 'markers'\n",
+      "type": "AttributeError"
+    },
+    "manifest_sha256": "4b87efa10a77c6f9280751f371ea77b4be9615f688f3ce2aef252a52b426e122",
+    "micro_pass": false,
+    "new_raw": 0,
+    "new_roots": 0,
+    "pass": false,
+    "physical_attempts": 1,
+    "proposal_id": "f3-final-pose-v3-r3063-topdown-geometry-v1",
+    "receipt_sha256": "15eaeb86205845cfb33b9ea6005a703198edf7bfd32436a42234ee3acb4f1664",
+    "result": null,
+    "scene_attempts": 1,
+    "schema_version": "cmf_f3_topdown_one_qualified_micro_terminal_v1",
+    "trace": null,
+    "trajectory_queries": 1
+  },
+  "no_arm_execution_evidence": "first line len(scene.trace) in locked _execute_planned_segment raised before _execute_control; source/plan/error preserved; scene initialization/settling is not arm-control execution",
+  "original_failed_artifacts_preserved": true,
+  "qualification": {
+    "IK_problems": 6,
+    "accounting_complete": true,
+    "manifest_sha256": "630ce896e3c5790fb8de42878b6a6025097c1fb0fb80ceae255e17fc0e14d053",
+    "new_raw": 0,
+    "new_roots": 0,
+    "pass": true,
+    "physical_attempts": 0,
+    "qualified_recipes": [
+      "f3-final-pose-v3-r3063-topdown-geometry-v1"
+    ],
+    "receipt_sha256": "8f064539447d2c7b19f960cc95d2337dd5bea0bb9dc47788b131fcadd376d466",
+    "scene_attempts": 2,
+    "scenes": [
+      {
+        "IK_completions": 3,
+        "IK_problem_attempts": 3,
+        "accounting_complete": true,
+        "all_three_goals_pass": true,
+        "cleanup": {
+          "activity_monitor_restoration_error": null,
+          "activity_monitor_restoration_succeeded": true,
+          "cleanup_error": null,
+          "cleanup_safety_pass": true,
+          "development_video_error": null,
+          "development_video_finalize_succeeded": null,
+          "development_video_receipt": null,
+          "orphan_process_count": 0,
+          "outer_gpu_release_audit_required": true,
+          "owned_planner_process_ids": [],
+          "scene_cleanup_attempted": true,
+          "scene_cleanup_succeeded": true,
+          "scene_created": true,
+          "scene_instance_id": "f3-NEW_TOPDOWN_FULL_CONSTRAINT_IK-v1_2-000001",
+          "stage0_video_error": null,
+          "stage0_video_finalize_succeeded": null,
+          "stage0_video_receipt": null
+        },
+        "error": null,
+        "global_stop": false,
+        "parent_recipe_id": "f3-final-pose-v3-r3063",
+        "physical_attempts": 0,
+        "proposal_id": "f3-final-pose-v3-r3063-topdown-geometry-v1",
+        "results": [
+          {
+            "desired_actual_world_pose": [
+              -0.2979237139225006,
+              -0.31380388140678406,
+              0.9419986009597778,
+              0.7000007075698662,
+              -7.093281273444641e-06,
+              -3.793835849252858e-06,
+              0.7141421492510989
+            ],
+            "full_valid_count": 23,
+            "goal": "current_control",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.057205133310328685,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.16844479566691514,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.16879201501357963,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "pad",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.1692552552708439,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__5",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.18225712983910614,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__6",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.19234621201578872,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.20070976448610023,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.21360208407391112,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.3453164642933509,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link6",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.42592820095674294,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link7",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.43110787293423297,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link5",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4925988610437497,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link4",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49740805996804505,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link2",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5029865232318683,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5091121208720735,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link3",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5113640477049931,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link1",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5358039611712577,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link8",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5588632514883073,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.7608498226363091,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.9002151672373178,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": true,
+            "reported_command": [
+              -0.2979238466683163,
+              -0.31380384482824936,
+              0.9419983617565271,
+              0.7000007137055824,
+              -7.093281296298073e-06,
+              -3.823638108135796e-06,
+              0.7141421432367232
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.016088759226727e-06,
+                "qpos": [
+                  -9.128634701482952e-06,
+                  -3.807245548159699e-06,
+                  -1.4763409126317129e-06,
+                  -8.448563676211052e-06,
+                  -8.157026968547143e-06,
+                  -4.1473372220934834e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.644201404719222e-06,
+                "qpos": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.48448279087196e-06,
+                "qpos": [
+                  6.298229709500447e-05,
+                  4.439093117980519e-06,
+                  -1.7502374248579144e-05,
+                  1.9855677237501368e-05,
+                  6.658213533228263e-05,
+                  -5.2475616030278616e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.957258729965279e-06,
+                "qpos": [
+                  4.6102697524474934e-05,
+                  7.77415043557994e-05,
+                  -9.581025551597122e-06,
+                  8.28765332698822e-05,
+                  5.6599292292958125e-05,
+                  3.17061767418636e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.00481570850862e-06,
+                "qpos": [
+                  4.865777555096429e-06,
+                  0.00010999469668604434,
+                  -7.96194581198506e-06,
+                  0.00011469808669062331,
+                  2.4229218524851603e-06,
+                  1.6580039527980261e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.424628501571367e-06,
+                "qpos": [
+                  2.674972711247392e-05,
+                  9.989534737542272e-05,
+                  2.0902663891320117e-05,
+                  7.346504571614787e-05,
+                  2.797676279442385e-05,
+                  -5.856167717865901e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 1.2632564316215102e-05,
+                "position_error_m": 9.459853139763217e-06,
+                "qpos": [
+                  0.00010084317909786478,
+                  -1.5530649761785753e-06,
+                  -2.8586342523340136e-05,
+                  2.5786894184420817e-05,
+                  0.00010023570212069899,
+                  1.1925370017706882e-05
+                ],
+                "sin_half_angle_metric": 6.316282158097052e-06,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.944976721035871e-06,
+                "qpos": [
+                  -5.226788198342547e-05,
+                  0.00011933609494008124,
+                  -2.5283847207902e-05,
+                  0.00013464904623106122,
+                  -4.755144618684426e-05,
+                  1.009548668662319e-05
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.0347736192234364e-05,
+                "qpos": [
+                  -5.26263756910339e-05,
+                  -7.409984391415492e-05,
+                  3.1371775548905134e-05,
+                  -0.00011547955364221707,
+                  -5.445809802040458e-05,
+                  -3.774571723624831e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2019227863548517e-05,
+                "qpos": [
+                  -0.00015768931189086288,
+                  4.986261410522275e-05,
+                  -3.942313469451619e-06,
+                  4.12150657211896e-05,
+                  -0.00016119501378852874,
+                  -7.435446605086327e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2634428467541452e-05,
+                "qpos": [
+                  9.305497951572761e-05,
+                  -0.00010673607175704092,
+                  -3.8017009501345456e-05,
+                  -7.066610851325095e-05,
+                  9.975695138564333e-05,
+                  -1.0303209819539916e-05
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2867370154896549e-05,
+                "qpos": [
+                  -0.00016287849575746804,
+                  4.261953290551901e-05,
+                  1.426107974111801e-05,
+                  1.5693580280640163e-05,
+                  -0.00016958863125182688,
+                  2.231215148640331e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3019617268976378e-05,
+                "qpos": [
+                  -0.00013726750330533832,
+                  0.00013217049126978964,
+                  -1.1011472452082671e-05,
+                  0.0001384433126077056,
+                  -0.00014365727838594466,
+                  2.276428176628542e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.320635481269296e-05,
+                "qpos": [
+                  0.0001257170515600592,
+                  0.00012211568537168205,
+                  1.9486195014906116e-05,
+                  8.834301115712151e-05,
+                  0.00013185177522245795,
+                  1.6576425423409091e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3948357433985646e-05,
+                "qpos": [
+                  -0.0001761658350005746,
+                  8.390160655835643e-05,
+                  2.81973882465536e-07,
+                  7.566640852019191e-05,
+                  -0.00018276054470334202,
+                  3.371435923327226e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4977637090384726e-05,
+                "qpos": [
+                  6.283276557922363,
+                  -6.28310489654541,
+                  -5.6022003263933584e-05,
+                  6.283323287963867,
+                  9.06117566046305e-05,
+                  -8.672553121868987e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.280988142502304e-06,
+                "qpos": [
+                  3.114201545715332,
+                  2.36331844329834,
+                  -6.7828755378723145,
+                  6.004851341247559,
+                  6.315155506134033,
+                  -3.1527721881866455
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.6111607120195846e-06,
+                "qpos": [
+                  -8.15703060652595e-06,
+                  6.283161163330078,
+                  -6.28318977355957,
+                  6.283160209655762,
+                  -6.283191204071045,
+                  -1.7061553307939903e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 6.380166463852092e-06,
+                "qpos": [
+                  3.381138958502561e-05,
+                  -8.269321551779285e-05,
+                  6.283164978027344,
+                  6.283127784729004,
+                  6.283224582672119,
+                  -6.283185958862305
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 7.917664379054983e-06,
+                "position_error_m": 1.0854088458840457e-05,
+                "qpos": [
+                  -4.974345938535407e-05,
+                  0.00015820022963453084,
+                  6.283179759979248,
+                  6.283351898193359,
+                  -6.28322696685791,
+                  6.283196449279785
+                ],
+                "sin_half_angle_metric": 3.958832189524906e-06,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.599309812006287e-06,
+                "qpos": [
+                  -3.888207720592618e-05,
+                  -6.283062934875488,
+                  -6.283201694488525,
+                  6.283322811126709,
+                  -6.283223628997803,
+                  6.28318977355957
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.8832107307543997e-06,
+                "qpos": [
+                  6.283158779144287,
+                  6.283159255981445,
+                  -6.28318452835083,
+                  -6.2832183837890625,
+                  6.283159255981445,
+                  6.283183574676514
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.425458260281559e-06,
+                "qpos": [
+                  -3.1690194606781006,
+                  8.646395683288574,
+                  -0.4997035264968872,
+                  -6.561617851257324,
+                  6.315188407897949,
+                  9.413595199584961
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.6200020506199595e-06,
+                "qpos": [
+                  6.261288166046143,
+                  7.717984676361084,
+                  0.2749689519405365,
+                  4.30177116394043,
+                  3.181569814682007,
+                  -3.125814914703369
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.547012224510532e-06,
+                "qpos": [
+                  -0.02645147405564785,
+                  -3.7249109745025635,
+                  -0.4784198999404907,
+                  -9.529511451721191,
+                  0.0027803529519587755,
+                  -6.27443790435791
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.23336849836342e-06,
+                "qpos": [
+                  9.421765327453613,
+                  -0.20200052857398987,
+                  0.021183911710977554,
+                  -3.364811658859253,
+                  6.317732334136963,
+                  3.144772529602051
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 3.846905361316442e-05,
+                "qpos": [
+                  -6.292273044586182,
+                  -2.3790576457977295,
+                  5.529838562011719,
+                  7.799015522003174,
+                  3.155090570449829,
+                  3.1305766105651855
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.488980188117093e-06,
+                "qpos": [
+                  -0.02188055031001568,
+                  -4.848362445831299,
+                  6.558155059814453,
+                  4.301800727844238,
+                  9.464731216430664,
+                  -3.12581729888916
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.890069475763378e-06,
+                "qpos": [
+                  3.138634204864502,
+                  -0.20196886360645294,
+                  6.304368019104004,
+                  2.9184072017669678,
+                  -6.2487006187438965,
+                  9.427958488464355
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00098415676355251,
+                "position_error_m": 0.0004141414608450534,
+                "qpos": [
+                  -3.1512858867645264,
+                  7.791380882263184,
+                  5.344246864318848,
+                  -3.836770534515381,
+                  3.1463782787323,
+                  -0.015701554715633392
+                ],
+                "sin_half_angle_metric": 0.0004920783619207072,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.961156800691407e-06,
+                "qpos": [
+                  9.421821594238281,
+                  -6.4851202964782715,
+                  -6.262002468109131,
+                  -9.647926330566406,
+                  0.03448627144098282,
+                  9.427958488464355
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.0004945769933058914,
+                "qpos": [
+                  6.2567362785339355,
+                  -10.0,
+                  -6.7617902755737305,
+                  9.328076362609863,
+                  6.286068916320801,
+                  6.2918572425842285
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.10569347210531121,
+              -0.0011901200853714489,
+              0.15999836175652704,
+              0.9999999999674766,
+              -7.695922282128472e-06,
+              2.3890642856239097e-06,
+              -3.3547232399012607e-07
+            ],
+            "solver_reported_success": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "desired_actual_world_pose": [
+              -0.18486813701721835,
+              0.024834911520530207,
+              1.033570006981194,
+              0.5000000000000001,
+              0.5,
+              0.5000000000000001,
+              -0.5000000000000001
+            ],
+            "full_valid_count": 4,
+            "goal": "pregrasp",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.057205133310328685,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.07391350364637653,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.07771325028306007,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.07892696268679085,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__5",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.08755324020252539,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__6",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.09659068592681337,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.10910663605398242,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "pad",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.12600040628630643,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.15244455196069095,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.3962067558186156,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link7",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.39754868817845723,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link6",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.39890586082714347,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "fr_link8",
+                "sphere_index": 29,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.48549746488105533,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link5",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4881174020673963,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link4",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4964786224261496,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link2",
+                "sphere_index": 5,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5122470118785041,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link3",
+                "sphere_index": 6,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5149498214845535,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link1",
+                "sphere_index": 3,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5378507584064144,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 30,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.7019204227649473,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 30,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.720831142275282,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": true,
+            "reported_command": [
+              -0.18486826840670356,
+              0.02483494033576868,
+              1.0335697869095586,
+              0.4999999954934545,
+              0.5000000253681832,
+              0.49999999591491606,
+              -0.4999999832234454
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.2136907499583067e-06,
+                "qpos": [
+                  -0.2815300226211548,
+                  2.3669893741607666,
+                  2.3900210857391357,
+                  -1.5937659740447998,
+                  0.004792588297277689,
+                  -3.3917295932769775
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.254933971798919e-06,
+                "qpos": [
+                  -0.28154024481773376,
+                  -3.9161832332611084,
+                  -3.893136978149414,
+                  4.689399242401123,
+                  0.0047857197932899,
+                  2.8914549350738525
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.660709888033271e-06,
+                "qpos": [
+                  -0.28152012825012207,
+                  -3.916198253631592,
+                  -3.8931586742401123,
+                  4.689414024353027,
+                  -6.278388023376465,
+                  9.174662590026855
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.00036833379458743,
+                "position_error_m": 1.4022050858155212e-06,
+                "qpos": [
+                  6.0016560554504395,
+                  2.3669824600219727,
+                  8.673195838928223,
+                  -1.593761682510376,
+                  -6.278390407562256,
+                  -9.674914360046387
+                ],
+                "sin_half_angle_metric": 0.00018416689612919246,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 3.4195713416132836e-06,
+                "qpos": [
+                  -0.2815549075603485,
+                  2.37190842628479,
+                  1.8570072650909424,
+                  2.08575701713562,
+                  -3.114591121673584,
+                  -0.2501036822795868
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.643690249000093e-06,
+                "qpos": [
+                  -0.2815678119659424,
+                  2.371920108795166,
+                  1.8570432662963867,
+                  2.085742950439453,
+                  3.1685893535614014,
+                  -0.2501216232776642
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 9.272513573629656e-05,
+                "position_error_m": 5.545056139345673e-07,
+                "qpos": [
+                  -0.27932673692703247,
+                  3.3933024406433105,
+                  3.9476916790008545,
+                  1.0163809061050415,
+                  3.153538227081299,
+                  -0.24389460682868958
+                ],
+                "sin_half_angle_metric": 4.636256786399596e-05,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.8610054967675015e-06,
+                "qpos": [
+                  -6.562512397766113,
+                  -2.8898959159851074,
+                  -2.3354945182800293,
+                  1.0163688659667969,
+                  -3.129648447036743,
+                  6.0392913818359375
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00019196500597206884,
+                "position_error_m": 6.12237977688201e-06,
+                "qpos": [
+                  6.000655174255371,
+                  2.8684287071228027,
+                  -2.868494749069214,
+                  -2.1170175075531006,
+                  -6.271543979644775,
+                  -3.388768196105957
+                ],
+                "sin_half_angle_metric": 9.598250294919056e-05,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.7348471172708492e-06,
+                "qpos": [
+                  -0.2793269157409668,
+                  -2.889885902404785,
+                  -8.61867904663086,
+                  1.016371488571167,
+                  3.153538465499878,
+                  6.039292335510254
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.817928273921356e-06,
+                "qpos": [
+                  -0.27932679653167725,
+                  -9.173078536987305,
+                  3.9476613998413086,
+                  -5.266783237457275,
+                  3.153536558151245,
+                  6.0392842292785645
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.77050960070709e-06,
+                "qpos": [
+                  9.174467086791992,
+                  6.792929172515869,
+                  -2.815661668777466,
+                  4.896148204803467,
+                  3.1653034687042236,
+                  -3.385796546936035
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.54244083517405e-06,
+                "qpos": [
+                  -0.2815532386302948,
+                  8.655070304870605,
+                  1.856958031654358,
+                  -4.197397232055664,
+                  -9.39777946472168,
+                  -0.25011008977890015
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.632944202529759e-06,
+                "qpos": [
+                  2.8900437355041504,
+                  -6.326550006866455,
+                  -3.946018695831299,
+                  5.473453998565674,
+                  -9.409524917602539,
+                  2.89414381980896
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.1565452878145723e-05,
+                "qpos": [
+                  9.174446105957031,
+                  0.5097140073776245,
+                  -2.8157358169555664,
+                  -1.3869954347610474,
+                  9.448493003845215,
+                  2.8973782062530518
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.178803960729356e-06,
+                "qpos": [
+                  6.000649452209473,
+                  2.868466854095459,
+                  3.4147372245788574,
+                  4.166153430938721,
+                  -6.271533489227295,
+                  9.177591323852539
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.286626238798947e-06,
+                "qpos": [
+                  -0.2815506160259247,
+                  8.655069351196289,
+                  -4.42622184753418,
+                  8.368967056274414,
+                  -3.114595890045166,
+                  -6.533276081085205
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.810869992725383e-06,
+                "qpos": [
+                  -0.2815621495246887,
+                  -3.911294460296631,
+                  8.140155792236328,
+                  8.368972778320312,
+                  9.451781272888184,
+                  -6.53330135345459
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.080695509685032e-06,
+                "qpos": [
+                  9.174477577209473,
+                  6.79291296005249,
+                  -9.098882675170898,
+                  -7.670206069946289,
+                  9.448492050170898,
+                  2.8974075317382812
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.332123808379336e-06,
+                "qpos": [
+                  9.174477577209473,
+                  6.792942523956299,
+                  -2.8156328201293945,
+                  -7.670238018035889,
+                  9.448493957519531,
+                  9.180574417114258
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4032566920714385e-05,
+                "qpos": [
+                  -9.675093650817871,
+                  6.79299783706665,
+                  9.75086784362793,
+                  -1.3871283531188965,
+                  -9.401058197021484,
+                  9.180574417114258
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.027957448701143493,
+                "position_error_m": 0.0245537679515245,
+                "qpos": [
+                  2.8923609256744385,
+                  6.76173210144043,
+                  -3.383974075317383,
+                  -4.019471168518066,
+                  0.0087135536596179,
+                  6.0394792556762695
+                ],
+                "sin_half_angle_metric": 0.013978269103533971,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.021256217608716824,
+                "position_error_m": 0.025227691827017517,
+                "qpos": [
+                  2.891104221343994,
+                  0.48225685954093933,
+                  2.9017255306243896,
+                  2.2720189094543457,
+                  -6.270524978637695,
+                  -6.52740478515625
+                ],
+                "sin_half_angle_metric": 0.010627908719477065,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.01872282156791248,
+                "position_error_m": 0.02542567313498809,
+                "qpos": [
+                  -3.389478921890259,
+                  0.4805130064487457,
+                  -3.379995107650757,
+                  2.2713305950164795,
+                  -6.275430202484131,
+                  6.037220478057861
+                ],
+                "sin_half_angle_metric": 0.009361274051770343,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.017433469955891318,
+                "position_error_m": 0.025521043852646922,
+                "qpos": [
+                  2.8896327018737793,
+                  0.47457078099250793,
+                  9.17354679107666,
+                  2.2792723178863525,
+                  0.009825070388615131,
+                  -0.2483932375907898
+                ],
+                "sin_half_angle_metric": 0.0087166245933113,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.016372125160845807,
+                "position_error_m": 0.02558708263053822,
+                "qpos": [
+                  2.891193389892578,
+                  -5.799589157104492,
+                  9.193615913391113,
+                  2.2692172527313232,
+                  6.293071746826172,
+                  -0.24378110468387604
+                ],
+                "sin_half_angle_metric": 0.008185971153843568,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.019433745039407233,
+                "position_error_m": 0.025389185496233806,
+                "qpos": [
+                  2.8878543376922607,
+                  0.47870999574661255,
+                  -9.666748046875,
+                  8.555529594421387,
+                  6.289290904998779,
+                  -6.528491973876953
+                ],
+                "sin_half_angle_metric": 0.00971671961310946,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.01579441315638846,
+                "position_error_m": 0.02562578352509051,
+                "qpos": [
+                  -9.674847602844238,
+                  0.47910282015800476,
+                  9.185423851013184,
+                  2.2734122276306152,
+                  6.291638374328613,
+                  6.038590908050537
+                ],
+                "sin_half_angle_metric": 0.00789712449241966,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.4084597900469669,
+                "position_error_m": 0.02873719145683475,
+                "qpos": [
+                  -0.28109633922576904,
+                  8.650020599365234,
+                  8.062994003295898,
+                  -10.0,
+                  3.170640468597412,
+                  -6.527799606323242
+                ],
+                "sin_half_angle_metric": 0.20281311987887496,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.011564282469584443,
+                "position_error_m": 0.04444641043155535,
+                "qpos": [
+                  9.172277450561523,
+                  -6.026525020599365,
+                  8.697216987609863,
+                  -10.0,
+                  6.2967529296875,
+                  -6.529703617095947
+                ],
+                "sin_half_angle_metric": 0.005782109015637702,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 3.1274383728025987,
+                "position_error_m": 0.36856255706727525,
+                "qpos": [
+                  4.865777555096429e-06,
+                  0.00010999469668604434,
+                  -7.96194581198506e-06,
+                  0.00011469808669062331,
+                  2.4229218524851603e-06,
+                  1.6580039527980261e-06
+                ],
+                "sin_half_angle_metric": 0.9999749571464495,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 3.1274348872932545,
+                "position_error_m": 0.36857307117972754,
+                "qpos": [
+                  -0.02645147405564785,
+                  -3.7249109745025635,
+                  -0.4784198999404907,
+                  -9.529511451721191,
+                  0.0027803529519587755,
+                  -6.27443790435791
+                ],
+                "sin_half_angle_metric": 0.9999749448113143,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.44200357217169334,
+              -0.12099541476877232,
+              0.25156978690955856,
+              0.007070943142430253,
+              -0.7070714409624493,
+              0.007070972944750009,
+              0.7070714111601294
+            ],
+            "solver_reported_success": [
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "desired_actual_world_pose": [
+              -0.18486813701721835,
+              0.024834911520530207,
+              0.9135700069811941,
+              0.5000000000000001,
+              0.5,
+              0.5000000000000001,
+              -0.5000000000000001
+            ],
+            "full_valid_count": 6,
+            "goal": "grasp",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "pad",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.00600907771926306,
+                "within_physics_contact_offset": true
+              },
+              {
+                "obstacle": "bottle__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.010297030301710901,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "bottle",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.01054151084438433,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.016009072839132832,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.016721741359605788,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__6",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.017704857550473227,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.018201085239921325,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__5",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "bottle",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.020216094613896028,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.12211426809706455,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.35657488477645427,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link7",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.40393500483002925,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link6",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4084145462841001,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link5",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49624868913977804,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "fr_link8",
+                "sphere_index": 29,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49681943032597986,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link4",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4973296882740421,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link2",
+                "sphere_index": 5,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5128506275308721,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link3",
+                "sphere_index": 6,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5155428783390534,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link1",
+                "sphere_index": 3,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5381958901174603,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 29,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.6804370242992497,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 29,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.6999148513413187,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": true,
+            "reported_command": [
+              -0.18486826339991042,
+              0.02483494544371252,
+              0.9135697869095589,
+              0.4999999954934545,
+              0.5000000253681832,
+              0.49999999591491606,
+              -0.4999999832234454
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.26750674506925e-06,
+                "qpos": [
+                  -0.27850109338760376,
+                  2.3549306392669678,
+                  1.8902205228805542,
+                  -1.1060353517532349,
+                  0.004659355152398348,
+                  -3.3888323307037354
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2654665904489806e-05,
+                "qpos": [
+                  -0.27851006388664246,
+                  -3.928269863128662,
+                  -4.392976760864258,
+                  5.177171230316162,
+                  0.004651679191738367,
+                  2.8943474292755127
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.427927793077264e-06,
+                "qpos": [
+                  -6.561694145202637,
+                  -3.9282565116882324,
+                  -4.3929829597473145,
+                  -1.1060062646865845,
+                  0.004648121073842049,
+                  2.8943488597869873
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.605613038551129e-06,
+                "qpos": [
+                  -0.27850624918937683,
+                  2.354923725128174,
+                  8.173392295837402,
+                  5.177181720733643,
+                  -6.278530597686768,
+                  2.89435076713562
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.0486711310792845e-05,
+                "qpos": [
+                  6.0046796798706055,
+                  2.3549585342407227,
+                  -4.39292049407959,
+                  -7.389230251312256,
+                  6.287834167480469,
+                  2.894350290298462
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.00043084124051379877,
+                "position_error_m": 8.351790602467108e-06,
+                "qpos": [
+                  -0.27849793434143066,
+                  -3.9282546043395996,
+                  -4.392971515655518,
+                  5.1771745681762695,
+                  -6.278531074523926,
+                  9.177530288696289
+                ],
+                "sin_half_angle_metric": 0.0002154206185519289,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00031772975192800163,
+                "position_error_m": 6.936926794073497e-06,
+                "qpos": [
+                  -3.3939590454101562,
+                  0.5127328634262085,
+                  3.411973714828491,
+                  1.8130981922149658,
+                  0.008107805624604225,
+                  -0.24623709917068481
+                ],
+                "sin_half_angle_metric": 0.00015886487544751715,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.0563460814983482e-05,
+                "qpos": [
+                  2.890066623687744,
+                  0.3455226719379425,
+                  3.6308484077453613,
+                  -1.7145795822143555,
+                  -3.1202611923217773,
+                  -3.38809871673584
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 6.982430298305391e-06,
+                "qpos": [
+                  -0.28028735518455505,
+                  2.5893678665161133,
+                  8.029873847961426,
+                  -3.8696422576904297,
+                  3.165870189666748,
+                  -0.24672091007232666
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 6.969417645889602e-06,
+                "qpos": [
+                  2.8892266750335693,
+                  0.5127250552177429,
+                  3.411958694458008,
+                  1.8130908012390137,
+                  -6.275075435638428,
+                  -6.529421329498291
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0003823683681820067,
+                "position_error_m": 6.675474067767582e-06,
+                "qpos": [
+                  -3.3939566612243652,
+                  -5.770467758178711,
+                  -2.8712387084960938,
+                  -4.470087051391602,
+                  0.008110033348202705,
+                  -6.529421806335449
+                ],
+                "sin_half_angle_metric": 0.00019118418292877177,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0002052902190689544,
+                "position_error_m": 1.009474091677799e-05,
+                "qpos": [
+                  2.8892345428466797,
+                  6.795895099639893,
+                  -2.8712668418884277,
+                  -4.470056533813477,
+                  0.008117477409541607,
+                  6.036949157714844
+                ],
+                "sin_half_angle_metric": 0.00010264510948941591,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.250774829779262e-06,
+                "qpos": [
+                  6.0028910636901855,
+                  -3.6938042640686035,
+                  1.746717095375061,
+                  8.696699142456055,
+                  3.165872812271118,
+                  -0.24672357738018036
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.720204299865249e-05,
+                "qpos": [
+                  -0.27773991227149963,
+                  -2.5654828548431396,
+                  -8.508467674255371,
+                  1.2305279970169067,
+                  3.1488349437713623,
+                  6.038790702819824
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3052338922727223e-05,
+                "qpos": [
+                  2.890353202819824,
+                  -6.269161701202393,
+                  8.676115989685059,
+                  2.333483934402466,
+                  6.298880577087402,
+                  -0.24715547263622284
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00025180294367834513,
+                "position_error_m": 1.4576406030757079e-05,
+                "qpos": [
+                  2.8900585174560547,
+                  6.62873649597168,
+                  -2.652289390563965,
+                  4.568606853485107,
+                  -3.120260715484619,
+                  9.178275108337402
+                ],
+                "sin_half_angle_metric": 0.00012590147131510948,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4321634101566111e-05,
+                "qpos": [
+                  -6.5634636878967285,
+                  2.589353322982788,
+                  1.7466880083084106,
+                  2.413527250289917,
+                  -9.400498390197754,
+                  6.036472797393799
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.138009809334637e-05,
+                "qpos": [
+                  -0.28028327226638794,
+                  8.872525215148926,
+                  1.7466331720352173,
+                  -3.869619131088257,
+                  -9.400511741638184,
+                  -0.24671638011932373
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.081345739839074e-05,
+                "qpos": [
+                  -0.27775558829307556,
+                  -8.84874439239502,
+                  4.057714939117432,
+                  -5.052499771118164,
+                  3.148845911026001,
+                  6.038779258728027
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.977964322136974e-06,
+                "qpos": [
+                  9.173247337341309,
+                  0.34550243616104126,
+                  -2.652377128601074,
+                  -1.7145386934280396,
+                  9.446105003356934,
+                  2.895089626312256
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 6.507935749515274e-06,
+                "qpos": [
+                  6.002546787261963,
+                  3.3440306186676025,
+                  3.9145121574401855,
+                  4.141877174377441,
+                  -6.264047622680664,
+                  9.179749488830566
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.954109388041405e-06,
+                "qpos": [
+                  -0.28030264377593994,
+                  8.87254524230957,
+                  -4.536505699157715,
+                  8.696728706359863,
+                  -3.1173155307769775,
+                  -6.5299072265625
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.00015647395085454356,
+                "qpos": [
+                  2.888441324234009,
+                  5.916809558868408,
+                  -4.1082658767700195,
+                  5.312767028808594,
+                  9.435007095336914,
+                  -3.3896307945251465
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0002520213495840071,
+                "position_error_m": 0.00015658972849729713,
+                "qpos": [
+                  2.8884570598602295,
+                  -6.649655342102051,
+                  -4.108520030975342,
+                  5.31291389465332,
+                  -9.41455078125,
+                  2.893615484237671
+                ],
+                "sin_half_angle_metric": 0.00012601067426810597,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.45777097855332e-06,
+                "qpos": [
+                  -3.392836332321167,
+                  -6.269251346588135,
+                  8.675905227661133,
+                  8.616788864135742,
+                  6.298871040344238,
+                  -0.24715979397296906
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.682443386151554e-06,
+                "qpos": [
+                  -9.676304817199707,
+                  6.628697872161865,
+                  9.914018630981445,
+                  -1.714571475982666,
+                  -9.403454780578613,
+                  9.17828369140625
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.00016914173256492142,
+                "qpos": [
+                  9.171670913696289,
+                  5.916807651519775,
+                  8.458015441894531,
+                  -7.253579616546631,
+                  -9.414546966552734,
+                  -9.672749519348145
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.4084597900469669,
+                "position_error_m": 0.10275474372643643,
+                "qpos": [
+                  -0.28109633922576904,
+                  8.650020599365234,
+                  8.062994003295898,
+                  -10.0,
+                  3.170640468597412,
+                  -6.527799606323242
+                ],
+                "sin_half_angle_metric": 0.20281311987887496,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.011564282469584443,
+                "position_error_m": 0.11659310568506234,
+                "qpos": [
+                  9.172277450561523,
+                  -6.026525020599365,
+                  8.697216987609863,
+                  -10.0,
+                  6.2967529296875,
+                  -6.529703617095947
+                ],
+                "sin_half_angle_metric": 0.005782109015637702,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.11999894774477231,
+                "qpos": [
+                  9.174467086791992,
+                  6.792929172515869,
+                  -2.815661668777466,
+                  4.896148204803467,
+                  3.1653034687042236,
+                  -3.385796546936035
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.11999710021180274,
+                "qpos": [
+                  -0.2815621495246887,
+                  -3.911294460296631,
+                  8.140155792236328,
+                  8.368972778320312,
+                  9.451781272888184,
+                  -6.53330135345459
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.11999817298073721,
+                "qpos": [
+                  9.174477577209473,
+                  6.792942523956299,
+                  -2.8156328201293945,
+                  -7.670238018035889,
+                  9.448493957519531,
+                  9.180574417114258
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.4420035771784863,
+              -0.12099541987671625,
+              0.1315697869095589,
+              0.007070943142430253,
+              -0.7070714409624493,
+              0.007070972944750009,
+              0.7070714111601294
+            ],
+            "solver_reported_success": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          }
+        ],
+        "scene_attempts": 1,
+        "trajectory_queries": 0
+      },
+      {
+        "IK_completions": 3,
+        "IK_problem_attempts": 3,
+        "accounting_complete": true,
+        "all_three_goals_pass": false,
+        "cleanup": {
+          "activity_monitor_restoration_error": null,
+          "activity_monitor_restoration_succeeded": true,
+          "cleanup_error": null,
+          "cleanup_safety_pass": true,
+          "development_video_error": null,
+          "development_video_finalize_succeeded": null,
+          "development_video_receipt": null,
+          "orphan_process_count": 0,
+          "outer_gpu_release_audit_required": true,
+          "owned_planner_process_ids": [],
+          "scene_cleanup_attempted": true,
+          "scene_cleanup_succeeded": true,
+          "scene_created": true,
+          "scene_instance_id": "f3-NEW_TOPDOWN_FULL_CONSTRAINT_IK-v1_2-000002",
+          "stage0_video_error": null,
+          "stage0_video_finalize_succeeded": null,
+          "stage0_video_receipt": null
+        },
+        "error": null,
+        "global_stop": false,
+        "parent_recipe_id": "f3-final-pose-v3-r1401",
+        "physical_attempts": 0,
+        "proposal_id": "f3-final-pose-v3-r1401-topdown-geometry-v1",
+        "results": [
+          {
+            "desired_actual_world_pose": [
+              -0.2979237139225006,
+              -0.31380388140678406,
+              0.9419986009597778,
+              0.7000007075698662,
+              -7.093281273444641e-06,
+              -3.793835849252858e-06,
+              0.7141421492510989
+            ],
+            "full_valid_count": 23,
+            "goal": "current_control",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.057205133310328685,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.1585756463945503,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "pad",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.1692552552708439,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.23261197553958535,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.3477128252988363,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link6",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.42592820095674294,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link7",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.43110787293423297,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link5",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4925988610437497,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link4",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49740805996804505,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link2",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5029865232318683,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 27,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5091121208720735,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link3",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5113640477049931,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link1",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5358039611712577,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "fr_link8",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5588632514883073,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.7608498226363091,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.9002151672373178,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": true,
+            "reported_command": [
+              -0.2979238466683163,
+              -0.31380384482824936,
+              0.9419983617565271,
+              0.7000007137055824,
+              -7.093281296298073e-06,
+              -3.823638108135796e-06,
+              0.7141421432367232
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.016088759226727e-06,
+                "qpos": [
+                  -9.128634701482952e-06,
+                  -3.807245548159699e-06,
+                  -1.4763409126317129e-06,
+                  -8.448563676211052e-06,
+                  -8.157026968547143e-06,
+                  -4.1473372220934834e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.644201404719222e-06,
+                "qpos": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.48448279087196e-06,
+                "qpos": [
+                  6.298229709500447e-05,
+                  4.439093117980519e-06,
+                  -1.7502374248579144e-05,
+                  1.9855677237501368e-05,
+                  6.658213533228263e-05,
+                  -5.2475616030278616e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.957258729965279e-06,
+                "qpos": [
+                  4.6102697524474934e-05,
+                  7.77415043557994e-05,
+                  -9.581025551597122e-06,
+                  8.28765332698822e-05,
+                  5.6599292292958125e-05,
+                  3.17061767418636e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.00481570850862e-06,
+                "qpos": [
+                  4.865777555096429e-06,
+                  0.00010999469668604434,
+                  -7.96194581198506e-06,
+                  0.00011469808669062331,
+                  2.4229218524851603e-06,
+                  1.6580039527980261e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.424628501571367e-06,
+                "qpos": [
+                  2.674972711247392e-05,
+                  9.989534737542272e-05,
+                  2.0902663891320117e-05,
+                  7.346504571614787e-05,
+                  2.797676279442385e-05,
+                  -5.856167717865901e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 1.2632564316215102e-05,
+                "position_error_m": 9.459853139763217e-06,
+                "qpos": [
+                  0.00010084317909786478,
+                  -1.5530649761785753e-06,
+                  -2.8586342523340136e-05,
+                  2.5786894184420817e-05,
+                  0.00010023570212069899,
+                  1.1925370017706882e-05
+                ],
+                "sin_half_angle_metric": 6.316282158097052e-06,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.944976721035871e-06,
+                "qpos": [
+                  -5.226788198342547e-05,
+                  0.00011933609494008124,
+                  -2.5283847207902e-05,
+                  0.00013464904623106122,
+                  -4.755144618684426e-05,
+                  1.009548668662319e-05
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.0347736192234364e-05,
+                "qpos": [
+                  -5.26263756910339e-05,
+                  -7.409984391415492e-05,
+                  3.1371775548905134e-05,
+                  -0.00011547955364221707,
+                  -5.445809802040458e-05,
+                  -3.774571723624831e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2019227863548517e-05,
+                "qpos": [
+                  -0.00015768931189086288,
+                  4.986261410522275e-05,
+                  -3.942313469451619e-06,
+                  4.12150657211896e-05,
+                  -0.00016119501378852874,
+                  -7.435446605086327e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2634428467541452e-05,
+                "qpos": [
+                  9.305497951572761e-05,
+                  -0.00010673607175704092,
+                  -3.8017009501345456e-05,
+                  -7.066610851325095e-05,
+                  9.975695138564333e-05,
+                  -1.0303209819539916e-05
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.2867370154896549e-05,
+                "qpos": [
+                  -0.00016287849575746804,
+                  4.261953290551901e-05,
+                  1.426107974111801e-05,
+                  1.5693580280640163e-05,
+                  -0.00016958863125182688,
+                  2.231215148640331e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3019617268976378e-05,
+                "qpos": [
+                  -0.00013726750330533832,
+                  0.00013217049126978964,
+                  -1.1011472452082671e-05,
+                  0.0001384433126077056,
+                  -0.00014365727838594466,
+                  2.276428176628542e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.320635481269296e-05,
+                "qpos": [
+                  0.0001257170515600592,
+                  0.00012211568537168205,
+                  1.9486195014906116e-05,
+                  8.834301115712151e-05,
+                  0.00013185177522245795,
+                  1.6576425423409091e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3948357433985646e-05,
+                "qpos": [
+                  -0.0001761658350005746,
+                  8.390160655835643e-05,
+                  2.81973882465536e-07,
+                  7.566640852019191e-05,
+                  -0.00018276054470334202,
+                  3.371435923327226e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4977637090384726e-05,
+                "qpos": [
+                  6.283276557922363,
+                  -6.28310489654541,
+                  -5.6022003263933584e-05,
+                  6.283323287963867,
+                  9.06117566046305e-05,
+                  -8.672553121868987e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 9.280988142502304e-06,
+                "qpos": [
+                  3.114201545715332,
+                  2.36331844329834,
+                  -6.7828755378723145,
+                  6.004851341247559,
+                  6.315155506134033,
+                  -3.1527721881866455
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.6111607120195846e-06,
+                "qpos": [
+                  -8.15703060652595e-06,
+                  6.283161163330078,
+                  -6.28318977355957,
+                  6.283160209655762,
+                  -6.283191204071045,
+                  -1.7061553307939903e-06
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 6.380166463852092e-06,
+                "qpos": [
+                  3.381138958502561e-05,
+                  -8.269321551779285e-05,
+                  6.283164978027344,
+                  6.283127784729004,
+                  6.283224582672119,
+                  -6.283185958862305
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 7.917664379054983e-06,
+                "position_error_m": 1.0854088458840457e-05,
+                "qpos": [
+                  -4.974345938535407e-05,
+                  0.00015820022963453084,
+                  6.283179759979248,
+                  6.283351898193359,
+                  -6.28322696685791,
+                  6.283196449279785
+                ],
+                "sin_half_angle_metric": 3.958832189524906e-06,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 8.599309812006287e-06,
+                "qpos": [
+                  -3.888207720592618e-05,
+                  -6.283062934875488,
+                  -6.283201694488525,
+                  6.283322811126709,
+                  -6.283223628997803,
+                  6.28318977355957
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.8832107307543997e-06,
+                "qpos": [
+                  6.283158779144287,
+                  6.283159255981445,
+                  -6.28318452835083,
+                  -6.2832183837890625,
+                  6.283159255981445,
+                  6.283183574676514
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.425458260281559e-06,
+                "qpos": [
+                  -3.1690194606781006,
+                  8.646395683288574,
+                  -0.4997035264968872,
+                  -6.561617851257324,
+                  6.315188407897949,
+                  9.413595199584961
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.00087859996293e-05,
+                "qpos": [
+                  3.1343393325805664,
+                  7.790282249450684,
+                  -0.9404451251029968,
+                  2.4476749897003174,
+                  -3.133928060531616,
+                  -0.015904821455478668
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.6200020506199595e-06,
+                "qpos": [
+                  6.261288166046143,
+                  7.717984676361084,
+                  0.2749689519405365,
+                  4.30177116394043,
+                  3.181569814682007,
+                  -3.125814914703369
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.547012224510532e-06,
+                "qpos": [
+                  -0.02645147405564785,
+                  -3.7249109745025635,
+                  -0.4784198999404907,
+                  -9.529511451721191,
+                  0.0027803529519587755,
+                  -6.27443790435791
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 7.23336849836342e-06,
+                "qpos": [
+                  9.421765327453613,
+                  -0.20200052857398987,
+                  0.021183911710977554,
+                  -3.364811658859253,
+                  6.317732334136963,
+                  3.144772529602051
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 3.846905361316442e-05,
+                "qpos": [
+                  -6.292273044586182,
+                  -2.3790576457977295,
+                  5.529838562011719,
+                  7.799015522003174,
+                  3.155090570449829,
+                  3.1305766105651855
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.488980188117093e-06,
+                "qpos": [
+                  -0.02188055031001568,
+                  -4.848362445831299,
+                  6.558155059814453,
+                  4.301800727844238,
+                  9.464731216430664,
+                  -3.12581729888916
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 4.890069475763378e-06,
+                "qpos": [
+                  3.138634204864502,
+                  -0.20196886360645294,
+                  6.304368019104004,
+                  2.9184072017669678,
+                  -6.2487006187438965,
+                  9.427958488464355
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.961156800691407e-06,
+                "qpos": [
+                  9.421821594238281,
+                  -6.4851202964782715,
+                  -6.262002468109131,
+                  -9.647926330566406,
+                  0.03448627144098282,
+                  9.427958488464355
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 0.0004945769933058914,
+                "qpos": [
+                  6.2567362785339355,
+                  -10.0,
+                  -6.7617902755737305,
+                  9.328076362609863,
+                  6.286068916320801,
+                  6.2918572425842285
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.10569347210531121,
+              -0.0011901200853714489,
+              0.15999836175652704,
+              0.9999999999674766,
+              -7.695922282128472e-06,
+              2.3890642856239097e-06,
+              -3.3547232399012607e-07
+            ],
+            "solver_reported_success": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "desired_actual_world_pose": [
+              -0.18113013615588525,
+              0.0863761500210205,
+              1.0335700069811944,
+              0.5000000000000001,
+              0.5,
+              0.5000000000000001,
+              -0.5000000000000001
+            ],
+            "full_valid_count": 0,
+            "goal": "pregrasp",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.057205133310328685,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.05894190703321628,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.07703000073356533,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "pad",
+                "sphere_index": 7,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.10006127813304833,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.1070333226290627,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.36472702955923086,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link7",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.42155915793415777,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link6",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4228930988913495,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link5",
+                "sphere_index": 8,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49819934848043435,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link2",
+                "sphere_index": 7,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5045057435946771,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link8",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5054361747397462,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link3",
+                "role": "fr_link4",
+                "sphere_index": 15,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5073329951613268,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link3",
+                "sphere_index": 6,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.517053551731887,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link1",
+                "sphere_index": 5,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5305913044764543,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 30,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.6793401572002407,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "table",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.7436139606140875,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": false,
+            "reported_command": [
+              -0.18113026650911587,
+              0.08637617842259768,
+              1.0335697896850973,
+              0.4999999954934545,
+              0.5000000253681832,
+              0.49999999591491606,
+              -0.4999999832234454
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.266412213677637e-06,
+                "qpos": [
+                  -0.25973793864250183,
+                  3.107055187225342,
+                  3.2982492446899414,
+                  1.3796093463897705,
+                  3.158060073852539,
+                  -0.223801851272583
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.6207877634673775e-06,
+                "qpos": [
+                  -6.542925834655762,
+                  -3.176128387451172,
+                  -2.9849324226379395,
+                  1.3796025514602661,
+                  -3.1251273155212402,
+                  6.059374809265137
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.6880582296476261e-06,
+                "qpos": [
+                  -0.25973936915397644,
+                  -3.1761319637298584,
+                  -9.26812744140625,
+                  1.3796114921569824,
+                  3.1580607891082764,
+                  6.059366226196289
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.450564668868465e-06,
+                "qpos": [
+                  -0.2597390413284302,
+                  -9.459327697753906,
+                  3.29822039604187,
+                  -4.903564453125,
+                  3.1580569744110107,
+                  6.059370517730713
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00044850078461921346,
+                "position_error_m": 1.3127734733637615e-05,
+                "qpos": [
+                  -0.2605225443840027,
+                  9.00281810760498,
+                  2.5067520141601562,
+                  -4.499452590942383,
+                  -9.402341842651367,
+                  -0.22598512470722198
+                ],
+                "sin_half_angle_metric": 0.0002242503903544796,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00029355354292998206,
+                "position_error_m": 3.0694681269047436e-06,
+                "qpos": [
+                  -0.2605252265930176,
+                  9.002670288085938,
+                  -3.776732921600342,
+                  8.067065238952637,
+                  -3.1191489696502686,
+                  -6.509171962738037
+                ],
+                "sin_half_angle_metric": 0.00014677677095503675,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 5.783205666923151e-06,
+                "qpos": [
+                  6.023439884185791,
+                  3.1070268154144287,
+                  3.2981812953948975,
+                  -4.903542518615723,
+                  -9.408313751220703,
+                  -6.506994247436523
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 6.25336244192346e-05,
+                "position_error_m": 6.4603413362387555e-06,
+                "qpos": [
+                  -0.2605164349079132,
+                  -3.5637450218200684,
+                  8.789555549621582,
+                  8.067093849182129,
+                  9.447218894958496,
+                  -6.509160995483398
+                ],
+                "sin_half_angle_metric": 3.126681220834368e-05,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.03931515465446928,
+                "position_error_m": 0.03312350028593686,
+                "qpos": [
+                  6.0235114097595215,
+                  2.663525104522705,
+                  -3.392137050628662,
+                  -1.7597553730010986,
+                  -6.28248405456543,
+                  -3.367250680923462
+                ],
+                "sin_half_angle_metric": 0.019656311337055817,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.03046105572688373,
+                "position_error_m": 0.03402344126539432,
+                "qpos": [
+                  -0.2601975202560425,
+                  2.666623592376709,
+                  2.907778739929199,
+                  -1.781752347946167,
+                  0.01158273033797741,
+                  -3.370732307434082
+                ],
+                "sin_half_angle_metric": 0.015229939035271846,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.022059152423973213,
+                "position_error_m": 0.03459763151472834,
+                "qpos": [
+                  -0.26139846444129944,
+                  2.6765520572662354,
+                  9.19697093963623,
+                  4.4972052574157715,
+                  -6.27305793762207,
+                  2.9136650562286377
+                ],
+                "sin_half_angle_metric": 0.011029352585836611,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.02002084921712372,
+                "position_error_m": 0.03475888555074169,
+                "qpos": [
+                  -0.26045092940330505,
+                  -3.612269401550293,
+                  -3.3808295726776123,
+                  4.501031398773193,
+                  -6.274165630340576,
+                  9.198678970336914
+                ],
+                "sin_half_angle_metric": 0.010010257420958565,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.02049101769233074,
+                "position_error_m": 0.034727337250283964,
+                "qpos": [
+                  6.0227813720703125,
+                  2.669354200363159,
+                  2.8984124660491943,
+                  4.503786087036133,
+                  -6.272559642791748,
+                  9.199270248413086
+                ],
+                "sin_half_angle_metric": 0.010245329601157873,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.011711408885317855,
+                "position_error_m": 0.03833483377475237,
+                "qpos": [
+                  9.196013450622559,
+                  6.492293357849121,
+                  -3.377887725830078,
+                  5.169153213500977,
+                  3.159334659576416,
+                  -3.3681490421295166
+                ],
+                "sin_half_angle_metric": 0.005855670978076187,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.009106772374372508,
+                "position_error_m": 0.038418253192876346,
+                "qpos": [
+                  2.9139468669891357,
+                  6.491284370422363,
+                  -3.3798348903656006,
+                  5.167799472808838,
+                  -3.1222784519195557,
+                  9.200905799865723
+                ],
+                "sin_half_angle_metric": 0.004553370452724941,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008761449827536604,
+                "position_error_m": 0.03842990488954124,
+                "qpos": [
+                  2.9129552841186523,
+                  -6.075071811676025,
+                  -3.381524085998535,
+                  5.169123649597168,
+                  -9.406455993652344,
+                  2.9176948070526123
+                ],
+                "sin_half_angle_metric": 0.004380710902218255,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008128006089445137,
+                "position_error_m": 0.03845212184966471,
+                "qpos": [
+                  9.196054458618164,
+                  0.20748962461948395,
+                  -3.3816184997558594,
+                  -1.115216612815857,
+                  9.443314552307129,
+                  2.917830467224121
+                ],
+                "sin_half_angle_metric": 0.00406399185780863,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008403985096243476,
+                "position_error_m": 0.03844104211156898,
+                "qpos": [
+                  2.913206100463867,
+                  -6.075409889221191,
+                  9.186165809631348,
+                  5.167176723480225,
+                  9.444039344787598,
+                  2.917755365371704
+                ],
+                "sin_half_angle_metric": 0.004201980182552761,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.00878766788856936,
+                "position_error_m": 0.038433739485587544,
+                "qpos": [
+                  9.195672988891602,
+                  6.491166591644287,
+                  -3.3788044452667236,
+                  -7.400054931640625,
+                  9.443455696105957,
+                  9.199837684631348
+                ],
+                "sin_half_angle_metric": 0.0043938198065738305,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008202975701368246,
+                "position_error_m": 0.03844845977702731,
+                "qpos": [
+                  -9.65335464477539,
+                  6.490918159484863,
+                  9.185675621032715,
+                  -1.1157881021499634,
+                  -9.40554141998291,
+                  9.200614929199219
+                ],
+                "sin_half_angle_metric": 0.004101476351352721,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008399805231222985,
+                "position_error_m": 0.03844154573939775,
+                "qpos": [
+                  -9.653580665588379,
+                  6.4905290603637695,
+                  -9.666342735290527,
+                  5.169684410095215,
+                  -9.405826568603516,
+                  9.200221061706543
+                ],
+                "sin_half_angle_metric": 0.004199890268476042,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.7535142431610427,
+                "position_error_m": 0.037161918033415044,
+                "qpos": [
+                  -0.25727856159210205,
+                  8.92637825012207,
+                  8.603853225708008,
+                  -10.0,
+                  3.1438913345336914,
+                  -6.163654804229736
+                ],
+                "sin_half_angle_metric": 0.3679069778392829,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.32412534029265533,
+                "position_error_m": 0.05411241848455384,
+                "qpos": [
+                  2.9151883125305176,
+                  0.5022926330566406,
+                  3.0192079544067383,
+                  1.8935389518737793,
+                  -6.190065860748291,
+                  -6.409617900848389
+                ],
+                "sin_half_angle_metric": 0.16135419049719654,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 1.5715190433524346,
+                "position_error_m": 0.059991788984458186,
+                "qpos": [
+                  -0.1968768686056137,
+                  -3.4582197666168213,
+                  -3.4583628177642822,
+                  3.076596975326538,
+                  1.7132141590118408,
+                  4.6153764724731445
+                ],
+                "sin_half_angle_metric": 0.7073622539034096,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.12585074446288774,
+                "position_error_m": 0.07157965666331201,
+                "qpos": [
+                  -3.3734188079833984,
+                  0.3941173255443573,
+                  -3.482750177383423,
+                  2.1886518001556396,
+                  -6.292609214782715,
+                  6.013610363006592
+                ],
+                "sin_half_angle_metric": 0.06288385387554873,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.03568046098786277,
+                "position_error_m": 0.07846748265670628,
+                "qpos": [
+                  -3.366955041885376,
+                  0.4183439314365387,
+                  2.872685432434082,
+                  2.222801446914673,
+                  0.00548030948266387,
+                  -0.22448234260082245
+                ],
+                "sin_half_angle_metric": 0.0178392841625951,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.031047408585708244,
+                "position_error_m": 0.07878201444572812,
+                "qpos": [
+                  2.9147469997406006,
+                  -5.852078437805176,
+                  9.183342933654785,
+                  2.2122445106506348,
+                  6.292239189147949,
+                  -0.22206096351146698
+                ],
+                "sin_half_angle_metric": 0.015523080802699854,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 3.1274331260272614,
+                "position_error_m": 0.42681062112214746,
+                "qpos": [
+                  6.283276557922363,
+                  -6.28310489654541,
+                  -5.6022003263933584e-05,
+                  6.283323287963867,
+                  9.06117566046305e-05,
+                  -8.672553121868987e-06
+                ],
+                "sin_half_angle_metric": 0.9999749385770806,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 3.1274348872932545,
+                "position_error_m": 0.42681787528102283,
+                "qpos": [
+                  -0.02645147405564785,
+                  -3.7249109745025635,
+                  -0.4784198999404907,
+                  -9.529511451721191,
+                  0.0027803529519587755,
+                  -6.27443790435791
+                ],
+                "sin_half_angle_metric": 0.9999749448113143,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 3.1274450089232793,
+                "position_error_m": 0.4268220815655746,
+                "qpos": [
+                  3.114201545715332,
+                  2.36331844329834,
+                  -6.7828755378723145,
+                  6.004851341247559,
+                  6.315155506134033,
+                  -3.1527721881866455
+                ],
+                "sin_half_angle_metric": 0.9999749806231276,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 3.127480639101637,
+                "position_error_m": 0.42634163527416036,
+                "qpos": [
+                  6.2567362785339355,
+                  -10.0,
+                  -6.7617902755737305,
+                  9.328076362609863,
+                  6.286068916320801,
+                  6.2918572425842285
+                ],
+                "sin_half_angle_metric": 0.9999751064841677,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 3.1274455570621287,
+                "position_error_m": 0.426813602444879,
+                "qpos": [
+                  -3.1690194606781006,
+                  8.646395683288574,
+                  -0.4997035264968872,
+                  -6.561617851257324,
+                  6.315188407897949,
+                  9.413595199584961
+                ],
+                "sin_half_angle_metric": 0.9999749825617924,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.503457747687853,
+              -0.12596341217643778,
+              0.25156978968509724,
+              0.007070943142430253,
+              -0.7070714409624493,
+              0.007070972944750009,
+              0.7070714111601294
+            ],
+            "solver_reported_success": [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "desired_actual_world_pose": [
+              -0.18113013615588525,
+              0.0863761500210205,
+              0.9135700069811943,
+              0.5000000000000001,
+              0.5,
+              0.5000000000000001,
+              -0.5000000000000001
+            ],
+            "full_valid_count": 7,
+            "goal": "grasp",
+            "nearest_pairs_first_solution": [
+              {
+                "obstacle": "bottle__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "bottle",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.001013682434963352,
+                "within_physics_contact_offset": true
+              },
+              {
+                "obstacle": "bottle__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 34,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.0013389412034352718,
+                "within_physics_contact_offset": true
+              },
+              {
+                "obstacle": "pad__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "pad",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.006066199301956437,
+                "within_physics_contact_offset": true
+              },
+              {
+                "obstacle": "table__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 35,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.016011707569481008,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "bottle__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "bottle",
+                "sphere_index": 34,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.06924228200430364,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__1",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_base_link",
+                "role": "table",
+                "sphere_index": 0,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.2270584353991673,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__2",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link8",
+                "role": "table",
+                "sphere_index": 31,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.32224573676869017,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link6__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link6",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.424151678347258,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link7__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link7",
+                "sphere_index": 10,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.4261921611378225,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link5__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link5",
+                "sphere_index": 8,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.49667644754804496,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link4__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link4",
+                "sphere_index": 8,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5001878511705654,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link2__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link2",
+                "sphere_index": 6,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5077623229508059,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link8__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "fr_link8",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5131621104126173,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link3__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link3",
+                "sphere_index": 6,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5151069766225265,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "fr_link1__0",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link2",
+                "role": "fr_link1",
+                "sphere_index": 4,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.5347647212697517,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__4",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "fl_link7",
+                "role": "table",
+                "sphere_index": 29,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.657179895253618,
+                "within_physics_contact_offset": false
+              },
+              {
+                "obstacle": "table__3",
+                "obstacle_contact_offset_m": 0.009999999776482582,
+                "robot_link": "left_camera",
+                "role": "table",
+                "sphere_index": 36,
+                "sphere_radius_includes_configured_buffer": true,
+                "sphere_to_mesh_clearance_m": 0.7202282120946334,
+                "within_physics_contact_offset": false
+              }
+            ],
+            "pass": true,
+            "reported_command": [
+              -0.1811302615023227,
+              0.08637618353054151,
+              0.9135697896850974,
+              0.4999999954934545,
+              0.5000000253681832,
+              0.49999999591491606,
+              -0.4999999832234454
+            ],
+            "solutions": [
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3980745888872334e-05,
+                "qpos": [
+                  -0.2590450346469879,
+                  2.7299323081970215,
+                  2.5882647037506104,
+                  -1.4290930032730103,
+                  0.009553192183375359,
+                  -3.36603045463562
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3845229100293882e-05,
+                "qpos": [
+                  -0.2590462267398834,
+                  -3.5532608032226562,
+                  2.5882511138916016,
+                  -7.71226692199707,
+                  0.009553885087370872,
+                  2.9171502590179443
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0002696079940654305,
+                "position_error_m": 1.4734567169442164e-05,
+                "qpos": [
+                  -6.542226791381836,
+                  2.729917049407959,
+                  2.588230848312378,
+                  -1.429068684577942,
+                  -6.273630142211914,
+                  2.917158842086792
+                ],
+                "sin_half_angle_metric": 0.0001348039965188539,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4325315644619245e-05,
+                "qpos": [
+                  6.023524284362793,
+                  3.037463665008545,
+                  -3.06669545173645,
+                  -1.74980890750885,
+                  -6.268918991088867,
+                  -3.3654074668884277
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3912641790619245e-05,
+                "qpos": [
+                  -0.2590450942516327,
+                  2.7299323081970215,
+                  8.871450424194336,
+                  4.8540940284729,
+                  -6.273630142211914,
+                  2.9171547889709473
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4102726009163423e-05,
+                "qpos": [
+                  -0.2590503990650177,
+                  -3.553255081176758,
+                  -3.694918155670166,
+                  4.854090690612793,
+                  -6.273632049560547,
+                  9.200336456298828
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": true,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4763525325286105e-05,
+                "qpos": [
+                  6.023529052734375,
+                  3.037463426589966,
+                  3.216484785079956,
+                  4.533372402191162,
+                  -6.268913745880127,
+                  9.200973510742188
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": true
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0002702424492442836,
+                "position_error_m": 1.4729910193167913e-05,
+                "qpos": [
+                  -0.2594761550426483,
+                  -3.4254817962646484,
+                  -3.9826157093048096,
+                  2.1279585361480713,
+                  3.1619808673858643,
+                  6.059008598327637
+                ],
+                "sin_half_angle_metric": 0.00013512122410852496,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 2.1278400220128274e-05,
+                "qpos": [
+                  -0.25826191902160645,
+                  -2.8366031646728516,
+                  -9.062235832214355,
+                  1.5131995677947998,
+                  3.1527364253997803,
+                  6.060118675231934
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4947485704921753e-05,
+                "qpos": [
+                  -0.2582687437534332,
+                  -9.119787216186523,
+                  3.504117727279663,
+                  -4.769951820373535,
+                  3.152738094329834,
+                  6.06009578704834
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3812691750397165e-05,
+                "qpos": [
+                  -0.2594750225543976,
+                  9.14088249206543,
+                  2.300546169281006,
+                  -4.155211448669434,
+                  -9.404390335083008,
+                  -0.22417813539505005
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.3850782273137717e-05,
+                "qpos": [
+                  -0.2594725787639618,
+                  9.14089298248291,
+                  -3.9826197624206543,
+                  8.411149978637695,
+                  -3.1212027072906494,
+                  -6.507357597351074
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0,
+                "position_error_m": 1.4909820610472832e-05,
+                "qpos": [
+                  -0.25826719403266907,
+                  -2.8366363048553467,
+                  9.787222862243652,
+                  7.796464443206787,
+                  9.435922622680664,
+                  -6.506268501281738
+                ],
+                "sin_half_angle_metric": 0.0,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.006357850180412436,
+                "position_error_m": 0.02655812766496356,
+                "qpos": [
+                  2.912365198135376,
+                  -0.008476118557155132,
+                  2.9041593074798584,
+                  -1.3354439735412598,
+                  -3.1255760192871094,
+                  -3.3666462898254395
+                ],
+                "sin_half_angle_metric": 0.0031789197360683106,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008467785329901773,
+                "position_error_m": 0.026497357161973604,
+                "qpos": [
+                  2.9121079444885254,
+                  -0.011998869478702545,
+                  2.8948888778686523,
+                  4.955469608306885,
+                  3.158095598220825,
+                  2.9149796962738037
+                ],
+                "sin_half_angle_metric": 0.004233880015612363,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0074289187443598,
+                "position_error_m": 0.026524294932926774,
+                "qpos": [
+                  2.9115705490112305,
+                  6.272412300109863,
+                  9.184147834777832,
+                  -1.3335367441177368,
+                  3.1565332412719727,
+                  2.915287494659424
+                ],
+                "sin_half_angle_metric": 0.0037144508306618126,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008489737041161332,
+                "position_error_m": 0.026491003788931346,
+                "qpos": [
+                  2.912141799926758,
+                  6.269035816192627,
+                  -3.388723373413086,
+                  4.953750133514404,
+                  -3.127432346343994,
+                  9.199419975280762
+                ],
+                "sin_half_angle_metric": 0.004244855772603613,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.006452761687128436,
+                "position_error_m": 0.026554910259581864,
+                "qpos": [
+                  2.9122695922851562,
+                  -6.2923970222473145,
+                  -3.380084991455078,
+                  4.94813871383667,
+                  -9.409156799316406,
+                  2.916353225708008
+                ],
+                "sin_half_angle_metric": 0.0032263752460467286,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.0066141857105618575,
+                "position_error_m": 0.026548796921469917,
+                "qpos": [
+                  9.195643424987793,
+                  -0.00905432179570198,
+                  -3.3795204162597656,
+                  -1.3352833986282349,
+                  9.440670013427734,
+                  2.916506052017212
+                ],
+                "sin_half_angle_metric": 0.003307086827088766,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.006655310024218479,
+                "position_error_m": 0.026548861425100857,
+                "qpos": [
+                  -9.654210090637207,
+                  6.273900508880615,
+                  9.18665885925293,
+                  -1.3353168964385986,
+                  -9.408870697021484,
+                  9.1995849609375
+                ],
+                "sin_half_angle_metric": 0.003327648870765896,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.034651037472628494,
+                "position_error_m": 0.03888568420838067,
+                "qpos": [
+                  2.9104197025299072,
+                  6.508723258972168,
+                  -3.401325225830078,
+                  -4.261432647705078,
+                  0.01306675374507904,
+                  6.061346530914307
+                ],
+                "sin_half_angle_metric": 0.017324651972104258,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.02730828176836725,
+                "position_error_m": 0.039529365675957516,
+                "qpos": [
+                  2.9110796451568604,
+                  0.2370629906654358,
+                  -3.381289005279541,
+                  2.0202245712280273,
+                  0.012086701579391956,
+                  -0.22524306178092957
+                ],
+                "sin_half_angle_metric": 0.013653716618562746,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.032538899412234396,
+                "position_error_m": 0.039099555006225035,
+                "qpos": [
+                  2.9076905250549316,
+                  -6.047399520874023,
+                  9.180351257324219,
+                  2.0184876918792725,
+                  6.297257900238037,
+                  -0.22957096993923187
+                ],
+                "sin_half_angle_metric": 0.016268731975299933,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.03018832656833232,
+                "position_error_m": 0.03934816841763497,
+                "qpos": [
+                  -3.370978355407715,
+                  -6.046428680419922,
+                  -3.3738086223602295,
+                  -4.272873401641846,
+                  0.01481982134282589,
+                  -6.514352321624756
+                ],
+                "sin_half_angle_metric": 0.015093590130686575,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.026644241113389564,
+                "position_error_m": 0.03962879660656153,
+                "qpos": [
+                  2.9137885570526123,
+                  0.24136213958263397,
+                  2.908808469772339,
+                  2.018470048904419,
+                  -6.270339488983154,
+                  -6.50979471206665
+                ],
+                "sin_half_angle_metric": 0.013321726494315126,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.02591292647992414,
+                "position_error_m": 0.03968766671308264,
+                "qpos": [
+                  -9.655771255493164,
+                  -6.041888236999512,
+                  -3.3729805946350098,
+                  -4.26550817489624,
+                  0.011255746707320213,
+                  6.054103374481201
+                ],
+                "sin_half_angle_metric": 0.012956100742889312,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.024588430622606475,
+                "position_error_m": 0.03979413607931267,
+                "qpos": [
+                  9.194082260131836,
+                  -6.047608852386475,
+                  -3.382131814956665,
+                  8.3055419921875,
+                  0.012077406980097294,
+                  -0.2245393842458725
+                ],
+                "sin_half_angle_metric": 0.012293905606519415,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.02567480189315122,
+                "position_error_m": 0.039691200177969496,
+                "qpos": [
+                  -3.371682643890381,
+                  -6.046912670135498,
+                  9.184991836547852,
+                  8.304458618164062,
+                  6.295760631561279,
+                  -0.22826048731803894
+                ],
+                "sin_half_angle_metric": 0.012837048351299455,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.025852272214879905,
+                "position_error_m": 0.03966355297871178,
+                "qpos": [
+                  -9.654757499694824,
+                  0.2364218533039093,
+                  9.185691833496094,
+                  2.02044415473938,
+                  6.295084476470947,
+                  6.0568132400512695
+                ],
+                "sin_half_angle_metric": 0.012925776149884508,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.07544929818349,
+                "position_error_m": 0.09195257385683545,
+                "qpos": [
+                  -3.3730175495147705,
+                  6.20827579498291,
+                  8.42941665649414,
+                  -10.0,
+                  6.295475006103516,
+                  -6.505176067352295
+                ],
+                "sin_half_angle_metric": 0.037715701761394826,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.011711408885317855,
+                "position_error_m": 0.11796114227013349,
+                "qpos": [
+                  9.196013450622559,
+                  6.492293357849121,
+                  -3.377887725830078,
+                  5.169153213500977,
+                  3.159334659576416,
+                  -3.3681490421295166
+                ],
+                "sin_half_angle_metric": 0.005855670978076187,
+                "valid": false
+              },
+              {
+                "full_constraint_feasible": false,
+                "orientation_angle_rad": 0.008399805231222985,
+                "position_error_m": 0.1184156936741667,
+                "qpos": [
+                  -9.653580665588379,
+                  6.4905290603637695,
+                  -9.666342735290527,
+                  5.169684410095215,
+                  -9.405826568603516,
+                  9.200221061706543
+                ],
+                "sin_half_angle_metric": 0.004199890268476042,
+                "valid": false
+              }
+            ],
+            "solver_goal": [
+              0.503457752694646,
+              -0.12596341728438176,
+              0.13156978968509736,
+              0.007070943142430253,
+              -0.7070714409624493,
+              0.007070972944750009,
+              0.7070714111601294
+            ],
+            "solver_reported_success": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          }
+        ],
+        "scene_attempts": 1,
+        "trajectory_queries": 0
+      }
+    ],
+    "schema_version": "cmf_f3_topdown_qualification_terminal_v1",
+    "trajectory_queries": 0
+  },
+  "qualification_guard_sha256": "6afcaba18496a5b10afa06eafaae55cc639c6cf4b6cc79c3026808fa59f4e9a0",
+  "receipt_sha256": "d4ca09642a63e90d64627c1d7d13662e1e08707fe23afb228f5017b7185632f6",
+  "replacement_authorized": false,
+  "schema_version": "cmf_new_f3_qualification_micro_failure_publication_v1",
+  "task_GPU_cleanup_verified": true
+}
