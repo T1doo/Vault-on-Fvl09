@@ -1,7 +1,7 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f3_micro_001": {
+      "p48_f3_micro_002": {
         "action_scenes": 1,
         "collection_attempts": 0,
         "fresh_scenes": 1,
@@ -17,11 +17,11 @@
       "solver_problems": 6000
     },
     "remaining": {
-      "action_scenes": 119,
+      "action_scenes": 118,
       "collection_attempts": 96,
-      "fresh_scenes": 239,
-      "gpu_lease_seconds": 85320,
-      "solver_problems": 5997
+      "fresh_scenes": 238,
+      "gpu_lease_seconds": 85207,
+      "solver_problems": 5994
     },
     "reserved": {
       "action_scenes": 1,
@@ -30,13 +30,15 @@
       "gpu_lease_seconds": 1080,
       "solver_problems": 3
     },
-    "terminal_jobs": [],
+    "terminal_jobs": [
+      "p48_f3_micro_001"
+    ],
     "used": {
-      "action_scenes": 0,
+      "action_scenes": 1,
       "collection_attempts": 0,
-      "fresh_scenes": 0,
-      "gpu_lease_seconds": 0,
-      "solver_problems": 0
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 113,
+      "solver_problems": 3
     }
   },
   "completion": {
@@ -45,18 +47,37 @@
     "FOUR_FAMILY_COLLECTION_PASS": false,
     "PILOT_INPUT_48_OF_48_ACCEPTED": false
   },
+  "failure_revisions": {
+    "F3_postlift_roll": {
+      "baseline_job": "p48_f3_micro_001",
+      "current_recipe": "f3-r3063-com-station-plus13p1mm-v1",
+      "max_revisions": 3,
+      "revisions_frozen": 1
+    }
+  },
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
     "F2": "NEW_INWARD_PLANNER_RUNTIME_CPU_READY",
-    "F3": "SUPPORT_AWARE_PHYSICAL_CONFIRMATION_READY",
+    "F3": "POSTLIFT_ROLL_REVISION1_CPU_PASS_QUEUED",
     "F4": "A_ACCEPTED_B_RUNTIME_CPU_READY"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "9820935bb98b0378ef1eeb75a7a950c466b8635192fbb7a5334b118185301ead",
+  "last_budget_event_sha256": "ae805679f4359b0645afdc5b6b379022d304c4d448872a35f980df553b1d2047",
+  "last_job": {
+    "counts": {
+      "action_scenes": 1,
+      "collection_attempts": 0,
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 113,
+      "solver_problems": 3
+    },
+    "job_id": "p48_f3_micro_001",
+    "status": "SCIENTIFIC_FAILURE"
+  },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "F3 support-aware physical micro, first fresh scene",
+  "next_task": "p48_f3_micro_002: COM-station revision1 physical micro",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "running": null,
