@@ -1,0 +1,124 @@
+{
+  "COM_world_in_exact_CPU_geometry": [
+    -0.18484610275220578,
+    0.05051708180986221,
+    0.7835897915327393
+  ],
+  "actual_contact_height_verified": false,
+  "both_above_COM_candidates_exist": true,
+  "receipt_sha256": "5e02365a6b34799e8660a5a3c5fa7777c41cec331e38f89c65834dd522331ad6",
+  "recipe_field_semantics": {
+    "authoritative_execution_poses": [
+      "desired_actual_flange_world_pose",
+      "desired_pregrasp_world_pose"
+    ],
+    "height_preserving_world_shift_m": "inherited parent station delta relative to original topdown, not revision2 total delta",
+    "shift_rule": "inherited parent COM station XY translation only",
+    "unique_revision_delta_world_m": "revision3 additional [0,0,.002] relative to +10mm height parent"
+  },
+  "rows": [
+    {
+      "both_inner_faces_have_above_COM_candidates": false,
+      "closure_fraction": 0.0,
+      "fingers": {
+        "fl_link7": {
+          "above_COM_count": 0,
+          "contact_point_count": 0,
+          "max_z_minus_COM_z_m": null,
+          "min_z_minus_COM_z_m": null
+        },
+        "fl_link8": {
+          "above_COM_count": 0,
+          "contact_point_count": 0,
+          "max_z_minus_COM_z_m": null,
+          "min_z_minus_COM_z_m": null
+        }
+      }
+    },
+    {
+      "both_inner_faces_have_above_COM_candidates": false,
+      "closure_fraction": 0.25,
+      "fingers": {
+        "fl_link7": {
+          "above_COM_count": 0,
+          "contact_point_count": 0,
+          "max_z_minus_COM_z_m": null,
+          "min_z_minus_COM_z_m": null
+        },
+        "fl_link8": {
+          "above_COM_count": 0,
+          "contact_point_count": 0,
+          "max_z_minus_COM_z_m": null,
+          "min_z_minus_COM_z_m": null
+        }
+      }
+    },
+    {
+      "both_inner_faces_have_above_COM_candidates": true,
+      "closure_fraction": 0.5,
+      "fingers": {
+        "fl_link7": {
+          "above_COM_count": 2,
+          "contact_point_count": 5,
+          "max_z_minus_COM_z_m": 0.001410213719920006,
+          "min_z_minus_COM_z_m": -0.008739878511406562
+        },
+        "fl_link8": {
+          "above_COM_count": 2,
+          "contact_point_count": 5,
+          "max_z_minus_COM_z_m": 0.001410213719919895,
+          "min_z_minus_COM_z_m": -0.008739926412533405
+        }
+      }
+    },
+    {
+      "both_inner_faces_have_above_COM_candidates": true,
+      "closure_fraction": 0.75,
+      "fingers": {
+        "fl_link7": {
+          "above_COM_count": 3,
+          "contact_point_count": 8,
+          "max_z_minus_COM_z_m": 0.016611995649067457,
+          "min_z_minus_COM_z_m": -0.013589786876126442
+        },
+        "fl_link8": {
+          "above_COM_count": 2,
+          "contact_point_count": 7,
+          "max_z_minus_COM_z_m": 0.001410213719920006,
+          "min_z_minus_COM_z_m": -0.013589786876126442
+        }
+      }
+    },
+    {
+      "both_inner_faces_have_above_COM_candidates": true,
+      "closure_fraction": 1.0,
+      "fingers": {
+        "fl_link7": {
+          "above_COM_count": 3,
+          "contact_point_count": 8,
+          "max_z_minus_COM_z_m": 0.016611995649067457,
+          "min_z_minus_COM_z_m": -0.013589786876126553
+        },
+        "fl_link8": {
+          "above_COM_count": 3,
+          "contact_point_count": 8,
+          "max_z_minus_COM_z_m": 0.019130017838899227,
+          "min_z_minus_COM_z_m": -0.013589786876126553
+        }
+      }
+    }
+  ],
+  "sampled_interpenetrating_closure_not_physical_reachability_proof": true,
+  "schema_version": "p48_f3_revision2_contact_height_candidates_v1",
+  "source_bindings": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_zero_scene_solver_replay_v1/f3-final-pose-v3-r3063/planned_grasp_endpoint.geometry.json": "d908fc2113f24cd3ff290aecfc037e88aa38fdab9cf6554511e29d900ab52cab",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f3_micro_002/actual_mass_properties.json": "4d543e0c832727336e22415d7a8f588f7555a4237a617e7efb6307973b061dac",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f3_contact_height_revision_v2/inner.json": "a59f840684ffb68cb4f231873196e11725249c05199e82a1d920f05687604654",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f3_contact_height_revision_v2/recipe.json": "f3654c376496cf0dc78d1bc8a9602004fc4389175df8f4b3f1e849ae4ca891c9"
+  },
+  "total_shift_from_original_topdown_world_m": [
+    1.0825373844530342e-05,
+    0.013099995527147372,
+    0.012
+  ]
+}
