@@ -1,0 +1,144 @@
+{
+  "authoritative_message": {
+    "decoded_characters": 13461,
+    "download_links_in_message": [],
+    "file_sha256": "c2de04c72997fe90778553a3237492c43ead3d152a8d4a86fa1c8e90f01698ff",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/EXTERNAL_REVIEW_F2_F3_EXECUTION_FOCUS_20260906.md",
+    "url": "https://chatgpt.com/s/t_6a9ce5b770bc81919311cc0f1407c53e"
+  },
+  "decision": {
+    "F2": {
+      "automatic_cpu_followup": {
+        "on_failure": "prepare_one_evidence_based_target_or_layout_revision",
+        "on_success": "prepare_versioned_controlled_insertion_root_scope"
+      },
+      "decision": "CONTINUE_EXISTING_CONDITIONAL_ENDPOINT_DIAGNOSIS",
+      "execution": [
+        "C_U_D_under_K0_K1_K2",
+        "conditional_registered_yaw_tests",
+        "one_route_for_first_fully_valid_endpoint_pair",
+        "stop_without_new_hub_or_seed_search"
+      ],
+      "existing_caps": {
+        "fresh_planner_only_scenes": 2,
+        "ik_problems": 15,
+        "new_roots": 0,
+        "physical_executions": 0,
+        "total_solver_problems": 19,
+        "training_raw": 0,
+        "trajectory_queries": 4
+      },
+      "implementation_priorities": [
+        "reproduce the complete original gripper-to-endlink and world-to-planner transform",
+        "map solver joints by name",
+        "verify K0 disables both collision optimization and collision acceptance checks",
+        "use one fixed seed bank and iteration budget",
+        "cross-validate returned solutions with FK and all constraint checkers",
+        "distinguish carried-can geometry from ordinary static obstacles",
+        "preserve unknown accounting as unknown"
+      ],
+      "parent_decision_receipt_sha256": "46c42f0470fcf5be8bb34c619606c7a4d4d5b4f72827eaae13a899eec10ac09d",
+      "physical_root_authorized_by_this_reply": false
+    },
+    "F3": {
+      "automatic_job_retry": false,
+      "automatic_shared_v_or_root": false,
+      "candidate_search_expansion": false,
+      "candidates": [
+        "f3-final-pose-v3-r3063",
+        "f3-final-pose-v3-r1401"
+      ],
+      "decision": "CONTINUE_EXISTING_MODEL_REPAIR_AND_CONDITIONAL_TWO_CANDIDATE_MICRO",
+      "existing_caps": {
+        "additional_non_action_conformance_scenes": 2,
+        "aggregate_fresh_scenes": 4,
+        "new_roots": 0,
+        "no_suffix": 0,
+        "physical_attempts": 2,
+        "physical_scenes": 2,
+        "shared_v": 0,
+        "training_raw": 0,
+        "trajectory_queries": 6
+      },
+      "invalid_endpoint_action": {
+        "execute": false,
+        "next": "geometry_derived_versioned_grasp_proposal",
+        "overwrite_old_recipe": false,
+        "relax_gate": false
+      },
+      "prerequisites": [
+        "actual_open_gripper_joint_and_geometry_conformance",
+        "table_pad_bottle_world_geometry_conformance",
+        "correct_object_world_to_planner_transform",
+        "actual_solver_or_worker_update_verified",
+        "known_clear_and_known_failure_state_checks",
+        "grasp_endpoint_validity_separate_from_path_validity",
+        "explicit_approach_close_lift_contact_semantics"
+      ],
+      "valid_endpoint_action": [
+        "pregrasp_and_existing_full_window_gate",
+        "grasp_and_existing_full_window_gate",
+        "close_and_hold",
+        "plan_lift_from_actual_post_close_state",
+        "existing_post_lift_audit",
+        "stop"
+      ]
+    },
+    "completed": {
+      "development_raw_trajectories": 27,
+      "development_roots": 6,
+      "nine_realizations": "RETAIN_ACCEPTED_NO_RERUN",
+      "reopen_completed_nine_cell_batch": false,
+      "repeat_F4_adoption": false
+    },
+    "global": {
+      "compression_authorized": false,
+      "formal_360_authorized": false,
+      "gpu_jobs_serial": true,
+      "h_reveal_authorized": false,
+      "pi05_authorized": false,
+      "scientific_failure_with_clean_cleanup_blocks_other_family": false,
+      "stage0_rerun": false,
+      "stage1_collection_authorized": false,
+      "stop_entire_queue_on": [
+        "unknown_resource_accounting",
+        "source_or_asset_binding_mismatch",
+        "task_owned_orphan_process",
+        "cleanup_failure",
+        "selected_GPU_identity_or_baseline_failure",
+        "evidence_integrity_failure"
+      ],
+      "training_authorized": false
+    },
+    "next_handoff": {
+      "do_not_stop_after_only_helper_or_unit_test_completion": true,
+      "include": [
+        "F2 constraint matrix and exact next decision",
+        "F3 model conformance and endpoint/micro results",
+        "actual source and solver versions",
+        "executed and unconsumed budgets",
+        "first failure evidence rather than repeated historical summaries",
+        "pilot input mapping and F4_B proposal"
+      ]
+    },
+    "pilot_preparation": {
+      "automatic_stage1_promotion": false,
+      "new_F4_B_GPU_collection_authorized": false,
+      "prepare_F4_B_exact_CPU_proposal": true,
+      "read_only_eligibility_for_existing_18_cells": true,
+      "recapture_existing_18_cells": false
+    },
+    "review_base": {
+      "vault_head": "47b29383e59636d452357e72e0349289c3e95b50"
+    },
+    "source_policy": {
+      "do_not_rewrite_hashes_to_force_compatibility": true,
+      "isolate_F2_F3_model_changes": true,
+      "preserve_existing_references_and_artifacts": true,
+      "retain_F1_parent_source_profile": true,
+      "retain_F4_successful_source_profile": true
+    }
+  },
+  "receipt_sha256": "46d10563120ee7c209403cb1d6f939d46d8a586b85ccd3b6f0509cde995d2074",
+  "schema_version": "cmf_external_execution_focus_decision_v1"
+}
