@@ -1,12 +1,12 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f3_micro_003": {
-        "action_scenes": 1,
+      "p48_f2_inward_001": {
+        "action_scenes": 0,
         "collection_attempts": 0,
         "fresh_scenes": 1,
-        "gpu_lease_seconds": 1080,
-        "solver_problems": 3
+        "gpu_lease_seconds": 1980,
+        "solver_problems": 7
       }
     },
     "caps": {
@@ -17,29 +17,30 @@
       "solver_problems": 6000
     },
     "remaining": {
-      "action_scenes": 117,
+      "action_scenes": 118,
       "collection_attempts": 96,
-      "fresh_scenes": 237,
-      "gpu_lease_seconds": 85093,
-      "solver_problems": 5991
+      "fresh_scenes": 236,
+      "gpu_lease_seconds": 84145,
+      "solver_problems": 5986
     },
     "reserved": {
-      "action_scenes": 1,
+      "action_scenes": 0,
       "collection_attempts": 0,
       "fresh_scenes": 1,
-      "gpu_lease_seconds": 1080,
-      "solver_problems": 3
+      "gpu_lease_seconds": 1980,
+      "solver_problems": 7
     },
     "terminal_jobs": [
       "p48_f3_micro_001",
-      "p48_f3_micro_002"
+      "p48_f3_micro_002",
+      "p48_f3_micro_003"
     ],
     "used": {
       "action_scenes": 2,
       "collection_attempts": 0,
-      "fresh_scenes": 2,
-      "gpu_lease_seconds": 227,
-      "solver_problems": 6
+      "fresh_scenes": 3,
+      "gpu_lease_seconds": 275,
+      "solver_problems": 7
     }
   },
   "completion": {
@@ -58,27 +59,27 @@
   },
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
-    "F2": "NEW_INWARD_PLANNER_RUNTIME_CPU_READY",
-    "F3": "POSTLIFT_ROLL_REVISION2_FROZEN_FOR_MICRO_003",
+    "F2": "INWARD_PLANNER_GATE_001_ISSUED",
+    "F3": "HEIGHT_REVISION2_UNTESTED_PREGRASP_FINETUNE_FAILED_ROUTE_REPAIR_CPU",
     "F4": "A_ACCEPTED_B_RUNTIME_CPU_READY"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "34b39396d0a5926858d4bf0e011d597dccfec6e3250f49355f85efe78e42f332",
+  "last_budget_event_sha256": "68bf81cfd7681f056cd9843945060ce2f5df8d869405636e993421ca281473c0",
   "last_job": {
     "counts": {
-      "action_scenes": 1,
+      "action_scenes": 0,
       "collection_attempts": 0,
       "fresh_scenes": 1,
-      "gpu_lease_seconds": 114,
-      "solver_problems": 3
+      "gpu_lease_seconds": 48,
+      "solver_problems": 1
     },
-    "job_id": "p48_f3_micro_002",
+    "job_id": "p48_f3_micro_003",
     "status": "SCIENTIFIC_FAILURE"
   },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "p48_f3_micro_003 then F2 inward planner-only validation",
+  "next_task": "p48_f2_inward_001 then F3 bounded segmented pregrasp repair",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "running": null,
