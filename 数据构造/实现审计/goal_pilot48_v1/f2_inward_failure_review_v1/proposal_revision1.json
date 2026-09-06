@@ -1,0 +1,223 @@
+{
+  "GPU_IK_verified": false,
+  "all_beside_candidate_xy_m": [
+    [
+      0.07338960734693843,
+      0.06219243157674613
+    ],
+    [
+      -0.00661039265306157,
+      0.04219243157674614
+    ],
+    [
+      -0.046610392653061564,
+      0.01219243157674614
+    ]
+  ],
+  "derivation": {
+    "CPU_float64_vs_saved_float32_goal_max_abs_errors": {
+      "C": 1.837819463279544e-08,
+      "D_new": 1.9771223991327247e-08,
+      "U_new": 1.9771223991327247e-08
+    },
+    "additional_margin_m": 0.005,
+    "all_selected_K2_and_orientation_pass": true,
+    "direction_xy": [
+      -0.4774695011465018,
+      -0.8786483229796268
+    ],
+    "distance_to_known_C_after_m": 0.23626158686994347,
+    "distance_to_known_C_before_m": 0.2624885152988892,
+    "governing_endpoint": "U_new",
+    "layout_candidates_searched": 0,
+    "margin_source": "one original IK position tolerance; no Gate changed",
+    "projected_endpoint_deficits_m": {
+      "D_new": 0.029417327392235088,
+      "U_new": 0.051440278165184615
+    },
+    "reported_frame_FK_residuals_xyz_m": {
+      "C": [
+        2.7387214710897583e-07,
+        -3.639092549328409e-07,
+        -4.524729160237939e-07
+      ],
+      "D_new": [
+        -0.015721559205486107,
+        -0.024936896580925343,
+        -0.006546355936349335
+      ],
+      "U_new": [
+        -0.024561163954367988,
+        -0.045197914143444984,
+        -0.02100211149305098
+      ]
+    },
+    "selected_existing_position_errors_m": {
+      "C": 6.420028337343466e-07,
+      "D_new": 0.030197202039009295,
+      "U_new": 0.05556249548821681
+    },
+    "selected_existing_solution_indices": {
+      "C": 6,
+      "D_new": 4,
+      "U_new": 12
+    },
+    "target_orientation_change": false,
+    "translation_length_m": 0.05644027816518461,
+    "translation_xy_m": [
+      -0.026948511460100494,
+      -0.04959115575834311
+    ]
+  },
+  "evidence_based_revision": 1,
+  "failure_class": "endpoint_full_constraint_pose_not_solved",
+  "geometry_audit": {
+    "GPU_IK_qualification": false,
+    "beside_radial_relation_preserved_by_identical_pair_translation": true,
+    "checked_exact_pairs": 1485,
+    "forbidden_moving_stand_intersections": [],
+    "inside_false": true,
+    "on_false": true,
+    "pass": true,
+    "physical_stability_proven": false,
+    "robot_states_checked": [
+      "initial",
+      "held"
+    ],
+    "support": {
+      "can": {
+        "can_geometry_sha256": "624e41a5bcbbceb2069e9c4e1574796d64afae1a1e1101fb91ece8efa5a59c7a",
+        "native_screen_required_for_every_returned_carry_solution_and_path": true,
+        "native_target_bottom_gap_m": 4.961858142260578e-05,
+        "numeric_geometry_tolerance_m": 0.0001,
+        "pass": true,
+        "physical_support_observed": false,
+        "receipt_sha256": "22d35a8036c1bfa3f38c1093d6125ffaa7cc6e7b9e7ab5f14a5c68a180baee73",
+        "schema_version": "f2_native_supported_target_planner_witness_v1",
+        "support_name": "table__0",
+        "support_plane_z_m": 0.7400000095367432,
+        "table_top_halfspaces_xy": [
+          [
+            -0.0,
+            -1.0,
+            -0.3499999940395356
+          ],
+          [
+            -1.0,
+            0.0,
+            -0.6000000238418579
+          ],
+          [
+            1.0,
+            -0.0,
+            -0.6000000238418579
+          ],
+          [
+            0.0,
+            1.0,
+            -0.3499999940395356
+          ]
+        ],
+        "target_native_footprint_inside": true,
+        "world_geometry_sha256": "7195cffeb7277a06419e4500eee00ad02a145eac901ff1f84f3cbe386a7a3c4b"
+      },
+      "stand": {
+        "can_geometry_sha256": "ede3a3b10b762c0db44eeff48e9c157d5f7a143cc3ce57d97770cb9d3a48f9a5",
+        "native_screen_required_for_every_returned_carry_solution_and_path": true,
+        "native_target_bottom_gap_m": 1.0195348814301397e-05,
+        "numeric_geometry_tolerance_m": 0.0001,
+        "pass": true,
+        "physical_support_observed": false,
+        "receipt_sha256": "6be922b16a3e60440b91e5a92fa32ed0788869039fb6a82082b4f2f715e21f7d",
+        "schema_version": "f2_native_supported_target_planner_witness_v1",
+        "support_name": "table__0",
+        "support_plane_z_m": 0.7400000095367432,
+        "table_top_halfspaces_xy": [
+          [
+            -0.0,
+            -1.0,
+            -0.3499999940395356
+          ],
+          [
+            -1.0,
+            0.0,
+            -0.6000000238418579
+          ],
+          [
+            1.0,
+            -0.0,
+            -0.6000000238418579
+          ],
+          [
+            0.0,
+            1.0,
+            -0.3499999940395356
+          ]
+        ],
+        "target_native_footprint_inside": true,
+        "world_geometry_sha256": "7195cffeb7277a06419e4500eee00ad02a145eac901ff1f84f3cbe386a7a3c4b"
+      }
+    }
+  },
+  "new_D_reported_goal": [
+    -0.045370155021225794,
+    0.012072649466366263,
+    0.9295145728639618,
+    0.5017174026769478,
+    -0.498810972458648,
+    0.5011190506874883,
+    0.4983442170267715
+  ],
+  "new_U_reported_goal": [
+    -0.045370155021225794,
+    0.012072649466366263,
+    1.0095145728639618,
+    0.5017174026769478,
+    -0.498810972458648,
+    0.5011190506874883,
+    0.4983442170267715
+  ],
+  "new_can_actor_pose": [
+    -0.04661979677484812,
+    0.012203229089705891,
+    0.7404792624087959,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+  ],
+  "new_layout_id": "f2_goal_inward_endpoint_revision1",
+  "new_root_current_anchor_required": true,
+  "new_stand_actor_pose": [
+    0.07338961032717066,
+    -0.08780756775270161,
+    0.741733193397522,
+    0.7071068286895752,
+    0.7071068286895752,
+    0.0,
+    0.0
+  ],
+  "new_target_geometry_xy_m": [
+    -0.046610392653061564,
+    0.01219243157674614
+  ],
+  "next_minimum_gate": {
+    "IK_problems": 3,
+    "actions": 0,
+    "collections": 0,
+    "conditional_route_queries": 4,
+    "scenes": 1
+  },
+  "parent_analysis_file_sha256": "0801ea72f44ab62f19235850a7f556ff82e14fc5aba18f73ae0c402c60524db1",
+  "parent_job_id": "p48_f2_inward_001",
+  "physical_execution_authorized_by_this_proposal": false,
+  "schema_version": "f2_goal_inward_failure_revision1_cpu_proposal_v1",
+  "unchanged": [
+    "can/stand orientation and z",
+    "C held state and N",
+    "U-D 80mm",
+    "inside/on/beside relation definitions",
+    "original physical Gates",
+    "assets/grasp transform/seedbank/iterations"
+  ]
+}

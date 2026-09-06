@@ -1,12 +1,12 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f3_micro_005": {
-        "action_scenes": 1,
+      "p48_f4_b_program_001": {
+        "action_scenes": 0,
         "collection_attempts": 0,
-        "fresh_scenes": 1,
-        "gpu_lease_seconds": 1080,
-        "solver_problems": 4
+        "fresh_scenes": 3,
+        "gpu_lease_seconds": 1980,
+        "solver_problems": 450
       }
     },
     "caps": {
@@ -19,16 +19,16 @@
     "remaining": {
       "action_scenes": 116,
       "collection_attempts": 96,
-      "fresh_scenes": 233,
-      "gpu_lease_seconds": 84828,
-      "solver_problems": 5847
+      "fresh_scenes": 230,
+      "gpu_lease_seconds": 83858,
+      "solver_problems": 5399
     },
     "reserved": {
-      "action_scenes": 1,
+      "action_scenes": 0,
       "collection_attempts": 0,
-      "fresh_scenes": 1,
-      "gpu_lease_seconds": 1080,
-      "solver_problems": 4
+      "fresh_scenes": 3,
+      "gpu_lease_seconds": 1980,
+      "solver_problems": 450
     },
     "terminal_jobs": [
       "p48_f3_micro_001",
@@ -36,14 +36,15 @@
       "p48_f3_micro_003",
       "p48_f2_inward_001",
       "p48_f3_micro_004",
-      "p48_f4_b_stage_a_001"
+      "p48_f4_b_stage_a_001",
+      "p48_f3_micro_005"
     ],
     "used": {
-      "action_scenes": 3,
+      "action_scenes": 4,
       "collection_attempts": 0,
-      "fresh_scenes": 6,
-      "gpu_lease_seconds": 492,
-      "solver_problems": 149
+      "fresh_scenes": 7,
+      "gpu_lease_seconds": 562,
+      "solver_problems": 151
     }
   },
   "completion": {
@@ -67,27 +68,27 @@
   },
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
-    "F2": "INWARD_ENDPOINT_GATE_FAILED_3IK_ROUTE_NOT_EXECUTED_CPU_REVIEW",
-    "F3": "LAST_STABILITY_RECIPE3_MICRO_005_ISSUED",
-    "F4": "A_ACCEPTED_B_SOURCE_STAGE_A_REAL_PASS_PROGRAM_PLANNER_NEXT"
+    "F2": "ENDPOINT_LAYOUT_REVISION1_RUNTIME_V2_CPU_PASS",
+    "F3": "RECIPE3_UNTESTED_HIGH_PREGRASP_SELF_COLLISION_ROUTE2_CPU_REPAIR",
+    "F4": "B_SOURCE_PASS_THREE_PROGRAM_JOB_001_ISSUED"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "b8f565a939e0c95c9ebc97924892bed9c5116f11c6d78b3f83983708e077b17d",
+  "last_budget_event_sha256": "ae37c9dfc9504a07ab5b36b4db177805f059b74244bd8d319ee1a4de903c44aa",
   "last_job": {
     "counts": {
-      "action_scenes": 0,
+      "action_scenes": 1,
       "collection_attempts": 0,
       "fresh_scenes": 1,
-      "gpu_lease_seconds": 65,
-      "solver_problems": 135
+      "gpu_lease_seconds": 70,
+      "solver_problems": 2
     },
-    "job_id": "p48_f4_b_stage_a_001",
-    "status": "SCIENTIFIC_PASS"
+    "job_id": "p48_f3_micro_005",
+    "status": "SCIENTIFIC_FAILURE"
   },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "p48_f3_micro_005; F4-B three program qualification; F2 revision1 CPU integration",
+  "next_task": "p48_f4_b_program_001 then F2 endpoint layout revision1; F3 native self-pair route repair",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "running": null,
