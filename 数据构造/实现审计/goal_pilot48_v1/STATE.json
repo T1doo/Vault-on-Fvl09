@@ -1,12 +1,12 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f4_b_isolation_001": {
-        "action_scenes": 5,
+      "p48_f2_u_route_001": {
+        "action_scenes": 0,
         "collection_attempts": 0,
-        "fresh_scenes": 5,
-        "gpu_lease_seconds": 3780,
-        "solver_problems": 720
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1980,
+        "solver_problems": 7
       }
     },
     "caps": {
@@ -19,16 +19,16 @@
     "remaining": {
       "action_scenes": 110,
       "collection_attempts": 96,
-      "fresh_scenes": 223,
-      "gpu_lease_seconds": 81794,
-      "solver_problems": 4674
+      "fresh_scenes": 222,
+      "gpu_lease_seconds": 82694,
+      "solver_problems": 4667
     },
     "reserved": {
-      "action_scenes": 5,
+      "action_scenes": 0,
       "collection_attempts": 0,
-      "fresh_scenes": 5,
-      "gpu_lease_seconds": 3780,
-      "solver_problems": 720
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 1980,
+      "solver_problems": 7
     },
     "terminal_jobs": [
       "p48_f3_micro_001",
@@ -40,14 +40,15 @@
       "p48_f3_micro_005",
       "p48_f4_b_program_001",
       "p48_f2_revision1_001",
-      "p48_f3_micro_006"
+      "p48_f3_micro_006",
+      "p48_f4_b_isolation_001"
     ],
     "used": {
-      "action_scenes": 5,
+      "action_scenes": 10,
       "collection_attempts": 0,
-      "fresh_scenes": 12,
-      "gpu_lease_seconds": 826,
-      "solver_problems": 606
+      "fresh_scenes": 17,
+      "gpu_lease_seconds": 1726,
+      "solver_problems": 1326
     }
   },
   "completion": {
@@ -57,6 +58,11 @@
     "PILOT_INPUT_48_OF_48_ACCEPTED": false
   },
   "failure_revisions": {
+    "F2_endpoint_route_U_height": {
+      "baseline_job": "p48_f2_revision1_001",
+      "max_revisions": 3,
+      "revisions_frozen": 1
+    },
     "F2_constrained_endpoint_failure": {
       "baseline_job": "p48_f2_inward_001",
       "max_revisions": 3,
@@ -76,27 +82,27 @@
   },
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
-    "F2": "REVISION1_D_ENDPOINT_PASS_U_ONLY_FAILED_CPU_REVIEW",
+    "F2": "QUALIFIED_D_LAYOUT_FIXED_U_ROUTE1_001_ISSUED",
     "F3": "CLOSE_HOLD_STABLE_PAD16_OF250_CERTIFICATE_REJECTED_MODEL_REVIEW",
-    "F4": "B_SOURCE_PROGRAMS_PASS_FIVE_ISOLATION_001_ISSUED"
+    "F4": "B_SOURCE_PROGRAMS_AND_FIVE_ISOLATION_REAL_PASS_TEMPLATE_NEXT"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "fb58a57fd9aac4579435959600b0bf4bdabd99ab52311881fe28a535c0a2df17",
+  "last_budget_event_sha256": "875d362727d0437cfe3f18e9a6cec8e273afadacf26709db89885fabf6d47eec",
   "last_job": {
     "counts": {
-      "action_scenes": 1,
+      "action_scenes": 5,
       "collection_attempts": 0,
-      "fresh_scenes": 1,
-      "gpu_lease_seconds": 93,
-      "solver_problems": 2
+      "fresh_scenes": 5,
+      "gpu_lease_seconds": 900,
+      "solver_problems": 720
     },
-    "job_id": "p48_f3_micro_006",
-    "status": "INFRASTRUCTURE_FAILURE"
+    "job_id": "p48_f4_b_isolation_001",
+    "status": "SCIENTIFIC_PASS"
   },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "p48_f4_b_isolation_001; F2 U-only repair and F3 tangency certificate review on CPU",
+  "next_task": "p48_f2_u_route_001 then F4-B templates and F3 model-eligibility verification",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "running": null,
