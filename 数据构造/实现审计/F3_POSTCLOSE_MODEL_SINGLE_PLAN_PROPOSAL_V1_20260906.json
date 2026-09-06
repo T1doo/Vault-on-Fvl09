@@ -1,0 +1,37 @@
+{
+  "schema_version": "cmf_f3_postclose_model_single_plan_proposal_v1",
+  "approved": false,
+  "gpu_execution_authorized": false,
+  "mode": "SAVED_ACTUAL_POSTCLOSE_STATE_MODEL_CONFORMANCE_THEN_ONE_LIFT_PLAN",
+  "source_state_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f3_r3063_bootstrap_replacement_v1",
+  "source_target": "unchanged lift25.plan.json actual_goal and reported_command",
+  "scope": {
+    "new_sapien_scenes": 0,
+    "physical_attempts": 0,
+    "IK_problems": 0,
+    "high_level_start_state_constraint_checks": 4,
+    "trajectory_queries": 1,
+    "raw_trajectories": 0,
+    "accepted_roots": 0,
+    "timeout_seconds": 1800
+  },
+  "prerequisites": [
+    "freeze exact source state, world meshes, robot config, original target and new checker source hashes",
+    "verify saved-state world reconstruction and FK against actual trace",
+    "verify full/subset actual Warp caches differ only by pad__0",
+    "verify actual sphere-link partition and cached rollout callbacks",
+    "full single/batch start checks reproduce original supported-state world rejection",
+    "pair-aware single/batch checks pass without removing robot-pad or other-object constraints"
+  ],
+  "one_plan_condition": "all model conformance checks pass; otherwise no trajectory query",
+  "after_plan": "CPU audit every saved 250Hz interpolated planned state for native bottle support escape; no execution",
+  "kernel_call_counters": "record separately from the fixed high-level checks and single solver problem",
+  "physical_gate_threshold_changes": false,
+  "automatic_retry": false,
+  "new_physical_replay_authorized": false,
+  "stage1_authorized": false,
+  "formal_360_authorized": false,
+  "training_authorized": false,
+  "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "gpu_jobs_serial": true
+}
