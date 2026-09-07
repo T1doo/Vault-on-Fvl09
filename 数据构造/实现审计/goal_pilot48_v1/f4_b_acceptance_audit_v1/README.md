@@ -1,0 +1,24 @@
+# F4-B独立接受审计与两项分离修复
+
+原root001的3raw/trace/MP4和全部原family/disk finalizer通过，但原Goal pass/accounting=false、Guard exit1必须保留。不能重跑成功raw，也不能把physical/data-path通过冒称完整pilot输入已可用。
+
+## 已完成的独立证据
+
+- PARTIAL_001.json记录当时ABC/ACB局部验证、BAC待完成，不覆盖该快照。
+- ACTION_RESOURCE_RESOLUTION_001.json receipt c61965087f97bc8743092f326ed7214778ac9db3a332a7fcd2ffe34eb07e2871：11scene map，6/7/8三份真实prefix replay receipt与2794动作数组逐值相同；各2870state包含75settle，command变化与realized joint变化均为实测非零。原meter仅5/9/10/11被charge，补三遗漏得到460solver/11scene/7action/3collection/2145lease秒。
+- main另生成RESOURCE_ACCOUNTING_ACCEPTANCE_001.json并写唯一reconcile event；该文件只解除资源unknown，不接受pilot cells。所有原Goal/Guard/meter/raw/source字节保持。
+- FINAL_CURRENT_PENDING_001.json receipt853221d8c1b1fc096676fcd53eba96356a3b6894d8c8ca11c43ff2333c0aa6fb：三branch局部检查全过，action数11921/12130/11900，均26维250Hz、N+1 state，3个raw hash及primary action array hash各不相同；原verifier/角色顺序/anchor/source链、视频完整性及原inner disk finalizer通过。原Goal仍false，derived resource验证true，eligible_candidate_cells仍0。
+
+根因：canonical_prefix_replay_v1调用DenseTraceMixin.replay_effective_setpoint_step，直接set_arm_joints/夹爪drive→scene.step→_record，绕过旧meter的take_dense_action/Base_Task.move。新runtime_v3补该实际入口，共用scene去重；真实原operator CPU测试3/3通过，不是fake计数函数。旧runtime_v2不改。
+
+## 独立的current RGB缺口
+
+root001只有reference_current_hashes.json；完整no-ignore扫描和raw/trace/prefix NPZ字段审查均无三路RGB持久化。state0可由原trace/raw无损核38q+38qvel=76维；MP4首帧不能恢复原head RGB字节，更没有wrist RGB。不得用A current或伪造图像补齐。
+
+已有reuse18.audit.json明确将旧F4三r_pc和后续三r_inv_path共同引用后续真实F4_A_path/current，六条均逐三路RGB/hash/gripper/unique76/raw0审计通过。本次只复用这条规则，不复用A数据。
+
+未来B motion第一fresh scene可保存同hash current。current_recovery.audit_later_current必须检查：该producer真实B motion Goal/Guard/source manifest终结且完整、最终branch受Goal引用；current metadata指此B root；head/left/right RGB、gripper、38DOF无损解码全部匹配sealed current和三pc原raw row0；producer完整initial anchor用原compare_anchors重算。任何缺失/不匹配保持pending。报告明确captured_later_not_saved_by_original_root，不改旧raw或原记录；登记只由main显式共同引用执行。
+
+pristine_current_hook.py是未来root的新版本prototype：只在pristine capture后保存一次current_arrays.npz/current.json，使用已审计两份相等Aloha alias及unique76 decode；其他phase不偷偷补抓。NPZ/JSON均exclusive atomic，frame/state哈希不符拒绝；未装入当前root或任何已绑定源码。5项CPU测试通过，包含与原realization_current_layout_audit_v1实际兼容和A-current拒绝。
+
+审计范围说明：raw/time/current/完整性与原hash-bound verifier/role receipts重新核验；没有重放模拟器，也没有声称重新执行每个物理verifier。无GPU、无新Scene/raw、无pilot_cells写入。所有独立报告仅提供可审阅依据，不自行授予formal/scientific授权。
