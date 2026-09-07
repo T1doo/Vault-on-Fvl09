@@ -1,0 +1,349 @@
+{
+  "schema_version": "f2_inside_preinsert_endpoint_geometry_diagnosis_v1",
+  "CPU_only": true,
+  "new_solver_scene_action_calls": 0,
+  "actual_queries": [
+    {
+      "source": "carry_at_qualified_prefix_height_to_inside_xy",
+      "start_step": 1367,
+      "end_step": 1753,
+      "status": "Success",
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 1,
+            "position_error": 6.097835125729034e-07,
+            "rotation_error": 5.829397650813917e-06,
+            "solve_time": 6.316190004348755,
+            "status": null,
+            "success": true,
+            "total_time": 8.543144941329956,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ]
+    },
+    {
+      "source": "preinsert_30mm",
+      "start_step": null,
+      "end_step": null,
+      "status": "Fail",
+      "motiongen_result_side_channel": [
+        {
+          "fields": {
+            "attempts": 10,
+            "position_error": null,
+            "rotation_error": null,
+            "solve_time": 3.0010995864868164,
+            "status": "MotionGenStatus.IK_FAIL",
+            "success": false,
+            "total_time": 3.3142051696777344,
+            "used_graph": false,
+            "valid_query": true
+          },
+          "schema_version": "cmf_motiongen_result_side_channel_v1",
+          "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+        }
+      ]
+    }
+  ],
+  "plan0_actual_execution": {
+    "end_trace_row": 1753,
+    "planner_status": "Success",
+    "segment_id": "carry_at_qualified_prefix_height_to_inside_xy",
+    "start_trace_row": 1367,
+    "tracking_orientation_error_rad": 0.007218905759492765,
+    "tracking_position_error_m": 0.0012310549312598991
+  },
+  "actual_model_start_valid": {
+    "motion_gen": true,
+    "motion_gen_batch": true
+  },
+  "current_eef": [
+    -0.3355512320995331,
+    -0.19997404515743256,
+    1.0496679544448853,
+    0.5005630556253147,
+    -0.498836726972167,
+    0.5023738450582818,
+    0.4982158838978358
+  ],
+  "old_preinsert_eef": [
+    -0.14973369073314077,
+    -0.2003280594927352,
+    0.8155320377029529,
+    0.0005954224682042128,
+    -5.22941326323596e-05,
+    -0.7062952301963749,
+    0.70791714948803
+  ],
+  "translation_delta_m": [
+    0.1858175413663923,
+    -0.0003540143353026326,
+    -0.23413591674193235
+  ],
+  "rotation_delta_deg": 179.79321375210307,
+  "actual_grasp_translation_drift_m": 2.782800153544061e-05,
+  "actual_implied_minus_nominal_can_xyz_m": [
+    -1.8041216357844725e-05,
+    3.89226103586493e-06,
+    -2.1135069109168292e-05
+  ],
+  "old_goal_necessary_conditions": {
+    "configured_buffer": {
+      "attached_can": {
+        "count": 0,
+        "groups": {}
+      },
+      "hand": {
+        "count": 8,
+        "groups": {
+          "fl_link6/box__1": {
+            "count": 1,
+            "minimum_clearance_m": -0.027468361509164853
+          },
+          "fl_link7/box__4": {
+            "count": 3,
+            "minimum_clearance_m": -0.008443616463624974
+          },
+          "fl_link6/box__6": {
+            "count": 1,
+            "minimum_clearance_m": -0.024179989379358335
+          },
+          "fl_link7/box__9": {
+            "count": 3,
+            "minimum_clearance_m": -0.00923383863158828
+          }
+        }
+      }
+    },
+    "zero_buffer_CPU_diagnostic": {
+      "attached_can": {
+        "count": 0,
+        "groups": {}
+      },
+      "hand": {
+        "count": 4,
+        "groups": {
+          "fl_link6/box__1": {
+            "count": 1,
+            "minimum_clearance_m": -0.02346836150916485
+          },
+          "fl_link7/box__4": {
+            "count": 1,
+            "minimum_clearance_m": -0.004443616463624974
+          },
+          "fl_link6/box__6": {
+            "count": 1,
+            "minimum_clearance_m": -0.020179989379358332
+          },
+          "fl_link7/box__9": {
+            "count": 1,
+            "minimum_clearance_m": -0.005233838631588279
+          }
+        }
+      }
+    },
+    "native_hand": {
+      "surface_intersections": [
+        "fl_link6/table__0",
+        "fl_link6/box__1",
+        "fl_link6/box__4",
+        "fl_link6/box__6",
+        "fl_link6/box__9",
+        "fl_link7/box__4",
+        "fl_link7/box__9"
+      ],
+      "pass_surface_test": false,
+      "equal_left_right_native_URDF_templates_verified": true,
+      "live_right_body_local_native_templates_used_for_equal_left_geometry": true,
+      "whole_arm_or_GPU_candidate_check": false
+    },
+    "solver_goal": [
+      0.21618297774610495,
+      -0.15162000357350397,
+      0.03353203770295288,
+      0.5059704312310271,
+      -0.5044319598407091,
+      -0.4943696520055493,
+      0.4951171253219401
+    ]
+  },
+  "single_preserved_orientation_necessary_condition": {
+    "actor_pose": [
+      -0.3379856506346609,
+      -0.20025693525118748,
+      0.7504271179079793,
+      0.5005648328295005,
+      0.5012479616081518,
+      0.5002352787751277,
+      0.49794577514707117
+    ],
+    "eef_pose": [
+      -0.33648394141186727,
+      -0.19990161706252021,
+      0.9386951833605548,
+      0.5005630556253144,
+      -0.498836726972167,
+      0.5023738450582814,
+      0.49821588389783555
+    ],
+    "preserves_actual_grasp_orientation": true,
+    "analytical_highest_legal_top_pose_not_height_scan": true,
+    "box_Y_native_envelope_span_m": 0.09661889127566956,
+    "native_geometry": {
+      "schema_version": "f2_inside_native_piecewise_floor_geometry_result_v1",
+      "verifier_version": "f2_inside_native_envelope_piecewise_floor_v1",
+      "certificate_sha256": "6c9d9d95bbb37cb5254f63a3bdf676cb0ea933f8db6c38371e260b59773d4738",
+      "checks": {
+        "X_sides": true,
+        "Z_sides": true,
+        "top": true,
+        "no_sidewall_material_intersection": true,
+        "no_floor_penetration_beyond_native_numeric_band": false,
+        "near_actual_floor_surface": true
+      },
+      "pass": false,
+      "local_native_envelope_lower": [
+        -0.0257464240960779,
+        0.008146504037831832,
+        -0.0734892121558665
+      ],
+      "local_native_envelope_upper": [
+        0.02538102040495618,
+        0.10476539531350135,
+        -0.022207827383620284
+      ],
+      "floor_geometry_candidate_indices": [
+        5
+      ],
+      "floor_intersection_indices": [
+        5
+      ],
+      "floor_penetration_indices": [
+        5
+      ],
+      "wall_intersection_indices": [],
+      "floor_penetration_test": "native intersections must clear under box-local +Y numerical epsilon; not sphere-buffer removal",
+      "physical_support_proven": false,
+      "can_world_pose": [
+        -0.3379856506346609,
+        -0.20025693525118748,
+        0.7504271179079793,
+        0.5005648328295005,
+        0.5012479616081518,
+        0.5002352787751277,
+        0.49794577514707117
+      ],
+      "box_world_pose": [
+        -0.28999999165534973,
+        -0.20000000298023224,
+        0.7417346239089966,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "receipt_sha256": "2519a332eaa3c7715bfb517b0e63658eb3cb3de8d0d6953ca1dbcf354accea6e"
+    },
+    "hand_and_model": {
+      "configured_buffer": {
+        "attached_can": {
+          "count": 13,
+          "groups": {
+            "attached_can/box__5": {
+              "count": 13,
+              "minimum_clearance_m": -0.013372346908966458
+            }
+          }
+        },
+        "hand": {
+          "count": 8,
+          "groups": {
+            "fl_link7/box__3": {
+              "count": 4,
+              "minimum_clearance_m": -0.014130714488326564
+            },
+            "fl_link7/box__11": {
+              "count": 4,
+              "minimum_clearance_m": -0.013983573431179305
+            }
+          }
+        }
+      },
+      "zero_buffer_CPU_diagnostic": {
+        "attached_can": {
+          "count": 12,
+          "groups": {
+            "attached_can/box__5": {
+              "count": 12,
+              "minimum_clearance_m": -0.009372346908966458
+            }
+          }
+        },
+        "hand": {
+          "count": 8,
+          "groups": {
+            "fl_link7/box__3": {
+              "count": 4,
+              "minimum_clearance_m": -0.010130714488326564
+            },
+            "fl_link7/box__11": {
+              "count": 4,
+              "minimum_clearance_m": -0.009983573431179305
+            }
+          }
+        }
+      },
+      "native_hand": {
+        "surface_intersections": [
+          "fl_link7/box__3",
+          "fl_link7/box__11"
+        ],
+        "pass_surface_test": false,
+        "equal_left_right_native_URDF_templates_verified": true,
+        "live_right_body_local_native_templates_used_for_equal_left_geometry": true,
+        "whole_arm_or_GPU_candidate_check": false
+      },
+      "solver_goal": [
+        0.220344090908897,
+        0.03508437002004605,
+        0.15669518336055477,
+        0.7061914524355073,
+        0.009580504985158762,
+        0.7079023762491381,
+        -0.00872193396454197
+      ]
+    }
+  },
+  "executable_replacement_found": false,
+  "sources": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/inside_result.json": "602c2d31d8dd7702c0ab2206af8b5cd616de0a90a5065eda84ddb61452768441",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/qualification_trace.npz": "862d48386e6a4ee63c3cb72bb76d7a48bbf2d5959c0d76a9497624cd35cc5559",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/model_005_carried_full.json": "dd4ecd1acc19683969f3746123fcf2d085fda53ffd8b8ac8451c6c6f809ed390",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/model_010_carried_full.json": "8e58e0f041d2dafbcc73b23546385e320dc3e3491bb0e805c6f176223c7533de",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/urdf/arx5_description_isaac.urdf": "097c59fb19a7b482249c6097df8319586ea7cfd268c015516f103b289a7e761a",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/robot.py": "3dcd80acc8cab489a4c5edb507cc460dab1724be0226b8d5c4c1b218dee605cb",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/planner.py": "f1012345542483f4cfbac64880a266b7ee0d4a64362d5ec6fd6985ed9c34b564",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/config.yml": "a4f043d2d4b44cca5ec47fb498a3194da3f87ff9530dcbfdcee1539a44423d57",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/curobo_left.yml": "07763e168925ac18ad003036fb65385e42358b92521e00273fa5cf0d2cfaed75",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_model_bridge_v1_1/transforms.py": "d101ca030a9e0dfaa576b17d01c2d3cce17e867c363d854a41c2bdf5569794b1",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_model_replay_v1/kinematics_cpu.py": "8cec410f43021cf54cfc84b2959bae9a524cfcde76ae769d80502d9b0152923c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_controlled_inside_runtime_v2/spec.py": "d61138fbd780d089e8b7f72e93b2126db26f7c09d414032c6d08e6efd9ba2841",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/saved_contact_geometry.json": "01a363e5a4cbf6db0599c186004d6fbb2982a563e30acae441f540e887d14748",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/数据构造方案.md": "5b24d53718c44fb2a67e79b817c6c4904b82bacf62d4e642ce49470e980b32f9",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_preinsert_failure_review_v1/analyze.py": "5f32e1f4e0452f4b88c3c55c4d2ff83c71b1f3aa89281dcb43fe740b427a38a8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/contact.py": "5bc7aee2deeee44ebc850c7de954063af7d6e0d9dd1688409303f9d56eedd0f3",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/physical_gates.py": "6881acb357afef3248455d0b9cc07d5c6458c27403f69f83190558daf4330e0f",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/dependencies.py": "60045005323c89778cbc474919294396ec7c62556fda461f4cff0d3f48a979e9",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/test_cpu.py": "dd12c7f06e5930e142ff0b1d933824bafd312dc0d812b5a84c890ea04fd434a8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/publish_cpu.py": "1cdb7b9929a0ae0992426d86224ddc5d67981095d819dc8732682ff06c0d232b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/geometry_verifier.py": "c57c066a237b541c9da7381bfc3b2ae0cfa74111683994d0e6b79bc425749ce7",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/certificate.py": "8802c82bf40cd6b941228eb4579e165756890110f192a6dda9ff4f4bfb1ea673",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/__init__.py": "eab2ea75202607e151692e5bcc80207080d67cd92ae492f26cd5b03754a0cd7b"
+  },
+  "receipt_sha256": "a33dfd377f9f718a38a77ad208a69590f8ddf7af8269fe15e1e1a689fb46ecf0"
+}

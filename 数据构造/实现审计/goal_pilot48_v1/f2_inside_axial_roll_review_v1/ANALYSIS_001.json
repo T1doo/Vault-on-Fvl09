@@ -1,0 +1,292 @@
+{
+  "schema_version": "f2_inside_single_analytic_axial_roll_necessary_condition_review_v1",
+  "CPU_only": true,
+  "new_solver_scene_action_calls": 0,
+  "orientation_design_is_not_pure_path_revision": true,
+  "old_final_actor_orientation": [
+    0.7071067811865472,
+    -7.850462293418871e-17,
+    -2.220446049250313e-16,
+    -0.7071067811865478
+  ],
+  "native_long_axis_index": 1,
+  "fixed_world_long_axis": [
+    1.0,
+    -6.661338147750939e-16,
+    2.0299618927423958e-16
+  ],
+  "fixed_world_native_geometry_center": [
+    -0.29022194071120416,
+    -0.20025467921534915,
+    0.784414655716196
+  ],
+  "roll_derivation": {
+    "roll_rad": -1.5685354497223465,
+    "roll_deg": -89.870461285745,
+    "minimum_hand_height_relative_to_axis_m": -0.030508201740352243,
+    "unrotated_minimum_hand_height_relative_to_axis_m": -0.08595549867990278,
+    "direction": [
+      0.0022608751464471386,
+      -0.99999744421852
+    ],
+    "proof": {
+      "method": "nearest_supporting_edge_to_axis_origin",
+      "axis_origin_inside_convex_hull": true,
+      "support_edge": 13,
+      "distance_m": 0.030508201740352243,
+      "tied_optimal_edges": 1
+    },
+    "pose_angles_evaluated_by_search": 0,
+    "geometric_cross_section_points": 90
+  },
+  "proposed_actor_pose": [
+    -0.3379856506346609,
+    -0.200249708830884,
+    0.7844169229952477,
+    0.5005648996749686,
+    -0.49943446137945724,
+    -0.4994344613794566,
+    -0.500564899674969
+  ],
+  "actual_grasp_derived_eef_goal": [
+    -0.14971362265811386,
+    -0.19930854027528216,
+    0.7844763722047255,
+    0.0008916438907837382,
+    -0.0004083290503613502,
+    -2.8334188985068565e-06,
+    0.9999995191151497
+  ],
+  "axis_preservation_error": 0.0,
+  "center_preservation_error_m": 0.0,
+  "maximum_lowest_native_hand_world_z_m": 0.7539064539758437,
+  "native_final_five_boundaries_and_floor": {
+    "schema_version": "f2_inside_native_piecewise_floor_geometry_result_v1",
+    "verifier_version": "f2_inside_native_envelope_piecewise_floor_v1",
+    "certificate_sha256": "6c9d9d95bbb37cb5254f63a3bdf676cb0ea933f8db6c38371e260b59773d4738",
+    "checks": {
+      "X_sides": true,
+      "Z_sides": true,
+      "top": true,
+      "no_sidewall_material_intersection": true,
+      "no_floor_penetration_beyond_native_numeric_band": true,
+      "near_actual_floor_surface": true
+    },
+    "pass": true,
+    "local_native_envelope_lower": [
+      -0.025717430803234496,
+      0.01722821818351684,
+      -0.048415293269941345
+    ],
+    "local_native_envelope_upper": [
+      0.02520807833300062,
+      0.06813184543088184,
+      0.04797139515823248
+    ],
+    "floor_geometry_candidate_indices": [
+      9
+    ],
+    "floor_intersection_indices": [],
+    "floor_penetration_indices": [],
+    "wall_intersection_indices": [],
+    "floor_penetration_test": "native intersections must clear under box-local +Y numerical epsilon; not sphere-buffer removal",
+    "physical_support_proven": false,
+    "can_world_pose": [
+      -0.3379856506346609,
+      -0.200249708830884,
+      0.7844169229952477,
+      0.5005648996749686,
+      -0.49943446137945724,
+      -0.4994344613794566,
+      -0.500564899674969
+    ],
+    "box_world_pose": [
+      -0.28999999165534973,
+      -0.20000000298023224,
+      0.7417346239089966,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "receipt_sha256": "329b998e6cbbe66b3aea26036eb501a6bc0a2c182bbba7bff76f7b59e86fe91d"
+  },
+  "actual_solver_implied_native_final": {
+    "schema_version": "f2_inside_native_piecewise_floor_geometry_result_v1",
+    "verifier_version": "f2_inside_native_envelope_piecewise_floor_v1",
+    "certificate_sha256": "6c9d9d95bbb37cb5254f63a3bdf676cb0ea933f8db6c38371e260b59773d4738",
+    "checks": {
+      "X_sides": true,
+      "Z_sides": true,
+      "top": true,
+      "no_sidewall_material_intersection": true,
+      "no_floor_penetration_beyond_native_numeric_band": true,
+      "near_actual_floor_surface": true
+    },
+    "pass": true,
+    "local_native_envelope_lower": [
+      -0.025719105184265886,
+      0.017228359504389924,
+      -0.048414496977670314
+    ],
+    "local_native_envelope_upper": [
+      0.025207052477584573,
+      0.06813257193513361,
+      0.04797253101554405
+    ],
+    "floor_geometry_candidate_indices": [
+      9
+    ],
+    "floor_intersection_indices": [],
+    "floor_penetration_indices": [],
+    "wall_intersection_indices": [],
+    "floor_penetration_test": "native intersections must clear under box-local +Y numerical epsilon; not sphere-buffer removal",
+    "physical_support_proven": false,
+    "can_world_pose": [
+      -0.33798468457074615,
+      -0.20025123428567357,
+      0.7844175008076348,
+      0.5005680229416295,
+      -0.4994328429667632,
+      -0.499433168430224,
+      -0.5005646811813553
+    ],
+    "box_world_pose": [
+      -0.28999999165534973,
+      -0.20000000298023224,
+      0.7417346239089966,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "receipt_sha256": "442e0063b2b2f510a84a97d8b91ca9432d193d056c1daf3d0645acd443783deb"
+  },
+  "full_actual_profile_and_native_hand_necessary_conditions": {
+    "configured_buffer": {
+      "attached_can": {
+        "count": 13,
+        "groups": {
+          "attached_can/box__4": {
+            "count": 4,
+            "minimum_clearance_m": -0.0022749114553027006
+          },
+          "attached_can/box__5": {
+            "count": 3,
+            "minimum_clearance_m": -0.0010161221267400216
+          },
+          "attached_can/box__9": {
+            "count": 6,
+            "minimum_clearance_m": -0.0027977456077045324
+          }
+        }
+      },
+      "hand": {
+        "count": 4,
+        "groups": {
+          "fl_link6/box__1": {
+            "count": 1,
+            "minimum_clearance_m": -0.027448322666276764
+          },
+          "fl_link8/box__4": {
+            "count": 1,
+            "minimum_clearance_m": -0.0009165893676897491
+          },
+          "fl_link6/box__6": {
+            "count": 1,
+            "minimum_clearance_m": -0.027063435012024923
+          },
+          "fl_link6/scale__4": {
+            "count": 1,
+            "minimum_clearance_m": -0.004636395327253764
+          }
+        }
+      }
+    },
+    "zero_buffer_CPU_diagnostic": {
+      "attached_can": {
+        "count": 0,
+        "groups": {}
+      },
+      "hand": {
+        "count": 3,
+        "groups": {
+          "fl_link6/box__1": {
+            "count": 1,
+            "minimum_clearance_m": -0.02344832266627676
+          },
+          "fl_link6/box__6": {
+            "count": 1,
+            "minimum_clearance_m": -0.02306343501202492
+          },
+          "fl_link6/scale__4": {
+            "count": 1,
+            "minimum_clearance_m": -0.0006363953272537602
+          }
+        }
+      }
+    },
+    "native_hand": {
+      "surface_intersections": [
+        "fl_link6/box__0",
+        "fl_link6/box__1",
+        "fl_link6/box__4",
+        "fl_link6/box__6",
+        "fl_link6/box__8",
+        "fl_link6/box__9",
+        "fl_link6/scale__0",
+        "fl_link6/scale__3",
+        "fl_link6/scale__4",
+        "fl_link6/scale__9",
+        "fl_link7/box__9",
+        "fl_link8/box__4"
+      ],
+      "pass_surface_test": false,
+      "equal_left_right_native_URDF_templates_verified": true,
+      "live_right_body_local_native_templates_used_for_equal_left_geometry": true,
+      "whole_arm_or_GPU_candidate_check": false
+    },
+    "solver_goal": [
+      0.21720189173176752,
+      -0.15166045666006697,
+      0.0024763722047255188,
+      0.7147661838313223,
+      -0.00028785399419614714,
+      0.0002896216836792975,
+      0.6993633788743637
+    ]
+  },
+  "necessary_conditions_pass": false,
+  "only_one_orientation_evaluated": true,
+  "native_axial_symmetry_assumed": false,
+  "numerical_Gates_or_collision_masks_changed": false,
+  "physical_or_full_arm_IK_success_proven": false,
+  "sources": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/inside_result.json": "602c2d31d8dd7702c0ab2206af8b5cd616de0a90a5065eda84ddb61452768441",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/qualification_trace.npz": "862d48386e6a4ee63c3cb72bb76d7a48bbf2d5959c0d76a9497624cd35cc5559",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/model_005_carried_full.json": "dd4ecd1acc19683969f3746123fcf2d085fda53ffd8b8ac8451c6c6f809ed390",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_carry_revision1_002/model_010_carried_full.json": "8e58e0f041d2dafbcc73b23546385e320dc3e3491bb0e805c6f176223c7533de",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/urdf/arx5_description_isaac.urdf": "097c59fb19a7b482249c6097df8319586ea7cfd268c015516f103b289a7e761a",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/robot.py": "3dcd80acc8cab489a4c5edb507cc460dab1724be0226b8d5c4c1b218dee605cb",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/planner.py": "f1012345542483f4cfbac64880a266b7ee0d4a64362d5ec6fd6985ed9c34b564",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/config.yml": "a4f043d2d4b44cca5ec47fb498a3194da3f87ff9530dcbfdcee1539a44423d57",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/curobo_left.yml": "07763e168925ac18ad003036fb65385e42358b92521e00273fa5cf0d2cfaed75",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_model_bridge_v1_1/transforms.py": "d101ca030a9e0dfaa576b17d01c2d3cce17e867c363d854a41c2bdf5569794b1",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_model_replay_v1/kinematics_cpu.py": "8cec410f43021cf54cfc84b2959bae9a524cfcde76ae769d80502d9b0152923c",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_controlled_inside_runtime_v2/spec.py": "d61138fbd780d089e8b7f72e93b2126db26f7c09d414032c6d08e6efd9ba2841",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/saved_contact_geometry.json": "01a363e5a4cbf6db0599c186004d6fbb2982a563e30acae441f540e887d14748",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/数据构造方案.md": "5b24d53718c44fb2a67e79b817c6c4904b82bacf62d4e642ce49470e980b32f9",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_preinsert_failure_review_v1/analyze.py": "5f32e1f4e0452f4b88c3c55c4d2ff83c71b1f3aa89281dcb43fe740b427a38a8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/contact.py": "5bc7aee2deeee44ebc850c7de954063af7d6e0d9dd1688409303f9d56eedd0f3",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/physical_gates.py": "6881acb357afef3248455d0b9cc07d5c6458c27403f69f83190558daf4330e0f",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/dependencies.py": "60045005323c89778cbc474919294396ec7c62556fda461f4cff0d3f48a979e9",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/test_cpu.py": "dd12c7f06e5930e142ff0b1d933824bafd312dc0d812b5a84c890ea04fd434a8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/publish_cpu.py": "1cdb7b9929a0ae0992426d86224ddc5d67981095d819dc8732682ff06c0d232b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/geometry_verifier.py": "c57c066a237b541c9da7381bfc3b2ae0cfa74111683994d0e6b79bc425749ce7",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/certificate.py": "8802c82bf40cd6b941228eb4579e165756890110f192a6dda9ff4f4bfb1ea673",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_native_floor_v1/__init__.py": "eab2ea75202607e151692e5bcc80207080d67cd92ae492f26cd5b03754a0cd7b",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_axial_roll_review_v1/analyze.py": "fa42fd05b1cc5aa6a93e20e39b626f276f1774559f2e9c183e5fb624491078c8",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_preinsert_failure_review_v1/DIAGNOSIS_001.json": "8bcdc1ee1768825b43e45e2d372c09b32612b2967bf52a873738f90c2c4534be"
+  },
+  "receipt_sha256": "65cfab9c155077b8b49aa6946a639bdf24310077397461776ca4df077e0d24fa"
+}
