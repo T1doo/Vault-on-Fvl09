@@ -1,0 +1,517 @@
+{
+  "input_files": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_u_route_001/live_capture.json": "ab28afac42d5128253d0558b4137f0df18f8e960987914648e80467663cd70c9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_u_route_001/world_geometry.json": "d0e36452e628ef37ff8b09dbaa7833502617bea48a08a220287d88ee4d5836c7",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/071_can/model_data0.json": "78eb137b42da2d6fa0b9208717964838e01cf6c65c5c6b14ad7c988d6ff2acfb"
+  },
+  "inside": {
+    "blanket_box_collision_disable_allowed": false,
+    "blocker": "original mid-cavity target has no support; contact-height pose must satisfy unchanged strict verifier before any physical suffix",
+    "controlled_target_is_not_native_supported": true,
+    "execution_ready": false,
+    "first_contact_actor_pose": [
+      -0.3379856506346609,
+      -0.20025693525118748,
+      0.7844196312139927,
+      0.7071067811865472,
+      -7.850462293418872e-17,
+      -7.850462293418872e-17,
+      -0.7071067811865478
+    ],
+    "first_contact_shape_ids": [
+      "box__9"
+    ],
+    "first_native_contact_drop_interval_m": [
+      0.020570831298828123,
+      0.020570983886718748
+    ],
+    "low_floor_shape_ids": [
+      "box__4",
+      "box__5",
+      "box__7",
+      "box__9",
+      "box__12",
+      "box__13",
+      "box__14"
+    ],
+    "original_target_actor_pose": [
+      -0.3379856506346609,
+      -0.20025693525118748,
+      0.8049906151007115,
+      0.7071067811865472,
+      -7.850462293418872e-17,
+      -7.850462293418872e-17,
+      -0.7071067811865478
+    ],
+    "sidewall_shape_ids_must_retain": [
+      "box__0",
+      "box__1",
+      "box__2",
+      "box__3",
+      "box__6",
+      "box__8",
+      "box__10",
+      "box__11"
+    ],
+    "strict_cavity_floor_world_z_m": 0.763500019222498,
+    "strict_inside_at_first_native_contact": {
+      "cavity_lower": [
+        -0.07824613475799559,
+        0.02176539531350136,
+        -0.07823097729682921
+      ],
+      "cavity_upper": [
+        0.07775386524200455,
+        0.10476539531350136,
+        0.07776902270317093
+      ],
+      "local_corner_max": [
+        0.0353284263520624,
+        0.07828828834618085,
+        0.048002966794448876
+      ],
+      "local_corner_min": [
+        -0.035820695868053476,
+        0.0071005345073844595,
+        -0.04846492138810715
+      ],
+      "pass_true_cavity_obb": false
+    },
+    "support_target_revision_implemented": false
+  },
+  "native_geometry_queries": {
+    "actions": 0,
+    "fixed_bisection_steps": 18,
+    "scenes": 0,
+    "solver_problems": 0,
+    "vertical_contact_tests": 21
+  },
+  "on": {
+    "execution_ready": false,
+    "highest_native_shape": {
+      "max_world_xyz": [
+        -0.0819484228950347,
+        -0.16415207048910707,
+        0.7803267470237736
+      ],
+      "min_world_xyz": [
+        -0.1552270653420598,
+        -0.23592408874800608,
+        0.7668408769638781
+      ],
+      "role": "scale",
+      "shape": "scale__0",
+      "source_geometry_sha256": "caca277b02c5931cf9df084de632d2093ab9ccfc94b3d2aa3b28f8ebd35e78cf",
+      "z_thickness_m": 0.013485870059895433
+    },
+    "other_scale_shapes_retained": true,
+    "remaining_gate": "top-face footprint, fresh supported target and released/open-gripper model must be bound before execution",
+    "single_cap_shape_identified": true,
+    "support_pair_mask_enabled": false
+  },
+  "physical_Gates_or_tolerances_changed": false,
+  "receipt_sha256": "0d4ff8f132dcb3414d91b71ceca4aa09c6d66e90a672770bb3ee3293ab573af8",
+  "schema_version": "F2_native_support_anatomy_CPU_v1",
+  "shapes": [
+    {
+      "max_world_xyz": [
+        -0.19327972983240696,
+        -0.10324601684877299,
+        0.8519377486438025
+      ],
+      "min_world_xyz": [
+        -0.2899808950952203,
+        -0.11669806415882802,
+        0.7400014860297272
+      ],
+      "role": "box",
+      "shape": "box__0",
+      "source_geometry_sha256": "4debd3b06a0dae946d6007803ea8d2abc6fd7815f67fbef60cc2caf298fe28d5",
+      "z_thickness_m": 0.1119362626140753
+    },
+    {
+      "max_world_xyz": [
+        -0.19327146862851802,
+        -0.1999893564954851,
+        0.8519328968256454
+      ],
+      "min_world_xyz": [
+        -0.20725341315945128,
+        -0.29673562492036254,
+        0.7400018485004786
+      ],
+      "role": "box",
+      "shape": "box__1",
+      "source_geometry_sha256": "09a412475b695ad936c576ac769cf90465afaeebecda653cd698290396d7c5a0",
+      "z_thickness_m": 0.11193104832516687
+    },
+    {
+      "max_world_xyz": [
+        -0.28998879848788117,
+        -0.2833393019935384,
+        0.8519379989833142
+      ],
+      "min_world_xyz": [
+        -0.3707335603346463,
+        -0.2967430218568894,
+        0.7627283129244102
+      ],
+      "role": "box",
+      "shape": "box__2",
+      "source_geometry_sha256": "3f4031a739897e8f3218c360fcfd5546f9f289a789b098ed37d6d73ae9b8a6e9",
+      "z_thickness_m": 0.089209686058904
+    },
+    {
+      "max_world_xyz": [
+        -0.37073356629511084,
+        -0.19998908464824228,
+        0.8519247309891895
+      ],
+      "min_world_xyz": [
+        -0.38672313238267814,
+        -0.2967361255993861,
+        0.7627370435148838
+      ],
+      "role": "box",
+      "shape": "box__3",
+      "source_geometry_sha256": "2a40f5ab2e2a139730b8be584d52fb58dd5b8ab7f27218775f687ddebbaf9e7a",
+      "z_thickness_m": 0.08918768747430572
+    },
+    {
+      "max_world_xyz": [
+        -0.20905442117235712,
+        -0.11669807011929256,
+        0.7626931774759077
+      ],
+      "min_world_xyz": [
+        -0.2899808950952203,
+        -0.1999717402267715,
+        0.7400032983834844
+      ],
+      "role": "box",
+      "shape": "box__4",
+      "source_geometry_sha256": "8947d26f0d53ceb6db520ca8bd7c2464df0fae853c42a7be284f629fe2f354da",
+      "z_thickness_m": 0.02268987909242326
+    },
+    {
+      "max_world_xyz": [
+        -0.2899808950952203,
+        -0.10324444328612746,
+        0.7584015073875618
+      ],
+      "min_world_xyz": [
+        -0.3867189779388754,
+        -0.2967458411566293,
+        0.7400000191966504
+      ],
+      "role": "box",
+      "shape": "box__5",
+      "source_geometry_sha256": "847fb416b53ebf4a89ae4362fb22f3543da1b8abf3be6ad4d3ce1c71206ba073",
+      "z_thickness_m": 0.018401488190911475
+    },
+    {
+      "max_world_xyz": [
+        -0.19327474688402949,
+        -0.11669807011929258,
+        0.851918663236261
+      ],
+      "min_world_xyz": [
+        -0.20905287741203443,
+        -0.19997174022677153,
+        0.7400133566674402
+      ],
+      "role": "box",
+      "shape": "box__6",
+      "source_geometry_sha256": "00d573b364fd9f3176a74c84a6d8e049d4344ea867c40332f934bec841197af5",
+      "z_thickness_m": 0.1119053065688208
+    },
+    {
+      "max_world_xyz": [
+        -0.36762049909860656,
+        -0.19997962096501037,
+        0.7627278882413099
+      ],
+      "min_world_xyz": [
+        -0.38672704244743367,
+        -0.27754549201645684,
+        0.7584019320706622
+      ],
+      "role": "box",
+      "shape": "box__7",
+      "source_geometry_sha256": "f450e2f81ab8092084783cd51d5af184ac2bb64976ab9ce1f0c94b2b81692103",
+      "z_thickness_m": 0.004325956170647682
+    },
+    {
+      "max_world_xyz": [
+        -0.2072547721453724,
+        -0.2826684397856658,
+        0.8519377486438025
+      ],
+      "min_world_xyz": [
+        -0.2899808979270231,
+        -0.29674338544522794,
+        0.7610953214669332
+      ],
+      "role": "box",
+      "shape": "box__8",
+      "source_geometry_sha256": "e7638b3df0afc3a07d058aab60b6ae1a7c013c6962767b3f6fad558bd23064a6",
+      "z_thickness_m": 0.0908424271768693
+    },
+    {
+      "max_world_xyz": [
+        -0.2072547721453724,
+        -0.199989362158363,
+        0.7610953214669332
+      ],
+      "min_world_xyz": [
+        -0.2899808979270231,
+        -0.2967458232752356,
+        0.7400031454603153
+      ],
+      "role": "box",
+      "shape": "box__9",
+      "source_geometry_sha256": "8ce6e5d499a4fda7fba3818d0e805694e48ad8f146c6a8f4f5176ea3d60d89cd",
+      "z_thickness_m": 0.021092176006617835
+    },
+    {
+      "max_world_xyz": [
+        -0.2899887984878811,
+        -0.10324749504398545,
+        0.8519379870623851
+      ],
+      "min_world_xyz": [
+        -0.37074355603372405,
+        -0.11665171558635999,
+        0.7627081799652212
+      ],
+      "role": "box",
+      "shape": "box__10",
+      "source_geometry_sha256": "c10d2457eed021538ff954cd275cbfc6b0f3606724d3c71ccacc2493cb1823ae",
+      "z_thickness_m": 0.08922980709716388
+    },
+    {
+      "max_world_xyz": [
+        -0.3707451117149758,
+        -0.10324497972793845,
+        0.8519243852822447
+      ],
+      "min_world_xyz": [
+        -0.38672314430360727,
+        -0.1999796153014049,
+        0.7627081799652212
+      ],
+      "role": "box",
+      "shape": "box__11",
+      "source_geometry_sha256": "d2b2d154f746ab2abd88645ce2954778ad036ef7d76c3caf3b53412b51cae041",
+      "z_thickness_m": 0.08921620531702346
+    },
+    {
+      "max_world_xyz": [
+        -0.289988492659733,
+        -0.10325088058785913,
+        0.7627081799652212
+      ],
+      "min_world_xyz": [
+        -0.3676132273318356,
+        -0.12238605204799845,
+        0.7584019067386878
+      ],
+      "role": "box",
+      "shape": "box__12",
+      "source_geometry_sha256": "fd7ce3f878c5b6ceaa14b1b3dcc8ed555e581a13398d086cb37641fe014d0fe8",
+      "z_thickness_m": 0.00430627322653343
+    },
+    {
+      "max_world_xyz": [
+        -0.36761323329230017,
+        -0.10325672184313416,
+        0.7627081799652212
+      ],
+      "min_world_xyz": [
+        -0.38672405029422136,
+        -0.19997961530140487,
+        0.7584019067386878
+      ],
+      "role": "box",
+      "shape": "box__13",
+      "source_geometry_sha256": "1752e7a661081b1f59881727308d528ba58b54fe163071c1adb555d729d66763",
+      "z_thickness_m": 0.00430627322653343
+    },
+    {
+      "max_world_xyz": [
+        -0.28998089509522035,
+        -0.2775454979769214,
+        0.7627278882413099
+      ],
+      "min_world_xyz": [
+        -0.38672777558457533,
+        -0.29674138272913364,
+        0.7584019320706622
+      ],
+      "role": "box",
+      "shape": "box__14",
+      "source_geometry_sha256": "6de56dac67ab0b25e92b4043e45850f482c25c308abedba0f7f8fb2fae72d834",
+      "z_thickness_m": 0.004325956170647682
+    },
+    {
+      "max_world_xyz": [
+        -0.0819484228950347,
+        -0.16415207048910707,
+        0.7803267470237736
+      ],
+      "min_world_xyz": [
+        -0.1552270653420598,
+        -0.23592408874800608,
+        0.7668408769638781
+      ],
+      "role": "scale",
+      "shape": "scale__0",
+      "source_geometry_sha256": "caca277b02c5931cf9df084de632d2093ab9ccfc94b3d2aa3b28f8ebd35e78cf",
+      "z_thickness_m": 0.013485870059895433
+    },
+    {
+      "max_world_xyz": [
+        -0.05567853222015808,
+        -0.14264524409222812,
+        0.7668408769638781
+      ],
+      "min_world_xyz": [
+        -0.1329901011364885,
+        -0.2573465411958127,
+        0.746261241922961
+      ],
+      "role": "scale",
+      "shape": "scale__1",
+      "source_geometry_sha256": "8995a87bc572b9ef616e31c0c39bdf8f891741e2b0479ea9e476986a610ded6c",
+      "z_thickness_m": 0.0205796350409172
+    },
+    {
+      "max_world_xyz": [
+        -0.1329901011364885,
+        -0.14264489123273894,
+        0.7668408745796924
+      ],
+      "min_world_xyz": [
+        -0.14684608026937965,
+        -0.1753189718279473,
+        0.7458977215472514
+      ],
+      "role": "scale",
+      "shape": "scale__2",
+      "source_geometry_sha256": "bbeec65df25e7ad833c9a19ac1edbad1ad8295ba468bff6f883826d2ec19fefb",
+      "z_thickness_m": 0.020943153032440986
+    },
+    {
+      "max_world_xyz": [
+        -0.14684608503775112,
+        -0.14264489123273894,
+        0.7650570005846835
+      ],
+      "min_world_xyz": [
+        -0.1739289043710626,
+        -0.1753189718279473,
+        0.7400049075791775
+      ],
+      "role": "scale",
+      "shape": "scale__3",
+      "source_geometry_sha256": "160cc4b947b654f2e4263f47692fb17b50524f9e8577c101aee8fbf956d780e1",
+      "z_thickness_m": 0.025052093005506038
+    },
+    {
+      "max_world_xyz": [
+        -0.13299010352067422,
+        -0.1753221690210216,
+        0.7668408769638781
+      ],
+      "min_world_xyz": [
+        -0.1773175523284625,
+        -0.22909294122994828,
+        0.7462688355545356
+      ],
+      "role": "scale",
+      "shape": "scale__4",
+      "source_geometry_sha256": "c4ab414109b4a522608761fd67e1cc744829d59f7ae600b95eb6e9963a5c7495",
+      "z_thickness_m": 0.020572041409342545
+    },
+    {
+      "max_world_xyz": [
+        -0.02261102044706756,
+        -0.1426559872331623,
+        0.764401678524441
+      ],
+      "min_world_xyz": [
+        -0.055678532220158096,
+        -0.2573358362018503,
+        0.745385455697667
+      ],
+      "role": "scale",
+      "shape": "scale__5",
+      "source_geometry_sha256": "9506a3d1c639924681673837ec393b808d1f82dfb1907a3e038af288cd9b84b8",
+      "z_thickness_m": 0.019016222826773954
+    },
+    {
+      "max_world_xyz": [
+        -0.1329901011364885,
+        -0.22909294361413401,
+        0.766838824179958
+      ],
+      "min_world_xyz": [
+        -0.1468584446566155,
+        -0.25734411886310316,
+        0.745895889300512
+      ],
+      "role": "scale",
+      "shape": "scale__6",
+      "source_geometry_sha256": "f6ec5781244cd281f3a37e5359ff271c483361160ca3aabe26d4f5e55f277f6f",
+      "z_thickness_m": 0.020942934879445985
+    },
+    {
+      "max_world_xyz": [
+        -0.03503538902769868,
+        -0.23124346246026173,
+        0.745385455697667
+      ],
+      "min_world_xyz": [
+        -0.051848356905988914,
+        -0.24801963520006165,
+        0.7400009195814963
+      ],
+      "role": "scale",
+      "shape": "scale__7",
+      "source_geometry_sha256": "debb34f7f2eedbd3882344d74f3d8d38b511b5aff3ab23378888766bf815c0e1",
+      "z_thickness_m": 0.005384536116170735
+    },
+    {
+      "max_world_xyz": [
+        -0.03503699120051443,
+        -0.15197327542364736,
+        0.745385455697667
+      ],
+      "min_world_xyz": [
+        -0.051845920268164945,
+        -0.16874871860261154,
+        0.7400002695928595
+      ],
+      "role": "scale",
+      "shape": "scale__8",
+      "source_geometry_sha256": "d851df4e7f12391d91dfb37d678be129097a23a2da5c7289857934ffc5f2427f",
+      "z_thickness_m": 0.005385186104807538
+    },
+    {
+      "max_world_xyz": [
+        -0.1468584446566155,
+        -0.22909294361413401,
+        0.7648072261342422
+      ],
+      "min_world_xyz": [
+        -0.17386306269772958,
+        -0.25734411886310316,
+        0.740004898638481
+      ],
+      "role": "scale",
+      "shape": "scale__9",
+      "source_geometry_sha256": "a73ce683ed9b9b549e1c6509a677741b889883a5efd371d0ad30ef236924bdc6",
+      "z_thickness_m": 0.024802327495761278
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "GPU_or_solver_calls": 0,
+  "NOT_IMPLEMENTED_AS_ACCEPTANCE": true,
+  "NO_NEW_PHYSICAL_GATE_EXECUTED": true,
+  "actual_physical_support_stability_proven": false,
+  "candidate_actor_pose": [
+    -0.3379856506346609,
+    -0.20025693525118748,
+    0.7844196312139927,
+    0.7071067811865472,
+    -7.850462293418872e-17,
+    -7.850462293418872e-17,
+    -0.7071067811865478
+  ],
+  "checks": {
+    "X_sides_pass": true,
+    "Z_sides_pass": true,
+    "all_upper_bounds_including_top_unchanged": true,
+    "both_X_side_bounds_unchanged": true,
+    "both_Z_side_bounds_unchanged": true,
+    "native_first_contact_only_registered_low_floor": true,
+    "top_pass": true
+  },
+  "contact_height_bracket_m": [
+    0.020570831298828123,
+    0.020570983886718748
+  ],
+  "floor_contact_shape_ids": [
+    "box__9"
+  ],
+  "geometric_combination_is_sufficient_for_saved_candidate": true,
+  "native_center_m": [
+    -2.2560358383660883e-06,
+    0.04776370992345674,
+    -4.975497796766426e-06
+  ],
+  "native_half_extents_m": [
+    0.025394440075672264,
+    0.048193344214086886,
+    0.02540540584035822
+  ],
+  "negative_side_top_cases": {
+    "X_side_escape": {
+      "expected_rejection": true,
+      "pass_true_cavity_obb": false
+    },
+    "Z_side_escape": {
+      "expected_rejection": true,
+      "pass_true_cavity_obb": false
+    },
+    "top_escape": {
+      "expected_rejection": true,
+      "pass_true_cavity_obb": false
+    }
+  },
+  "one_axis_only_hypothetical_fit": {
+    "cavity_lower": [
+      -0.07824613475799559,
+      0.01676539531350136,
+      -0.07823097729682921
+    ],
+    "cavity_upper": [
+      0.07775386524200455,
+      0.10476539531350136,
+      0.07776902270317093
+    ],
+    "local_corner_max": [
+      0.025139763840555385,
+      0.06808543764755759,
+      0.047971395158232455
+    ],
+    "local_corner_min": [
+      -0.0256491163107892,
+      0.01727462596684115,
+      -0.04841529326994132
+    ],
+    "pass_true_cavity_obb": true
+  },
+  "one_axis_only_hypothetical_lower_m": [
+    -0.07824613475799559,
+    0.01676539531350136,
+    -0.07823097729682921
+  ],
+  "original_lower_m": [
+    -0.07824613475799559,
+    0.02176539531350136,
+    -0.07823097729682921
+  ],
+  "production_floor_rule_must_be_actual_piecewise_native_contact_not_raw_grid_plane": true,
+  "receipt_sha256": "58c0924cdbc3f1f2c963c7b6883cc29e45dc7f4013c7d237236a3942b02e6528",
+  "remaining_negative_regressions_before_adoption": [
+    "native floor penetration",
+    "floating without real floor support",
+    "wrong shape identity",
+    "contact-offset-only/no-force false support",
+    "wrong frame or scale"
+  ],
+  "schema_version": "F2_native_only_floor_uninset_decision_regression_v1",
+  "source_files": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_u_route_001/live_capture.json": "ab28afac42d5128253d0558b4137f0df18f8e960987914648e80467663cd70c9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_u_route_001/world_geometry.json": "d0e36452e628ef37ff8b09dbaa7833502617bea48a08a220287d88ee4d5836c7",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_controlled_suffix_runtime_v1/anatomy.json": "57657eaeae2d4740d01d826d48d8abdcf24eb31dae39f4ff5c559e2b3846dc14",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_controlled_suffix_runtime_v1/cavity_lineage.json": "68565fe29e4b1706c2277274208993c97ad053f7be662a764cffb1067cde4e15"
+  },
+  "unchanged_side_margins_m": {
+    "X_max": 0.05261410140144916,
+    "X_min": 0.05259701844720639,
+    "Z_max": 0.029797627544938476,
+    "Z_min": 0.02981568402688789,
+    "top": 0.03667995766594377
+  },
+  "unchanged_upper_m": [
+    0.07775386524200455,
+    0.10476539531350136,
+    0.07776902270317093
+  ]
+}
