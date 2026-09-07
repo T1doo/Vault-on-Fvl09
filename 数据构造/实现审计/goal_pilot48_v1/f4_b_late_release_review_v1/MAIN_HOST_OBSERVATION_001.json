@@ -1,0 +1,154 @@
+{
+  "acceptance_issued": false,
+  "all_gpu_occupants_have_different_uid": true,
+  "budget_reconciled": false,
+  "current_uid": 10201,
+  "foreign_processes_signalled": false,
+  "gpu_compute_owner_rows": [
+    {
+      "comm": "pt_main_thread",
+      "pgid": 3963009,
+      "pid": 3963009,
+      "ppid": 2510253,
+      "uid": 10198
+    }
+  ],
+  "job_id": "p48_f4_b_motion_001",
+  "observed_at": "2026-09-07T04:34:59.712217+00:00",
+  "original_guard_file_sha256": "8276a04a0dc432317209024bc62ecf52b988f5d5b5c338afec4106dd9a12b2b0",
+  "own_pid_and_group_absent": true,
+  "receipt_sha256": "2eae08b3bfa3d3091df8f3490e5cf100ce01b1654189d27119f69997dd51630e",
+  "remaining_owned_process_rows": [],
+  "requested_child_pgid": 3926110,
+  "requested_owned_pids": [
+    3925880,
+    3926110
+  ],
+  "schema_version": "main_F4_host_ownership_observation_v1",
+  "selected_gpu": {
+    "compute_processes": [
+      {
+        "pid": 3963009,
+        "process_name": "python",
+        "used_memory_mib": 21854
+      }
+    ],
+    "index": 7,
+    "memory_used_mib": 21871,
+    "pstate": "P2",
+    "utilization_gpu_percent": 42,
+    "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+  },
+  "selected_gpu_idle_now": false,
+  "snapshot": {
+    "captured_at": "2026-09-07T04:34:59.607649+00:00",
+    "gpus": [
+      {
+        "compute_processes": [
+          {
+            "pid": 2597493,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43722
+          }
+        ],
+        "index": 0,
+        "memory_used_mib": 43739,
+        "pstate": "P2",
+        "utilization_gpu_percent": 97,
+        "uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 2597494,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43808
+          }
+        ],
+        "index": 1,
+        "memory_used_mib": 43825,
+        "pstate": "P2",
+        "utilization_gpu_percent": 100,
+        "uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b"
+      },
+      {
+        "compute_processes": [],
+        "index": 2,
+        "memory_used_mib": 14,
+        "pstate": "P8",
+        "utilization_gpu_percent": 0,
+        "uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 2597495,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43856
+          }
+        ],
+        "index": 3,
+        "memory_used_mib": 43874,
+        "pstate": "P2",
+        "utilization_gpu_percent": 71,
+        "uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 2597496,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43602
+          }
+        ],
+        "index": 4,
+        "memory_used_mib": 43619,
+        "pstate": "P2",
+        "utilization_gpu_percent": 83,
+        "uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 2597498,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43810
+          }
+        ],
+        "index": 5,
+        "memory_used_mib": 43827,
+        "pstate": "P2",
+        "utilization_gpu_percent": 100,
+        "uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 2597501,
+            "process_name": "ray::FSDPVlaSftWorker.run_training",
+            "used_memory_mib": 43856
+          }
+        ],
+        "index": 6,
+        "memory_used_mib": 43873,
+        "pstate": "P2",
+        "utilization_gpu_percent": 93,
+        "uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d"
+      },
+      {
+        "compute_processes": [
+          {
+            "pid": 3963009,
+            "process_name": "python",
+            "used_memory_mib": 21854
+          }
+        ],
+        "index": 7,
+        "memory_used_mib": 21871,
+        "pstate": "P2",
+        "utilization_gpu_percent": 42,
+        "uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead"
+      }
+    ]
+  }
+}
