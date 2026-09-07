@@ -33,7 +33,7 @@
 
 - F2：固定布局下U高度修订已实际通过C8/U8/D4完整合格解及四段持物/释放/空手返回规划，原生支撑和实际模型切换通过。新布局真实公共抓取及inside/on/beside物理root还需独立验证；旧suffix里的gravity-drop和80mm中转不能直接复用冒称新受控放置。
 - F3：原抓法离垫后滚转；COM站点和抓取深度修订改善了漂移，但尚无完整合格微门。004原漂移门通过、实际升高19.911mm仍失败；不能四舍五入放行。005高接近段臂自碰已由保存controls的原生link3/link5检查重现。006低接近修复完成闭爪/稳定hold，但旧250帧pad支持certificate拒绝16/250的边界卸载状态，未lift。正在独立审查planner切触卸载模型证书，不改旧失败或原物理验收。
-- F4-B：独立新布局source、三完整程序规划和五项物理isolation均实际通过，累计135+450+720目标问题。还需三template、root与motion，不提前算六条新输入。
+- F4-B：独立source、三程序规划、五isolation、三完整顺序template全部实际通过，三程序same-current/anchor/终态等价均通过；仍需root原始轨迹采集与motion，不提前算六条新输入。
 - 公共入口：新 `runtime_v2` 在同一Goal账本下接入collection请求计数，CPU测试通过，尚待真正新collection验证；旧runtime没有collection hook，不能用于新完整采集后声称collection=0。新F1作业暂拒以防旧namespace动作漏计，已有F1输入无需重跑。
 
 ## 证据及复现入口
