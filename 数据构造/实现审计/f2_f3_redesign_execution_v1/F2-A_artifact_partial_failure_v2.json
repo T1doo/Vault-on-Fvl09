@@ -1,0 +1,18 @@
+{
+  "schema_version": "cmf_f2_pilot_partial_failure_v2",
+  "task_id": "f2_f3_redesign_20260907",
+  "root_id": "F2-A",
+  "status": "INCOMPLETE",
+  "completed_cells": 3,
+  "passed_cells": 2,
+  "accepted_cells": 0,
+  "passed_cell_ids": ["inside_r_pc", "inside_r_inv_path"],
+  "failed_cell_id": "on_r_pc",
+  "inside_r_pc_receipt_sha256": "17d45b32d9ff3a0dd02decb2691085875fbc1c311f2f2c5e18548ad1a537470c",
+  "on_r_pc_receipt_sha256": "f6e4dcf268a3ef18ef9e804daf93231ab7dfc2d6c06890d0afad4a02f5d9c0fb",
+  "job_receipt_sha256": "c2ead7ea25ea0c0de6065abd9265a1b25764073b381e0fefae68ef0844b8981c",
+  "failure_stage": "on_relation_empty_hand_exit",
+  "failure_reason": "inside cells pass with closure-derived prefix; on_r_pc planner cannot find the final lateral empty-hand exit path after placement",
+  "raw_trace_preserved": true,
+  "next_fix": "audit on-region support pose and lateral exit clearance before rerunning remaining on/beside cells"
+}
