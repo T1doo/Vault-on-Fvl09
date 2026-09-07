@@ -9,3 +9,11 @@
 三个实际current aggregate哈希、三个实际anchor哈希必须完全相同；完整原F4 final_state payload(5个pose+gripper_open+arm)用原compare_three_branch_final_state_payloads的30mm/0.20rad容差逐项比较，空payload不可成功。通过才输出B_FULL_PROGRAM_TEMPLATE_PASS、isolation_receipt_sha256、三rows及same_current/same_anchor/final_state_equivalence，并实际调用root_prerequisites校验。这里仍0root/0collection，不自动执行root。
 
 源依赖：本目录及冻结f4_b_isolation_runtime_v1/runtime.py SHA cc9a4f29feff325dcf05b453022e5a11f2777796b58d1e1f519abf51fe280347，继承原program/StageA依赖、全active source/env/assets和meter。主线程派生job需验证后继承isolation manifest全部source/input并新增本目录/四份真实isolation evidence；当前无issuer。
+
+## 2026-09-07 真实isolation完成后的接线更新
+
+已只读消费isolation001五项全部通过的四份真实证据，evidence receipt328c59386195b9eabe4aaf90b890eca24fe90140094ca86747485e61026fe761，720solver/5scene/5action/0collection，前述“没有passing输入”是较早实现状态，现已解除。三template仍未执行。
+
+新增纯CPU issuer `goal_pilot48_v1.runtime.issue_f4_b_template.build_manifest/issue_from_reservation`，固定480/3/3/0、child3600s/lease3780s，不reserve/写job/启动。使用runtime_v2.migration.bindings先核验继承全部旧hash后加入新依赖，Guard/runner都切runtime_v2；requires_live_meter=false，原run(manifest)兼容，collection仍0。借此先在真实template作业验证新公共生命周期，之后才用于root collection。
+
+test_issuer包含8项runtime_v2、3项issuer、5项template测试，16项通过30.212s；builder前后真实Goal ledger未改，不创建CPU假job。后续主线程仍须真实reservation、hash绑定出版、精确Guard preflight和fresh-idle launch。
