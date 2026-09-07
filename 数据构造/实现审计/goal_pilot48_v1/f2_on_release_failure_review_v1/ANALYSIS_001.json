@@ -1,0 +1,429 @@
+{
+  "CPU_only": true,
+  "URDF_actual_flange_vs_trace_matrix_max_error": 2.9839121189288026e-07,
+  "actual_base_world_pose": [
+    -0.29699987173080433,
+    -0.4195000231266022,
+    0.7820002436637878,
+    0.700000468017699,
+    -0.0,
+    2.980231998208876e-08,
+    0.71414238410488
+  ],
+  "actual_grasp_drift_matrix_max_error": 0.00016494299623542874,
+  "actual_grasp_recomputed_goal_translation_delta_m": [
+    -0.00016979784280499177,
+    4.6665249209265625e-07,
+    1.8804973045405404e-07
+  ],
+  "actual_gripper_qpos": [
+    0.026446541771292686,
+    0.024166883900761604
+  ],
+  "actual_locks": {
+    "fl_joint7": 0.026446541771292686,
+    "fl_joint8": 0.024166883900761604
+  },
+  "actual_start_full_checks": {
+    "motion_gen": {
+      "full_model_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6",
+        "fl_joint7",
+        "fl_joint8"
+      ],
+      "full_model_qpos": [
+        -0.7196400165557861,
+        1.6048099994659424,
+        1.4563100337982178,
+        -1.4268100261688232,
+        0.0010900000343099236,
+        -0.6982100009918213,
+        0.026446541771292686,
+        0.024166883900761604
+      ],
+      "solver_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6"
+      ],
+      "solver_qpos": [
+        -0.7196400165557861,
+        1.6048099994659424,
+        1.4563100337982178,
+        -1.4268100261688232,
+        0.0010900000343099236,
+        -0.6982100009918213
+      ],
+      "status": null,
+      "valid": true
+    },
+    "motion_gen_batch": {
+      "full_model_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6",
+        "fl_joint7",
+        "fl_joint8"
+      ],
+      "full_model_qpos": [
+        -0.7196400165557861,
+        1.6048099994659424,
+        1.4563100337982178,
+        -1.4268100261688232,
+        0.0010900000343099236,
+        -0.6982100009918213,
+        0.026446541771292686,
+        0.024166883900761604
+      ],
+      "solver_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6"
+      ],
+      "solver_qpos": [
+        -0.7196400165557861,
+        1.6048099994659424,
+        1.4563100337982178,
+        -1.4268100261688232,
+        0.0010900000343099236,
+        -0.6982100009918213
+      ],
+      "status": null,
+      "valid": true
+    }
+  },
+  "actual_target_IK_candidates_saved": false,
+  "all_saved_rollout_locks_equal_config": true,
+  "all_target_buffered_negative_pairs_are_scale": true,
+  "analytical_solver_goal": [
+    0.21572010983895107,
+    -0.18646000642501523,
+    0.1885190540936107,
+    0.7067361676619826,
+    0.007613551085499881,
+    0.7073892830700932,
+    -0.008150175206825186
+  ],
+  "attached_sphere_count": 189,
+  "beside_attempted": false,
+  "failure_side_channel": [
+    {
+      "fields": {
+        "attempts": 10,
+        "position_error": null,
+        "rotation_error": null,
+        "solve_time": 2.9631192684173584,
+        "status": "MotionGenStatus.IK_FAIL",
+        "success": false,
+        "total_time": 3.2759575843811035,
+        "used_graph": false,
+        "valid_query": true
+      },
+      "schema_version": "cmf_motiongen_result_side_channel_v1",
+      "source": "additive temporary wrapper around CuroboPlanner.motion_gen.plan_single"
+    }
+  ],
+  "implied_vs_nominal_translation_m": [
+    0.0001651821405673215,
+    -6.157768315528944e-07,
+    -3.01313695105776e-08
+  ],
+  "last_real_step": 1699,
+  "locks_equal_actual_qpos": true,
+  "mathematical_IK_infeasibility_proven": false,
+  "native_checks": {
+    "actual_grasp_solver_implied_target": {
+      "bounds_world_m": {
+        "lower": [
+          -0.14124743640832607,
+          -0.22556246489350842,
+          0.7818376733111353
+        ],
+        "upper": [
+          -0.09043645484668911,
+          -0.17477356086060325,
+          0.8782238519612963
+        ]
+      },
+      "check": {
+        "continuous_sweep_proven": false,
+        "failures": [],
+        "narrow_pair_checks": 0,
+        "only_native_table_support_numeric_band": false,
+        "pass": true,
+        "physical_success": false,
+        "samples": 1,
+        "scale_exception": false
+      }
+    },
+    "nominal_target": {
+      "bounds_world_m": {
+        "lower": [
+          -0.14141418673605316,
+          -0.22556190157782943,
+          0.7818374599014605
+        ],
+        "upper": [
+          -0.09060337505533671,
+          -0.1747730214264849,
+          0.8782241483296342
+        ]
+      },
+      "check": {
+        "continuous_sweep_proven": false,
+        "failures": [],
+        "narrow_pair_checks": 0,
+        "only_native_table_support_numeric_band": false,
+        "pass": true,
+        "physical_success": false,
+        "samples": 1,
+        "scale_exception": false
+      }
+    }
+  },
+  "new_physical_success": false,
+  "new_scenes": 0,
+  "new_solver_problems": 0,
+  "old_manifest_consumed": true,
+  "original_goal_grasp_target_identity_max_error": 2.220446049250313e-16,
+  "planner_start_equals_last_actual_qpos": true,
+  "receipt_sha256": "1e006152703bc61d11f0e01b5ef3fda71021263135d89f2ba7cb8686966902ca",
+  "reported_release_goal": [
+    -0.11489139890893803,
+    -0.2000940812247712,
+    0.9705190540936107,
+    0.5005360393854363,
+    -0.49984717405650836,
+    0.5006099944570372,
+    0.4990051195266326
+  ],
+  "scale_piece_world_bounds": [
+    {
+      "name": "scale__0",
+      "world_lower": [
+        -0.1552270653420597,
+        -0.2359240887480061,
+        0.7668408769638781
+      ],
+      "world_upper": [
+        -0.08194842289503462,
+        -0.16415207048910713,
+        0.7803267470237736
+      ]
+    },
+    {
+      "name": "scale__1",
+      "world_lower": [
+        -0.1329901011364884,
+        -0.2573465411958127,
+        0.746261241922961
+      ],
+      "world_upper": [
+        -0.055678532220158,
+        -0.14264524409222817,
+        0.7668408769638781
+      ]
+    },
+    {
+      "name": "scale__2",
+      "world_lower": [
+        -0.14684608026937956,
+        -0.17531897182794734,
+        0.7458977215472514
+      ],
+      "world_upper": [
+        -0.1329901011364884,
+        -0.14264489123273896,
+        0.7668408745796924
+      ]
+    },
+    {
+      "name": "scale__3",
+      "world_lower": [
+        -0.1739289043710625,
+        -0.17531897182794734,
+        0.7400049075791775
+      ],
+      "world_upper": [
+        -0.14684608503775104,
+        -0.14264489123273896,
+        0.7650570005846835
+      ]
+    },
+    {
+      "name": "scale__4",
+      "world_lower": [
+        -0.1773175523284624,
+        -0.2290929412299483,
+        0.7462688355545356
+      ],
+      "world_upper": [
+        -0.13299010352067414,
+        -0.17532216902102163,
+        0.7668408769638781
+      ]
+    },
+    {
+      "name": "scale__5",
+      "world_lower": [
+        -0.05567853222015802,
+        -0.2573358362018503,
+        0.745385455697667
+      ],
+      "world_upper": [
+        -0.022611020447067476,
+        -0.14265598723316236,
+        0.764401678524441
+      ]
+    },
+    {
+      "name": "scale__6",
+      "world_lower": [
+        -0.1468584446566154,
+        -0.25734411886310316,
+        0.745895889300512
+      ],
+      "world_upper": [
+        -0.1329901011364884,
+        -0.22909294361413404,
+        0.766838824179958
+      ]
+    },
+    {
+      "name": "scale__7",
+      "world_lower": [
+        -0.05184835690598883,
+        -0.24801963520006168,
+        0.7400009195814963
+      ],
+      "world_upper": [
+        -0.03503538902769861,
+        -0.23124346246026176,
+        0.745385455697667
+      ]
+    },
+    {
+      "name": "scale__8",
+      "world_lower": [
+        -0.05184592026816487,
+        -0.1687487186026116,
+        0.7400002695928595
+      ],
+      "world_upper": [
+        -0.035036991200514345,
+        -0.1519732754236474,
+        0.745385455697667
+      ]
+    },
+    {
+      "name": "scale__9",
+      "world_lower": [
+        -0.1738630626977295,
+        -0.25734411886310316,
+        0.740004898638481
+      ],
+      "world_upper": [
+        -0.1468584446566154,
+        -0.22909294361413401,
+        0.7648072261342422
+      ]
+    }
+  ],
+  "schema_version": "f2_on_release_saved_target_model_review_v1",
+  "solver_implied_actual_actor_pose": [
+    -0.11583862325733084,
+    -0.20016582124315035,
+    0.7822670640607211,
+    0.4999963868950613,
+    0.5000086269583861,
+    0.500004241123312,
+    0.49999074483211636
+  ],
+  "source_files": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/model_005_on_full.json": "5a5ce2c4749b896bed87abb83c2c1c538efd82734149d7856ed05931726ab498",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/model_009_execute_0.json": "1c0bb532b848f557df8be7d945fe0f9bb4bc460f39f8c7604491306bae78a0e9",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/model_014_on_full.json": "cd395ffd421ce122537db9e867fa728f100ab8ec0721d7af4db8ae236f3e3b42",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/model_016_plan_1_done.json": "9aecc694558d8d8ad4de194c81d0e3b28027eb54bdcc5c862d54b229b6d720b8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/qualification_trace.npz": "2b5047f3135907ee965b1f0d24a3765870a52e20b5e16af5c45bd44822a82aa8",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_on_beside_qualification_001/on/suffix_spec.json": "fb611b019679a136a3e5807a346d51d23de57c4120e3b263f221dda93a1667dc",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_u_route_001/live_capture.json": "ab28afac42d5128253d0558b4137f0df18f8e960987914648e80467663cd70c9",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/config.yml": "a4f043d2d4b44cca5ec47fb498a3194da3f87ff9530dcbfdcee1539a44423d57",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/curobo_left.yml": "07763e168925ac18ad003036fb65385e42358b92521e00273fa5cf0d2cfaed75",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/urdf/arx5_description_isaac.urdf": "097c59fb19a7b482249c6097df8319586ea7cfd268c015516f103b289a7e761a",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/planner.py": "f1012345542483f4cfbac64880a266b7ee0d4a64362d5ec6fd6985ed9c34b564",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/robot.py": "3dcd80acc8cab489a4c5edb507cc460dab1724be0226b8d5c4c1b218dee605cb",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_on_release_failure_review_v1/analyze.py": "963f41678ac80f1579c4849c4b6ad5e88d104b5952dcf79291b29df5e75b6cc9"
+  },
+  "target_actor_pose": [
+    -0.11600380539789816,
+    -0.2001652054663188,
+    0.7822670941920906,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+  ],
+  "target_attached_sphere_collisions": {
+    "configured_buffer": {
+      "count": 4,
+      "minimum_clearance_m": -0.0034213386516038086,
+      "padding_m": 0.004,
+      "pairs": [
+        {
+          "clearance_m": -0.0034213386516038086,
+          "link": "attached_can",
+          "obstacle": "scale__0",
+          "sphere_index": 19
+        },
+        {
+          "clearance_m": -0.00029977654247273586,
+          "link": "attached_can",
+          "obstacle": "scale__0",
+          "sphere_index": 167
+        },
+        {
+          "clearance_m": -0.0033790835954268846,
+          "link": "attached_can",
+          "obstacle": "scale__0",
+          "sphere_index": 180
+        },
+        {
+          "clearance_m": -0.002571387590598252,
+          "link": "attached_can",
+          "obstacle": "scale__0",
+          "sphere_index": 187
+        }
+      ]
+    },
+    "zero_buffer_diagnostic": {
+      "count": 0,
+      "minimum_clearance_m": null,
+      "padding_m": 0.0,
+      "pairs": []
+    }
+  },
+  "target_scale_point": [
+    -0.1159944012761116,
+    -0.20017600297927857,
+    0.7817878317832947,
+    0.707106759964508,
+    0.00017324114784716347,
+    0.0001732411478472251,
+    0.707106759964508
+  ],
+  "world_base_matrix_max_error": 8.398180926631556e-16
+}
