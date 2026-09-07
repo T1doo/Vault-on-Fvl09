@@ -1,0 +1,17 @@
+{
+  "schema_version": "cmf_coordinator_failure_diagnosis_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "job_id": "stage_C_F2A_pilot_1788807557",
+  "status": "INTERNAL_COORDINATOR_FAILURE",
+  "child_and_root_completed": true,
+  "root_receipt_status": "INCOMPLETE",
+  "root_receipt_sha256": "f05582d571eff3834b6bbcea9240210080400919f2a3b6a5da606830b53b7ecd",
+  "coordinator_failure": "FileNotFoundError opening budget_ledger.jsonl.lock during ledger.settle",
+  "cause": "the lock file was removed during an external cleanup/commit while the coordinator was still reconciling",
+  "external_gpu_interference": false,
+  "own_process_currently_present": false,
+  "gpu_lease_exact": "UNKNOWN",
+  "reservation_retained": 1800,
+  "raw_receipts_unchanged": true,
+  "ledger_lock_recovery_fix": "BudgetLedger now opens lock files with a+ so recovery recreates a missing lock; cleanup must never remove a lock while a coordinator is live"
+}
