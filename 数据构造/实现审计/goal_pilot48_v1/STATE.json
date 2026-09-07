@@ -126,13 +126,41 @@
   "goal_id": "cmf_pilot48_20260907",
   "gpu_queue_pause": null,
   "hd_display_delivery": {
+    "F1_native_HD_mp4_count": 24,
+    "F2_diagnostic_native_HD_mp4_count": 2,
+    "F3_diagnostic_native_HD_mp4_count": 2,
+    "F4_native_HD_mp4_count": 24,
     "accepted_F1_F4_source_trajectories": 24,
+    "all_available_camera_views_preserved": true,
     "completed_and_pushed_trajectories": [
+      "F1_A_r_inv_path_F1-blue",
+      "F1_A_r_inv_path_F1-green",
+      "F1_A_r_inv_path_F1-red",
+      "F1_A_r_pc_F1-blue",
+      "F1_A_r_pc_F1-green",
       "F1_A_r_pc_F1-red",
+      "F1_B_r_inv_motion_F1-blue",
+      "F1_B_r_inv_motion_F1-green",
+      "F1_B_r_inv_motion_F1-red",
+      "F1_B_r_pc_F1-blue",
+      "F1_B_r_pc_F1-green",
+      "F1_B_r_pc_F1-red",
+      "F4_A_r_inv_path_F4-ABC",
+      "F4_A_r_inv_path_F4-ACB",
+      "F4_A_r_inv_path_F4-BAC",
       "F4_A_r_pc_F4-ABC",
-      "F1_A_r_inv_path_F1-red"
+      "F4_A_r_pc_F4-ACB",
+      "F4_A_r_pc_F4-BAC",
+      "F4_B_r_inv_motion_F4-ABC",
+      "F4_B_r_inv_motion_F4-ACB",
+      "F4_B_r_inv_motion_F4-BAC",
+      "F4_B_r_pc_F4-ABC",
+      "F4_B_r_pc_F4-ACB",
+      "F4_B_r_pc_F4-BAC"
     ],
-    "full_requested_video_delivery_complete": false,
+    "display_only_not_new_rollouts": true,
+    "full_requested_video_delivery_complete": true,
+    "paused_after_delivery": true,
     "reconstructed_diagnostic_F2_F3_is_not_original_camera_HD": true
   },
   "last_budget_event_sha256": "718caebc542062165a6c0a0632bf6716b514c6489d8b00dc0af1e704c61f0e2f",
@@ -162,7 +190,7 @@
     "F2",
     "F3"
   ],
-  "next_task": "F2 inside unique orientation impact review; F3 upright-B finite qualification CPU tests then guarded execution",
+  "next_task": "PAUSED: await GPT/senior review and a new explicit continuation plan",
   "no_training_audit": {
     "S2_event_audit_complete": false,
     "S3_scientific_negative_pack_complete": false,
@@ -181,14 +209,14 @@
     "GPU_processes_remaining_at_pause": false,
     "branch": "main",
     "consecutive_goal_turns_observed": 3,
-    "current_publication_paused": false,
+    "current_publication_paused": true,
     "do_not_bypass_review_or_change_old_authority": true,
-    "last_successful_push_head": "45d7ff4ed2fc114c057c55750f0ea8d351d354f4",
-    "local_committed_head": "45d7ff4ed2fc114c057c55750f0ea8d351d354f4",
+    "last_successful_push_head": "144c36b",
+    "local_committed_head": "144c36b",
     "pending_job_completed": true,
     "pending_job_launched": true,
     "pending_job_manifest_already_reserved": "p48_f2_u_route_001",
-    "reason": "RESOLVED_BY_CURRENT_EXPLICIT_USER_APPROVAL_PUSH_SUCCEEDED",
+    "reason": "USER_REQUEST_PAUSE_AFTER_ALL_HD_VIDEO_UPLOADS",
     "remote": "https://github.com/T1doo/Vault-on-Fvl09.git"
   },
   "resolved_gpu_queue_pauses": [
@@ -221,5 +249,5 @@
     "active": "3ec56ec08c39b15615538e5bde48e485d535ae10e7e1f7962254f146d32943f7"
   },
   "stage1_scientific_complete": false,
-  "status": "ACTIVE_USER_RESUMED_EXECUTION"
+  "status": "PAUSED_AFTER_HD_VIDEO_DELIVERY_PENDING_GPT_REVIEW"
 }
