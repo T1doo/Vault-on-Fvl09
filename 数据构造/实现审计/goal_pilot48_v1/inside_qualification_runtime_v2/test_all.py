@@ -1,0 +1,7 @@
+from .test_cpu import WrapperTests,IssuerTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v3.test_cpu import Tests as NewContactTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v2.test_cpu import Tests as OriginalInsideTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v2.test_live_models import Tests as OriginalModelTests
+from goal_pilot48_v1.f2_prefix_clearance_runtime_v2.test_cpu import Tests as PrefixTests
+from goal_pilot48_v1.f2_prefix_clearance_runtime_v2.test_entry import EntryTests as PrefixEntryTests,IssuerTests as PrefixIssuerTests
+from goal_pilot48_v1.inside_qualification_runtime_v1.test_issuer import Tests as OldFailClosedIssuerTests
