@@ -1,0 +1,3 @@
+from .test_cpu import Tests as SerializationTests
+from .test_issuer import Tests as SerializationIssuerTests
+from goal_pilot48_v1.f2_single_relation_qualification_v1.test_all import RuntimeTests,IssuerTests,OriginalSuffixTests,ReviewTests
