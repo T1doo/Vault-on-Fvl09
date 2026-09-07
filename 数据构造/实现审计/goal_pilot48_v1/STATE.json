@@ -1,12 +1,12 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f3_tangent_micro_001": {
-        "action_scenes": 1,
-        "collection_attempts": 0,
-        "fresh_scenes": 1,
-        "gpu_lease_seconds": 1080,
-        "solver_problems": 3
+      "p48_f4_b_root_001": {
+        "action_scenes": 7,
+        "collection_attempts": 3,
+        "fresh_scenes": 11,
+        "gpu_lease_seconds": 5580,
+        "solver_problems": 460
       }
     },
     "caps": {
@@ -17,18 +17,18 @@
       "solver_problems": 6000
     },
     "remaining": {
-      "action_scenes": 106,
-      "collection_attempts": 96,
-      "fresh_scenes": 218,
-      "gpu_lease_seconds": 82673,
-      "solver_problems": 4184
+      "action_scenes": 99,
+      "collection_attempts": 93,
+      "fresh_scenes": 207,
+      "gpu_lease_seconds": 78074,
+      "solver_problems": 3725
     },
     "reserved": {
-      "action_scenes": 1,
-      "collection_attempts": 0,
-      "fresh_scenes": 1,
-      "gpu_lease_seconds": 1080,
-      "solver_problems": 3
+      "action_scenes": 7,
+      "collection_attempts": 3,
+      "fresh_scenes": 11,
+      "gpu_lease_seconds": 5580,
+      "solver_problems": 460
     },
     "terminal_jobs": [
       "p48_f3_micro_001",
@@ -43,14 +43,15 @@
       "p48_f3_micro_006",
       "p48_f4_b_isolation_001",
       "p48_f2_u_route_001",
-      "p48_f4_b_template_001"
+      "p48_f4_b_template_001",
+      "p48_f3_tangent_micro_001"
     ],
     "used": {
-      "action_scenes": 13,
+      "action_scenes": 14,
       "collection_attempts": 0,
-      "fresh_scenes": 21,
-      "gpu_lease_seconds": 2647,
-      "solver_problems": 1813
+      "fresh_scenes": 22,
+      "gpu_lease_seconds": 2746,
+      "solver_problems": 1815
     }
   },
   "completion": {
@@ -85,12 +86,12 @@
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
     "F2": "THREE_ENDPOINTS_AND_FOUR_CARRY_RELEASE_ROUTE_SEGMENTS_REAL_PASS",
-    "F3": "TANGENT_MICRO_001_ISSUED_SAME_RECIPE3_ROUTE2",
-    "F4": "ALL_B_QUALIFICATION_AND_THREE_PHYSICAL_TEMPLATES_PASS_ROOT_READY"
+    "F3": "TANGENT_V1_POSITIVE_GAP_UPPER_BOUND_REJECTED_MODEL_REVISION2_CPU",
+    "F4": "ALL_B_QUALIFICATIONS_PASS_STRICT_PREFIX_ROOT_001_ISSUED"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "6d4792798825e64a547edf1095557cd6bfab568f9daabe33b5d2c1b3ca432fbf",
+  "last_budget_event_sha256": "1e4f227ad80c7a153f2859c8632b019726fadaad0dcb42c1d8ec2fa1702e309d",
   "last_cpu_progress": {
     "new_GPU_or_scene": false,
     "saved_real_epochs_rechecked": 14,
@@ -101,18 +102,18 @@
   },
   "last_job": {
     "counts": {
-      "action_scenes": 3,
+      "action_scenes": 1,
       "collection_attempts": 0,
-      "fresh_scenes": 3,
-      "gpu_lease_seconds": 855,
-      "solver_problems": 480
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 99,
+      "solver_problems": 2
     },
-    "job_id": "p48_f4_b_template_001",
-    "status": "SCIENTIFIC_PASS"
+    "job_id": "p48_f3_tangent_micro_001",
+    "status": "INFRASTRUCTURE_FAILURE"
   },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "p48_f3_tangent_micro_001 then F4-B strict-prefix root collection; F2 physical prefix integration",
+  "next_task": "p48_f4_b_root_001; F3 one-sided model revision2 and F2 support/cavity compatibility CPU review",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "publication_pause": {

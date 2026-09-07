@@ -1,0 +1,13 @@
+# B root后3个r_inv_motion只读入口审计
+
+预算为0真实solver/3fresh scenes/3action scenes/3collection attempts。3条新raw及3MP4是新的真实执行，不能离线重采样raw算R，也不允许重采F4-A。
+
+复用realization_batch_runtime_v1_3/pipeline.py::plan_or_load_controls的r_inv_motion分支：读取B自身frozen_suffix_artifact的controls，仅3个*_carry_mid索引做原retime factor1.10/250Hz，不调用planner。原CubicHermiteSpline+单调C1 warp保留端点位置/速度，grid_scale和execution_interval_scale分开。variations_from_trace用实际planner-id活动窗口验证old/new样本数和时长比例，不拿目标系数当已实现速度变化。
+
+每cell必须引用同一个新B root的candidate universe/current/anchor/canonical prefix以及它自己对应intent的source_suffix/source_branch/trace。catalog.py原make_adapter硬编码F4-A manifest和旧panel，必须独立B factory替换；parent_roots/build_catalog同样不能直接调用。F4_A_path的旧resolved receipts不可进入B来源。
+
+新namespace例如p48_f4_b_motion_001，只允许3program各一个r_inv_motion，不再调用r_pc root。runtime_v2 requires_live_meter=true；整个collector由meter.instrument_collector_factory包围，实际pipeline导入的make_adapter被实例hook覆盖。若用私有函数namespace，须让函数__globals__就是待instrument的ModuleType.__dict__，不能把ns复制进SimpleNamespace后误以为改属性能改函数globals。
+
+各cell保留原capture_current/anchor→canonical prefix replay→same-current/anchor gates→frozen control roundtrip→真实执行→原family verifier→实际retiming verifier→raw/video/cleanup路径。全部3motion还须与B的3r_pc做跨realization final-state equivalence，再确认B六格完整；root/gripper/arm/program/order/250Hz不变。引用frozen规划query provenance不等于新solver消耗，独立meter应0，collection仍3。
+
+原pipeline局部import raw/frozen_suffix writers，未来新私有entry必须显式接UTF8 atomic writer，不能只替换模块外层write_new却漏掉局部import。保留所有失败及原success，不覆盖父root。此文件仅审计，当前没有B root实证、没有motion catalog/manifest/运行。

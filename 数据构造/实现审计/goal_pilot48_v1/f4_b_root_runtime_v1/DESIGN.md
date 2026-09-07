@@ -1,0 +1,21 @@
+# B strict-prefix root 实际入口设计（未执行）
+
+仅真实Stage-A→三program→五isolation→三template全部通过后，消费完整Goal/Guard/manifest/各层evidence，调用BoundBAdapter和原RealSapienStrictPrefixRootOrchestratorV1_2。无合格template输入时不得签发/GPU。
+
+预算：pristine1+task-feasibility3+canonical1+suffix-preflight3+branch3=11scene；后7scene有动作。10prefix+(12批×10目标+30chain)×3=460真实solver；原API ledger仍136，不改原局部计数语义。3个strict branch factory由runtime_v2 live meter先charge共3collection，失败也不退款。0formal。
+
+整次orchestrator由meter.instrument_adapter包围；新runtime只能配requires_live_meter=true及runtime_v2 Guard/runner，不能使用旧无collection计数dispatcher。原current/anchor/task-feasibility/candidate-freeze/shared-prefix/suffix-freeze/raw/MP4/verifier/finalstate/失败history门全保留。
+
+写入顺序修复：旧orchestrator会多次写branch receipt且root finalizer最后原地校正first_post_prefix_divergence_step，曾造成F4-A磁盘branch与root内存不一致。新私有writer将branch/preflight中间receipt逐份exclusive存进history；root最终写入时先输出finalizer已经修正的branch receipts，再root receipt，原所有中间内容保留。不是修改raw或放宽verifier。所有JSON explicit UTF8 atomic，prefix/suffix/raw writers以私有globals接相同writer，原共享模块不修改。
+
+独立磁盘验收复用f4_development_root_runtime_v2_2.finalize_f4_root_result，保留原API136/11scene/7action/三raw+视频等所有检查；另对Goal真实460和collection3独立计数。此finalizer不接B资格来冒充A；资格来自新root_prerequisites，finalizer只验证当前输出。完整source/依赖与UTF8 writer私有clone均需新manifest锁定。
+
+## Root pureissuer
+
+新增runtime/issue_f4_b_root.py，build_manifest/issue_from_reservation只返回，不reserve/签发/GPU。真实template四证据未完成时拒绝构建；测试只mock证据读取入口来检查manifest字段，不生成passing资格文件。runtime_v2 Guard/runner+requires_live_meter=true，460/11/7/3。
+
+有限timeout采用child5400s、lease5580s。历史F4-A同136API/11scene完整root实际2167.0496196746826s（root_receipt.json），旧manifest cap28800s过宽；新cap约实测2.49倍，额外180s Guard/cleanup。A证据仅用于耗时参考，绝不继承A物理资格。reference文件hash和推导进入manifest。
+
+源绑定使用目前已硬化accounting.py和test_accounting_integrity.py的当前字节哈希，包含连续唯一query IDs、明确批次N和replayed provenance剔除；不引用早先未硬化hash。新issuer通过migration.bindings先校验模板全部源/输入，再加入本root所有.py与独立磁盘finalizer。
+
+主线程后续CPU审查补充：本目录尚未签发或执行GPU，accounting.py现在还要求实际query_id为连续、唯一、非bool整数，明确的10-goal批次必须使用整数N，不接受未知多目标类型；冻结suffix的历史重放行不参与新query编号和计数。原5项及新增3项测试全部通过；已保存F4-B source/program/isolation的14个epoch、1305实际目标问题只读复核全部通过。未来issuer必须绑定当前源码，不使用较早CPU交付的旧accounting字节。
