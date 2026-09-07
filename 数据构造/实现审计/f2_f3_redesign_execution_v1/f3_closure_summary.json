@@ -1,0 +1,66 @@
+{
+  "schema_version": "cmf_f2_f3_closure_summary_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
+  "qualification_only": true,
+  "collection_count": 0,
+  "asset_freeze": {
+    "asset_id": "f3_bottle_v1",
+    "source_model": "114_bottle:model_data1",
+    "spec_sha256": "7248adb8021cb20e8492acd96d1e85402d39d396d4034458fcf7618b7fcbcf7a",
+    "effective_scale": [0.12, 0.12, 0.12],
+    "mass_kg": 0.6382297277450562,
+    "com_actor_m": [2.9098080176481744e-06, 0.09641966223716736, -1.2965639371032012e-06],
+    "inertia_principal_kg_m2": [0.0022125132381916046, 0.00031942391069605947, 0.0022127246484160423],
+    "layout": "new pad + upright q=[0.7071067812,0.7071067812,0,0] at source_x=-0.18",
+    "same_frozen_recipe_for_confirmation": true
+  },
+  "first_complete_qualification": {
+    "job_id": "stage_B_f3_closure_1788801556",
+    "receipt_sha256": "6914daaf6564b157f297bfdd4d2a307aa64e1eea8c45dbbb855ff50dc657f212",
+    "job_receipt_sha256": "2626d4b0c120a2f434f124c61daf6db447af4a1d44f115b7c00920ff9e71b546",
+    "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801556/trace.npz",
+    "gates": {
+      "real_rise_m": 0.021445095539093018,
+      "lift_translation_drift_m": 0.0006516283424856231,
+      "V_actor_range_m": 0.10008436441421509,
+      "H_actor_range_m": 0.09830839931964874,
+      "support_contact_fraction": 1.0,
+      "opening_window_contact_allowed": true,
+      "empty_hand_exit_contact_fraction": 0.0
+    },
+    "owned_cleanup_pass": true,
+    "device_idle_observed": true
+  },
+  "same_frozen_design_fresh_confirmation": {
+    "job_id": "stage_B_f3_closure_1788801702",
+    "receipt_sha256": "1481694a098f66947c2d550044b02395b5a7ee76f39d17645649f2dd438b4869",
+    "job_receipt_sha256": "64204287a5b82ed588454fa5a73baf1d2548335329acbd7a860f7d43c455b7ac",
+    "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801702/trace.npz",
+    "gates": {
+      "real_rise_m": 0.021445095539093018,
+      "lift_translation_drift_m": 0.0006516283424856231,
+      "V_actor_range_m": 0.10008436441421509,
+      "H_actor_range_m": 0.09830839931964874,
+      "support_contact_fraction": 1.0,
+      "opening_window_contact_allowed": true,
+      "empty_hand_exit_contact_fraction": 0.0
+    },
+    "owned_cleanup_pass": true,
+    "device_idle_observed": false,
+    "device_idle_observed_reason": "post snapshot showed transient nonzero utilization with no compute process; own PID/PGID and renderer were gone"
+  },
+  "failure_history": [
+    {"job_id": "stage_B_f3_closure_1788800928", "raw_status": "qualification_pass", "accepted": false, "reason": "provisional gate omitted strict release/disengagement evidence; raw receipt retained and corrected audit recorded"},
+    {"job_id": "stage_B_f3_closure_1788801227", "raw_status": "qualification_failed_gates", "accepted": false, "reason": "open window and empty hand remained in contact"},
+    {"job_id": "stage_B_f3_closure_1788801393", "raw_status": "qualification_failed_gates", "accepted": false, "reason": "empty hand exited contact-free, but obsolete open-window zero-contact gate was still active; evidence retained"}
+  ],
+  "budget_delta_f3_qualification_attempts": {
+    "solver_problems": 59,
+    "fresh_scenes": 5,
+    "action_scenes": 5,
+    "collection_attempts": 0,
+    "gpu_lease_seconds": 621
+  },
+  "next_gate": "F2 new container/inside closure and same-frozen-design fresh confirmation; F3 pilot roots remain unstarted"
+}

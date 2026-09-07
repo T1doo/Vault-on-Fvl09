@@ -1,0 +1,54 @@
+{
+  "schema_version": "cmf_f2_f3_closure_summary_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
+  "qualification_only": true,
+  "collection_count": 0,
+  "asset_freeze": {
+    "asset_id": "f2_can_v1",
+    "source_model": "071_can:model_data0",
+    "spec_sha256": "19cd649b5c098b41a01ada1fec7005d09b41934c6e74848731c798acf2c7d1ef",
+    "effective_scale": [0.05, 0.05, 0.05],
+    "box_contract": "five-piece open top, bottom identity f2_redesign_box_bottom, dynamic can retained",
+    "same_frozen_recipe_for_confirmation": true
+  },
+  "first_complete_qualification": {
+    "job_id": "stage_B_f2_closure_1788802114",
+    "receipt_sha256": "9859dec79fa9a7f541bdccdc521fe27f3e10833f142cfbf444feb59cf26e16a6",
+    "job_receipt_sha256": "7d03bff670926ea53dd5bb17f3fae7ca7f0855115fefec7fdb1bc6054e541a63",
+    "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f2_closure_1788802114/trace.npz",
+    "gates": {
+      "inside_xy_after_release": true,
+      "bottom_identity_fraction": 1.0,
+      "opening_window_contact_free": true,
+      "empty_hand_exit_contact_free": true,
+      "dynamic_can_preserved": true
+    },
+    "owned_cleanup_pass": true,
+    "device_idle_observed": true
+  },
+  "same_frozen_design_fresh_confirmation": {
+    "job_id": "stage_B_f2_closure_1788802266",
+    "receipt_sha256": "a782f72089401fa95c8f230b02b931a001d4fc9575706d2bdd9e72f3477c868f",
+    "job_receipt_sha256": "f259d9dc71c4bcc0114e45100f475a7e67868b05ee2bf4eff59cca31d173ea21",
+    "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f2_closure_1788802266/trace.npz",
+    "gates": {
+      "inside_xy_after_release": true,
+      "bottom_identity_fraction": 1.0,
+      "opening_window_contact_free": true,
+      "empty_hand_exit_contact_free": true,
+      "dynamic_can_preserved": true
+    },
+    "owned_cleanup_pass": true,
+    "device_idle_observed": false,
+    "device_idle_observed_reason": "post snapshot did not observe baseline; own PID/PGID and renderer were gone"
+  },
+  "budget_delta_f2_qualification_attempts": {
+    "solver_problems": 12,
+    "fresh_scenes": 2,
+    "action_scenes": 2,
+    "collection_attempts": 0,
+    "gpu_lease_seconds": 267
+  },
+  "next_gate": "freeze F2/F3 shared prefix and candidate universe, then begin F2-A/B and F3-A/B pilot roots"
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "cmf_f2_f3_accounting_correction_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "APPLIED_AND_HASH_CHAINED",
+  "canonical_interpretation": "action_scenes counts one scene/job that emits actual robot actions; internal control segments are not separate action_scenes",
+  "basis": "V2.1 plan §11 and §12: one qualification job is bounded by one fresh scene and one action scene; setup/return action cannot be waived",
+  "raw_implementation_total": 69,
+  "corrected_canonical_total": 5,
+  "cap": 74,
+  "affected_jobs": [
+    "stage_B_f3_closure_1788800928",
+    "stage_B_f3_closure_1788801227",
+    "stage_B_f3_closure_1788801393",
+    "stage_B_f3_closure_1788801556",
+    "stage_B_f3_closure_1788801702"
+  ],
+  "raw_receipts_unchanged": true,
+  "ledger_correction_event_sha256": "bb9e8f4a53ee029e66989c1d483507ec7ee99948ccc532257da656cafbfe53e5",
+  "corrected_total_budget": {
+    "solver_problems": 59,
+    "fresh_scenes": 7,
+    "action_scenes": 5,
+    "collection_attempts": 0,
+    "gpu_lease_seconds": 631
+  },
+  "no_cap_increase": true,
+  "no_physical_result_rewrite": true
+}

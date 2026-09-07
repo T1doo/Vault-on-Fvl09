@@ -1,0 +1,19 @@
+{
+  "schema_version": "cmf_f2_f3_pilot_plan_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "F3-A_ACCEPTED_CONTINUE",
+  "new_input_target": 24,
+  "read_only_prior_cells": 24,
+  "combined_index_target": 48,
+  "formal_data": false,
+  "training": false,
+  "roots": {
+    "F2-A": {"family": "F2", "programs": ["inside", "on", "beside"], "realizations": ["r_pc", "r_inv_path"], "status": "PLANNED"},
+    "F2-B": {"family": "F2", "programs": ["inside", "on", "beside"], "realizations": ["r_pc", "r_inv_motion"], "status": "PLANNED"},
+    "F3-A": {"family": "F3", "programs": ["VVHH", "VHVH", "VHHV"], "realizations": ["r_pc", "r_inv_path"], "status": "ACCEPTED", "accepted_cells": 6, "root_receipt_sha256": "101c689e14a28a25fb7d409b437e671952955c320733b7a867bf7e1e54db28d3"},
+    "F3-B": {"family": "F3", "programs": ["VVHH", "VHVH", "VHHV"], "realizations": ["r_pc", "r_inv_motion"], "status": "ACCEPTED", "accepted_cells": 6, "root_receipt_sha256": "9cb31abe796e702da0940442ff43770592a05402d56a6afc28035a69c6c846fa"}
+  },
+  "accepted_new_cells": 12,
+  "source_oracle_hashes": {},
+  "note": "Planned identities only; current/anchor/prefix hashes and candidate acceptance are absent until each root is feasible and frozen."
+}

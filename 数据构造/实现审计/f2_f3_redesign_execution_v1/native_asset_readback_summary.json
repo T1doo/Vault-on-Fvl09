@@ -1,0 +1,60 @@
+{
+  "schema_version": "cmf_f2_f3_native_asset_readback_summary_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "ASSET_READBACK_VERIFIED_NATIVE",
+  "qualification_scope": "asset properties only; no F2/F3 physical closure",
+  "evidence": {
+    "job_id": "stage_A_native_probe_1788800549",
+    "native_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_A_native_probe_1788800549/native_probe_receipt.json",
+    "native_receipt_sha256": "1bf40e3b634ed7b001f22f211d7ab55ee41444b98945e10bfcd9f81f5ffa1796",
+    "job_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_A_native_probe_1788800549/job_receipt.json",
+    "job_receipt_sha256": "f65170b2be5eb5dd451355e462bbb791a1af0e10f8be37c993168e5f0525d471",
+    "pre_guard_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_A_native_probe_1788800549/pre_guard_snapshot.json",
+    "pre_guard_snapshot_sha256": "a061bf2ffe115273a72fe03897f6d72a1385f8a804027eea924f95ef03dfa96c"
+  },
+  "gpu_binding": {
+    "physical_index": 1,
+    "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+    "logical_device": "cuda:0",
+    "renderer": "NVIDIA RTX A6000",
+    "renderer_can_render": true,
+    "renderer_is_cuda": true,
+    "renderer_pci_bus_id": "0000:23:00.0",
+    "owned_cleanup_pass": true,
+    "device_idle_observed": true
+  },
+  "assets": {
+    "f2_can_v1": {
+      "source_model": "071_can:model_data0",
+      "effective_scale": [0.05, 0.05, 0.05],
+      "scaled_extents_m": [0.07114912222011581, 0.09646788818255601, 0.07118775383879648],
+      "mass_kg": 0.1769137680530548,
+      "com_actor_m": [2.6099286287717405e-07, 0.04709585756063461, 2.0879675503238104e-05],
+      "inertia_principal_kg_m2": [0.0001438899926142767, 5.5547308875247836e-05, 0.00014394622121471912],
+      "inertia_actor_tensor_kg_m2": [[0.0001438899926142767, 0.0, 0.0], [0.0, 5.5547308875247836e-05, 0.0], [0.0, 0.0, 0.00014394622121471912]],
+      "all_four_readback_stages_present": true,
+      "all_four_stage_values_equal": true,
+      "inertia_mR2_bound": "PASS"
+    },
+    "f3_bottle_v1": {
+      "source_model": "114_bottle:model_data1",
+      "effective_scale": [0.12, 0.12, 0.12],
+      "scaled_extents_m": [0.06906965805533136, 0.21592933970958517, 0.06906960318030485],
+      "mass_kg": 0.6382297277450562,
+      "com_actor_m": [2.9098080176481744e-06, 0.09641966223716736, -1.2965639371032012e-06],
+      "inertia_principal_kg_m2": [0.0022125132381916046, 0.00031942391069605947, 0.0022127246484160423],
+      "inertia_actor_tensor_kg_m2": [[0.0022125132381916046, 0.0, 0.0], [0.0, 0.00031942391069605947, 0.0], [0.0, 0.0, 0.0022127246484160423]],
+      "all_four_readback_stages_present": true,
+      "all_four_stage_values_equal": true,
+      "inertia_mR2_bound": "PASS"
+    }
+  },
+  "budget_delta_for_two_stage_A_probes": {
+    "solver_problems": 0,
+    "fresh_scenes": 2,
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "gpu_lease_seconds": 10
+  },
+  "remaining_physical_gate": "real F2/F3 scene geometry, grasp/closure actions, support/release/contact verifier, and same-frozen-design fresh confirmation remain unverified"
+}

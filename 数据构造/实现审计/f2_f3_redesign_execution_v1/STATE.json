@@ -1,68 +1,440 @@
 {
-  "schema_version": "cmf_f2_f3_redesign_state_v1",
-  "task_id": "f2_f3_redesign_20260907",
-  "execution_version": "redesign_f2_f3_v1",
-  "status": "INITIALIZING",
-  "stage": "A",
-  "stage_status": "RUNNING",
-  "contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
-  "ledger_head_sha256": null,
-  "source_snapshot": {
-    "vault_commit": "24f6b7f3b4b8a1354bc6ae1532dfcbb4eb7fecb4",
-    "robotwin_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
-    "robotwin_worktree_untracked_preserved": ["controlled_multi_future/", "tests/"]
-  },
-  "budget": {
-    "caps": {
-      "solver_problems": 2980,
-      "fresh_scenes": 125,
-      "action_scenes": 74,
-      "collection_attempts": 48,
-      "gpu_lease_seconds": 61200
-    },
-    "reserved": {
-      "solver_problems": 0,
-      "fresh_scenes": 0,
-      "action_scenes": 0,
-      "collection_attempts": 0,
-      "gpu_lease_seconds": 0
-    },
-    "consumed": {
-      "solver_problems": 0,
-      "fresh_scenes": 0,
-      "action_scenes": 0,
-      "collection_attempts": 0,
-      "gpu_lease_seconds": 0
-    }
-  },
-  "jobs": {},
   "accepted": {
     "F2-A": 0,
     "F2-B": 0,
-    "F3-A": 0,
-    "F3-B": 0,
-    "new_total": 0,
-    "read_only_prior_total": 24,
-    "combined_total": 24
+    "F3-A": 6,
+    "F3-B": 6,
+    "combined_total": 36,
+    "new_total": 12,
+    "read_only_prior_total": 24
   },
+  "accounting_correction": {
+    "canonical_action_scene_total": 5,
+    "event_sha256": "bb9e8f4a53ee029e66989c1d483507ec7ee99948ccc532257da656cafbfe53e5",
+    "raw_action_segment_total": 69,
+    "raw_receipts_unchanged": true
+  },
+  "accounting_correction_pilot_dispatch": {
+    "canonical_scene_action_collection_solver_zero": true,
+    "event_sha256": "ad31651677c8faebc61d5925dcb422fb0b3bb728d10fa282920f9c2646d980b5",
+    "failed_job_id": "stage_C_F3A_pilot_1788802637",
+    "gpu_lease_seconds_retained": 13
+  },
+  "budget": {
+    "caps": {
+      "action_scenes": 74,
+      "collection_attempts": 48,
+      "fresh_scenes": 125,
+      "gpu_lease_seconds": 61200,
+      "solver_problems": 2980
+    },
+    "consumed": {
+      "action_scenes": 35,
+      "collection_attempts": 28,
+      "fresh_scenes": 37,
+      "gpu_lease_seconds": 4262,
+      "solver_problems": 335
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
+  "execution_version": "redesign_f2_f3_v1",
   "gates": {
-    "F2_closure": "UNVERIFIED",
-    "F2_fresh_confirmation": "UNVERIFIED",
-    "F3_closure": "UNVERIFIED",
-    "F3_fresh_confirmation": "UNVERIFIED",
-    "structure_audit": "UNVERIFIED",
-    "strict_exit_audit": "UNVERIFIED"
+    "F2_closure": "VERIFIED",
+    "F2_fresh_confirmation": "VERIFIED",
+    "F3_closure": "VERIFIED",
+    "F3_fresh_confirmation": "VERIFIED",
+    "strict_exit_audit": "UNVERIFIED",
+    "structure_audit": "UNVERIFIED"
   },
-  "resource_observation": {
-    "last_pre_snapshot": null,
-    "last_post_snapshot": null,
-    "nvidia_smi_status": "UNAVAILABLE",
-    "nvidia_smi_reason": "nvidia-smi could not communicate with the NVIDIA driver in the startup shell",
-    "active_owned_processes": []
+  "jobs": {
+    "stage_A_native_probe_1788800458": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 939171,
+      "physical_gpu_index": 1,
+      "pid": 939171,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_A_native_probe_1788800458/job_receipt.json",
+      "status": "SUCCEEDED"
+    },
+    "stage_A_native_probe_1788800549": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 942376,
+      "physical_gpu_index": 1,
+      "pid": 942376,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_A_native_probe_1788800549/job_receipt.json",
+      "status": "SUCCEEDED"
+    },
+    "stage_B_f2_closure_1788802114": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 984159,
+      "physical_gpu_index": 1,
+      "pid": 984159,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f2_closure_1788802114/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_B_f2_closure_1788802266": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 987966,
+      "physical_gpu_index": 1,
+      "pid": 987966,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f2_closure_1788802266/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_B_f3_closure_1788800928": {
+      "canonical_action_scene_count": 1,
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 951993,
+      "physical_gpu_index": 1,
+      "pid": 951993,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788800928/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_B_f3_closure_1788801227": {
+      "canonical_action_scene_count": 1,
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 959643,
+      "physical_gpu_index": 1,
+      "pid": 959643,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801227/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_B_f3_closure_1788801393": {
+      "canonical_action_scene_count": 1,
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 964770,
+      "physical_gpu_index": 1,
+      "pid": 964770,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801393/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_B_f3_closure_1788801556": {
+      "canonical_action_scene_count": 1,
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 969649,
+      "physical_gpu_index": 1,
+      "pid": 969649,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801556/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_B_f3_closure_1788801702": {
+      "canonical_action_scene_count": 1,
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 974231,
+      "physical_gpu_index": 1,
+      "pid": 974231,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_B_f3_closure_1788801702/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_pilot_1788805800": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1077844,
+      "physical_gpu_index": 1,
+      "pid": 1077844,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788805800/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F2A_pilot_1788806070": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1084821,
+      "physical_gpu_index": 1,
+      "pid": 1084821,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788806070/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F2A_pilot_1788806454": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1095331,
+      "physical_gpu_index": 0,
+      "pid": 1095331,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788806454/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F3A_pilot_1788802734": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 999353,
+      "physical_gpu_index": 1,
+      "pid": 999353,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788802734/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F3A_pilot_1788802878": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1003844,
+      "physical_gpu_index": 1,
+      "pid": 1003844,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788802878/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F3A_pilot_1788803095": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1009551,
+      "physical_gpu_index": 1,
+      "pid": 1009551,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788803095/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F3A_pilot_1788803903": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1029195,
+      "physical_gpu_index": 1,
+      "pid": 1029195,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788803903/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": true
+    },
+    "stage_C_F3A_pilot_1788804231": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1037588,
+      "physical_gpu_index": 1,
+      "pid": 1037588,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788804231/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
+    "stage_C_F3B_pilot_1788805015": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 1057903,
+      "physical_gpu_index": 1,
+      "pid": 1057903,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788805015/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    }
+  },
+  "ledger_head_sha256": "90e993e3e88c828359f20c3a8010a8390ea4dd5102bf06fe0d03fa68e5363899",
+  "milestones": {
+    "A": "VERIFIED_NATIVE_ASSET_READBACK",
+    "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
+    "B_F3": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
+    "C": "F3-A_F3-B_ACCEPTED_12_OF_24"
   },
   "publication": {
     "last_local_commit": null,
     "last_remote_commit": null,
     "remote_verified": false
-  }
+  },
+  "resource_observation": {
+    "active_owned_processes": [],
+    "last_post_snapshot": {
+      "gpu_command": [
+        "nvidia-smi",
+        "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+        "--format=csv,noheader,nounits"
+      ],
+      "gpus": [
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": false,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+          "independently_fresh_idle": false,
+          "memory_used_mib": 14,
+          "physical_index": 0,
+          "pstate": "P0",
+          "utilization_percent": 34
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 14,
+          "physical_index": 1,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": false,
+            "near_baseline_utilization": false,
+            "no_compute_process": false,
+            "pstate_recorded": true
+          },
+          "compute_processes": [
+            {
+              "pid": 866118,
+              "used_memory_mib": "8494"
+            }
+          ],
+          "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+          "independently_fresh_idle": false,
+          "memory_used_mib": 8515,
+          "physical_index": 2,
+          "pstate": "P2",
+          "utilization_percent": 100
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 15,
+          "physical_index": 3,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 12,
+          "physical_index": 4,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 14,
+          "physical_index": 5,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 14,
+          "physical_index": 6,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 14,
+          "physical_index": 7,
+          "pstate": "P8",
+          "utilization_percent": 0
+        }
+      ],
+      "process_command": [
+        "nvidia-smi",
+        "--query-compute-apps=gpu_uuid,pid,used_memory",
+        "--format=csv,noheader,nounits"
+      ],
+      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 34, P0\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 8515, 100, P2\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+      "raw_process_csv": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 866118, 8494\n",
+      "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+    },
+    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788806454/pre_guard_snapshot.json",
+    "nvidia_smi_reason": null,
+    "nvidia_smi_status": "AVAILABLE"
+  },
+  "schema_version": "cmf_f2_f3_redesign_state_v1",
+  "source_snapshot": {
+    "robotwin_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e",
+    "robotwin_worktree_untracked_preserved": [
+      "controlled_multi_future/",
+      "tests/"
+    ],
+    "vault_commit": "24f6b7f3b4b8a1354bc6ae1532dfcbb4eb7fecb4"
+  },
+  "stage": "A",
+  "stage_status": "RUNNING",
+  "status": "INITIALIZING",
+  "task_id": "f2_f3_redesign_20260907"
 }
