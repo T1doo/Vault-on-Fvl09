@@ -1,0 +1,54 @@
+{
+  "schema_version": "cmf_f2_f3_verification_profile_v1",
+  "profile_id": "f2_f3_redesign_v1_initial",
+  "status": "DRAFT_FOR_ASSET_READBACK",
+  "frozen_before_physical_qualification": true,
+  "units": {
+    "distance": "m",
+    "angle": "rad",
+    "velocity": "m/s",
+    "angular_velocity": "rad/s",
+    "time": "s",
+    "mass": "kg",
+    "inertia": "kg*m^2",
+    "frequency": "Hz"
+  },
+  "sampling": {
+    "control_hz": 250,
+    "state_shape": "N+1",
+    "action_shape": "N",
+    "effective_setpoint_dim": 26
+  },
+  "f3_initial_qualification": {
+    "micro_lift_command_m": 0.025,
+    "minimum_real_rise_m": 0.020,
+    "closed_gripper_hold_frames": 250,
+    "post_lift_confirmation_frames": 50,
+    "max_relative_translation_m": 0.005,
+    "max_relative_rotation_rad": 0.05
+  },
+  "signals_required_before_qualification": [
+    "initial_stability",
+    "grasp_reference_transform",
+    "rise_reference_point",
+    "continuous_contact_identity",
+    "return_terminal_velocity",
+    "v_h_amplitude_and_axis",
+    "v_h_return_center",
+    "gripper_state",
+    "rest_state",
+    "final_state_equivalence"
+  ],
+  "missing_signal_policy": "REJECT_PHYSICAL_QUALIFICATION",
+  "f2_regions": ["inside", "on", "beside"],
+  "f3_programs": ["VVHH", "VHVH", "VHHV"],
+  "contact_policy": {
+    "planner_contact_permission_is_not_physical_support": true,
+    "dynamic_objects_remain_dynamic": true,
+    "no_kinematic_or_welded_attachment": true
+  },
+  "source": {
+    "review": "F2F3重设计V2.1执行附录_20260907.md:R1-R3",
+    "created_for": "f2_f3_redesign_20260907"
+  }
+}

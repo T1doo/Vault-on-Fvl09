@@ -1,0 +1,86 @@
+{
+  "schema_version": "cmf_f2_f3_redesign_contract_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "execution_version": "redesign_f2_f3_v1",
+  "status": "ACTIVE",
+  "created_at": "2026-09-08T00:48:16+08:00",
+  "codex_goal_thread_id": "01a07cbe-5f63-7a50-bc5f-9ddb2213618d",
+  "source_baselines": {
+    "vault_commit": "24f6b7f3b4b8a1354bc6ae1532dfcbb4eb7fecb4",
+    "robotwin_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+  },
+  "scientific_scope": {
+    "families": ["F2", "F3"],
+    "pilot_roots": ["F2-A", "F2-B", "F3-A", "F3-B"],
+    "new_input_count": 24,
+    "read_only_prior_input_count": 24,
+    "combined_index_count": 48,
+    "formal_data": false,
+    "training": false,
+    "h_reveal": false,
+    "compression": false,
+    "pi_0_5": false
+  },
+  "budget_caps": {
+    "solver_problems": 2980,
+    "fresh_scenes": 125,
+    "action_scenes": 74,
+    "collection_attempts": 48,
+    "gpu_lease_seconds": 61200
+  },
+  "budget_accounting": {
+    "solver_unit": "actual planner target problems; batch N counts N",
+    "fresh_scene_unit": "each newly constructed independent scene",
+    "action_unit": "each actual robot action including setup return",
+    "collection_unit": "each production collection attempt; qualification defaults to zero",
+    "gpu_lease_unit": "ceil monotonic seconds from owned GPU child start through owned cleanup"
+  },
+  "allowed_physical_gpu_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+  "gpu_policy": {
+    "one_root_one_gpu": true,
+    "one_project_job_per_gpu": true,
+    "root_sharding": false,
+    "busy_gpu_sharing": false,
+    "dynamic_fresh_idle_selection": true,
+    "automatic_gpu0_fallback": false,
+    "fresh_guard_before_launch": true,
+    "fresh_post_snapshot": true,
+    "owned_cleanup_and_device_idle_separate": true
+  },
+  "milestones": {
+    "A": "trusted assets and minimum real entrypoint",
+    "B": "F2/F3 complete physical closure and same-frozen-design fresh confirmation",
+    "C": "four pilot roots, 24 new inputs, 48-cell audit"
+  },
+  "completion_predicate": [
+    "F2 complete inside closure and same-frozen-design fresh confirmation have real evidence",
+    "F3 complete lift/V/H/return/release closure and same-frozen-design fresh confirmation have real evidence",
+    "four pilot roots each contain six accepted new inputs",
+    "48-cell read-only prior/new index and structural/time/event/negative/strict-exit audit pass",
+    "all actual budget consumption reconciles with no unknowns, active reservations, or owned residue",
+    "stage artifacts and evidence are committed and pushed to private Vault main with remote SHA verified"
+  ],
+  "stop_conditions": [
+    "known budget overrun",
+    "unknown resource consumption",
+    "source integrity failure",
+    "unknown ownership or uncleared task-owned residue",
+    "user pause",
+    "need to change scientific meaning, success criteria, total budget, or system permissions"
+  ],
+  "state_paths": {
+    "contract": "数据构造/实现审计/f2_f3_redesign_execution_v1/CONTRACT.json",
+    "state": "数据构造/实现审计/f2_f3_redesign_execution_v1/STATE.json",
+    "ledger": "数据构造/实现审计/f2_f3_redesign_execution_v1/budget_ledger.jsonl",
+    "verification_profile": "数据构造/实现审计/f2_f3_redesign_execution_v1/verification_profile.json",
+    "runtime_source": "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v1"
+  },
+  "legacy_isolation": {
+    "old_goal": "cmf_pilot48_20260907",
+    "inherit_old_budget": false,
+    "inherit_old_state": false,
+    "inherit_old_revision_count": false,
+    "mutate_old_state": false,
+    "reaccept_old_data": false
+  }
+}
