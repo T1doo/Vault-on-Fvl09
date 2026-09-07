@@ -1,12 +1,12 @@
 {
   "budget": {
     "active_reservations": {
-      "p48_f4_b_root_001": {
-        "action_scenes": 7,
-        "collection_attempts": 3,
-        "fresh_scenes": 11,
-        "gpu_lease_seconds": 5580,
-        "solver_problems": 460
+      "p48_f3_one_sided_micro_001": {
+        "action_scenes": 1,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1080,
+        "solver_problems": 3
       }
     },
     "caps": {
@@ -17,18 +17,18 @@
       "solver_problems": 6000
     },
     "remaining": {
-      "action_scenes": 99,
+      "action_scenes": 98,
       "collection_attempts": 93,
-      "fresh_scenes": 207,
-      "gpu_lease_seconds": 78074,
-      "solver_problems": 3725
+      "fresh_scenes": 206,
+      "gpu_lease_seconds": 80429,
+      "solver_problems": 3722
     },
     "reserved": {
-      "action_scenes": 7,
-      "collection_attempts": 3,
-      "fresh_scenes": 11,
-      "gpu_lease_seconds": 5580,
-      "solver_problems": 460
+      "action_scenes": 1,
+      "collection_attempts": 0,
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 1080,
+      "solver_problems": 3
     },
     "terminal_jobs": [
       "p48_f3_micro_001",
@@ -44,14 +44,15 @@
       "p48_f4_b_isolation_001",
       "p48_f2_u_route_001",
       "p48_f4_b_template_001",
-      "p48_f3_tangent_micro_001"
+      "p48_f3_tangent_micro_001",
+      "p48_f4_b_root_001"
     ],
     "used": {
-      "action_scenes": 14,
-      "collection_attempts": 0,
-      "fresh_scenes": 22,
-      "gpu_lease_seconds": 2746,
-      "solver_problems": 1815
+      "action_scenes": 21,
+      "collection_attempts": 3,
+      "fresh_scenes": 33,
+      "gpu_lease_seconds": 4891,
+      "solver_problems": 2275
     }
   },
   "completion": {
@@ -86,12 +87,13 @@
   "families": {
     "F1": "PILOT_A_B_INPUTS_ACCEPTED_EXISTING",
     "F2": "THREE_ENDPOINTS_AND_FOUR_CARRY_RELEASE_ROUTE_SEGMENTS_REAL_PASS",
-    "F3": "TANGENT_V1_POSITIVE_GAP_UPPER_BOUND_REJECTED_MODEL_REVISION2_CPU",
-    "F4": "ALL_B_QUALIFICATIONS_PASS_STRICT_PREFIX_ROOT_001_ISSUED"
+    "F3": "ONE_SIDED_MODEL_REVISION2_MICRO_001_ISSUED",
+    "F4": "B_THREE_RAW_PHYSICS_DISK_PASS_RESOURCES_RESOLVED_CURRENT_AND_MOTION_PENDING"
   },
   "formal_collection_authorized": false,
   "goal_id": "cmf_pilot48_20260907",
-  "last_budget_event_sha256": "1e4f227ad80c7a153f2859c8632b019726fadaad0dcb42c1d8ec2fa1702e309d",
+  "gpu_queue_pause": null,
+  "last_budget_event_sha256": "6e4a53d43c6168f5aedfa30bf75bfcb5b90bd7d37e8e95883d28c0d3b50d11cf",
   "last_cpu_progress": {
     "new_GPU_or_scene": false,
     "saved_real_epochs_rechecked": 14,
@@ -102,18 +104,18 @@
   },
   "last_job": {
     "counts": {
-      "action_scenes": 1,
-      "collection_attempts": 0,
-      "fresh_scenes": 1,
-      "gpu_lease_seconds": 99,
-      "solver_problems": 2
+      "action_scenes": 7,
+      "collection_attempts": 3,
+      "fresh_scenes": 11,
+      "gpu_lease_seconds": 2145,
+      "solver_problems": 460
     },
-    "job_id": "p48_f3_tangent_micro_001",
-    "status": "INFRASTRUCTURE_FAILURE"
+    "job_id": "p48_f4_b_root_001",
+    "status": "PHYSICAL_RAW_ROOT_PASS_ACCOUNTING_RESOLVED_CURRENT_PENDING"
   },
   "last_turn_classification": "progress",
   "model_experiments_completed": false,
-  "next_task": "p48_f4_b_root_001; F3 one-sided model revision2 and F2 support/cavity compatibility CPU review",
+  "next_task": "p48_f3_one_sided_micro_001; then F2 prefix and B motion with resource resolution/current recovery",
   "pilot_input_accepted": 18,
   "pilot_input_target": 48,
   "publication_pause": {
@@ -130,6 +132,20 @@
     "reason": "RESOLVED_BY_CURRENT_EXPLICIT_USER_APPROVAL_PUSH_SUCCEEDED",
     "remote": "https://github.com/T1doo/Vault-on-Fvl09.git"
   },
+  "resolved_gpu_queue_pauses": [
+    {
+      "original_pause": {
+        "expected_actions_require_trace_confirmation": 7,
+        "job_id": "p48_f4_b_root_001",
+        "original_meter_action_scenes": 4,
+        "original_terminal_preserved": true,
+        "reason": "ROOT_ACTION_SCENE_COUNTER_UNDERCOUNT_REQUIRES_APPEND_ONLY_RESOLUTION",
+        "reservation_retained_until_reconciliation": true,
+        "task_processes_exited_host_verified": true
+      },
+      "resolution_receipt_sha256": "c61965087f97bc8743092f326ed7214778ac9db3a332a7fcd2ffe34eb07e2871"
+    }
+  ],
   "running": null,
   "source_profiles": {
     "F1_parent": "9873bbe87ed44f7d54003e831ddf9015159036da8078e5cab29ccdc9fcd9fc72",

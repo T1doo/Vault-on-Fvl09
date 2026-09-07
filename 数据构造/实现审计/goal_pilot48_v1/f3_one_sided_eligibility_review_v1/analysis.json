@@ -1,0 +1,215 @@
+{
+  "GPU_executed": false,
+  "all_other_original_predicates_pass": true,
+  "certificate_receipt": "5b56a3baa0fd895e3be1b34d4b8603ce0735e1d5c392928faefec1a5adfeab77",
+  "current_model_eligibility_revision": 1,
+  "failed_predicates": [
+    "(np.abs(g) <= 0.0001).all()"
+  ],
+  "full_model_checks": {
+    "motion_gen": {
+      "full_model_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6",
+        "fl_joint7",
+        "fl_joint8"
+      ],
+      "full_model_qpos": [
+        -0.27013999223709106,
+        2.402909994125366,
+        2.023750066757202,
+        -1.1912599802017212,
+        0.00535999983549118,
+        -3.3817100524902344,
+        0.03398040682077408,
+        0.03300650417804718
+      ],
+      "solver_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6"
+      ],
+      "solver_qpos": [
+        -0.27013999223709106,
+        2.402909994125366,
+        2.023750066757202,
+        -1.1912599802017212,
+        0.00535999983549118,
+        -3.3817100524902344
+      ],
+      "status": "MotionGenStatus.INVALID_START_STATE_WORLD_COLLISION",
+      "valid": false
+    },
+    "motion_gen_batch": {
+      "full_model_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6",
+        "fl_joint7",
+        "fl_joint8"
+      ],
+      "full_model_qpos": [
+        -0.27013999223709106,
+        2.402909994125366,
+        2.023750066757202,
+        -1.1912599802017212,
+        0.00535999983549118,
+        -3.3817100524902344,
+        0.03398040682077408,
+        0.03300650417804718
+      ],
+      "solver_joint_names": [
+        "fl_joint1",
+        "fl_joint2",
+        "fl_joint3",
+        "fl_joint4",
+        "fl_joint5",
+        "fl_joint6"
+      ],
+      "solver_qpos": [
+        -0.27013999223709106,
+        2.402909994125366,
+        2.023750066757202,
+        -1.1912599802017212,
+        0.00535999983549118,
+        -3.3817100524902344
+      ],
+      "status": "MotionGenStatus.INVALID_START_STATE_WORLD_COLLISION",
+      "valid": false
+    }
+  },
+  "native_gap_max_m": 0.00010882052541216769,
+  "native_gap_min_m": -7.363233722745832e-08,
+  "negative_lower_bound_pass": true,
+  "new_schema_not_implemented_or_executed": true,
+  "old_V1_pass": false,
+  "old_supported_witness": {
+    "hold": {
+      "all_both_fingers": true,
+      "all_selected_contact": true,
+      "all_signal_complete": true,
+      "forbidden_count": 0,
+      "frames": 250,
+      "max_relative_orientation_drift_rad": 0.0010666504758931176,
+      "max_relative_translation_drift_m": 0.00010591548130739144,
+      "support_actor_name": "f3_original_pad",
+      "support_contact_frames": 16
+    },
+    "only_attached_bottle_support_pairs_overlap": true,
+    "pairs": [
+      {
+        "clearance_m": -0.0032592570190044285,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.004480124447570981,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.0031113194747657384,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.0012050144714107832,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.0026366427000721992,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.003395319169731727,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      },
+      {
+        "clearance_m": -0.004497160212224015,
+        "link": "attached_bottle",
+        "obstacle": "pad__0"
+      }
+    ]
+  },
+  "original_files_modified": false,
+  "positive_upper_bound_exceedances": [
+    {
+      "hold_index": 48,
+      "native_gap_m": 0.00010427931395440293,
+      "trace_step": 1207
+    },
+    {
+      "hold_index": 49,
+      "native_gap_m": 0.00010882052541216769,
+      "trace_step": 1208
+    },
+    {
+      "hold_index": 50,
+      "native_gap_m": 0.00010677751047249995,
+      "trace_step": 1209
+    }
+  ],
+  "predicates": {
+    "(np.abs(g) <= 0.0001).all()": false,
+    "(np.diff(steps) == 1).all()": true,
+    "0 < hold['support_contact_frames'] < 250": true,
+    "0 <= hold['max_relative_orientation_drift_rad'] <= 0.05": true,
+    "0 <= hold['max_relative_translation_drift_m'] <= 0.005": true,
+    "all((isinstance(c[k], str) and len(c[k]) == 64 and all((x in '0123456789abcdef' for x in c[k])) for k in ('trace_window_sha256', 'world_sha256', 'robot_config_sha256', 'native_geometry_sha256')))": true,
+    "all((p['link'] == 'attached_bottle' and p['obstacle'] == 'pad__0' and np.isfinite(p['clearance_m']) and (p['clearance_m'] < 0) for p in pairs))": true,
+    "all((v['valid'] is False and v['status'] == 'MotionGenStatus.INVALID_START_STATE_WORLD_COLLISION' for v in c['full_model_checks'].values()))": true,
+    "c['job_namespace']": true,
+    "c['old_supported_hold_pass'] is False": true,
+    "c['other_support_contact_frames'] == 0": true,
+    "c['pad_actor_name'] == hold['support_actor_name']": true,
+    "c['pad_shape_name'] == 'pad__0'": true,
+    "c['plan_id']": true,
+    "c['scene_id']": true,
+    "c['schema_version'] == SCHEMA": true,
+    "c['table_contact_frames'] == 0": true,
+    "c['target_delta_world_m'] == [0.0, 0.0, 0.025]": true,
+    "c['target_orientation_unchanged'] is True": true,
+    "g.shape == (250,)": true,
+    "hold['all_both_fingers'] is True": true,
+    "hold['all_selected_contact'] is True": true,
+    "hold['all_signal_complete'] is True": true,
+    "hold['forbidden_count'] == 0": true,
+    "hold['frames'] == 250": true,
+    "isinstance(c['job_namespace'], str)": true,
+    "isinstance(c['plan_id'], str)": true,
+    "isinstance(c['scene_id'], str)": true,
+    "len(c['actual_joint_names']) == len(c['actual_qpos']) > 0": true,
+    "len(pairs) > 0": true,
+    "len(set(c['actual_joint_names'])) == len(c['actual_joint_names'])": true,
+    "np.allclose(np.diff(times), 0.004, rtol=0, atol=1e-09)": true,
+    "np.isfinite(c['actual_qpos']).all()": true,
+    "np.isfinite(g).all()": true,
+    "np.isfinite(poses).all()": true,
+    "np.isfinite(steps).all()": true,
+    "np.isfinite(times).all()": true,
+    "poses.shape == (2, 7)": true,
+    "set(c['full_model_checks']) == {'motion_gen', 'motion_gen_batch'}": true,
+    "steps.shape == (250,)": true,
+    "times.shape == (250,)": true
+  },
+  "proposed_model_eligibility_revision": 2,
+  "receipt_sha256": "ad5cf65cd5dd83a3c099e7ae673fb6c2144e734793c4cbd4d7a5e81b8e8e0b28",
+  "route_revision_unchanged": 2,
+  "schema_version": "p48_f3_tangent_V1_predicate_failure_audit",
+  "source_certificate_sha256": "865abc691b13a38b3d020819eaa6fc42b0e2d65c0be276e36fe0db0d8a93b5ce",
+  "source_validator_sha256": "15ed10d7681c120b9c3ea96d8752b78055f2c8cd3bdca06e53fdda529ea2b6ea",
+  "stability_recipe_revision_unchanged": 3
+}
