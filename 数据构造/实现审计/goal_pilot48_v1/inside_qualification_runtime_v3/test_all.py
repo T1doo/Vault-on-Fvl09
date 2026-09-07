@@ -1,0 +1,5 @@
+from .test_cpu import WrapperTests,IssuerTests
+from goal_pilot48_v1.f2_inside_carry_waypoint_revision_v1.test_cpu import Tests as CarryTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v3.test_cpu import Tests as ContactTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v2.test_cpu import Tests as OriginalInsideTests
+from goal_pilot48_v1.f2_controlled_inside_runtime_v2.test_live_models import Tests as OriginalModelTests

@@ -1,0 +1,1541 @@
+{
+  "schema_version": "f2_inside_repeated_lift_failure_and_unique_carry_revision_v1",
+  "parent_job": "p48_f2_inside_qualification_001",
+  "observed_error": {
+    "message": "plan_0 rejected",
+    "type": "RuntimeError"
+  },
+  "old_target": {
+    "pose": [
+      -0.28048020601272583,
+      0.0398111492395401,
+      1.1698924255371095,
+      0.5002693102921534,
+      -0.4990508784552734,
+      0.4998791680769026,
+      0.5007990167877503
+    ],
+    "segment_id": "lift"
+  },
+  "new_target": {
+    "segment_id": "carry_at_qualified_prefix_height_to_inside_xy",
+    "pose": [
+      -0.3364730635641958,
+      -0.20075847853465,
+      1.0498924255371094,
+      0.5002693102921534,
+      -0.4990508784552734,
+      0.4998791680769026,
+      0.5007990167877503
+    ]
+  },
+  "other_targets_unchanged": [
+    {
+      "pose": [
+        -0.14973369073314077,
+        -0.2003280594927352,
+        0.8155320377029529,
+        0.0005954224682042128,
+        -5.22941326323596e-05,
+        -0.7062952301963749,
+        0.70791714948803
+      ],
+      "segment_id": "preinsert_30mm"
+    },
+    {
+      "pose": [
+        -0.14973369073314077,
+        -0.2003280594927352,
+        0.7855320377029529,
+        0.0005954224682042128,
+        -5.22941326323596e-05,
+        -0.7062952301963749,
+        0.70791714948803
+      ],
+      "segment_id": "controlled_descend_to_support"
+    },
+    {
+      "pose": [
+        -0.14973369073314077,
+        -0.2003280594927352,
+        0.8155320377029529,
+        0.0005954224682042128,
+        -5.22941326323596e-05,
+        -0.7062952301963749,
+        0.70791714948803
+      ],
+      "segment_id": "retreat_to_preinsert"
+    },
+    {
+      "pose": [
+        -0.297923743724823,
+        -0.31380218267440796,
+        0.9419903755187988,
+        0.7000005275036496,
+        -1.6168087520099104e-05,
+        6.607174355743872e-06,
+        0.7141423255833186
+      ],
+      "segment_id": "neutral"
+    }
+  ],
+  "native_continuous_straight_carry": {
+    "schema_version": "f2_prefix_height_linear_carry_native_swept_bound_v1",
+    "pass": true,
+    "initial_native_bounds_world": [
+      [
+        -0.3073194789860539,
+        0.014717111568018682,
+        0.8611784020700326
+      ],
+      [
+        -0.25644846836320034,
+        0.06559438939084486,
+        0.9575808676836913
+      ]
+    ],
+    "whole_translation_swept_bounds_world": [
+      [
+        -0.3633123365375239,
+        -0.22585251620617142,
+        0.8611784020700326
+      ],
+      [
+        -0.25644846836320034,
+        0.06559438939084486,
+        0.9575808676836913
+      ]
+    ],
+    "translation_world": [
+      -0.05599285755146999,
+      -0.2405696277741901,
+      0.0
+    ],
+    "world_shapes": [
+      {
+        "name": "table__0",
+        "role": "table",
+        "axis_separation_m": [
+          -0.34355155547865757,
+          -0.41559438343038047,
+          0.12117839253328944
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.12117839253328944,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7400000095367432
+      },
+      {
+        "name": "table__1",
+        "role": "table",
+        "axis_separation_m": [
+          0.16168767501087628,
+          0.04914749534222851,
+          0.12517840063952113
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.16168767501087628,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__2",
+        "role": "table",
+        "axis_separation_m": [
+          0.16168767501087628,
+          0.20940562215755507,
+          0.12517840063952113
+        ],
+        "separating_axis": 1,
+        "minimum_native_axis_gap_m": 0.20940562215755507,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__3",
+        "role": "table",
+        "axis_separation_m": [
+          0.7814484799116003,
+          0.04914749534222851,
+          0.12517840063952113
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.7814484799116003,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__4",
+        "role": "table",
+        "axis_separation_m": [
+          0.7814484799116003,
+          0.20940562215755518,
+          0.12517840063952113
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.7814484799116003,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "wall__0",
+        "role": "wall",
+        "axis_separation_m": [
+          -2.7435515316367995,
+          0.33440558676729737,
+          -0.9575808676836913
+        ],
+        "separating_axis": 1,
+        "minimum_native_axis_gap_m": 0.33440558676729737,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 3.0
+      },
+      {
+        "name": "box__0",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03353242673201995,
+          -0.12260649935739842,
+          0.00924065342623015
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.00924065342623015,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519377486438025
+      },
+      {
+        "name": "box__1",
+        "role": "box",
+        "axis_separation_m": [
+          0.04919505520374906,
+          -0.025863159710686312,
+          0.009245505244387164
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.04919505520374906,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519328968256454
+      },
+      {
+        "name": "box__2",
+        "role": "box",
+        "axis_separation_m": [
+          -0.0733235380496427,
+          0.05748678578736699,
+          0.009240403086718363
+        ],
+        "separating_axis": 1,
+        "minimum_native_axis_gap_m": 0.05748678578736699,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519379989833142
+      },
+      {
+        "name": "box__3",
+        "role": "box",
+        "axis_separation_m": [
+          0.007421229757586967,
+          -0.02586343155792914,
+          0.009253671080843073
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.009253671080843073,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519247309891895
+      },
+      {
+        "name": "box__4",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03353242673201995,
+          -0.10915444608687885,
+          0.0984852245941249
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.0984852245941249,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7626931774759077
+      },
+      {
+        "name": "box__5",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07333144144230358,
+          -0.12260807292004396,
+          0.10277689468247075
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.10277689468247075,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7584015073875618
+      },
+      {
+        "name": "box__6",
+        "role": "box",
+        "axis_separation_m": [
+          0.04739559095116591,
+          -0.10915444608687884,
+          0.009259738833771625
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.04739559095116591,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.851918663236261
+      },
+      {
+        "name": "box__7",
+        "role": "box",
+        "axis_separation_m": [
+          0.004308162561082685,
+          -0.025872895241161042,
+          0.09845051382872272
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09845051382872272,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627278882413099
+      },
+      {
+        "name": "box__8",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03353242956382274,
+          0.05681592357949439,
+          0.00924065342623015
+        ],
+        "separating_axis": 1,
+        "minimum_native_axis_gap_m": 0.05681592357949439,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519377486438025
+      },
+      {
+        "name": "box__9",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03353242956382274,
+          -0.025863154047808423,
+          0.10008308060309945
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.10008308060309945,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7610953214669332
+      },
+      {
+        "name": "box__10",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07332353804964276,
+          -0.12260502116218597,
+          0.009240415007647496
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.009240415007647496,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519379870623851
+      },
+      {
+        "name": "box__11",
+        "role": "box",
+        "axis_separation_m": [
+          0.007432775177451945,
+          -0.12260753647823297,
+          0.009254016787787922
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.009254016787787922,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519243852822447
+      },
+      {
+        "name": "box__12",
+        "role": "box",
+        "axis_separation_m": [
+          -0.0733238438777909,
+          -0.12260163561831229,
+          0.09847022210481138
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09847022210481138,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627081799652212
+      },
+      {
+        "name": "box__13",
+        "role": "box",
+        "axis_separation_m": [
+          0.0043008967547762955,
+          -0.12259579436303726,
+          0.09847022210481138
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09847022210481138,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627081799652212
+      },
+      {
+        "name": "box__14",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07333144144230352,
+          0.05169298177074999,
+          0.09845051382872272
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09845051382872272,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627278882413099
+      },
+      {
+        "name": "scale__0",
+        "role": "scale",
+        "axis_separation_m": [
+          0.10122140302114055,
+          -0.061700445717064345,
+          0.08085165504625902
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.10122140302114055,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7803267470237736
+      },
+      {
+        "name": "scale__1",
+        "role": "scale",
+        "axis_separation_m": [
+          0.12345836722671186,
+          -0.0832072721139433,
+          0.09433752510615445
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.12345836722671186,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408769638781
+      },
+      {
+        "name": "scale__2",
+        "role": "scale",
+        "axis_separation_m": [
+          0.1096023880938207,
+          -0.08320762497343248,
+          0.09433752749034019
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.1096023880938207,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408745796924
+      },
+      {
+        "name": "scale__3",
+        "role": "scale",
+        "axis_separation_m": [
+          0.08251956399213775,
+          -0.08320762497343248,
+          0.09612140148534909
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09612140148534909,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7650570005846835
+      },
+      {
+        "name": "scale__4",
+        "role": "scale",
+        "axis_separation_m": [
+          0.07913091603473785,
+          -0.050530347185149815,
+          0.09433752510615445
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09433752510615445,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408769638781
+      },
+      {
+        "name": "scale__5",
+        "role": "scale",
+        "axis_separation_m": [
+          0.20076993614304225,
+          -0.08319652897300911,
+          0.09677672354559164
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.20076993614304225,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.764401678524441
+      },
+      {
+        "name": "scale__6",
+        "role": "scale",
+        "axis_separation_m": [
+          0.10959002370658485,
+          0.0032404274079625983,
+          0.09433957789007463
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.10959002370658485,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.766838824179958
+      },
+      {
+        "name": "scale__7",
+        "role": "scale",
+        "axis_separation_m": [
+          0.20460011145721144,
+          0.005390946254090312,
+          0.11579294637236559
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.20460011145721144,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.745385455697667
+      },
+      {
+        "name": "scale__8",
+        "role": "scale",
+        "axis_separation_m": [
+          0.2046025480950354,
+          -0.07387924078252406,
+          0.11579294637236559
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.2046025480950354,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.745385455697667
+      },
+      {
+        "name": "scale__9",
+        "role": "scale",
+        "axis_separation_m": [
+          0.08258540566547076,
+          0.0032404274079625983,
+          0.09637117593579037
+        ],
+        "separating_axis": 2,
+        "minimum_native_axis_gap_m": 0.09637117593579037,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7648072261342422
+      },
+      {
+        "name": "stand__0",
+        "role": "stand",
+        "axis_separation_m": [
+          0.398692550588381,
+          -0.1912282920974656,
+          0.04701679634789713
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.398692550588381,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141616057221355
+      },
+      {
+        "name": "stand__1",
+        "role": "stand",
+        "axis_separation_m": [
+          0.398692550588381,
+          -0.14458637238560879,
+          0.05869769161205918
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.398692550588381,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8024807104579734
+      },
+      {
+        "name": "stand__2",
+        "role": "stand",
+        "axis_separation_m": [
+          0.41856983564981914,
+          -0.19114251505189117,
+          0.0475407033018862
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.41856983564981914,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8136376987681464
+      },
+      {
+        "name": "stand__3",
+        "role": "stand",
+        "axis_separation_m": [
+          0.24400433898807425,
+          -0.1912314988274023,
+          0.04700854110447272
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.24400433898807425,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141698609655599
+      },
+      {
+        "name": "stand__4",
+        "role": "stand",
+        "axis_separation_m": [
+          0.24400433898807428,
+          -0.1452064268484597,
+          0.056351873295930055
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.24400433898807428,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8048265287741025
+      },
+      {
+        "name": "stand__5",
+        "role": "stand",
+        "axis_separation_m": [
+          0.2711779240926229,
+          -0.1912280477184184,
+          0.047016504285133376
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.2711779240926229,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141618977848992
+      },
+      {
+        "name": "stand__6",
+        "role": "stand",
+        "axis_separation_m": [
+          0.3988096617961808,
+          -0.19119332801231936,
+          0.10382175220000267
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.3988096617961808,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7573566498700299
+      },
+      {
+        "name": "stand__7",
+        "role": "stand",
+        "axis_separation_m": [
+          0.23309713586648365,
+          -0.19120358597183806,
+          0.1036342583364872
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.23309713586648365,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7575441437335454
+      },
+      {
+        "name": "stand__8",
+        "role": "stand",
+        "axis_separation_m": [
+          0.23309455498532639,
+          -0.19114248524956834,
+          0.07435829966020924
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.23309455498532639,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7868201024098234
+      },
+      {
+        "name": "stand__9",
+        "role": "stand",
+        "axis_separation_m": [
+          0.23309192642045262,
+          -0.19116645823805423,
+          0.04712533044718592
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.23309192642045262,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8140530716228467
+      },
+      {
+        "name": "stand__10",
+        "role": "stand",
+        "axis_separation_m": [
+          0.271177924092623,
+          -0.14432334677005038,
+          0.05559776723992371
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.271177924092623,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8055806348301089
+      },
+      {
+        "name": "fr_link1__0",
+        "role": "fr_link1",
+        "axis_separation_m": [
+          0.5447487997880395,
+          0.15033339289939174,
+          -0.03732158373783845
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.5447487997880395,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.898499985807871
+      },
+      {
+        "name": "fr_link2__0",
+        "role": "fr_link2",
+        "axis_separation_m": [
+          0.5260141584408735,
+          0.1375653483359197,
+          -0.04982078381238697
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.5260141584408735,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9109991858824196
+      },
+      {
+        "name": "fr_link3__0",
+        "role": "fr_link3",
+        "axis_separation_m": [
+          0.5179163791630013,
+          0.15709519200132827,
+          -0.10442860620066663
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.5179163791630013,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9710023944306984
+      },
+      {
+        "name": "fr_link4__0",
+        "role": "fr_link4",
+        "axis_separation_m": [
+          0.5309499031690907,
+          0.08739776358059193,
+          -0.03407846827355554
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.5309499031690907,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 1.027503441623222
+      },
+      {
+        "name": "fr_link5__0",
+        "role": "fr_link5",
+        "axis_separation_m": [
+          0.5326924241815612,
+          0.0770636719168451,
+          -0.050897896550277766
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.5326924241815612,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9860035275829544
+      },
+      {
+        "name": "fr_link6__0",
+        "role": "fr_link6",
+        "axis_separation_m": [
+          0.4751901846939951,
+          0.010031944432491113,
+          -0.044981044992431385
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.4751901846939951,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 1.001809095263198
+      },
+      {
+        "name": "fr_link7__0",
+        "role": "fr_link7",
+        "axis_separation_m": [
+          0.47971199773756956,
+          -0.06816428842164285,
+          -0.04707759687922153
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.47971199773756956,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9715036764547786
+      },
+      {
+        "name": "fr_link8__0",
+        "role": "fr_link8",
+        "axis_separation_m": [
+          0.6063059699969691,
+          -0.06907887528057616,
+          -0.047075772401751204
+        ],
+        "separating_axis": 0,
+        "minimum_native_axis_gap_m": 0.6063059699969691,
+        "native_swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9715054848760029
+      }
+    ],
+    "minimum_separating_axis_gap_m": 0.009240415007647496,
+    "all_continuous_translations_covered_by_conservative_AABB": true,
+    "robot_arm_clearance_proven": false,
+    "arbitrary_planner_path_not_certified_by_this_straight_bound": true,
+    "new_height_chosen": false,
+    "receipt_sha256": "c0d4230cfb664c159d83be554b36cde165eb93c3b431ce86241d829482ddf348"
+  },
+  "actual_fitted_buffered_sphere_straight_carry": {
+    "pass": true,
+    "world_shapes": [
+      {
+        "name": "table__0",
+        "role": "table",
+        "axis_separation_m": [
+          -0.3484926849677988,
+          -0.4205043559392381,
+          0.11619453914115618
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.11619453914115618,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7400000095367432
+      },
+      {
+        "name": "table__1",
+        "role": "table",
+        "axis_separation_m": [
+          0.15675632338553624,
+          0.04650404460613039,
+          0.12019454724738787
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.15675632338553624,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__2",
+        "role": "table",
+        "axis_separation_m": [
+          0.15675632338553624,
+          0.20449564964869746,
+          0.12019454724738787
+        ],
+        "separating_axis": 1,
+        "minimum_axis_gap_m": 0.20449564964869746,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__3",
+        "role": "table",
+        "axis_separation_m": [
+          0.7765073504224591,
+          0.04650404460613039,
+          0.12019454724738787
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.7765073504224591,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "table__4",
+        "role": "table",
+        "axis_separation_m": [
+          0.7765073504224591,
+          0.20449564964869757,
+          0.12019454724738787
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.7765073504224591,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7360000014305115
+      },
+      {
+        "name": "wall__0",
+        "role": "wall",
+        "axis_separation_m": [
+          -2.748492661125941,
+          0.32949561425843976,
+          -0.962494478398397
+        ],
+        "separating_axis": 1,
+        "minimum_axis_gap_m": 0.32949561425843976,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 3.0
+      },
+      {
+        "name": "box__0",
+        "role": "box",
+        "axis_separation_m": [
+          -0.038473556221161165,
+          -0.12524995009349654,
+          0.004256800034096897
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.004256800034096897,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519377486438025
+      },
+      {
+        "name": "box__1",
+        "role": "box",
+        "axis_separation_m": [
+          0.044253925714607845,
+          -0.02850661044678443,
+          0.0042616518522539115
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.044253925714607845,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519328968256454
+      },
+      {
+        "name": "box__2",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07825488967498273,
+          0.05484333505126887,
+          0.00425654969458511
+        ],
+        "separating_axis": 1,
+        "minimum_axis_gap_m": 0.05484333505126887,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519379989833142
+      },
+      {
+        "name": "box__3",
+        "role": "box",
+        "axis_separation_m": [
+          0.0024898781322469365,
+          -0.028506882294027258,
+          0.0042698176887098205
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.0042698176887098205,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519247309891895
+      },
+      {
+        "name": "box__4",
+        "role": "box",
+        "axis_separation_m": [
+          -0.038473556221161165,
+          -0.11179789682297697,
+          0.09350137120199165
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09350137120199165,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7626931774759077
+      },
+      {
+        "name": "box__5",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07826279306764361,
+          -0.12525152365614206,
+          0.0977930412903375
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.0977930412903375,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7584015073875618
+      },
+      {
+        "name": "box__6",
+        "role": "box",
+        "axis_separation_m": [
+          0.042454461462024695,
+          -0.11179789682297696,
+          0.004275885441638372
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.042454461462024695,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.851918663236261
+      },
+      {
+        "name": "box__7",
+        "role": "box",
+        "axis_separation_m": [
+          -0.0006231890642573457,
+          -0.02851634597725916,
+          0.09346666043658947
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09346666043658947,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627278882413099
+      },
+      {
+        "name": "box__8",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03847355905296396,
+          0.05417247284339627,
+          0.004256800034096897
+        ],
+        "separating_axis": 1,
+        "minimum_axis_gap_m": 0.05417247284339627,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519377486438025
+      },
+      {
+        "name": "box__9",
+        "role": "box",
+        "axis_separation_m": [
+          -0.03847355905296396,
+          -0.02850660478390654,
+          0.0950992272109662
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.0950992272109662,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7610953214669332
+      },
+      {
+        "name": "box__10",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07825488967498279,
+          -0.12524847189828409,
+          0.004256561615514243
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.004256561615514243,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519379870623851
+      },
+      {
+        "name": "box__11",
+        "role": "box",
+        "axis_separation_m": [
+          0.0025014235521119144,
+          -0.1252509872143311,
+          0.004270163395654669
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.004270163395654669,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8519243852822447
+      },
+      {
+        "name": "box__12",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07825519550313093,
+          -0.1252450863544104,
+          0.09348636871267813
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09348636871267813,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627081799652212
+      },
+      {
+        "name": "box__13",
+        "role": "box",
+        "axis_separation_m": [
+          -0.0006304548705637347,
+          -0.12523924509913537,
+          0.09348636871267813
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09348636871267813,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627081799652212
+      },
+      {
+        "name": "box__14",
+        "role": "box",
+        "axis_separation_m": [
+          -0.07826279306764355,
+          0.04904953103465187,
+          0.09346666043658947
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09346666043658947,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7627278882413099
+      },
+      {
+        "name": "scale__0",
+        "role": "scale",
+        "axis_separation_m": [
+          0.09628027353199933,
+          -0.06434389645316246,
+          0.07586780165412577
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.09628027353199933,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7803267470237736
+      },
+      {
+        "name": "scale__1",
+        "role": "scale",
+        "axis_separation_m": [
+          0.11851723773757064,
+          -0.08585072285004142,
+          0.0893536717140212
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.11851723773757064,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408769638781
+      },
+      {
+        "name": "scale__2",
+        "role": "scale",
+        "axis_separation_m": [
+          0.10466125860467948,
+          -0.0858510757095306,
+          0.08935367409820694
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.10466125860467948,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408745796924
+      },
+      {
+        "name": "scale__3",
+        "role": "scale",
+        "axis_separation_m": [
+          0.07757843450299653,
+          -0.0858510757095306,
+          0.09113754809321584
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09113754809321584,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7650570005846835
+      },
+      {
+        "name": "scale__4",
+        "role": "scale",
+        "axis_separation_m": [
+          0.07418978654559663,
+          -0.053173797921247934,
+          0.0893536717140212
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.0893536717140212,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7668408769638781
+      },
+      {
+        "name": "scale__5",
+        "role": "scale",
+        "axis_separation_m": [
+          0.19582880665390104,
+          -0.08583997970910723,
+          0.09179287015345838
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.19582880665390104,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.764401678524441
+      },
+      {
+        "name": "scale__6",
+        "role": "scale",
+        "axis_separation_m": [
+          0.10464889421744364,
+          0.0005969766718644798,
+          0.08935572449794138
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.10464889421744364,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.766838824179958
+      },
+      {
+        "name": "scale__7",
+        "role": "scale",
+        "axis_separation_m": [
+          0.19965898196807022,
+          0.0027474955179921934,
+          0.11080909298023234
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.19965898196807022,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.745385455697667
+      },
+      {
+        "name": "scale__8",
+        "role": "scale",
+        "axis_separation_m": [
+          0.19966141860589418,
+          -0.07652269151862218,
+          0.11080909298023234
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.19966141860589418,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.745385455697667
+      },
+      {
+        "name": "scale__9",
+        "role": "scale",
+        "axis_separation_m": [
+          0.07764427617632955,
+          0.0005969766718644798,
+          0.09138732254365711
+        ],
+        "separating_axis": 2,
+        "minimum_axis_gap_m": 0.09138732254365711,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7648072261342422
+      },
+      {
+        "name": "stand__0",
+        "role": "stand",
+        "axis_separation_m": [
+          0.3937514210992398,
+          -0.19387174283356373,
+          0.042032942955763875
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.3937514210992398,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141616057221355
+      },
+      {
+        "name": "stand__1",
+        "role": "stand",
+        "axis_separation_m": [
+          0.3937514210992398,
+          -0.1472298231217069,
+          0.053713838219925925
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.3937514210992398,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8024807104579734
+      },
+      {
+        "name": "stand__2",
+        "role": "stand",
+        "axis_separation_m": [
+          0.41362870616067793,
+          -0.1937859657879893,
+          0.04255684990975295
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.41362870616067793,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8136376987681464
+      },
+      {
+        "name": "stand__3",
+        "role": "stand",
+        "axis_separation_m": [
+          0.23906320949893303,
+          -0.19387494956350043,
+          0.04202468771233947
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.23906320949893303,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141698609655599
+      },
+      {
+        "name": "stand__4",
+        "role": "stand",
+        "axis_separation_m": [
+          0.23906320949893306,
+          -0.1478498775845578,
+          0.0513680199037968
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.23906320949893306,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8048265287741025
+      },
+      {
+        "name": "stand__5",
+        "role": "stand",
+        "axis_separation_m": [
+          0.2662367946034817,
+          -0.1938714984545165,
+          0.04203265089300012
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.2662367946034817,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8141618977848992
+      },
+      {
+        "name": "stand__6",
+        "role": "stand",
+        "axis_separation_m": [
+          0.39386853230703955,
+          -0.19383677874841748,
+          0.09883789880786942
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.39386853230703955,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7573566498700299
+      },
+      {
+        "name": "stand__7",
+        "role": "stand",
+        "axis_separation_m": [
+          0.22815600637734243,
+          -0.19384703670793618,
+          0.09865040494435395
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.22815600637734243,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7575441437335454
+      },
+      {
+        "name": "stand__8",
+        "role": "stand",
+        "axis_separation_m": [
+          0.22815342549618517,
+          -0.19378593598566646,
+          0.06937444626807598
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.22815342549618517,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.7868201024098234
+      },
+      {
+        "name": "stand__9",
+        "role": "stand",
+        "axis_separation_m": [
+          0.2281507969313114,
+          -0.19380990897415235,
+          0.04214147705505267
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.2281507969313114,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8140530716228467
+      },
+      {
+        "name": "stand__10",
+        "role": "stand",
+        "axis_separation_m": [
+          0.26623679460348176,
+          -0.1469667975061485,
+          0.05061391384779046
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.26623679460348176,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.8055806348301089
+      },
+      {
+        "name": "fr_link1__0",
+        "role": "fr_link1",
+        "axis_separation_m": [
+          0.5398076702988983,
+          0.14768994216329362,
+          -0.0423054371299717
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.5398076702988983,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.898499985807871
+      },
+      {
+        "name": "fr_link2__0",
+        "role": "fr_link2",
+        "axis_separation_m": [
+          0.5210730289517324,
+          0.1349218975998216,
+          -0.054804637204520223
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.5210730289517324,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9109991858824196
+      },
+      {
+        "name": "fr_link3__0",
+        "role": "fr_link3",
+        "axis_separation_m": [
+          0.51297524967386,
+          0.15445174126523015,
+          -0.10934221691537227
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.51297524967386,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9710023944306984
+      },
+      {
+        "name": "fr_link4__0",
+        "role": "fr_link4",
+        "axis_separation_m": [
+          0.5260087736799495,
+          0.0847543128444938,
+          -0.03899207898826118
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.5260087736799495,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 1.027503441623222
+      },
+      {
+        "name": "fr_link5__0",
+        "role": "fr_link5",
+        "axis_separation_m": [
+          0.5277512946924199,
+          0.07442022118074698,
+          -0.055811507264983407
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.5277512946924199,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9860035275829544
+      },
+      {
+        "name": "fr_link6__0",
+        "role": "fr_link6",
+        "axis_separation_m": [
+          0.4702490552048539,
+          0.007388493696392995,
+          -0.049894655707137026
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.4702490552048539,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 1.001809095263198
+      },
+      {
+        "name": "fr_link7__0",
+        "role": "fr_link7",
+        "axis_separation_m": [
+          0.47477086824842835,
+          -0.07080773915774097,
+          -0.05199120759392717
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.47477086824842835,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9715036764547786
+      },
+      {
+        "name": "fr_link8__0",
+        "role": "fr_link8",
+        "axis_separation_m": [
+          0.6013648405078279,
+          -0.07172232601667428,
+          -0.051989383116456844
+        ],
+        "separating_axis": 0,
+        "minimum_axis_gap_m": 0.6013648405078279,
+        "swept_aabb_disjoint": true,
+        "world_z_max_m": 0.9715054848760029
+      }
+    ],
+    "minimum_separating_axis_gap_m": 0.004256561615514243,
+    "schema_version": "f2_actual_profile_sphere_buffer_straight_carry_bound_v1",
+    "fitted_spheres": 189,
+    "unchanged_world_buffer_m": 0.004,
+    "buffered_swept_bounds_world": [
+      [
+        -0.3682436881628639,
+        -0.22849596694226953,
+        0.8561945486778993
+      ],
+      [
+        -0.2515073388740591,
+        0.07050436189970247,
+        0.962494478398397
+      ]
+    ],
+    "robot_arm_kinematics_not_proven": true,
+    "actual_fitting_model_receipt_sha256": "b8cdef66667fe1b378a79a09cf55ad2346cf250db9ea8ad0f8a45921ce1a05ab",
+    "receipt_sha256": "3c4941db19996d6d6b0b5e249af4593ed50a27a07e75fb8bbadb93b1d75e944f"
+  },
+  "exact_goal_transform_replay_position_error_m": 1.3148742884102657e-06,
+  "URDF_necessary_reach_bounds": {
+    "actual": {
+      "solver_goal": [
+        0.45888891621793176,
+        -0.025702100720780552,
+        0.26789242553710935,
+        0.707830555222213,
+        0.007649044297916777,
+        0.7063090358232469,
+        -0.006703963721370477
+      ],
+      "norm_from_base_m": 0.5319830702844639,
+      "triangle_chain_length_upper_bound_m": 0.8241250849479441,
+      "excluded_by_general_triangle_bound": false
+    },
+    "failed_extra_lift": {
+      "solver_goal": [
+        0.45888891621793176,
+        -0.025702100720780552,
+        0.38789242553710945,
+        0.707830555222213,
+        0.007649044297916777,
+        0.7063090358232469,
+        -0.006703963721370477
+      ],
+      "norm_from_base_m": 0.6014151388169333,
+      "triangle_chain_length_upper_bound_m": 0.8241250849479441,
+      "excluded_by_general_triangle_bound": false
+    },
+    "revised": {
+      "solver_goal": [
+        0.2194871832608994,
+        0.03509063043485511,
+        0.26789242553710935,
+        0.707830555222213,
+        0.007649044297916777,
+        0.7063090358232469,
+        -0.006703963721370477
+      ],
+      "norm_from_base_m": 0.34809815802482336,
+      "triangle_chain_length_upper_bound_m": 0.8241250849479441,
+      "excluded_by_general_triangle_bound": false
+    }
+  },
+  "original_full_single_batch_start_valid": true,
+  "FK_current_solver_pose": [
+    [
+      0.002174489794065875,
+      0.02029485316421755,
+      0.9997916735646372,
+      0.4588888689297525
+    ],
+    [
+      0.0013096025423491064,
+      0.999793122131935,
+      -0.02029773087954496,
+      -0.025702008019310774
+    ],
+    [
+      -0.9999967782624684,
+      0.001353466926159989,
+      0.002147461748952613,
+      0.26789373628676505
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "asset_layout_or_final_inside_changed": false,
+  "height_scan_performed": false,
+  "finite_IK_failure_is_not_mathematical_infeasibility": true,
+  "new_IK_or_planner_or_scene_calls": 0,
+  "files": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_qualification_001/inside_result.json": "606bd2bfc7492dcd9fea5eacabaf6ead658f0c8aff9dbf5428974d52d74d8aaf",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_qualification_001/model_005_carried_full.json": "313ac8ae1b5c621a581e24da6752ff82f6eadfe31820f237b45010484ff798ed",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_qualification_001/qualification_trace.npz": "6dacff670de4b422fd052fbccfadeed3a1289288c98a4940e009c5084c9947e6",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_qualification_001/actual_replay.json": "2c63bd99b7893bc86ffaa2265636a54d4327602596c3a9facaee05141f467cb5",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f2_inside_qualification_001/job_terminal.json": "2d430d13bd64a4795a205e72fa19919abc12af328f5b980ad867ee45247400ce",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/robot.py": "3dcd80acc8cab489a4c5edb507cc460dab1724be0226b8d5c4c1b218dee605cb",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/envs/robot/planner.py": "f1012345542483f4cfbac64880a266b7ee0d4a64362d5ec6fd6985ed9c34b564",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/config.yml": "a4f043d2d4b44cca5ec47fb498a3194da3f87ff9530dcbfdcee1539a44423d57",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/curobo_left.yml": "07763e168925ac18ad003036fb65385e42358b92521e00273fa5cf0d2cfaed75",
+    "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/urdf/arx5_description_isaac.urdf": "097c59fb19a7b482249c6097df8319586ea7cfd268c015516f103b289a7e761a",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_model_bridge_v1_1/transforms.py": "d101ca030a9e0dfaa576b17d01c2d3cce17e867c363d854a41c2bdf5569794b1",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f3_model_replay_v1/kinematics_cpu.py": "8cec410f43021cf54cfc84b2959bae9a524cfcde76ae769d80502d9b0152923c"
+  },
+  "analysis_source_files": {
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f2_inside_carry_waypoint_revision_v1/analyze.py": "d91bc7c0a8c57bc683df34b6afff1056f21c8657f2f8305ecf9f67d4ea883ba0"
+  },
+  "receipt_sha256": "63b37d1619a8f7a166fe353e492ed8eab8787973573a331229d4bd7e298bbe72"
+}
