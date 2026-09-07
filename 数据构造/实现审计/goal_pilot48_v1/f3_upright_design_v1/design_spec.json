@@ -1,0 +1,229 @@
+{
+  "CPU_geometry_selected_not_physical_qualified": true,
+  "actual_contact_height_above_COM_candidate_m": [
+    0.04908458659298187,
+    0.04908453752430442
+  ],
+  "asset_id": 13,
+  "asset_name": "001_bottle",
+  "bottle_actor_pose": [
+    -0.18,
+    -0.06,
+    0.75,
+    0.7071067811865476,
+    0.7071067811865476,
+    0.0,
+    0.0
+  ],
+  "canonical_settle_steps": 60,
+  "close_normalized": 0.5,
+  "conditional_confirmation_cap": {
+    "action_scenes": 1,
+    "child_timeout_seconds": 1800,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "gpu_lease_seconds": 1980,
+    "solver_problems": 17
+  },
+  "design_id": "F3_UPRIGHT_SAME_ASSET_QUALIFICATION_V1",
+  "event_hold_frames": 50,
+  "event_programs": [
+    "VVHH",
+    "VHVH",
+    "VHHV"
+  ],
+  "execution_ready": false,
+  "expected_mass_properties": {
+    "actor_name": "f3_main_bottle",
+    "cmass_local_pose": [
+      3.116555672022514e-05,
+      0.11045115441083908,
+      1.299949872191064e-05,
+      0.9999794960021973,
+      4.436255767359398e-05,
+      -0.006406051106750965,
+      0.00018562516197562218
+    ],
+    "com_world": [
+      -0.18484610275220578,
+      0.05051708180986221,
+      0.7835897915327393
+    ],
+    "component_type": "PhysxRigidDynamicComponent",
+    "mass_kg": 0.009999999776482582,
+    "new_scene_created": false,
+    "principal_inertia_kg_m2": [
+      0.00287611479870975,
+      0.00034546677488833666,
+      0.0028816256672143936
+    ],
+    "proxy_COM_used": false,
+    "read_only": true,
+    "schema_version": "p48_actual_rigid_mass_properties_v1",
+    "source": "actual PhysxRigidBodyComponent.get_mass/get_inertia/get_cmass_local_pose"
+  },
+  "family": "F3",
+  "friction_unchanged": {
+    "dynamic": 0.5,
+    "static": 0.5
+  },
+  "grasp_in_bottle_frame": [
+    0.0,
+    0.17000000000000004,
+    0.14,
+    0.5000000000000001,
+    -0.5,
+    0.5000000000000001,
+    0.5000000000000001
+  ],
+  "hold_frames": 250,
+  "lift_m": 0.025,
+  "mass_source_set_value": 0.01,
+  "maximum_relative_orientation_rad": 0.05,
+  "maximum_relative_translation_m": 0.005,
+  "minimum_actual_rise_m": 0.02,
+  "nominal_grasp_world_pose": [
+    -0.18,
+    -0.2,
+    0.92,
+    0.7071067811865476,
+    0.0,
+    0.0,
+    0.7071067811865476
+  ],
+  "nominal_native_bottle_bounds_world": [
+    [
+      -0.21426173739941695,
+      -0.0937212343772908,
+      0.75
+    ],
+    [
+      -0.14577298325965088,
+      -0.026281047288498838,
+      0.9978884483256749
+    ]
+  ],
+  "nominal_pose_mapping_audit": {
+    "grasp": {
+      "orientation_error_rad": 0.0,
+      "original_entry_solver_goal": [
+        0.21711627461499972,
+        -0.12136617942755742,
+        0.13799977056111168,
+        0.9999500003023605,
+        -2.107342242103109e-08,
+        -2.1073422562523092e-08,
+        -0.00999984476421653
+      ],
+      "pass": true,
+      "position_error_m": 3.925231146709438e-17,
+      "quaternion_sign_equivalent_comparison": true,
+      "reported_command": [
+        -0.18000012900895457,
+        -0.19999998542228575,
+        0.9199997705611117,
+        0.7071067892692173,
+        2.980182327924798e-10,
+        -2.98008295818164e-08,
+        0.7071067731038774
+      ]
+    },
+    "pregrasp": {
+      "orientation_error_rad": 0.0,
+      "original_entry_solver_goal": [
+        0.09714027386987384,
+        -0.11896633668155707,
+        0.13799976545316772,
+        0.9999500003023605,
+        -2.107342242103109e-08,
+        -2.1073422562523092e-08,
+        -0.00999984476421653
+      ],
+      "pass": true,
+      "position_error_m": 7.850462293418876e-17,
+      "quaternion_sign_equivalent_comparison": true,
+      "reported_command": [
+        -0.18000013175230362,
+        -0.31999998542228564,
+        0.9199997654531678,
+        0.7071067892692173,
+        2.980182327924798e-10,
+        -2.98008295818164e-08,
+        0.7071067731038774
+      ]
+    }
+  },
+  "nominal_pregrasp_world_pose": [
+    -0.18,
+    -0.32,
+    0.92,
+    0.7071067811865476,
+    0.0,
+    0.0,
+    0.7071067811865476
+  ],
+  "old_stability_revision_limit_not_reset": true,
+  "pad_actor_pose": [
+    -0.18,
+    -0.06,
+    0.745,
+    1,
+    0,
+    0,
+    0
+  ],
+  "pad_top_m": 0.75,
+  "physical_failure_may_not_switch_to_A_or_third_scene": true,
+  "postlift_confirmation_frames": 50,
+  "pregrasp_in_bottle_frame": [
+    0.0,
+    0.17000000000000004,
+    0.26,
+    0.5000000000000001,
+    -0.5,
+    0.5000000000000001,
+    0.5000000000000001
+  ],
+  "primary_frequency_hz": 250,
+  "qualification_cap": {
+    "action_scenes": 1,
+    "child_timeout_seconds": 900,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "gpu_lease_seconds": 1080,
+    "solver_problems": 6
+  },
+  "receipt_sha256": "1976ee32ab6d53fc6bfdfe2ed949c70614c96cfb7d61529d6014127a0b05436f",
+  "remaining_runtime_work": "fresh scene standing/mass gate, counted3IK and actual full-arm native planned-control screens, micro binding, conditional sharedV integration",
+  "scale": [
+    0.132,
+    0.132,
+    0.132
+  ],
+  "schema_version": "cmf_f3_upright_same_asset_qualification_design_v1",
+  "seed": 2026090713,
+  "selected_design": "B_upper_straight_body",
+  "selection_rule": "A first contact strikes cap, not neck bearing; B only CPU-selected before GPU",
+  "shared_V_amplitude_m": 0.055,
+  "shared_V_points": 7,
+  "slot_id": "f3-upright13-B-qualification-v1",
+  "source_bindings": {
+    "/nfs_share/lijunhui/Robotwin2/datasets/f3_model_conformance_v1/f3-final-pose-v3-r3063/initial_geometry.json": "7e0982d84ea458411498f764a69916596ca1ba01077633c3b90c0a184a258269",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f3_one_sided_micro_001/actual_mass_properties.json": "4d543e0c832727336e22415d7a8f588f7555a4237a617e7efb6307973b061dac",
+    "/nfs_share/lijunhui/Robotwin2/datasets/p48_f3_one_sided_micro_001/postclose_attached_model.json": "b545fe72a10039a3c7ed746164b7ab02429fd0c77c8018f37e1e20f1910c8778",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/USER_F2_CONTACT_F3_UPRIGHT_APPROVAL_V1_20260907.md": "5eeb6a2998656cec08657cbcbcb2379b544a53a7e0f139509559f2f61ef6fd5e",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f3_next_design_impact_review_v1/base_support_diagnostic.json": "9d76d92940e6859ce4237a6a29e4790ad077a72f82c2bbc349e2c3ee2446950f",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f3_upright_design_v1/candidate_geometry_audit.json": "f3aaec4b840498c50688803ea70fe66356e911869f619775bd5531cfde182c59",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/goal_pilot48_v1/f3_upright_design_v1/initial_arm_audit.json": "b14aeb2244153ec55c43ee792091b231449f82b4b49a12c40811e84dadb041eb"
+  },
+  "target_IK_or_full_arm_path_verified": false,
+  "target_derivation": "fixed bottle-relative grasp/pregrasp applied to one accepted actual post-settle bottle pose; no candidate search",
+  "total_round_cap": {
+    "action_scenes": 2,
+    "collection_attempts": 0,
+    "fresh_scenes": 2,
+    "gpu_lease_seconds": 3060,
+    "solver_problems": 23
+  },
+  "upright_standing_actual_stability_verified": false
+}
