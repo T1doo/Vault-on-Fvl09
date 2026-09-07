@@ -1,0 +1,9 @@
+# Runtime V3：补真实prefix replay动作入口
+
+旧runtime_v2及root001所有源码/Goal/Guard/meter日志不改。V3 Meter继承冻结V2，额外patch active DenseTraceMixin.replay_effective_setpoint_step。此方法直接robot.set_arm_joints/夹爪drive target→Scene.step→_record，不经过take_dense_action或Base_Task.move；因此旧root的3个纯suffix-preflight replay场景漏计，其他4个动作scene已由旧入口计入。
+
+V3与原两个入口共享(id(scene),meter_scene_ordinal)去重，避免branch先replay再suffix时双算。一场只要首次真实replay operator入口就计一次action；未知scene/未初始化trace在控制前拒绝。关闭仍按原V2逆序恢复所有patch。F1 namespace依旧明确拒绝；没有声称修好F1独立class覆盖。
+
+Guard/manifest/runner/budget从V2版本化复制，仅namespace指runtime_v3；同一Goal ROOT/ledger/lock，无新预算，没有调用任何mutator或GPU。migration.bindings先核验parent全部hash，再添加V3依赖和新Guard/runner路径，同时保留继承V2 Meter源码。
+
+test_replay_operator真实执行原DenseTraceMixin.replay_effective_setpoint_step函数体，CPU joint/robot/scene仅作后端替身；从实际set_arm_joints/drive setter结果重建trace，不是只调用fake action计数函数。覆盖真实drive+step+record、每scene一次、与其他动作入口去重、未知scene在drive前拒绝和原方法恢复。尚未GPU验证V3。
