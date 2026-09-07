@@ -1,0 +1,62 @@
+{
+  "box_lower_xy_m": [
+    -0.19,
+    -0.29
+  ],
+  "box_upper_xy_m": [
+    0.03,
+    -0.07
+  ],
+  "can_half_xy_m": [
+    0.0355745611100579,
+    0.048233944091278
+  ],
+  "contract_sha256": "99ed61aafbd9426c5b0cfe4ac2a640319a0087df5639bba7e08a5b9a4c27f4fe",
+  "pass": true,
+  "relations": {
+    "beside": {
+      "empty_hand_exit_vector_x_m": 0.1,
+      "exclusive_classification": {
+        "beside": true,
+        "inside": false,
+        "on": false
+      },
+      "exit_direction_is_away_from_support": true,
+      "support_identity": "f2_redesign_stand",
+      "target_xy_m": [
+        0.23,
+        -0.18
+      ]
+    },
+    "inside": {
+      "empty_hand_exit_vector_x_m": 0.1,
+      "exclusive_classification": {
+        "beside": false,
+        "inside": true,
+        "on": false
+      },
+      "exit_direction_is_away_from_support": true,
+      "support_identity": "f2_redesign_box_bottom",
+      "target_xy_m": [
+        -0.08,
+        -0.18
+      ]
+    },
+    "on": {
+      "empty_hand_exit_vector_x_m": -0.15,
+      "exclusive_classification": {
+        "beside": false,
+        "inside": false,
+        "on": true
+      },
+      "exit_direction_is_away_from_support": true,
+      "support_identity": "f2_redesign_scale",
+      "target_xy_m": [
+        0.08,
+        -0.18
+      ]
+    }
+  },
+  "schema_version": "cmf_f2_relation_geometry_contract_v1",
+  "source": "redesign_f2_f3_v1/f2_scene.py and V2.1 R2/R4"
+}
