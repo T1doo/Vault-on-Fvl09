@@ -1,0 +1,11 @@
+{
+  "data_corruption_proven": false,
+  "error_type": "FileNotFoundError",
+  "input_lock_written": false,
+  "raw_modified": false,
+  "reason": "auditor assumed every final receipt was local receipt.json; F1_A_path/red legally uses existing append-only derived receipt",
+  "receipt_sha256": "a9a6fe6e7fd0440a58c1f9215d2e7bcc563a1859f7bb8f53993bf12965002cf5",
+  "repair": "lock exact original publication/derived receipt/provisional/reconciliation chain, do not create a fake local final",
+  "schema_version": "S0_input_lock_attempt_failure_v1",
+  "stage": "before_input_lock_written"
+}

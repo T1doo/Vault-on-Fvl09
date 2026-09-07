@@ -1,0 +1,9 @@
+# 当前24格 S0/S1 CPU执行
+
+S0：显式accepted列表、原矩阵审计、逐raw/trace/video/receipt/current/manifest/sidecar实际hash，锁checker/source，INPUT_LOCK_001。
+S1：24个串行独立CPU subprocess，每格180s；原verify_raw_artifact_integrity、validate_raw_streams、validate_simulator_timing、validate_planner_goal_audit、validate_audit_streams、validate_real_runtime_audit_fields与current38/76 audit。
+原validate_raw_artifact_contract最后硬要求stage0 flags，对postStage0 pilot不适用；本入口调用全部相关底层原validator，不改原flags或伪称Stage0。
+主stream使用原trace_rows_to_raw_streams的未改映射语句重新生成；F1选择封存parent源码，F4选择active封存源码。逐字段/逐行比较全部主stream、planner区间和所有audit数组；NaN只按原未激活planner字段同位置比较。
+contact JSON按32个实际state行分块解压、原始trace精确比较并逐行核contact_count；每实际chunk运行原audit shape/metadata/role validator，planner区间另作全N检查。不是占位数组，也不把8GB Unicode padding整列分配入内存。
+失败/timeout各保留cell JSON；逐cell新增progress，不覆盖旧receipt。S1_EXISTING24_PARTIAL_001只代表现有24/48结构时间检查，**不重新证明family科学语义、S2事件、S3负例或S4出口完成**。
+S4仅另文设计，不生成model/H输入；所有成功raw/pilot/ledger、旧audit和未授权test均不修改/访问。
