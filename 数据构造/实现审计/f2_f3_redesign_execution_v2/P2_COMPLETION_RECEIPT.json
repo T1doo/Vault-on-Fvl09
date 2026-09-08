@@ -25,6 +25,7 @@
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/current_research_eligibility.json",
     "sha256": "5c2ba36ddd7e57e1552ab076c53e05f26cbcdd19bb78b4bdc28fd4c37d24c131"
   },
+  "current_status": "P3_BUDGET_UNKNOWN_CONSUMPTION_STOPPED",
   "entrypoints": {
     "budget": "controlled_multi_future.redesign_f2_f3_v2.coordinator_v2",
     "eligibility": "controlled_multi_future.redesign_f2_f3_v2.qualification_index",
@@ -32,6 +33,26 @@
     "single_cell_and_resume": "controlled_multi_future.redesign_f2_f3_v2.collector_v2"
   },
   "milestone": "P2",
+  "p3_progress_summary": {
+    "known_settled_consumption": {
+      "action_scenes": 5,
+      "collection_attempts": 6,
+      "fresh_scenes": 5,
+      "gpu_lease_seconds": 667,
+      "solver_problems": 51
+    },
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_PROGRESS_SUMMARY.json",
+    "sha256": "1f4930a05e8eca4eb80e4f44d1d16698a8c2d056a3199d16b861f12a37cfac76",
+    "unknown_reservation_held": {
+      "action_scenes": 5,
+      "collection_attempts": 5,
+      "fresh_scenes": 5,
+      "gpu_lease_seconds": 1800,
+      "job_id": "p3-f3-a-remaining5",
+      "solver_problems": 160,
+      "status": "HELD_UNTIL_GPU_LEASE_RECONCILED"
+    }
+  },
   "pass": true,
   "physical_execution": {
     "gpu_jobs": 0,

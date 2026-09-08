@@ -1,0 +1,63 @@
+{
+  "cell_matrix": {
+    "F2-A-v2:beside:r_pc": {
+      "independently_accepted": false,
+      "physical_attempts": 4,
+      "raw_evidence_preserved": true,
+      "status": "BLOCKED_PLANNER_REACHABILITY"
+    },
+    "F3-A-v2:VHVH:r_pc": {
+      "independently_accepted": true,
+      "physical_attempts": 1,
+      "status": "INDEPENDENTLY_ACCEPTED"
+    },
+    "F3-A-v2:remaining5": {
+      "cells_started_before_dispatcher_crash": 1,
+      "independently_accepted": false,
+      "reservation_held": true,
+      "status": "INTERRUPTED_UNKNOWN_CONSUMPTION"
+    },
+    "other_new_cells": {
+      "count": 22,
+      "status": "NOT_STARTED"
+    }
+  },
+  "contract_sha256": "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
+  "known_settled_consumption": {
+    "action_scenes": 5,
+    "collection_attempts": 6,
+    "fresh_scenes": 5,
+    "gpu_lease_seconds": 667,
+    "solver_problems": 51
+  },
+  "ledger_sha256": "50f07d85aabe3eecd6a775df1adb360ff857246bd446af0fc0ca2bcb5a7d91de",
+  "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
+  "old_data": {
+    "F1_F4_read_only": true,
+    "old_f2_f3_not_reaccepted": true
+  },
+  "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
+  "scientific_status": {
+    "f2_root_eligible": false,
+    "f3_root_eligible": false,
+    "formal360_started": false,
+    "new_24_eligible": false,
+    "training_started": false
+  },
+  "source_snapshot": {
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
+    "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
+  },
+  "status": "BUDGET_UNKNOWN_CONSUMPTION_STOPPED",
+  "summary_sha256": "4eb35a6ba131be6f367a36e9b81831dae1ebb3cb4c02493cdac05615df9657cc",
+  "target_new_cells": 24,
+  "unknown_reservation": {
+    "action_scenes": 5,
+    "collection_attempts": 5,
+    "fresh_scenes": 5,
+    "gpu_lease_seconds": 1800,
+    "job_id": "p3-f3-a-remaining5",
+    "solver_problems": 160,
+    "status": "HELD_UNTIL_GPU_LEASE_RECONCILED"
+  }
+}
