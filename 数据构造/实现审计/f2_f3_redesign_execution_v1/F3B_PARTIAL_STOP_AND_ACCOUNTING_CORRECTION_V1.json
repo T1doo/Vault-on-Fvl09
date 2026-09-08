@@ -1,0 +1,43 @@
+{
+  "schema_version": "cmf_f3b_partial_stop_and_accounting_correction_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "job_id": "stage_C_F3B_pilot_1788853620",
+  "status": "PARTIAL_STOPPED_SHARED_RECEIPT_DESCRIPTOR",
+  "stop_reason": "r_inv_motion receipt descriptor still named the removed displacement-controller implementation; actual physical trace used absolute symmetric planner events with extended holds",
+  "physical_validity_of_completed_cells": true,
+  "completed_cell_keys": [
+    "VVHH:r_pc",
+    "VVHH:r_inv_motion",
+    "VHVH:r_pc"
+  ],
+  "completed_cell_count": 3,
+  "partial_root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/root_receipt.json",
+  "partial_root_receipt_sha256": "975353f19c415b2d6901baa7d922220c447f89708116ac92ec0dda6531f66879",
+  "job_receipt_sha256": "c99ab4ca915f60cd4c6e0b90c79cecd08deeab994dd31ea92478a81b9f2e6604",
+  "prefix_artifact_sha256": "857e1e1dbb42358ac57ccd2d808d25dcca8479e3ad22b31a6dfcd18845e1c5af",
+  "known_actual": {
+    "action_scenes": 3,
+    "collection_attempts": 3,
+    "fresh_scenes": 3,
+    "solver_problems": 43,
+    "gpu_lease_seconds": 460
+  },
+  "original_settlement_event_sha256": "1019e6c9c838388ef4266b9a3bed5385ddeac334a676e04f5a4ddf1480265a43",
+  "solver_accounting_correction_event_sha256": "040c6b37fcdd1386e993fda4f0df4bcc92a5cc0d033005f16b8280311a74508e",
+  "unknown_consumption": false,
+  "owned_cleanup_pass": true,
+  "device_idle_observed": false,
+  "raw_job_receipt_unchanged": true,
+  "raw_traces_preserved": true,
+  "resume_plan": {
+    "first_job_cell_keys": [
+      "VHVH:r_inv_motion",
+      "VHHV:r_pc",
+      "VHHV:r_inv_motion"
+    ],
+    "descriptor_repair_cell_key": "VVHH:r_inv_motion",
+    "reuse_prefix_and_other_cells": true
+  },
+  "formal_data": false,
+  "training": false
+}
