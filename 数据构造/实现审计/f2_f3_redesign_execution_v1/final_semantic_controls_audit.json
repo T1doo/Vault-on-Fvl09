@@ -1,0 +1,54 @@
+{
+  "pass": true,
+  "schema_version": "cmf_f2_f3_final_semantic_controls_audit_v1",
+  "semantic_controls": {
+    "checks": {
+      "compatible_sets": true,
+      "invalid_sequences_have_no_frozen_target": true,
+      "valid_reorders_switch_target": true
+    },
+    "compatible_set_checks": {
+      "H": true,
+      "HH": true,
+      "HV": true,
+      "V": true,
+      "shared_first_V": true
+    },
+    "invalid_sequence_checks": {
+      "HHH": true,
+      "HVV": true,
+      "VHV": true,
+      "VVV": true
+    },
+    "pass": true,
+    "suffix_contract": {
+      "VHHV": "HHV",
+      "VHVH": "HVH",
+      "VVHH": "VHH"
+    },
+    "valid_reorder_checks": {
+      "VHHV_to_VHVH": true,
+      "VHHV_to_VVHH": true,
+      "VHVH_to_VHHV": true,
+      "VHVH_to_VVHH": true,
+      "VVHH_to_VHHV": true,
+      "VVHH_to_VHVH": true
+    }
+  },
+  "strict_exit": {
+    "checks": {
+      "candidate_permutation_consistency": true,
+      "hidden_candidate_field": true,
+      "nested_planner_field": true,
+      "nested_verifier_field": true,
+      "object_dtype": true,
+      "target_outside_candidates": true,
+      "unknown_top_level": true,
+      "valid_payload": true,
+      "wrong_future_shape": true,
+      "wrong_rgb_channels": true,
+      "wrong_state_shape": true
+    },
+    "pass": true
+  }
+}
