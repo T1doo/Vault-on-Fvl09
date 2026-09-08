@@ -1,0 +1,88 @@
+{
+  "schema_version": "cmf_f2_f3_budget_scope_decision_request_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "REQUESTED_PENDING_USER_DECISION",
+  "reason": "F2 transport qualification failed; current action headroom cannot cover both remaining F2-A four cells and F2-B six cells",
+  "authoritative_state": {
+    "accepted": {
+      "F2-A": 0,
+      "F2-B": 0,
+      "F3-A": 6,
+      "F3-B": 6,
+      "combined_total": 36,
+      "new_total": 12,
+      "read_only_prior_total": 24
+    },
+    "budget_caps": {
+      "action_scenes": 74,
+      "collection_attempts": 48,
+      "fresh_scenes": 125,
+      "gpu_lease_seconds": 61200,
+      "solver_problems": 2980
+    },
+    "budget_consumed": {
+      "action_scenes": 68,
+      "collection_attempts": 41,
+      "fresh_scenes": 70,
+      "gpu_lease_seconds": 9142,
+      "solver_problems": 379
+    },
+    "budget_reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    },
+    "budget_remaining": {
+      "action_scenes": 6,
+      "collection_attempts": 7,
+      "fresh_scenes": 55,
+      "gpu_lease_seconds": 52058,
+      "solver_problems": 2601
+    },
+    "production_dispatch_allowed": false
+  },
+  "remaining_production_work": {
+    "F2-A_missing_cells": 4,
+    "F2-B_missing_cells": 6,
+    "collection_attempts_required": 10,
+    "action_scenes_required": 10,
+    "fresh_scenes_required": 10
+  },
+  "qualification_options": {
+    "single_scene_repair_probe": {
+      "fresh_scenes": 1,
+      "action_scenes": 1,
+      "collection_attempts": 0,
+      "additional_action_needed_after_probe": 5,
+      "additional_collection_needed": 3,
+      "note": "minimum probe only; does not by itself establish all four missing-cell transports"
+    },
+    "four_cell_repair_qualification": {
+      "fresh_scenes": 4,
+      "action_scenes": 4,
+      "collection_attempts": 0,
+      "additional_action_needed_after_probe": 8,
+      "additional_collection_needed": 3,
+      "note": "same four-cell qualification shape used in current audit"
+    },
+    "production_only_after_existing_repair_evidence": {
+      "fresh_scenes": 10,
+      "action_scenes": 10,
+      "collection_attempts": 10,
+      "additional_action_needed": 4,
+      "additional_collection_needed": 3,
+      "note": "not allowed until transport repair qualification passes"
+    }
+  },
+  "requested_authorization": "Approve a new independent budget/scope increment, or explicitly end this Goal at the current incomplete handoff; no cap is changed by this artifact",
+  "source_rules": [
+    "数据构造/F2F3重设计审查与后续执行计划_20260907.md:§7",
+    "数据构造/F2F3重设计审查与后续执行计划_20260907.md:§11",
+    "AGENTS.md:预算/科学含义变更需适用授权"
+  ],
+  "raw_evidence_unchanged": true,
+  "no_dispatch_performed": true,
+  "request_sha256": "ab432763d75d8cc15c809dcbbe212eaa559ae6d63f455feb6ac2de31525d199d"
+}
