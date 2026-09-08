@@ -1,0 +1,46 @@
+{
+  "schema_version": "cmf_f3_strict_terminal_qualification_failure_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "job_id": "stage_C_F3A_terminal_probe_1788851870",
+  "root_id": "F3-A",
+  "program_id": "VHVH",
+  "realization_id": "r_pc",
+  "qualification": true,
+  "collection": false,
+  "status": "ALL_SUFFIX_AND_TERMINAL_PASS_SHARED_V_ORIENTATION_EDGE_FAIL",
+  "job_receipt_sha256": "6e16995af735d66a461b8d01b4ecc5a04fe99be269f844ca8371cb9615edb255",
+  "cell_receipt_sha256": "6b062e042f2285914a2add336ca2978f5b979fb79fedcbc39ba1d8f3739698e3",
+  "qualification_receipt_sha256": "15b49bce3119cb560350c7fe9b22eb75312043c5a1cf386ceea57b97639e09e1",
+  "trace_sha256": "d98b76c4bb2f2c5a7a864700ff066d512b3bef0e6321d96302df9be75b198ec6",
+  "passed": {
+    "all_three_suffix_events": true,
+    "realized_event_order": true,
+    "terminal_return_release_stable": true,
+    "final_position_error_m": 0.0015334095379196584,
+    "final_orientation_error_rad": 0.005518339909201223,
+    "final_object_speed_mps": 0.0,
+    "final_support_fraction": 1.0
+  },
+  "failed": {
+    "gate": "shared_V.bottle_orientation",
+    "observed_orientation_drift_rad": 0.05237992840466458,
+    "frozen_maximum_rad": 0.05,
+    "other_shared_V_checks_pass": true
+  },
+  "actual": {
+    "action_scenes": 1,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "solver_problems": 19,
+    "gpu_lease_seconds": 148
+  },
+  "settlement_event_sha256": "1fe231c8d545141352472e4adb1429fde599a6bc81b1584dfcb1fe7a030f9fc5",
+  "owned_cleanup_pass": true,
+  "device_idle_observed": true,
+  "next_single_change": "keep the 40 mm frozen gate and reduce symmetric event command amplitude from 50 mm to 47 mm to retain measured amplitude margin while reducing orientation excursion",
+  "threshold_lowered": false,
+  "raw_receipts_unchanged": true,
+  "raw_trace_preserved": true,
+  "formal_data": false,
+  "training": false
+}
