@@ -1,0 +1,115 @@
+{
+  "accounting_notes": [
+    "24 success cells include the two first-validation cells; do not count them as 26",
+    "CPU scene-spec/negative tests are zero physical scenes",
+    "220 solver queries and 244 action segments are the measured v1 lineage profile for four six-cell roots with shared-prefix replay (F2-A 31/36, F2-B 25/34, F3-A 85/90, F3-B 79/84); v2 values remain caps, not consumption",
+    "actual ledger settlement remains per job and never duplicates the cap per GPU"
+  ],
+  "based_on": {
+    "plan_commit": "b7117ed68bdc2064a1608a2a14a8df7d58bc06cb",
+    "reconciliation_commit": "91a34e797d9d0e486908d71190830fe3874eb9a0"
+  },
+  "finite_recovery_reserve": {
+    "action_scenes": 4,
+    "attempt_cap": 4,
+    "collection_attempts": 4,
+    "fresh_scenes": 4,
+    "gpu_lease_seconds": 1200,
+    "one_change_per_attempt": true,
+    "solver_problems": 120
+  },
+  "old_goal_or_ledger_reused": false,
+  "physical_execution_authorized": false,
+  "request_sha256": "679865ea9a48d944c3865c2e1ff6932b819c330b9810405ccf3223201ac7c99e",
+  "requested_independent_contract_caps": {
+    "action_scenes": 28,
+    "collection_attempts": 28,
+    "fresh_scenes": 28,
+    "gpu_lease_seconds": 4800,
+    "solver_problems": 340
+  },
+  "root_specs": {
+    "F2-A-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "09b3e10ccbb98c5e65b450260759fd616305a2fc3a09ff0f7f9ad7aa38b07562",
+      "execution_order": [
+        "beside:r_pc",
+        "inside:r_pc",
+        "inside:r_inv_path",
+        "on:r_pc",
+        "on:r_inv_path",
+        "beside:r_inv_path"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "08606e99ec36e8473bfcd48c1739262df62ee2f995277f3c669f2a4779bb253f"
+    },
+    "F2-B-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "62e3493340a84392356d5fa2ca67c1cd12ce8127d0de74e9d1a7898b004d94bc",
+      "execution_order": [
+        "inside:r_pc",
+        "inside:r_inv_motion",
+        "on:r_pc",
+        "on:r_inv_motion",
+        "beside:r_pc",
+        "beside:r_inv_motion"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "853ba36abd4dbbfdf7f6fe0cbd57b64baba14bc26193f4cbe190d5b2735b6e8e"
+    },
+    "F3-A-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "64292f0e6726bfa5be5453d78409a68ba9fd087d529a23114197af46af01a463",
+      "execution_order": [
+        "VHVH:r_pc",
+        "VVHH:r_pc",
+        "VVHH:r_inv_path",
+        "VHVH:r_inv_path",
+        "VHHV:r_pc",
+        "VHHV:r_inv_path"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "0116c1b7057971e07f9f65be85b4a64b6c5e1cd9b83a072037454aad862b6040"
+    },
+    "F3-B-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "d1ceb85f50944781ad1202e617fed1f7bf3b0826e376a80898bad4e90024209d",
+      "execution_order": [
+        "VVHH:r_pc",
+        "VVHH:r_inv_motion",
+        "VHVH:r_pc",
+        "VHVH:r_inv_motion",
+        "VHHV:r_pc",
+        "VHHV:r_inv_motion"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "6c800af7eb85b4f4f510740f06c80d14adf820e548b3391876a4f0f27c01e787"
+    }
+  },
+  "schema_version": "cmf_f2_f3_v2_complete_budget_request_v1",
+  "scope": "four new roots, 24 complete F2/F3 cells with original t0 RGB/state/anchor/future/candidate outputs",
+  "status": "REQUEST_ONLY_NOT_AUTHORIZED",
+  "stop_conditions": [
+    "budget overrun or unknown consumption",
+    "capture or anchor source integrity failure",
+    "first two validation cells fail same implementation",
+    "owned cleanup failure",
+    "missing fresh idle GPU"
+  ],
+  "success_baseline": {
+    "action_scenes": 24,
+    "collection_attempts": 24,
+    "fresh_scenes": 24,
+    "gpu_lease_seconds": 3600,
+    "internal_action_segments_diagnostic": 244,
+    "solver_problems": 220
+  }
+}

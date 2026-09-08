@@ -1,0 +1,49 @@
+{
+  "schema_version": "cmf_f2_f3_v2_p2_completion_receipt_v1",
+  "status": "COMPLETE_READY_FOR_ONE_BUDGET_DECISION",
+  "milestone": "P2",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v18/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "00ca49a0b44b7ea0e05334b5b1273ea862acfc82f2c7b0417a03ebc179807cc7",
+  "current_research_eligibility": {
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/current_research_eligibility.json",
+    "sha256": "5c2ba36ddd7e57e1552ab076c53e05f26cbcdd19bb78b4bdc28fd4c37d24c131",
+    "historical_cells": 24,
+    "currently_eligible_cells": 0,
+    "blocked_cells": 24
+  },
+  "budget_request": {
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
+    "sha256": "719ce5a097bc973bb08c9789850d5abb71d6dfb928c7fa1615dcba6168e4e5de",
+    "status": "REQUEST_ONLY_NOT_AUTHORIZED",
+    "requested_caps": {
+      "fresh_scenes": 28,
+      "action_scenes": 28,
+      "collection_attempts": 28,
+      "solver_problems": 340,
+      "gpu_lease_seconds": 4800
+    }
+  },
+  "regression": {
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_CPU_REGRESSION.json",
+    "sha256": "0e09112c6058ee1ba325c6722bd3b5b92eb30287a362fd78246b7376785abd7b",
+    "tests_passed": 23,
+    "tests_failed": 0,
+    "compileall_pass": true
+  },
+  "entrypoints": {
+    "single_cell_and_resume": "controlled_multi_future.redesign_f2_f3_v2.collector_v2",
+    "independent_finalizer": "controlled_multi_future.redesign_f2_f3_v2.finalizer",
+    "eligibility": "controlled_multi_future.redesign_f2_f3_v2.qualification_index",
+    "budget": "controlled_multi_future.redesign_f2_f3_v2.coordinator_v2"
+  },
+  "physical_execution": {
+    "gpu_jobs": 0,
+    "new_physical_scenes": 0,
+    "new_collection_attempts": 0,
+    "new_render_jobs": 0,
+    "old_raw_modified": false,
+    "old_goal_or_ledger_modified": false
+  },
+  "agents_server_and_vault_sha256": "2a8e3b9435dd3561185455ce222e1781646502b4abc3b67b454e343043b49c2b",
+  "pass": true
+}

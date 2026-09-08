@@ -42,6 +42,10 @@
 
 ## 当前工作与日志（2026-09-08）
 
+- 最新任务覆盖（优先于下列历史上下文）：事实入口为`数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md`（远端`91a34e797d9d0e486908d71190830fe3874eb9a0`），实施入口为`数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md`（远端`b7117ed68bdc2064a1608a2a14a8df7d58bc06cb`）。当前仅推进P0–P2 CPU实现、回归和一次完整追加预算；未经新额度批准，不启动GPU capture/planner/scene/render/重采。
+- 旧V2.1入口、旧Goal、STATE、raw、回执、预算和接受历史原样保留；旧`COMPLETE`/48格条目数不能放行research loader。旧F2/F3仅作开发/正证据/负例，四条stand-top beside不得改标签升格；F1/F4不重采，formal360/训练/H-reveal/compression/π0.5不在当前范围。
+- 新版本必须修正F2 reference/support/region分离、动作前原始RGB/current/anchor、F3预定rest与独立事件验收、A/B实际scene_spec差异、inputs/supervision/audit分离、首格启动/恢复和独立finalizer。P3/P4物理采集待P0–P2完成并提交一次完整追加预算后另行批准。
+
 - 用户已提交GPT审查并要求按七项意见修订、交Luna持续执行；目标明确为F2/F3（F3/F4为已纠正笔误）。文档已落实V2.1，本轮未启动GPU/采集或实现新运行层；Luna接手先落实必要合同再按里程碑连续推进，不重新全面外审或逐helper求批。
 - 计划入口：`数据构造/F2F3重设计审查与后续执行计划_20260907.md`，V2.1；必读`数据构造/F2F3重设计V2.1执行附录_20260907.md`和`数据构造/Luna_F2F3执行交接说明书_20260907.md`。三者给出采纳的新共同预算、A/B/C里程碑及最终完成谓词，状态REVIEW_APPLIED_READY_FOR_LUNA_IMPLEMENTATION。
 - **当前唯一日常构造日志：`数据构造/F2F3重设计与构造日志.md`。** 每次F1–F4编辑、状态更改、probe/run前重读本卷尾部和相关Git status；完成后简短追加范围、版本/证据、实际消耗、失败/清理与下一步。多卡worker写独立receipt，协调者统一追加。不要把本文件或新日志再次变成逐命令大转录。

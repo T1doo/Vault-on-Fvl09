@@ -1,0 +1,49 @@
+{
+  "schema_version": "cmf_f2_f3_v2_p2_cpu_regression_v1",
+  "status": "PASSED_CPU_ONLY",
+  "source_snapshot": "runtime_source_snapshot_v18",
+  "tests": {
+    "legacy_redesign_suite": {
+      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v1.py",
+      "passed": 13,
+      "failed": 0
+    },
+    "v2_contract_suite": {
+      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v2.py",
+      "passed": 10,
+      "failed": 0
+    },
+    "combined_discover": {
+      "command": "PYTHONPATH=. python -m unittest discover -s tests/controlled_multi_future -p 'test_redesign_f2_f3_v*.py'",
+      "passed": 23,
+      "failed": 0
+    },
+    "compileall": {
+      "command": "PYTHONPATH=. python -m compileall -q controlled_multi_future/redesign_f2_f3_v2",
+      "passed": true
+    }
+  },
+  "targeted_checks": {
+    "stand_top_real_shape_rejected_by_v2_boundary": true,
+    "above_box_negative_rejected": true,
+    "overlap_requires_exactly_one_predicate": true,
+    "v2_f2_beside_support_identity_is_table": true,
+    "v2_f2_ab_scene_specs_differ_after_ids_removed": true,
+    "v2_f3_ab_scene_specs_differ_after_ids_removed": true,
+    "new_root_first_cell_execution_orders": {
+      "F2-A-v2": "beside:r_pc",
+      "F2-B-v2": "inside:r_pc",
+      "F3-A-v2": "VHVH:r_pc",
+      "F3-B-v2": "VVHH:r_pc"
+    },
+    "old_legacy_eligibility_loader_blocked": true,
+    "target_is_outside_model_inputs": true,
+    "f2_candidate_schema_has_target_ref": true,
+    "f3_candidate_schema_has_event_sequence": true,
+    "real_physical_capture": false,
+    "gpu_jobs": 0,
+    "new_physical_scenes": 0,
+    "old_raw_or_acceptance_modified": false
+  },
+  "pass": true
+}
