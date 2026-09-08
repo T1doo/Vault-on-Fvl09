@@ -1,49 +1,55 @@
 {
-  "schema_version": "cmf_f2_f3_v2_p2_completion_receipt_v1",
-  "status": "P2_CPU_IMPLEMENTATION_CLOSED_BUDGET_PENDING",
-  "milestone": "P2",
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v22/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "c2d904f66210613937f8f503a1867bab0eb0e38481e21cd9ba16d35b60d945e0",
-  "current_research_eligibility": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/current_research_eligibility.json",
-    "sha256": "5c2ba36ddd7e57e1552ab076c53e05f26cbcdd19bb78b4bdc28fd4c37d24c131",
-    "historical_cells": 24,
-    "currently_eligible_cells": 0,
-    "blocked_cells": 24
-  },
+  "agents_server_and_vault_sha256": "2a8e3b9435dd3561185455ce222e1781646502b4abc3b67b454e343043b49c2b",
   "budget_request": {
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-    "sha256": "41b6b44a99ba756084024b5dfa914052c6fde56fd3e8d36ce6d78515f0812ad4",
-    "status": "REQUEST_ONLY_NOT_AUTHORIZED",
+    "physical_execution_authorized": true,
     "requested_caps": {
-      "fresh_scenes": 28,
       "action_scenes": 28,
       "collection_attempts": 28,
-      "solver_problems": 340,
-      "gpu_lease_seconds": 4800
-    }
+      "fresh_scenes": 28,
+      "gpu_lease_seconds": 4800,
+      "solver_problems": 340
+    },
+    "sha256": "27c71bccd68d0ef2bdf1283121e211e751a426ff7c4b6404ec51e16416fa111d",
+    "status": "AUTHORIZED_FOR_P3_AFTER_CPU_GATES"
   },
-  "regression": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_CPU_REGRESSION.json",
-    "sha256": "8653ea8fa25207553da58f740c035bfd5df38ef1463d22cd175ab08a27be1d87",
-    "tests_passed": 28,
-    "tests_failed": 0,
-    "compileall_pass": true
+  "cpu_gate": {
+    "pass": true,
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json",
+    "sha256": "d8cb750c028b31ee9e1e60dd41b5f6f126e394ca051e67446428f962c5a30570"
+  },
+  "current_research_eligibility": {
+    "blocked_cells": 24,
+    "currently_eligible_cells": 0,
+    "historical_cells": 24,
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/current_research_eligibility.json",
+    "sha256": "5c2ba36ddd7e57e1552ab076c53e05f26cbcdd19bb78b4bdc28fd4c37d24c131"
   },
   "entrypoints": {
-    "single_cell_and_resume": "controlled_multi_future.redesign_f2_f3_v2.collector_v2",
-    "independent_finalizer": "controlled_multi_future.redesign_f2_f3_v2.finalizer",
+    "budget": "controlled_multi_future.redesign_f2_f3_v2.coordinator_v2",
     "eligibility": "controlled_multi_future.redesign_f2_f3_v2.qualification_index",
-    "budget": "controlled_multi_future.redesign_f2_f3_v2.coordinator_v2"
+    "independent_finalizer": "controlled_multi_future.redesign_f2_f3_v2.finalizer",
+    "single_cell_and_resume": "controlled_multi_future.redesign_f2_f3_v2.collector_v2"
   },
+  "milestone": "P2",
+  "pass": true,
   "physical_execution": {
     "gpu_jobs": 0,
-    "new_physical_scenes": 0,
     "new_collection_attempts": 0,
+    "new_physical_scenes": 0,
     "new_render_jobs": 0,
-    "old_raw_modified": false,
-    "old_goal_or_ledger_modified": false
+    "old_goal_or_ledger_modified": false,
+    "old_raw_modified": false
   },
-  "agents_server_and_vault_sha256": "2a8e3b9435dd3561185455ce222e1781646502b4abc3b67b454e343043b49c2b",
-  "pass": true
+  "regression": {
+    "compileall_pass": true,
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_CPU_REGRESSION.json",
+    "sha256": "127e8571134b6f6d23f0a3a41d95e1227bcda0e4fc33884a290909f8d6a33f0e",
+    "tests_failed": 0,
+    "tests_passed": 35
+  },
+  "schema_version": "cmf_f2_f3_v2_p2_completion_receipt_v2",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
+  "status": "P2_CPU_GATE_PASSED_P3_AUTHORIZED"
 }

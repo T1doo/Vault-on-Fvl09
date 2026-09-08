@@ -40,11 +40,11 @@
 - A2FI/长动作旧路线及2026-08-27以前归档只作历史，不拿来指导当前研究，除非用户明确要求。Mouse代码/数据已归档到 `Robotwin2/archive/mouse_three_destination_mvp_20260810_20260820/`，历史路径按README映射，不擅自恢复/导入当前F1–F4。
 - 不复制/复用公共T1doo-Research的Diary/Environment内容；其中有暴露的凭据，不能传播。
 
-## 当前工作与日志（2026-09-08）
+## 当前工作与日志（2026-09-09）
 
-- 最新任务覆盖（优先于下列历史上下文）：事实入口为`数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md`（远端`91a34e797d9d0e486908d71190830fe3874eb9a0`），实施入口为`数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md`（远端`b7117ed68bdc2064a1608a2a14a8df7d58bc06cb`）。当前仅推进P0–P2 CPU实现、回归和一次完整追加预算；未经新额度批准，不启动GPU capture/planner/scene/render/重采。
+- 最新任务覆盖（优先于下列历史上下文）：事实入口为`数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md`（远端`91a34e797d9d0e486908d71190830fe3874eb9a0`），实施入口为`数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md`（远端`b7117ed68bdc2064a1608a2a14a8df7d58bc06cb`），当前CPU收口与执行交接见`数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json`及`p3_execution/P3_EXECUTION_CONTRACT.json`。P2 CPU gate已通过；最新用户审阅已批准同一独立cap下进入P3首两条，但首波尚未启动，GPU/物理消耗仍为0。
 - 旧V2.1入口、旧Goal、STATE、raw、回执、预算和接受历史原样保留；旧`COMPLETE`/48格条目数不能放行research loader。旧F2/F3仅作开发/正证据/负例，四条stand-top beside不得改标签升格；F1/F4不重采，formal360/训练/H-reveal/compression/π0.5不在当前范围。
-- 新版本必须修正F2 reference/support/region分离、动作前原始RGB/current/anchor、F3预定rest与独立事件验收、A/B实际scene_spec差异、inputs/supervision/audit分离、首格启动/恢复和独立finalizer。P3/P4物理采集待P0–P2完成并提交一次完整追加预算后另行批准。
+- 新版本必须修正F2 reference/support/region分离、动作前原始RGB/current/anchor、F3预定rest与独立事件验收、A/B实际scene_spec差异、inputs/supervision/audit分离、首格启动/恢复和独立finalizer；上述P2修复已封存为runtime_source_snapshot_v24并通过CPU gate。P3使用独立contract/state/ledger，首两格按最新审阅授权可直接执行；formal360、训练、H-reveal和compression仍不在范围。
 
 - 用户已提交GPT审查并要求按七项意见修订、交Luna持续执行；目标明确为F2/F3（F3/F4为已纠正笔误）。文档已落实V2.1，本轮未启动GPU/采集或实现新运行层；Luna接手先落实必要合同再按里程碑连续推进，不重新全面外审或逐helper求批。
 - 计划入口：`数据构造/F2F3重设计审查与后续执行计划_20260907.md`，V2.1；必读`数据构造/F2F3重设计V2.1执行附录_20260907.md`和`数据构造/Luna_F2F3执行交接说明书_20260907.md`。三者给出采纳的新共同预算、A/B/C里程碑及最终完成谓词，状态REVIEW_APPLIED_READY_FOR_LUNA_IMPLEMENTATION。

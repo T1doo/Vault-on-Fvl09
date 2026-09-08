@@ -1,0 +1,44 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "contract_sha256": "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
+  "jobs": [
+    {
+      "cell_key": "beside:r_pc",
+      "job_id": "p3-f2-a-beside-rpc",
+      "physical_gpu_index": null,
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "root_id": "F2-A-v2"
+    },
+    {
+      "cell_key": "VHVH:r_pc",
+      "job_id": "p3-f3-a-vhvh-rpc",
+      "physical_gpu_index": null,
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 120
+      },
+      "root_id": "F3-A-v2"
+    }
+  ],
+  "manifest_sha256": "234f611ecaf965c9a91eea1f1822ae5fe6d937dd4518f5f6862c9b643a395d15",
+  "schema_version": "cmf_f2_f3_v2_p3_job_manifest_v1",
+  "status": "READY_FIRST_TWO"
+}

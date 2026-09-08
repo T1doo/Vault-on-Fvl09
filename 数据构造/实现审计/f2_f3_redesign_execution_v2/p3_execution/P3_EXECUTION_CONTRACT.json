@@ -1,0 +1,126 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorization_basis": "user-approved latest review scope: execute first two after CPU conditions pass without another approval",
+  "budget_caps": {
+    "action_scenes": 28,
+    "collection_attempts": 28,
+    "fresh_scenes": 28,
+    "gpu_lease_seconds": 4800,
+    "solver_problems": 340
+  },
+  "budget_request": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
+  "budget_request_sha256": "27c71bccd68d0ef2bdf1283121e211e751a426ff7c4b6404ec51e16416fa111d",
+  "contract_sha256": "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
+  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json",
+  "cpu_gate_sha256": "d8cb750c028b31ee9e1e60dd41b5f6f126e394ca051e67446428f962c5a30570",
+  "first_validation_jobs": [
+    {
+      "cell_key": "beside:r_pc",
+      "job_id": "p3-f2-a-beside-rpc",
+      "physical_gpu_index": null,
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "root_id": "F2-A-v2"
+    },
+    {
+      "cell_key": "VHVH:r_pc",
+      "job_id": "p3-f3-a-vhvh-rpc",
+      "physical_gpu_index": null,
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 120
+      },
+      "root_id": "F3-A-v2"
+    }
+  ],
+  "gpu_policy": {
+    "automatic_gpu0_fallback": false,
+    "bind_uuid_before_child": true,
+    "busy_gpu_sharing": false,
+    "dynamic_fresh_idle_selection": true,
+    "fresh_guard_before_launch": true,
+    "fresh_post_snapshot": true,
+    "one_project_job_per_gpu": true,
+    "one_root_one_gpu": true,
+    "owned_cleanup_and_device_idle_separate": true,
+    "root_sharding": false,
+    "unset_inherited_ld_library_path": true
+  },
+  "legacy_isolation": {
+    "inherit_old_budget": false,
+    "inherit_old_goal": false,
+    "inherit_old_state": false,
+    "mutate_old_state": false,
+    "reaccept_old_data": false
+  },
+  "roots": {
+    "F2-A-v2": {
+      "cells": 6,
+      "contract_sha256": "56080416d6bb82b7ae8c3bb407e968aa6e4c86c4abe64a8324ba143299f5b0e4",
+      "scene_spec_sha256": "6117819fdef2ced2776a434b1aa51b3f75a66547bd8e2506a32f88d91778d160"
+    },
+    "F2-B-v2": {
+      "cells": 6,
+      "contract_sha256": "880043dc4a3d81b8d24f9e45dd0272ed0e6374476bbaf0bc4c7429f938001876",
+      "scene_spec_sha256": "f67c9f0467e5d9a6785f6f8dea01fb1180082529dcd9e97230314c043fd091b8"
+    },
+    "F3-A-v2": {
+      "cells": 6,
+      "contract_sha256": "cef46ce995d8140505b954d5a9d977fcf246e9b41dad677e41ce0a74e6781081",
+      "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4"
+    },
+    "F3-B-v2": {
+      "cells": 6,
+      "contract_sha256": "74887553bfe1019b83df6b8936088233bacc9973c8a36e41525a2a809db199f4",
+      "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
+    }
+  },
+  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v1",
+  "scope": {
+    "compression": false,
+    "families": [
+      "F2",
+      "F3"
+    ],
+    "formal360": false,
+    "h_reveal": false,
+    "recovery_reserve_cells": 4,
+    "roots": [
+      "F2-A-v2",
+      "F2-B-v2",
+      "F3-A-v2",
+      "F3-B-v2"
+    ],
+    "target_cells": 24,
+    "training": false
+  },
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
+  "status": "ACTIVE",
+  "stop_conditions": [
+    "budget overrun or unknown consumption",
+    "capture/anchor/source integrity failure",
+    "either first validation cell fails",
+    "owned cleanup failure",
+    "no fresh idle GPU",
+    "ambiguous process ownership"
+  ],
+  "task_id": "f2_f3_observation_contract_repair_20260909_p3"
+}

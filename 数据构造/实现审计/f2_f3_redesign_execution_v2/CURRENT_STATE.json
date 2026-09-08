@@ -1,14 +1,34 @@
 {
-  "schema_version": "cmf_f2_f3_redesign_v2_state_v1",
-  "task_id": "f2_f3_observation_contract_repair_20260908",
-  "status": "P2_CPU_IMPLEMENTATION_CLOSED_BUDGET_PENDING",
-  "current_entry": "数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md",
-  "fact_entry": "数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md",
   "baseline_review_commit": "91a34e797d9d0e486908d71190830fe3874eb9a0",
-  "plan_commit": "b7117ed68bdc2064a1608a2a14a8df7d58bc06cb",
-  "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v22/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_sha256": "c2d904f66210613937f8f503a1867bab0eb0e38481e21cd9ba16d35b60d945e0",
-  "milestone": "P2",
+  "budget_request": {
+    "finite_recovery_reserve": {
+      "action_scenes": 4,
+      "attempt_cap": 4,
+      "collection_attempts": 4,
+      "fresh_scenes": 4,
+      "gpu_lease_seconds": 1200,
+      "one_change_per_attempt": true,
+      "solver_problems": 120
+    },
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
+    "requested_caps": {
+      "action_scenes": 28,
+      "collection_attempts": 28,
+      "fresh_scenes": 28,
+      "gpu_lease_seconds": 4800,
+      "solver_problems": 340
+    },
+    "sha256": "27c71bccd68d0ef2bdf1283121e211e751a426ff7c4b6404ec51e16416fa111d",
+    "status": "AUTHORIZED_FOR_P3_AFTER_CPU_GATES",
+    "success_baseline": {
+      "action_scenes": 24,
+      "collection_attempts": 24,
+      "fresh_scenes": 24,
+      "gpu_lease_seconds": 3600,
+      "internal_action_segments_diagnostic": 244,
+      "solver_problems": 220
+    }
+  },
   "completed": [
     "AGENTS current entry synchronized with Vault copy",
     "versioned F2/F3 scene_spec with actual A/B layout parameters",
@@ -21,38 +41,31 @@
     "independent finalizer for trace, observation, relation, rest and variant checks",
     "CPU regression 28/28"
   ],
-  "budget_request": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-    "sha256": "41b6b44a99ba756084024b5dfa914052c6fde56fd3e8d36ce6d78515f0812ad4",
-    "status": "REQUEST_ONLY_NOT_AUTHORIZED",
-    "requested_caps": {
-      "fresh_scenes": 28,
-      "action_scenes": 28,
-      "collection_attempts": 28,
-      "solver_problems": 340,
-      "gpu_lease_seconds": 4800
-    },
-    "success_baseline": {
-      "new_cells": 24,
-      "fresh_scenes": 24,
-      "action_scenes": 24,
-      "collection_attempts": 24,
-      "solver_problems": 220,
-      "gpu_lease_seconds": 3600,
-      "internal_action_segments_diagnostic": 244
-    },
-    "finite_recovery_reserve": {
-      "attempt_cap": 4,
-      "fresh_scenes": 4,
-      "action_scenes": 4,
-      "collection_attempts": 4,
-      "solver_problems": 120,
-      "gpu_lease_seconds": 1200
-    }
+  "cpu_gate": {
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json",
+    "sha256": "d8cb750c028b31ee9e1e60dd41b5f6f126e394ca051e67446428f962c5a30570"
   },
-  "physical_execution_authorized": false,
+  "current_entry": "数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md",
+  "fact_entry": "数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md",
   "formal_360_authorized": false,
-  "training_authorized": false,
+  "milestone": "P2",
   "old_goal_state_mutated": false,
-  "old_raw_mutated": false
+  "old_raw_mutated": false,
+  "p3_progress": {
+    "collection_attempts": 0,
+    "completed_cells": 0,
+    "first_two_cells": "READY_NOT_STARTED",
+    "gpu_jobs": 0,
+    "physical_scenes": 0,
+    "recovery_reserve": 4,
+    "target_cells": 24
+  },
+  "physical_execution_authorized": true,
+  "plan_commit": "b7117ed68bdc2064a1608a2a14a8df7d58bc06cb",
+  "schema_version": "cmf_f2_f3_redesign_v2_state_v2",
+  "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
+  "status": "P3_READY_AUTHORIZED_FIRST_TWO",
+  "task_id": "f2_f3_observation_contract_repair_20260908",
+  "training_authorized": false
 }

@@ -1,35 +1,28 @@
 {
-  "schema_version": "cmf_f2_f3_v2_p2_cpu_regression_v1",
+  "combined_tests_failed": 0,
+  "combined_tests_passed": 35,
+  "compileall_pass": true,
+  "gate_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json",
+  "gate_sha256": "d8cb750c028b31ee9e1e60dd41b5f6f126e394ca051e67446428f962c5a30570",
+  "pass": true,
+  "physical_execution_started": false,
+  "schema_version": "cmf_f2_f3_v2_p2_cpu_regression_v2",
+  "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
   "status": "PASSED_CPU_ONLY",
-  "source_snapshot": "runtime_source_snapshot_v22",
-  "tests": {
-    "legacy_redesign_suite": {
-      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v1.py",
-      "passed": 13,
-      "failed": 0
-    },
-    "v2_contract_suite": {
-      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v2.py",
-      "passed": 15,
-      "failed": 0
-    },
-    "combined_discover": {
-      "command": "PYTHONPATH=. python -m unittest discover -s tests/controlled_multi_future -p 'test_redesign_f2_f3_v*.py'",
-      "passed": 28,
-      "failed": 0
-    },
-    "compileall": {
-      "command": "PYTHONPATH=. python -m compileall -q controlled_multi_future/redesign_f2_f3_v2",
-      "passed": true
-    }
-  },
   "targeted_checks": {
-    "stand_top_real_shape_rejected_by_v2_boundary": true,
     "above_box_negative_rejected": true,
-    "overlap_requires_exactly_one_predicate": true,
-    "v2_f2_beside_support_identity_is_table": true,
-    "v2_f2_ab_scene_specs_differ_after_ids_removed": true,
-    "v2_f3_ab_scene_specs_differ_after_ids_removed": true,
+    "complete_dependency_manifest": true,
+    "f2_candidate_schema_has_target_ref": true,
+    "f2_exit_pose_preserves_quaternion_and_shape": true,
+    "f2_missing_support_finalizer_rejected": true,
+    "f3_candidate_schema_has_event_sequence": true,
+    "f3_missing_event_finalizer_rejected": true,
+    "f3_motion_verifier_import_and_call_path": true,
+    "failed_cell_stops_dispatch": true,
+    "gpu_jobs": 0,
+    "model_envelopes_direct_numpy_validator": true,
+    "new_physical_scenes": 0,
     "new_root_first_cell_execution_orders": {
       "F2-A-v2": "beside:r_pc",
       "F2-B-v2": "inside:r_pc",
@@ -37,24 +30,48 @@
       "F3-B-v2": "VVHH:r_pc"
     },
     "old_legacy_eligibility_loader_blocked": true,
-    "target_is_outside_model_inputs": true,
-    "f2_candidate_schema_has_target_ref": true,
-    "f3_candidate_schema_has_event_sequence": true,
-    "f2_exit_pose_preserves_quaternion_and_shape": true,
-    "f3_motion_verifier_import_and_call_path": true,
-    "model_envelopes_direct_numpy_validator": true,
-    "readback_recomputed_content_hash_tamper_rejected": true,
-    "f3_missing_event_finalizer_rejected": true,
-    "f2_missing_support_finalizer_rejected": true,
-    "failed_cell_stops_dispatch": true,
-    "root_acceptance_requires_independent_finalizer": true,
-    "rest_target_bound_in_action_before_observation_metadata": true,
+    "old_raw_or_acceptance_modified": false,
+    "overlap_requires_exactly_one_predicate": true,
     "path_variant_uses_distinct_transport_waypoints": true,
-    "complete_dependency_manifest": true,
+    "readback_recomputed_content_hash_tamper_rejected": true,
     "real_physical_capture": false,
-    "gpu_jobs": 0,
-    "new_physical_scenes": 0,
-    "old_raw_or_acceptance_modified": false
+    "rest_target_bound_in_action_before_observation_metadata": true,
+    "root_acceptance_requires_independent_finalizer": true,
+    "stand_top_real_shape_rejected_by_v2_boundary": true,
+    "target_is_outside_model_inputs": true,
+    "v2_f2_ab_scene_specs_differ_after_ids_removed": true,
+    "v2_f2_beside_support_identity_is_table": true,
+    "v2_f3_ab_scene_specs_differ_after_ids_removed": true
   },
-  "pass": true
+  "tests": {
+    "combined_discover": {
+      "command": "PYTHONPATH=. python -m unittest discover -s tests/controlled_multi_future -p 'test_redesign_f2_f3_v*.py'",
+      "failed": 0,
+      "passed": 28
+    },
+    "compileall": {
+      "command": "PYTHONPATH=. python -m compileall -q controlled_multi_future/redesign_f2_f3_v2",
+      "passed": true
+    },
+    "legacy_redesign_suite": {
+      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v1.py",
+      "failed": 0,
+      "passed": 13
+    },
+    "v2_contract_suite": {
+      "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v2.py",
+      "failed": 0,
+      "passed": 15
+    }
+  },
+  "v1_suite": {
+    "status": "historical_reference_from_prior_P2",
+    "tests_failed": 0,
+    "tests_passed": 13
+  },
+  "v2_suite": {
+    "status": "current_cpu_gate",
+    "tests_failed": 0,
+    "tests_passed": 22
+  }
 }
