@@ -384,13 +384,8 @@
     "gpu_lease_seconds": 4800,
     "solver_problems": 340
   },
-  "budget_request_sha256": "04bd4b84735ba946ab8af5f18f17e75c4151537d387831d071f9cd4d4d07597d",
   "contract_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_EXECUTION_CONTRACT.json",
-  "contract_sha256": "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
-  "cpu_gate": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_RECOVERY.json",
-    "sha256": "a5735f050fa72a9dea4b507a39ab27bbd9843c5984e192fe00d8ab9ba7072e7e"
-  },
+  "contract_sha256": "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
   "jobs": {
     "p3-f2-a-beside-rpc": {
       "actual_usage": {
@@ -763,11 +758,9 @@
     "action_scenes": 1,
     "collection_attempts": 2,
     "completed_cells": 0,
-    "first_two": "READY_RETRY_AFTER_F2_PLANNER_FAILURE",
+    "first_two": "FAILED",
     "fresh_scenes": 1,
     "gpu_lease_seconds": 130,
-    "recovery_attempts_remaining": 3,
-    "recovery_attempts_used": 1,
     "solver_problems": 8,
     "target_cells": 24
   },
@@ -779,35 +772,12 @@
       "physical_launch": false,
       "reason": "dispatcher pre-created collector-owned output directory",
       "receipt": "P3_FIRST_WAVE_RECEIPT_attempt0_dispatcher_bug.json"
-    },
-    {
-      "actual_usage": {
-        "action_scenes": 1,
-        "collection_attempts": 1,
-        "fresh_scenes": 1,
-        "gpu_lease_seconds": 129,
-        "solver_problems": 8
-      },
-      "amendment_event_sha256": "639648838b18c0e40e466f31265d1590f7f0ba5261840a125069a434a2769640",
-      "attempt": 1,
-      "physical_scene_captured": true,
-      "reason": "F2 beside high-lateral PlannerChainFailure",
-      "source_receipt": "P3_FIRST_WAVE_RECEIPT_attempt1_f2_planner_failure.json",
-      "source_snapshot": "runtime_source_snapshot_v24"
-    },
-    {
-      "amendment_event_sha256": "ac62deb322e063a5af5961b823d7bdb29f83ecd4155633260ca74688c30e0b4e",
-      "amendment_revision": 2,
-      "parent_contract_sha256": "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
-      "physical_change": false,
-      "reason": "budget request parent hash correction"
     }
   ],
   "running_by_job_id": {},
-  "schema_version": "cmf_f2_f3_v2_p3_state_v2",
-  "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
-  "state_sha256": "45c0574645c5922ae1c480a005516950204945bbd61a0f936c3115f1b5f099ef",
-  "status": "READY_FIRST_TWO_RECOVERY",
-  "stop_reason": null,
+  "schema_version": "cmf_f2_f3_v2_p3_state_v1",
+  "state_sha256": "ff962848e9131381a094ca1ad4b5a5dbc2d999f28044368eef741fcefe527775",
+  "status": "STOPPED_AFTER_FIRST_WAVE_FAILURE",
+  "stop_reason": "first-validation-job-failed-or-budget-overrun",
   "task_id": "f2_f3_observation_contract_repair_20260909_p3"
 }

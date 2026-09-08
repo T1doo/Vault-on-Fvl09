@@ -12,13 +12,11 @@
   "amendment": {
     "change": "beside target stand-center + 0.160m instead of + 0.120m; verifier and annulus unchanged",
     "one_change_per_attempt": true,
-    "reason": "metadata correction for parent budget request hash; same v25 F2 beside recovery target and unchanged caps",
+    "reason": "bounded F2 beside planner recovery after first physical PlannerChainFailure",
     "remaining_recovery_reserve_cells": 3,
-    "revision": 2
+    "revision": 1
   },
-  "ancestor_contract_sha256s": [
-    "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4"
-  ],
+  "ancestor_contract_sha256s": [],
   "authorization_basis": "user-approved latest review scope: execute first two after CPU conditions pass without another approval",
   "budget_caps": {
     "action_scenes": 28,
@@ -28,8 +26,8 @@
     "solver_problems": 340
   },
   "budget_request": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-  "budget_request_sha256": "04bd4b84735ba946ab8af5f18f17e75c4151537d387831d071f9cd4d4d07597d",
-  "contract_sha256": "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
+  "budget_request_sha256": "46c531d4a13d0c38ffa5d7003815d3abc3bed660f651dc1efea95ec697c99915",
+  "contract_sha256": "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
   "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_RECOVERY.json",
   "cpu_gate_sha256": "a5735f050fa72a9dea4b507a39ab27bbd9843c5984e192fe00d8ab9ba7072e7e",
   "first_validation_jobs": [
@@ -80,7 +78,7 @@
     "mutate_old_state": false,
     "reaccept_old_data": false
   },
-  "parent_contract_sha256": "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
+  "parent_contract_sha256": "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
   "roots": {
     "F2-A-v2": {
       "cells": 6,
@@ -103,7 +101,7 @@
       "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
     }
   },
-  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v3",
+  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v2",
   "scope": {
     "compression": false,
     "families": [

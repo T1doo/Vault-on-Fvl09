@@ -15,6 +15,10 @@
     6,
     7
   ],
+  "amendment": {
+    "parent_budget_request_sha256": "27c71bccd68d0ef2bdf1283121e211e751a426ff7c4b6404ec51e16416fa111d",
+    "reason": "v25 F2 beside bounded recovery; caps unchanged"
+  },
   "authorization": {
     "basis": "user-approved latest review scope",
     "cpu_gate": {
@@ -33,7 +37,7 @@
           ],
           "fresh_success_cells": 6,
           "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "6117819fdef2ced2776a434b1aa51b3f75a66547bd8e2506a32f88d91778d160"
+          "scene_spec_sha256": "9e38b624476e638b5dbfc427c0391d7b233dcbc639fab8965ae00931cf05049d"
         },
         "F2-B-v2": {
           "cell_count": 6,
@@ -49,7 +53,7 @@
           ],
           "fresh_success_cells": 6,
           "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "f67c9f0467e5d9a6785f6f8dea01fb1180082529dcd9e97230314c043fd091b8"
+          "scene_spec_sha256": "3bd23b4c39086c92d18917da59585fec365a75affdd125d3c0dc7df1a7fac4bf"
         },
         "F3-A-v2": {
           "cell_count": 6,
@@ -88,16 +92,16 @@
         "budget_request_consistency": true,
         "compileall_pass": true,
         "geometry_boundary_regression": true,
-        "historical_v1_regression_reference_count": 13,
         "old_v1_source_untouched": true,
+        "old_v24_gate_preserved": true,
         "pass": true,
-        "physical_execution_started": false,
+        "physical_execution_started_in_gate": false,
         "source_snapshot_manifest_live_drift": true,
         "strict_exit_negative_tests": true,
         "v2_unittest_count": 22,
         "v2_unittest_pass": true
       },
-      "generated_at": "2026-09-09T01:21:06.286223+08:00",
+      "generated_at": "2026-09-09T01:34:26.838635+08:00",
       "geometry_details": {
         "high_above_box_rejected": true,
         "overlap_is_not_accepted_as_exclusive": true,
@@ -110,10 +114,17 @@
         "new_collection_attempts": 0,
         "new_scenes": 0
       },
-      "schema_version": "cmf_f2_f3_v2_p2_final_cpu_gate_v1",
+      "recovery_change": {
+        "kind": "f2_beside_target_clearance",
+        "new_target_offset_m": 0.16,
+        "old_target_offset_m": 0.12,
+        "one_change_per_attempt": true,
+        "within_beside_annulus": true
+      },
+      "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_recovery_v1",
       "source_drift": [],
-      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
-      "source_snapshot_manifest_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
+      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v25/SNAPSHOT_MANIFEST.json",
+      "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
       "strict_details": {
         "pass": true,
         "planner": true,
@@ -159,7 +170,7 @@
   },
   "old_goal_or_ledger_reused": false,
   "physical_execution_authorized": true,
-  "request_sha256": "3a04added48b04a2c6f75f334b9f500113c93549fbe31b54cb94e81b89719f48",
+  "request_sha256": "be4441713fe4ac5c809928cd94db1c79b401179c07f2ea46f500e9dee57e1746",
   "requested_independent_contract_caps": {
     "action_scenes": 28,
     "collection_attempts": 28,
@@ -182,7 +193,7 @@
       ],
       "fresh_success_cells": 6,
       "ledger_action_scene_success_cells": 6,
-      "scene_spec_sha256": "6117819fdef2ced2776a434b1aa51b3f75a66547bd8e2506a32f88d91778d160"
+      "scene_spec_sha256": "9e38b624476e638b5dbfc427c0391d7b233dcbc639fab8965ae00931cf05049d"
     },
     "F2-B-v2": {
       "cell_count": 6,
@@ -198,7 +209,7 @@
       ],
       "fresh_success_cells": 6,
       "ledger_action_scene_success_cells": 6,
-      "scene_spec_sha256": "f67c9f0467e5d9a6785f6f8dea01fb1180082529dcd9e97230314c043fd091b8"
+      "scene_spec_sha256": "3bd23b4c39086c92d18917da59585fec365a75affdd125d3c0dc7df1a7fac4bf"
     },
     "F3-A-v2": {
       "cell_count": 6,
@@ -235,8 +246,8 @@
   },
   "schema_version": "cmf_f2_f3_v2_complete_budget_request_v1",
   "scope": "four new roots, 24 complete F2/F3 cells with original t0 RGB/state/anchor/future/candidate outputs",
-  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v24/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "58d4c0b0d51a230b879c312b06547553c2cbb19e41d2bb80974c9e5d81fd89ba",
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v25/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
   "status": "AUTHORIZED_FOR_P3_AFTER_CPU_GATES",
   "stop_conditions": [
     "budget overrun or unknown consumption",

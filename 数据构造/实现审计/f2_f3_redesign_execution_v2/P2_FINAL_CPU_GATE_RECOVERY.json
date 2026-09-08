@@ -1,0 +1,114 @@
+{
+  "budget_preview_root_specs": {
+    "F2-A-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "56080416d6bb82b7ae8c3bb407e968aa6e4c86c4abe64a8324ba143299f5b0e4",
+      "execution_order": [
+        "beside:r_pc",
+        "inside:r_pc",
+        "inside:r_inv_path",
+        "on:r_pc",
+        "on:r_inv_path",
+        "beside:r_inv_path"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "9e38b624476e638b5dbfc427c0391d7b233dcbc639fab8965ae00931cf05049d"
+    },
+    "F2-B-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "880043dc4a3d81b8d24f9e45dd0272ed0e6374476bbaf0bc4c7429f938001876",
+      "execution_order": [
+        "inside:r_pc",
+        "inside:r_inv_motion",
+        "on:r_pc",
+        "on:r_inv_motion",
+        "beside:r_pc",
+        "beside:r_inv_motion"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "3bd23b4c39086c92d18917da59585fec365a75affdd125d3c0dc7df1a7fac4bf"
+    },
+    "F3-A-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "cef46ce995d8140505b954d5a9d977fcf246e9b41dad677e41ce0a74e6781081",
+      "execution_order": [
+        "VHVH:r_pc",
+        "VVHH:r_pc",
+        "VVHH:r_inv_path",
+        "VHVH:r_inv_path",
+        "VHHV:r_pc",
+        "VHHV:r_inv_path"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4"
+    },
+    "F3-B-v2": {
+      "cell_count": 6,
+      "collection_success_cells": 6,
+      "contract_sha256": "74887553bfe1019b83df6b8936088233bacc9973c8a36e41525a2a809db199f4",
+      "execution_order": [
+        "VVHH:r_pc",
+        "VVHH:r_inv_motion",
+        "VHVH:r_pc",
+        "VHVH:r_inv_motion",
+        "VHHV:r_pc",
+        "VHHV:r_inv_motion"
+      ],
+      "fresh_success_cells": 6,
+      "ledger_action_scene_success_cells": 6,
+      "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
+    }
+  },
+  "checks": {
+    "budget_request_consistency": true,
+    "compileall_pass": true,
+    "geometry_boundary_regression": true,
+    "old_v1_source_untouched": true,
+    "old_v24_gate_preserved": true,
+    "pass": true,
+    "physical_execution_started_in_gate": false,
+    "source_snapshot_manifest_live_drift": true,
+    "strict_exit_negative_tests": true,
+    "v2_unittest_count": 22,
+    "v2_unittest_pass": true
+  },
+  "generated_at": "2026-09-09T01:34:26.838635+08:00",
+  "geometry_details": {
+    "high_above_box_rejected": true,
+    "overlap_is_not_accepted_as_exclusive": true,
+    "stand_top_rejected_as_beside": true
+  },
+  "pass": true,
+  "physical_execution": {
+    "gpu_jobs": 0,
+    "gpu_lease_seconds": 0,
+    "new_collection_attempts": 0,
+    "new_scenes": 0
+  },
+  "recovery_change": {
+    "kind": "f2_beside_target_clearance",
+    "new_target_offset_m": 0.16,
+    "old_target_offset_m": 0.12,
+    "one_change_per_attempt": true,
+    "within_beside_annulus": true
+  },
+  "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_recovery_v1",
+  "source_drift": [],
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v25/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
+  "strict_details": {
+    "pass": true,
+    "planner": true,
+    "target": true,
+    "valid": true,
+    "wrong_candidate": true,
+    "wrong_rgb": true,
+    "wrong_state": true
+  }
+}

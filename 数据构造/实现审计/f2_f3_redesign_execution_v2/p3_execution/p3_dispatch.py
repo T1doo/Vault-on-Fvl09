@@ -140,9 +140,9 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 
 
 def main() -> int:
-    contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / "P3_JOB_MANIFEST.json").read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"])
-    if state.get("status") != "READY_FIRST_TWO":
-        raise RuntimeError(f"P3 dispatcher expected READY_FIRST_TWO, got {state.get('status')}")
+    contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / "P3_JOB_MANIFEST.json").read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
+    if state.get("status") not in {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY"}:
+        raise RuntimeError(f"P3 dispatcher expected a first-wave-ready state, got {state.get('status')}")
     snapshot = live_snapshot(); assignment = assign_ready_jobs(manifest["jobs"], snapshot)
     if len(assignment["assignments"]) != len(manifest["jobs"]):
         raise RuntimeError("not all first-wave jobs received a fresh idle GPU")
