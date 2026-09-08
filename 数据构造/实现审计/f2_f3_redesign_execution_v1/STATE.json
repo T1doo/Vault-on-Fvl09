@@ -20,6 +20,20 @@
     "failed_job_id": "stage_C_F3A_pilot_1788802637",
     "gpu_lease_seconds_retained": 13
   },
+  "accounting_exception": {
+    "actual_gpu_lease_seconds": null,
+    "budget_charge_gpu_lease_seconds": 1800,
+    "exact_measurement_available": false,
+    "job_id": "stage_C_F2A_pilot_1788807557",
+    "ledger_event_sha256": "aacd1743f3e9a968b12028ffcde159a67db09f9738bcdd552bd29dc0e816aa99",
+    "method": "USER_APPROVED_FULL_RESERVATION_WRITE_OFF",
+    "not_performance_statistic": true,
+    "one_time": true,
+    "raw_receipts_unchanged": true,
+    "raw_traces_unchanged": true,
+    "schema_version": "cmf_f2_f3_gpu_unknown_writeoff_v1",
+    "source_link": "https://chatgpt.com/s/t_6a9f5ffe08448191bce69910fdbfb349"
+  },
   "budget": {
     "caps": {
       "action_scenes": 74,
@@ -32,14 +46,14 @@
       "action_scenes": 44,
       "collection_attempts": 37,
       "fresh_scenes": 46,
-      "gpu_lease_seconds": 4646,
+      "gpu_lease_seconds": 6446,
       "solver_problems": 341
     },
     "reserved": {
       "action_scenes": 0,
       "collection_attempts": 0,
       "fresh_scenes": 0,
-      "gpu_lease_seconds": 1800,
+      "gpu_lease_seconds": 0,
       "solver_problems": 0
     }
   },
@@ -200,6 +214,14 @@
       "status": "FAILED",
       "unknown_consumption": true
     },
+    "stage_C_F2A_pilot_1788807557": {
+      "accounting_exception_event_sha256": "aacd1743f3e9a968b12028ffcde159a67db09f9738bcdd552bd29dc0e816aa99",
+      "actual_gpu_lease_seconds": null,
+      "budget_charge_gpu_lease_seconds": 1800,
+      "exact_measurement_available": false,
+      "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788807557/root_receipt.json",
+      "status": "FAILED_RECONCILED_BY_USER_APPROVED_WRITE_OFF"
+    },
     "stage_C_F3A_pilot_1788802734": {
       "device_idle_observed": false,
       "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
@@ -267,7 +289,7 @@
       "unknown_consumption": false
     }
   },
-  "ledger_head_sha256": "2a76e7edb8e19f899ff5e580ef2dca1d17b6791b72c190a7c66205bca6359366",
+  "ledger_head_sha256": "aacd1743f3e9a968b12028ffcde159a67db09f9738bcdd552bd29dc0e816aa99",
   "milestones": {
     "A": "VERIFIED_NATIVE_ASSET_READBACK",
     "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
@@ -280,15 +302,21 @@
     "remote_verified": false
   },
   "reconciliation_pending": {
+    "accounting_closed_by_exception": true,
+    "accounting_exception_event_sha256": "aacd1743f3e9a968b12028ffcde159a67db09f9738bcdd552bd29dc0e816aa99",
+    "actual_gpu_lease_seconds": null,
+    "budget_charge_gpu_lease_seconds": 1800,
     "event_sha256": "2a76e7edb8e19f899ff5e580ef2dca1d17b6791b72c190a7c66205bca6359366",
+    "exact_measurement_available": false,
     "gpu_lease_seconds": "UNKNOWN",
-    "gpu_reservation_retained": 1800,
+    "gpu_reservation_retained": 0,
     "job_id": "stage_C_F2A_pilot_1788807557",
     "known_completed_cells": 6,
     "known_counters_reconciled": true,
     "known_failed_cells": 4,
     "known_passed_cells": 2,
-    "stop_new_dispatch": true
+    "status": "CLOSED_BY_USER_APPROVED_WRITE_OFF",
+    "stop_new_dispatch": false
   },
   "resource_observation": {
     "active_owned_processes": [],
