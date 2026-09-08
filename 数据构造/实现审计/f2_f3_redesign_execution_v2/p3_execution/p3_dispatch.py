@@ -89,13 +89,16 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
         command.extend(["--existing-root", str(job["existing_root"])])
     environment = child_environment(gpu_uuid)
     environment.update({"PYTHONPATH": str(PROJECT), "ROBOTWIN_ROOT": str(PROJECT), "ROBOTWIN_WORKSPACE": str(ROOT / "Robotwin2"), "CMF_GPU_GUARD_PHYSICAL_INDEX": str(physical_index), "CMF_BOUND_GPU_UUID": gpu_uuid})
-    started = time.monotonic()
     log_dir = BASE / "worker_logs"; log_dir.mkdir(parents=True, exist_ok=True); log_path = log_dir / f"{job_id}.attempt{attempt}.stdout.log"
+    cell_label = str(job.get("cell_key") or job.get("cell_keys") or "")
+    started = time.monotonic()
+    start_wall = time.time()
+    state["jobs"][job_id] = {"status": "STARTING", "pid": None, "pgid": None, "root_id": job["root_id"], "cell_key": cell_label, "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "reservation": reservation, "pre_snapshot": pre, "guarded_card": guarded, "command": command, "worker_log": str(log_path), "started_wall_time": start_wall, "started_monotonic": started, "process_tree_start": []}
+    _write_state(state)
     process = subprocess.Popen(command, cwd=PROJECT, env=environment, start_new_session=True, stdout=log_path.open("w", encoding="utf-8"), stderr=subprocess.STDOUT, text=True)
     pid = int(process.pid); pgid = os.getpgid(pid)
-    state["running_by_job_id"][job_id] = {"pid": pid, "pgid": pgid, "root_id": job["root_id"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "started_monotonic": started}
-    cell_label = str(job.get("cell_key") or job.get("cell_keys") or "")
-    state["jobs"][job_id] = {"status": "RUNNING", "pid": pid, "pgid": pgid, "root_id": job["root_id"], "cell_key": cell_label, "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "reservation": reservation, "pre_snapshot": pre, "guarded_card": guarded, "command": command, "process_tree_start": _process_tree(pid)}
+    state["running_by_job_id"][job_id] = {"pid": pid, "pgid": pgid, "root_id": job["root_id"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "started_monotonic": started, "started_wall_time": start_wall}
+    state["jobs"][job_id].update({"status": "RUNNING", "pid": pid, "pgid": pgid, "process_tree_start": _process_tree(pid)})
     _write_state(state)
     timeout_seconds = 900
     timed_out = False
