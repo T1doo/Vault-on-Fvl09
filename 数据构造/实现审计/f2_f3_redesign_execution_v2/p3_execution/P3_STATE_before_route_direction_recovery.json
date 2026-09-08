@@ -1112,12 +1112,12 @@
     "gpu_lease_seconds": 4800,
     "solver_problems": 340
   },
-  "budget_request_sha256": "4c63a125d9666e76f3bb557c4c7b23338a44600ff89c1821f3a74d6a7857efe7",
+  "budget_request_sha256": "813decaf30d07f2036efa9d408414f92e96456086c668224fec77f77cc0ebb27",
   "contract_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_EXECUTION_CONTRACT.json",
-  "contract_sha256": "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
+  "contract_sha256": "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7",
   "cpu_gate": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ROUTE_DIRECTION_RECOVERY.json",
-    "sha256": "bc94264e2863133f0bdc1ab62ebe980f5bf65ff7ecc7204ad6a7162acb629856"
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ROUTE_RECOVERY.json",
+    "sha256": "a19108840b9c492ab51a1029ed9f73f9f9dae6edae57baf12a8c44c29c46a3e2"
   },
   "jobs": {
     "p3-f2-a-beside-rpc": {
@@ -1491,11 +1491,11 @@
     "action_scenes": 3,
     "collection_attempts": 4,
     "completed_cells": 0,
-    "first_two": "READY_RETRY_AFTER_F2_ROUTE_DIRECTION_FAILURE",
+    "first_two": "FAILED",
     "fresh_scenes": 3,
     "gpu_lease_seconds": 378,
-    "recovery_attempts_remaining": 1,
-    "recovery_attempts_used": 3,
+    "recovery_attempts_remaining": 2,
+    "recovery_attempts_used": 2,
     "solver_problems": 24,
     "target_cells": 24
   },
@@ -1544,28 +1544,13 @@
       "physical_scene_captured": true,
       "reason": "F2 beside target clearance did not change planner failure",
       "source_receipt": "P3_FIRST_WAVE_RECEIPT_attempt2_f2_target_recovery_failure.json"
-    },
-    {
-      "actual_usage": {
-        "action_scenes": 1,
-        "collection_attempts": 1,
-        "fresh_scenes": 1,
-        "gpu_lease_seconds": 124,
-        "solver_problems": 8
-      },
-      "amendment_event_sha256": "86c9a24bd7087c59d617e595e1ef323ae345ad130b0cfec4d255aaa0e4019141",
-      "amendment_revision": 4,
-      "attempt": 3,
-      "physical_scene_captured": true,
-      "reason": "F2 beside negative-y route failed at first waypoint",
-      "source_receipt": "P3_FIRST_WAVE_RECEIPT_attempt3_f2_negative_y_route_failure.json"
     }
   ],
   "running_by_job_id": {},
-  "schema_version": "cmf_f2_f3_v2_p3_state_v4",
-  "source_snapshot_manifest_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
-  "state_sha256": "34c131ff076e50941990ff3259cc2683d5d9ec19051559d52032a30aed7333b7",
-  "status": "READY_FIRST_TWO_RECOVERY",
-  "stop_reason": null,
+  "schema_version": "cmf_f2_f3_v2_p3_state_v3",
+  "source_snapshot_manifest_sha256": "41ff5e9a74a31c8f39c22d2fec717985a0bc9f2a302bbae212e3634161952511",
+  "state_sha256": "0f8254a3bb5e62021d1430225af2a7e1ab07e8ec0ccc81bc503548149f8f610e",
+  "status": "STOPPED_AFTER_FIRST_WAVE_FAILURE",
+  "stop_reason": "first-validation-job-failed-or-budget-overrun",
   "task_id": "f2_f3_observation_contract_repair_20260909_p3"
 }
