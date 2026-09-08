@@ -1,19 +1,19 @@
 {
-  "accepted_new_cells": 12,
+  "accepted_new_cells": 18,
   "combined_index_target": 48,
   "formal_data": false,
   "new_input_target": 24,
-  "note": "New strict F3-A/B are accepted after realized-event, path/motion, terminal and cross-branch equivalence audits. F2-A path repair and F2-B remain pending.",
-  "pending_new_cells": 12,
+  "note": "F2-A path repair and both strict F3 roots are accepted. Only the independent F2-B six-cell root remains.",
+  "pending_new_cells": 6,
   "read_only_prior_cells": 24,
   "realization_acceptance_correction": "REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
   "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
   "roots": {
     "F2-A": {
       "acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
-      "accepted_cells": 0,
+      "accepted_cells": 6,
       "reusable_cell_count": 3,
-      "invalid_realization": "r_inv_path",
+      "prior_invalid_realization_repaired": "r_inv_path",
       "family": "F2",
       "layout_id": "v3",
       "programs": [
@@ -25,8 +25,10 @@
         "r_pc",
         "r_inv_path"
       ],
-      "root_receipt_sha256": "6453348d58cb6f9fb83b582e7794820a5268c91cede4bf31a59dd337253e509c",
-      "status": "ACCEPTANCE_REVOKED_PENDING_REALIZATION_REPAIR"
+      "prior_root_receipt_sha256": "6453348d58cb6f9fb83b582e7794820a5268c91cede4bf31a59dd337253e509c",
+      "root_receipt_sha256": "05e9baf3fe705661f3c356358ce11a9bf0b7d5498461ae8d18ab06b93412e404",
+      "path_repaired_acceptance_sha256": "f540cbdd0075578e404dda9de6177b6dd363d02697a0d88784effa282e14e014",
+      "status": "ACCEPTED_PATH_REPAIRED_V2"
     },
     "F2-B": {
       "family": "F2",
@@ -83,7 +85,7 @@
   "source_oracle_hashes": {},
   "f3_terminal_acceptance_correction": "F3_TERMINAL_ACCEPTANCE_CORRECTION_V1.json",
   "f3_terminal_completion_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
-  "status": "F3_A_B_STRICT_ACCEPTED_CONTINUE_F2",
+  "status": "F2_A_F3_A_B_ACCEPTED_CONTINUE_F2_B",
   "task_id": "f2_f3_redesign_20260907",
   "training": false
 }

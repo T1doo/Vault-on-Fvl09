@@ -1,0 +1,52 @@
+{
+  "schema_version": "cmf_f2_path_repaired_pilot_acceptance_v2",
+  "task_id": "f2_f3_redesign_20260907",
+  "root_id": "F2-A",
+  "layout_id": "v3",
+  "status": "ACCEPTED",
+  "accepted_cells": 6,
+  "programs": ["inside", "on", "beside"],
+  "realizations": ["r_pc", "r_inv_path"],
+  "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_resume_pilot_1788855821/root_receipt.json",
+  "root_receipt_sha256": "05e9baf3fe705661f3c356358ce11a9bf0b7d5498461ae8d18ab06b93412e404",
+  "job_receipt_sha256": "d4284f55cc55954ed376a34c5b17f8d0417bd872bc8f4021399b54b102196ef3",
+  "cpu_audit": "F2-A_path_repaired_cpu_audit.json",
+  "cpu_audit_sha256": "364976ba74880d20711eac6352e675bfb2b72e1828e3950cde8ed9c1f8df9a8b",
+  "checks": {
+    "all_cell_gates_pass": true,
+    "current_equivalence": true,
+    "anchor_equivalence": true,
+    "prefix_exact_replay": true,
+    "realization_integrity": true,
+    "all_three_path_suffixes_differ_from_r_pc": true,
+    "relation_exclusive": true,
+    "support_identity": true,
+    "empty_hand_exit": true
+  },
+  "new_path_cells": [
+    "inside:r_inv_path",
+    "on:r_inv_path",
+    "beside:r_inv_path"
+  ],
+  "reused_r_pc_cells": [
+    "inside:r_pc",
+    "on:r_pc",
+    "beside:r_pc"
+  ],
+  "path_variant": "post_prefix_y_detour_40mm",
+  "new_job_actual": {
+    "action_scenes": 3,
+    "collection_attempts": 3,
+    "fresh_scenes": 3,
+    "solver_problems": 15,
+    "gpu_lease_seconds": 483
+  },
+  "settlement_event_sha256": "3175605c03730d4f2abb49b4e02c1bd29851d01bd91e297776cf23f8700bca0c",
+  "physical_gpu_index": 0,
+  "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "owned_cleanup_pass": true,
+  "device_idle_observed": false,
+  "raw_history_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
