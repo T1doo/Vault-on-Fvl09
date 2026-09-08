@@ -1,7 +1,7 @@
 # F2 beside 首格有界失败报告
 
-日期：2026-09-09  
-任务：`f2_f3_observation_contract_repair_20260909_p3`  
+日期：2026-09-09
+任务：`f2_f3_observation_contract_repair_20260909_p3`
 范围：仅记录 F2-A-v2 `beside:r_pc` 的真实尝试，不改变旧 raw、旧 Goal 或研究验收定义。
 
 ## 结论
