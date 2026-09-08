@@ -1,5 +1,5 @@
 {
-  "schema_version": "cmf_f2_f3_redesign_contract_v3",
+  "schema_version": "cmf_f2_f3_redesign_contract_v2",
   "task_id": "f2_f3_redesign_20260907",
   "execution_version": "redesign_f2_f3_v1",
   "status": "ACTIVE",
@@ -31,9 +31,9 @@
   },
   "budget_caps": {
     "solver_problems": 2980,
-    "fresh_scenes": 136,
-    "action_scenes": 118,
-    "collection_attempts": 71,
+    "fresh_scenes": 125,
+    "action_scenes": 94,
+    "collection_attempts": 55,
     "gpu_lease_seconds": 61200
   },
   "budget_accounting": {
@@ -100,19 +100,15 @@
     "mutate_old_state": false,
     "reaccept_old_data": false
   },
-  "ancestor_contract_sha256s": [
-    "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf"
-  ],
-  "parent_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
+  "parent_contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
   "budget_amendment": {
-    "amendment_id": "f2_f3_redesign_20260907_realization_terminal_budget_v4",
-    "source_request": "REALIZATION_AND_F3_TERMINAL_REPAIR_BUDGET_REQUEST_V4.json",
-    "source_request_sha256": "84957322f340346e3b519109e979cd804d536fe34543b972dbaef14ebeb96b95",
-    "user_instruction": "批准",
+    "amendment_id": "f2_f3_redesign_20260907_budget_v2",
+    "source_link": "https://chatgpt.com/s/t_6a9f803896ec819188bd72351ed549d9",
+    "user_instruction": "请读取并恢复goal，按要求继续",
     "delta": {
-      "action_scenes": 24,
-      "collection_attempts": 16,
-      "fresh_scenes": 11,
+      "action_scenes": 20,
+      "collection_attempts": 7,
+      "fresh_scenes": 0,
       "solver_problems": 0,
       "gpu_lease_seconds": 0
     },
