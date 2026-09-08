@@ -2,10 +2,10 @@
   "accepted": {
     "F2-A": 0,
     "F2-B": 0,
-    "F3-A": 0,
+    "F3-A": 6,
     "F3-B": 0,
-    "combined_total": 24,
-    "new_total": 0,
+    "combined_total": 30,
+    "new_total": 6,
     "read_only_prior_total": 24
   },
   "accounting_correction": {
@@ -46,11 +46,11 @@
       "solver_problems": 2980
     },
     "consumed": {
-      "action_scenes": 96,
-      "collection_attempts": 48,
-      "fresh_scenes": 114,
-      "gpu_lease_seconds": 13704,
-      "solver_problems": 585
+      "action_scenes": 102,
+      "collection_attempts": 54,
+      "fresh_scenes": 120,
+      "gpu_lease_seconds": 14466,
+      "solver_problems": 670
     },
     "reserved": {
       "action_scenes": 0,
@@ -90,7 +90,7 @@
     "source_request_sha256": "84957322f340346e3b519109e979cd804d536fe34543b972dbaef14ebeb96b95"
   },
   "combined_index_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/pilot_48_index.json",
-  "combined_index_sha256": "a5089f36489647d7274d2e928dfaca3a1fd683a4e5fe7740c47052880efc4336",
+  "combined_index_sha256": "c82a8400d4cf94c1d8e2b235cc60e0d445ec39d6170e6b43cf6a139e5bb42ab4",
   "combined_index_status": "INCOMPLETE_PENDING_NEW_ROOTS",
   "contract_history": {
     "active_contract_sha256": "4af094ee9740d569229bc4d5f3e51d4396fee784c0af9c021b207f5f23b7f0b2",
@@ -126,13 +126,13 @@
     "f3_strict_terminal_qualification_failure_003": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F3_STRICT_TERMINAL_QUALIFICATION_FAILURE_003.json",
     "f3_strict_terminal_qualification_failure_003_sha256": "fdf0555048b0f1a9c9af7ac078b607f3d398a92c001a7cc5eaff800dbae4045d",
     "f3_strict_terminal_qualification_failure_sha256": "cd9ac8c1f5d00502a487cb246936d00ffd698cec73021adb6828660bb2a9d49b",
+    "f3_strict_terminal_qualification_pass": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F3_STRICT_TERMINAL_QUALIFICATION_PASS_V1.json",
+    "f3_strict_terminal_qualification_pass_sha256": "9ad83b2ee1b550fd1b633a98771f519fcdab5865fb9771a0e188fd7f4914e6b4",
     "f3_terminal_acceptance_correction": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F3_TERMINAL_ACCEPTANCE_CORRECTION_V1.json",
     "f3_terminal_acceptance_correction_sha256": "241e4695a8ffab69b668557580b96047a8714a14171577628404da436e36906b",
     "f3_terminal_completion_audit": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f3_terminal_completion_audit_v1.json",
     "f3_terminal_completion_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
     "f3_terminal_repair_status": "STRICT_QUALIFICATION_PASS_READY_FOR_NEW_F3_ROOTS",
-    "f3_strict_terminal_qualification_pass": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F3_STRICT_TERMINAL_QUALIFICATION_PASS_V1.json",
-    "f3_strict_terminal_qualification_pass_sha256": "9ad83b2ee1b550fd1b633a98771f519fcdab5865fb9771a0e188fd7f4914e6b4",
     "layout_id": "v3",
     "minimum_additional_action_scenes": 22,
     "minimum_additional_collection_attempts": 14,
@@ -155,10 +155,12 @@
     "realization_path_preflight_summary_sha256": "6adf670912e59fcf6b568c20b0fc46a1635a3e7a73e1b6c2dc67455b82957b12",
     "realization_repair_budget_request": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/REALIZATION_REPAIR_BUDGET_REQUEST_V3.json",
     "realization_repair_budget_request_sha256": "e52ffbf4ab49e41907c406237fd420bd2934befcd99c59ce640fa8504080ee93",
-    "reason": "F3 strict qualification passed all realized-event and terminal gates; dispatch new F3-A/B roots, then F2 repairs",
-    "remaining_action_scenes": 22,
-    "remaining_collection_attempts": 23,
-    "remaining_fresh_scenes": 22,
+    "reason": "new strict F3-A accepted 6/6; dispatch independent strict F3-B root next",
+    "remaining_action_scenes": 16,
+    "remaining_collection_attempts": 17,
+    "remaining_fresh_scenes": 16,
+    "f3a_strict_acceptance": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F3-A_strict_pilot_acceptance_v2.json",
+    "f3a_strict_acceptance_sha256": "771324e73182eccbf6c4015909b84e01ca549d7a3f300f62f88affa96a66b297",
     "requested_budget_delta": {
       "action_scenes": 24,
       "collection_attempts": 16,
@@ -560,6 +562,17 @@
       "status": "SUCCEEDED",
       "unknown_consumption": false
     },
+    "stage_C_F3A_pilot_1788852570": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "pgid": 2068270,
+      "physical_gpu_index": 1,
+      "pid": 2068270,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788852570/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
     "stage_C_F3A_terminal_probe_1788846492": {
       "device_idle_observed": true,
       "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
@@ -847,12 +860,12 @@
       "unknown_consumption": false
     }
   },
-  "ledger_head_sha256": "2eaf802e25eec9f82cd4a5a74a49c1f92013d7b5397d90d91f6567e0ddeb283e",
+  "ledger_head_sha256": "4f88f8f501fd6365e986570e78c66b5c3158c33fad95736a9f85272862c01b08",
   "milestones": {
     "A": "VERIFIED_NATIVE_ASSET_READBACK",
     "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
     "B_F3": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
-    "C": "REALIZATION_AND_TERMINAL_AUDIT_CORRECTION_0_OF_24"
+    "C": "F3_A_STRICT_ACCEPTED_6_OF_24"
   },
   "parent_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
   "pilot_cpu_audit_partial_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f2_f3_pilot_cpu_audit_partial.json",
@@ -897,39 +910,34 @@
         {
           "checks": {
             "allowed_physical_index": true,
-            "near_baseline_memory": false,
-            "near_baseline_utilization": false,
-            "no_compute_process": false,
-            "pstate_recorded": true
-          },
-          "compute_processes": [
-            {
-              "pid": 2053204,
-              "used_memory_mib": "16506"
-            }
-          ],
-          "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
-          "independently_fresh_idle": false,
-          "memory_used_mib": 16523,
-          "physical_index": 0,
-          "pstate": "P2",
-          "utilization_percent": 74
-        },
-        {
-          "checks": {
-            "allowed_physical_index": true,
             "near_baseline_memory": true,
             "near_baseline_utilization": true,
             "no_compute_process": true,
             "pstate_recorded": true
           },
           "compute_processes": [],
-          "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+          "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
           "independently_fresh_idle": true,
+          "memory_used_mib": 14,
+          "physical_index": 0,
+          "pstate": "P8",
+          "utilization_percent": 0
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": false,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+          "independently_fresh_idle": false,
           "memory_used_mib": 14,
           "physical_index": 1,
           "pstate": "P8",
-          "utilization_percent": 0
+          "utilization_percent": 31
         },
         {
           "checks": {
@@ -1033,11 +1041,11 @@
         "--query-compute-apps=gpu_uuid,pid,used_memory",
         "--format=csv,noheader,nounits"
       ],
-      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 16523, 74, P2\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
-      "raw_process_csv": "GPU-2c620e6c-9639-2022-b573-9847dfa33769, 2053204, 16506\n",
+      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 31, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+      "raw_process_csv": "",
       "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
     },
-    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_terminal_probe_1788852230/pre_guard_snapshot.json",
+    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788852570/pre_guard_snapshot.json",
     "nvidia_smi_reason": null,
     "nvidia_smi_status": "AVAILABLE"
   },
@@ -1057,11 +1065,14 @@
   "status": "INITIALIZING",
   "task_id": "f2_f3_redesign_20260907",
   "transport_qualification": {
-    "accepted_roots": [],
+    "accepted_roots": [
+      "F3-A"
+    ],
     "active_contract_sha256": "4af094ee9740d569229bc4d5f3e51d4396fee784c0af9c021b207f5f23b7f0b2",
     "all_roots_accepted": false,
     "budget_amendment_event_sha256": "309a3e3bce740218a699b4c58f52f2247b6d51012ef151af998a3d95a0b46615",
     "f2a_acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
+    "f3_strict_qualification_pass_sha256": "9ad83b2ee1b550fd1b633a98771f519fcdab5865fb9771a0e188fd7f4914e6b4",
     "layout_id": "v3",
     "pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
     "partial_failure_artifact_sha256": "01e8c335baaf9b44fb080a3642ca40b3f1c83d4921f6110bce44a03f8ff376a1",
@@ -1073,8 +1084,7 @@
     "qualification_job_count": 11,
     "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
     "source_snapshot_manifest_sha256": "68d88204d1a401c63f8f1ccff1f0c018ec18c2af41b6dea664a99c731b88103b",
-    "f3_strict_qualification_pass_sha256": "9ad83b2ee1b550fd1b633a98771f519fcdab5865fb9771a0e188fd7f4914e6b4",
-    "status": "F3_STRICT_QUALIFIED_PRODUCTION_READY",
+    "status": "F3_A_STRICT_ACCEPTED_F3_B_READY",
     "summary_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_qualification_summary.json",
     "summary_sha256": "ce081263383c831fab0633ef690c80463415175d975e99253ca8e9831e539e01"
   },
