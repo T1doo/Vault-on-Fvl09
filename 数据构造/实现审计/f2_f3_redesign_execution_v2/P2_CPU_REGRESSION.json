@@ -1,7 +1,7 @@
 {
   "schema_version": "cmf_f2_f3_v2_p2_cpu_regression_v1",
   "status": "PASSED_CPU_ONLY",
-  "source_snapshot": "runtime_source_snapshot_v18",
+  "source_snapshot": "runtime_source_snapshot_v22",
   "tests": {
     "legacy_redesign_suite": {
       "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v1.py",
@@ -10,12 +10,12 @@
     },
     "v2_contract_suite": {
       "command": "PYTHONPATH=. python tests/controlled_multi_future/test_redesign_f2_f3_v2.py",
-      "passed": 10,
+      "passed": 15,
       "failed": 0
     },
     "combined_discover": {
       "command": "PYTHONPATH=. python -m unittest discover -s tests/controlled_multi_future -p 'test_redesign_f2_f3_v*.py'",
-      "passed": 23,
+      "passed": 28,
       "failed": 0
     },
     "compileall": {
@@ -40,6 +40,17 @@
     "target_is_outside_model_inputs": true,
     "f2_candidate_schema_has_target_ref": true,
     "f3_candidate_schema_has_event_sequence": true,
+    "f2_exit_pose_preserves_quaternion_and_shape": true,
+    "f3_motion_verifier_import_and_call_path": true,
+    "model_envelopes_direct_numpy_validator": true,
+    "readback_recomputed_content_hash_tamper_rejected": true,
+    "f3_missing_event_finalizer_rejected": true,
+    "f2_missing_support_finalizer_rejected": true,
+    "failed_cell_stops_dispatch": true,
+    "root_acceptance_requires_independent_finalizer": true,
+    "rest_target_bound_in_action_before_observation_metadata": true,
+    "path_variant_uses_distinct_transport_waypoints": true,
+    "complete_dependency_manifest": true,
     "real_physical_capture": false,
     "gpu_jobs": 0,
     "new_physical_scenes": 0,

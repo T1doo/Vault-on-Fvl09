@@ -2,7 +2,7 @@
   "accounting_notes": [
     "24 success cells include the two first-validation cells; do not count them as 26",
     "CPU scene-spec/negative tests are zero physical scenes",
-    "220 solver queries and 244 action segments are the measured v1 lineage profile for four six-cell roots with shared-prefix replay (F2-A 31/36, F2-B 25/34, F3-A 85/90, F3-B 79/84); v2 values remain caps, not consumption",
+    "220 solver queries and 244 action segments are measured v1 lineage references only (F2-A 31/36, F2-B 25/34, F3-A 85/90, F3-B 79/84); v2 solver consumption is unobserved until P3 and must be metered from the actual call chain",
     "actual ledger settlement remains per job and never duplicates the cap per GPU"
   ],
   "based_on": {
@@ -20,7 +20,7 @@
   },
   "old_goal_or_ledger_reused": false,
   "physical_execution_authorized": false,
-  "request_sha256": "679865ea9a48d944c3865c2e1ff6932b819c330b9810405ccf3223201ac7c99e",
+  "request_sha256": "b39fbaa9b5b6f49fc4ed39aa7fee688f51e559fb6bc6a9a8d21fee8dac12853b",
   "requested_independent_contract_caps": {
     "action_scenes": 28,
     "collection_attempts": 28,
@@ -28,6 +28,8 @@
     "gpu_lease_seconds": 4800,
     "solver_problems": 340
   },
+  "solver_problems_basis": "v1_historical_reference_only; actual v2 receipt/meter must be authoritative",
+  "v2_actual_solver_consumption": "UNOBSERVED_BEFORE_P3",
   "root_specs": {
     "F2-A-v2": {
       "cell_count": 6,
