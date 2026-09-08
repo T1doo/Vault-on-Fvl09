@@ -16,8 +16,8 @@
     7
   ],
   "amendment": {
-    "parent_budget_request_sha256": "27c71bccd68d0ef2bdf1283121e211e751a426ff7c4b6404ec51e16416fa111d",
-    "reason": "v25 F2 beside bounded recovery; caps unchanged"
+    "parent_budget_request_sha256": "04bd4b84735ba946ab8af5f18f17e75c4151537d387831d071f9cd4d4d07597d",
+    "reason": "v26 F2 beside high-clearance route recovery; caps unchanged"
   },
   "authorization": {
     "basis": "user-approved latest review scope",
@@ -93,15 +93,15 @@
         "compileall_pass": true,
         "geometry_boundary_regression": true,
         "old_v1_source_untouched": true,
-        "old_v24_gate_preserved": true,
         "pass": true,
         "physical_execution_started_in_gate": false,
         "source_snapshot_manifest_live_drift": true,
         "strict_exit_negative_tests": true,
+        "v25_gate_preserved": true,
         "v2_unittest_count": 22,
         "v2_unittest_pass": true
       },
-      "generated_at": "2026-09-09T01:34:26.838635+08:00",
+      "generated_at": "2026-09-09T01:40:36.943803+08:00",
       "geometry_details": {
         "high_above_box_rejected": true,
         "overlap_is_not_accepted_as_exclusive": true,
@@ -115,16 +115,20 @@
         "new_scenes": 0
       },
       "recovery_change": {
-        "kind": "f2_beside_target_clearance",
-        "new_target_offset_m": 0.16,
-        "old_target_offset_m": 0.12,
+        "kind": "f2_beside_high_clearance_route",
         "one_change_per_attempt": true,
-        "within_beside_annulus": true
+        "previous_target_offset_m": 0.16,
+        "route_offset_y_m": -0.12,
+        "route_waypoints": [
+          "far_y",
+          "target_far_y",
+          "target_y"
+        ]
       },
-      "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_recovery_v1",
+      "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_route_recovery_v1",
       "source_drift": [],
-      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v25/SNAPSHOT_MANIFEST.json",
-      "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
+      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v26/SNAPSHOT_MANIFEST.json",
+      "source_snapshot_manifest_sha256": "41ff5e9a74a31c8f39c22d2fec717985a0bc9f2a302bbae212e3634161952511",
       "strict_details": {
         "pass": true,
         "planner": true,
@@ -170,7 +174,7 @@
   },
   "old_goal_or_ledger_reused": false,
   "physical_execution_authorized": true,
-  "request_sha256": "be4441713fe4ac5c809928cd94db1c79b401179c07f2ea46f500e9dee57e1746",
+  "request_sha256": "33d75723479054788a0de788bfe86160c04ec0a384c9a13148519acd235c67e3",
   "requested_independent_contract_caps": {
     "action_scenes": 28,
     "collection_attempts": 28,
@@ -246,8 +250,8 @@
   },
   "schema_version": "cmf_f2_f3_v2_complete_budget_request_v1",
   "scope": "four new roots, 24 complete F2/F3 cells with original t0 RGB/state/anchor/future/candidate outputs",
-  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v25/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v26/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "41ff5e9a74a31c8f39c22d2fec717985a0bc9f2a302bbae212e3634161952511",
   "status": "AUTHORIZED_FOR_P3_AFTER_CPU_GATES",
   "stop_conditions": [
     "budget overrun or unknown consumption",

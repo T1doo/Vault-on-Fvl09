@@ -748,12 +748,12 @@
     "gpu_lease_seconds": 4800,
     "solver_problems": 340
   },
-  "budget_request_sha256": "813decaf30d07f2036efa9d408414f92e96456086c668224fec77f77cc0ebb27",
+  "budget_request_sha256": "04bd4b84735ba946ab8af5f18f17e75c4151537d387831d071f9cd4d4d07597d",
   "contract_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_EXECUTION_CONTRACT.json",
-  "contract_sha256": "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7",
+  "contract_sha256": "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
   "cpu_gate": {
-    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ROUTE_RECOVERY.json",
-    "sha256": "a19108840b9c492ab51a1029ed9f73f9f9dae6edae57baf12a8c44c29c46a3e2"
+    "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_RECOVERY.json",
+    "sha256": "a5735f050fa72a9dea4b507a39ab27bbd9843c5984e192fe00d8ab9ba7072e7e"
   },
   "jobs": {
     "p3-f2-a-beside-rpc": {
@@ -1127,11 +1127,11 @@
     "action_scenes": 2,
     "collection_attempts": 3,
     "completed_cells": 0,
-    "first_two": "READY_RETRY_AFTER_F2_ROUTE_FAILURE",
+    "first_two": "FAILED",
     "fresh_scenes": 2,
     "gpu_lease_seconds": 254,
-    "recovery_attempts_remaining": 2,
-    "recovery_attempts_used": 2,
+    "recovery_attempts_remaining": 3,
+    "recovery_attempts_used": 1,
     "solver_problems": 16,
     "target_cells": 24
   },
@@ -1165,28 +1165,13 @@
       "parent_contract_sha256": "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
       "physical_change": false,
       "reason": "budget request parent hash correction"
-    },
-    {
-      "actual_usage": {
-        "action_scenes": 1,
-        "collection_attempts": 1,
-        "fresh_scenes": 1,
-        "gpu_lease_seconds": 124,
-        "solver_problems": 8
-      },
-      "amendment_event_sha256": "5401139aaefd34b683ad1cdffaceccee4b3a62ce18a38b535377226ad50a2fd5",
-      "amendment_revision": 3,
-      "attempt": 2,
-      "physical_scene_captured": true,
-      "reason": "F2 beside target clearance did not change planner failure",
-      "source_receipt": "P3_FIRST_WAVE_RECEIPT_attempt2_f2_target_recovery_failure.json"
     }
   ],
   "running_by_job_id": {},
-  "schema_version": "cmf_f2_f3_v2_p3_state_v3",
-  "source_snapshot_manifest_sha256": "41ff5e9a74a31c8f39c22d2fec717985a0bc9f2a302bbae212e3634161952511",
-  "state_sha256": "42f91616235dab5a59f3dc1a32f864276ba9226fdedce9cfd53d0d7d7af1e37b",
-  "status": "READY_FIRST_TWO_RECOVERY",
-  "stop_reason": null,
+  "schema_version": "cmf_f2_f3_v2_p3_state_v2",
+  "source_snapshot_manifest_sha256": "f0ce808b754baf39855752543b1889ea79f0b95041059e8eb30eb735828f3a05",
+  "state_sha256": "f9a125c7a7845604dc233a189201978b3a6097dd49c7d58da102e9832dd61e75",
+  "status": "STOPPED_AFTER_FIRST_WAVE_FAILURE",
+  "stop_reason": "first-validation-job-failed-or-budget-overrun",
   "task_id": "f2_f3_observation_contract_repair_20260909_p3"
 }
