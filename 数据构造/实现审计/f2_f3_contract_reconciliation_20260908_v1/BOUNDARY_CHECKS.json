@@ -1,0 +1,244 @@
+{
+  "schema": "boundary_negative_tests_v1",
+  "synthetic_only": true,
+  "production_thresholds_changed": false,
+  "annulus_numbers": "synthetic fixture only; never used to reaccept real data",
+  "checks": {
+    "above_box_rejected": true,
+    "reference_top_not_beside": true,
+    "overlap_not_exclusive": true,
+    "missing_region_not_default_pass": true,
+    "synthetic_envelope_separates_supervision_audit": true,
+    "target_in_inputs_rejected": true
+  },
+  "examples": {
+    "above_box": {
+      "predicates": {
+        "inside": false,
+        "on": false,
+        "beside": false
+      },
+      "exclusive": false
+    },
+    "stand_top": {
+      "predicates": {
+        "inside": false,
+        "on": false,
+        "beside": false
+      },
+      "exclusive": false
+    },
+    "overlap": {
+      "predicates": {
+        "inside": true,
+        "on": true,
+        "beside": false
+      },
+      "exclusive": false
+    },
+    "missing_annulus": {
+      "predicates": {
+        "inside": false,
+        "on": false,
+        "beside": null
+      },
+      "exclusive": null
+    }
+  },
+  "real_data_partial_export": [
+    {
+      "cell": "F2-A/inside/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-A/inside/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-A/on/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-A/on/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-A/beside/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-A/beside/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/inside/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/inside/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/on/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/on/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/beside/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F2-B/beside/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VVHH/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VVHH/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VHVH/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VHVH/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VHHV/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-A/VHHV/r_inv_path",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VVHH/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VVHH/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VHVH/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VHVH/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VHHV/r_pc",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    },
+    {
+      "cell": "F3-B/VHHV/r_inv_motion",
+      "actual_state_76": true,
+      "actual_future_26": true,
+      "full_export_blocked": true,
+      "reason": "missing real rgb",
+      "target_in_inputs": false
+    }
+  ],
+  "real_complete_rgb_state_future_candidate_exports": 0,
+  "unit_tests_pass": true
+}

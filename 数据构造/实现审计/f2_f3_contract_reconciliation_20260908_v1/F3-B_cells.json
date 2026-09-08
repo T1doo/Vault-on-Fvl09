@@ -1,0 +1,3350 @@
+[
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VVHH/r_pc",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VVHH_r_pc/trace.npz",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VVHH_r_pc/cell_receipt.json"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VVHH_r_pc/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "7f4513b25db6eefb61ce7923cd7a2d78947a7a212d7cb9e03e53c8f96bca083f",
+        "future_shape": [
+          5570,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VVHH",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3049,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.0058484865547677395,
+          "bottle_negative_amplitude": 0.05062180757522583,
+          "bottle_orientation_drift": 0.04095633788232111,
+          "bottle_positive_amplitude": 0.045902907848358154,
+          "bottle_return_error": 0.004101642655138402,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.0094860296053764,
+          "eef_negative_amplitude": 0.04990208148956299,
+          "eef_positive_amplitude": 0.045996785163879395,
+          "eef_return_error": 0.0035020830140415427,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3576,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.006113074523839657,
+          "bottle_negative_amplitude": 0.045847371220588684,
+          "bottle_orientation_drift": 0.02267604904255167,
+          "bottle_positive_amplitude": 0.04540590941905975,
+          "bottle_return_error": 0.003208797060967018,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.006229846346251707,
+          "eef_negative_amplitude": 0.04527841508388519,
+          "eef_positive_amplitude": 0.04583302140235901,
+          "eef_return_error": 0.0032327823733266977,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3049,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 4114,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.00511801474483805,
+          "bottle_negative_amplitude": 0.04592388868331909,
+          "bottle_orientation_drift": 0.01809345817101448,
+          "bottle_positive_amplitude": 0.045313283801078796,
+          "bottle_return_error": 0.003223224777658326,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.005311506618830042,
+          "eef_negative_amplitude": 0.045332685112953186,
+          "eef_positive_amplitude": 0.045770347118377686,
+          "eef_return_error": 0.0032124613464619,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3576,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.0846859466479026,
+      "eef_to_row0_position_m": 0.3626882390582109,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.357113905653023,
+      "joint_qvel_final_max_abs": 0.0033374307677149773,
+      "object_return_orientation_rad": 0.002891481186037675,
+      "object_return_position_m": 0.001713427387670818,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5571,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09453761577606201,
+        -0.0592939592897892,
+        1.101377248764038,
+        0.743474731693504,
+        0.020971982679514042,
+        0.6680485633646548,
+        -0.022729194050450725,
+        0.30643314123153687,
+        -0.3128007650375366,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.5404325723648071,
+        2.4765338224597144e-08,
+        -2.7806035252098127e-10,
+        -2.7802263269371963e-10,
+        5.361868275810593e-18,
+        5.361868275810593e-18,
+        1.4708619595591293e-17,
+        1.4708619595591293e-17,
+        2.1827449798583984,
+        -3.522774022712838e-06,
+        -1.3968196981295478e-06,
+        -1.396820039190061e-06,
+        2.3571090698242188,
+        9.059492185770068e-06,
+        4.456975148059428e-06,
+        4.456982878764393e-06,
+        -1.6979047060012817,
+        2.154480860383501e-08,
+        8.58954685156732e-09,
+        8.582494714914901e-09,
+        0.09866578131914139,
+        7.683718550310914e-09,
+        5.271633352066374e-09,
+        5.269789937756286e-09,
+        1.1197810173034668,
+        3.6316503582156656e-08,
+        -1.2245295923085653e-12,
+        -1.333261842942357e-12,
+        0.04477004334330559,
+        0.04481077194213867,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011855141492560506,
+        -4.6300019107547996e-07,
+        3.3029747825708e-09,
+        3.301155793167254e-09,
+        9.882746985922199e-18,
+        9.882746985922199e-18,
+        5.31209367506695e-17,
+        5.31209367506695e-17,
+        0.0033374307677149773,
+        2.5063766315724934e-06,
+        2.1092387214594055e-06,
+        2.1092391762067564e-06,
+        0.0005958732217550278,
+        -6.062430657038931e-06,
+        -5.217243597144261e-06,
+        -5.217249963607173e-06,
+        -0.0008496271912008524,
+        5.97699383320105e-08,
+        -3.2004880523572865e-08,
+        -3.1975265102346384e-08,
+        0.0010704074520617723,
+        4.283568159735296e-06,
+        -1.1418691769904399e-08,
+        -1.143145489379549e-08,
+        -0.0008138041011989117,
+        -1.5960011978677358e-06,
+        3.287230765369742e-10,
+        3.287177752220316e-10,
+        9.823888831306249e-05,
+        0.00010383121843915433,
+        2.867800048989011e-06,
+        8.15863131720107e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.04477004334330559,
+        0.04481077194213867
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.823888831306249e-05,
+        0.00010383121843915433
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.867800048989011e-06,
+        8.15863131720107e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.1789480298757553,
+        -0.061352502554655075,
+        0.75,
+        0.7071064710617065,
+        0.7071055769920349,
+        -0.0010241440031677485,
+        -0.0010203700512647629
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VVHH_r_pc/trace.npz",
+    "trace_sha256_after": "cf4682ffb8eba8fcf2d7c1f011b334b29b506c878c33b93283a6d6cc3b3150dd",
+    "trace_sha256_before": "cf4682ffb8eba8fcf2d7c1f011b334b29b506c878c33b93283a6d6cc3b3150dd"
+  },
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VVHH/r_inv_motion",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/VVHH_r_inv_motion/cell_receipt.json",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/VVHH_r_inv_motion/trace.npz"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/VVHH_r_inv_motion/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "4207a254a45f8a9d614ddb3855c6c8611dac5c9d24c81a2787666a86b07b28d5",
+        "future_shape": [
+          5375,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VVHH",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3016,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.008828385912540898,
+          "bottle_negative_amplitude": 0.050728797912597656,
+          "bottle_orientation_drift": 0.03885671933766355,
+          "bottle_positive_amplitude": 0.04603618383407593,
+          "bottle_return_error": 0.003916326298840457,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.008829109424323313,
+          "eef_negative_amplitude": 0.04998612403869629,
+          "eef_positive_amplitude": 0.04611027240753174,
+          "eef_return_error": 0.003328329212971785,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3506,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003169150628878702,
+          "bottle_negative_amplitude": 0.04617589712142944,
+          "bottle_orientation_drift": 0.010849763449456635,
+          "bottle_positive_amplitude": 0.045707136392593384,
+          "bottle_return_error": 0.0030648554748300997,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.004972076525341213,
+          "eef_negative_amplitude": 0.04555034637451172,
+          "eef_positive_amplitude": 0.04606541991233826,
+          "eef_return_error": 0.0029995223062722147,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3016,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3988,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.0031438578309487993,
+          "bottle_negative_amplitude": 0.04621678590774536,
+          "bottle_orientation_drift": 0.010573139063734418,
+          "bottle_positive_amplitude": 0.04580371081829071,
+          "bottle_return_error": 0.0030615681854921813,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.004939006480565135,
+          "eef_negative_amplitude": 0.04557773470878601,
+          "eef_positive_amplitude": 0.04612010717391968,
+          "eef_return_error": 0.002981817825243627,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3506,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.0846432425041597,
+      "eef_to_row0_position_m": 0.36271203547846737,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.357459135755562,
+      "joint_qvel_final_max_abs": 0.0032572713680565357,
+      "object_return_orientation_rad": 0.004017739875487277,
+      "object_return_position_m": 0.0016302710491286454,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5376,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09453407675027847,
+        -0.05925556272268295,
+        1.101365566253662,
+        0.7434852127124197,
+        0.02089840244286286,
+        0.6680397334306837,
+        -0.02271364812542607,
+        0.30643314123153687,
+        -0.3128008246421814,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.5403913855552673,
+        2.4744011284383305e-08,
+        -2.7806099089922043e-10,
+        -2.780199404028849e-10,
+        5.362010137285646e-18,
+        5.362010137285646e-18,
+        1.4800664945433744e-17,
+        1.4800664945433744e-17,
+        2.1829841136932373,
+        -3.5223401937400922e-06,
+        -1.3968204939374118e-06,
+        -1.396820039190061e-06,
+        2.357454299926758,
+        9.061988748726435e-06,
+        4.456974693312077e-06,
+        4.456982878764393e-06,
+        -1.698068618774414,
+        2.1545291772895325e-08,
+        8.594151168495046e-09,
+        8.58243875967446e-09,
+        0.098729707300663,
+        7.679754610023792e-09,
+        5.271651115634768e-09,
+        5.269783720507348e-09,
+        1.1196998357772827,
+        3.6297642225235904e-08,
+        -1.1541804838255398e-12,
+        -1.331551405595044e-12,
+        0.04479540139436722,
+        0.0448249951004982,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011489290045574307,
+        -4.630937837646343e-07,
+        3.302918827330359e-09,
+        3.3010802980015796e-09,
+        9.887601708937272e-18,
+        9.887601708937272e-18,
+        -1.2905706658638065e-17,
+        -1.2905706658638065e-17,
+        0.0032572713680565357,
+        2.5246063160011545e-06,
+        2.109234401359572e-06,
+        2.109238948833081e-06,
+        0.0005349420243874192,
+        -6.055517587810755e-06,
+        -5.2172335927025415e-06,
+        -5.217249054112472e-06,
+        -0.0008793129818513989,
+        5.879604714209563e-08,
+        -3.244129587187672e-08,
+        -3.2004521699491306e-08,
+        0.0010779853910207748,
+        4.283130238036392e-06,
+        -1.1418743284252741e-08,
+        -1.1415066225595183e-08,
+        -0.000833580270409584,
+        -1.596201173015288e-06,
+        3.296533324093076e-10,
+        3.2871996791250524e-10,
+        9.641132783144712e-05,
+        8.631367381894961e-05,
+        2.8677968657575548e-06,
+        8.159163371601608e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.04479540139436722,
+        0.0448249951004982
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.641132783144712e-05,
+        8.631367381894961e-05
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.8677968657575548e-06,
+        8.159163371601608e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.17906348407268524,
+        -0.06133446469902992,
+        0.7500000596046448,
+        0.7071041464805603,
+        0.7071066498756409,
+        -0.0014202086022123694,
+        -0.0014206969644874334
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/VVHH_r_inv_motion/trace.npz",
+    "trace_sha256_after": "5b8425684ae373eb4c000da217d2cb38c4fcc6c3533da08e8c932df0bb90a308",
+    "trace_sha256_before": "5b8425684ae373eb4c000da217d2cb38c4fcc6c3533da08e8c932df0bb90a308"
+  },
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VHVH/r_pc",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VHVH_r_pc/trace.npz",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VHVH_r_pc/cell_receipt.json"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VHVH_r_pc/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "fc6a09d04fb8e2023fdd96eb8c9c7b8c6477306b5fde6e106767498ce6e53f9f",
+        "future_shape": [
+          5270,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VHVH",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 2806,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.0032040097778243213,
+          "bottle_negative_amplitude": 0.046096429228782654,
+          "bottle_orientation_drift": 0.010511710298789561,
+          "bottle_positive_amplitude": 0.045834481716156006,
+          "bottle_return_error": 0.0031227204798652862,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.00489811730556094,
+          "eef_negative_amplitude": 0.04544009268283844,
+          "eef_positive_amplitude": 0.04606811702251434,
+          "eef_return_error": 0.003060704040750506,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3431,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.008233494222950897,
+          "bottle_negative_amplitude": 0.0505521297454834,
+          "bottle_orientation_drift": 0.03720707365008937,
+          "bottle_positive_amplitude": 0.0460505485534668,
+          "bottle_return_error": 0.004086925457281275,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.008740705782507192,
+          "eef_negative_amplitude": 0.049849748611450195,
+          "eef_positive_amplitude": 0.0461268424987793,
+          "eef_return_error": 0.0034335687375911055,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2806,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3879,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003301744894722217,
+          "bottle_negative_amplitude": 0.04618346691131592,
+          "bottle_orientation_drift": 0.010927106739736969,
+          "bottle_positive_amplitude": 0.04578469693660736,
+          "bottle_return_error": 0.0030640004828128083,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.004959942265745133,
+          "eef_negative_amplitude": 0.045505642890930176,
+          "eef_positive_amplitude": 0.046009644865989685,
+          "eef_return_error": 0.0030296930399219928,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3431,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.0846915304146223,
+      "eef_to_row0_position_m": 0.36271322232848674,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.357346602186226,
+      "joint_qvel_final_max_abs": 0.0032306304201483727,
+      "object_return_orientation_rad": 0.0028249776075725498,
+      "object_return_position_m": 0.0015503172562578722,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5271,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09450115263462067,
+        -0.059288766235113144,
+        1.1013792753219604,
+        0.7434739359518342,
+        0.0209939749819068,
+        0.6680486698580135,
+        -0.022731789979813014,
+        0.30643314123153687,
+        -0.3128007650375366,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.5405058860778809,
+        2.4734655212910184e-08,
+        -2.780606300767374e-10,
+        -2.7802263269371963e-10,
+        5.362020890633609e-18,
+        5.362020890633609e-18,
+        1.5062356767104695e-17,
+        1.5062356767104695e-17,
+        2.1828808784484863,
+        -3.5219165965827415e-06,
+        -1.3968204939374118e-06,
+        -1.396820039190061e-06,
+        2.357341766357422,
+        9.059589501703158e-06,
+        4.456974693312077e-06,
+        4.456982878764393e-06,
+        -1.697972297668457,
+        2.146815525350121e-08,
+        8.595787193144133e-09,
+        8.582494714914901e-09,
+        0.0986507385969162,
+        7.65135865776756e-09,
+        5.271659997418965e-09,
+        5.269789937756286e-09,
+        1.119744062423706,
+        3.63120555846308e-08,
+        -1.2457943747781752e-12,
+        -1.3331773835931204e-12,
+        0.044784702360630035,
+        0.04481815919280052,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011339490301907063,
+        -4.63015908280795e-07,
+        3.302936590898753e-09,
+        3.301155793167254e-09,
+        9.887582683783184e-18,
+        9.887582683783184e-18,
+        7.098742917688406e-17,
+        7.098742917688406e-17,
+        0.0032306304201483727,
+        2.5094452666962752e-06,
+        2.109236902470002e-06,
+        2.1092391762067564e-06,
+        0.0004659739788621664,
+        -6.066004971216898e-06,
+        -5.21723814017605e-06,
+        -5.217249963607173e-06,
+        -0.000866205315105617,
+        5.9485429915184795e-08,
+        -3.1823617518966785e-08,
+        -3.1975265102346384e-08,
+        0.0010605877032503486,
+        4.283807811589213e-06,
+        -1.1416915413064999e-08,
+        -1.143145489379549e-08,
+        -0.0008142681908793747,
+        -1.5958401036186842e-06,
+        3.304276574578324e-10,
+        3.287177752220316e-10,
+        9.813009819481522e-05,
+        8.935241203289479e-05,
+        2.86780459646252e-06,
+        8.158749551512301e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044784702360630035,
+        0.04481815919280052
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.813009819481522e-05,
+        8.935241203289479e-05
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.86780459646252e-06,
+        8.158749551512301e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.17905868589878082,
+        -0.061231859028339386,
+        0.7500001192092896,
+        0.707105278968811,
+        0.7071069478988647,
+        -0.0010001378832384944,
+        -0.0009973556734621525
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788853620/VHVH_r_pc/trace.npz",
+    "trace_sha256_after": "1d3c1aa1f9b8589be256dbc73ee1a3c9bcaacc96c9e9e74f9b225305e31b6240",
+    "trace_sha256_before": "1d3c1aa1f9b8589be256dbc73ee1a3c9bcaacc96c9e9e74f9b225305e31b6240"
+  },
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VHVH/r_inv_motion",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHVH_r_inv_motion/cell_receipt.json",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHVH_r_inv_motion/trace.npz"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHVH_r_inv_motion/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "d465ff0c1a39e7890e4a5b44070e46ebc6cd17cb0329ac8e2aa28cca13ea0d03",
+        "future_shape": [
+          5383,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VHVH",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 2845,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003292404856744845,
+          "bottle_negative_amplitude": 0.046096429228782654,
+          "bottle_orientation_drift": 0.010795342993695832,
+          "bottle_positive_amplitude": 0.04563310742378235,
+          "bottle_return_error": 0.003077697080938175,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.0049434566462361615,
+          "eef_negative_amplitude": 0.04548563063144684,
+          "eef_positive_amplitude": 0.04601529240608215,
+          "eef_return_error": 0.002971723777616715,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3504,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.008642800338494726,
+          "bottle_negative_amplitude": 0.05067628622055054,
+          "bottle_orientation_drift": 0.037630704271336246,
+          "bottle_positive_amplitude": 0.04606431722640991,
+          "bottle_return_error": 0.0039018503436663325,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.008768240856168317,
+          "eef_negative_amplitude": 0.049959778785705566,
+          "eef_positive_amplitude": 0.04614126682281494,
+          "eef_return_error": 0.0033042181336271534,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2845,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3990,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003241448673615053,
+          "bottle_negative_amplitude": 0.046191319823265076,
+          "bottle_orientation_drift": 0.01072619110822677,
+          "bottle_positive_amplitude": 0.04568052291870117,
+          "bottle_return_error": 0.0030473334923932817,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.004968086247456152,
+          "eef_negative_amplitude": 0.04556497931480408,
+          "eef_positive_amplitude": 0.04600602388381958,
+          "eef_return_error": 0.002992072434696897,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3504,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.084669626862093,
+      "eef_to_row0_position_m": 0.3626969223047402,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.357200928434395,
+      "joint_qvel_final_max_abs": 0.003262357087805867,
+      "object_return_orientation_rad": 0.002586482232545542,
+      "object_return_position_m": 0.0016980784008726684,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5384,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09453390538692474,
+        -0.05927790701389313,
+        1.101366639137268,
+        0.7434813395212242,
+        0.02095428189820586,
+        0.6680418801963626,
+        -0.02272580378261127,
+        0.30643314123153687,
+        -0.3128008246421814,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.5404196977615356,
+        2.474914495564917e-08,
+        -2.780610741659473e-10,
+        -2.7802085633688023e-10,
+        5.362088719443839e-18,
+        5.362088719443839e-18,
+        1.4482911784927624e-17,
+        1.4482911784927624e-17,
+        2.1828253269195557,
+        -3.5223777103965404e-06,
+        -1.3968202665637364e-06,
+        -1.396820039190061e-06,
+        2.357196092605591,
+        9.062214303412475e-06,
+        4.456974693312077e-06,
+        4.456982424017042e-06,
+        -1.6979200839996338,
+        2.1550738082964926e-08,
+        8.593518785460219e-09,
+        8.58181614660225e-09,
+        0.0986928939819336,
+        7.67209229479704e-09,
+        5.27164578656425e-09,
+        5.269710001698513e-09,
+        1.1197649240493774,
+        3.630159639556041e-08,
+        -1.1783429050213345e-12,
+        -1.3319475730688701e-12,
+        0.04478456452488899,
+        0.04481850937008858,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011427627177909017,
+        -4.631037882063538e-07,
+        3.302969453500282e-09,
+        3.3009799338401535e-09,
+        9.88745529796885e-18,
+        9.88745529796885e-18,
+        3.9974032497217096e-17,
+        3.9974032497217096e-17,
+        0.003262357087805867,
+        2.524964656913653e-06,
+        2.1092403130751336e-06,
+        2.109222577928449e-06,
+        0.00048331229481846094,
+        -6.05261175223859e-06,
+        -5.217247235123068e-06,
+        -5.217675607127603e-06,
+        -0.0008675631252117455,
+        5.669484437476058e-08,
+        -3.200285547677595e-08,
+        -3.2032485108857145e-08,
+        0.0010659731924533844,
+        4.283003818272846e-06,
+        -1.1418729073398026e-08,
+        -1.1431361635061421e-08,
+        -0.0008202830795198679,
+        -1.5962659745127894e-06,
+        3.3042857339182774e-10,
+        3.296520556528293e-10,
+        9.76000155787915e-05,
+        9.17785000638105e-05,
+        2.8678018679784145e-06,
+        8.159149729181081e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.04478456452488899,
+        0.04481850937008858
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.76000155787915e-05,
+        9.17785000638105e-05
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.8678018679784145e-06,
+        8.159149729181081e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.1791227012872696,
+        -0.061453927308321,
+        0.7500000596046448,
+        0.707107424736023,
+        0.7071050405502319,
+        -0.0009156244341284037,
+        -0.0009132216218858957
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHVH_r_inv_motion/trace.npz",
+    "trace_sha256_after": "a7e44775b5d9dcbaf2797b76541e4403edd5ea8ff4b0dd30e9b1e21aad73c268",
+    "trace_sha256_before": "a7e44775b5d9dcbaf2797b76541e4403edd5ea8ff4b0dd30e9b1e21aad73c268"
+  },
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VHHV/r_pc",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_pc/trace.npz",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_pc/cell_receipt.json"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_pc/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "44cb7d43dfa7e8d1e9bd9a95c02df03675af46d1802971ac198ec7ec466c83c1",
+        "future_shape": [
+          5264,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VHHV",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 2806,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.0032040097778243213,
+          "bottle_negative_amplitude": 0.046096429228782654,
+          "bottle_orientation_drift": 0.010511710298789561,
+          "bottle_positive_amplitude": 0.045834481716156006,
+          "bottle_return_error": 0.0031227204798652862,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.00489811730556094,
+          "eef_negative_amplitude": 0.04544009268283844,
+          "eef_positive_amplitude": 0.04606811702251434,
+          "eef_return_error": 0.003060704040750506,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3253,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.0033483165529274643,
+          "bottle_negative_amplitude": 0.046087101101875305,
+          "bottle_orientation_drift": 0.011409471659835737,
+          "bottle_positive_amplitude": 0.04583103954792023,
+          "bottle_return_error": 0.0031328409528568737,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.005224488560927347,
+          "eef_negative_amplitude": 0.04542002081871033,
+          "eef_positive_amplitude": 0.046067431569099426,
+          "eef_return_error": 0.0030521775127162515,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2806,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3876,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.008593473942272055,
+          "bottle_negative_amplitude": 0.05055510997772217,
+          "bottle_orientation_drift": 0.03646772230711303,
+          "bottle_positive_amplitude": 0.04607498645782471,
+          "bottle_return_error": 0.0040429434409663305,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.008711856052393859,
+          "eef_negative_amplitude": 0.04989218711853027,
+          "eef_positive_amplitude": 0.0461421012878418,
+          "eef_return_error": 0.003419876791703212,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3253,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.0846803188282146,
+      "eef_to_row0_position_m": 0.3627393508308381,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.3577731330242386,
+      "joint_qvel_final_max_abs": 0.00324539327993989,
+      "object_return_orientation_rad": 0.0026124577088551815,
+      "object_return_position_m": 0.00159236736399722,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5265,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09452616423368454,
+        -0.05922482907772064,
+        1.1013685464859009,
+        0.743480352883018,
+        0.020965457524111837,
+        0.6680424405759108,
+        -0.022731301263420135,
+        0.30643314123153687,
+        -0.3128008246421814,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.540375828742981,
+        2.4732273118388548e-08,
+        -2.7806010272080073e-10,
+        -2.7801982938058245e-10,
+        5.361952234642767e-18,
+        5.361952234642767e-18,
+        1.440049150869284e-17,
+        1.440049150869284e-17,
+        2.183166027069092,
+        -3.521867711242521e-06,
+        -1.39681958444271e-06,
+        -1.396820039190061e-06,
+        2.3577682971954346,
+        9.060086085810326e-06,
+        4.456974693312077e-06,
+        4.456982878764393e-06,
+        -1.6981509923934937,
+        2.1462748023282074e-08,
+        8.588338928916528e-09,
+        8.58249649127174e-09,
+        0.09869324415922165,
+        7.65245555811589e-09,
+        5.271635572512423e-09,
+        5.269700675825106e-09,
+        1.1198370456695557,
+        3.6310588313881453e-08,
+        -1.2451528523527156e-12,
+        -1.334593134789952e-12,
+        0.044787682592868805,
+        0.04482150077819824,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011372922454029322,
+        -4.631650085684669e-07,
+        3.30294547268295e-09,
+        3.301070528038963e-09,
+        9.887713378319967e-18,
+        9.887713378319967e-18,
+        3.1393446466465675e-17,
+        3.1393446466465675e-17,
+        0.00324539327993989,
+        2.52654308496858e-06,
+        2.1092362203489756e-06,
+        2.1092391762067564e-06,
+        0.0004854961298406124,
+        -6.078463229641784e-06,
+        -5.217239049670752e-06,
+        -5.217249963607173e-06,
+        -0.0008696301956661046,
+        5.992720986114364e-08,
+        -3.209194332498555e-08,
+        -3.1975265102346384e-08,
+        0.0010648441966623068,
+        4.283167527319165e-06,
+        -1.1416947387488108e-08,
+        -1.1429623469894068e-08,
+        -0.0008199585136026144,
+        -1.5959759593897616e-06,
+        3.296542205877273e-10,
+        3.288728178674205e-10,
+        9.761513501871377e-05,
+        8.76677077030763e-05,
+        2.86778413283173e-06,
+        8.159227036230732e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044787682592868805,
+        0.04482150077819824
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.761513501871377e-05,
+        8.76677077030763e-05
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.86778413283173e-06,
+        8.159227036230732e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.17912557721138,
+        -0.061330825090408325,
+        0.7499998807907104,
+        0.707106351852417,
+        0.7071061134338379,
+        -0.0009254705510102212,
+        -0.0009217449114657938
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_pc/trace.npz",
+    "trace_sha256_after": "95f512a2142c8380ea2a4060b5a291871fd758c8f67a98f2c39699920953d339",
+    "trace_sha256_before": "95f512a2142c8380ea2a4060b5a291871fd758c8f67a98f2c39699920953d339"
+  },
+  {
+    "actual_prefix": {
+      "component_mask": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "effective_setpoint": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "left_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "requested_command": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      },
+      "right_gripper_joint_drive_velocity_target": {
+        "actual_rows_1_onward_equal": true,
+        "different_rows": [],
+        "exact_bytes_including_row0": true,
+        "max_abs_difference": 0.0
+      }
+    },
+    "cell": "F3-B/VHHV/r_inv_motion",
+    "cell_files": [
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_inv_motion/trace.npz",
+      "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_inv_motion/cell_receipt.json"
+    ],
+    "classification": {
+      "current_anchor": "EVIDENCE_MISSING_PARTIAL_ROW0_MEASURED",
+      "prefix": "CPU_CONFIRMED",
+      "rest": "EVIDENCE_MISSING_FIXED_REST_BINDING; MEASURED_TERMINAL_DIFFERS_FROM_ROW0",
+      "shared_V": "CPU_CONFIRMED"
+    },
+    "export_check": {
+      "H_view_exported": false,
+      "audit": {
+        "model_input": false,
+        "source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_inv_motion/trace.npz"
+      },
+      "candidate_set": "program names in receipt; no verified current-grounded referring-expression bundle",
+      "full_model_payload_emitted": false,
+      "inputs_available": {
+        "future_excludes_initial_row": true,
+        "future_sha256": "d01372f73baf85b1552e2a60fe2792cfe70f9fa7b9e6d0555422048cc6e5d597",
+        "future_shape": [
+          5387,
+          26
+        ],
+        "state_sha256": "03041a596547967ad36beaa95b543095e322f251f092c5c4913046342d5509c5",
+        "state_shape": [
+          76
+        ],
+        "time_250hz": true
+      },
+      "rgb": "MISSING_ORIGINAL",
+      "status": "PARTIAL_REAL_ARRAY_LINKAGE_ONLY",
+      "supervision": {
+        "historical_program_label": "VHHV",
+        "model_input": false
+      },
+      "training_run": false
+    },
+    "f3_events": [
+      {
+        "boundary_source": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+        "end_row": 2356,
+        "label": "shared_V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.005707397615527749,
+          "bottle_negative_amplitude": 0.0507122278213501,
+          "bottle_orientation_drift": 0.04032284302606523,
+          "bottle_positive_amplitude": 0.045851290225982666,
+          "bottle_return_error": 0.004067717841747751,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.009685050663116783,
+          "eef_negative_amplitude": 0.04992246627807617,
+          "eef_positive_amplitude": 0.0459744930267334,
+          "eef_return_error": 0.003491888123413963,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 1644,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 2845,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003292404856744845,
+          "bottle_negative_amplitude": 0.046096429228782654,
+          "bottle_orientation_drift": 0.010795342993695832,
+          "bottle_positive_amplitude": 0.04563310742378235,
+          "bottle_return_error": 0.003077697080938175,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.0049434566462361615,
+          "eef_negative_amplitude": 0.04548563063144684,
+          "eef_positive_amplitude": 0.04601529240608215,
+          "eef_return_error": 0.002971723777616715,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2356,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3337,
+        "label": "H",
+        "metrics": {
+          "axis": "H",
+          "bottle_max_off_axis": 0.003180903146695282,
+          "bottle_negative_amplitude": 0.04617011547088623,
+          "bottle_orientation_drift": 0.010780982565719441,
+          "bottle_positive_amplitude": 0.04575030505657196,
+          "bottle_return_error": 0.003082354715263895,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.004984361714484456,
+          "eef_negative_amplitude": 0.04554706811904907,
+          "eef_positive_amplitude": 0.046089813113212585,
+          "eef_return_error": 0.00297043633568485,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 2845,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      },
+      {
+        "end_row": 3997,
+        "label": "V",
+        "metrics": {
+          "axis": "V",
+          "bottle_max_off_axis": 0.008165109687033099,
+          "bottle_negative_amplitude": 0.0505678653717041,
+          "bottle_orientation_drift": 0.03498375579239338,
+          "bottle_positive_amplitude": 0.046092212200164795,
+          "bottle_return_error": 0.003855461706224565,
+          "contact_break_count": 0,
+          "eef_max_off_axis": 0.008507734827224988,
+          "eef_negative_amplitude": 0.04989218711853027,
+          "eef_positive_amplitude": 0.0461573600769043,
+          "eef_return_error": 0.0032914536763125786,
+          "selected_gripper_contact_fraction": 1.0
+        },
+        "start_row": 3337,
+        "verifier": {
+          "event_checks": {
+            "measured": {
+              "bottle_negative_amplitude": true,
+              "bottle_off_axis": true,
+              "bottle_orientation": true,
+              "bottle_positive_amplitude": true,
+              "bottle_return": true,
+              "contact_breaks": true,
+              "eef_negative_amplitude": true,
+              "eef_off_axis": true,
+              "eef_positive_amplitude": true,
+              "eef_return": true,
+              "selected_gripper_contact": true
+            }
+          },
+          "pass": true
+        }
+      }
+    ],
+    "f3_terminal": {
+      "eef_speed_window_max": 0.0,
+      "eef_to_row0_orientation_rad": 2.0847026881561095,
+      "eef_to_row0_position_m": 0.3627463801037373,
+      "gripper_open_fraction": 1.0,
+      "joint_qpos_to_row0_max_abs": 2.357757397398018,
+      "joint_qvel_final_max_abs": 0.003218719968572259,
+      "object_return_orientation_rad": 0.004205024670331762,
+      "object_return_position_m": 0.001529997984388837,
+      "object_speed_window_max": 0.0,
+      "rest_binding": "MISSING_PREDECLARED_NUMERIC_REST; row0 is diagnostic reference, not newly defined rest",
+      "support_window_fraction": 1.0
+    },
+    "full_anchor_missing": [
+      "original current head/wrist RGB bundle",
+      "camera capture identity/hash",
+      "full native snapshot including sleep/contact/solver history",
+      "all unregistered scene objects"
+    ],
+    "original_rgb_npz_keys": [],
+    "prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/prefix_artifact.npz",
+    "prefix_step_count_excluding_initial": 2356,
+    "row0": {
+      "dual_eef_pose": [
+        -0.2979237139225006,
+        -0.31380388140678406,
+        0.9419986009597778,
+        0.7000007075698662,
+        -7.093281273444641e-06,
+        -3.793835849252858e-06,
+        0.7141421492510989,
+        0.30643314123153687,
+        -0.31279975175857544,
+        0.940998375415802,
+        0.7035625829175199,
+        -7.077809104139021e-06,
+        -3.793729455803252e-06,
+        0.7106333033667506
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -9.633261372242325e-17,
+        -9.633261372242325e-17,
+        1.0562962993437147e-13,
+        1.0562962993437147e-13,
+        -3.016615224282759e-08,
+        -3.258066882949606e-08,
+        -3.2333404842432856e-09,
+        -3.23495652487793e-09,
+        5.267530808490758e-18,
+        5.267530808490758e-18,
+        1.3821598255984342e-17,
+        1.3821598255984342e-17,
+        -5.666987590302597e-07,
+        -5.65274206110189e-07,
+        -4.906024386741592e-08,
+        -4.9084423636713836e-08,
+        -4.835828804061748e-06,
+        -4.838918357563671e-06,
+        -8.459834134555422e-06,
+        -8.459778655378614e-06,
+        7.701128623693876e-08,
+        7.693390813301448e-08,
+        -1.6475175002028664e-08,
+        -1.6467639696315928e-08,
+        4.63164752773082e-07,
+        4.6469963876916154e-07,
+        3.108373114457663e-09,
+        3.108284518660298e-09,
+        -8.158995683515968e-07,
+        -8.163781899384048e-07,
+        1.5176220002910412e-10,
+        1.5164668132339187e-10,
+        0.044236842542886734,
+        0.044238295406103134,
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        2.65039443547721e-06,
+        2.6605034690874163e-06,
+        1.1912234754163364e-08,
+        1.1914225162001912e-08,
+        1.009913743416607e-17,
+        1.009913743416607e-17,
+        2.4969588299158464e-18,
+        2.4969588299158464e-18,
+        -1.0050378477899358e-05,
+        -1.006854472507257e-05,
+        -6.772773303964641e-06,
+        -6.772727829229552e-06,
+        2.4748725991230458e-05,
+        2.4771599782980047e-05,
+        1.7557747924001887e-05,
+        1.7557653336552903e-05,
+        -4.255349267623387e-06,
+        -4.258563421899453e-06,
+        1.1740962690964807e-07,
+        1.1751868100873253e-07,
+        -1.595680987520609e-05,
+        -1.595234061824158e-05,
+        4.247943152790867e-08,
+        4.249358909191869e-08,
+        7.239235128508881e-05,
+        7.239227852551267e-05,
+        -1.2575751551224812e-09,
+        -1.2393224224638288e-09,
+        0.0010128479916602373,
+        0.0010222408454865217,
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044236842542886734,
+        0.044238295406103134
+      ],
+      "realized_left_gripper_joint_qvel": [
+        0.0010128479916602373,
+        0.0010222408454865217
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.04423683509230614,
+        0.044238295406103134
+      ],
+      "realized_right_gripper_joint_qvel": [
+        0.001012902706861496,
+        0.001022240030579269
+      ],
+      "role_object_pose__bottle": [
+        -0.18000002205371857,
+        -0.060000043362379074,
+        0.7500000596046448,
+        0.7071055769920349,
+        0.7071080803871155,
+        2.905289875343442e-07,
+        -2.2671974875265732e-07
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "sample_count": 5388,
+    "saved_non_task_max_displacement_m": {
+      "role_object_pose__central_marker": 0.0,
+      "role_object_pose__original_pad": 0.0
+    },
+    "stored_row0_signature": "b983f886ca21bcc4931735572a73ff97285426d46f4a5ebd1b121bfb128d8987",
+    "terminal": {
+      "dual_eef_pose": [
+        -0.09448713809251785,
+        -0.05924965441226959,
+        1.1013743877410889,
+        0.743479567532005,
+        0.021000444522701344,
+        0.6680417815464693,
+        -0.02274405637724505,
+        0.30643314123153687,
+        -0.3128008246421814,
+        0.9410033822059631,
+        0.7035624631057019,
+        -9.483101031798613e-07,
+        -9.515775096780033e-06,
+        0.7106334219674648
+      ],
+      "gripper_command": [
+        1.0,
+        1.0
+      ],
+      "joint_qpos": [
+        0.0,
+        0.0,
+        -1.391011799661997e-16,
+        -1.391011799661997e-16,
+        1.5064665281287054e-13,
+        1.5064665281287054e-13,
+        -0.540489137172699,
+        2.474891047654637e-08,
+        -2.780607410990399e-10,
+        -2.780199404028849e-10,
+        5.362125115390791e-18,
+        5.362125115390791e-18,
+        1.4954833213640152e-17,
+        1.4954833213640152e-17,
+        2.1831419467926025,
+        -3.5224429666413926e-06,
+        -1.3968201528768986e-06,
+        -1.396820039190061e-06,
+        2.357752561569214,
+        9.062553544936236e-06,
+        4.456975602806779e-06,
+        4.456982878764393e-06,
+        -1.6981240510940552,
+        2.1459715782157218e-08,
+        8.59159143828947e-09,
+        8.58243875967446e-09,
+        0.09867441654205322,
+        7.674881175034898e-09,
+        5.271642677939781e-09,
+        5.269783720507348e-09,
+        1.1197901964187622,
+        3.6295659811003134e-08,
+        -1.1840497115764292e-12,
+        -1.3313513702942203e-12,
+        0.044784463942050934,
+        0.04481849819421768,
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "joint_qvel": [
+        0.0,
+        0.0,
+        -1.1100831318399616e-16,
+        -1.1100831318399616e-16,
+        1.1357580186662636e-13,
+        1.1357580186662636e-13,
+        -0.0011208788491785526,
+        -4.6311555479405797e-07,
+        3.3029090573677422e-09,
+        3.3010802980015796e-09,
+        9.887385814797396e-18,
+        9.887385814797396e-18,
+        6.636164990303031e-17,
+        6.636164990303031e-17,
+        0.003218719968572259,
+        2.525311856516055e-06,
+        2.1092337192385457e-06,
+        2.109238948833081e-06,
+        0.0004148537991568446,
+        -6.053460765542695e-06,
+        -5.217230864218436e-06,
+        -5.217249054112472e-06,
+        -0.0008666053763590753,
+        5.622284504624986e-08,
+        -3.244057467099992e-08,
+        -3.2004521699491306e-08,
+        0.0010541011579334736,
+        4.283226189727429e-06,
+        -1.1418754830572198e-08,
+        -1.1415066225595183e-08,
+        -0.0008078778628259897,
+        -1.5961486496962607e-06,
+        3.287190519785099e-10,
+        3.2871996791250524e-10,
+        9.866806794889271e-05,
+        8.654919656692073e-05,
+        2.8677809496002737e-06,
+        8.15919520391617e-07
+      ],
+      "realized_left_gripper_joint_qpos": [
+        0.044784463942050934,
+        0.04481849819421768
+      ],
+      "realized_left_gripper_joint_qvel": [
+        9.866806794889271e-05,
+        8.654919656692073e-05
+      ],
+      "realized_right_gripper_joint_qpos": [
+        0.044993139803409576,
+        0.044993069022893906
+      ],
+      "realized_right_gripper_joint_qvel": [
+        2.8677809496002737e-06,
+        8.15919520391617e-07
+      ],
+      "role_object_pose__bottle": [
+        -0.1790957748889923,
+        -0.061234235763549805,
+        0.7499999403953552,
+        0.7071073055267334,
+        0.7071031928062439,
+        -0.0014863782562315464,
+        -0.0014869499718770385
+      ],
+      "role_object_pose__central_marker": [
+        0.0,
+        -0.05000000074505806,
+        0.949999988079071,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "role_object_pose__original_pad": [
+        -0.18000000715255737,
+        -0.05999999865889549,
+        0.7450000047683716,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788854617/VHHV_r_inv_motion/trace.npz",
+    "trace_sha256_after": "aa58514e34786461831be49963ce797b8809c758da4867678461dd81da91d6d8",
+    "trace_sha256_before": "aa58514e34786461831be49963ce797b8809c758da4867678461dd81da91d6d8"
+  }
+]
