@@ -50,9 +50,10 @@ def _process_tree(pid: int) -> list[str]:
 
 def _actual_usage(job: dict[str, Any], output: Path, lease_seconds: int) -> dict[str, int]:
     cell_receipt = None
-    for path in output.rglob("cell_receipt.json"):
-        cell_receipt = json.loads(path.read_text(encoding="utf-8"))
-        break
+    if output.exists():
+        for path in output.rglob("cell_receipt.json"):
+            cell_receipt = json.loads(path.read_text(encoding="utf-8"))
+            break
     launched = True
     captured = bool(cell_receipt and cell_receipt.get("t0_capture"))
     return {
@@ -65,23 +66,29 @@ def _actual_usage(job: dict[str, Any], output: Path, lease_seconds: int) -> dict
 
 
 def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV2, state: dict[str, Any]) -> dict[str, Any]:
-    job_id = str(job["job_id"]); output = DATA / job_id
-    if output.exists():
-        if any(output.iterdir()):
-            raise RuntimeError(f"job output already exists and is non-empty: {output}")
+    job_id = str(job["job_id"])
+    base_output = DATA / job_id
+    prior_outputs = sorted(DATA.glob(f"{job_id}.retry*"))
+    if base_output.exists() and any(base_output.iterdir()):
+        output = DATA / f"{job_id}.retry{len(prior_outputs) + 1}"
+        attempt = len(prior_outputs) + 1
     else:
-        output.mkdir(parents=True)
+        output = base_output
+        attempt = 0
+    if output.exists() and any(output.iterdir()):
+        raise RuntimeError(f"job attempt output already exists and is non-empty: {output}")
     physical_index = int(card.get("physical_index", card.get("physical_gpu_index")))
     gpu_uuid = str(card.get("gpu_uuid"))
     reservation = {key: int(value) for key, value in job["reservation"].items()}
-    ledger.reserve(job_id, reservation, idempotency_key=f"reserve:{job_id}")
+    ledger.reserve(job_id, reservation, idempotency_key=f"reserve:{job_id}:attempt:{attempt}")
     pre = live_snapshot()
     guarded = guard_card(pre, physical_index, expected_uuid=gpu_uuid)
     command = [str(PYTHON), "-m", "controlled_multi_future.redesign_f2_f3_v2.collector_v2", "--output", str(output), "--root-id", str(job["root_id"]), "--cell-keys", str(job["cell_key"])]
     environment = child_environment(gpu_uuid)
     environment.update({"PYTHONPATH": str(PROJECT), "ROBOTWIN_ROOT": str(PROJECT), "ROBOTWIN_WORKSPACE": str(ROOT / "Robotwin2"), "CMF_GPU_GUARD_PHYSICAL_INDEX": str(physical_index), "CMF_BOUND_GPU_UUID": gpu_uuid})
     started = time.monotonic()
-    process = subprocess.Popen(command, cwd=PROJECT, env=environment, start_new_session=True, stdout=(output / "worker.stdout.log").open("w", encoding="utf-8"), stderr=subprocess.STDOUT, text=True)
+    log_dir = BASE / "worker_logs"; log_dir.mkdir(parents=True, exist_ok=True); log_path = log_dir / f"{job_id}.attempt{attempt}.stdout.log"
+    process = subprocess.Popen(command, cwd=PROJECT, env=environment, start_new_session=True, stdout=log_path.open("w", encoding="utf-8"), stderr=subprocess.STDOUT, text=True)
     pid = int(process.pid); pgid = os.getpgid(pid)
     state["running_by_job_id"][job_id] = {"pid": pid, "pgid": pgid, "root_id": job["root_id"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "started_monotonic": started}
     state["jobs"][job_id] = {"status": "RUNNING", "pid": pid, "pgid": pgid, "root_id": job["root_id"], "cell_key": job["cell_key"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "reservation": reservation, "pre_snapshot": pre, "guarded_card": guarded, "command": command, "process_tree_start": _process_tree(pid)}
@@ -117,10 +124,11 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
         idle_observed = False
     actual = _actual_usage(job, output, lease_seconds)
     overrun = any(actual[key] > reservation[key] for key in reservation)
-    event = ledger.settle(job_id, reservation, actual, idempotency_key=f"settle:{job_id}")
-    receipt = {"schema_version": "cmf_f2_f3_v2_p3_job_receipt_v1", "job_id": job_id, "root_id": job["root_id"], "cell_key": job["cell_key"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "allowed_physical_gpu_indices": list(range(8)), "command": command, "pid": pid, "pgid": pgid, "return_code": process_return, "timeout": timed_out, "pre_snapshot": pre, "guarded_card": guarded, "post_snapshot": post, "process_tree_start": state["jobs"][job_id]["process_tree_start"], "process_tree_after": tree_after, "owned_cleanup_pass": owned_cleanup, "device_idle_observed": idle_observed, "actual_usage": actual, "reservation": reservation, "budget_event_sha256": event["event_sha256"], "status": "PASS" if process_return == 0 and owned_cleanup and not overrun else "FAILED", "output": str(output)}
+    event = ledger.settle(job_id, reservation, actual, idempotency_key=f"settle:{job_id}:attempt:{attempt}")
+    receipt = {"schema_version": "cmf_f2_f3_v2_p3_job_receipt_v1", "job_id": job_id, "attempt": attempt, "root_id": job["root_id"], "cell_key": job["cell_key"], "physical_gpu_index": physical_index, "gpu_uuid": gpu_uuid, "allowed_physical_gpu_indices": list(range(8)), "command": command, "pid": pid, "pgid": pgid, "return_code": process_return, "timeout": timed_out, "pre_snapshot": pre, "guarded_card": guarded, "post_snapshot": post, "process_tree_start": state["jobs"][job_id]["process_tree_start"], "process_tree_after": tree_after, "owned_cleanup_pass": owned_cleanup, "device_idle_observed": idle_observed, "actual_usage": actual, "reservation": reservation, "budget_event_sha256": event["event_sha256"], "worker_log": str(log_path), "status": "PASS" if process_return == 0 and owned_cleanup and not overrun else "FAILED", "output": str(output)}
     atomic_write_json(BASE / f"{job_id}.json", receipt)
     state["running_by_job_id"].pop(job_id, None)
+    state.setdefault("attempt_history", {}).setdefault(job_id, []).append(receipt)
     state["jobs"][job_id] = receipt
     for key in ("fresh_scenes", "action_scenes", "collection_attempts", "solver_problems", "gpu_lease_seconds"):
         state["progress"][key] += actual[key]
