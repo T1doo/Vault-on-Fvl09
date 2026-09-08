@@ -1,0 +1,44 @@
+{
+  "schema_version": "cmf_f3_strict_terminal_qualification_failure_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "job_id": "stage_C_F3A_terminal_probe_1788846492",
+  "root_id": "F3-A",
+  "program_id": "VHVH",
+  "realization_id": "r_pc",
+  "qualification": true,
+  "collection": false,
+  "status": "FAILED_IMPLEMENTATION_AND_EVENT_GATE",
+  "job_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_terminal_probe_1788846492/job_receipt.json",
+  "job_receipt_sha256": "7ae635a13e5a250aab16a0d2b2d25f8b21ff421ca33174b8e1ac5ad4636ccede",
+  "cell_receipt_sha256": "41bfc95e14d2353e0ffe581e3b166d2343e143d4a4d65a55d143dd571fc4dba7",
+  "qualification_receipt_sha256": "d1f506e94b1b1d5a39477e0a03ff2e9662f0d632f1fd9821c8de7382af3cd276",
+  "earliest_failure": {
+    "class": "implementation_wiring",
+    "error": "KeyError: object_linear_velocity",
+    "cause": "runtime trace rows expose actor_linear_velocity; object_linear_velocity exists only in the serialized NPZ schema",
+    "physical_recipe_revision_charged": false,
+    "actual_resources_charged": true
+  },
+  "additional_event_evidence": {
+    "shared_prefix_V_pass": false,
+    "suffix_event_verifier_pass": false,
+    "failed_suffix_check": "V bottle_negative_amplitude",
+    "diagnosis": "relative-to-achieved-position event commands accumulated center drift; the event must use negative/positive/return targets around one frozen realized center"
+  },
+  "failure_trace_saved": false,
+  "failure_trace_save_gap": "legacy F3 runner lacked the partial-trace finally path; fixed before the next attempt",
+  "actual": {
+    "action_scenes": 1,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "solver_problems": 0,
+    "gpu_lease_seconds": 93
+  },
+  "settlement_event_sha256": "83ab54c493ff5ed32b35d9f25811c1885a788c3708c312c7d3bb22def2fec71c",
+  "owned_cleanup_pass": true,
+  "device_idle_observed": true,
+  "next_single_change": "use absolute symmetric V/H targets about one frozen center, rigid EEF-to-object return transform, correct runtime velocity key and save partial traces in finally",
+  "raw_receipts_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
