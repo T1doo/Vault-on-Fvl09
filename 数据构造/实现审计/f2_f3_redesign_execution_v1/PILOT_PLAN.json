@@ -1,10 +1,10 @@
 {
-  "accepted_new_cells": 6,
+  "accepted_new_cells": 12,
   "combined_index_target": 48,
   "formal_data": false,
   "new_input_target": 24,
-  "note": "New strict F3-A is accepted after realized-event, real path, terminal and cross-branch equivalence audits. F3-B, F2-A path repair and F2-B remain pending.",
-  "pending_new_cells": 18,
+  "note": "New strict F3-A/B are accepted after realized-event, path/motion, terminal and cross-branch equivalence audits. F2-A path repair and F2-B remain pending.",
+  "pending_new_cells": 12,
   "read_only_prior_cells": 24,
   "realization_acceptance_correction": "REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
   "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
@@ -62,7 +62,7 @@
       "status": "ACCEPTED_STRICT_V2"
     },
     "F3-B": {
-      "accepted_cells": 0,
+      "accepted_cells": 6,
       "family": "F3",
       "programs": [
         "VVHH",
@@ -73,15 +73,17 @@
         "r_pc",
         "r_inv_motion"
       ],
-      "root_receipt_sha256": "9cb31abe796e702da0940442ff43770592a05402d56a6afc28035a69c6c846fa",
-      "status": "ACCEPTANCE_REVOKED_PENDING_FULL_STRICT_TERMINAL_RECOLLECTION"
+      "prior_root_receipt_sha256": "9cb31abe796e702da0940442ff43770592a05402d56a6afc28035a69c6c846fa",
+      "root_receipt_sha256": "b4ec227d0276257a11013d19aa5076d898aa8212691376d52fa42eae6b08187b",
+      "strict_acceptance_artifact_sha256": "97c6f824f332bc0ceb6964008268e993f69223cfbc285a4b76d9738bff8e9c87",
+      "status": "ACCEPTED_STRICT_V2"
     }
   },
   "schema_version": "cmf_f2_f3_pilot_plan_v1",
   "source_oracle_hashes": {},
   "f3_terminal_acceptance_correction": "F3_TERMINAL_ACCEPTANCE_CORRECTION_V1.json",
   "f3_terminal_completion_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
-  "status": "F3_A_STRICT_ACCEPTED_CONTINUE_F3_B",
+  "status": "F3_A_B_STRICT_ACCEPTED_CONTINUE_F2",
   "task_id": "f2_f3_redesign_20260907",
   "training": false
 }

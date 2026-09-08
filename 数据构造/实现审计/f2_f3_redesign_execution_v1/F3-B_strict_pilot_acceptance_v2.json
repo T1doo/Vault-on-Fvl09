@@ -1,0 +1,53 @@
+{
+  "schema_version": "cmf_f3_strict_pilot_acceptance_v2",
+  "task_id": "f2_f3_redesign_20260907",
+  "root_id": "F3-B",
+  "status": "ACCEPTED",
+  "accepted_cells": 6,
+  "programs": ["VVHH", "VHVH", "VHHV"],
+  "realizations": ["r_pc", "r_inv_motion"],
+  "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+  "root_receipt_sha256": "b4ec227d0276257a11013d19aa5076d898aa8212691376d52fa42eae6b08187b",
+  "final_job_receipt_sha256": "a695a898e13c14fc913075babc3781d30bd691cda80224197334de586d68440b",
+  "cpu_audit": "F3-B_strict_cpu_audit.json",
+  "cpu_audit_sha256": "b3c67ec1acb31b93137e7f9ce74434811785ebd6a877673411c7e72040561bea",
+  "terminal_audit": "F3-B_strict_terminal_audit.json",
+  "terminal_audit_sha256": "988277a6055c908f531b59b42de74db0baf97ba38a78afb6923cc279b25c48f0",
+  "checks": {
+    "all_cell_gates_pass": true,
+    "current_equivalence": true,
+    "anchor_equivalence": true,
+    "prefix_exact_replay": true,
+    "realization_integrity": true,
+    "motion_descriptor_matches_source": true,
+    "realized_event_metrics": true,
+    "strict_terminal": true,
+    "cross_branch_final_position_equivalence": true,
+    "cross_branch_final_orientation_equivalence": true
+  },
+  "final_state_equivalence": {
+    "max_pairwise_position_delta_m": 0.00023111100036578506,
+    "max_pairwise_orientation_delta_rad": 0.0016185518720624494
+  },
+  "lineage": [
+    "stage_C_F3B_pilot_1788853620",
+    "stage_C_F3B_resume_pilot_1788854617",
+    "stage_C_F3B_resume_pilot_1788855107",
+    "stage_C_F3B_resume_pilot_1788855368"
+  ],
+  "lineage_actual": {
+    "action_scenes": 7,
+    "collection_attempts": 7,
+    "fresh_scenes": 7,
+    "solver_problems": 91,
+    "gpu_lease_seconds": 1059
+  },
+  "accepted_root_uses_six_cells": true,
+  "superseded_cell_count": 1,
+  "zero_action_wiring_failure_count": 1,
+  "final_settlement_event_sha256": "5ec398f5137d037e2d0b01bd56de0810ad43b180b82145afcd8b41ed5d194f5a",
+  "owned_cleanup_pass_all_jobs": true,
+  "raw_history_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
