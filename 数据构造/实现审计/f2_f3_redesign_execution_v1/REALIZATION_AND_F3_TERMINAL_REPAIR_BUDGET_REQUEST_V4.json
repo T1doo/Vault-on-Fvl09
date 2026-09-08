@@ -1,0 +1,125 @@
+{
+  "schema_version": "cmf_f2_f3_realization_and_terminal_repair_budget_request_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "AWAITING_EXPLICIT_USER_AUTHORIZATION",
+  "reason": "Completion audit proved both label-only path cells and missing F3 terminal stability/equivalence. The earlier unapproved V3 request is superseded because F3-A/B must be recollected under the frozen strict event and terminal verifier.",
+  "evidence": {
+    "realization_audit": "f2_f3_realization_completion_audit_v1.json",
+    "realization_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
+    "F3_terminal_audit": "f3_terminal_completion_audit_v1.json",
+    "F3_terminal_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
+    "F3_terminal_correction": "F3_TERMINAL_ACCEPTANCE_CORRECTION_V1.json",
+    "strict_qualification_001": "F3_STRICT_TERMINAL_QUALIFICATION_FAILURE_001.json",
+    "strict_qualification_002": "F3_STRICT_TERMINAL_QUALIFICATION_FAILURE_002.json",
+    "central_clearance_preflight": "F3_CENTRAL_CLEARANCE_PREFLIGHT_SUMMARY_V1.json",
+    "verification_profile": "verification_profile.json",
+    "source_snapshot": "runtime_source_snapshot_v9/SNAPSHOT_MANIFEST.json"
+  },
+  "current_budget": {
+    "caps": {
+      "action_scenes": 94,
+      "collection_attempts": 55,
+      "fresh_scenes": 125,
+      "solver_problems": 2980,
+      "gpu_lease_seconds": 61200
+    },
+    "consumed": {
+      "action_scenes": 94,
+      "collection_attempts": 48,
+      "fresh_scenes": 112,
+      "solver_problems": 547,
+      "gpu_lease_seconds": 13413
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "solver_problems": 0,
+      "gpu_lease_seconds": 0
+    }
+  },
+  "remaining_work": {
+    "F3_strict_terminal_qualification": {
+      "action_scenes": 1,
+      "collection_attempts": 0,
+      "fresh_scenes": 1
+    },
+    "F2-A_r_inv_path_repair": {
+      "action_scenes": 3,
+      "collection_attempts": 3,
+      "fresh_scenes": 3,
+      "reuse_r_pc_cells": 3
+    },
+    "F2-B_full_root": {
+      "action_scenes": 6,
+      "collection_attempts": 6,
+      "fresh_scenes": 6
+    },
+    "F3-A_full_strict_root": {
+      "action_scenes": 6,
+      "collection_attempts": 6,
+      "fresh_scenes": 6
+    },
+    "F3-B_full_strict_root": {
+      "action_scenes": 6,
+      "collection_attempts": 6,
+      "fresh_scenes": 6
+    },
+    "bounded_recovery_reserve": {
+      "action_scenes": 2,
+      "collection_attempts": 2,
+      "fresh_scenes": 2
+    },
+    "total": {
+      "action_scenes": 24,
+      "collection_attempts": 23,
+      "fresh_scenes": 24
+    }
+  },
+  "requested_amendment": {
+    "action_scenes": {
+      "old_cap": 94,
+      "delta": 24,
+      "new_cap": 118
+    },
+    "collection_attempts": {
+      "old_cap": 55,
+      "delta": 16,
+      "new_cap": 71
+    },
+    "fresh_scenes": {
+      "old_cap": 125,
+      "delta": 11,
+      "new_cap": 136
+    },
+    "solver_problems": {
+      "old_cap": 2980,
+      "delta": 0,
+      "new_cap": 2980
+    },
+    "gpu_lease_seconds": {
+      "old_cap": 61200,
+      "delta": 0,
+      "new_cap": 61200
+    }
+  },
+  "execution_order_after_authorization": [
+    "one F3 VHVH/r_pc strict non-collection qualification with the planner-preflighted central clearance",
+    "F3-A and F3-B independent full strict roots; stop each root on its first shared implementation failure",
+    "F2-A realization-only resume for three path cells using its immutable prefix and r_pc cells",
+    "F2-B independent full v3 root with declared motion-duration variation",
+    "rebuild the 48-cell index and run structure/time/event/negative/compatible-set/strict-exit audits",
+    "reconcile all resources and publish the final evidence"
+  ],
+  "guardrails": {
+    "same_goal": true,
+    "new_goal": false,
+    "scientific_scope_unchanged": true,
+    "success_gates_unchanged": true,
+    "thresholds_not_lowered": true,
+    "raw_history_preserved": true,
+    "F1_F4_recollection": false,
+    "formal_data": false,
+    "training": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "cmf_f3_central_clearance_preflight_summary_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "CENTRAL_CLEARANCE_GOAL_PLANNABLE",
+  "source_failure": "F3_STRICT_TERMINAL_QUALIFICATION_FAILURE_002.json",
+  "source_trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_terminal_probe_1788846924/VHVH_r_pc/trace.npz",
+  "saved_state_row": 1406,
+  "goal": {
+    "label": "central_clearance_plus_50mm",
+    "delta_z_m": 0.05,
+    "planner_status": "Success",
+    "valid_query": true,
+    "attempts": 1,
+    "position_error": 0.0000011389404335204745,
+    "rotation_error": 0.0000014413931239687372
+  },
+  "job_id": "stage_D_F3_realization_path_preflight_1788847472",
+  "job_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_D_F3_realization_path_preflight_1788847472/job_receipt.json",
+  "job_receipt_sha256": "8ef0c8406c2095babd195431a9a2784f1230a5b5d68d517207bac43b91a5c117",
+  "preflight_receipt_sha256": "23ca847c87e1b2473408fb8e882f5084ea6f073356377feca904c1c8a532aaf4",
+  "actual": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "solver_problems": 1,
+    "gpu_lease_seconds": 42
+  },
+  "settlement_event_sha256": "cf063da5fb7cc2072271099389b3a488823af1716b0f3abf75680b0441e572cb",
+  "physical_gpu_index": 0,
+  "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "owned_cleanup_pass": true,
+  "device_idle_observed": false,
+  "interpretation": "The additional central pose is planner-feasible from the saved post-micro-lift state. Full V/H and terminal physical qualification still requires one action scene after budget authorization.",
+  "production_acceptance": false,
+  "formal_data": false,
+  "training": false
+}
