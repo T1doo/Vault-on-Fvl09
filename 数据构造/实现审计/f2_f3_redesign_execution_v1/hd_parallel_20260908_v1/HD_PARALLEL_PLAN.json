@@ -1,0 +1,265 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "assignments": [
+    {
+      "allowed_physical_gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "job_id": "hd_f2_a",
+      "one_root_one_gpu": true,
+      "physical_gpu_index": 1,
+      "root_id": "F2-A"
+    },
+    {
+      "allowed_physical_gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+      "job_id": "hd_f2_b",
+      "one_root_one_gpu": true,
+      "physical_gpu_index": 2,
+      "root_id": "F2-B"
+    },
+    {
+      "allowed_physical_gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+      "job_id": "hd_f3_a",
+      "one_root_one_gpu": true,
+      "physical_gpu_index": 3,
+      "root_id": "F3-A"
+    },
+    {
+      "allowed_physical_gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+      "job_id": "hd_f3_b",
+      "one_root_one_gpu": true,
+      "physical_gpu_index": 4,
+      "root_id": "F3-B"
+    }
+  ],
+  "authorized_by_user": true,
+  "caps": {
+    "collection_attempts": 0,
+    "display_scenes": 24,
+    "gpu_lease_seconds": 28800,
+    "production_action_scenes": 0,
+    "published_videos": 48,
+    "root_jobs": 4
+  },
+  "max_concurrent_gpu_jobs": 4,
+  "no_automatic_retry": true,
+  "one_root_one_gpu": true,
+  "receipt_sha256": "24dca78dce3d2d74a7bc8d116dfb4b2fc73fbfe7587fa4ef36a1b4ba98a1a57c",
+  "root_receipts": {
+    "F2-A": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_resume_pilot_1788855821/root_receipt.json",
+      "sha256": "05e9baf3fe705661f3c356358ce11a9bf0b7d5498461ae8d18ab06b93412e404"
+    },
+    "F2-B": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2B_pilot_1788856533/root_receipt.json",
+      "sha256": "3d3c183294e2998e1c26f723d0f79e5861ff0004ab8c0a8d47776c02e3905783"
+    },
+    "F3-A": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788852570/root_receipt.json",
+      "sha256": "6d82738d44feba6664ffd6d1958ac77a8735da5a9bd2d7102556b332c6edf495"
+    },
+    "F3-B": {
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_resume_pilot_1788855368/root_receipt.json",
+      "sha256": "b4ec227d0276257a11013d19aa5076d898aa8212691376d52fa42eae6b08187b"
+    }
+  },
+  "schema_version": "cmf_f2_f3_hd_parallel_display_plan_v1",
+  "scope": "saved-state HD display of accepted F2/F3 traces; no new rollout",
+  "wave_snapshot": {
+    "gpu_command": [
+      "nvidia-smi",
+      "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+      "--format=csv,noheader,nounits"
+    ],
+    "gpus": [
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": false,
+          "near_baseline_utilization": false,
+          "no_compute_process": false,
+          "pstate_recorded": true
+        },
+        "compute_processes": [
+          {
+            "pid": 2207966,
+            "used_memory_mib": "16206"
+          }
+        ],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": false,
+        "memory_used_mib": 16223,
+        "physical_index": 0,
+        "pstate": "P2",
+        "utilization_percent": 82
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 1,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 2,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 15,
+        "physical_index": 3,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 12,
+        "physical_index": 4,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 5,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 6,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 7,
+        "pstate": "P8",
+        "utilization_percent": 0
+      }
+    ],
+    "process_command": [
+      "nvidia-smi",
+      "--query-compute-apps=gpu_uuid,pid,used_memory",
+      "--format=csv,noheader,nounits"
+    ],
+    "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 16223, 82, P2\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+    "raw_process_csv": "GPU-2c620e6c-9639-2022-b573-9847dfa33769, 2207966, 16206\n",
+    "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+  }
+}
