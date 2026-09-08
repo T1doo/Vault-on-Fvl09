@@ -43,11 +43,11 @@
       "solver_problems": 2980
     },
     "consumed": {
-      "action_scenes": 68,
+      "action_scenes": 74,
       "collection_attempts": 41,
-      "fresh_scenes": 70,
-      "gpu_lease_seconds": 9142,
-      "solver_problems": 379
+      "fresh_scenes": 76,
+      "gpu_lease_seconds": 9928,
+      "solver_problems": 389
     },
     "reserved": {
       "action_scenes": 0,
@@ -58,6 +58,21 @@
     }
   },
   "contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
+  "dispatch_control": {
+    "budget_scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_repair_and_budget_scope_request_v1.json",
+    "budget_scope_request_sha256": "7451f39700e5bf2afe08fb2148ec167ecce7ad40c4731bae532590beafee91aa",
+    "prefix_contact_audit_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_prefix_contact_audit_v1.json",
+    "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
+    "production_dispatch_allowed": false,
+    "qualification_summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03",
+    "reason": "F2 transport repair remains unqualified and action_scenes cap is exhausted; do not spend remaining collection attempts",
+    "remaining_action_scenes": 0,
+    "remaining_collection_attempts": 7,
+    "remaining_fresh_scenes": 49,
+    "requires_budget_scope_decision_for_full_24_new_inputs": true,
+    "requires_transport_repair_qualification": true,
+    "schema_version": "cmf_f2_f3_dispatch_control_v1"
+  },
   "execution_version": "redesign_f2_f3_v1",
   "gates": {
     "F2_closure": "VERIFIED",
@@ -288,6 +303,72 @@
       "status": "FAILED",
       "unknown_consumption": false
     },
+    "stage_C_F2A_transport_probe_1788834465": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1596191,
+      "physical_gpu_index": 0,
+      "pid": 1596191,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788834465/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788834695": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1601945,
+      "physical_gpu_index": 0,
+      "pid": 1601945,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788834695/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788834845": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1606481,
+      "physical_gpu_index": 0,
+      "pid": 1606481,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788834845/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788835023": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1611136,
+      "physical_gpu_index": 0,
+      "pid": 1611136,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835023/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788835251": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1617083,
+      "physical_gpu_index": 0,
+      "pid": 1617083,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835251/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788835475": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1622529,
+      "physical_gpu_index": 0,
+      "pid": 1622529,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835475/job_receipt.json",
+      "status": "FAILED",
+      "unknown_consumption": false
+    },
     "stage_C_F3A_pilot_1788802734": {
       "device_idle_observed": false,
       "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
@@ -355,7 +436,7 @@
       "unknown_consumption": false
     }
   },
-  "ledger_head_sha256": "b7897f8ae917cc1225111e6f86c6f697664b68d3a6356fa31c4c1dfb5d3dea73",
+  "ledger_head_sha256": "8bf92ab72cc32a08b7fa02db740a6eb5e77f0e817a6f55f10ab332ee39b27e3d",
   "milestones": {
     "A": "VERIFIED_NATIVE_ASSET_READBACK",
     "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
@@ -407,7 +488,7 @@
           "memory_used_mib": 14,
           "physical_index": 0,
           "pstate": "P8",
-          "utilization_percent": 58
+          "utilization_percent": 18
         },
         {
           "checks": {
@@ -503,7 +584,7 @@
           "memory_used_mib": 14,
           "physical_index": 6,
           "pstate": "P8",
-          "utilization_percent": 0
+          "utilization_percent": 1
         },
         {
           "checks": {
@@ -527,11 +608,11 @@
         "--query-compute-apps=gpu_uuid,pid,used_memory",
         "--format=csv,noheader,nounits"
       ],
-      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 58, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 18, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 1, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
       "raw_process_csv": "",
       "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
     },
-    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/pre_guard_snapshot.json",
+    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835475/pre_guard_snapshot.json",
     "nvidia_smi_reason": null,
     "nvidia_smi_status": "AVAILABLE"
   },
@@ -548,28 +629,13 @@
   "stage_status": "RUNNING",
   "status": "INITIALIZING",
   "task_id": "f2_f3_redesign_20260907",
-  "dispatch_control": {
-    "schema_version": "cmf_f2_f3_dispatch_control_v1",
-    "production_dispatch_allowed": false,
-    "reason": "F2 transport qualification failed for on/beside; do not spend remaining production attempts until an approved repair passes qualification",
-    "qualification_summary_sha256": "2afe27a3175298127ad82ae03e154760d36d6d04ee0f56e3563c9c3bb79d1c29",
-    "remaining_collection_attempts": 7,
-    "remaining_action_scenes": 6,
-    "remaining_fresh_scenes": 55,
-    "requires_transport_repair_qualification": true,
-    "requires_budget_scope_decision_for_full_24_new_inputs": true,
-    "budget_scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_repair_and_budget_scope_request_v1.json",
-    "budget_scope_request_sha256": "ab432763d75d8cc15c809dcbbe212eaa559ae6d63f455feb6ac2de31525d199d",
-    "prefix_contact_audit_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_prefix_contact_audit_v1.json",
-    "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d"
-  },
   "transport_qualification": {
+    "all_roots_accepted": false,
+    "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
+    "production_dispatch_allowed": false,
+    "qualification_job_count": 11,
     "status": "FAILED_PENDING_TRANSPORT_REPAIR",
     "summary_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_qualification_summary.json",
-    "summary_sha256": "2afe27a3175298127ad82ae03e154760d36d6d04ee0f56e3563c9c3bb79d1c29",
-    "qualification_job_count": 5,
-    "all_roots_accepted": false,
-    "production_dispatch_allowed": false,
-    "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d"
+    "summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03"
   }
 }

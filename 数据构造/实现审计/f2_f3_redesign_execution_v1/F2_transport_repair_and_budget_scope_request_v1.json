@@ -4,15 +4,6 @@
   "status": "REQUESTED_PENDING_USER_DECISION",
   "reason": "F2 transport qualification failed; current action headroom cannot cover both remaining F2-A four cells and F2-B six cells",
   "authoritative_state": {
-    "accepted": {
-      "F2-A": 0,
-      "F2-B": 0,
-      "F3-A": 6,
-      "F3-B": 6,
-      "combined_total": 36,
-      "new_total": 12,
-      "read_only_prior_total": 24
-    },
     "budget_caps": {
       "action_scenes": 74,
       "collection_attempts": 48,
@@ -21,11 +12,11 @@
       "solver_problems": 2980
     },
     "budget_consumed": {
-      "action_scenes": 68,
+      "action_scenes": 74,
       "collection_attempts": 41,
-      "fresh_scenes": 70,
-      "gpu_lease_seconds": 9142,
-      "solver_problems": 379
+      "fresh_scenes": 76,
+      "gpu_lease_seconds": 9928,
+      "solver_problems": 389
     },
     "budget_reserved": {
       "action_scenes": 0,
@@ -35,11 +26,20 @@
       "solver_problems": 0
     },
     "budget_remaining": {
-      "action_scenes": 6,
+      "action_scenes": 0,
       "collection_attempts": 7,
-      "fresh_scenes": 55,
-      "gpu_lease_seconds": 52058,
-      "solver_problems": 2601
+      "fresh_scenes": 49,
+      "gpu_lease_seconds": 51272,
+      "solver_problems": 2591
+    },
+    "accepted": {
+      "F2-A": 0,
+      "F2-B": 0,
+      "F3-A": 6,
+      "F3-B": 6,
+      "combined_total": 36,
+      "new_total": 12,
+      "read_only_prior_total": 24
     },
     "production_dispatch_allowed": false
   },
@@ -51,29 +51,23 @@
     "fresh_scenes_required": 10
   },
   "qualification_options": {
-    "single_scene_repair_probe": {
-      "fresh_scenes": 1,
-      "action_scenes": 1,
-      "collection_attempts": 0,
-      "additional_action_needed_after_probe": 5,
-      "additional_collection_needed": 3,
-      "note": "minimum probe only; does not by itself establish all four missing-cell transports"
+    "single_scene_repair_probe_then_production": {
+      "additional_action_scenes": 11,
+      "additional_collection_attempts": 3,
+      "additional_fresh_scenes": 11,
+      "note": "one fresh single-cell qualification plus F2-A four and F2-B six production cells"
     },
-    "four_cell_repair_qualification": {
-      "fresh_scenes": 4,
-      "action_scenes": 4,
-      "collection_attempts": 0,
-      "additional_action_needed_after_probe": 8,
-      "additional_collection_needed": 3,
-      "note": "same four-cell qualification shape used in current audit"
+    "four_cell_repair_qualification_then_production": {
+      "additional_action_scenes": 14,
+      "additional_collection_attempts": 3,
+      "additional_fresh_scenes": 14,
+      "note": "four-cell qualification shape plus ten production cells"
     },
-    "production_only_after_existing_repair_evidence": {
-      "fresh_scenes": 10,
-      "action_scenes": 10,
-      "collection_attempts": 10,
-      "additional_action_needed": 4,
-      "additional_collection_needed": 3,
-      "note": "not allowed until transport repair qualification passes"
+    "production_only_after_approved_repair_evidence": {
+      "additional_action_scenes": 10,
+      "additional_collection_attempts": 3,
+      "additional_fresh_scenes": 10,
+      "note": "qualification evidence must be supplied separately; no production dispatch now"
     }
   },
   "requested_authorization": "Approve a new independent budget/scope increment, or explicitly end this Goal at the current incomplete handoff; no cap is changed by this artifact",
@@ -86,5 +80,8 @@
   "no_dispatch_performed": true,
   "prefix_contact_audit_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_prefix_contact_audit_v1.json",
   "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
-  "request_sha256": "8e0f9a7298ff8de64964c78b2a192d0081057e29f3fa289132493a6b19045834"
+  "transport_qualification_summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03",
+  "latest_probe_job_id": "stage_C_F2A_transport_probe_1788835475",
+  "updated_status": "REQUESTED_PENDING_USER_DECISION_ACTION_CAP_EXHAUSTED",
+  "request_sha256": "7451f39700e5bf2afe08fb2148ec167ecce7ad40c4731bae532590beafee91aa"
 }
