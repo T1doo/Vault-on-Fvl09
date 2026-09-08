@@ -1,0 +1,69 @@
+{
+  "schema_version": "cmf_f2_f3_frozen_prefix_contact_audit_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "FROZEN_REPLAY_ANCHOR_CONTACT_UNSTABLE",
+  "source_prefix_artifact": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/f2_qualification_prefix_artifact.npz",
+  "source_prefix_artifact_sha256": "8beeb7eca7345a87e57f931adad6d55585ac4ec12a38e693a4ff576a6da99cb1",
+  "audits": [
+    {
+      "job_id": "stage_C_F2A_qualification_1788831690",
+      "cell_receipt_sha256": "82ec5a79e355b75241a7edd72035ff6c46c0da360fa7ac40d56b45a42d49e379",
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831690/on_r_pc/trace.npz",
+      "trace_sha256": "d7b99fbf0582414e35c72086b60cf118ab3a4c129f18a9d5cab725f6e98d51d3",
+      "trace_rows": 2893,
+      "prefix_end_trace_row": 1665,
+      "prefix_sha256": "1bf3198474b9ffbe0c62327cff6af9ed7bd97ea53d0076648c3509bebdfd3399",
+      "prefix_contact_fraction_last50": 1.0,
+      "first_contact_loss_row_after_prefix": 1672,
+      "contact_fraction_next50": 0.12,
+      "eef_delta_next50_m": [
+        0.014164790511131287,
+        -0.004869833588600159,
+        -9.262561798095703e-05
+      ],
+      "object_delta_next50_m": [
+        -0.012358754873275757,
+        -0.04013872519135475,
+        0.033313870429992676
+      ],
+      "selected_gripper_target_at_prefix": [
+        4.063953056652394e-09,
+        1.0
+      ],
+      "selected_contact_actor_at_prefix": "f2_redesign_can"
+    },
+    {
+      "job_id": "stage_C_F2A_qualification_1788832694",
+      "cell_receipt_sha256": "60941a23775b62f5ceb01cd69ce91ec00b24c825d60fb35e7d3203c7333f3b6d",
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/on_r_pc/trace.npz",
+      "trace_sha256": "9ac3cf5f370d20219b8fe649fb00517e25072db18a41b3eef0361b9a279751af",
+      "trace_rows": 4608,
+      "prefix_end_trace_row": 1665,
+      "prefix_sha256": "1bf3198474b9ffbe0c62327cff6af9ed7bd97ea53d0076648c3509bebdfd3399",
+      "prefix_contact_fraction_last50": 1.0,
+      "first_contact_loss_row_after_prefix": 1672,
+      "contact_fraction_next50": 0.26,
+      "eef_delta_next50_m": [
+        -0.00043214112520217896,
+        -0.0018470138311386108,
+        -0.004355072975158691
+      ],
+      "object_delta_next50_m": [
+        -0.012358754873275757,
+        -0.04013872519135475,
+        0.033313870429992676
+      ],
+      "selected_gripper_target_at_prefix": [
+        4.063953056652394e-09,
+        1.0
+      ],
+      "selected_contact_actor_at_prefix": "f2_redesign_can"
+    }
+  ],
+  "interpretation": "The replayed prefix reaches its recorded anchor with closed-gripper command, but contact drops within the post-anchor hold while the EEF is nearly stationary; subsequent transport cannot be treated as a valid grasp suffix. Build and qualify a fresh shared prefix before production reuse.",
+  "no_production_acceptance": true,
+  "raw_receipts_unchanged": true,
+  "raw_traces_unchanged": true,
+  "production_dispatch_allowed": false,
+  "audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d"
+}
