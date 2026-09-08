@@ -1,7 +1,7 @@
 {
   "schema_version": "cmf_f2_f3_verification_profile_v1",
-  "profile_id": "f2_f3_redesign_v2_strict_terminal",
-  "status": "FROZEN_BEFORE_F3_TERMINAL_QUALIFICATION",
+  "profile_id": "f2_f3_redesign_v1_initial",
+  "status": "DRAFT_FOR_ASSET_READBACK",
   "frozen_before_physical_qualification": true,
   "units": {
     "distance": "m",
@@ -26,34 +26,6 @@
     "post_lift_confirmation_frames": 50,
     "max_relative_translation_m": 0.005,
     "max_relative_rotation_rad": 0.05
-  },
-  "f3_event_verifier": {
-    "source_contract": "controlled_multi_future/runtime_v2_contracts.py:PROVISIONAL_RUNTIME_THRESHOLDS",
-    "main_axes": {
-      "V": "table_frame_z",
-      "H": "table_frame_x"
-    },
-    "minimum_positive_amplitude_m": 0.04,
-    "minimum_negative_amplitude_m": 0.04,
-    "maximum_off_axis_m": 0.015,
-    "maximum_return_error_m": 0.015,
-    "maximum_bottle_orientation_drift_rad": 0.05,
-    "minimum_selected_gripper_contact_fraction": 0.95,
-    "maximum_contact_break_count": 0,
-    "actual_realized_eef_and_bottle_required": true,
-    "command_label_is_not_evidence": true
-  },
-  "f3_terminal_verifier": {
-    "return_position_error_m": 0.03,
-    "return_orientation_error_rad": 0.02,
-    "stable_window_frames": 50,
-    "maximum_object_linear_speed_mps": 0.02,
-    "maximum_eef_linear_speed_mps": 0.01,
-    "maximum_eef_angular_speed_rps": 0.05,
-    "support_contact_required_for_entire_window": true,
-    "gripper_open_required_for_entire_window": true,
-    "branch_pairwise_position_delta_m": 0.03,
-    "branch_pairwise_orientation_delta_rad": 0.02
   },
   "signals_required_before_qualification": [
     "initial_stability",

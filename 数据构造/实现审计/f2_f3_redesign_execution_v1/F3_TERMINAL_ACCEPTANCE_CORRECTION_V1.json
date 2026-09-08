@@ -1,0 +1,50 @@
+{
+  "schema_version": "cmf_f2_f3_f3_terminal_acceptance_correction_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "F3_A_AND_F3_B_ACCEPTANCE_REVOKED_PENDING_STRICT_TERMINAL_REPAIR",
+  "reason": "The pilot runner checked support before release but did not enforce final rest, return-pose accuracy or cross-branch terminal equivalence. Offline audit of immutable traces proves that all 12 F3 cells fail at least one frozen terminal gate.",
+  "terminal_audit": "f3_terminal_completion_audit_v1.json",
+  "terminal_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
+  "verification_profile": "verification_profile.json",
+  "verification_profile_sha256": "18dd89b73130d8d17cbb15c6aa45f72ab47cb19b75b7504b162ae6b482681291",
+  "original_verification_profile": "verification_profile_v1_original.json",
+  "original_verification_profile_sha256": "8d42a2f8c0ed90fdaf88fe8a00e840ebcf8e2fe7bca8cff9286d5bc958020c0b",
+  "findings": {
+    "F3-A": {
+      "cell_count": 6,
+      "terminal_pass_count": 0,
+      "maximum_position_error_m": 0.05795593483876243,
+      "maximum_object_speed_last50_mps": 0.11729540720493332,
+      "maximum_pairwise_final_position_delta_m": 0.01894077271972905,
+      "maximum_pairwise_final_orientation_delta_rad": 0.05792279367812562
+    },
+    "F3-B": {
+      "cell_count": 6,
+      "terminal_pass_count": 0,
+      "maximum_position_error_m": 0.10162730286547106,
+      "maximum_object_speed_last50_mps": 0.2638274086631222,
+      "maximum_pairwise_final_position_delta_m": 0.06070512596218957,
+      "maximum_pairwise_final_orientation_delta_rad": 1.594654569017077
+    }
+  },
+  "raw_receipts_unchanged": true,
+  "raw_traces_unchanged": true,
+  "historical_acceptance_artifacts_preserved": true,
+  "corrected_counts": {
+    "read_only_prior": 24,
+    "new_accepted_complete_roots": 0,
+    "combined_accepted": 24,
+    "pending_new": 24,
+    "combined_slots": 48
+  },
+  "repair": {
+    "return_target": "bind EEF return to desired original bottle pose using the measured carried-object offset",
+    "release_settle": "250 frames after opening plus 250 total frames around empty-hand exit and final settle",
+    "event_gate": "realized EEF and bottle amplitudes, off-axis motion, return, orientation and grasp continuity",
+    "terminal_gate": "50-frame support, speed, gripper-open and EEF stationary window plus pose equivalence",
+    "qualification_before_production": true
+  },
+  "scientific_scope_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
