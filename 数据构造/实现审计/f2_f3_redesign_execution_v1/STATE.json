@@ -1,11 +1,11 @@
 {
   "accepted": {
-    "F2-A": 6,
+    "F2-A": 0,
     "F2-B": 0,
-    "F3-A": 6,
+    "F3-A": 0,
     "F3-B": 6,
-    "combined_total": 42,
-    "new_total": 18,
+    "combined_total": 30,
+    "new_total": 6,
     "read_only_prior_total": 24
   },
   "accounting_correction": {
@@ -70,8 +70,8 @@
     "source_link": "https://chatgpt.com/s/t_6a9f803896ec819188bd72351ed549d9"
   },
   "combined_index_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/pilot_48_index.json",
-  "combined_index_sha256": "038a40e04f5288d3e83dacdb0e7cbd8008adc2cd1bc2123346feb6241676158b",
-  "combined_index_status": "INCOMPLETE_PENDING_F2_B",
+  "combined_index_sha256": "6a93f36335b184b0d19436fd506b322c206c542456ae17f0196ca4e827ff6b05",
+  "combined_index_status": "INCOMPLETE_PENDING_NEW_ROOTS",
   "contract_history": {
     "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
     "amendment_event_sha256": "4cd0462a4394f29ad1bfdc8c309b82ddb658a6e989465d096a7eccc448c9194f",
@@ -84,7 +84,7 @@
     "budget_scope_decision_applied": true,
     "budget_scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_repair_and_budget_scope_request_v1.json",
     "budget_scope_request_sha256": "c3f4aeb0fc52ce204944ba90b012de3ed90474e832b3b1059a2d5fe14b58f600",
-    "f2_layout_v3_pilot_plan_sha256": "7bfa9d0f73dab18bc6e154300d00cf319f862c25bb7f4b462a81bf84890d6e0e",
+    "f2_layout_v3_pilot_plan_sha256": "3932c2622c460c218d579ecb0117fbf9e9b09810fda1f967fed7aca46279c24c",
     "f2a_acceptance_artifact": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2-A_pilot_acceptance.json",
     "f2a_acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
     "layout_id": "v3",
@@ -96,11 +96,20 @@
     "qualification_inside_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_inside_transport_qualification_v1.json",
     "qualification_inside_sha256": "072891a880887459d5961754fbe5c8a7bad280f0b2a9443a204dd5bcf5f7c222",
     "qualification_pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
-    "qualification_summary_sha256": "e83f2ea540badf933da9547eaa4a44db22a34d11ed628287b659cbf0da28b8b2",
-    "reason": "F2-A v3 accepted (6/6); F2-B six cells require 4 additional action_scenes beyond current cap",
+    "qualification_summary_sha256": "ce081263383c831fab0633ef690c80463415175d975e99253ca8e9831e539e01",
+    "reason": "Completion audit revoked F2-A and F3-A root acceptance because r_inv_path was label-only; repair three path cells in each root and collect F2-B six cells",
     "remaining_action_scenes": 2,
     "remaining_collection_attempts": 7,
     "remaining_fresh_scenes": 18,
+    "minimum_additional_action_scenes": 10,
+    "minimum_additional_collection_attempts": 5,
+    "pending_action_scenes": 12,
+    "pending_collection_attempts": 12,
+    "realization_acceptance_correction": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
+    "realization_acceptance_correction_sha256": "f673f2887ea3adf46a58733ff0d50fbf01337338c4cf3fff613ad88103297906",
+    "realization_repair_budget_request": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/REALIZATION_REPAIR_BUDGET_REQUEST_V3.json",
+    "realization_repair_budget_request_sha256": "e84c2398b71eabc9160864edc3209a839bdb3cb3e468eaf50d750786b471f955",
+    "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
     "requires_budget_scope_decision_for_full_24_new_inputs": true,
     "requires_saved_state_diagnostic_before_physical_dispatch": false,
     "requires_transport_repair_qualification": false,
@@ -113,8 +122,9 @@
     "F2_fresh_confirmation": "VERIFIED",
     "F3_closure": "VERIFIED",
     "F3_fresh_confirmation": "VERIFIED",
-    "strict_exit_audit": "VERIFIED_PARTIAL_ACCEPTED_ROOTS",
-    "structure_audit": "VERIFIED_PARTIAL_ACCEPTED_ROOTS"
+    "realization_integrity_audit": "FAILED_F2_A_F3_A_LABEL_ONLY_PATH",
+    "strict_exit_audit": "UNVERIFIED_PENDING_CORRECTED_ROOTS",
+    "structure_audit": "UNVERIFIED_PENDING_CORRECTED_ROOTS"
   },
   "jobs": {
     "stage_A_native_probe_1788800458": {
@@ -708,11 +718,16 @@
     "A": "VERIFIED_NATIVE_ASSET_READBACK",
     "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
     "B_F3": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
-    "C": "F3-A_F3-B_ACCEPTED_12_OF_24"
+    "C": "REALIZATION_AUDIT_CORRECTION_F3_B_ACCEPTED_6_OF_24"
   },
   "parent_contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
   "pilot_cpu_audit_partial_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f2_f3_pilot_cpu_audit_partial.json",
   "pilot_cpu_audit_partial_sha256": "edd8c885cd1ada5b0ff355d3617e0faf5d8bc44be201eecc8c225ea043f86562",
+  "pilot_plan_sha256": "2d8d964c6a695693f97f2b9525b2fa1d1dadfd90cb7b904a3eee391e017156ac",
+  "realization_acceptance_correction": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
+  "realization_acceptance_correction_sha256": "f673f2887ea3adf46a58733ff0d50fbf01337338c4cf3fff613ad88103297906",
+  "realization_completion_audit": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f2_f3_realization_completion_audit_v1.json",
+  "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
   "publication": {
     "last_local_commit": "6799b2025b01fc59280c2cc66575c279a69780ea",
     "last_remote_commit": "6799b2025b01fc59280c2cc66575c279a69780ea",
@@ -896,16 +911,14 @@
     ],
     "vault_commit": "24f6b7f3b4b8a1354bc6ae1532dfcbb4eb7fecb4"
   },
-  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/runtime_source_snapshot_v4/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "1f7281c8af6baefd814b1cf44aaffd551e5be5e6db955e642f22f8a821c9d806",
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/runtime_source_snapshot_v5/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "e8c289c952c248a0e4efcdd3cd5b13cd8bbe332add9ac31f26d0e7e712a1ab55",
   "stage": "A",
   "stage_status": "RUNNING",
   "status": "INITIALIZING",
   "task_id": "f2_f3_redesign_20260907",
   "transport_qualification": {
     "accepted_roots": [
-      "F2-A",
-      "F3-A",
       "F3-B"
     ],
     "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
@@ -916,13 +929,15 @@
     "pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
     "partial_failure_artifact_sha256": "01e8c335baaf9b44fb080a3642ca40b3f1c83d4921f6110bce44a03f8ff376a1",
     "pilot_cpu_audit_partial_sha256": "edd8c885cd1ada5b0ff355d3617e0faf5d8bc44be201eecc8c225ea043f86562",
+    "pilot_cpu_audit_partial_superseded_by_realization_audit": true,
     "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
     "production_dispatch_allowed": false,
     "qualification_inside_sha256": "072891a880887459d5961754fbe5c8a7bad280f0b2a9443a204dd5bcf5f7c222",
     "qualification_job_count": 11,
-    "source_snapshot_manifest_sha256": "1f7281c8af6baefd814b1cf44aaffd551e5be5e6db955e642f22f8a821c9d806",
-    "status": "F2_A_ACCEPTED_F2_B_ACTION_BUDGET_PENDING",
+    "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
+    "source_snapshot_manifest_sha256": "e8c289c952c248a0e4efcdd3cd5b13cd8bbe332add9ac31f26d0e7e712a1ab55",
+    "status": "F2_A_F3_A_REALIZATION_REPAIR_AND_F2_B_BUDGET_PENDING",
     "summary_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_qualification_summary.json",
-    "summary_sha256": "e83f2ea540badf933da9547eaa4a44db22a34d11ed628287b659cbf0da28b8b2"
+    "summary_sha256": "ce081263383c831fab0633ef690c80463415175d975e99253ca8e9831e539e01"
   }
 }

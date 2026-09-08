@@ -1,15 +1,19 @@
 {
-  "accepted_new_cells": 18,
+  "accepted_new_cells": 6,
   "combined_index_target": 48,
   "formal_data": false,
   "new_input_target": 24,
-  "note": "F1/F4 24 prior read-only + F3-A/B 12 accepted + F2-A 6 accepted; F2-B six remain pending explicit action budget amendment",
-  "pending_new_cells": 6,
+  "note": "Completion audit revoked F2-A and F3-A root acceptance because r_inv_path was label-only; F3-B six remain accepted. Repair reuses each affected root's three r_pc cells and recollects the three path cells.",
+  "pending_new_cells": 18,
   "read_only_prior_cells": 24,
+  "realization_acceptance_correction": "REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
+  "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
   "roots": {
     "F2-A": {
       "acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
-      "accepted_cells": 6,
+      "accepted_cells": 0,
+      "reusable_cell_count": 3,
+      "invalid_realization": "r_inv_path",
       "family": "F2",
       "layout_id": "v3",
       "programs": [
@@ -22,7 +26,7 @@
         "r_inv_path"
       ],
       "root_receipt_sha256": "6453348d58cb6f9fb83b582e7794820a5268c91cede4bf31a59dd337253e509c",
-      "status": "ACCEPTED"
+      "status": "ACCEPTANCE_REVOKED_PENDING_REALIZATION_REPAIR"
     },
     "F2-B": {
       "family": "F2",
@@ -38,7 +42,9 @@
       "status": "PLANNED"
     },
     "F3-A": {
-      "accepted_cells": 6,
+      "accepted_cells": 0,
+      "reusable_cell_count": 3,
+      "invalid_realization": "r_inv_path",
       "family": "F3",
       "programs": [
         "VVHH",
@@ -50,7 +56,7 @@
         "r_inv_path"
       ],
       "root_receipt_sha256": "101c689e14a28a25fb7d409b437e671952955c320733b7a867bf7e1e54db28d3",
-      "status": "ACCEPTED"
+      "status": "ACCEPTANCE_REVOKED_PENDING_REALIZATION_REPAIR"
     },
     "F3-B": {
       "accepted_cells": 6,
@@ -70,7 +76,7 @@
   },
   "schema_version": "cmf_f2_f3_pilot_plan_v1",
   "source_oracle_hashes": {},
-  "status": "F2-A_ACCEPTED_F2-B_PENDING_ACTION_BUDGET",
+  "status": "F2-A_F3-A_REALIZATION_REPAIR_AND_F2-B_PENDING_BUDGET",
   "task_id": "f2_f3_redesign_20260907",
   "training": false
 }

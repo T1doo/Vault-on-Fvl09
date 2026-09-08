@@ -1,0 +1,74 @@
+{
+  "schema_version": "cmf_f2_f3_realization_acceptance_correction_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "F2_A_AND_F3_A_ROOT_ACCEPTANCE_REVOKED_PENDING_REALIZATION_REPAIR",
+  "reason": "Completion audit proved that r_inv_path was not deliberately implemented and produced exact copied suffix streams for two programs in each affected root; a label-only realization cannot count as a real path rollout.",
+  "completion_audit_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f2_f3_realization_completion_audit_v1.json",
+  "completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
+  "affected_roots": {
+    "F2-A": {
+      "source_root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788843303/root_receipt.json",
+      "source_root_receipt_sha256": "6453348d58cb6f9fb83b582e7794820a5268c91cede4bf31a59dd337253e509c",
+      "invalid_realization": "r_inv_path",
+      "invalid_cell_count": 3,
+      "exact_suffix_duplicates": [
+        "on:r_inv_path",
+        "beside:r_inv_path"
+      ],
+      "undeclared_path_variant": [
+        "inside:r_inv_path",
+        "on:r_inv_path",
+        "beside:r_inv_path"
+      ],
+      "root_counts_as_accepted": false
+    },
+    "F3-A": {
+      "source_root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3A_pilot_1788804231/root_receipt.json",
+      "source_root_receipt_sha256": "101c689e14a28a25fb7d409b437e671952955c320733b7a867bf7e1e54db28d3",
+      "invalid_realization": "r_inv_path",
+      "invalid_cell_count": 3,
+      "exact_suffix_duplicates": [
+        "VHVH:r_inv_path",
+        "VHHV:r_inv_path"
+      ],
+      "undeclared_path_variant": [
+        "VVHH:r_inv_path",
+        "VHVH:r_inv_path",
+        "VHHV:r_inv_path"
+      ],
+      "root_counts_as_accepted": false
+    }
+  },
+  "unaffected_root": {
+    "root_id": "F3-B",
+    "source_root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F3B_pilot_1788805015/root_receipt.json",
+    "source_root_receipt_sha256": "9cb31abe796e702da0940442ff43770592a05402d56a6afc28035a69c6c846fa",
+    "realization": "r_inv_motion",
+    "all_three_pairs_have_distinct_command_and_realized_suffixes": true,
+    "root_counts_as_accepted": true
+  },
+  "raw_receipts_unchanged": true,
+  "raw_traces_unchanged": true,
+  "historical_acceptance_artifacts_preserved": true,
+  "corrected_counts": {
+    "read_only_prior": 24,
+    "new_accepted_complete_roots": 6,
+    "combined_accepted": 30,
+    "pending_new": 18,
+    "combined_slots": 48
+  },
+  "repair_plan": {
+    "F2-A": "reuse three r_pc cells and exact prefix; recollect three r_inv_path cells with a declared 40 mm post-prefix y detour",
+    "F3-A": "reuse three r_pc cells and exact prefix; recollect three r_inv_path cells with a declared 30 mm post-prefix y round trip",
+    "F2-B": "collect six independent cells; r_inv_motion uses declared extra hold durations while preserving program and terminal state",
+    "new_action_scenes_required": 12,
+    "new_collection_attempts_required": 12,
+    "current_remaining_action_scenes": 2,
+    "current_remaining_collection_attempts": 7,
+    "minimum_additional_action_scenes": 10,
+    "minimum_additional_collection_attempts": 5
+  },
+  "scientific_scope_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
