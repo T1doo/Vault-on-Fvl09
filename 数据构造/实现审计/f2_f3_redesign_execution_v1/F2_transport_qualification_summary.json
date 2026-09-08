@@ -1,0 +1,876 @@
+{
+  "schema_version": "cmf_f2_f3_f2_transport_qualification_summary_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "FAILED_PENDING_TRANSPORT_REPAIR",
+  "scope": "F2-A missing on/beside transport qualification only; no production acceptance",
+  "source_prefix_sha256": "1bf3198474b9ffbe0c62327cff6af9ed7bd97ea53d0076648c3509bebdfd3399",
+  "qualification_jobs": [
+    {
+      "job_id": "stage_C_F2A_qualification_1788830884",
+      "root_receipt_sha256": "6b24bda734d784ce2e5e34c9dc9868e001752a45d90cd2a4b77aeaf46ad35b1a",
+      "job_receipt_sha256": "de4e6693ca9465c1f865137cc834303ef2710e6db764a103d793123cb16eb021",
+      "return_code": 1,
+      "qualification": true,
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 4,
+        "gpu_lease_seconds": 410,
+        "solver_problems": 4
+      },
+      "selected_physical_gpu_index": 1,
+      "selected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "device_idle_observed": false,
+      "cells": [
+        {
+          "program_id": "on",
+          "realization_id": "r_pc",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.14058570563793182,
+              -0.10477354377508163,
+              0.8552103042602539,
+              -0.6904441118240356,
+              0.6576696634292603,
+              -0.19802328944206238,
+              0.2270340621471405
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788830884/on_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 99847211
+        },
+        {
+          "program_id": "on",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.14058570563793182,
+              -0.10477354377508163,
+              0.8552103042602539,
+              -0.6904441118240356,
+              0.6576696634292603,
+              -0.19802328944206238,
+              0.2270340621471405
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788830884/on_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 100834611
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788830884/beside_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64087408
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788830884/beside_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64385683
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "job_id": "stage_C_F2A_qualification_1788831323",
+      "root_receipt_sha256": "4a4eab8028e0833ca911e98a7491c83364e38f593d059995fc4160ee9a44031a",
+      "job_receipt_sha256": "3737bc440204dd30baf82975f4a98d5b0c59b87cf3fbc4261e96f8b7292b7e31",
+      "return_code": 1,
+      "qualification": true,
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 4,
+        "gpu_lease_seconds": 338,
+        "solver_problems": 0
+      },
+      "selected_physical_gpu_index": 1,
+      "selected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "device_idle_observed": false,
+      "cells": [
+        {
+          "program_id": "on",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "'scaled_extents_m'",
+            "type": "KeyError"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831323/on_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 63308013
+        },
+        {
+          "program_id": "on",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "'scaled_extents_m'",
+            "type": "KeyError"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831323/on_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 63986505
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "'scaled_extents_m'",
+            "type": "KeyError"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831323/beside_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64087109
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "'scaled_extents_m'",
+            "type": "KeyError"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": null,
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831323/beside_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64385384
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "job_id": "stage_C_F2A_qualification_1788831690",
+      "root_receipt_sha256": "2ccaaabf0ce0027133839931e23ea530694a74df71dc7a93ea53d55a1208e512",
+      "job_receipt_sha256": "23120c70f7382e9de6edd84b6c5093321d66d12e2405d759a705d61eff4ae8ad",
+      "return_code": 1,
+      "qualification": true,
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 4,
+        "gpu_lease_seconds": 426,
+        "solver_problems": 6
+      },
+      "selected_physical_gpu_index": 1,
+      "selected_gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "device_idle_observed": false,
+      "cells": [
+        {
+          "program_id": "on",
+          "realization_id": "r_pc",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.13726060092449188,
+              -0.10738249868154526,
+              0.8551934361457825,
+              -0.6949143409729004,
+              0.6520878672599792,
+              -0.21361956000328064,
+              0.2150399386882782
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.11650840371847153,
+              -0.29712386831641197,
+              0.9267863179060315
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831690/on_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 110876704
+        },
+        {
+          "program_id": "on",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.13726060092449188,
+              -0.10738249868154526,
+              0.8551934361457825,
+              -0.6949143409729004,
+              0.6520878672599792,
+              -0.21361956000328064,
+              0.2150399386882782
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.11650840371847153,
+              -0.29712386831641197,
+              0.9267863179060315
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831690/on_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 112011237
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.2665084037184715,
+              -0.29712386831641197,
+              0.9967863179060314
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831690/beside_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64087411
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.2665084037184715,
+              -0.29712386831641197,
+              0.9967863179060314
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788831690/beside_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 64385686
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "job_id": "stage_C_F2A_qualification_1788832167",
+      "root_receipt_sha256": "0d45914f86ffd64df7b06dec433e0beee0081444f249647b933e07428e9143b6",
+      "job_receipt_sha256": "2438fa40bcb4704fef75494697116d671e729c8c8783c5e9df5c696b525dc5c3",
+      "return_code": 1,
+      "qualification": true,
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 4,
+        "gpu_lease_seconds": 505,
+        "solver_problems": 12
+      },
+      "selected_physical_gpu_index": 0,
+      "selected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "device_idle_observed": false,
+      "cells": [
+        {
+          "program_id": "on",
+          "realization_id": "r_pc",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.1394001990556717,
+              -0.10606103390455246,
+              0.8551872968673706,
+              -0.6921008229255676,
+              0.6539583802223206,
+              -0.207195445895195,
+              0.22451075911521912
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.11650840371847153,
+              -0.29712386831641197,
+              0.9267863179060315
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832167/on_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 136295916
+        },
+        {
+          "program_id": "on",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.1394001990556717,
+              -0.10606103390455246,
+              0.8551872968673706,
+              -0.6921008229255676,
+              0.6539583802223206,
+              -0.207195445895195,
+              0.22451075911521912
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.11650840371847153,
+              -0.29712386831641197,
+              0.9267863179060315
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832167/on_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 137376361
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high_2",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.2665084037184715,
+              -0.29712386831641197,
+              0.9967863179060314
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832167/beside_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 80514987
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_beside_lateral_high_2",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.07957016676664352,
+              -0.14327780902385712,
+              1.0053575038909912
+            ],
+            "carried_object": [
+              -0.11607857048511505,
+              -0.026153940707445145,
+              0.8691650629043579
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.03650840371847153,
+              0.11712386831641197,
+              -0.1361924409866333
+            ],
+            "target_eef": [
+              0.2665084037184715,
+              -0.29712386831641197,
+              0.9967863179060314
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832167/beside_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 81035747
+        }
+      ],
+      "accepted": false
+    },
+    {
+      "job_id": "stage_C_F2A_qualification_1788832694",
+      "root_receipt_sha256": "5a428b6103b6f1eb5ad5045190023ab69cfa45e63d817b10597794c75cd38ea4",
+      "job_receipt_sha256": "556a3b296a4b4413ce98889ff1f6627d72e6a8d1a5b2665e66102d28e5246ace",
+      "return_code": 1,
+      "qualification": true,
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 4,
+        "gpu_lease_seconds": 780,
+        "solver_problems": 16
+      },
+      "selected_physical_gpu_index": 0,
+      "selected_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "device_idle_observed": false,
+      "cells": [
+        {
+          "program_id": "on",
+          "realization_id": "r_pc",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.13914503157138824,
+              -0.10632296651601791,
+              0.8551864624023438,
+              -0.6906806826591492,
+              0.6516261100769043,
+              -0.21450044214725494,
+              0.22876481711864471
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.13650019466876984,
+              -0.18603792786598206,
+              0.9297694563865662
+            ],
+            "carried_object": [
+              -0.1388336420059204,
+              -0.10655708611011505,
+              0.8551868796348572
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.0023334473371505737,
+              0.079480841755867,
+              -0.07458257675170898
+            ],
+            "target_eef": [
+              0.08233344733715058,
+              -0.259480841755867,
+              0.8651764536711072
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/on_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 185493026
+        },
+        {
+          "program_id": "on",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_gates",
+          "error": null,
+          "gates": {
+            "empty_hand_exit": true,
+            "prefix_present": true,
+            "program_order": true,
+            "relation_exclusive": false,
+            "support_identity": false
+          },
+          "events": {
+            "exit_contact_fraction": 0.0,
+            "final_can_pose": [
+              -0.13874317705631256,
+              -0.10654386878013611,
+              0.8551861643791199,
+              -0.6911523342132568,
+              0.6520035862922668,
+              -0.21337474882602692,
+              0.2273128777742386
+            ],
+            "support_fraction": 0.0
+          },
+          "target_binding": {
+            "carried_eef": [
+              -0.13649891316890717,
+              -0.18604032695293427,
+              0.929768979549408
+            ],
+            "carried_object": [
+              -0.1393897384405136,
+              -0.10609234124422073,
+              0.8551855087280273
+            ],
+            "desired_can": [
+              0.08,
+              -0.18,
+              0.7905938769193982
+            ],
+            "grasp_offset": [
+              -0.0028908252716064453,
+              0.07994798570871353,
+              -0.07458347082138062
+            ],
+            "target_eef": [
+              0.08289082527160645,
+              -0.2599479857087135,
+              0.8651773477407788
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/on_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 186988105
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_pc",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_empty_hand_exit",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.13650035858154297,
+              -0.1860363781452179,
+              0.9297700524330139
+            ],
+            "carried_object": [
+              -0.13888241350650787,
+              -0.10654928535223007,
+              0.8551864624023438
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.002382054924964905,
+              0.07948709279298782,
+              -0.07458359003067017
+            ],
+            "target_eef": [
+              0.23238205492496491,
+              -0.2594870927929878,
+              0.9351774669500683
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/beside_r_pc/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 184514723
+        },
+        {
+          "program_id": "beside",
+          "realization_id": "r_inv_path",
+          "status": "cell_failed_execution",
+          "error": {
+            "message": "planner control failed at pilot_empty_hand_exit",
+            "type": "PlannerChainFailure"
+          },
+          "gates": null,
+          "events": null,
+          "target_binding": {
+            "carried_eef": [
+              -0.13650035858154297,
+              -0.1860363781452179,
+              0.9297700524330139
+            ],
+            "carried_object": [
+              -0.13888241350650787,
+              -0.10654928535223007,
+              0.8551864624023438
+            ],
+            "desired_can": [
+              0.23,
+              -0.18,
+              0.8605938769193981
+            ],
+            "grasp_offset": [
+              -0.002382054924964905,
+              0.07948709279298782,
+              -0.07458359003067017
+            ],
+            "target_eef": [
+              0.23238205492496491,
+              -0.2594870927929878,
+              0.9351774669500683
+            ]
+          },
+          "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_qualification_1788832694/beside_r_inv_path/trace.npz",
+          "trace_exists": true,
+          "trace_bytes": 185615869
+        }
+      ],
+      "accepted": false
+    }
+  ],
+  "qualification_job_count": 5,
+  "all_roots_accepted": false,
+  "collection_attempts_charged": 0,
+  "raw_failure_evidence_preserved": true,
+  "partial_trace_policy": "failed cells retain trace.npz when scene trace exists; prior raw receipts remain unchanged",
+  "budget_after": {
+    "action_scenes": 68,
+    "collection_attempts": 41,
+    "fresh_scenes": 70,
+    "gpu_lease_seconds": 9142,
+    "solver_problems": 379
+  },
+  "reserved_after": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 0
+  },
+  "remaining_budget": {
+    "action_scenes": 6,
+    "collection_attempts": 7,
+    "fresh_scenes": 55,
+    "gpu_lease_seconds": 52058,
+    "solver_problems": 2601
+  },
+  "production_dispatch_allowed": false,
+  "production_pause_reason": "F2 transport qualification failed for on/beside; do not spend remaining production attempts until an approved repair passes qualification",
+  "next_decision": "repair and qualify F2 transport, then obtain budget/scope decision because current action headroom is insufficient for both F2-A four cells and F2-B six cells",
+  "summary_sha256": "2afe27a3175298127ad82ae03e154760d36d6d04ee0f56e3563c9c3bb79d1c29"
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": "cmf_f2_f3_resume_plan_v1",
   "task_id": "f2_f3_redesign_20260907",
-  "status": "READY_PENDING_GPU",
+  "status": "FAILED_TRANSPORT_QUALIFICATION_PENDING_REPAIR",
   "source_root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788807557/root_receipt.json",
   "source_root_receipt_sha256": "f05582d571eff3834b6bbcea9240210080400919f2a3b6a5da606830b53b7ecd",
   "reused_cells": [
@@ -80,5 +80,28 @@
   "collection_headroom_after_plan": 1,
   "no_reexecution_of_reused_cells": true,
   "no_acceptance_upgrade_until_new_cells_pass": true,
-  "plan_sha256": "0444222538f9722dd1052f6e8e668dbc4a20797dba1cc992a2d289a679dd9039"
-}\n
+  "transport_qualification_summary": "F2_transport_qualification_summary.json",
+  "transport_qualification_summary_sha256": "2afe27a3175298127ad82ae03e154760d36d6d04ee0f56e3563c9c3bb79d1c29",
+  "qualification_job_count": 5,
+  "production_dispatch_allowed": false,
+  "production_pause_reason": "F2 transport qualification failed for on/beside; do not spend remaining production attempts until an approved repair passes qualification",
+  "budget_after_qualification": {
+    "action_scenes": 68,
+    "collection_attempts": 41,
+    "fresh_scenes": 70,
+    "gpu_lease_seconds": 9142,
+    "solver_problems": 379
+  },
+  "remaining_budget_after_qualification": {
+    "action_scenes": 6,
+    "collection_attempts": 7,
+    "fresh_scenes": 55,
+    "gpu_lease_seconds": 52058,
+    "solver_problems": 2601
+  },
+  "collection_attempts_used_by_production": 4,
+  "collection_attempts_remaining": 7,
+  "action_scenes_remaining": 6,
+  "no_production_dispatch_after_qualification_failure": true,
+  "plan_sha256": "a7a71d6595c81cd9759164d4904cba9642a58b3442cb8ededd5abaf8a7d7c76f"
+}
