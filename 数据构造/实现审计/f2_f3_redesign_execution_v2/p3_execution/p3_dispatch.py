@@ -50,18 +50,18 @@ def _process_tree(pid: int) -> list[str]:
 
 
 def _actual_usage(job: dict[str, Any], output: Path, lease_seconds: int) -> dict[str, int]:
-    cell_receipt = None
+    cell_receipts = []
     if output.exists():
         for path in output.rglob("cell_receipt.json"):
-            cell_receipt = json.loads(path.read_text(encoding="utf-8"))
-            break
+            cell_receipts.append(json.loads(path.read_text(encoding="utf-8")))
     launched = True
-    captured = bool(cell_receipt and cell_receipt.get("t0_capture"))
+    captured = sum(1 for receipt in cell_receipts if receipt.get("t0_capture"))
+    acted = sum(1 for receipt in cell_receipts if receipt.get("action_segment_count", 0) > 0)
     return {
-        "fresh_scenes": 1 if captured else 0,
-        "action_scenes": 1 if cell_receipt and cell_receipt.get("action_segment_count", 0) > 0 else 0,
-        "collection_attempts": 1 if launched else 0,
-        "solver_problems": int(cell_receipt.get("solver_problem_count", 0)) if cell_receipt else 0,
+        "fresh_scenes": int(captured),
+        "action_scenes": int(acted),
+        "collection_attempts": max(1, len(cell_receipts)) if launched else 0,
+        "solver_problems": int(sum(receipt.get("solver_problem_count", 0) for receipt in cell_receipts)),
         "gpu_lease_seconds": int(lease_seconds),
     }
 
@@ -84,7 +84,9 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
     ledger.reserve(job_id, reservation, idempotency_key=f"reserve:{job_id}:attempt:{attempt}")
     pre = live_snapshot()
     guarded = guard_card(pre, physical_index, expected_uuid=gpu_uuid)
-    command = [str(PYTHON), "-m", "controlled_multi_future.redesign_f2_f3_v2.collector_v2", "--output", str(output), "--root-id", str(job["root_id"]), "--cell-keys", str(job["cell_key"])]
+    command = [str(PYTHON), "-m", "controlled_multi_future.redesign_f2_f3_v2.collector_v2", "--output", str(output), "--root-id", str(job["root_id"]), "--cell-keys", str(job["cell_keys"] if job.get("cell_keys") else job["cell_key"])]
+    if job.get("existing_root"):
+        command.extend(["--existing-root", str(job["existing_root"])])
     environment = child_environment(gpu_uuid)
     environment.update({"PYTHONPATH": str(PROJECT), "ROBOTWIN_ROOT": str(PROJECT), "ROBOTWIN_WORKSPACE": str(ROOT / "Robotwin2"), "CMF_GPU_GUARD_PHYSICAL_INDEX": str(physical_index), "CMF_BOUND_GPU_UUID": gpu_uuid})
     started = time.monotonic()
@@ -141,8 +143,8 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(); parser.add_argument("--only-job-id"); args = parser.parse_args()
-    contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / "P3_JOB_MANIFEST.json").read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
+    parser = argparse.ArgumentParser(); parser.add_argument("--only-job-id"); parser.add_argument("--manifest", default="P3_JOB_MANIFEST.json"); args = parser.parse_args()
+    contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / args.manifest).read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
     allowed_states = {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY", "READY_F3_FIRST", "READY_F3_REMAINING"}
     if state.get("status") not in allowed_states:
         raise RuntimeError(f"P3 dispatcher expected a first-wave-ready state, got {state.get('status')}")
@@ -166,7 +168,7 @@ def main() -> int:
         state["progress"]["first_two"] = "PASSED" if wave_pass else "FAILED"
         if wave_pass: state["status"] = "READY_REMAINING_22"
     _write_state(state)
-    receipt_name = "P3_F3_FIRST_RECEIPT.json" if args.only_job_id else "P3_FIRST_WAVE_RECEIPT.json"
+    receipt_name = "P3_F3_FIRST_RECEIPT.json" if args.only_job_id else ("P3_F3A_REMAINING_RECEIPT.json" if args.manifest != "P3_JOB_MANIFEST.json" else "P3_FIRST_WAVE_RECEIPT.json")
     atomic_write_json(BASE / receipt_name, {"schema_version": "cmf_f2_f3_v2_p3_first_wave_receipt_v1", "jobs": results, "selected_job_id": args.only_job_id, "pass": wave_pass})
     return 0 if wave_pass else 1
 
