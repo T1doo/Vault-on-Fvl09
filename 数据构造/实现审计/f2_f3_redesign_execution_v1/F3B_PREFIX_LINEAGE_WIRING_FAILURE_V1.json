@@ -1,0 +1,27 @@
+{
+  "schema_version": "cmf_f3b_prefix_lineage_wiring_failure_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "job_id": "stage_C_F3B_resume_pilot_1788855107",
+  "status": "FAILED_BEFORE_SCENE_PREFIX_ARTIFACT_MISSING",
+  "error": "ValueError: resume root is missing its immutable prefix artifact",
+  "cause": "The first resume root referenced the source prefix but did not copy it into its own output directory, so a second-generation resume could not resolve the immutable artifact.",
+  "job_receipt_sha256": "3936fe819bb901fc3fa9b6ea84c2d03f2a33ae8a51e3856063f0043c17a02bba",
+  "source_root_receipt_sha256": "24c5f067023260f7937f857ab400a616618d50882578c47680c9c7ee587efbda",
+  "restored_prefix_artifact_sha256": "857e1e1dbb42358ac57ccd2d808d25dcca8479e3ad22b31a6dfcd18845e1c5af",
+  "known_actual": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "solver_problems": 0,
+    "gpu_lease_seconds": 25
+  },
+  "settlement_event_sha256": "f440ed5ee38bfd449951b3cb385d103591fa1e941275037796dde1bfa5a3140f",
+  "unknown_consumption": false,
+  "scene_created": false,
+  "raw_trace_created": false,
+  "owned_cleanup_pass": true,
+  "fix": "Every F2/F3 resume now copies the byte-identical source prefix artifact into the new root before executing any selected cell.",
+  "raw_job_receipt_unchanged": true,
+  "formal_data": false,
+  "training": false
+}
