@@ -1,11 +1,11 @@
 {
   "accepted": {
-    "F2-A": 0,
+    "F2-A": 6,
     "F2-B": 0,
     "F3-A": 6,
     "F3-B": 6,
-    "combined_total": 36,
-    "new_total": 12,
+    "combined_total": 42,
+    "new_total": 18,
     "read_only_prior_total": 24
   },
   "accounting_correction": {
@@ -43,11 +43,11 @@
       "solver_problems": 2980
     },
     "consumed": {
-      "action_scenes": 84,
-      "collection_attempts": 41,
-      "fresh_scenes": 99,
-      "gpu_lease_seconds": 11837,
-      "solver_problems": 484
+      "action_scenes": 92,
+      "collection_attempts": 48,
+      "fresh_scenes": 107,
+      "gpu_lease_seconds": 13048,
+      "solver_problems": 519
     },
     "reserved": {
       "action_scenes": 0,
@@ -69,6 +69,9 @@
     "scientific_scope_unchanged": true,
     "source_link": "https://chatgpt.com/s/t_6a9f803896ec819188bd72351ed549d9"
   },
+  "combined_index_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/pilot_48_index.json",
+  "combined_index_sha256": "038a40e04f5288d3e83dacdb0e7cbd8008adc2cd1bc2123346feb6241676158b",
+  "combined_index_status": "INCOMPLETE_PENDING_F2_B",
   "contract_history": {
     "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
     "amendment_event_sha256": "4cd0462a4394f29ad1bfdc8c309b82ddb658a6e989465d096a7eccc448c9194f",
@@ -81,30 +84,37 @@
     "budget_scope_decision_applied": true,
     "budget_scope_request_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_repair_and_budget_scope_request_v1.json",
     "budget_scope_request_sha256": "c3f4aeb0fc52ce204944ba90b012de3ed90474e832b3b1059a2d5fe14b58f600",
+    "f2_layout_v3_pilot_plan_sha256": "7bfa9d0f73dab18bc6e154300d00cf319f862c25bb7f4b462a81bf84890d6e0e",
+    "f2a_acceptance_artifact": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2-A_pilot_acceptance.json",
+    "f2a_acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
+    "layout_id": "v3",
+    "partial_failure_artifact": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2A_production_partial_stop_v1.json",
+    "partial_failure_artifact_sha256": "01e8c335baaf9b44fb080a3642ca40b3f1c83d4921f6110bce44a03f8ff376a1",
     "prefix_contact_audit_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_prefix_contact_audit_v1.json",
     "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
-    "production_dispatch_allowed": true,
-    "qualification_summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03",
-    "reason": "F2 layout v3 standard pair qualification passed; full F2-A/B roots ready",
-    "remaining_action_scenes": 10,
-    "remaining_collection_attempts": 14,
-    "remaining_fresh_scenes": 26,
-    "requires_budget_scope_decision_for_full_24_new_inputs": false,
-    "requires_saved_state_diagnostic_before_physical_dispatch": false,
-    "requires_transport_repair_qualification": true,
-    "schema_version": "cmf_f2_f3_dispatch_control_v1",
-    "layout_id": "v3",
+    "production_dispatch_allowed": false,
+    "qualification_inside_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_inside_transport_qualification_v1.json",
+    "qualification_inside_sha256": "072891a880887459d5961754fbe5c8a7bad280f0b2a9443a204dd5bcf5f7c222",
     "qualification_pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
-    "f2_layout_v3_pilot_plan_sha256": "ad3653071cd9611354169602da5f17cdb09c9233ed1599552a5751d7d14bd8c0"
+    "qualification_summary_sha256": "e83f2ea540badf933da9547eaa4a44db22a34d11ed628287b659cbf0da28b8b2",
+    "reason": "F2-A v3 accepted (6/6); F2-B six cells require 4 additional action_scenes beyond current cap",
+    "remaining_action_scenes": 2,
+    "remaining_collection_attempts": 7,
+    "remaining_fresh_scenes": 18,
+    "requires_budget_scope_decision_for_full_24_new_inputs": true,
+    "requires_saved_state_diagnostic_before_physical_dispatch": false,
+    "requires_transport_repair_qualification": false,
+    "schema_version": "cmf_f2_f3_dispatch_control_v1"
   },
   "execution_version": "redesign_f2_f3_v1",
+  "f2_layout_v3_pilot_plan": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_layout_v3_pilot_plan.json",
   "gates": {
     "F2_closure": "VERIFIED",
     "F2_fresh_confirmation": "VERIFIED",
     "F3_closure": "VERIFIED",
     "F3_fresh_confirmation": "VERIFIED",
-    "strict_exit_audit": "UNVERIFIED",
-    "structure_audit": "UNVERIFIED"
+    "strict_exit_audit": "VERIFIED_PARTIAL_ACCEPTED_ROOTS",
+    "structure_audit": "VERIFIED_PARTIAL_ACCEPTED_ROOTS"
   },
   "jobs": {
     "stage_A_native_probe_1788800458": {
@@ -261,6 +271,30 @@
       "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788807557/root_receipt.json",
       "status": "FAILED_RECONCILED_BY_USER_APPROVED_WRITE_OFF"
     },
+    "stage_C_F2A_pilot_1788842356": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+      "owned_cleanup_pass": true,
+      "partial_failure_artifact": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2A_production_partial_stop_v1.json",
+      "partial_failure_artifact_sha256": "01e8c335baaf9b44fb080a3642ca40b3f1c83d4921f6110bce44a03f8ff376a1",
+      "pgid": 1802907,
+      "physical_gpu_index": 1,
+      "pid": 1802907,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788842356/job_receipt.json",
+      "status": "FAILED_PARTIAL_ROOT_STOPPED_SHARED_FAILURE",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_pilot_1788843303": {
+      "device_idle_observed": false,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1827385,
+      "physical_gpu_index": 0,
+      "pid": 1827385,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788843303/job_receipt.json",
+      "status": "SUCCEEDED",
+      "unknown_consumption": false
+    },
     "stage_C_F2A_qualification_1788830884": {
       "device_idle_observed": false,
       "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
@@ -391,6 +425,17 @@
       "pid": 1622529,
       "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835475/job_receipt.json",
       "status": "FAILED",
+      "unknown_consumption": false
+    },
+    "stage_C_F2A_transport_probe_1788842924": {
+      "device_idle_observed": true,
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "owned_cleanup_pass": true,
+      "pgid": 1819058,
+      "physical_gpu_index": 0,
+      "pid": 1819058,
+      "receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788842924/job_receipt.json",
+      "status": "SUCCEEDED",
       "unknown_consumption": false
     },
     "stage_C_F3A_pilot_1788802734": {
@@ -658,7 +703,7 @@
       "unknown_consumption": false
     }
   },
-  "ledger_head_sha256": "41e008e25f87b81f464b41f149cd800005db761ea20093bc335bf627a1bdad21",
+  "ledger_head_sha256": "527d90e1bb0f021ae0bb7a6eff063e563b27b6aae5dab4d891ce147645f57991",
   "milestones": {
     "A": "VERIFIED_NATIVE_ASSET_READBACK",
     "B_F2": "VERIFIED_CLOSURE_AND_FRESH_CONFIRMATION",
@@ -666,6 +711,8 @@
     "C": "F3-A_F3-B_ACCEPTED_12_OF_24"
   },
   "parent_contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
+  "pilot_cpu_audit_partial_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/f2_f3_pilot_cpu_audit_partial.json",
+  "pilot_cpu_audit_partial_sha256": "edd8c885cd1ada5b0ff355d3617e0faf5d8bc44be201eecc8c225ea043f86562",
   "publication": {
     "last_local_commit": "cd159a992a34941aad3c8692cd6ba1b3473e5388",
     "last_remote_commit": "cd159a992a34941aad3c8692cd6ba1b3473e5388",
@@ -700,39 +747,34 @@
         {
           "checks": {
             "allowed_physical_index": true,
-            "near_baseline_memory": false,
-            "near_baseline_utilization": false,
-            "no_compute_process": false,
-            "pstate_recorded": true
-          },
-          "compute_processes": [
-            {
-              "pid": 1704895,
-              "used_memory_mib": "27550"
-            }
-          ],
-          "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
-          "independently_fresh_idle": false,
-          "memory_used_mib": 27567,
-          "physical_index": 0,
-          "pstate": "P2",
-          "utilization_percent": 72
-        },
-        {
-          "checks": {
-            "allowed_physical_index": true,
             "near_baseline_memory": true,
             "near_baseline_utilization": false,
             "no_compute_process": true,
             "pstate_recorded": true
           },
           "compute_processes": [],
-          "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+          "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
           "independently_fresh_idle": false,
           "memory_used_mib": 14,
+          "physical_index": 0,
+          "pstate": "P8",
+          "utilization_percent": 42
+        },
+        {
+          "checks": {
+            "allowed_physical_index": true,
+            "near_baseline_memory": true,
+            "near_baseline_utilization": true,
+            "no_compute_process": true,
+            "pstate_recorded": true
+          },
+          "compute_processes": [],
+          "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+          "independently_fresh_idle": true,
+          "memory_used_mib": 14,
           "physical_index": 1,
-          "pstate": "P0",
-          "utilization_percent": 83
+          "pstate": "P8",
+          "utilization_percent": 0
         },
         {
           "checks": {
@@ -836,11 +878,11 @@
         "--query-compute-apps=gpu_uuid,pid,used_memory",
         "--format=csv,noheader,nounits"
       ],
-      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 27567, 72, P2\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 83, P0\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
-      "raw_process_csv": "GPU-2c620e6c-9639-2022-b573-9847dfa33769, 1704895, 27550\n",
+      "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 42, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+      "raw_process_csv": "",
       "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
     },
-    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_D_F2_transport_pair_1788841695/pre_guard_snapshot.json",
+    "last_pre_snapshot": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_pilot_1788843303/pre_guard_snapshot.json",
     "nvidia_smi_reason": null,
     "nvidia_smi_status": "AVAILABLE"
   },
@@ -853,24 +895,33 @@
     ],
     "vault_commit": "24f6b7f3b4b8a1354bc6ae1532dfcbb4eb7fecb4"
   },
-  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/runtime_source_snapshot_v2/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/runtime_source_snapshot_v4/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "1f7281c8af6baefd814b1cf44aaffd551e5be5e6db955e642f22f8a821c9d806",
   "stage": "A",
   "stage_status": "RUNNING",
   "status": "INITIALIZING",
   "task_id": "f2_f3_redesign_20260907",
   "transport_qualification": {
+    "accepted_roots": [
+      "F2-A",
+      "F3-A",
+      "F3-B"
+    ],
     "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
     "all_roots_accepted": false,
     "budget_amendment_event_sha256": "4cd0462a4394f29ad1bfdc8c309b82ddb658a6e989465d096a7eccc448c9194f",
+    "f2a_acceptance_artifact_sha256": "ad597e5cc1064458860a93c41518ea0cb9631aae68fb280e8955ba561de0868d",
+    "layout_id": "v3",
+    "pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
+    "partial_failure_artifact_sha256": "01e8c335baaf9b44fb080a3642ca40b3f1c83d4921f6110bce44a03f8ff376a1",
+    "pilot_cpu_audit_partial_sha256": "edd8c885cd1ada5b0ff355d3617e0faf5d8bc44be201eecc8c225ea043f86562",
     "prefix_contact_audit_sha256": "0d150982fd0919c19e06b126e4db020bd29819220ab54c7778baac543ddab32d",
     "production_dispatch_allowed": false,
+    "qualification_inside_sha256": "072891a880887459d5961754fbe5c8a7bad280f0b2a9443a204dd5bcf5f7c222",
     "qualification_job_count": 11,
-    "source_snapshot_manifest_sha256": "d7f8ac86b74828e96419f0cc27023ae34e14c90762b527e405df9799efbe0dff",
-    "status": "V3_STANDARD_PAIR_ACCEPTED",
+    "source_snapshot_manifest_sha256": "1f7281c8af6baefd814b1cf44aaffd551e5be5e6db955e642f22f8a821c9d806",
+    "status": "F2_A_ACCEPTED_F2_B_ACTION_BUDGET_PENDING",
     "summary_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_transport_qualification_summary.json",
-    "summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03",
-    "layout_id": "v3",
-    "pair_receipt_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa"
-  },
-  "f2_layout_v3_pilot_plan": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v1/F2_layout_v3_pilot_plan.json"
+    "summary_sha256": "e83f2ea540badf933da9547eaa4a44db22a34d11ed628287b659cbf0da28b8b2"
+  }
 }
