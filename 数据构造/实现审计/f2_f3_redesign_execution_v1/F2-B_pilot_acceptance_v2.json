@@ -1,0 +1,42 @@
+{
+  "schema_version": "cmf_f2_pilot_acceptance_v2",
+  "task_id": "f2_f3_redesign_20260907",
+  "root_id": "F2-B",
+  "layout_id": "v3",
+  "status": "ACCEPTED",
+  "accepted_cells": 6,
+  "programs": ["inside", "on", "beside"],
+  "realizations": ["r_pc", "r_inv_motion"],
+  "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2B_pilot_1788856533/root_receipt.json",
+  "root_receipt_sha256": "3d3c183294e2998e1c26f723d0f79e5861ff0004ab8c0a8d47776c02e3905783",
+  "job_receipt_sha256": "53d3862ce245f6b0bd356bdc21f928c837b6809e35eba4fa9d2c1241f2fdd68e",
+  "cpu_audit": "F2-B_cpu_audit.json",
+  "cpu_audit_sha256": "454d9fa7159ee3f8b1555bf249cee695d12f0b6ef47585c3db23e740839b536d",
+  "checks": {
+    "all_cell_gates_pass": true,
+    "current_equivalence": true,
+    "anchor_equivalence": true,
+    "prefix_exact_replay": true,
+    "realization_integrity": true,
+    "all_three_motion_suffixes_differ_from_r_pc": true,
+    "relation_exclusive": true,
+    "support_identity": true,
+    "empty_hand_exit": true
+  },
+  "motion_variant": "post_lateral_35_and_post_descent_40_frame_holds",
+  "actual": {
+    "action_scenes": 6,
+    "collection_attempts": 6,
+    "fresh_scenes": 6,
+    "solver_problems": 25,
+    "gpu_lease_seconds": 851
+  },
+  "settlement_event_sha256": "5cfa7ab33d8b6bc5d95c2d3ba2cec8e179d617724611434427d53103825a497b",
+  "physical_gpu_index": 0,
+  "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "owned_cleanup_pass": true,
+  "device_idle_observed": true,
+  "raw_history_unchanged": true,
+  "formal_data": false,
+  "training": false
+}

@@ -1,10 +1,10 @@
 {
-  "accepted_new_cells": 18,
+  "accepted_new_cells": 24,
   "combined_index_target": 48,
   "formal_data": false,
   "new_input_target": 24,
-  "note": "F2-A path repair and both strict F3 roots are accepted. Only the independent F2-B six-cell root remains.",
-  "pending_new_cells": 6,
+  "note": "All four corrected roots and 24 new pilot inputs are accepted; final 48-cell audits and HD replay delivery remain.",
+  "pending_new_cells": 0,
   "read_only_prior_cells": 24,
   "realization_acceptance_correction": "REALIZATION_ACCEPTANCE_CORRECTION_V1.json",
   "realization_completion_audit_sha256": "88ccad44b7c24f64022c544cc8684cb2bbe799d0bda4a96c9cc65800460e4a20",
@@ -31,6 +31,8 @@
       "status": "ACCEPTED_PATH_REPAIRED_V2"
     },
     "F2-B": {
+      "accepted_cells": 6,
+      "acceptance_artifact_sha256": "273875686e512d33558f094fc2cb45a2e46dd17861fd42d52fca755c19b17c69",
       "family": "F2",
       "programs": [
         "inside",
@@ -41,7 +43,8 @@
         "r_pc",
         "r_inv_motion"
       ],
-      "status": "PLANNED"
+      "root_receipt_sha256": "3d3c183294e2998e1c26f723d0f79e5861ff0004ab8c0a8d47776c02e3905783",
+      "status": "ACCEPTED_MOTION_V2"
     },
     "F3-A": {
       "accepted_cells": 6,
@@ -85,7 +88,7 @@
   "source_oracle_hashes": {},
   "f3_terminal_acceptance_correction": "F3_TERMINAL_ACCEPTANCE_CORRECTION_V1.json",
   "f3_terminal_completion_audit_sha256": "ecd1b0ac1bd1f0c66de8b9c1b882e677fbf337a761356888763e16ab516e1213",
-  "status": "F2_A_F3_A_B_ACCEPTED_CONTINUE_F2_B",
+  "status": "FOUR_ROOTS_24_NEW_ACCEPTED_FINAL_DELIVERY_PENDING",
   "task_id": "f2_f3_redesign_20260907",
   "training": false
 }
