@@ -1,0 +1,111 @@
+{
+  "anchor": {
+    "eef_pose": [
+      -0.08102322369813919,
+      -0.17926132678985596,
+      1.0726672410964966,
+      0.7064356769287805,
+      -0.0002837478992639832,
+      0.7077770795660592,
+      0.0003993622985015267
+    ],
+    "first_contact_loss_row_after_prefix": null,
+    "grasp_offset_object_minus_eef_m": [
+      0.000359266996383667,
+      0.0008834898471832275,
+      -0.17288315296173096
+    ],
+    "object_pose": [
+      -0.08066395670175552,
+      -0.17837783694267273,
+      0.8997840881347656,
+      0.7093275785446167,
+      0.704876184463501,
+      3.285483398940414e-05,
+      -0.001992708072066307
+    ],
+    "post_prefix_contact_fraction_next50": 1.0,
+    "prefix_contact_fraction_last50": 1.0,
+    "prefix_end_trace_row": 2542
+  },
+  "budget_delta": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 0
+  },
+  "collection": false,
+  "diagnostic_conclusion": {
+    "bottom_level_planner_failure_cause_resolved": false,
+    "interpretation": "Saved-state geometry and contact are recorded without claiming IK/collision/path cause. A future isolated planner call must preserve raw control status/error before any production dispatch.",
+    "prefix_contact_replay_stable": true,
+    "target_geometry_recorded": true
+  },
+  "diagnostic_sha256": "c38d25676af4aa5d3b1e7c3d2ba1a562e887c1e5b2bdddfc18fb3f73332f099b",
+  "formal_data": false,
+  "identity": {
+    "prefix_sha256": "17e7be50faf56c2b9d178105786c70d2c9924adf0b7e0f001bb1d81017d9cea1",
+    "program_id": "on",
+    "realization_id": "r_pc",
+    "root_id": "F2-A"
+  },
+  "physical_acceptance": false,
+  "planner_failure": {
+    "failure_stage": "planner control failed at pilot_on_lateral_high",
+    "raw_control_diagnostics": [],
+    "raw_control_diagnostics_present": false,
+    "receipt_error": {
+      "message": "planner control failed at pilot_on_lateral_high",
+      "type": "PlannerChainFailure"
+    },
+    "solver_count_provenance": "cell_receipt_only; zero is not independently proven absent raw planner diagnostics",
+    "solver_problem_count_receipt": 0
+  },
+  "schema_version": "cmf_f2_saved_state_planner_diagnostic_v1",
+  "source": {
+    "cell_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835475/on_r_pc/cell_receipt.json",
+    "cell_receipt_sha256": "c4ba67cc47487ce71a7eae717394a6324dd057d02ea07038e3abb88e89092c6c",
+    "trace": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_C_F2A_transport_probe_1788835475/on_r_pc/trace.npz",
+    "trace_rows": 2824,
+    "trace_sha256": "2322477cab5607c778ea4ad4193baddf7025d0831a189fa0fe4923e8b68c6e28"
+  },
+  "status": "DIAGNOSTIC_ONLY",
+  "target_geometry": {
+    "anchor_can_bottom_clearance_above_wall_m": 0.00919021121536745,
+    "can_scaled_extents_m": [
+      0.07114912222011581,
+      0.09646788818255601,
+      0.07118775383879648
+    ],
+    "desired_can_center_m": [
+      0.08,
+      -0.18,
+      0.7905938769193982
+    ],
+    "nominal_descent_eef_pose": [
+      0.07964073300361633,
+      -0.18088348984718322,
+      0.9634770298811292
+    ],
+    "nominal_lateral_eef_pose": [
+      0.07964073300361633,
+      -0.18088348984718322,
+      1.0726672410964966
+    ],
+    "scale_center_m": [
+      0.08,
+      -0.18,
+      0.755
+    ],
+    "stand_center_m": [
+      0.23,
+      -0.18,
+      0.79
+    ],
+    "target_can_bottom_m": 0.755,
+    "wall_top_m": 0.855
+  },
+  "task_id": "f2_f3_redesign_20260907",
+  "training": false
+}

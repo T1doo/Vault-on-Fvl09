@@ -1,7 +1,7 @@
 {
   "schema_version": "cmf_f2_f3_budget_scope_decision_request_v1",
   "task_id": "f2_f3_redesign_20260907",
-  "status": "REQUESTED_PENDING_USER_DECISION",
+  "status": "APPROVED_APPLIED",
   "reason": "F2 transport qualification failed; current action headroom cannot cover both remaining F2-A four cells and F2-B six cells",
   "authoritative_state": {
     "budget_caps": {
@@ -83,5 +83,19 @@
   "transport_qualification_summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03",
   "latest_probe_job_id": "stage_C_F2A_transport_probe_1788835475",
   "updated_status": "REQUESTED_PENDING_USER_DECISION_ACTION_CAP_EXHAUSTED",
-  "request_sha256": "7451f39700e5bf2afe08fb2148ec167ecce7ad40c4731bae532590beafee91aa"
+  "approval_source_link": "https://chatgpt.com/s/t_6a9f803896ec819188bd72351ed549d9",
+  "approval_instruction": "请读取并恢复goal，按要求继续",
+  "budget_amendment_event_sha256": "4cd0462a4394f29ad1bfdc8c309b82ddb658a6e989465d096a7eccc448c9194f",
+  "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
+  "parent_contract_sha256": "d90603572fffe18c35fdb03f8cc745bb05143ff38d006fe84745df06684feebf",
+  "applied_caps": {
+    "solver_problems": 2980,
+    "fresh_scenes": 125,
+    "action_scenes": 94,
+    "collection_attempts": 55,
+    "gpu_lease_seconds": 61200
+  },
+  "budget_scope_decision_applied": true,
+  "requires_saved_state_diagnostic_before_physical_dispatch": true,
+  "request_sha256": "c3f4aeb0fc52ce204944ba90b012de3ed90474e832b3b1059a2d5fe14b58f600"
 }

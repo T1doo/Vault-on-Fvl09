@@ -1093,11 +1093,11 @@
   "raw_failure_evidence_preserved": true,
   "partial_trace_policy": "failed cells retain trace.npz when scene trace exists; prior raw receipts remain unchanged",
   "budget_after": {
-    "action_scenes": 74,
+    "action_scenes": 84,
     "collection_attempts": 41,
-    "fresh_scenes": 76,
-    "gpu_lease_seconds": 9928,
-    "solver_problems": 389
+    "fresh_scenes": 99,
+    "gpu_lease_seconds": 11837,
+    "solver_problems": 484
   },
   "reserved_after": {
     "action_scenes": 0,
@@ -1107,14 +1107,26 @@
     "solver_problems": 0
   },
   "remaining_budget": {
-    "action_scenes": 0,
-    "collection_attempts": 7,
-    "fresh_scenes": 49,
-    "gpu_lease_seconds": 51272,
-    "solver_problems": 2591
+    "action_scenes": 10,
+    "collection_attempts": 14,
+    "fresh_scenes": 26,
+    "gpu_lease_seconds": 49363,
+    "solver_problems": 2496
   },
-  "production_dispatch_allowed": false,
-  "production_pause_reason": "F2 transport repair remains unqualified and action_scenes cap is exhausted; do not spend remaining collection attempts",
+  "production_dispatch_allowed": true,
+  "production_pause_reason": "v3 qualification passed; full F2-A/B roots ready",
   "next_decision": "approve new independent action/collection budget before any further qualification or production dispatch",
-  "summary_sha256": "b23d3383fcd2f05bfcfeb704828eb9deb5b99c433580c64a75bb8807b7800a03"
+  "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
+  "budget_caps": {
+    "solver_problems": 2980,
+    "fresh_scenes": 125,
+    "action_scenes": 94,
+    "collection_attempts": 55,
+    "gpu_lease_seconds": 61200
+  },
+  "budget_amendment_event_sha256": "4cd0462a4394f29ad1bfdc8c309b82ddb658a6e989465d096a7eccc448c9194f",
+  "latest_layout_v3_pair_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_D_F2_transport_pair_1788841695/transport_pair_receipt.json",
+  "latest_layout_v3_pair_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
+  "latest_layout_v3_pair_pass": true,
+  "summary_sha256": "ba69971a4d26a3e4f0502995c52be844128f0590cafbab18bb2d996d2ce9a145"
 }

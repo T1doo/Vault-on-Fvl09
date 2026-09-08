@@ -1,0 +1,79 @@
+{
+  "schema_version": "cmf_f2_layout_v3_cpu_proposal_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "PROPOSED_PENDING_F2_PAIR_QUALIFICATION",
+  "parent_layout_id": "v1",
+  "supersedes_layout_proposal": "F2_layout_v2_cpu_proposal_v1",
+  "layout_id": "v3",
+  "scientific_semantics_preserved": [
+    "inside",
+    "on",
+    "beside",
+    "exclusive_relations",
+    "dynamic_can",
+    "same_table_frame"
+  ],
+  "scene_layout": {
+    "box_center_m": [
+      -0.18,
+      -0.18,
+      0.755
+    ],
+    "scale_center_m": [
+      -0.02,
+      -0.18,
+      0.755
+    ],
+    "scale_half_extents_m": [
+      0.04,
+      0.06,
+      0.005
+    ],
+    "stand_center_m": [
+      0.08,
+      -0.18,
+      0.79
+    ],
+    "stand_half_extents_m": [
+      0.05,
+      0.05,
+      0.035
+    ],
+    "can_initial_center_m": [
+      -0.22,
+      0.02,
+      0.755
+    ]
+  },
+  "target_centers": {
+    "on": [
+      -0.02,
+      -0.18,
+      0.7955938769193982
+    ],
+    "beside": [
+      0.08,
+      -0.18,
+      0.8605938769193981
+    ]
+  },
+  "preflight_evidence": {
+    "beside_lateral_descent_for_x_0_08": "Success/Success",
+    "beside_x_0_10": "IK_FAIL_lateral/Success",
+    "beside_x_0_12": "IK_FAIL/IK_FAIL",
+    "on_x_minus_0_02": "Success/Success"
+  },
+  "compatibility": {
+    "old_v1_inside_current_anchor_prefix_reuse": false,
+    "reason": "layout change requires new current/anchor/prefix and new root receipt",
+    "old_raw_unchanged": true
+  },
+  "required_next_gates": [
+    "CPU static overlap and relation audit",
+    "fresh prefix anchor contact stability",
+    "on/r_pc qualification",
+    "beside/r_pc qualification",
+    "new F2-A root six-cell acceptance before path variant"
+  ],
+  "proposal_sha256": "e13d7819fcc0064b2ab0723ac9e956a587e84b0a94333e2b780ab1c89485a30c"
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "cmf_f2_layout_v3_pilot_plan_v1",
+  "task_id": "f2_f3_redesign_20260907",
+  "status": "READY_FOR_F2_AB_V3_PRODUCTION",
+  "layout_id": "v3",
+  "active_contract_sha256": "f11081327da136e000fbe161a96a2678b19b49fba99261ad5efd616ca7bffe83",
+  "parent_layout_id": "v1",
+  "qualification_pair_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_redesign_v1/stage_D_F2_transport_pair_1788841695/transport_pair_receipt.json",
+  "qualification_pair_sha256": "622a4e27dff70647dc7cc3e2e9e11bfbf18eee21424d59eaad541e90b6df7afa",
+  "qualification_pass": true,
+  "old_inside_reuse": false,
+  "production_roots": {
+    "F2-A": {
+      "programs": [
+        "inside",
+        "on",
+        "beside"
+      ],
+      "realizations": [
+        "r_pc",
+        "r_inv_path"
+      ],
+      "planned_cells": 6
+    },
+    "F2-B": {
+      "programs": [
+        "inside",
+        "on",
+        "beside"
+      ],
+      "realizations": [
+        "r_pc",
+        "r_inv_motion"
+      ],
+      "planned_cells": 6
+    }
+  },
+  "new_production_target": 12,
+  "raw_history_unchanged": true,
+  "formal_data": false,
+  "training": false,
+  "dispatch_order": [
+    "F2-A full six-cell root with fresh v3 prefix",
+    "F2-B independent full six-cell root with fresh v3 prefix"
+  ],
+  "preconditions": [
+    "saved-state planner diagnostics recorded",
+    "v3 on/r_pc and beside/r_pc qualification pass",
+    "old v1 inside not reused"
+  ],
+  "budget_after_pair": {
+    "action_scenes": 84,
+    "collection_attempts": 41,
+    "fresh_scenes": 99,
+    "gpu_lease_seconds": 11837,
+    "solver_problems": 484
+  },
+  "remaining_budget": {
+    "action_scenes": 10,
+    "collection_attempts": 14,
+    "fresh_scenes": 26,
+    "gpu_lease_seconds": 49363,
+    "solver_problems": 2496
+  },
+  "plan_sha256": "259a7824047bfa52e22743b6dd8db3289f33b551de83c243b3a66425dd2bf918"
+}
