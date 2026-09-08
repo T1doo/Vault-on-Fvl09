@@ -14,6 +14,7 @@ import os
 import signal
 import subprocess
 import time
+import argparse
 from pathlib import Path
 from typing import Any
 
@@ -140,23 +141,34 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(); parser.add_argument("--only-job-id"); args = parser.parse_args()
     contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / "P3_JOB_MANIFEST.json").read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
-    if state.get("status") not in {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY"}:
+    allowed_states = {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY", "READY_F3_FIRST", "READY_F3_REMAINING"}
+    if state.get("status") not in allowed_states:
         raise RuntimeError(f"P3 dispatcher expected a first-wave-ready state, got {state.get('status')}")
-    snapshot = live_snapshot(); assignment = assign_ready_jobs(manifest["jobs"], snapshot)
-    if len(assignment["assignments"]) != len(manifest["jobs"]):
+    jobs = [job for job in manifest["jobs"] if args.only_job_id is None or job.get("job_id") == args.only_job_id]
+    if not jobs:
+        raise RuntimeError("requested job id is absent from the frozen first-wave manifest")
+    snapshot = live_snapshot(); assignment = assign_ready_jobs(jobs, snapshot)
+    if len(assignment["assignments"]) != len(jobs):
         raise RuntimeError("not all first-wave jobs received a fresh idle GPU")
     results = []
-    for job in manifest["jobs"]:
+    for job in jobs:
         selected = next(item for item in assignment["assignments"] if item["job_id"] == job["job_id"])
         results.append(_run_job(job, selected, ledger, state))
         if results[-1]["status"] != "PASS":
             break
-    state["progress"]["first_two"] = "PASSED" if len(results) == len(manifest["jobs"]) and all(item["status"] == "PASS" for item in results) else "FAILED"
-    if state["progress"]["first_two"] == "PASSED": state["status"] = "READY_REMAINING_22"
+    wave_pass = len(results) == len(jobs) and all(item["status"] == "PASS" for item in results)
+    if args.only_job_id:
+        state["progress"]["f3_first"] = "PASSED" if wave_pass else "FAILED"
+        if wave_pass: state["status"] = "READY_F3_REMAINING"
+    else:
+        state["progress"]["first_two"] = "PASSED" if wave_pass else "FAILED"
+        if wave_pass: state["status"] = "READY_REMAINING_22"
     _write_state(state)
-    atomic_write_json(BASE / "P3_FIRST_WAVE_RECEIPT.json", {"schema_version": "cmf_f2_f3_v2_p3_first_wave_receipt_v1", "jobs": results, "pass": state["progress"]["first_two"] == "PASSED"})
-    return 0 if state["progress"]["first_two"] == "PASSED" else 1
+    receipt_name = "P3_F3_FIRST_RECEIPT.json" if args.only_job_id else "P3_FIRST_WAVE_RECEIPT.json"
+    atomic_write_json(BASE / receipt_name, {"schema_version": "cmf_f2_f3_v2_p3_first_wave_receipt_v1", "jobs": results, "selected_job_id": args.only_job_id, "pass": wave_pass})
+    return 0 if wave_pass else 1
 
 
 if __name__ == "__main__":
