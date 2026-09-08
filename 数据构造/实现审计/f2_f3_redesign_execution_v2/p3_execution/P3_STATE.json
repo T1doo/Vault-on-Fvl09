@@ -2682,10 +2682,19 @@
     }
   ],
   "running_by_job_id": {},
-  "schema_version": "cmf_f2_f3_v2_p3_state_v5",
+  "schema_version": "cmf_f2_f3_v2_p3_state_v6",
   "source_snapshot_manifest_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
-  "state_sha256": "9b0d66a067c3f8b282ef2b1563aef7d792e313eb64cdae721062574a221bc083",
-  "status": "READY_F3_REMAINING",
-  "stop_reason": "F2-A-v2:beside:r_pc blocked after bounded planner recovery; F3 is independent",
-  "task_id": "f2_f3_observation_contract_repair_20260909_p3"
+  "state_sha256": "4dd1468686a06ef427e872e4a74cc19dcc78689ed0966fbafe30b8b0ccc00f22",
+  "status": "BUDGET_UNKNOWN_CONSUMPTION_STOPPED",
+  "stop_reason": "p3-f3-a-remaining5 dispatcher crashed after Popen; exact GPU lease unknown",
+  "task_id": "f2_f3_observation_contract_repair_20260909_p3",
+  "unknown_jobs": {
+    "p3-f3-a-remaining5": {
+      "child_cleanup_pass": true,
+      "device_idle_observed": true,
+      "partial_capture": true,
+      "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_UNKNOWN_CONSUMPTION_RECEIPT.json",
+      "reservation_held": true
+    }
+  }
 }
