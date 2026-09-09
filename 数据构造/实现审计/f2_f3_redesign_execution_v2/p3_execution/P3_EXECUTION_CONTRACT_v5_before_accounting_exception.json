@@ -10,17 +10,16 @@
     7
   ],
   "amendment": {
-    "change": "no scientific threshold or physical behavior change; settlement failure remains retryable",
+    "change": "at declared high z, route y=carry+0.12m then target x and target y; relation/verifier unchanged",
     "one_change_per_attempt": true,
-    "reason": "execution meter and pre-settlement end evidence for user-authorized accounting exception",
+    "reason": "negative-y high-clearance route failed at first waypoint; try opposite positive-y direction",
     "remaining_recovery_reserve_cells": 1,
-    "revision": 5
+    "revision": 4
   },
   "ancestor_contract_sha256s": [
     "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
     "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
-    "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
-    "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7"
+    "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c"
   ],
   "authorization_basis": "user-approved latest review scope: execute first two after CPU conditions pass without another approval",
   "budget_caps": {
@@ -31,10 +30,10 @@
     "solver_problems": 340
   },
   "budget_request": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-  "budget_request_sha256": "03338e3927ed37b35974972ea6162367299e9c8035e7b27bc694f8226ea6cb05",
-  "contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
-  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ACCOUNTING_EXCEPTION.json",
-  "cpu_gate_sha256": "e16cc288960e2b3fa27c05fb4720803da3658ae3e258d86074061d89eb1ad212",
+  "budget_request_sha256": "4c63a125d9666e76f3bb557c4c7b23338a44600ff89c1821f3a74d6a7857efe7",
+  "contract_sha256": "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
+  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ROUTE_DIRECTION_RECOVERY.json",
+  "cpu_gate_sha256": "bc94264e2863133f0bdc1ab62ebe980f5bf65ff7ecc7204ad6a7162acb629856",
   "first_validation_jobs": [
     {
       "cell_key": "beside:r_pc",
@@ -83,7 +82,7 @@
     "mutate_old_state": false,
     "reaccept_old_data": false
   },
-  "parent_contract_sha256": "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
+  "parent_contract_sha256": "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7",
   "roots": {
     "F2-A-v2": {
       "cells": 6,
@@ -106,7 +105,7 @@
       "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
     }
   },
-  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v6",
+  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v5",
   "scope": {
     "compression": false,
     "families": [
@@ -125,8 +124,8 @@
     "target_cells": 24,
     "training": false
   },
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v28/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "624a441f67771b6302a233e1d592c16a784bdcad5ab12d4bdbb014496478c4c3",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
   "status": "ACTIVE",
   "stop_conditions": [
     "budget overrun or unknown consumption",

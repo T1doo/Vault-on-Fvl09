@@ -16,92 +16,31 @@
     7
   ],
   "amendment": {
-    "parent_budget_request_sha256": "813decaf30d07f2036efa9d408414f92e96456086c668224fec77f77cc0ebb27",
-    "reason": "v27 F2 beside opposite-direction high-clearance route recovery; caps unchanged"
+    "parent_budget_request_sha256": "4c63a125d9666e76f3bb557c4c7b23338a44600ff89c1821f3a74d6a7857efe7",
+    "reason": "v28 meter/settlement closure; caps unchanged"
   },
   "authorization": {
     "basis": "user-approved latest review scope",
     "cpu_gate": {
-      "budget_preview_root_specs": {
-        "F2-A-v2": {
-          "cell_count": 6,
-          "collection_success_cells": 6,
-          "contract_sha256": "56080416d6bb82b7ae8c3bb407e968aa6e4c86c4abe64a8324ba143299f5b0e4",
-          "execution_order": [
-            "beside:r_pc",
-            "inside:r_pc",
-            "inside:r_inv_path",
-            "on:r_pc",
-            "on:r_inv_path",
-            "beside:r_inv_path"
-          ],
-          "fresh_success_cells": 6,
-          "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "9e38b624476e638b5dbfc427c0391d7b233dcbc639fab8965ae00931cf05049d"
-        },
-        "F2-B-v2": {
-          "cell_count": 6,
-          "collection_success_cells": 6,
-          "contract_sha256": "880043dc4a3d81b8d24f9e45dd0272ed0e6374476bbaf0bc4c7429f938001876",
-          "execution_order": [
-            "inside:r_pc",
-            "inside:r_inv_motion",
-            "on:r_pc",
-            "on:r_inv_motion",
-            "beside:r_pc",
-            "beside:r_inv_motion"
-          ],
-          "fresh_success_cells": 6,
-          "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "3bd23b4c39086c92d18917da59585fec365a75affdd125d3c0dc7df1a7fac4bf"
-        },
-        "F3-A-v2": {
-          "cell_count": 6,
-          "collection_success_cells": 6,
-          "contract_sha256": "cef46ce995d8140505b954d5a9d977fcf246e9b41dad677e41ce0a74e6781081",
-          "execution_order": [
-            "VHVH:r_pc",
-            "VVHH:r_pc",
-            "VVHH:r_inv_path",
-            "VHVH:r_inv_path",
-            "VHHV:r_pc",
-            "VHHV:r_inv_path"
-          ],
-          "fresh_success_cells": 6,
-          "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4"
-        },
-        "F3-B-v2": {
-          "cell_count": 6,
-          "collection_success_cells": 6,
-          "contract_sha256": "74887553bfe1019b83df6b8936088233bacc9973c8a36e41525a2a809db199f4",
-          "execution_order": [
-            "VVHH:r_pc",
-            "VVHH:r_inv_motion",
-            "VHVH:r_pc",
-            "VHVH:r_inv_motion",
-            "VHHV:r_pc",
-            "VHHV:r_inv_motion"
-          ],
-          "fresh_success_cells": 6,
-          "ledger_action_scene_success_cells": 6,
-          "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
-        }
-      },
+      "change_set": [
+        "execution meter persisted at cell stages",
+        "end evidence written before ledger settle",
+        "accounting exception ledger event",
+        "dispatcher manifest normalization and unique wave receipts"
+      ],
       "checks": {
         "budget_request_consistency": true,
         "compileall_pass": true,
         "geometry_boundary_regression": true,
         "old_v1_source_untouched": true,
         "pass": true,
-        "physical_execution_started_in_gate": false,
         "source_snapshot_manifest_live_drift": true,
         "strict_exit_negative_tests": true,
-        "v26_gate_preserved": true,
-        "v2_unittest_count": 22,
+        "v27_gate_preserved": true,
+        "v2_unittest_count": 24,
         "v2_unittest_pass": true
       },
-      "generated_at": "2026-09-09T01:45:02.076690+08:00",
+      "generated_at": "2026-09-09T09:38:21.140421+08:00",
       "geometry_details": {
         "high_above_box_rejected": true,
         "overlap_is_not_accepted_as_exclusive": true,
@@ -114,16 +53,10 @@
         "new_collection_attempts": 0,
         "new_scenes": 0
       },
-      "recovery_change": {
-        "kind": "f2_beside_high_clearance_route_direction",
-        "new_route_offset_y_m": 0.12,
-        "one_change_per_attempt": true,
-        "previous_route_offset_y_m": -0.12
-      },
-      "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_route_direction_recovery_v1",
+      "schema_version": "cmf_f2_f3_v2_p2_cpu_gate_accounting_exception_v1",
       "source_drift": [],
-      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
-      "source_snapshot_manifest_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
+      "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v28/SNAPSHOT_MANIFEST.json",
+      "source_snapshot_manifest_sha256": "624a441f67771b6302a233e1d592c16a784bdcad5ab12d4bdbb014496478c4c3",
       "strict_details": {
         "pass": true,
         "planner": true,
@@ -169,7 +102,7 @@
   },
   "old_goal_or_ledger_reused": false,
   "physical_execution_authorized": true,
-  "request_sha256": "89fd10812e7393188fc4cad2c843f628ad6039ad9c6f3c1a3b717bdcd38cb5e0",
+  "request_sha256": "a4b0be51b5b252be649107c8b7d8a57fa43825935e506bb0c8db1070a8bd8e97",
   "requested_independent_contract_caps": {
     "action_scenes": 28,
     "collection_attempts": 28,
@@ -245,8 +178,8 @@
   },
   "schema_version": "cmf_f2_f3_v2_complete_budget_request_v1",
   "scope": "four new roots, 24 complete F2/F3 cells with original t0 RGB/state/anchor/future/candidate outputs",
-  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v28/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "624a441f67771b6302a233e1d592c16a784bdcad5ab12d4bdbb014496478c4c3",
   "status": "AUTHORIZED_FOR_P3_AFTER_CPU_GATES",
   "stop_conditions": [
     "budget overrun or unknown consumption",
