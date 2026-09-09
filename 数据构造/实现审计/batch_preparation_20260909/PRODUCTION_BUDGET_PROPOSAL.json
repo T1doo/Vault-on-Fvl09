@@ -1,0 +1,175 @@
+{
+  "status": "PROPOSED_NOT_AUTHORIZED",
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "accounting_basis": "per root: three separate feasibility scenes with possible setup/action charged conservatively, plus nine fresh collection scenes; first collection produces canonical prefix, not an extra cell; failed queries and partial actions charged; recoveries bounded nine per family",
+  "families": {
+    "F1": {
+      "first_wave_2_roots": {
+        "fresh": 24,
+        "action": 24,
+        "collection": 18,
+        "solver": 600,
+        "gpu_lease_seconds": 9000
+      },
+      "remaining_8_roots": {
+        "fresh": 96,
+        "action": 96,
+        "collection": 72,
+        "solver": 2400,
+        "gpu_lease_seconds": 36000
+      },
+      "ordered_reserve_4_roots": {
+        "fresh": 48,
+        "action": 48,
+        "collection": 36,
+        "solver": 1200,
+        "gpu_lease_seconds": 18000
+      },
+      "bounded_cell_recovery": {
+        "fresh": 9,
+        "action": 9,
+        "collection": 9,
+        "solver": 900,
+        "gpu_lease_seconds": 10800
+      },
+      "total": {
+        "fresh": 177,
+        "action": 177,
+        "collection": 135,
+        "solver": 5100,
+        "gpu_lease_seconds": 73800
+      }
+    },
+    "F2": {
+      "first_wave_2_roots": {
+        "fresh": 24,
+        "action": 24,
+        "collection": 18,
+        "solver": 900,
+        "gpu_lease_seconds": 9000
+      },
+      "remaining_8_roots": {
+        "fresh": 96,
+        "action": 96,
+        "collection": 72,
+        "solver": 3600,
+        "gpu_lease_seconds": 36000
+      },
+      "ordered_reserve_4_roots": {
+        "fresh": 48,
+        "action": 48,
+        "collection": 36,
+        "solver": 1800,
+        "gpu_lease_seconds": 18000
+      },
+      "bounded_cell_recovery": {
+        "fresh": 9,
+        "action": 9,
+        "collection": 9,
+        "solver": 900,
+        "gpu_lease_seconds": 10800
+      },
+      "total": {
+        "fresh": 177,
+        "action": 177,
+        "collection": 135,
+        "solver": 7200,
+        "gpu_lease_seconds": 73800
+      }
+    },
+    "F3": {
+      "first_wave_2_roots": {
+        "fresh": 24,
+        "action": 24,
+        "collection": 18,
+        "solver": 1200,
+        "gpu_lease_seconds": 10800
+      },
+      "remaining_8_roots": {
+        "fresh": 96,
+        "action": 96,
+        "collection": 72,
+        "solver": 4800,
+        "gpu_lease_seconds": 43200
+      },
+      "ordered_reserve_4_roots": {
+        "fresh": 48,
+        "action": 48,
+        "collection": 36,
+        "solver": 2400,
+        "gpu_lease_seconds": 21600
+      },
+      "bounded_cell_recovery": {
+        "fresh": 9,
+        "action": 9,
+        "collection": 9,
+        "solver": 900,
+        "gpu_lease_seconds": 10800
+      },
+      "total": {
+        "fresh": 177,
+        "action": 177,
+        "collection": 135,
+        "solver": 9300,
+        "gpu_lease_seconds": 86400
+      }
+    },
+    "F4": {
+      "first_wave_2_roots": {
+        "fresh": 24,
+        "action": 24,
+        "collection": 18,
+        "solver": 2160,
+        "gpu_lease_seconds": 19800
+      },
+      "remaining_8_roots": {
+        "fresh": 96,
+        "action": 96,
+        "collection": 72,
+        "solver": 8640,
+        "gpu_lease_seconds": 79200
+      },
+      "ordered_reserve_4_roots": {
+        "fresh": 48,
+        "action": 48,
+        "collection": 36,
+        "solver": 4320,
+        "gpu_lease_seconds": 39600
+      },
+      "bounded_cell_recovery": {
+        "fresh": 9,
+        "action": 9,
+        "collection": 9,
+        "solver": 900,
+        "gpu_lease_seconds": 10800
+      },
+      "total": {
+        "fresh": 177,
+        "action": 177,
+        "collection": 135,
+        "solver": 16020,
+        "gpu_lease_seconds": 149400
+      }
+    }
+  },
+  "total": {
+    "fresh": 708,
+    "action": 708,
+    "collection": 540,
+    "solver": 37620,
+    "gpu_lease_seconds": 383400
+  },
+  "historical_budget_inherited": false,
+  "display_budget": 0,
+  "storage_reservation_GiB": 350,
+  "cpu_io_time_status": "first wave measure separately; not deducted as fake GPU lease"
+}

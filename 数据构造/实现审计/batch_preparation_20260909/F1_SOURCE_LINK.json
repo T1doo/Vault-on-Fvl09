@@ -1,0 +1,41 @@
+{
+  "checks": {
+    "aggregate_root_file_hash": true,
+    "aggregate_accepted": true,
+    "parent_root": true,
+    "trace_hash": true,
+    "video_hash": true,
+    "provisional_hash": true,
+    "raw_bindings": true
+  },
+  "pass": true,
+  "aggregate_audit": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_NINE_FINAL_AUDIT_V1_20260906.json",
+  "aggregate_root": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_unattempted8_v1_3/F1_A_path/root_receipt.json",
+  "aggregate_root_sha256": "d6958d1c874ca01b3b68788f54ab7284aa95eb7a990838cfda3fcb78c47088d9",
+  "trace": {
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_recovery_v1_2/F1_A_path/branches/F1-red/trace_source.npz",
+    "sha256": "1a465be864511fd0ad4f6502a5575a1fabc7bbb1460b6ea1c0cd013ad73a2f59"
+  },
+  "receipt_recovery": {
+    "new_physical_attempts": 0,
+    "new_trajectory_count": 0,
+    "old_job_terminal_unchanged": true,
+    "original_ephemeral_verifier_receipt_missing": true,
+    "original_partial_receipt_file_sha256": "04661823770e21b1c4bbae4a53f9fe0e775c6f0d5a747b342306146315f2d10d",
+    "original_partial_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_recovery_v1_2/F1_A_path/branches/F1-red/receipt.provisional.json",
+    "prefix_reference_field_correction": {
+      "new_prefix_sha256": "6af9e8b33d0dc225dd03e75cbb03781da9f3be4d3fbcf1ca64f2a6e21e603fbc",
+      "old_prefix_sha256": "439040b3c258546474d2eb706897ce82af5351e38d90ce03e0d05a0387c6b447",
+      "prefix_actions_P_and_anchors_unchanged": true,
+      "prior_derived_file_sha256": "e96941ecdb94b9f4bd405674577a3f322692eb7e018960f9e3300ef0fdbd29f0",
+      "prior_derived_path": "/nfs_share/lijunhui/Robotwin2/datasets/cmf_realization_utf8_receipt_recovery_v1/F1-red.derived.json",
+      "reason": "existing branch schema prefix_sha256 references full prefix artifact, not only prefix contract"
+    },
+    "raw_video_trace_bytes_unchanged": true,
+    "reconciliation_file_sha256": "6e8ead2fcfb991775c65f6bd526f19a2a5eefe18233c2cb20042f639fdb241ed",
+    "reconciliation_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/REALIZATION_UTF8_TRACE_RECONCILIATION_V1_20260905.json",
+    "replacement_verifier_is_trace_derived": true,
+    "schema_version": "cmf_append_only_trace_derived_receipt_v1"
+  },
+  "interpretation": "cross-directory final acceptance covers this trace; original local root receipt remains absent; no new scientific promotion"
+}

@@ -42,21 +42,12 @@
 
 ## 当前工作与日志（2026-09-09）
 
-- 最新任务覆盖（优先于下列历史上下文）：事实入口为`数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md`（远端`91a34e797d9d0e486908d71190830fe3874eb9a0`），实施入口为`数据构造/F2F3完整观测采集与独立验收修复计划_20260908.md`（远端`b7117ed68bdc2064a1608a2a14a8df7d58bc06cb`），当前CPU收口与执行交接见`数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE.json`及`p3_execution/P3_EXECUTION_CONTRACT.json`。P2 CPU gate已通过；最新用户审阅已批准同一独立cap下进入P3首两条，但首波尚未启动，GPU/物理消耗仍为0。
-- 旧V2.1入口、旧Goal、STATE、raw、回执、预算和接受历史原样保留；旧`COMPLETE`/48格条目数不能放行research loader。旧F2/F3仅作开发/正证据/负例，四条stand-top beside不得改标签升格；F1/F4不重采，formal360/训练/H-reveal/compression/π0.5不在当前范围。
-- 新版本必须修正F2 reference/support/region分离、动作前原始RGB/current/anchor、F3预定rest与独立事件验收、A/B实际scene_spec差异、inputs/supervision/audit分离、首格启动/恢复和独立finalizer；上述P2修复已封存为runtime_source_snapshot_v24并通过CPU gate。P3使用独立contract/state/ledger，首两格按最新审阅授权可直接执行；formal360、训练、H-reveal和compression仍不在范围。
-
-- 用户已提交GPT审查并要求按七项意见修订、交Luna持续执行；目标明确为F2/F3（F3/F4为已纠正笔误）。文档已落实V2.1，本轮未启动GPU/采集或实现新运行层；Luna接手先落实必要合同再按里程碑连续推进，不重新全面外审或逐helper求批。
-- 计划入口：`数据构造/F2F3重设计审查与后续执行计划_20260907.md`，V2.1；必读`数据构造/F2F3重设计V2.1执行附录_20260907.md`和`数据构造/Luna_F2F3执行交接说明书_20260907.md`。三者给出采纳的新共同预算、A/B/C里程碑及最终完成谓词，状态REVIEW_APPLIED_READY_FOR_LUNA_IMPLEMENTATION。
-- **当前唯一日常构造日志：`数据构造/F2F3重设计与构造日志.md`。** 每次F1–F4编辑、状态更改、probe/run前重读本卷尾部和相关Git status；完成后简短追加范围、版本/证据、实际消耗、失败/清理与下一步。多卡worker写独立receipt，协调者统一追加。不要把本文件或新日志再次变成逐命令大转录。
-- 旧 `数据构造/正式数据构造日志.md` 原样保留至§637作为历史卷，不再日常追加；仅在追溯时读相关部分。旧日志和失败历史不改写，新任务独立管理。
-- 用户明确：本轮是全新F2/F3任务，不继承 `cmf_pilot48_20260907` 旧Goal的目标、预算余额、修订次数、授权链、串行限制、暂停状态或附加完成条件。`数据构造/实现审计/goal_pilot48_v1/` 仅为历史证据入口；不恢复或写入其STATE/ledger。新任务在独立namespace建立新合同、预算和状态，依据本轮计划审查与用户交接执行，不把“连续跨族6条/正式生产草案”带成必做。
-- 旧要求排查/覆盖表：`数据构造/实现审计/f2_f3_redesign_review_20260907_v1/LEGACY_REQUIREMENTS_AUDIT.md`。旧GOAL/CONTRACT、runtime串行代码和操作手册数字选卡例不是新作业规范；新任务运行层尚待Luna按计划建立，不能只改manifest绕过检查。旧方案的asset/姿态/物性禁改和耗尽配方仅约束旧版本，获批新设计用独立合同/总账，有限尝试规则在新计划中审查，不按旧配方已耗尽阻断新设计。
-- 基线Vault HEAD `569c4d239b556ffdbe725f4062bc46d33e4ed62e`：F1/F4各12条、pilot24/48；F2/F3尚无完整pilot根；formal0/360。Stage0封存为COMPLETED_WITH_FAILURE_EVIDENCE，绝不重开；F4后来成功不得倒写成Stage0成功。
-- F2旧inside在preinsert前失败，须重设计完整下降/支撑/开爪/退出；F3旧横放已离台但失稳，新竖放须先核质量/惯量/实际材料和真实抓持。新尺寸/资产意味着新current/anchor和三候选重新验证，旧on/beside资格不得继承为新场景通过。
-- V2.1执行要点：effective_scale统一mesh/语义点且包装不覆写物性；规划接触许可与实际支撑验收分开；慢开按净开度单调增加；F3支撑例外不延续到自由V/H；共享prefix精确重放、后缀允许按冻结规则在线规划；W2 qualification不事后升级collection；严格嵌套输入白名单。漂移趋势仅诊断，普通接线bug不扣物理配方修订次数但资源照计；计划内备选/尺寸/物性修复和总额内阶段调配自主进行。
-- F1/F4已接受轨迹及已交付高清回放不重采、不重复采纳、不重制。MP4展示目录 `数据构造/演示视频/` 仅放视频，按family/root/realization分组；回执/脚本放审计目录。状态回放与失败诊断不算新成功rollout。
-- 下一目标是剩余24格/总48输入及独立结构验收；输入齐备不等于科学Stage1通过。formal360执行、训练、H-reveal、压缩和π0.5仍不在当前执行范围。新任务预算以其独立获批合同/账本为准，不沿用旧Goal余额；研究语义与数据真实性规则不因脱离旧Goal而自动取消。
+- 当前任务为“批量生产准备与数据存储规划”，依据用户最新审阅链接`t_6aa17ae008788191899e6165ced26cb8`。P4采集已收口，交接基线`31a0287a976371f490baa1d0e7ca5ecd9cea3fcd`；F2-A/B各六格、F3-A兼容保留六格、F3-B以独立finalizer及reconciliation接受六格，共24个scoped pilot inputs。完整科学Stage1仍未完成。
+- 当前证据入口：`数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json`及四root对账；来源清单仅是引用，不把v43当作所有历史轨迹的运行源。F1/F4已有数据只读保留，不重采；F1-red历史缺项优先核对`REALIZATION_NINE_FINAL_AUDIT_V1_20260906.json`的跨目录汇总。
+- 当前允许CPU源码检查、四族参数/slot/预算规划、小型检查与副本工具、一个已通过cell的非破坏性迁移小样、自动发布。禁止GPU初始化、规划/物理实验、新采集、训练/推理、高清渲染、全量搬移或删除。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。显示计划搁置。
+- 本轮计划入口：`数据构造/实现审计/batch_preparation_20260909/EXECUTION_HANDOFF.md`。正式规划保持40主root/360条及16有序reserve，每root三意图×三真实realizations；先规划四族，未来获批后按F1→F2→F3→F4逐族采集/验收/归档，同族可用独立空闲GPU并行。CPU准备完成不等于新场景批量物理验证通过。
+- 唯一日常日志：`数据构造/F2F3重设计与构造日志.md`；编辑、状态改变或probe前读取日志尾部与Git status。旧`正式数据构造日志.md`不再日常追加。旧raw/失败/接受历史保留；既有视频不重制，不以展示未完成撤销采集完成。
+- 独立副本拟放`/nfs_share/lijunhui/CVPR_FutureIntent_Data/`，不入Git；真实复制文件，使用包内相对路径读取，原绝对路径仅作来源。共享NFS上的第二份文件不称异地备份。
 
 ## 环境与Git的必要入口
 
