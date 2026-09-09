@@ -1,0 +1,48 @@
+{
+  "contract_sha256": "57adf71715dc16777ab0bfd0c6001a958679f37d18f482f08e327398fa7104b6",
+  "jobs": [
+    {
+      "cell_keys": [
+        "inside:r_inv_motion",
+        "on:r_pc",
+        "on:r_inv_motion",
+        "beside:r_pc",
+        "beside:r_inv_motion"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.collector_v2",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five",
+        "--root-id",
+        "F2-B-v2",
+        "--cell-keys",
+        "inside:r_inv_motion,on:r_pc,on:r_inv_motion,beside:r_pc,beside:r_inv_motion",
+        "--existing-root",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-seed-root",
+        "--f2-layout-id",
+        "v5_beside_y_lower",
+        "--f2-route-mode",
+        "side_then_geometry_target",
+        "--f2-lift-clearance-m",
+        "0.12"
+      ],
+      "job_id": "p4-f2-b-v6-lower-clearance-remaining-five",
+      "job_type": "f2_root_remaining_collection",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five",
+      "reservation": {
+        "action_scenes": 5,
+        "collection_attempts": 5,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 2500,
+        "solver_problems": 200
+      },
+      "root_id": "F2-B-v2",
+      "timeout_seconds": 2500
+    }
+  ],
+  "manifest_sha256": "de6ee34e06fe9b3631bb64bf350bd5a5230451708508e7fbc3c036f0981c0b02",
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_B_V6_LOWER_CLEARANCE_REMAINING_FIVE"
+}

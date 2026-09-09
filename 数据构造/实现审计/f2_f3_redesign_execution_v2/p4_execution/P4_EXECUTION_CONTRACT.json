@@ -10,17 +10,25 @@
     7
   ],
   "amendment": {
+    "added_gpu_lease_seconds": 7200,
     "one_change_per_amendment": true,
-    "previous_p4_contract_sha256": "321763d030bd8f0e8dfc396be14ad2cc8a094d85af303a98f68a79d72d08863e",
-    "reason": "bind collector run_root route-mode signature fix after prelaunch failure",
-    "remaining_balance_before_revision": {
-      "action_scenes": 9,
-      "collection_attempts": 9,
-      "fresh_scenes": 12,
-      "gpu_lease_seconds": 7152,
-      "solver_problems": 130
+    "previous_budget_caps": {
+      "action_scenes": 28,
+      "collection_attempts": 24,
+      "fresh_scenes": 32,
+      "gpu_lease_seconds": 7200,
+      "solver_problems": 480
     },
-    "revision": 30
+    "previous_p4_contract_sha256": "57adf71715dc16777ab0bfd0c6001a958679f37d18f482f08e327398fa7104b6",
+    "reason": "bind explicit root lift-clearance field for completed F2-B root",
+    "remaining_balance_before_revision": {
+      "action_scenes": 21,
+      "collection_attempts": 21,
+      "fresh_scenes": 24,
+      "gpu_lease_seconds": 9600,
+      "solver_problems": 182
+    },
+    "revision": 35
   },
   "ancestor_contract_sha256s": [
     "bfe59dd95cef643e72dd01cc52673aef76b3dac2dd3fa436588a565de096cc32e",
@@ -48,17 +56,22 @@
     "149543e0e3072003dfc8d56d4a13c7d09cc7923a58e0c54a6950dce70ce02bbf",
     "d845255c59ad6edede76093587bb04f8610e4507aa31d99a3296b1006b54f531",
     "d3d45cfcd033ebd73d7c1ef0972ffcf58c8372e6d73b5ae86fc792eb7aeef230",
-    "927b1af670e52e496e2d5786e71a4d95f85822698fba856a454bbe564d4664db"
+    "927b1af670e52e496e2d5786e71a4d95f85822698fba856a454bbe564d4664db",
+    "321763d030bd8f0e8dfc396be14ad2cc8a094d85af303a98f68a79d72d08863e",
+    "9a53f34aea822e410ec2526da92791c3bc462a1c4918e7ef2d83b47aa11681ca",
+    "3c20a6f42b3ac41a35b3e48c0a078d43d2f9384250aca768a60de05fe530dfbc",
+    "13b5984fede6cd399f4d902823337b5b0bbad7d9bbeeff719ad2f11cdacacf43",
+    "7674e83ced8e9cc0f69b5606b9991782ee556f7d5eaad09000a3349d87f7548a"
   ],
   "authorization_basis": "user-approved latest review link t_6aa0d433d50c8191b7508da3a1597b8a; P4 scope explicitly authorized",
   "budget_caps": {
     "action_scenes": 28,
     "collection_attempts": 24,
     "fresh_scenes": 32,
-    "gpu_lease_seconds": 7200,
+    "gpu_lease_seconds": 14400,
     "solver_problems": 480
   },
-  "contract_sha256": "9a53f34aea822e410ec2526da92791c3bc462a1c4918e7ef2d83b47aa11681ca",
+  "contract_sha256": "d24593059450a5d231fa466625a9a356549b2ff0bd2f08228038aae1e01d0c3c",
   "contract_version": "P4-repair-and-completion-v1",
   "cpu_gate": {
     "collector_route_mode_cli": "implemented_and_help_verified",
@@ -70,11 +83,19 @@
     "f3_trace_diagnostic": "pass_read_only_bottle_relative_slip_supported",
     "planner_diagnostics_runtime": "implemented_not_yet_physical",
     "planner_failure_propagation": "implemented_and_CPU_fake_backend_verified",
+    "root_lift_clearance_receipt": "implemented_and_28_cpu_tests_passed",
     "root_receipt_budget_accounting": "implemented_and_cpu_seam_verified",
+    "root_route_mode_receipt": "implemented_and_28_cpu_tests_passed",
     "saved_state_v5_binding": "implemented_explicit_layout_and_S0_S1_rows",
     "source_spec_drift_handling": "explicit_physical_layout_match_with_semantic_geometry_revision_recorded"
   },
   "design_decisions": {
+    "dispatcher_end_evidence_order": "persist before usage parse and ledger settle",
+    "dispatcher_source_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4_dispatch.py",
+    "dispatcher_source_sha256": "41a20ddbc80962fa74572b1c936f8649e6b5a3e00371d136d25797bcc78a0a09",
+    "f2_b_lift_recovery_basis": "B inside:r_pc lift_1.00 returned MotionGenStatus.IK_FAIL after lift_0.75 Success; one finite lower-clearance qualification only",
+    "f2_b_lift_recovery_m": 0.12,
+    "f2_b_lift_recovery_scope": "B root only; A source/seed unchanged",
     "f2_beside_support": "table",
     "f2_diagnostic_query_budget": 36,
     "f2_diagnostic_scene_budget": 2,
@@ -93,8 +114,15 @@
       "status": "candidate_only_until_qualification"
     },
     "f3_diagnostic": "world_bottle_vs_world_eef_vs_relative_eef_bottle",
-    "p4_root_receipt_accounting": "charge only generated cells bound to this output; reused qualification seed is not charged again"
+    "gpu_cap_extension": "7200_to_14400_only",
+    "gpu_cap_extension_basis": "user-provided continuation review link t_6aa138d8c82c8191a9476a0e6ed21948",
+    "p4_root_receipt_accounting": "charge only generated cells bound to this output; reused qualification seed is not charged again",
+    "prelaunch_usage_basis": "no child artifact charges measured GPU lease only; physical counters zero",
+    "remaining_target_cells": "F2-A five plus F2-B six",
+    "timeout_reservation_rule": "timeout_seconds <= gpu_lease_seconds reservation"
   },
+  "dispatcher_source_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4_dispatch.py",
+  "dispatcher_source_sha256": "3c20eba6111ece64b7f15bf67fcd96499c74e1a49c52bf4f7f1cf91e261bd66f",
   "gpu_policy": {
     "automatic_gpu0_fallback": false,
     "bind_uuid_before_child": true,
@@ -120,7 +148,7 @@
     "ledger": "preserve_no_carry_forward",
     "state": "terminal_historical"
   },
-  "parent_contract_sha256": "321763d030bd8f0e8dfc396be14ad2cc8a094d85af303a98f68a79d72d08863e",
+  "parent_contract_sha256": "57adf71715dc16777ab0bfd0c6001a958679f37d18f482f08e327398fa7104b6",
   "review_link": "https://chatgpt.com/s/t_6aa0d433d50c8191b7508da3a1597b8a",
   "scope": {
     "compression": false,
@@ -143,9 +171,9 @@
     "recovery_reserve": 6,
     "training": false
   },
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v39/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "18ee12a07ee1ee7cc2f3b1e281538afa89c6c0cb1b2ce353ce3dc1dcb98ba01b",
-  "status": "P4_CPU_REPAIR_ONLY_AFTER_CONSERVATIVE_CAP",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+  "status": "P4_F2_ROOTS_COMPLETE",
   "stop_conditions": [
     "budget overrun or unknown consumption",
     "capture/anchor/source integrity failure",

@@ -55,6 +55,11 @@ def _normalise_job(raw: dict[str, Any]) -> dict[str, Any]:
     reservation = job.get("reservation")
     if not isinstance(reservation, dict) or any(isinstance(reservation.get(key), bool) or not isinstance(reservation.get(key), int) or reservation[key] < 0 for key in COUNTERS):
         raise ValueError("P4 job reservation is malformed")
+    timeout = job.get("timeout_seconds")
+    if isinstance(timeout, bool) or not isinstance(timeout, int) or timeout <= 0:
+        raise ValueError("P4 job timeout_seconds must be a positive integer")
+    if reservation["gpu_lease_seconds"] > 0 and timeout > reservation["gpu_lease_seconds"]:
+        raise ValueError("P4 job timeout_seconds cannot exceed its GPU lease reservation")
     cells = job.get("cell_keys")
     if isinstance(cells, str):
         cells = [item for item in cells.split(",") if item]
@@ -108,6 +113,20 @@ def _actual_usage(output: Path, lease_seconds: int, launched: bool) -> dict[str,
             "solver_problems": sum(int(cell.get("solver_problem_count", 0)) for cell in generated),
             "gpu_lease_seconds": int(lease_seconds),
         }
+    # A child that exits during argument parsing or another pre-scene entry
+    # check may never create its output directory or a receipt.  The
+    # coordinator still has a measured GPU lease from its monotonic clocks;
+    # settle that lease and keep physical counters at zero when no child
+    # artifact exists.  A partially-created scene remains unknown and is
+    # handled by the explicit error below.
+    if launched and (not output.exists() or not any(output.iterdir())):
+        return {
+            "fresh_scenes": 0,
+            "action_scenes": 0,
+            "collection_attempts": 0,
+            "solver_problems": 0,
+            "gpu_lease_seconds": int(lease_seconds),
+        }
     if launched:
         raise RuntimeError("P4 child launched without a persisted diagnostic receipt; consumption is unknown")
     return {key: 0 for key in COUNTERS}
@@ -143,8 +162,23 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
             process.wait(timeout=20)
     ended = time.monotonic(); lease = max(0, int(math.ceil(ended - started))); return_code = int(process.returncode if process.returncode is not None else -999); tree_after = _tree(pid); owned_cleanup = not any(str(pid) in line.split()[:1] for line in tree_after)
     post = live_snapshot(); post_card = {int(item["physical_index"]): item for item in post["gpus"]}.get(physical_index); idle_observed = bool(post_card and post_card.get("independently_fresh_idle"))
-    actual = _actual_usage(output, lease, launched=True); overrun = any(actual[key] > reservation[key] for key in COUNTERS)
-    end = {"schema_version":"cmf_f2_f3_v2_p4_end_evidence_v1","job_id":job_id,"root_id":job["root_id"],"cell_keys":job["cell_keys"],"physical_gpu_index":physical_index,"gpu_uuid":gpu_uuid,"command":command,"pid":pid,"pgid":pgid,"return_code":return_code,"timeout":timed_out,"pre_snapshot":pre,"guarded_card":guarded,"post_snapshot":post,"process_tree_start":state["jobs"][job_id]["process_tree_start"],"process_tree_after":tree_after,"owned_cleanup_pass":owned_cleanup,"device_idle_observed":idle_observed,"actual_usage":actual,"reservation":reservation,"worker_log":str(log_path),"overrun_before_settlement":overrun,"output":str(output)}; end["end_evidence_sha256"]=canonical_sha256(end); atomic_write_json(BASE / f"{job_id}.end_evidence.json", end)
+    # Persist the end boundary before any receipt/usage parser can fail.  This
+    # keeps the measured lease, exit code, process tree, and cleanup evidence
+    # available for an ordinary CLI error or an unknown-consumption stop.
+    end = {"schema_version":"cmf_f2_f3_v2_p4_end_evidence_v1","job_id":job_id,"root_id":job["root_id"],"cell_keys":job["cell_keys"],"physical_gpu_index":physical_index,"gpu_uuid":gpu_uuid,"command":command,"pid":pid,"pgid":pgid,"return_code":return_code,"timeout":timed_out,"pre_snapshot":pre,"guarded_card":guarded,"post_snapshot":post,"process_tree_start":state["jobs"][job_id]["process_tree_start"],"process_tree_after":tree_after,"owned_cleanup_pass":owned_cleanup,"device_idle_observed":idle_observed,"actual_usage":None,"usage_parse_error":None,"usage_basis":"end_boundary_persisted_before_usage_parse","reservation":reservation,"worker_log":str(log_path),"overrun_before_settlement":None,"output":str(output)}; end["end_evidence_sha256"]=canonical_sha256(end); atomic_write_json(BASE / f"{job_id}.end_evidence.json", end)
+    try:
+        actual = _actual_usage(output, lease, launched=True)
+        has_artifact = output.exists() and any(output.iterdir())
+        usage_basis = "measured_gpu_lease_and_persisted_child_receipt" if has_artifact else "measured_gpu_lease_no_child_artifact"
+    except BaseException as exc:
+        end["usage_parse_error"] = {"type": type(exc).__name__, "message": str(exc)}
+        end["usage_basis"] = "unknown_child_consumption_after_end_boundary"
+        end["end_evidence_sha256"] = canonical_sha256(end)
+        atomic_write_json(BASE / f"{job_id}.end_evidence.json", end)
+        state["jobs"][job_id].update({"status":"UNKNOWN_CONSUMPTION_AFTER_END_EVIDENCE","end_evidence":str(BASE / f"{job_id}.end_evidence.json"),"usage_parse_error":end["usage_parse_error"]}); state["status"]="STOPPED_UNKNOWN_CONSUMPTION"; state["stop_reason"]="usage parser failed after end evidence; reservation remains held"; _write_state(state)
+        raise
+    overrun = any(actual[key] > reservation[key] for key in COUNTERS)
+    end["actual_usage"] = actual; end["usage_basis"] = usage_basis; end["overrun_before_settlement"] = overrun; end["end_evidence_sha256"] = canonical_sha256(end); atomic_write_json(BASE / f"{job_id}.end_evidence.json", end)
     event = ledger.settle(job_id, reservation, actual, idempotency_key=f"settle:{job_id}"); status = "PASS" if return_code == 0 and owned_cleanup and not overrun else "FAILED"
     receipt = {**end,"schema_version":"cmf_f2_f3_v2_p4_job_receipt_v1","budget_event_sha256":event["event_sha256"],"status":status}; atomic_write_json(BASE / f"{job_id}.json", receipt)
     state["jobs"][job_id] = receipt; state["budget_progress"] = ledger.totals(); _write_state(state)
@@ -155,7 +189,7 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--manifest", default="P4_F2_DIAGNOSTIC_MANIFEST.json"); parser.add_argument("--only-job-id"); args = parser.parse_args()
     contract = json.loads((BASE / "P4_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / args.manifest).read_text(encoding="utf-8")); state = json.loads((BASE / "P4_STATE.json").read_text(encoding="utf-8")); state.setdefault("jobs", {}); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
-    if state.get("status") not in {"READY_BOUNDED_DIAGNOSTICS", "READY_F2_LAYOUT_REPAIR", "READY_F2_QUALIFICATION", "READY_F2_DIAGNOSTIC_REPAIR", "F2_BESIDE_BLOCKED_AFTER_QUALIFICATION", "F3_B_QUALIFICATION_CELL_PASSED_ROOT_INCOMPLETE", "READY_QUALIFICATION", "RUNNING"}:
+    if state.get("status") not in {"READY_BOUNDED_DIAGNOSTICS", "READY_F2_LAYOUT_REPAIR", "READY_F2_QUALIFICATION", "READY_F2_DIAGNOSTIC_REPAIR", "READY_F2_ROOT_COLLECTION", "F2_BESIDE_BLOCKED_AFTER_QUALIFICATION", "F3_B_QUALIFICATION_CELL_PASSED_ROOT_INCOMPLETE", "READY_QUALIFICATION", "RUNNING"}:
         raise RuntimeError(f"P4 dispatcher expected a ready state, got {state.get('status')}")
     jobs = [_normalise_job(job) for job in manifest.get("jobs", []) if args.only_job_id is None or job.get("job_id") == args.only_job_id]
     if not jobs: raise RuntimeError("requested P4 job is absent from manifest")
