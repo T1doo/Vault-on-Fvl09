@@ -12,11 +12,11 @@
     "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_ACCOUNTING_EXCEPTION_RECEIPT.json"
   },
   "budget_consumed_or_charged": {
-    "action_scenes": 18,
-    "collection_attempts": 16,
-    "fresh_scenes": 14,
-    "gpu_lease_seconds": 3756,
-    "solver_problems": 320
+    "action_scenes": 19,
+    "collection_attempts": 17,
+    "fresh_scenes": 15,
+    "gpu_lease_seconds": 3916,
+    "solver_problems": 332
   },
   "cell_matrix": {
     "F2-A-v2:beside:r_pc": {
@@ -37,6 +37,13 @@
       "root": "p3-f3-a-remaining5-retry1",
       "root_finalizer_pass": true,
       "status": "INDEPENDENTLY_ACCEPTED"
+    },
+    "F3-B-v2:VHVH:r_pc": {
+      "independently_accepted": false,
+      "physical_attempts": 1,
+      "reason": "first H bottle orientation drift 0.0628977rad > 0.05rad",
+      "receipt": "p3-f3-b-vhvh-rpc.json",
+      "status": "PHYSICAL_EVENT_GATE_FAILED"
     },
     "F3-B-v2:VVHH:r_inv_motion": {
       "independently_accepted": false,
@@ -66,6 +73,15 @@
     "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json",
     "status": "ACCEPTED"
   },
+  "f3_b_baseline_failure": {
+    "metrics": {
+      "bottle_negative_amplitude_m": 0.04067245125770569,
+      "first_H_bottle_orientation_drift_rad": 0.06289768565778894,
+      "threshold_rad": 0.05
+    },
+    "other_events_and_terminal_passed": true,
+    "status": "STOP_AFFECTED_BATCH"
+  },
   "f3_b_first": {
     "cell": "VVHH:r_pc",
     "root": "p3-f3-b-vvhh-rpc",
@@ -93,14 +109,21 @@
     "status": "RECOVERY_READY"
   },
   "f3_b_remaining_retry": "READY_CELL_1",
-  "known_settled_consumption": {
-    "action_scenes": 13,
-    "collection_attempts": 15,
-    "fresh_scenes": 13,
-    "gpu_lease_seconds": 1956,
-    "solver_problems": 160
+  "f3_b_status": {
+    "accepted_cells": 1,
+    "baseline_blocked": true,
+    "motion_blocked": true,
+    "required_cells": 6,
+    "root_eligible": false
   },
-  "ledger_sha256": "65a29a05dd66555519dacf087be9908513cef48f7bfd0e2a9f66c58bbacb5d93",
+  "known_settled_consumption": {
+    "action_scenes": 14,
+    "collection_attempts": 16,
+    "fresh_scenes": 14,
+    "gpu_lease_seconds": 2116,
+    "solver_problems": 172
+  },
+  "ledger_sha256": "45b13914f60da2d6c54152e5c8f24cad9d3efb99b1dbd9c71e9dd5c5fd4e003c",
   "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
   "next_optional_cell": {
     "cell": "VHVH:r_pc",
@@ -118,11 +141,11 @@
     "old_f2_f3_not_reaccepted": true
   },
   "remaining_contract_caps_after_exception": {
-    "action_scenes": 10,
-    "collection_attempts": 12,
-    "fresh_scenes": 14,
-    "gpu_lease_seconds": 1044,
-    "solver_problems": 20
+    "action_scenes": 9,
+    "collection_attempts": 11,
+    "fresh_scenes": 13,
+    "gpu_lease_seconds": 884,
+    "solver_problems": 8
   },
   "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
   "scientific_status": {
@@ -136,8 +159,9 @@
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
     "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
   },
-  "status": "READY_F3_B_BASELINE",
-  "summary_sha256": "4fc217bd4a10e874ef3e6af3ab28b84b47e86e166ffac70807453e22d79d0452",
+  "status": "F3_B_BLOCKED_BUDGET_AND_EVENT_GATES",
+  "stop_reason": "F3-B baseline and motion event gates failed; remaining solver=8 cannot complete root",
+  "summary_sha256": "cb5475f8270d8c844e777cf06f9f5c2229a546dd4572a93a8128f069679bd344",
   "target_new_cells": 24,
   "unknown_reservation": {
     "job_id": "p3-f3-a-remaining5",
