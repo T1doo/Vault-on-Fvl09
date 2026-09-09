@@ -12,11 +12,11 @@
     "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_ACCOUNTING_EXCEPTION_RECEIPT.json"
   },
   "budget_consumed_or_charged": {
-    "action_scenes": 17,
-    "collection_attempts": 15,
-    "fresh_scenes": 13,
-    "gpu_lease_seconds": 3597,
-    "solver_problems": 308
+    "action_scenes": 18,
+    "collection_attempts": 16,
+    "fresh_scenes": 14,
+    "gpu_lease_seconds": 3756,
+    "solver_problems": 320
   },
   "cell_matrix": {
     "F2-A-v2:beside:r_pc": {
@@ -40,10 +40,13 @@
     },
     "F3-B-v2:VVHH:r_inv_motion": {
       "independently_accepted": false,
-      "physical_attempts": 1,
-      "reason": "second H bottle negative amplitude 0.03987m and orientation drift 0.06277rad",
-      "receipt": "p3-f3-b-vvhh-rinv-motion-retry1.json",
-      "status": "PHYSICAL_EVENT_GATE_FAILED"
+      "physical_attempts": 2,
+      "reason": "second H bottle amplitude/orientation gates failed in both hold schedules",
+      "receipts": [
+        "p3-f3-b-vvhh-rinv-motion-retry1.json",
+        "p3-f3-b-vvhh-rinv-motion-retry2.json"
+      ],
+      "status": "BLOCKED_EVENT_GATE_AFTER_RECOVERY"
     },
     "F3-B-v2:VVHH:r_pc": {
       "independently_accepted": true,
@@ -78,28 +81,48 @@
       }
     },
     "recovery_change": "hold frames [30,35,30]→[25,30,25]",
+    "recovery_result": {
+      "decision": "stop_affected_batch",
+      "hold_schedule": [
+        25,
+        30,
+        25
+      ],
+      "pass": false
+    },
     "status": "RECOVERY_READY"
   },
   "f3_b_remaining_retry": "READY_CELL_1",
   "known_settled_consumption": {
-    "action_scenes": 12,
-    "collection_attempts": 14,
-    "fresh_scenes": 12,
-    "gpu_lease_seconds": 1797,
-    "solver_problems": 148
+    "action_scenes": 13,
+    "collection_attempts": 15,
+    "fresh_scenes": 13,
+    "gpu_lease_seconds": 1956,
+    "solver_problems": 160
   },
-  "ledger_sha256": "8030442cbbca35d7ca629547f243e4c7700aefab812d454c947cdc69a1e2e930",
+  "ledger_sha256": "65a29a05dd66555519dacf087be9908513cef48f7bfd0e2a9f66c58bbacb5d93",
   "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
+  "next_optional_cell": {
+    "cell": "VHVH:r_pc",
+    "reservation": {
+      "action_scenes": 1,
+      "collection_attempts": 1,
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 300,
+      "solver_problems": 15
+    },
+    "root": "F3-B-v2"
+  },
   "old_data": {
     "F1_F4_read_only": true,
     "old_f2_f3_not_reaccepted": true
   },
   "remaining_contract_caps_after_exception": {
-    "action_scenes": 11,
-    "collection_attempts": 13,
-    "fresh_scenes": 15,
-    "gpu_lease_seconds": 1203,
-    "solver_problems": 32
+    "action_scenes": 10,
+    "collection_attempts": 12,
+    "fresh_scenes": 14,
+    "gpu_lease_seconds": 1044,
+    "solver_problems": 20
   },
   "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
   "scientific_status": {
@@ -113,8 +136,8 @@
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
     "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
   },
-  "status": "READY_F3_B_REMAINING_MOTION_RECOVERY",
-  "summary_sha256": "3b28eeee37a4ee809d71fa6ce73e095581c6572030a8197b58b3d79cd93100a9",
+  "status": "READY_F3_B_BASELINE",
+  "summary_sha256": "4fc217bd4a10e874ef3e6af3ab28b84b47e86e166ffac70807453e22d79d0452",
   "target_new_cells": 24,
   "unknown_reservation": {
     "job_id": "p3-f3-a-remaining5",
