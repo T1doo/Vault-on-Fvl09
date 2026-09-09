@@ -1,0 +1,3618 @@
+{
+  "cells": [
+    {
+      "cell_key": "F2-A-v2:beside:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "beside",
+      "realization_id": "r_inv_path",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path",
+        "cell_receipt": {
+          "bytes": 45436,
+          "exists": true,
+          "file_sha256": "7d0d832042772a260be3d06e9f9f4ef3f09158162cb999467df0e6a81061bc5f",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12398,
+              "exists": true,
+              "file_sha256": "6b716e9cb3b133e54b0eb6ea2602dcbdd617d7a4e94091e67374b3e3bc73d4b9",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "33a58fbeb2a52f331c4fdf74de2756a15316f9fcab861725b213bc8a4379b5ac"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8024,
+          "exists": true,
+          "file_sha256": "864ed8ca063325e88faf818e9ebdbc54b4ec54ccd8ef1c055296fdfccaeb8085",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "76b7a436092700693139ccb5a44edbf0277f777219d1db2a30b9fa561309c7d6"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 141607786,
+          "exists": true,
+          "file_sha256": "a1088a150294c8f48f8d2221d9f8846541e5a772a7e33e6a922e151e9c3f336b",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/beside_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "a1088a150294c8f48f8d2221d9f8846541e5a772a7e33e6a922e151e9c3f336b"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3608,
+        "sample_count": 4517,
+        "support_end_trace_row": 3607,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-A-v2:beside:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "beside",
+      "realization_id": "r_pc",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry",
+        "cell_receipt": {
+          "bytes": 46301,
+          "exists": true,
+          "file_sha256": "0b1924e03ad93eeebf4d8316cb6771386423aa876329d9d6bf6b2a009634982c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12392,
+              "exists": true,
+              "file_sha256": "f3c7fe117e833a4798c99c94c9e651fab45f0e3d7887229ce7753b50a679b4f4",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "8df07cfb5f6f9112e5f5d9561c4abe5fe1d9ebde428352a236021abe348d5b8a"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8016,
+          "exists": true,
+          "file_sha256": "687c52cbb258ba72b02e8049b86b2659046730d00a935196e1304629a251cda7",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "1e726ff056ac56d5de8d5843d767108d599b58811fd1c288b1709519dd96a616"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 128287308,
+          "exists": true,
+          "file_sha256": "8338a9ce8f2bd5dcd6e339ceaea658e689a7a826241d7a990de43af8ae5a5532",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "8338a9ce8f2bd5dcd6e339ceaea658e689a7a826241d7a990de43af8ae5a5532"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3269,
+        "sample_count": 4190,
+        "support_end_trace_row": 3268,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-A-v2:inside:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "inside",
+      "realization_id": "r_inv_path",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path",
+        "cell_receipt": {
+          "bytes": 44743,
+          "exists": true,
+          "file_sha256": "9c7e67d81ca5410d8671d6c6e6fc418fdecba98f44508ce02ee96907c00a079d",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12398,
+              "exists": true,
+              "file_sha256": "b20bfce46f063f39b0f9b183e563dd0bc0b05f497dc92e26162818904498e7d5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "8f9171597b712569713a691089b51c3200ed0aac0d5ab71ac0c239bc2ea7e6f7"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8039,
+          "exists": true,
+          "file_sha256": "ea97a92f2038cb1c916b3f917047c1e9fd85072483590bc34de85b2fc387aca2",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "f148bf34ddf0ba6f4ce0d138f31548e3053ed50b05a0de7d789fa38606179710"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 131447279,
+          "exists": true,
+          "file_sha256": "c6f57613ab1007c525d7916045f91995bed8e12820a4ab150dfcd773b830e18c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "c6f57613ab1007c525d7916045f91995bed8e12820a4ab150dfcd773b830e18c"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3606,
+        "sample_count": 4281,
+        "support_end_trace_row": 3605,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-A-v2:inside:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "inside",
+      "realization_id": "r_pc",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc",
+        "cell_receipt": {
+          "bytes": 40735,
+          "exists": true,
+          "file_sha256": "967fa1a0a850d307d8de891abdce5f18979d5a786d82a08467e64a4850c0e663",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12392,
+              "exists": true,
+              "file_sha256": "5c340cf8040a14e0ad30cb1eecfb87cc7d6e71594399f7dd58f041a0d723eaf5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "1e38b28e74b93846fa8dd6ccd1e94a59920d90b099e7c3ddea301e2b39b71fa7"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8029,
+          "exists": true,
+          "file_sha256": "f0ead64e54eb5e8c2cc100229f3c3e5456542745808825c54497fcd44022aaa5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "cd7b40a6d31b261399cf740ab310e991988168e92d9b70d0f8a8dea60529ae3e"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 122511286,
+          "exists": true,
+          "file_sha256": "d84608cfb79928aabf139afbfe562b79dd21a1fcd2592c798a5ce6332584db30",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/inside_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "d84608cfb79928aabf139afbfe562b79dd21a1fcd2592c798a5ce6332584db30"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3329,
+        "sample_count": 4007,
+        "support_end_trace_row": 3328,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-A-v2:on:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "on",
+      "realization_id": "r_inv_path",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path",
+        "cell_receipt": {
+          "bytes": 44697,
+          "exists": true,
+          "file_sha256": "408b7eb82913e1e154ac661ff9444a249d704d268db42d25ca528d5a823e5e0b",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12394,
+              "exists": true,
+              "file_sha256": "350896a411029150d1dd26bfb8cfad75ebae89a45f2b5d49f7b32db9c1857304",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "83a976f8419b3a64fbadf561b125352b73ad911f96541927b3d32c46f0db558d"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8026,
+          "exists": true,
+          "file_sha256": "9f5f44a099989d8de59bd35c042be7940b4afc01e18e4c7f1b312b80216d3516",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "9588993181a9c3bfb425c13889dab1f6a57ad7c5ef9c26b3e72cdbf737fe1bbc"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 129089437,
+          "exists": true,
+          "file_sha256": "662ee51ac189e6dacc811a09d70ca4b2aa88ec3f98e117b9cfd2053d7a719178",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "662ee51ac189e6dacc811a09d70ca4b2aa88ec3f98e117b9cfd2053d7a719178"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3502,
+        "sample_count": 4132,
+        "support_end_trace_row": 3501,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-A-v2:on:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2A_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "on",
+      "realization_id": "r_pc",
+      "root_id": "F2-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": null,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc",
+        "cell_receipt": {
+          "bytes": 40683,
+          "exists": true,
+          "file_sha256": "856a964a4b1a33940da58cc145899ffd89449656ed2b5646e6c340680631c3fc",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 25923,
+              "exists": true,
+              "file_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "d3296efc465e35733be1974e032cb4e58afbc5bfc18336f49d1896f6d3e35771"
+            },
+            "capture_metadata.json": {
+              "bytes": 12388,
+              "exists": true,
+              "file_sha256": "0912e3580e3176d7ca7cb987066f29857aefa2a816ca92e97973d82b24dccc59",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2a85a943e419a78d881c9b47c7b6e34785603a476ae977e64ce617d30eef8875"
+            },
+            "rgb.npz": {
+              "bytes": 183285,
+              "exists": true,
+              "file_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "09bf507aa30124a1650d1b60b8baf81483e3413fdb8f40ee8e282cdc087bf789"
+            },
+            "state.json": {
+              "bytes": 6770,
+              "exists": true,
+              "file_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6c3d8b3e5e3f9b37be20a2a71ec5355501061595c808745288803d31225299f5"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8016,
+          "exists": true,
+          "file_sha256": "2eb8b25667508fc5bfb583595dd758b1e51d14889d23e9816be0cf337ffe4ff8",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "41250a79a2cf5246aa9ed346482cb62ffbd4930b1becda27164b39a9c4883720"
+        },
+        "prefix_artifact": {
+          "bytes": 195266,
+          "exists": true,
+          "file_sha256": "34fdb774bf2e3a749b1f76a5f35a7c9e9bea8efff2e0dacce4afbbb6b71fdfd4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "35e254cb73b00b27457faee5746a0f5449b691bf42f439e095781204498885b2",
+        "root_receipt": {
+          "bytes": 366597,
+          "exists": true,
+          "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 118954264,
+          "exists": true,
+          "file_sha256": "d04cac58c81aa64f8ad7fe8e61177f1fd0b90a537081bed7e8c36710502daf6d",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/on_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "d04cac58c81aa64f8ad7fe8e61177f1fd0b90a537081bed7e8c36710502daf6d"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2709,
+        "release_start_trace_row": 3234,
+        "sample_count": 3864,
+        "support_end_trace_row": 3233,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:beside:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "beside",
+      "realization_id": "r_inv_motion",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 41754,
+          "exists": true,
+          "file_sha256": "00434b79c83c2f440be3a5071fcbac63fc5c137e2f74c85af7faab55e4866d0a",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12429,
+              "exists": true,
+              "file_sha256": "94672c2d06f8507c9f61ba02ef444cb45bfcb5dc1f18bc8e28f6f0dc0b5e2b32",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "6efaddca8452d7c04ce41ca9ac0bd26efe68934b0d75ab9cebf763ca9ea4691e"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8024,
+          "exists": true,
+          "file_sha256": "38b60070476027b99b584653e10e7ba9d98d39484b3e5c34c9db007f625548cf",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "b18febeb51824e1adaf7aead161c4f7f9fa786d36f0c7f8dc7ce9ed8d28e97b2"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 125349620,
+          "exists": true,
+          "file_sha256": "99798d118b86a1dd3395b25130e72f21cff1c2a7237a0ef21c9974c12f3bbbb3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "99798d118b86a1dd3395b25130e72f21cff1c2a7237a0ef21c9974c12f3bbbb3"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 3085,
+        "sample_count": 4014,
+        "support_end_trace_row": 3084,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:beside:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "beside",
+      "realization_id": "r_pc",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc",
+        "cell_receipt": {
+          "bytes": 41456,
+          "exists": true,
+          "file_sha256": "96cd3bdb1f09f943db1c52f2e568fea5e561357ed439bafb194da7e5940f5056",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12421,
+              "exists": true,
+              "file_sha256": "7df7b3d6779dd81301425e84db8019be17c8e0054280da134bfaba13fa273aa6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "c8614b5aec5ffb3379695552dc4d91f06e77823ade4df350ad1fadab6448e8d6"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8014,
+          "exists": true,
+          "file_sha256": "205f9c99906af19bed850f79587fc87e225e9330c25159fa2e725ead63ec3be7",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "ae9b23a22c7ecd9d5c830ed10ba7c6102614ff921ff066cc964120cced7f8eed"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 122493468,
+          "exists": true,
+          "file_sha256": "1c78d6af73cd040dd7d82c7a676022b2ea7fcceab3754bacd75102c7328606dc",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/beside_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "1c78d6af73cd040dd7d82c7a676022b2ea7fcceab3754bacd75102c7328606dc"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 3010,
+        "sample_count": 3939,
+        "support_end_trace_row": 3009,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:inside:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "inside",
+      "realization_id": "r_inv_motion",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 41083,
+          "exists": true,
+          "file_sha256": "e64df39aafdf90a3307cb42c61cdd050541efeef010b133b7bc5e27e7b43fbb7",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12429,
+              "exists": true,
+              "file_sha256": "3bc6122f12f818924b37307362d55e8fb34554a6097fe6875eef0e50661cdee7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "07231dfb7fd04c6d9422eb23da0b977a67d028f999871dab6cc4457f36fd32b4"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8039,
+          "exists": true,
+          "file_sha256": "cf8068a1fe036ffc53f00ab2deb5867070dfdb0641d5903d01618e0706ef0428",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "3183ef5e9dcb2a91cc63ebfa458db74ea2b61ea7dc253a376695994fe5f0c8a2"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 115034923,
+          "exists": true,
+          "file_sha256": "bb92de885c8e5f88f5496df6e0baedfd8d0ae24d60cb8cfca002a759bec51f69",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/inside_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "bb92de885c8e5f88f5496df6e0baedfd8d0ae24d60cb8cfca002a759bec51f69"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 3096,
+        "sample_count": 3769,
+        "support_end_trace_row": 3095,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:inside:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "inside",
+      "realization_id": "r_pc",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification",
+        "cell_receipt": {
+          "bytes": 45650,
+          "exists": true,
+          "file_sha256": "f496ed9802a638071c8695aa3b516a1ff1ba83a2d98f8e6b1dbd77337245bb68",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12421,
+              "exists": true,
+              "file_sha256": "248a8fcf497aea4172bcb9110bdf6693f548140ee3add0c406c865fa4da8341e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "28c9489d84cc14216fcf45b32e96b400f7d87e17bc88d86dcca658beeec22661"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8027,
+          "exists": true,
+          "file_sha256": "2d15658c449cf201daed6865c7aae4b6d47306e104981efb00b055177fac845f",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "49797cf75fbcca981d1ea6c88d34103aa69f2d4e9da17f93a0ad62edc495e91e"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 111387775,
+          "exists": true,
+          "file_sha256": "5194b16544defc6db2fc615669c2187daba2c07fa109a894c5932d6ac8271272",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-qualification/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "5194b16544defc6db2fc615669c2187daba2c07fa109a894c5932d6ac8271272"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 2990,
+        "sample_count": 3684,
+        "support_end_trace_row": 2989,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:on:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "on",
+      "realization_id": "r_inv_motion",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 41012,
+          "exists": true,
+          "file_sha256": "a64228d712113db636133a3055aa0fb57a4d7133178211d2f340b7888c25932c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12425,
+              "exists": true,
+              "file_sha256": "b55ae67cc22ecd07a69519b706086599c2e807b7ec21c227ffd70eb597765c9e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c738f9e37cbfb27bd6740940954e588292823cd67d301620ef96f7ffa171698"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8020,
+          "exists": true,
+          "file_sha256": "5c5f3cb0b9e6610a019ca016adbfba3f1b342f23d4f1471ed61a1ccba29f2b4c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "76e3544633315c8d37233fb6a0a9294983d097478c73f58a05ad0b008bc12798"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 113101411,
+          "exists": true,
+          "file_sha256": "11389ed1bbf8e42a3e4d2c5e7f71cae4a602521470df6f080b44919487fa7866",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "11389ed1bbf8e42a3e4d2c5e7f71cae4a602521470df6f080b44919487fa7866"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 3032,
+        "sample_count": 3669,
+        "support_end_trace_row": 3031,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F2-B-v2:on:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_cell_and_root_finalizer",
+      "family": "F2",
+      "historical_implementation_acceptance": "P4_F2B_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "on",
+      "realization_id": "r_pc",
+      "root_id": "F2-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": "v5_beside_y_lower",
+        "lift_clearance_m": 0.12,
+        "route_mode": "side_then_geometry_target",
+        "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc",
+        "cell_receipt": {
+          "bytes": 40715,
+          "exists": true,
+          "file_sha256": "6fee9f1ddef44c0b2c275091380b945c6c5f3bd92a4b68ae0a6acd0afbe5cb93",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 26004,
+              "exists": true,
+              "file_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "96edaaa9c3f61e283831da5405da52824750a45f8a35dc58e3cc1261be0299b6"
+            },
+            "capture_metadata.json": {
+              "bytes": 12417,
+              "exists": true,
+              "file_sha256": "388f8433d08b3bd2d84f185bde491353578e298e79952eebc541c10ad22b588f",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "a245483a4fe62a01205f6d006aa814c89903ed73ceab57494cc854343b35a654"
+            },
+            "rgb.npz": {
+              "bytes": 175203,
+              "exists": true,
+              "file_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "2c4f5b0ba4eef3272a6c062901ba9854e18ed15ade59a128e538ab2b8acf04b7"
+            },
+            "state.json": {
+              "bytes": 6782,
+              "exists": true,
+              "file_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "b5d84ad0ee87b7cec4519412753b11f57eb677363df34759a94b75f7f668514c"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 8008,
+          "exists": true,
+          "file_sha256": "09e69e1a85d0ebaf43f88201b0713269580bd0d1ac575577cf21458b69674481",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "7d9ca66743004c44f589ca902a73705daa68203404ebe0225f90db05185edc6f"
+        },
+        "prefix_artifact": {
+          "bytes": 169506,
+          "exists": true,
+          "file_sha256": "b168958255678e43ad4de4e0a3b394ed3243a81d7c92a172fcb19ac96564ec9e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "cdf6915e0ebe3393e6fce69166c5f78d8af4c87318f1709cb79c30227fd6d863",
+        "root_receipt": {
+          "bytes": 354623,
+          "exists": true,
+          "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 109668232,
+          "exists": true,
+          "file_sha256": "d9beb89a9df83a45723b92b4c469f6547d5b8a87a90e6a7371f52e932deb7245",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/on_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "d9beb89a9df83a45723b92b4c469f6547d5b8a87a90e6a7371f52e932deb7245"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "empty_hand_exit": true,
+          "prefix_anchor_contact_stable": true,
+          "prefix_present": true,
+          "relation": true,
+          "support_identity": true,
+          "trace_complete": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2461,
+        "release_start_trace_row": 2953,
+        "sample_count": 3592,
+        "support_end_trace_row": 2952,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VHHV:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHHV",
+      "realization_id": "r_inv_path",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path",
+        "cell_receipt": {
+          "bytes": 37501,
+          "exists": true,
+          "file_sha256": "4970716a2ae67c4b4aecfadc3ccc64d1c0e67cfceb2f5623b21b4f64afc1195c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10569,
+              "exists": true,
+              "file_sha256": "032de2fb7e4cfdf73406240a7a1603d5ba32db457bf927fb9cfe91db0e9f0b17",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "764e22ad2e34128d8bab30ba671844ce5368a3fc9daf9d76bdb59ec6ef21cf51"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11850,
+          "exists": true,
+          "file_sha256": "572422e05eaacb1677fa5f5829247ec342a515587830a6ac1f9d30d9cbf99cf5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "5cc8bb3b2a7c5677898b5053b3056e0e9cc053ba083894b451d3e756b2c06196"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 124355815,
+          "exists": true,
+          "file_sha256": "2fe4475194a583d153d5f3b5129ed11c5a90bcb90d85a9de13e99a04837fef5b",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "2fe4475194a583d153d5f3b5129ed11c5a90bcb90d85a9de13e99a04837fef5b"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5775,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VHHV:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHHV",
+      "realization_id": "r_pc",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc",
+        "cell_receipt": {
+          "bytes": 35415,
+          "exists": true,
+          "file_sha256": "9e1d382ca4b4bf4eb7f4f5cb6cc6b4b7d69383ce8426eb0abb0411cdc0fd7a75",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10563,
+              "exists": true,
+              "file_sha256": "5352512541cf64d7138cb1f3799fbafcaf25b6b32ce054b42dbfdee4ffadbe44",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "29e5b9a42dae9a60f9ee87477fe61e76b0f9f92ec8b3f66ea99eab22f67c0bb2"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11840,
+          "exists": true,
+          "file_sha256": "8d4c7cb470cf76e92ad1853a8320ad30c7fd6c24b349ceba97ce00e9867313b7",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "2b2fe9502bad255dee98adaed4804422c5889adccf78ae4a1f2d75e1e6bb3ea2"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 118164668,
+          "exists": true,
+          "file_sha256": "a6d8e55d3359a5308159240d08885cc0256c1798fb217811bc37eb19761e8e12",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHHV_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "a6d8e55d3359a5308159240d08885cc0256c1798fb217811bc37eb19761e8e12"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5509,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VHVH:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHVH",
+      "realization_id": "r_inv_path",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path",
+        "cell_receipt": {
+          "bytes": 37499,
+          "exists": true,
+          "file_sha256": "f699585835a67094ab84dea9746304ffb63ad83a6b58ee4eabf7238308a87d45",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10569,
+              "exists": true,
+              "file_sha256": "0c1adc95c257a0759157c411d46fe83423923926dd012af89dd6901cb1662fde",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "55781e4d5c7bef2a5158a87f5a284b6d4833a96959101cc5d40c380856faa98d"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11850,
+          "exists": true,
+          "file_sha256": "64993a4c9d43c52f24f35c90961a5cf57ad7e952842aff4efb41d8944ba02806",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "763e70c28bee0a9b9b2d0d3a018058db67649a94997b3a32c291b3ddc151448a"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 122297407,
+          "exists": true,
+          "file_sha256": "2563c216f3ba1aab67d99a93dc5cdd83b0830a8099bcc733840048aa7afc4d0a",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VHVH_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "2563c216f3ba1aab67d99a93dc5cdd83b0830a8099bcc733840048aa7afc4d0a"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5769,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VHVH:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHVH",
+      "realization_id": "r_pc",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc",
+        "cell_receipt": {
+          "bytes": 36220,
+          "exists": true,
+          "file_sha256": "2ccac319636dc89e958cb362e89f2202d4499d69f1dcabc2abdd7cfeaef25b71",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10563,
+              "exists": true,
+              "file_sha256": "7f91147788f2d1d8ffb9ee6bd1895c095924851f3fa2cdf4ba05d3cd4929fe5c",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "c6430381e60154f9f0365d759fdee46d4b37391f606110bcd730cb4acd286466"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11843,
+          "exists": true,
+          "file_sha256": "12e2bc21a3dac23985d7875e69eafffb4660a947c2a1401d84f0e8ebd0950f8c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "d7e077a92b5f9f0bab570c182a715f534044c6f5b6c6b80ff9e40c63107caf24"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 120156797,
+          "exists": true,
+          "file_sha256": "a3b242afb1fec42e1e36a4a5d38e67222006246cbf66a24c5bd832d64c56870f",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-vhvh-rpc/VHVH_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "a3b242afb1fec42e1e36a4a5d38e67222006246cbf66a24c5bd832d64c56870f"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5741,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VVHH:r_inv_path",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VVHH",
+      "realization_id": "r_inv_path",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path",
+        "cell_receipt": {
+          "bytes": 37501,
+          "exists": true,
+          "file_sha256": "cbfd7f8a0325bfb761bb5f7e75e9431d4ee5ef9d20d585f563847052da97a5b5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10569,
+              "exists": true,
+              "file_sha256": "3577f7c29b26a111905ebd66d54601d5d975ad3c2af14dfa4fb77af4e5392686",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "a2b5afd912984f4f08d7e23e89682f92ef09c7096c932e2621b41af384ef1d30"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11854,
+          "exists": true,
+          "file_sha256": "9db3b2810af741abf129b2a4e59da2279e132540dff41bc7d0d029beb6acf48a",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "e4a3bb7050267d3f894615eda172cfba37d9bb1cc0e3759323f764acd6cc7389"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 122150348,
+          "exists": true,
+          "file_sha256": "f176d2d4494fca0642b749b5ab4aef00539df8426ca4802e0f475c56d833f4dc",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_inv_path/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "f176d2d4494fca0642b749b5ab4aef00539df8426ca4802e0f475c56d833f4dc"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5781,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-A-v2:VVHH:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "preserved_F3A_compatibility_audit",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_F3A_PRESERVED_INDEPENDENT_ROOT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VVHH",
+      "realization_id": "r_pc",
+      "root_id": "F3-A-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "runner_accepted": true,
+        "runner_status": "ACCEPTED"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": null
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc",
+        "cell_receipt": {
+          "bytes": 35418,
+          "exists": true,
+          "file_sha256": "a07999163150b40819f8d1e66af1eb0949c5efd0dda98847ab67f1ca37571cc2",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18271,
+              "exists": true,
+              "file_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "e5c0852a3ea0a34de80a1e7805cc865bd608b048ccec74f43bc9eb9ed787862e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10563,
+              "exists": true,
+              "file_sha256": "44d5e1bf8965a2c09c9478ef7cff591034b601865be54558ddf134e7026b0f11",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "31487bb05b752713e61b8fd7295511f473c1edae9e5e5da574964ec038cae025"
+            },
+            "rgb.npz": {
+              "bytes": 171559,
+              "exists": true,
+              "file_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4e0d48d653601f7f548af2de2ab156bad01484df118f64033c349695e4da56dd"
+            },
+            "state.json": {
+              "bytes": 5194,
+              "exists": true,
+              "file_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "93733109725ebe9ff52c6ec175fc2355cc41e1f0c98bb3d3231eacf29ebc4fa1"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11842,
+          "exists": true,
+          "file_sha256": "ebcd43d4f02e7a2795630a95e0c001a804cd6df7728523dabbbacb7891870dd9",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "36409664b0108a796fab6a4ec6cc64bdc1cdda0fc69484eea81dcb16f2856ea1"
+        },
+        "prefix_artifact": {
+          "bytes": 176548,
+          "exists": true,
+          "file_sha256": "1c504bc3631cf853dd5da396cdfceb1a2772e3912b96d01dc8257777c525317c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "22297dc84e86a80f459c220a8f09d40fc274619f47178637421361391b4d7f31",
+        "root_receipt": {
+          "bytes": 342871,
+          "exists": true,
+          "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 115327485,
+          "exists": true,
+          "file_sha256": "54124d6829579bb11041b28d5de9c4cf9752f79f6f98d1813758519210bc7f40",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/VVHH_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "54124d6829579bb11041b28d5de9c4cf9752f79f6f98d1813758519210bc7f40"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2341,
+        "release_start_trace_row": null,
+        "sample_count": 5514,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VHHV:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHHV",
+      "realization_id": "r_inv_motion",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 50710,
+          "exists": true,
+          "file_sha256": "8d1d39522eaaed12d469c257f93b6761b32268c1ec5606136ed83759a81c4702",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10588,
+              "exists": true,
+              "file_sha256": "1c861d40e5c262922fed727cf990275c8721e0f58f2245624160898b85bf3e5a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "fef5b7260625b3bdef03d8d8ce1b6367ce033fabdd5653aa24e4b6e64b7ff8e0"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11856,
+          "exists": true,
+          "file_sha256": "6663e2745b73123fe3058c6e930f8104107e17bda3002f43826015ae93613b15",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "a701e97ffb45ac9aee8ad7dfdca5e9dacfb56da25cfb97380f8918135f999a4d"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 142882586,
+          "exists": true,
+          "file_sha256": "9ef25ceab6126a6a4c9eea8f6624e370df7be41fb8f3796e056521cf5beabd8f",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "9ef25ceab6126a6a4c9eea8f6624e370df7be41fb8f3796e056521cf5beabd8f"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6622,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VHHV:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHHV",
+      "realization_id": "r_pc",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc",
+        "cell_receipt": {
+          "bytes": 50270,
+          "exists": true,
+          "file_sha256": "198afbc0deb765e1ef68b3fc34e314edc31a8b72e9d054963548d2ec175cd37a",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10580,
+              "exists": true,
+              "file_sha256": "7838f49a8055d2423a9937c014e3acedc1d14ac08a5bd5a50d1d732185c77aea",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "bc2f16e11e759f5ac787ddaad80c16ca39d1b4992b8f5b4ffd46d16b8563d693"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11848,
+          "exists": true,
+          "file_sha256": "2622ed5e7b28d8ec4430b957066010e343e161909e4f8989afbd1710a9e63c58",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "c7f6928b8c5547c4b9d02723bf97672ee76fd1381674199d4d17dc5cddea2217"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 141111106,
+          "exists": true,
+          "file_sha256": "f35dff72debba72545c1fbbd12de9630a45c688de4b0b856131b9bd5bd46a35f",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHHV_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "f35dff72debba72545c1fbbd12de9630a45c688de4b0b856131b9bd5bd46a35f"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6565,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VHVH:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHVH",
+      "realization_id": "r_inv_motion",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 50715,
+          "exists": true,
+          "file_sha256": "9609fd3d4b42c89250c629f938f6dbd63b7cc0dce83321b3afa058db33a8432d",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10588,
+              "exists": true,
+              "file_sha256": "31abc73fcf5a52522d041df1556a10800f9ce9435524e023ab7014a22a8a5fa6",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "1910cf949c8c41b562f331a75ad16a9d5f622e4cd04e41e000b822c7be616832"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11848,
+          "exists": true,
+          "file_sha256": "f8c511c7f194d7daa1148c5cbf8270146d3279b66f8e7f48b2fe6bc26b0a24aa",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "b5670b2e9fd674a542827bd13e97ba15132aad7c6657a2825aaa6f20e3fb101b"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 140921669,
+          "exists": true,
+          "file_sha256": "7e7cf9b09f3d338b758159a16c0f27c21ffe086dddf8d88345183f2f57219b54",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "7e7cf9b09f3d338b758159a16c0f27c21ffe086dddf8d88345183f2f57219b54"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6637,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VHVH:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VHVH",
+      "realization_id": "r_pc",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification",
+        "cell_receipt": {
+          "bytes": 56504,
+          "exists": true,
+          "file_sha256": "2a1257a4b1885f2252052cb7fb55bd1f0a7a334a3b3ec4376c807d6d83fb44b7",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10580,
+              "exists": true,
+              "file_sha256": "94495303a79e1409f3ef7acd952c73f4dd51c1a3c1aa132e48f66c89e2f7800a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "281b8027b7b79a4487f90844c3d34f76f6037d2caf6d0d9ef10a1664279ce1c6"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11846,
+          "exists": true,
+          "file_sha256": "6eeb15f7c34b2f2bd17d3e6b0fc10bd5db159ec5dfb9b5c666c1de72949983fa",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VHVH_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "1c950bdd0fe58d47d7d204a265e9f5637401be933e0fa675e7a6523e46fa16aa"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 144667771,
+          "exists": true,
+          "file_sha256": "164d147c6a948a186eaff31fe9143c34a8b94da09de4fb5fbc7cf214f73d2b1a",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "164d147c6a948a186eaff31fe9143c34a8b94da09de4fb5fbc7cf214f73d2b1a"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6892,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VVHH:r_inv_motion",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VVHH",
+      "realization_id": "r_inv_motion",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion",
+        "cell_receipt": {
+          "bytes": 50699,
+          "exists": true,
+          "file_sha256": "afa850cfc7b71d2ec64f7c09bbd3943a7e73dbffadb7e0af4fa602a946a83d8e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10588,
+              "exists": true,
+              "file_sha256": "a0029c249e7a9c3d2dc43b6800b90a15844fada53f14f7d8a5d24d99096e9acc",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "aef4c4bcd271ffa183560035206c16a356c0dd85577d784741943b3522d1ac5b"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11855,
+          "exists": true,
+          "file_sha256": "ac773224751ff6f6a7c3513082bf2b74a2270d1cda461e48f73b2c6bad31670c",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "d0984b63c63fd0d79ec62fce2d318a7528fb1626b025cc1c9eccbf5b4717dbce"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 140571245,
+          "exists": true,
+          "file_sha256": "81aeaff1c58cbd3b51a886283bc21e7ea86c7b88e77f493028e6f79be5d06525",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_inv_motion/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "81aeaff1c58cbd3b51a886283bc21e7ea86c7b88e77f493028e6f79be5d06525"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6647,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    },
+    {
+      "cell_key": "F3-B-v2:VVHH:r_pc",
+      "current_research_eligibility": "ELIGIBLE",
+      "eligibility_basis": "independent_root_finalizer_and_P4_reconciliation",
+      "family": "F3",
+      "historical_implementation_acceptance": "P4_INDEPENDENT_FINALIZER_PASS",
+      "permitted_use": [
+        "scoped_pilot_evaluation",
+        "development",
+        "audit"
+      ],
+      "program_id": "VVHH",
+      "realization_id": "r_pc",
+      "root_id": "F3-B-v2",
+      "root_status": {
+        "independent_root_finalizer_pass": true,
+        "root_finalizer_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "runner_accepted": false,
+        "runner_status": "INCOMPLETE"
+      },
+      "scene_source_profile": {
+        "layout_id": null,
+        "lift_clearance_m": null,
+        "route_mode": null,
+        "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae",
+        "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+        "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+        "time_scale_factor": 1.5
+      },
+      "source": {
+        "cell_directory": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc",
+        "cell_receipt": {
+          "bytes": 50267,
+          "exists": true,
+          "file_sha256": "99d991efa6dd6ea540ef8e50ceb73ffe6c4bce78cac19163cf5f5dc39c4bdefe",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/cell_receipt.json"
+        },
+        "current_bundle": {
+          "all_recorded_hashes_match": true,
+          "all_required_files_present": true,
+          "exists": true,
+          "files": {
+            "anchor.json": {
+              "bytes": 18320,
+              "exists": true,
+              "file_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/current/anchor.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "49c754dc64808c43eada1ca5392decea649cb430299fc4f86f9485902267672e"
+            },
+            "capture_metadata.json": {
+              "bytes": 10580,
+              "exists": true,
+              "file_sha256": "6ffa9c006956eaa8a2051bc9229e2bdec3034d34b37e4dc2d9ac05a590eaa9bf",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/current/capture_metadata.json",
+              "recorded_hash_kind": "canonical_payload_self_hash",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "4551b8b4c270d9d4e19569030765ecbeb90878d424ae7815f7ca5b00854ee185"
+            },
+            "rgb.npz": {
+              "bytes": 188490,
+              "exists": true,
+              "file_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/current/rgb.npz",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "453ae4c7fd18aa5c9c2da4feacb3a04b9780c6e03a51abfc0789cfd96a930f47"
+            },
+            "state.json": {
+              "bytes": 5210,
+              "exists": true,
+              "file_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a",
+              "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/current/state.json",
+              "recorded_hash_kind": "file_sha256",
+              "recorded_hash_matches": true,
+              "recorded_sha256": "44fbb8e2de2c44fcc28ccc6ea3d3ee86293c4d37a25a4592dc5e669c10fb1c6a"
+            }
+          },
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/current"
+        },
+        "independent_cell_finalizer": {
+          "bytes": 11846,
+          "exists": true,
+          "file_sha256": "c8d7924df202874db1858ccc387df68e3c288e5d2fcc4bde373d89ad38046d1e",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/independent_finalizer_v2.json",
+          "recorded_hash_kind": "canonical_payload_self_hash",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "565d0f5f7997d6cd5ca50dca6873408a8c6455b5256488aef496b0412aa91f72"
+        },
+        "prefix_artifact": {
+          "bytes": 210218,
+          "exists": true,
+          "file_sha256": "0a646392ab6cfc488de2fc6d094276370480432057307abd044400da92e469d3",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/prefix_artifact.npz"
+        },
+        "prefix_semantic_sha256": "da1973a45ea90a0276dd1a3095f8a9d91a640ba5c0480cd962ab35ab09742c30",
+        "root_receipt": {
+          "bytes": 441026,
+          "exists": true,
+          "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+        },
+        "trace": {
+          "bytes": 138459908,
+          "exists": true,
+          "file_sha256": "633d6356c5beeab3df8233716194de5ae74333bcc620643a4289dc7ac1b7a5c5",
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/VVHH_r_pc/trace.npz",
+          "recorded_hash_kind": "file_sha256",
+          "recorded_hash_matches": true,
+          "recorded_sha256": "633d6356c5beeab3df8233716194de5ae74333bcc620643a4289dc7ac1b7a5c5"
+        }
+      },
+      "verification": {
+        "all_boolean_gates_pass": true,
+        "cell_local_verified": true,
+        "cell_status": "cell_pass",
+        "current_readback_pass": true,
+        "gates": {
+          "arm_rest": true,
+          "eef_stationary": true,
+          "event_metrics": true,
+          "event_order": true,
+          "gripper_open": true,
+          "object_return": true,
+          "object_stable": true,
+          "prefix_contact_stable": true,
+          "prefix_present": true,
+          "shared_V_realized": true,
+          "support_window": true
+        },
+        "independent_cell_finalizer_pass": true,
+        "prefix_end_trace_row": 2689,
+        "release_start_trace_row": null,
+        "sample_count": 6602,
+        "support_end_trace_row": null,
+        "trace_row0_matches_state": {
+          "eef_pose": true,
+          "gripper_command": true,
+          "joint_qpos": true,
+          "joint_qvel": true,
+          "role_object_pose": true
+        }
+      }
+    }
+  ],
+  "contract_sha256": "d24593059450a5d231fa466625a9a356549b2ff0bd2f08228038aae1e01d0c3c",
+  "generated_from_commit": "ec3a3c7204db92158d57648509956ae35dcdddec",
+  "generated_on": "2026-09-09",
+  "index_sha256": "d08375ce1e3e3ad8a2319ad52b71ea7437bb9c628185692e185766ac366cd896",
+  "integrity_summary": {
+    "all_cell_finalizers_pass": true,
+    "all_cells_currently_eligible": true,
+    "all_current_bundles_present": true,
+    "all_current_recorded_hashes_match": true,
+    "all_root_finalizers_pass": true,
+    "all_traces_present_and_hash_match": true,
+    "duplicate_cell_keys": false,
+    "historical_raw_mutated": false
+  },
+  "root_summaries": [
+    {
+      "family": "F2",
+      "historical_runner_status_preserved": false,
+      "independent_root_finalizer": {
+        "bytes": 58174,
+        "exists": true,
+        "file_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/independent_root_finalizer_v2.json",
+        "recorded_hash_kind": "file_sha256",
+        "recorded_hash_matches": true,
+        "recorded_sha256": "22f9af6d2099b41029e1e2620b260183c1d2fac7acf8706f7f745d7676f39909"
+      },
+      "independent_root_finalizer_pass": true,
+      "layout_id": "v5_beside_y_lower",
+      "reconciliation": {
+        "bytes": 1503,
+        "exists": true,
+        "file_sha256": "55177691d55bdc1f53c059098b349c5e2dbbeb3f5da244b51f0d4d4d38a0d1f7",
+        "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F2A_ROOT_FINALIZER_RECONCILIATION.json"
+      },
+      "reconciliation_schema": "cmf_f2_f3_v2_p4_f2a_root_finalizer_reconciliation_v1",
+      "root_cell_count": 6,
+      "root_id": "F2-A-v2",
+      "root_receipt": {
+        "bytes": 366597,
+        "exists": true,
+        "file_sha256": "b4fa6d327408b0a8b4638c07e7016baadd5a2b56e27eeeb1736bb656d1d6cd97",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five-retry2/root_receipt.json"
+      },
+      "root_receipt_accepted": true,
+      "root_receipt_status": "ACCEPTED",
+      "scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b"
+    },
+    {
+      "family": "F2",
+      "historical_runner_status_preserved": false,
+      "independent_root_finalizer": {
+        "bytes": 58291,
+        "exists": true,
+        "file_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/independent_root_finalizer_v2.json",
+        "recorded_hash_kind": "file_sha256",
+        "recorded_hash_matches": true,
+        "recorded_sha256": "6ee45f72806cf0331f03507960a9148a721b490dda00b85bcc104d0c39d54135"
+      },
+      "independent_root_finalizer_pass": true,
+      "layout_id": "v5_beside_y_lower",
+      "reconciliation": {
+        "bytes": 1488,
+        "exists": true,
+        "file_sha256": "ef0731c22aab965e97966bbec398ce84e2a2065faa2eae5c7265b3747dbbb10b",
+        "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F2B_ROOT_FINALIZER_RECONCILIATION.json"
+      },
+      "reconciliation_schema": "cmf_f2_f3_v2_p4_f2b_root_finalizer_reconciliation_v1",
+      "root_cell_count": 6,
+      "root_id": "F2-B-v2",
+      "root_receipt": {
+        "bytes": 354623,
+        "exists": true,
+        "file_sha256": "1eaa75583c17ba3b4313bfa69fa13049a3fde3217239bdc16e28ce4fa71664d5",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-b-v6-lower-clearance-remaining-five/root_receipt.json"
+      },
+      "root_receipt_accepted": true,
+      "root_receipt_status": "ACCEPTED",
+      "scene_spec_sha256": "ef5a8dc02c85e7ff6352c885bb7bc113310a58b9fa557cd10c51599eaa736051"
+    },
+    {
+      "compatibility_audit": {
+        "difference_classification": "metadata_only_collision_bounds_and_support_point_receipt_additions; no F3 layout/asset mesh/physical-control change",
+        "file_sha256": "44dc3a5f09457b988a43e985b68e7191f9d4016d0ad9e4651a64ce4056a3f53a",
+        "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3A_PRESERVED_COMPATIBILITY_AUDIT.json",
+        "promotion": "ELIGIBLE_SCOPED_PILOT_ONLY",
+        "spec_differences": [
+          {
+            "kind": "key_added_or_removed",
+            "path": "/f3/asset_binding/collision_bounds_local"
+          },
+          {
+            "kind": "key_added_or_removed",
+            "path": "/f3/asset_binding/collision_support_point_local"
+          },
+          {
+            "current": "77b79b8b4c3e9c5d1d1b74883215db5998cc2e9581fa1ea2a178c21901463f8f",
+            "old": "c65e4024160c8ea4d0f933979d343234bbb9bc4e3de31993ae5d8b27e24c3187",
+            "path": "/f3/asset_binding/spec_sha256"
+          },
+          {
+            "current": "1ec03be8e6be7381368b7ff0d1aa5ff02e0dac43677e5f73464ad6d082004c71",
+            "old": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4",
+            "path": "/spec_sha256"
+          }
+        ]
+      },
+      "family": "F3",
+      "historical_runner_status_preserved": false,
+      "independent_root_finalizer": {
+        "bytes": 83066,
+        "exists": true,
+        "file_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/independent_root_finalizer_v2.json",
+        "recorded_hash_kind": "file_sha256",
+        "recorded_hash_matches": true,
+        "recorded_sha256": "377d6a0951dcb4e6ad8e0a0a200241c9749813adbbf81d062667af692cc9b426"
+      },
+      "independent_root_finalizer_pass": true,
+      "layout_id": null,
+      "reconciliation": {
+        "bytes": 2237,
+        "exists": true,
+        "file_sha256": "44dc3a5f09457b988a43e985b68e7191f9d4016d0ad9e4651a64ce4056a3f53a",
+        "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3A_PRESERVED_COMPATIBILITY_AUDIT.json"
+      },
+      "reconciliation_schema": "cmf_f2_f3_v2_p4_f3a_preserved_compatibility_audit_v1",
+      "root_cell_count": 6,
+      "root_id": "F3-A-v2",
+      "root_receipt": {
+        "bytes": 342871,
+        "exists": true,
+        "file_sha256": "d207e5f3dd5535e009a8573720fe5586f27d619e408d6b5aa767d3fca5d185a4",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json"
+      },
+      "root_receipt_accepted": true,
+      "root_receipt_status": "ACCEPTED",
+      "scene_spec_sha256": "03a73a5c0b208bb54eb9a21100669db210e7e58f1bed50c6080a1cdea4954ed4"
+    },
+    {
+      "family": "F3",
+      "historical_runner_status_preserved": true,
+      "independent_root_finalizer": {
+        "bytes": 83225,
+        "exists": true,
+        "file_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/independent_root_finalizer_v2.json",
+        "recorded_hash_kind": "file_sha256",
+        "recorded_hash_matches": true,
+        "recorded_sha256": "a88f63c093d25fe899247f3e56b1636547bc4dbbbb4ed4fa1bd393ca016a4796"
+      },
+      "independent_root_finalizer_pass": true,
+      "layout_id": null,
+      "reconciliation": {
+        "bytes": 1195,
+        "exists": true,
+        "file_sha256": "ec710d57d7f972c1b05cd81ad0ac652edb9c2ec0a461f6e5ccd78ecb58e3438a",
+        "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3B_ROOT_FINALIZER_RECONCILIATION.json"
+      },
+      "reconciliation_schema": "cmf_f2_f3_v2_p4_f3b_root_finalizer_reconciliation_v1",
+      "root_cell_count": 6,
+      "root_id": "F3-B-v2",
+      "root_receipt": {
+        "bytes": 441026,
+        "exists": true,
+        "file_sha256": "929578a6cb2cd5b0c323c242c590c5b04292438ba946a1eb5ccb404dae5af015",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/root_receipt.json"
+      },
+      "root_receipt_accepted": false,
+      "root_receipt_status": "INCOMPLETE",
+      "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
+    }
+  ],
+  "schema_version": "cmf_f2_f3_v2_p4_current_data_source_index_v1",
+  "scope": {
+    "cell_count": 24,
+    "family_scope": [
+      "F2",
+      "F3"
+    ],
+    "formal360": false,
+    "full_stage1_scientific_supported": false,
+    "root_ids": [
+      "F2-A-v2",
+      "F2-B-v2",
+      "F3-A-v2",
+      "F3-B-v2"
+    ],
+    "scoped_pilot_only": true
+  },
+  "source_snapshot_manifest": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v43/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "7b0a39492679966465e750d3ee6cad3b882fc330b22989f64d9abd9dfdac1787",
+  "version": "p4-source-index-v1"
+}
