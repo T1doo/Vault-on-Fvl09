@@ -204,7 +204,7 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--only-job-id"); parser.add_argument("--manifest", default="P3_JOB_MANIFEST.json"); args = parser.parse_args()
     contract = json.loads((BASE / "P3_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / args.manifest).read_text(encoding="utf-8")); state = json.loads((BASE / "P3_STATE.json").read_text(encoding="utf-8")); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
-    allowed_states = {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY", "READY_F3_FIRST", "READY_F3_REMAINING"}
+    allowed_states = {"READY_FIRST_TWO", "READY_FIRST_TWO_RECOVERY", "READY_F3_FIRST", "READY_F3_REMAINING", "READY_F3_B_FIRST", "READY_F3_B_REMAINING"}
     if state.get("status") not in allowed_states:
         raise RuntimeError(f"P3 dispatcher expected a first-wave-ready state, got {state.get('status')}")
     jobs = [_normalise_job(job) for job in manifest["jobs"] if args.only_job_id is None or job.get("job_id") == args.only_job_id]
@@ -224,11 +224,14 @@ def main() -> int:
     if wave_name == "F3_A_FIRST" or (args.only_job_id and jobs[0].get("root_id") == "F3-A-v2" and jobs[0].get("cell_keys") == ["VHVH:r_pc"]):
         state["progress"]["f3_first"] = "PASSED" if wave_pass else "FAILED"
         if wave_pass: state["status"] = "READY_F3_REMAINING"
-    elif wave_name == "F3_A_REMAINING_FIVE":
+    elif wave_name.startswith("F3_A_REMAINING_FIVE"):
         state["progress"]["f3_remaining"] = "PASSED" if wave_pass else "FAILED"
         if wave_pass:
             state["progress"]["completed_cells"] = int(state["progress"].get("completed_cells", 0)) + sum(int(item.get("actual_usage", {}).get("fresh_scenes", 0)) for item in results)
         if wave_pass: state["status"] = "READY_F3_B_FIRST"
+    elif wave_name == "F3_B_FIRST":
+        state["progress"]["f3_b_first"] = "PASSED" if wave_pass else "FAILED"
+        if wave_pass: state["status"] = "READY_F3_B_REMAINING"
     else:
         state["progress"]["first_two"] = "PASSED" if wave_pass else "FAILED"
         if wave_pass: state["status"] = "READY_REMAINING_22"
