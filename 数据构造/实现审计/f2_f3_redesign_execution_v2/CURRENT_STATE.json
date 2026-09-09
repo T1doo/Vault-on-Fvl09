@@ -32,7 +32,7 @@
   "fact_entry": "数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md",
   "formal_360_authorized": false,
   "milestone": "P2",
-  "next_required_step": "execute F3-B VVHH:r_inv_motion retry1 with partial-root resume",
+  "next_required_step": "execute F3-B VVHH:r_inv_motion retry1",
   "old_goal_state_mutated": false,
   "old_raw_mutated": false,
   "p3_contract": {
@@ -54,9 +54,9 @@
     },
     "budget_consumed_or_charged": {
       "action_scenes": 16,
-      "collection_attempts": 13,
+      "collection_attempts": 14,
       "fresh_scenes": 12,
-      "gpu_lease_seconds": 3433,
+      "gpu_lease_seconds": 3434,
       "solver_problems": 296
     },
     "cell_matrix": {
@@ -102,14 +102,15 @@
       "root": "p3-f3-b-vvhh-rpc",
       "status": "CELL_ACCEPTED_ROOT_INCOMPLETE"
     },
+    "f3_b_remaining_retry": "READY_CELL_1",
     "known_settled_consumption": {
       "action_scenes": 11,
-      "collection_attempts": 12,
+      "collection_attempts": 13,
       "fresh_scenes": 11,
-      "gpu_lease_seconds": 1633,
+      "gpu_lease_seconds": 1634,
       "solver_problems": 136
     },
-    "ledger_sha256": "c621da37f943a7fde934dfb575b495c3445eadd656599a14f81db5ebc50d1049",
+    "ledger_sha256": "d90e5c2282b299702b5c5f9b2a9116c686ac863d9f57712f96b2dac91f37e66b",
     "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
     "old_data": {
       "F1_F4_read_only": true,
@@ -117,9 +118,9 @@
     },
     "remaining_contract_caps_after_exception": {
       "action_scenes": 12,
-      "collection_attempts": 15,
+      "collection_attempts": 14,
       "fresh_scenes": 16,
-      "gpu_lease_seconds": 1367,
+      "gpu_lease_seconds": 1366,
       "solver_problems": 44
     },
     "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
@@ -135,7 +136,7 @@
       "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
     },
     "status": "READY_F3_B_REMAINING",
-    "summary_sha256": "17ace7937026a5b1aaaf97b29f8a88a1438d76fec0aed296808c3b0651856cd2",
+    "summary_sha256": "979e7e8bf30c96662c98f0a1012797a3ce13770087a7cd358e7e5b7eeb6d9c12",
     "target_new_cells": 24,
     "unknown_reservation": {
       "job_id": "p3-f3-a-remaining5",
@@ -145,11 +146,11 @@
   },
   "p3_progress_summary": {
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_PROGRESS_SUMMARY.json",
-    "sha256": "e2bc8f2abdc45fcec74680d31f4ffdb1ed7e4515df370d0e79dc34a2c72f69d4"
+    "sha256": "319ffdf5379c9e8116f6a7adfaa1a0c552f82ce7d0cb0da0bd5ced947342da6c"
   },
   "physical_execution_authorized": true,
   "plan_commit": "b7117ed68bdc2064a1608a2a14a8df7d58bc06cb",
-  "schema_version": "cmf_f2_f3_redesign_v2_state_v6",
+  "schema_version": "cmf_f2_f3_redesign_v2_state_v7",
   "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
   "source_snapshot_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
   "status": "READY_F3_B_REMAINING",
