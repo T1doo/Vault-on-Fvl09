@@ -10,19 +10,18 @@
     7
   ],
   "amendment": {
-    "change": "r_inv_motion holds [30,35,30]→[25,30,25]; baseline [20,20,20] and all acceptance thresholds unchanged",
+    "change": "resume logic no longer requires missing pending cells in source root; no scientific threshold change",
     "one_change_per_attempt": true,
-    "reason": "F3 r_inv_motion second H event failed physical amplitude/orientation gate",
+    "reason": "allow partial root resume with only present independently verified source cells",
     "remaining_recovery_reserve_cells": 1,
-    "revision": 7
+    "revision": 6
   },
   "ancestor_contract_sha256s": [
     "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
     "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
     "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
     "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7",
-    "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
-    "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b"
+    "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482"
   ],
   "authorization_basis": "user-approved latest review scope: execute first two after CPU conditions pass without another approval",
   "budget_caps": {
@@ -33,10 +32,10 @@
     "solver_problems": 340
   },
   "budget_request": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-  "budget_request_sha256": "11aba3e961cee70f8233ef7374e5efcbd6c0d4a44e52f0ae74586ab20ae0b265",
-  "contract_sha256": "bfe59dd95cef643e72dd01cc52605c43042bfef3d03d326723fe81994d9ee829",
-  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_MOTION_RECOVERY.json",
-  "cpu_gate_sha256": "cb808424b935a082c9029567f292bbb3cfe11819380398b9a7802bdce4f0801e",
+  "budget_request_sha256": "c760eb567fb860d28e34ed88568d1ad79700c1bbb69a3769d0d9844f4e44f9cc",
+  "contract_sha256": "e13eb86f3e7d766dd1b89bb52673aef76b3dac2dd3fa436588a565de096cc32e",
+  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_PARTIAL_RESUME.json",
+  "cpu_gate_sha256": "23a66a707d99e7e018e7ab9f480d0c1df86075a84bc7cad301b876dc24ccf3f5",
   "first_validation_jobs": [
     {
       "cell_key": "beside:r_pc",
@@ -85,7 +84,7 @@
     "mutate_old_state": false,
     "reaccept_old_data": false
   },
-  "parent_contract_sha256": "e13eb86f3e7d766dd1b89bb52673aef76b3dac2dd3fa436588a565de096cc32e",
+  "parent_contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
   "roots": {
     "F2-A-v2": {
       "cells": 6,
@@ -94,7 +93,7 @@
     },
     "F2-B-v2": {
       "cells": 6,
-      "contract_sha256": "34104560fdae792bd88ad51491101c05f57ed865f4baa97be3c579145ec09728",
+      "contract_sha256": "880043dc4a3d81b8d24f9e45dd0272ed0e6374476bbaf0bc4c7429f938001876",
       "scene_spec_sha256": "3bd23b4c39086c92d18917da59585fec365a75affdd125d3c0dc7df1a7fac4bf"
     },
     "F3-A-v2": {
@@ -104,11 +103,11 @@
     },
     "F3-B-v2": {
       "cells": 6,
-      "contract_sha256": "a986648ec443e5bbed277d7a5df2ece78f401091c2f91b900b4a66431a43684a",
+      "contract_sha256": "74887553bfe1019b83df6b8936088233bacc9973c8a36e41525a2a809db199f4",
       "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
     }
   },
-  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v8",
+  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v7",
   "scope": {
     "compression": false,
     "families": [
@@ -127,8 +126,8 @@
     "target_cells": 24,
     "training": false
   },
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v30/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "483870f915b6a01e7b2648e8eadc6f5d6cd34e5062f5e5e85431ecc8b8c33c1a",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v29/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "af8825a1a30e202644b1dbd47ad32b9211515f5f237aa89166aece4807de8ea3",
   "status": "ACTIVE",
   "stop_conditions": [
     "budget overrun or unknown consumption",
