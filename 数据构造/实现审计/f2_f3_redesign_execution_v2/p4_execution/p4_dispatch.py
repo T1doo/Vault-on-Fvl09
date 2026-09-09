@@ -88,6 +88,26 @@ def _actual_usage(output: Path, lease_seconds: int, launched: bool) -> dict[str,
             "solver_problems": int(cell.get("solver_problem_count", 0)),
             "gpu_lease_seconds": int(lease_seconds),
         }
+    root_path = output / "root_receipt.json"
+    if root_path.is_file():
+        root = json.loads(root_path.read_text(encoding="utf-8"))
+        # A resumed root contains immutable reused cells and newly generated
+        # cells. Charge only receipts whose meter output belongs to this job;
+        # the seed/qualification cell was already settled by its own job.
+        output_prefix = str(output.resolve())
+        generated = [
+            cell for cell in root.get("cells", [])
+            if str(cell.get("_meter_output", "")).startswith(output_prefix)
+        ]
+        if not generated and int(root.get("new_cell_count", 0)) > 0:
+            raise RuntimeError("P4 root receipt claims new cells but none are bound to this output")
+        return {
+            "fresh_scenes": len(generated),
+            "action_scenes": sum(int(cell.get("action_segment_count", 0)) > 0 for cell in generated),
+            "collection_attempts": sum(cell.get("collection") is True for cell in generated),
+            "solver_problems": sum(int(cell.get("solver_problem_count", 0)) for cell in generated),
+            "gpu_lease_seconds": int(lease_seconds),
+        }
     if launched:
         raise RuntimeError("P4 child launched without a persisted diagnostic receipt; consumption is unknown")
     return {key: 0 for key in COUNTERS}
@@ -135,7 +155,7 @@ def _run_job(job: dict[str, Any], card: dict[str, Any], ledger: ExecutionLedgerV
 def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--manifest", default="P4_F2_DIAGNOSTIC_MANIFEST.json"); parser.add_argument("--only-job-id"); args = parser.parse_args()
     contract = json.loads((BASE / "P4_EXECUTION_CONTRACT.json").read_text(encoding="utf-8")); manifest = json.loads((BASE / args.manifest).read_text(encoding="utf-8")); state = json.loads((BASE / "P4_STATE.json").read_text(encoding="utf-8")); state.setdefault("jobs", {}); ledger = ExecutionLedgerV2(BASE / "execution_ledger.jsonl", contract_sha256=contract["contract_sha256"], task_id=contract["task_id"], caps=contract["budget_caps"], parent_contract_sha256=contract.get("parent_contract_sha256"), ancestor_contract_sha256s=contract.get("ancestor_contract_sha256s"))
-    if state.get("status") not in {"READY_BOUNDED_DIAGNOSTICS", "READY_F2_LAYOUT_REPAIR", "READY_F2_QUALIFICATION", "F2_BESIDE_BLOCKED_AFTER_QUALIFICATION", "F3_B_QUALIFICATION_CELL_PASSED_ROOT_INCOMPLETE", "READY_QUALIFICATION", "RUNNING"}:
+    if state.get("status") not in {"READY_BOUNDED_DIAGNOSTICS", "READY_F2_LAYOUT_REPAIR", "READY_F2_QUALIFICATION", "READY_F2_DIAGNOSTIC_REPAIR", "F2_BESIDE_BLOCKED_AFTER_QUALIFICATION", "F3_B_QUALIFICATION_CELL_PASSED_ROOT_INCOMPLETE", "READY_QUALIFICATION", "RUNNING"}:
         raise RuntimeError(f"P4 dispatcher expected a ready state, got {state.get('status')}")
     jobs = [_normalise_job(job) for job in manifest.get("jobs", []) if args.only_job_id is None or job.get("job_id") == args.only_job_id]
     if not jobs: raise RuntimeError("requested P4 job is absent from manifest")

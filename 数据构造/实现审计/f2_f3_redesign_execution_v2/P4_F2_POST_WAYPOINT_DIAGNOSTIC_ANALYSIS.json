@@ -1,0 +1,99 @@
+{
+  "analysis_sha256": "5c9efced6f2df308c80793e2a7beb2cbcf8d66bf0aa9fe2262d75d7589a4411d",
+  "budget_totals_after_diagnostic": {
+    "consumed": {
+      "action_scenes": 8,
+      "collection_attempts": 8,
+      "fresh_scenes": 11,
+      "gpu_lease_seconds": 2854,
+      "solver_problems": 120
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "contract_sha256": "d845255c59ad6edede76093587bb04f8610e4507aa31d99a3296b1006b54f531",
+  "decision": {
+    "correct_collision_bottom_target": null,
+    "interpretation": "both S0 and S1 reject the old high side_at_target at IK stage, while S1 reaches the collision-derived bottom support target. This supports removing the unnecessary high second waypoint; it does not yet prove release, stability, or full beside success.",
+    "old_high_side_at_target": {
+      "S0": "MotionGenStatus.IK_FAIL",
+      "S1": "MotionGenStatus.IK_FAIL"
+    },
+    "physical_execution_of_recommended_route": false,
+    "recommended_route": "side_at_current_then_direct_collision_bottom_geometry_target"
+  },
+  "diagnostic_scene_spec_sha256": "1840a2b36609ff7575756e880da6de80f909305eda42f426d0fd29dcde97488b",
+  "post_waypoint_hold_frames": 20,
+  "queries": [
+    {
+      "attempts": 10,
+      "bottom_status": "MotionGenStatus.IK_FAIL",
+      "bottom_success": false,
+      "label": "S0_to_original_side_at_target",
+      "state_row": 2693,
+      "status": "Fail",
+      "target_eef_pose": [
+        0.05994642574482317,
+        -0.060645269155502335,
+        1.0938603019714355,
+        0.7092976389983644,
+        0.010690539112749187,
+        0.7047136839184852,
+        0.01269627436935026
+      ],
+      "valid_query": true
+    },
+    {
+      "attempts": 10,
+      "bottom_status": "MotionGenStatus.IK_FAIL",
+      "bottom_success": false,
+      "label": "S1_to_original_side_at_target",
+      "state_row": 2970,
+      "status": "Fail",
+      "target_eef_pose": [
+        0.05994642574482317,
+        -0.060645269155502335,
+        1.0938603019714355,
+        0.7092976389983644,
+        0.010690539112749187,
+        0.7047136839184852,
+        0.01269627436935026
+      ],
+      "valid_query": true
+    },
+    {
+      "attempts": 1,
+      "bottom_status": null,
+      "bottom_success": true,
+      "label": "S1_to_collision_bottom_geometry_target",
+      "state_row": 2970,
+      "status": "Success",
+      "target_eef_pose": [
+        0.05933629750705283,
+        -0.18801774883929978,
+        0.9340079170359464,
+        0.7091153025323487,
+        0.013145178045170791,
+        0.704883193726105,
+        0.011062332986424343
+      ],
+      "valid_query": true
+    }
+  ],
+  "schema_version": "cmf_f2_f3_v2_p4_f2_post_waypoint_diagnostic_analysis_v1",
+  "source_layout": "v5_beside_y_lower",
+  "source_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-post-waypoint-diagnostic-v2-retry1/saved_state_planner_receipt.json",
+  "source_receipt_sha256": "8237caeb923fac0d450486d116fc025ca81a679205273274007575d09bf4f83b",
+  "source_scene_spec_sha256": "49c94b0bd5e43031b6984b7cb3ac21247d07f3acae3d0152d6bd710bd43f0c44",
+  "source_snapshot_manifest_sha256": "a7ba8ea48a7e4ae3326a435b314ccd52700431816935cd8ea36c66d21e904e67",
+  "state_rows": {
+    "S0_before_side_at_current": 2693,
+    "S1_before_failed_query": 2970,
+    "side_at_current_end": 2950
+  }
+}

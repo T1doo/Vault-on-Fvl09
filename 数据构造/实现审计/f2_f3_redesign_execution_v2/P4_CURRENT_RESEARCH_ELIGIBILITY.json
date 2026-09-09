@@ -2,17 +2,19 @@
   "cells": {
     "F2-A-v2:beside:r_pc": {
       "blocking_reasons": [
-        "v4 and v5 beside qualification fail at the same side_at_target planner control",
-        "no complete six-cell F2 root exists"
+        "single qualification cell does not constitute a six-cell root",
+        "P4 physical budget paused at 48 GPU seconds"
       ],
-      "current_research_eligibility": "BLOCKED",
+      "current_research_eligibility": "PRESERVED_SCOPED_EVIDENCE",
       "failure_analysis": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F2_V5_FAILURE_ANALYSIS.json",
-      "historical_implementation_acceptance": "P4_V5_QUALIFICATION_FAILED",
+      "historical_implementation_acceptance": "P4_V6_QUALIFICATION_PASS_ROOT_INCOMPLETE",
       "permitted_use": [
-        "failure_diagnostic",
         "development",
-        "audit"
-      ]
+        "audit",
+        "positive_control"
+      ],
+      "qualification_receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry/qualification_receipt.json",
+      "qualification_receipt_sha256": "02db8360f884fede907312284a3fcf2ddd3bea2b31696f8c72bbac6d1e9803d2"
     },
     "F3-B-v2:VHHV:r_inv_motion": {
       "blocking_reasons": [],
@@ -93,23 +95,25 @@
       "trace_sha256": "633d6356c5beeab3df8233716194de5ae74333bcc620643a4289dc7ac1b7a5c5"
     }
   },
-  "contract_sha256": "8b0dbb501a5c64642ba8c9721d5a82aaba86ad21a3ececa9158c74f92c1d86fe",
+  "contract_sha256": "9a53f34aea822e410ec2526da92791c3bc462a1c4918e7ef2d83b47aa11681ca",
   "full_new_24_matrix_eligible": false,
-  "index_sha256": "2dc22fefeff3fc3637ddcb0ccb8ad28efbc7a34fdba1f006070f2ffe72b58415",
+  "index_sha256": "152eaefba450fbaa2fd109579e7ceb17173d243df7847d3daa35b1518a44867c",
   "old_complete_is_not_sufficient": true,
   "research_loader_default": "P4_CURRENT_RESEARCH_ELIGIBILITY",
   "roots": {
     "F2-A-v2": {
       "blocking_reasons": [
-        "v5 beside qualification failed at side_at_target; P4 physical retries closed"
+        "v6 direct-geometry beside:r_pc qualified",
+        "remaining five cells were not collected because P4 GPU balance is 48 seconds after conservative prelaunch accounting"
       ],
-      "current_research_eligibility": "BLOCKED"
+      "current_research_eligibility": "INCOMPLETE_ONE_CELL_QUALIFIED"
     },
     "F2-B-v2": {
       "blocking_reasons": [
-        "F2 beside qualification did not produce a valid root; no F2 root may be promoted"
+        "F2-A root is incomplete and P4 physical GPU balance is 48 seconds",
+        "no F2-B cell may be promoted"
       ],
-      "current_research_eligibility": "NOT_COLLECTED_BLOCKED"
+      "current_research_eligibility": "NOT_COLLECTED_BUDGET_BLOCKED"
     },
     "F3-A-v2": {
       "blocking_reasons": [
@@ -125,13 +129,15 @@
     }
   },
   "schema_version": "cmf_f2_f3_v2_p4_current_research_eligibility_v1",
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v33/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "5048068a306976235d354da1f4916f398e204bf82e05e6f1b8ad97a294ef0293",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v39/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "18ee12a07ee1ee7cc2f3b1e281538afa89c6c0cb1b2ce353ce3dc1dcb98ba01b",
   "summary": {
     "blocked_or_not_collected_cells": 1,
     "eligible_scoped_pilot_cells": 6,
     "formal360_started": false,
     "full_new_24_matrix_eligible": false,
+    "p4_gpu_seconds_remaining": 48,
+    "preserved_positive_control_cells": 1,
     "training_started": false
   },
   "version": "p4-v1"

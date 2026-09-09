@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 508, in <module>
+    if __name__ == "__main__": main()
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 505, in main
+    parser = argparse.ArgumentParser(); parser.add_argument("--output", required=True); parser.add_argument("--root-id", required=True, choices=("F2-A-v2", "F2-B-v2", "F3-A-v2", "F3-B-v2")); parser.add_argument("--cell-keys"); parser.add_argument("--existing-root"); parser.add_argument("--no-collection", action="store_true"); parser.add_argument("--f2-layout-id", choices=("v4_beside_y_workspace", "v5_beside_y_lower")); parser.add_argument("--f2-route-mode", choices=("three_segment_high", "side_then_geometry_target")); args = parser.parse_args(); keys = args.cell_keys.split(",") if args.cell_keys else None; result = run_root(output=args.output, root_id=args.root_id, cell_keys=keys, existing_root=args.existing_root, collection=not args.no_collection, f2_layout_id=args.f2_layout_id, f2_route_mode=args.f2_route_mode); print(json.dumps({"root_id": result["root_id"], "status": result["status"], "completed_cell_keys": result["completed_cell_keys"], "receipt_sha256": result["receipt_sha256"]}, ensure_ascii=False)); failures = any(cell.get("status") not in {"cell_pass", "PENDING"} for cell in result["cells"]); partial_ok = result["status"] == "INCOMPLETE" and not failures and not result.get("stop_reason"); raise SystemExit(0 if result["accepted"] or partial_ok else 1)
+TypeError: run_root() got an unexpected keyword argument 'f2_route_mode'

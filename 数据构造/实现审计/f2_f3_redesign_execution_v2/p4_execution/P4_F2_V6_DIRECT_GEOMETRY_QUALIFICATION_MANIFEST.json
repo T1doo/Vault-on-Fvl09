@@ -1,0 +1,42 @@
+{
+  "contract_sha256": "d3d45cfcd033ebd73d7c1ef0972ffcf58c8372e6d73b5ae86fc792eb7aeef230",
+  "jobs": [
+    {
+      "cell_keys": [
+        "beside:r_pc"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry",
+        "--root-id",
+        "F2-A-v2",
+        "--program-id",
+        "beside",
+        "--realization-id",
+        "r_pc",
+        "--f2-layout-id",
+        "v5_beside_y_lower",
+        "--f2-route-mode",
+        "side_then_geometry_target"
+      ],
+      "job_id": "p4-f2-a-beside-qualification-v6-direct-geometry",
+      "job_type": "declared_collection_qualification",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v6-direct-geometry",
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "root_id": "F2-A-v2",
+      "timeout_seconds": 1800
+    }
+  ],
+  "manifest_sha256": "022da8ca163991843de7786306ef8f8d156ad0ca7ef4c0f1d7526eecd0d57f5c",
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_A_BESIDE_QUALIFICATION_V6_DIRECT_GEOMETRY"
+}

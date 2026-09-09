@@ -1,0 +1,40 @@
+{
+  "contract_sha256": "149543e0e3072003dfc8d56d4a13c7d09cc7923a58e0c54a6950dce70ce02bbf",
+  "jobs": [
+    {
+      "cell_keys": [
+        "diagnostic:f2_post_waypoint_s0_s1"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-post-waypoint-diagnostic-v2",
+        "--cell-receipt",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5/cell_receipt.json",
+        "--trace",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5/trace.npz",
+        "--f2-layout-id",
+        "v5_beside_y_lower",
+        "--post-waypoint-hold-frames",
+        "20"
+      ],
+      "job_id": "p4-f2-a-post-waypoint-diagnostic-v2",
+      "job_type": "bounded_non_collection_planner_diagnostic",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-post-waypoint-diagnostic-v2",
+      "reservation": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 900,
+        "solver_problems": 36
+      },
+      "root_id": "F2-A-v2",
+      "timeout_seconds": 1800
+    }
+  ],
+  "manifest_sha256": "6a0e65194c531568912b34c7268f5c4bfefa62436deccba31ab944e1d8c4c69a",
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_POST_WAYPOINT_DIAGNOSTIC_V2"
+}

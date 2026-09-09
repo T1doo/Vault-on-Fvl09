@@ -1,0 +1,46 @@
+{
+  "contract_sha256": "927b1af670e52e496e2d5786e71a4d95f85822698fba856a454bbe564d4664db",
+  "jobs": [
+    {
+      "cell_keys": [
+        "beside:r_inv_path",
+        "inside:r_pc",
+        "inside:r_inv_path",
+        "on:r_pc",
+        "on:r_inv_path"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.collector_v2",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five",
+        "--root-id",
+        "F2-A-v2",
+        "--cell-keys",
+        "beside:r_inv_path,inside:r_pc,inside:r_inv_path,on:r_pc,on:r_inv_path",
+        "--existing-root",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-seed-root",
+        "--f2-layout-id",
+        "v5_beside_y_lower",
+        "--f2-route-mode",
+        "side_then_geometry_target"
+      ],
+      "job_id": "p4-f2-a-v6-direct-geometry-remaining-five",
+      "job_type": "f2_root_remaining_collection",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-v6-direct-geometry-remaining-five",
+      "reservation": {
+        "action_scenes": 5,
+        "collection_attempts": 5,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 3000,
+        "solver_problems": 180
+      },
+      "root_id": "F2-A-v2",
+      "timeout_seconds": 3600
+    }
+  ],
+  "manifest_sha256": "e93fad658283d82053cb2ef3fb76014d4c7da7160c65036de2b800bdbe621e9a",
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_A_V6_DIRECT_GEOMETRY_REMAINING_FIVE"
+}
