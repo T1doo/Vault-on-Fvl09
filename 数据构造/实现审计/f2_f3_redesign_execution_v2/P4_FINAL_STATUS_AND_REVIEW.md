@@ -24,6 +24,7 @@ P4 账本累计实际消耗为：fresh=10、action=8、collection=8、solver=117
 - F2 v5 CPU 候选：`P4_CPU_F2_V5_CANDIDATE.json`
 - F2 v5 失败分析：`P4_F2_V5_FAILURE_ANALYSIS.json`
 - F2 v5 作业回执：`p4_execution/p4-f2-a-beside-qualification-v5.json`
+- F2 v5 路径诊断：`P4_F2_V5_PATH_DIAGNOSTIC.json`（query 8 到达 side_at_current，随后 0.1414 m 横向转移在 planner 前失败）
 - F3-B finalizer 对账：`P4_F3B_ROOT_FINALIZER_RECONCILIATION.json`
 - 当前资格索引：`P4_CURRENT_RESEARCH_ELIGIBILITY.json`
 - 运行源快照：`runtime_source_snapshot_v32/SNAPSHOT_MANIFEST.json`
