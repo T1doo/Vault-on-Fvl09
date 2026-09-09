@@ -1,4 +1,23 @@
 {
+  "accounting_exception": {
+    "actual_gpu_lease_seconds": null,
+    "budget_charge": {
+      "action_scenes": 5,
+      "collection_attempts": 1,
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 1800,
+      "solver_problems": 160
+    },
+    "method": "USER_APPROVED_FULL_RESERVATION_WRITE_OFF",
+    "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_ACCOUNTING_EXCEPTION_RECEIPT.json"
+  },
+  "budget_consumed_or_charged": {
+    "action_scenes": 10,
+    "collection_attempts": 7,
+    "fresh_scenes": 6,
+    "gpu_lease_seconds": 2467,
+    "solver_problems": 211
+  },
   "cell_matrix": {
     "F2-A-v2:beside:r_pc": {
       "independently_accepted": false,
@@ -12,10 +31,15 @@
       "status": "INDEPENDENTLY_ACCEPTED"
     },
     "F3-A-v2:remaining5": {
-      "cells_started_before_dispatcher_crash": 1,
-      "independently_accepted": false,
-      "reservation_held": true,
-      "status": "INTERRUPTED_UNKNOWN_CONSUMPTION"
+      "existing_root": "p3-f3-a-vhvh-rpc",
+      "reservation": {
+        "action_scenes": 5,
+        "collection_attempts": 5,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 1800,
+        "solver_problems": 110
+      },
+      "status": "READY_RETRY1"
     },
     "other_new_cells": {
       "count": 22,
@@ -30,11 +54,18 @@
     "gpu_lease_seconds": 667,
     "solver_problems": 51
   },
-  "ledger_sha256": "50f07d85aabe3eecd6a775df1adb360ff857246bd446af0fc0ca2bcb5a7d91de",
+  "ledger_sha256": "c61d7601be6a009ae6d342a132ae0f5fddf4fd72b0012f5509cc4a57e5e9b2fd",
   "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
   "old_data": {
     "F1_F4_read_only": true,
     "old_f2_f3_not_reaccepted": true
+  },
+  "remaining_contract_caps_after_exception": {
+    "action_scenes": 18,
+    "collection_attempts": 21,
+    "fresh_scenes": 22,
+    "gpu_lease_seconds": 2333,
+    "solver_problems": 129
   },
   "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
   "scientific_status": {
@@ -48,16 +79,12 @@
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
     "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
   },
-  "status": "BUDGET_UNKNOWN_CONSUMPTION_STOPPED",
-  "summary_sha256": "4eb35a6ba131be6f367a36e9b81831dae1ebb3cb4c02493cdac05615df9657cc",
+  "status": "READY_F3_REMAINING",
+  "summary_sha256": "6f55f942bbfab932e94ee735077d62315abefdc1f66760edbc279de7b8672b5b",
   "target_new_cells": 24,
   "unknown_reservation": {
-    "action_scenes": 5,
-    "collection_attempts": 5,
-    "fresh_scenes": 5,
-    "gpu_lease_seconds": 1800,
     "job_id": "p3-f3-a-remaining5",
-    "solver_problems": 160,
-    "status": "HELD_UNTIL_GPU_LEASE_RECONCILED"
+    "reservation_held": false,
+    "status": "CLOSED_BY_AUTHORIZED_EXCEPTION"
   }
 }

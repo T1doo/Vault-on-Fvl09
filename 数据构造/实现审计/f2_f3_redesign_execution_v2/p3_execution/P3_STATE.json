@@ -1847,6 +1847,15 @@
     "gpu_lease_seconds": 4800,
     "solver_problems": 340
   },
+  "budget_charged": {
+    "lost_lease_exception": {
+      "action_scenes": 5,
+      "collection_attempts": 1,
+      "fresh_scenes": 1,
+      "gpu_lease_seconds": 1800,
+      "solver_problems": 160
+    }
+  },
   "budget_request_sha256": "03338e3927ed37b35974972ea6162367299e9c8035e7b27bc694f8226ea6cb05",
   "contract_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_EXECUTION_CONTRACT.json",
   "contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
@@ -2585,19 +2594,28 @@
     }
   },
   "ledger_path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/execution_ledger.jsonl",
+  "next_required_step": "run a newly reserved F3-A remaining5 attempt",
   "next_wave": {
     "cell_count": 5,
-    "job_id": "p3-f3-a-remaining5",
-    "manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_F3A_REMAINING_MANIFEST.json"
+    "job_id": "p3-f3-a-remaining5-retry1",
+    "manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_F3A_REMAINING_MANIFEST.json",
+    "reservation": {
+      "action_scenes": 5,
+      "collection_attempts": 5,
+      "fresh_scenes": 5,
+      "gpu_lease_seconds": 1800,
+      "solver_problems": 110
+    }
   },
   "old_goal_or_ledger_reused": false,
   "progress": {
     "action_scenes": 5,
+    "budget_charge_gpu_lease_seconds": 1800,
     "collection_attempts": 6,
     "completed_cells": 1,
     "f2_first": "BLOCKED_PLANNER_REACHABILITY",
     "f3_first": "PASSED",
-    "f3_remaining": "READY_NOT_STARTED",
+    "f3_remaining": "READY_TO_RUN_RETRY1",
     "first_two": "FAILED",
     "fresh_scenes": 5,
     "gpu_lease_seconds": 667,
@@ -2683,19 +2701,21 @@
     }
   ],
   "running_by_job_id": {},
-  "schema_version": "cmf_f2_f3_v2_p3_state_v8",
+  "schema_version": "cmf_f2_f3_v2_p3_state_v7",
   "source_snapshot_manifest_sha256": "624a441f67771b6302a233e1d592c16a784bdcad5ab12d4bdbb014496478c4c3",
-  "state_sha256": "33ad02967c1cd281870e0f879760549486fcdd9501d8029f8cf3a832974204c0",
-  "status": "BUDGET_UNKNOWN_CONSUMPTION_STOPPED",
-  "stop_reason": "p3-f3-a-remaining5 dispatcher crashed after Popen; exact GPU lease unknown",
+  "state_sha256": "105332fdd51ad8d5a1416ddf701def4123bdf9e3d47e354e4016e68a89d8587c",
+  "status": "READY_F3_REMAINING",
+  "stop_reason": null,
   "task_id": "f2_f3_observation_contract_repair_20260909_p3",
   "unknown_jobs": {
     "p3-f3-a-remaining5": {
+      "accounting_exception_receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_ACCOUNTING_EXCEPTION_RECEIPT.json",
       "child_cleanup_pass": true,
+      "closed_by_accounting_exception": true,
       "device_idle_observed": true,
       "partial_capture": true,
       "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_UNKNOWN_CONSUMPTION_RECEIPT.json",
-      "reservation_held": true
+      "reservation_held": false
     }
   }
 }

@@ -1,27 +1,17 @@
 {
-  "accounting_exception": {
-    "accounting_method": "USER_APPROVED_FULL_RESERVATION_WRITE_OFF",
-    "actual_gpu_lease_seconds": null,
-    "budget_charge": {
-      "action_scenes": 5,
-      "collection_attempts": 1,
-      "fresh_scenes": 1,
-      "gpu_lease_seconds": 1800,
-      "solver_problems": 160
-    },
-    "budget_charge_gpu_lease_seconds": 1800,
-    "closed_by": "user-approved-latest-review",
-    "event_sha256": "b648701c2fe1a454fa06b59f0ed93772f4325c703dfb0484698fb8cd268964d7",
-    "exact_measurement_available": false,
-    "reservation_closed": true
+  "accounting_method": "USER_APPROVED_FULL_RESERVATION_WRITE_OFF",
+  "actual_gpu_lease_seconds": null,
+  "budget_charge": {
+    "action_scenes": 5,
+    "collection_attempts": 1,
+    "fresh_scenes": 1,
+    "gpu_lease_seconds": 1800,
+    "solver_problems": 160
   },
-  "attempt": 0,
-  "cell_keys": "VVHH:r_pc,VVHH:r_inv_path,VHVH:r_inv_path,VHHV:r_pc,VHHV:r_inv_path",
-  "child_pgid": 2882571,
-  "child_pid": 2882571,
-  "cleanup_action": "SIGTERM sent to exact verified pgid 2882571; no matching process remains",
-  "created_at": "2026-09-09T02:18:37.109523+08:00",
-  "dispatcher_failure": "state write raised KeyError: cell_key after Popen",
+  "contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
+  "event_sha256": "b648701c2fe1a454fa06b59f0ed93772f4325c703dfb0484698fb8cd268964d7",
+  "event_type": "ACCOUNTING_EXCEPTION",
+  "exact_measurement_available": false,
   "job_id": "p3-f3-a-remaining5",
   "known_usage_lower_bound": {
     "action_scenes": 0,
@@ -29,29 +19,7 @@
     "fresh_scenes": 1,
     "solver_problems": 0
   },
-  "ledger_totals_after_interruption": {
-    "consumed": {
-      "action_scenes": 5,
-      "collection_attempts": 6,
-      "fresh_scenes": 5,
-      "gpu_lease_seconds": 667,
-      "solver_problems": 51
-    },
-    "reserved": {
-      "action_scenes": 5,
-      "collection_attempts": 5,
-      "fresh_scenes": 5,
-      "gpu_lease_seconds": 1800,
-      "solver_problems": 160
-    }
-  },
-  "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5",
-  "partial_capture": {
-    "accepted": false,
-    "cell_receipt_present": false,
-    "t0_bundle_present": true,
-    "trace_present": false
-  },
+  "owned_processes_absent": true,
   "post_snapshot": {
     "gpu_command": [
       "nvidia-smi",
@@ -197,19 +165,14 @@
     "raw_process_csv": "",
     "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
   },
-  "receipt_sha256": "07c2dcb18d0d832a9c71f037a23f6284d2def9135bb902d4572c10a4df1f27e7",
-  "reservation_held": {
+  "receipt_sha256": "885bce3b561a4d7abef4f83c0910cb38877488f80f7b56ff84bda34ee58e5827",
+  "reservation": {
     "action_scenes": 5,
     "collection_attempts": 5,
     "fresh_scenes": 5,
     "gpu_lease_seconds": 1800,
     "solver_problems": 160
   },
-  "root_id": "F3-A-v2",
-  "schema_version": "cmf_f2_f3_v2_p3_unknown_consumption_receipt_v1",
-  "status": "CLOSED_BY_AUTHORIZED_EXCEPTION",
-  "unknown_usage_fields": [
-    "gpu_lease_seconds",
-    "exact_wall_time_between Popen and SIGTERM"
-  ]
+  "schema_version": "cmf_f2_f3_v2_p3_accounting_exception_receipt_v1",
+  "status": "CLOSED_BY_AUTHORIZED_EXCEPTION"
 }

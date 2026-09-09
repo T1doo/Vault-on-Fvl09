@@ -226,6 +226,8 @@ def main() -> int:
         if wave_pass: state["status"] = "READY_F3_REMAINING"
     elif wave_name == "F3_A_REMAINING_FIVE":
         state["progress"]["f3_remaining"] = "PASSED" if wave_pass else "FAILED"
+        if wave_pass:
+            state["progress"]["completed_cells"] = int(state["progress"].get("completed_cells", 0)) + sum(int(item.get("actual_usage", {}).get("fresh_scenes", 0)) for item in results)
         if wave_pass: state["status"] = "READY_F3_B_FIRST"
     else:
         state["progress"]["first_two"] = "PASSED" if wave_pass else "FAILED"
