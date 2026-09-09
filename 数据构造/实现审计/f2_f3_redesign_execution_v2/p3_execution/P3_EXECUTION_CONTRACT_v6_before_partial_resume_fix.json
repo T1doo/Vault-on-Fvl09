@@ -10,18 +10,17 @@
     7
   ],
   "amendment": {
-    "change": "resume logic no longer requires missing pending cells in source root; no scientific threshold change",
+    "change": "no scientific threshold or physical behavior change; settlement failure remains retryable",
     "one_change_per_attempt": true,
-    "reason": "allow partial root resume with only present independently verified source cells",
+    "reason": "execution meter and pre-settlement end evidence for user-authorized accounting exception",
     "remaining_recovery_reserve_cells": 1,
-    "revision": 6
+    "revision": 5
   },
   "ancestor_contract_sha256s": [
     "ac3a8904d549c9a36fe4506fbcc8a40db61d895d874ee1e2cee07320deeb42d4",
     "6347080a5424c5031c963857318cda743782768a2fde49847bafcbdb0c228c4e",
     "be824c5e3d143d5e366d2a357112b678a11f59b9a453813004c0e3c005b4c09c",
-    "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7",
-    "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482"
+    "4e4a6f6615e62f411517d6aff74e751b422d0c538d97efecc8343732f0de6dc7"
   ],
   "authorization_basis": "user-approved latest review scope: execute first two after CPU conditions pass without another approval",
   "budget_caps": {
@@ -32,10 +31,10 @@
     "solver_problems": 340
   },
   "budget_request": "数据构造/实现审计/f2_f3_redesign_execution_v2/COMPLETE_BUDGET_REQUEST.json",
-  "budget_request_sha256": "c760eb567fb860d28e34ed88568d1ad79700c1bbb69a3769d0d9844f4e44f9cc",
-  "contract_sha256": "e13eb86f3e7d766dd1b89bb52673aef76b3dac2dd3fa436588a565de096cc32e",
-  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_PARTIAL_RESUME.json",
-  "cpu_gate_sha256": "23a66a707d99e7e018e7ab9f480d0c1df86075a84bc7cad301b876dc24ccf3f5",
+  "budget_request_sha256": "03338e3927ed37b35974972ea6162367299e9c8035e7b27bc694f8226ea6cb05",
+  "contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
+  "cpu_gate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P2_FINAL_CPU_GATE_ACCOUNTING_EXCEPTION.json",
+  "cpu_gate_sha256": "e16cc288960e2b3fa27c05fb4720803da3658ae3e258d86074061d89eb1ad212",
   "first_validation_jobs": [
     {
       "cell_key": "beside:r_pc",
@@ -84,7 +83,7 @@
     "mutate_old_state": false,
     "reaccept_old_data": false
   },
-  "parent_contract_sha256": "1a49e1b7cdc463ad3a5325fa6fc45e555a79fa33b17a3f0bd953dbccd8f4082b",
+  "parent_contract_sha256": "330fd4f4fe7eefec4600e6f3982fd9f9091031b227cd6f92455836366e65f482",
   "roots": {
     "F2-A-v2": {
       "cells": 6,
@@ -107,7 +106,7 @@
       "scene_spec_sha256": "b44d8d3f2efde77a0aa136dc85f7c649012e52f29243c3a3fb85a1400360c7ae"
     }
   },
-  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v7",
+  "schema_version": "cmf_f2_f3_v2_p3_execution_contract_v6",
   "scope": {
     "compression": false,
     "families": [
@@ -126,8 +125,8 @@
     "target_cells": 24,
     "training": false
   },
-  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v29/SNAPSHOT_MANIFEST.json",
-  "source_snapshot_manifest_sha256": "af8825a1a30e202644b1dbd47ad32b9211515f5f237aa89166aece4807de8ea3",
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v28/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "624a441f67771b6302a233e1d592c16a784bdcad5ab12d4bdbb014496478c4c3",
   "status": "ACTIVE",
   "stop_conditions": [
     "budget overrun or unknown consumption",

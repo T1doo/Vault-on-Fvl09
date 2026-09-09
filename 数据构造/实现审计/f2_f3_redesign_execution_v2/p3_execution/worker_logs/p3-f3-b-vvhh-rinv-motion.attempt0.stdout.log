@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 453, in <module>
+    if __name__ == "__main__": main()
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 450, in main
+    parser = argparse.ArgumentParser(); parser.add_argument("--output", required=True); parser.add_argument("--root-id", required=True, choices=("F2-A-v2", "F2-B-v2", "F3-A-v2", "F3-B-v2")); parser.add_argument("--cell-keys"); parser.add_argument("--existing-root"); parser.add_argument("--no-collection", action="store_true"); args = parser.parse_args(); keys = args.cell_keys.split(",") if args.cell_keys else None; result = run_root(output=args.output, root_id=args.root_id, cell_keys=keys, existing_root=args.existing_root, collection=not args.no_collection); print(json.dumps({"root_id": result["root_id"], "status": result["status"], "completed_cell_keys": result["completed_cell_keys"], "receipt_sha256": result["receipt_sha256"]}, ensure_ascii=False)); failures = any(cell.get("status") not in {"cell_pass", "PENDING"} for cell in result["cells"]); partial_ok = result["status"] == "INCOMPLETE" and not failures and not result.get("stop_reason"); raise SystemExit(0 if result["accepted"] or partial_ok else 1)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 367, in run_root
+    source_sha = sha256_file(source_root / "root_receipt.json"); reusable = reusable_cells(source, root_id, cell_keys={(c["program_id"], c["realization_id"]) for c in expected if f"{c['program_id']}:{c['realization_id']}" not in set(requested)})
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/pilot_contract.py", line 126, in reusable_cells
+    raise PilotContractError("resume source contains a cell without independent local verification")
+controlled_multi_future.redesign_f2_f3_v2.pilot_contract.PilotContractError: resume source contains a cell without independent local verification
