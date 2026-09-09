@@ -1,0 +1,81 @@
+{
+  "budget_caps": {
+    "action_scenes": 28,
+    "collection_attempts": 24,
+    "fresh_scenes": 32,
+    "gpu_lease_seconds": 7200,
+    "solver_problems": 480
+  },
+  "budget_progress": {
+    "consumed": {
+      "action_scenes": 8,
+      "collection_attempts": 8,
+      "fresh_scenes": 10,
+      "gpu_lease_seconds": 1910,
+      "solver_problems": 117
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "contract_sha256": "8b0dbb501a5c64642ba8c9721d5a82aaba86ad21a3ececa9158c74f92c1d86fe",
+  "evidence": {
+    "f2_qualification": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4-f2-a-beside-qualification-v4-retry1.json",
+    "f2_saved_state_scene_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4-f2-a-saved-state-planner-diagnostic.json",
+    "f2_trace_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F2_TRACE_DIAGNOSTIC.json",
+    "f2_v5_cpu_candidate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F2_V5_CANDIDATE.json",
+    "f2_v5_failure_analysis": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F2_V5_FAILURE_ANALYSIS.json",
+    "f2_v5_failure_analysis_sha256": "bd27eee2bec9556f72d6e25a6db2cb1083a1d339eabdc9dc3cfd95d43ec649fd",
+    "f2_v5_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/P4_F2_V5_QUALIFICATION_MANIFEST.json",
+    "f3_b_qualification": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4-f3-b-vhvh-timescaled-qualification.json",
+    "f3_b_root_finalizer": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4-f3-b-timescaled-remaining-five/independent_root_finalizer_v2.json",
+    "f3_b_root_finalizer_reconciliation": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3B_ROOT_FINALIZER_RECONCILIATION.json",
+    "f3_qualification_postfix": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3B_QUALIFICATION_POSTFIX_RECEIPT.json",
+    "f3_trace_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F3_TRACE_DIAGNOSTIC.json",
+    "p4_current_research_eligibility": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json",
+    "p4_current_research_eligibility_sha256": "525f1ef2f55660330a101291b0fca3b864b44c7fc4f2f4ab66ec3f155bd86c87",
+    "runtime_source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v33/SNAPSHOT_MANIFEST.json",
+    "runtime_source_snapshot_sha256": "5048068a306976235d354da1f4916f398e204bf82e05e6f1b8ad97a294ef0293"
+  },
+  "historical_p3": {
+    "accepted_cells": 7,
+    "f2_beside": "BLOCKED_PLANNER_REACHABILITY",
+    "f3_a_root": "ACCEPTED_6_OF_6",
+    "f3_b_vvhh_rpc": "CELL_ACCEPTED_ROOT_INCOMPLETE",
+    "historical_mutation": false,
+    "other_new_cells": 22,
+    "other_new_cells_status": "NOT_STARTED_IN_P3",
+    "unknown_lease_status": "CLOSED_BY_AUTHORIZED_EXCEPTION"
+  },
+  "last_update": "P4 closure evidence reconciled: F3-B independent finalizer pass is retained; runner root receipt remains immutable and stale; F2 v5 blocked",
+  "next_action": "preserve F2 v5 raw failure and CPU evidence; publish current eligibility and close P4 without formal360/training",
+  "p4_current": {
+    "f2": "V5_QUALIFICATION_FAILED_AT_SIDE_AT_TARGET; PHYSICAL_RETRIES_CLOSED",
+    "f3_a": "PRESERVED_6_OF_6",
+    "f3_b": "ROOT_ACCEPTED_6_OF_6_TIME_SCALED",
+    "input_matrix_target": 24,
+    "new_cells_accepted": 13,
+    "new_cells_target_max": 18
+  },
+  "prelaunch_exception": {
+    "job_id": "p4-f2-a-layout-preflight-v1",
+    "reason": "argparse rejected negative comma-list value before scene construction",
+    "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4-f2-a-layout-preflight-v1.prelaunch_exception.json",
+    "status": "CLOSED_ZERO_USAGE"
+  },
+  "schema_version": "cmf_f2_f3_v2_p4_progress_summary_v1",
+  "scientific_status": {
+    "f2_root_eligible": false,
+    "f3_a_root_preserved": true,
+    "f3_b_root_eligible": true,
+    "formal360_started": false,
+    "new_24_eligible": false,
+    "training_started": false
+  },
+  "status": "F2_V5_QUALIFICATION_FAILED_F3_ROOTS_ACCEPTED",
+  "task_id": "f2_f3_observation_contract_repair_20260909_p4"
+}

@@ -1,0 +1,36 @@
+{
+  "contract_sha256": "4a55ac3f8920942a15bfffed887f9b567f9b4fbf465c93d1ac7f51612569634a",
+  "jobs": [
+    {
+      "cell_keys": [
+        "diagnostic:f2_layout_preflight_v1_retry1"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-layout-preflight-v1-retry1",
+        "--cell-receipt",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json",
+        "--trace",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz",
+        "--stand-xs=-0.02,0.02,0.06,0.10"
+      ],
+      "job_id": "p4-f2-a-layout-preflight-v1-retry1",
+      "job_type": "bounded_scene_diagnostic",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-layout-preflight-v1-retry1",
+      "reservation": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 900,
+        "solver_problems": 40
+      },
+      "root_id": "F2-A-v2",
+      "timeout_seconds": 1200
+    }
+  ],
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_LAYOUT_PREFLIGHT_RETRY1"
+}

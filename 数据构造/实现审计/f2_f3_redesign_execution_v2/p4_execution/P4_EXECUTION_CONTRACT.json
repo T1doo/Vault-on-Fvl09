@@ -1,0 +1,130 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "amendment": {
+    "one_change_per_amendment": true,
+    "previous_p4_contract_sha256": "6693b7e645bd8e03f466a1ec1c1713452745bd9620bbc896a57897926e0e4d69",
+    "reason": "bind final CPU compatibility fix and source snapshot v33",
+    "revision": 24
+  },
+  "ancestor_contract_sha256s": [
+    "bfe59dd95cef643e72dd01cc52673aef76b3dac2dd3fa436588a565de096cc32e",
+    "cc5ee65e4853329ef0d532b7149be1a19c536fb0cdb85574697f374720b77562",
+    "a3c8bb46688d7020a4ec4d70d28235bdd6c8028334249b5a9c56e5802bf61261",
+    "5f632eaf9785375ef0ae046f8c8cac67d45cf32b7a6441b094e2b1feca103427",
+    "bf993821f6f635d936bf4e18f4c6f70006c476bdd3f294cfe9f6acd5f2782c3b",
+    "04655c3d4c32f72641dd30adcd25172594c9e3db67c4623b21099c24bf475d26",
+    "844f78f68fa08410362a2795ba271cf9112ea186e018b24dbd0d282918889c28",
+    "fe588a1b6409374e3f74ce2deee487712d1ff9da6f4d2e8281e4c8812617f4a6",
+    "aa9050d74e213d435e881cb1f83db0f94909d2c326191990c89e33a82481cfda",
+    "f5010c115b44e1bbb69c98ff54e7b8d78009abd46a55246179e6bb6a17073273",
+    "fdeac4e6d0b36359c770c7fffff0d8df98ce8997fde579081bd15827df0a8481",
+    "5aaaf2f522803f490bd2e2d732a2911274b0056db6dab0a854787969f1e43d9e",
+    "73be89777d262a0f80e9e171b5f27611eae01374d207e44516b1f802908c0867",
+    "0ea38bfdc5ab73ee268e31fd25caa952818f53a551d981dd8c8492c5cbddcdcc",
+    "4a55ac3f8920942a15bfffed887f9b567f9b4fbf465c93d1ac7f51612569634a",
+    "6cdea219a50c4577c90d6851483beebc707d0d7d5b4bb3a86e95db80de3b4849",
+    "ebb7bad2fee3a9f9025f2abab7a1d0b7fbe19fdb4d59731c985104f2a6731d9a",
+    "2f691ed05b26308c82c5991344a578c2500f80e5727fb48440364ddd2e8f1735",
+    "8f37e5a38a9eb537eddf29ea0a52a86cec9262454c91cc13760a10c0f9850e2b",
+    "317e0fc3098cef981b734366021a36b07a4037cccd88a32f83121809152dda0a"
+  ],
+  "authorization_basis": "user-approved latest review link t_6aa0d433d50c8191b7508da3a1597b8a; P4 scope explicitly authorized",
+  "budget_caps": {
+    "action_scenes": 28,
+    "collection_attempts": 24,
+    "fresh_scenes": 32,
+    "gpu_lease_seconds": 7200,
+    "solver_problems": 480
+  },
+  "contract_sha256": "8b0dbb501a5c64642ba8c9721d5a82aaba86ad21a3ececa9158c74f92c1d86fe",
+  "contract_version": "P4-repair-and-completion-v1",
+  "cpu_gate": {
+    "f2_historical_trace_diagnostic": "pass_read_only_requires_bounded_scene",
+    "f2_route_unit_test": "pass",
+    "f3_retiming_candidate_unit_test": "pass",
+    "f3_trace_diagnostic": "pass_read_only_bottle_relative_slip_supported",
+    "planner_diagnostics_runtime": "implemented_not_yet_physical"
+  },
+  "design_decisions": {
+    "f2_beside_support": "table",
+    "f2_layout_candidate": "v5_beside_y_lower_target_support_xy_[0.06,-0.18]_stand_center_[0.14,-0.06]_box_center_[-0.24,-0.18]",
+    "f2_route": "three_segment_side_then_transport_then_target_lateral",
+    "f3_bottle_physical_params": "do_not_change_without_new_evidence",
+    "f3_candidate_time_scaling": {
+      "factor": 1.5,
+      "status": "candidate_only_until_qualification"
+    },
+    "f3_diagnostic": "world_bottle_vs_world_eef_vs_relative_eef_bottle"
+  },
+  "gpu_policy": {
+    "automatic_gpu0_fallback": false,
+    "bind_uuid_before_child": true,
+    "busy_gpu_sharing": false,
+    "dynamic_fresh_idle_selection": true,
+    "fresh_guard_before_launch": true,
+    "fresh_post_snapshot": true,
+    "one_project_job_per_gpu": true,
+    "one_root_one_gpu": true,
+    "owned_cleanup_and_device_idle_separate": true,
+    "root_sharding": false,
+    "unset_inherited_ld_library_path": true
+  },
+  "legacy_isolation": {
+    "inherit_old_budget": false,
+    "inherit_old_goal": false,
+    "inherit_old_state": false,
+    "mutate_old_state": false,
+    "reaccept_old_data": false
+  },
+  "p3_history": {
+    "contract_sha256": "bfe59dd95cef643e72dd01cc52673aef76b3dac2dd3fa436588a565de096cc32e",
+    "ledger": "preserve_no_carry_forward",
+    "state": "terminal_historical"
+  },
+  "parent_contract_sha256": "6693b7e645bd8e03f466a1ec1c1713452745bd9620bbc896a57897926e0e4d69",
+  "review_link": "https://chatgpt.com/s/t_6aa0d433d50c8191b7508da3a1597b8a",
+  "scope": {
+    "compression": false,
+    "diagnostic_scene_reserve": 4,
+    "f2_roots": [
+      "F2-A-v2",
+      "F2-B-v2"
+    ],
+    "f3_root": "F3-B-v2",
+    "families": [
+      "F2",
+      "F3"
+    ],
+    "formal360": false,
+    "h_reveal": false,
+    "input_matrix_target": 24,
+    "max_target_new_cells": 18,
+    "preserve_f3_a_cells": 6,
+    "qualification_action_reserve": 4,
+    "recovery_reserve": 6,
+    "training": false
+  },
+  "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v33/SNAPSHOT_MANIFEST.json",
+  "source_snapshot_manifest_sha256": "5048068a306976235d354da1f4916f398e204bf82e05e6f1b8ad97a294ef0293",
+  "status": "ACTIVE_CPU_REPAIR",
+  "stop_conditions": [
+    "budget overrun or unknown consumption",
+    "capture/anchor/source integrity failure",
+    "first shared repair failure",
+    "owned cleanup failure",
+    "ambiguous process ownership",
+    "need to relax scientific acceptance",
+    "P4 cap exhausted",
+    "user pauses"
+  ],
+  "task_id": "f2_f3_observation_contract_repair_20260909_p4"
+}

@@ -1,0 +1,650 @@
+{
+  "attempts": [
+    {
+      "attempt_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry1/beside_r_pc",
+      "attempt_name": "retry1",
+      "bottom_layer_status": "UNAVAILABLE_IN_HISTORICAL_TRACE",
+      "cell_status": "cell_failed_execution",
+      "corrected_route_cpu_reproduction": {
+        "lateral_axis": 1,
+        "route_lateral_coordinate": -0.05951889336109162,
+        "route_offset_m": 0.12,
+        "side_at_current": [
+          -0.08184840530157089,
+          -0.05951889336109162,
+          1.0930989980697632,
+          0.7085118345089728,
+          0.009404153157279441,
+          0.7055335093467036,
+          0.012041987088904698
+        ],
+        "side_at_target": [
+          0.19996757717503763,
+          -0.05951889336109162,
+          1.0930989980697632,
+          0.7092240396024045,
+          0.01046478630068151,
+          0.7047994080421927,
+          0.012228831550988273
+        ],
+        "target": [
+          0.19996757717503763,
+          -0.18650830125959508,
+          1.0930989980697632,
+          0.7092240396024045,
+          0.01046478630068151,
+          0.7047994080421927,
+          0.012228831550988273
+        ]
+      },
+      "diagnostic_kind": "read_only_existing_trace_analysis",
+      "failed_target_eef_pose": [
+        0.19996757805347443,
+        -0.18650829792022705,
+        1.0937787294387817,
+        0.7092240452766418,
+        0.010464786551892757,
+        0.7047994136810303,
+        0.012228831648826599
+      ],
+      "failure_queries": [
+        {
+          "arm": "left",
+          "end_step": null,
+          "goal_eef_pose": [
+            0.19996757805347443,
+            -0.18650829792022705,
+            1.0937787294387817,
+            0.7092240452766418,
+            0.010464786551892757,
+            0.7047994136810303,
+            0.012228831648826599
+          ],
+          "query_id": 8,
+          "source": "left_move_to_pose",
+          "start_step": null,
+          "status": "Failed"
+        }
+      ],
+      "failure_stage": "planner_query_before_release",
+      "last_successful_query_id": 7,
+      "planner_query_count": 8,
+      "prefix_end_trace_row": 2691,
+      "receipt_sha256": "1a5eebea4907ca2d3ba8b2e84a95292097c400e86f1a040dd40bdf1de0c05415",
+      "route_bug_in_old_runtime": {
+        "new_route_has_distinct_side_and_transport_waypoints": true,
+        "old_expression": "route_far = high.copy(); route_far[1] = route_y; route_target = route_far.copy(); route_target[0] = high[0]",
+        "old_route_far_equals_route_target": true
+      },
+      "row_count": 2692,
+      "saved_state": {
+        "prefix_eef_pose": [
+          -0.08184840530157089,
+          -0.1795188933610916,
+          1.0930989980697632,
+          0.7085118345089728,
+          0.009404153157279441,
+          0.7055335093467036,
+          0.012041987088904698
+        ],
+        "prefix_object_pose": [
+          -0.08118529617786407,
+          -0.17252689599990845,
+          0.9000685811042786,
+          0.6960999965667725,
+          0.7177222371101379,
+          0.010542240925133228,
+          0.014442173764109612
+        ],
+        "target_binding": {
+          "carried_eef": [
+            -0.0814766889810562,
+            -0.18063202016055585,
+            1.093778703212738,
+            0.7092240396024045,
+            0.01046478630068151,
+            0.7047994080421927,
+            0.012228831550988273
+          ],
+          "carried_object": [
+            -0.08118529617786407,
+            -0.17252689599990845,
+            0.9000685811042786,
+            0.6960999965667725,
+            0.7177222371101379,
+            0.010542240925133228,
+            0.014442173764109612
+          ],
+          "desired_support_point": [
+            0.2,
+            -0.18,
+            0.74
+          ],
+          "support_identity": "table",
+          "support_offset": [
+            3.242282496238036e-05,
+            0.0065083012595950895,
+            -0.1416662550244957
+          ],
+          "support_point_world": [
+            -0.08144426615609382,
+            -0.17412371890096076,
+            0.9521124481882423
+          ],
+          "target_eef": [
+            0.19996757717503763,
+            -0.18650830125959508,
+            0.8816662550244957,
+            0.7092240396024045,
+            0.01046478630068151,
+            0.7047994080421927,
+            0.012228831550988273
+          ]
+        }
+      },
+      "schema_version": "cmf_f2_trace_diagnostic_v1",
+      "source_limitations": [
+        "historical planner_queries_json contains status and target but no MotionGenResult diagnostics",
+        "saved state is suitable for a bounded scene diagnostic, not a new physical collection",
+        "no release/support/terminal gate was reached in these attempts"
+      ],
+      "successful_query_ids_before_failure": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "trace_sha256": "72512a4b4816f1d691dfe3dd1e7d876e0da8a245b54f45f8275e6bafce6f13d0"
+    },
+    {
+      "attempt_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry2/beside_r_pc",
+      "attempt_name": "retry2",
+      "bottom_layer_status": "UNAVAILABLE_IN_HISTORICAL_TRACE",
+      "cell_status": "cell_failed_execution",
+      "corrected_route_cpu_reproduction": {
+        "lateral_axis": 1,
+        "route_lateral_coordinate": -0.059368466138839726,
+        "route_offset_m": 0.12,
+        "side_at_current": [
+          -0.08183351159095764,
+          -0.059368466138839726,
+          1.0931963920593262,
+          0.7085384894053606,
+          0.009964763893796424,
+          0.705491917124922,
+          0.012452605474875979
+        ],
+        "side_at_target": [
+          0.24041571881878115,
+          -0.059368466138839726,
+          1.0931963920593262,
+          0.7092577043982027,
+          0.011008560374276307,
+          0.7047499836601936,
+          0.012640446243505165
+        ],
+        "target": [
+          0.24041571881878115,
+          -0.1867055463157569,
+          1.0931963920593262,
+          0.7092577043982027,
+          0.011008560374276307,
+          0.7047499836601936,
+          0.012640446243505165
+        ]
+      },
+      "diagnostic_kind": "read_only_existing_trace_analysis",
+      "failed_target_eef_pose": [
+        0.24041572213172913,
+        -0.18670554459095,
+        1.09389066696167,
+        0.7092577219009399,
+        0.01100856065750122,
+        0.7047500014305115,
+        0.012640446424484253
+      ],
+      "failure_queries": [
+        {
+          "arm": "left",
+          "end_step": null,
+          "goal_eef_pose": [
+            0.24041572213172913,
+            -0.18670554459095,
+            1.09389066696167,
+            0.7092577219009399,
+            0.01100856065750122,
+            0.7047500014305115,
+            0.012640446424484253
+          ],
+          "query_id": 8,
+          "source": "left_move_to_pose",
+          "start_step": null,
+          "status": "Failed"
+        }
+      ],
+      "failure_stage": "planner_query_before_release",
+      "last_successful_query_id": 7,
+      "planner_query_count": 8,
+      "prefix_end_trace_row": 2716,
+      "receipt_sha256": "942e79ac883c9a2095ce368ea36086e2e711e5ead51abfb9ee1ff3196c552f9d",
+      "route_bug_in_old_runtime": {
+        "new_route_has_distinct_side_and_transport_waypoints": true,
+        "old_expression": "route_far = high.copy(); route_far[1] = route_y; route_target = route_far.copy(); route_target[0] = high[0]",
+        "old_route_far_equals_route_target": true
+      },
+      "row_count": 2717,
+      "saved_state": {
+        "prefix_eef_pose": [
+          -0.08183351159095764,
+          -0.17936846613883972,
+          1.0931963920593262,
+          0.7085384894053606,
+          0.009964763893796424,
+          0.705491917124922,
+          0.012452605474875979
+        ],
+        "prefix_object_pose": [
+          -0.08206789940595627,
+          -0.17203736305236816,
+          0.8999280333518982,
+          0.6952024698257446,
+          0.7188076972961426,
+          0.002980544464662671,
+          0.0005175619153305888
+        ],
+        "target_binding": {
+          "carried_eef": [
+            -0.08146654129028319,
+            -0.1804804213345051,
+            1.093890700340271,
+            0.7092577043982027,
+            0.011008560374276307,
+            0.7047499836601936,
+            0.012640446243505165
+          ],
+          "carried_object": [
+            -0.08206789940595627,
+            -0.17203736305236816,
+            0.8999280333518982,
+            0.6952024698257446,
+            0.7188076972961426,
+            0.002980544464662671,
+            0.0005175619153305888
+          ],
+          "desired_support_point": [
+            0.24,
+            -0.18,
+            0.74
+          ],
+          "support_identity": "table",
+          "support_offset": [
+            -0.0004157188187811772,
+            0.0067055463157568995,
+            -0.14192299366024386
+          ],
+          "support_point_world": [
+            -0.08188226010906437,
+            -0.1737748750187482,
+            0.9519677066800271
+          ],
+          "target_eef": [
+            0.24041571881878115,
+            -0.1867055463157569,
+            0.8819229936602438,
+            0.7092577043982027,
+            0.011008560374276307,
+            0.7047499836601936,
+            0.012640446243505165
+          ]
+        }
+      },
+      "schema_version": "cmf_f2_trace_diagnostic_v1",
+      "source_limitations": [
+        "historical planner_queries_json contains status and target but no MotionGenResult diagnostics",
+        "saved state is suitable for a bounded scene diagnostic, not a new physical collection",
+        "no release/support/terminal gate was reached in these attempts"
+      ],
+      "successful_query_ids_before_failure": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "trace_sha256": "36a950c6260a99f1d0510df6b9dde9bab55208c2e4816c82cd154dc8b20a8327"
+    },
+    {
+      "attempt_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry3/beside_r_pc",
+      "attempt_name": "retry3",
+      "bottom_layer_status": "UNAVAILABLE_IN_HISTORICAL_TRACE",
+      "cell_status": "cell_failed_execution",
+      "corrected_route_cpu_reproduction": {
+        "lateral_axis": 1,
+        "route_lateral_coordinate": -0.059386392235755925,
+        "route_offset_m": 0.12,
+        "side_at_current": [
+          -0.08185232430696487,
+          -0.059386392235755925,
+          1.0931916236877441,
+          0.7085307980461737,
+          0.009914696027769102,
+          0.7055004975893143,
+          0.012444071840002879
+        ],
+        "side_at_target": [
+          0.24035202927044264,
+          -0.059386392235755925,
+          1.0931916236877441,
+          0.7092567415405928,
+          0.01095336669746273,
+          0.7047519414886776,
+          0.012633261857166556
+        ],
+        "target": [
+          0.24035202927044264,
+          -0.18669524167205093,
+          1.0931916236877441,
+          0.7092567415405928,
+          0.01095336669746273,
+          0.7047519414886776,
+          0.012633261857166556
+        ]
+      },
+      "diagnostic_kind": "read_only_existing_trace_analysis",
+      "failed_target_eef_pose": [
+        0.24035203456878662,
+        -0.3004933297634125,
+        1.0938833951950073,
+        0.7092567682266235,
+        0.010953366756439209,
+        0.7047519683837891,
+        0.012633262202143669
+      ],
+      "failure_queries": [
+        {
+          "arm": "left",
+          "end_step": null,
+          "goal_eef_pose": [
+            0.24035203456878662,
+            -0.3004933297634125,
+            1.0938833951950073,
+            0.7092567682266235,
+            0.010953366756439209,
+            0.7047519683837891,
+            0.012633262202143669
+          ],
+          "query_id": 8,
+          "source": "left_move_to_pose",
+          "start_step": null,
+          "status": "Failed"
+        }
+      ],
+      "failure_stage": "planner_query_before_release",
+      "last_successful_query_id": 7,
+      "planner_query_count": 8,
+      "prefix_end_trace_row": 2695,
+      "receipt_sha256": "327cb4076244eb9d26bb09d22a9a282a110e8c7082c2867aa84100569886ca36",
+      "route_bug_in_old_runtime": {
+        "new_route_has_distinct_side_and_transport_waypoints": true,
+        "old_expression": "route_far = high.copy(); route_far[1] = route_y; route_target = route_far.copy(); route_target[0] = high[0]",
+        "old_route_far_equals_route_target": true
+      },
+      "row_count": 2696,
+      "saved_state": {
+        "prefix_eef_pose": [
+          -0.08185232430696487,
+          -0.17938639223575592,
+          1.0931916236877441,
+          0.7085307980461737,
+          0.009914696027769102,
+          0.7055004975893143,
+          0.012444071840002879
+        ],
+        "prefix_object_pose": [
+          -0.08197636902332306,
+          -0.1720593273639679,
+          0.8999567031860352,
+          0.6951943039894104,
+          0.7188153266906738,
+          0.0028810007497668266,
+          0.001058786641806364
+        ],
+        "target_binding": {
+          "carried_eef": [
+            -0.08148533165454863,
+            -0.18049331828951837,
+            1.0938833689689635,
+            0.7092567415405928,
+            0.01095336669746273,
+            0.7047519414886776,
+            0.012633261857166556
+          ],
+          "carried_object": [
+            -0.08197636902332306,
+            -0.1720593273639679,
+            0.8999567031860352,
+            0.6951943039894104,
+            0.7188153266906738,
+            0.0028810007497668266,
+            0.001058786641806364
+          ],
+          "desired_support_point": [
+            0.24,
+            -0.18,
+            0.74
+          ],
+          "support_identity": "table",
+          "support_offset": [
+            -0.0003520292704426442,
+            0.006695241672050933,
+            -0.14188688832700258
+          ],
+          "support_point_world": [
+            -0.08183736092499128,
+            -0.17379807661746743,
+            0.951996480641961
+          ],
+          "target_eef": [
+            0.24035202927044264,
+            -0.18669524167205093,
+            0.8818868883270026,
+            0.7092567415405928,
+            0.01095336669746273,
+            0.7047519414886776,
+            0.012633261857166556
+          ]
+        }
+      },
+      "schema_version": "cmf_f2_trace_diagnostic_v1",
+      "source_limitations": [
+        "historical planner_queries_json contains status and target but no MotionGenResult diagnostics",
+        "saved state is suitable for a bounded scene diagnostic, not a new physical collection",
+        "no release/support/terminal gate was reached in these attempts"
+      ],
+      "successful_query_ids_before_failure": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "trace_sha256": "015dcfd337f72fa4dda87c1585269cfc6c4ed289ee558f7810f3c74ab92ed2eb"
+    },
+    {
+      "attempt_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc",
+      "attempt_name": "retry4",
+      "bottom_layer_status": "UNAVAILABLE_IN_HISTORICAL_TRACE",
+      "cell_status": "cell_failed_execution",
+      "corrected_route_cpu_reproduction": {
+        "lateral_axis": 1,
+        "route_lateral_coordinate": -0.0594317364692688,
+        "route_offset_m": 0.12,
+        "side_at_current": [
+          -0.08184950053691864,
+          -0.0594317364692688,
+          1.0932053327560425,
+          0.7085624518545308,
+          0.00993168351003406,
+          0.7054676591489597,
+          0.012489811024965835
+        ],
+        "side_at_target": [
+          0.24038117594516925,
+          -0.0594317364692688,
+          1.0932053327560425,
+          0.7092739603015089,
+          0.010950147722950939,
+          0.7047338743429424,
+          0.012677139134864795
+        ],
+        "target": [
+          0.24038117594516925,
+          -0.18671432131407253,
+          1.0932053327560425,
+          0.7092739603015089,
+          0.010950147722950939,
+          0.7047338743429424,
+          0.012677139134864795
+        ]
+      },
+      "diagnostic_kind": "read_only_existing_trace_analysis",
+      "failed_target_eef_pose": [
+        0.2403811812400818,
+        -0.06053037941455841,
+        1.0938881635665894,
+        0.7092739343643188,
+        0.010950148105621338,
+        0.7047338485717773,
+        0.012677138671278954
+      ],
+      "failure_queries": [
+        {
+          "arm": "left",
+          "end_step": null,
+          "goal_eef_pose": [
+            0.2403811812400818,
+            -0.06053037941455841,
+            1.0938881635665894,
+            0.7092739343643188,
+            0.010950148105621338,
+            0.7047338485717773,
+            0.012677138671278954
+          ],
+          "query_id": 8,
+          "source": "left_move_to_pose",
+          "start_step": null,
+          "status": "Failed"
+        }
+      ],
+      "failure_stage": "planner_query_before_release",
+      "last_successful_query_id": 7,
+      "planner_query_count": 8,
+      "prefix_end_trace_row": 2701,
+      "receipt_sha256": "bb39dfbfbc082d9300b64fa51914033eca5a67880b80f7069a349fef660e1e5e",
+      "route_bug_in_old_runtime": {
+        "new_route_has_distinct_side_and_transport_waypoints": true,
+        "old_expression": "route_far = high.copy(); route_far[1] = route_y; route_target = route_far.copy(); route_target[0] = high[0]",
+        "old_route_far_equals_route_target": true
+      },
+      "row_count": 2702,
+      "saved_state": {
+        "prefix_eef_pose": [
+          -0.08184950053691864,
+          -0.1794317364692688,
+          1.0932053327560425,
+          0.7085624518545308,
+          0.00993168351003406,
+          0.7054676591489597,
+          0.012489811024965835
+        ],
+        "prefix_object_pose": [
+          -0.0820671021938324,
+          -0.17206113040447235,
+          0.899972140789032,
+          0.6950832605361938,
+          0.7189241051673889,
+          0.0026872935704886913,
+          -7.719971472397447e-05
+        ],
+        "target_binding": {
+          "carried_eef": [
+            -0.08147914767265318,
+            -0.18053038120269777,
+            1.0938881969451903,
+            0.7092739603015089,
+            0.010950147722950939,
+            0.7047338743429424,
+            0.012677139134864795
+          ],
+          "carried_object": [
+            -0.0820671021938324,
+            -0.17206113040447235,
+            0.899972140789032,
+            0.6950832605361938,
+            0.7189241051673889,
+            0.0026872935704886913,
+            -7.719971472397447e-05
+          ],
+          "desired_support_point": [
+            0.24,
+            -0.18,
+            0.74
+          ],
+          "support_identity": "table",
+          "support_offset": [
+            -0.0003811759451692598,
+            0.006714321314072541,
+            -0.14187704698989556
+          ],
+          "support_point_world": [
+            -0.08186032361782244,
+            -0.17381605988862522,
+            0.9520111499552948
+          ],
+          "target_eef": [
+            0.24038117594516925,
+            -0.18671432131407253,
+            0.8818770469898956,
+            0.7092739603015089,
+            0.010950147722950939,
+            0.7047338743429424,
+            0.012677139134864795
+          ]
+        }
+      },
+      "schema_version": "cmf_f2_trace_diagnostic_v1",
+      "source_limitations": [
+        "historical planner_queries_json contains status and target but no MotionGenResult diagnostics",
+        "saved state is suitable for a bounded scene diagnostic, not a new physical collection",
+        "no release/support/terminal gate was reached in these attempts"
+      ],
+      "successful_query_ids_before_failure": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "trace_sha256": "6bdad093edf06082f723eafc25d86163dc2af6fcb2f9dd284a7ac1a9fd5359d2"
+    }
+  ],
+  "diagnostic_kind": "read_only_existing_trace_analysis",
+  "report_sha256": "c431fca748adf998ca7b1e2985be34f6fe7ed85d6a5697466ecc052d68833947",
+  "schema_version": "cmf_f2_trace_diagnostic_bundle_v1",
+  "summary": {
+    "all_failed_before_release": true,
+    "attempt_count": 4,
+    "historical_motiongen_diagnostics_available": false,
+    "requires_bounded_scene_diagnostic": true,
+    "route_bug_reproduced": true
+  }
+}

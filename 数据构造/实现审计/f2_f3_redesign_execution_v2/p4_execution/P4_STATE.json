@@ -1,0 +1,1870 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "budget_caps": {
+    "action_scenes": 28,
+    "collection_attempts": 24,
+    "fresh_scenes": 32,
+    "gpu_lease_seconds": 7200,
+    "solver_problems": 480
+  },
+  "budget_progress": {
+    "consumed": {
+      "action_scenes": 8,
+      "collection_attempts": 8,
+      "fresh_scenes": 10,
+      "gpu_lease_seconds": 1910,
+      "solver_problems": 117
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "contract_sha256": "8b0dbb501a5c64642ba8c9721d5a82aaba86ad21a3ececa9158c74f92c1d86fe",
+  "cpu_evidence": {
+    "f2_route_unit_test": "PASS",
+    "f2_saved_state_scene_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/p4-f2-a-saved-state-planner-diagnostic.json",
+    "f2_saved_state_scene_diagnostic_result": "original_and_target_IK_FAIL_corrected_side_current_success_target_x_IK_FAIL",
+    "f2_trace_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F2_TRACE_DIAGNOSTIC.json",
+    "f2_v5_candidate": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F2_V5_CANDIDATE.json",
+    "f2_v5_candidate_sha256": "4cdc33b5c69736ddc147f471569f473607c4c076c6882a62bae8ef0758dc4853",
+    "f2_v5_failure_analysis": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F2_V5_FAILURE_ANALYSIS.json",
+    "f2_v5_failure_analysis_sha256": "bd27eee2bec9556f72d6e25a6db2cb1083a1d339eabdc9dc3cfd95d43ec649fd",
+    "f3_b_root_finalizer_reconciliation": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3B_ROOT_FINALIZER_RECONCILIATION.json",
+    "f3_qualification_postfix": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_F3B_QUALIFICATION_POSTFIX_RECEIPT.json",
+    "f3_retiming_candidate_unit_test": "PASS",
+    "f3_trace_diagnostic": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CPU_F3_TRACE_DIAGNOSTIC.json",
+    "f3_trace_diagnostic_result": "BOTTLE_RELATIVE_SLIP_SUPPORTED",
+    "p4_current_research_eligibility": "数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json",
+    "planner_diagnostics_runtime": "IMPLEMENTED_CONDITIONAL_ONLY",
+    "source_snapshot_manifest": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v33/SNAPSHOT_MANIFEST.json",
+    "source_snapshot_manifest_sha256": "5048068a306976235d354da1f4916f398e204bf82e05e6f1b8ad97a294ef0293"
+  },
+  "historical_p3": {
+    "accepted_cells": 7,
+    "f2_accepted_cells": 0,
+    "f3_a_root_accepted_cells": 6,
+    "f3_b_vvhh_rpc_cell_accepted_root_incomplete": true,
+    "old_ledger_and_raw_mutable": false,
+    "status": "TERMINAL_HISTORICAL_PRESERVED",
+    "unknown_lease": "CLOSED_BY_AUTHORIZED_EXCEPTION"
+  },
+  "jobs": {
+    "p4-f2-a-beside-qualification-v4": {
+      "budget_charge": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 0,
+        "gpu_lease_seconds": 0,
+        "solver_problems": 0
+      },
+      "budget_event_sha256": "4969c526ae9a61ec3ede4b79c3a7537290e62c4f1c6b22e05f74b03d30672d23",
+      "job_id": "p4-f2-a-beside-qualification-v4",
+      "metadata": {
+        "budget_charge_basis": "zero physical/action/solver usage; child failed before scene construction",
+        "exact_usage_claimed": false,
+        "failure": "dispatcher pre-created child output directory while _f2_cell requires a fresh nonexistent directory",
+        "job_id": "p4-f2-a-beside-qualification-v4",
+        "method": "PRELAUNCH_OUTPUT_DIRECTORY_OWNERSHIP_FAILURE_NO_SCENE_INITIALIZED",
+        "output_has_no_receipt": true,
+        "output_has_no_trace": true,
+        "post_gpu_snapshot_all_cards_near_baseline_idle": true,
+        "process_tree_after_empty": true,
+        "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f2-a-beside-qualification-v4.stdout.log"
+      },
+      "receipt_sha256": "34389846657eab0037a83d6328e4d782bdde9bcaae69efc75a6621b645327e79",
+      "recorded_wall_time": 1788929202.0367062,
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "schema_version": "cmf_f2_f3_v2_p4_prelaunch_exception_v1",
+      "status": "PRELAUNCH_FAILED_CLOSED"
+    },
+    "p4-f2-a-beside-qualification-v4-retry1": {
+      "actual_usage": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 108,
+        "solver_problems": 9
+      },
+      "budget_event_sha256": "bb2fb5639ab1bdbffa70cefc173c39eb2f4dd4bc63a2c37809f204bbdaf3239e",
+      "cell_keys": [
+        "beside:r_pc"
+      ],
+      "cell_receipt_sha256": "47d3c082fd2cf590fc1020c1627c9ce410e48aef6c5c18306355421d9d223487",
+      "cell_status": "cell_failed_execution",
+      "device_idle_observed": true,
+      "end_evidence_sha256": "fdededf776a355079053544da893499f4c33d9a0073455230c373adf4ca9d22c",
+      "failure_stage": "planner control failed at v2_beside_beside_side_at_target",
+      "job_id": "p4-f2-a-beside-qualification-v4-retry1",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v4-retry1",
+      "owned_cleanup_pass": true,
+      "qualification_pass": false,
+      "qualification_receipt_sha256": "05716fcb9af8710e3b951e954c83d38316d96102b96b7f4c228bfa9599961107",
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "return_code": 1,
+      "root_id": "F2-A-v2",
+      "schema_version": "cmf_f2_f3_v2_p4_end_evidence_v1",
+      "status": "FAILED_PHYSICAL_GATE"
+    },
+    "p4-f2-a-beside-qualification-v5": {
+      "actual_usage": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 144,
+        "solver_problems": 9
+      },
+      "budget_event_sha256": "1ab9cb312fc3107bd237c623e6461762e92ed33a71d58c8063502299a7596170",
+      "cell_keys": [
+        "beside:r_pc"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5",
+        "--root-id",
+        "F2-A-v2",
+        "--program-id",
+        "beside",
+        "--realization-id",
+        "r_pc",
+        "--f2-layout-id",
+        "v5_beside_y_lower"
+      ],
+      "device_idle_observed": false,
+      "end_evidence_sha256": "f586910d6cae99fc8e49bdd2b15df5ec6293bae9dd49024ffd009184bc058995",
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guarded_card": {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      "job_id": "p4-f2-a-beside-qualification-v5",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5",
+      "overrun_before_settlement": false,
+      "owned_cleanup_pass": true,
+      "pgid": 3620572,
+      "physical_gpu_index": 0,
+      "pid": 3620572,
+      "post_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": false,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": false,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 23
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 23, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "pre_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "process_tree_after": [],
+      "process_tree_start": [
+        "3620572 3620558 3620572 Rsl  /nfs_share/lijunhui/Robotwin2/env/bin/python -m controlled_multi_future.redesign_f2_f3_v2.f2_qualification_probe --output /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5 --root-id F2-A-v2 --program-id beside --realization-id r_pc --f2-layout-id v5_beside_y_lower"
+      ],
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "return_code": 1,
+      "root_id": "F2-A-v2",
+      "schema_version": "cmf_f2_f3_v2_p4_job_receipt_v1",
+      "status": "FAILED",
+      "timeout": false,
+      "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f2-a-beside-qualification-v5.stdout.log"
+    },
+    "p4-f2-a-layout-preflight-v1": {
+      "budget_charge": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 0,
+        "gpu_lease_seconds": 0,
+        "solver_problems": 0
+      },
+      "budget_event_sha256": "faa04cebd2047c01590f8971ba425bcb6a327d6d4b364611080c2172a6bdff82",
+      "command_failure": "argparse_negative_value_requires_equals_form",
+      "job_id": "p4-f2-a-layout-preflight-v1",
+      "metadata": {
+        "budget_charge_basis": "zero physical/action/solver usage; no simulator scene or planner query started",
+        "exact_usage_claimed": false,
+        "failure": "argparse rejected negative comma-list value before run() and before scene construction",
+        "job_id": "p4-f2-a-layout-preflight-v1",
+        "method": "PRELAUNCH_ARGUMENT_VALIDATION_FAILURE_NO_SCENE_INITIALIZED",
+        "output_has_no_receipt": true,
+        "output_has_no_trace": true,
+        "post_gpu_snapshot_all_cards_near_baseline_idle": true,
+        "process_tree_after_empty": true,
+        "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f2-a-layout-preflight-v1.stdout.log"
+      },
+      "receipt_sha256": "d69ad55583ccfaf4a93e59380dc041879d1cebee4f558c60cd8f0c1e6f908ce6",
+      "recorded_wall_time": 1788927473.378006,
+      "reservation": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 900,
+        "solver_problems": 40
+      },
+      "schema_version": "cmf_f2_f3_v2_p4_prelaunch_exception_v1",
+      "status": "PRELAUNCH_FAILED_CLOSED"
+    },
+    "p4-f2-a-layout-preflight-v1-retry1": {
+      "actual_usage": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 43,
+        "solver_problems": 14
+      },
+      "budget_event_sha256": "ef6bb1166a54a52699d0e0b942c3dee7405774113bb581eb1e69d1e8b6c96684",
+      "cell_keys": [
+        "diagnostic:f2_layout_preflight_v1_retry1"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-layout-preflight-v1-retry1",
+        "--cell-receipt",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json",
+        "--trace",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz",
+        "--stand-xs=-0.02,0.02,0.06,0.10"
+      ],
+      "device_idle_observed": false,
+      "end_evidence_sha256": "eec86831b260699e09f6cfd9a1b0aa1b22f0aca5520af022a723fd37dd998d3b",
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guarded_card": {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      "job_id": "p4-f2-a-layout-preflight-v1-retry1",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-layout-preflight-v1-retry1",
+      "overrun_before_settlement": false,
+      "owned_cleanup_pass": true,
+      "pgid": 3502093,
+      "physical_gpu_index": 0,
+      "pid": 3502093,
+      "post_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": false,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": false,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P0",
+            "utilization_percent": 31
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 31, P0\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "pre_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "process_tree_after": [],
+      "process_tree_start": [
+        "3502093 3502084 3502093 Rsl  /nfs_share/lijunhui/Robotwin2/env/bin/python -m controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe --output /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-layout-preflight-v1-retry1 --cell-receipt /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json --trace /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz --stand-xs=-0.02,0.02,0.06,0.10"
+      ],
+      "reservation": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 900,
+        "solver_problems": 40
+      },
+      "return_code": 0,
+      "root_id": "F2-A-v2",
+      "schema_version": "cmf_f2_f3_v2_p4_job_receipt_v1",
+      "status": "PASS",
+      "timeout": false,
+      "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f2-a-layout-preflight-v1-retry1.stdout.log"
+    },
+    "p4-f2-a-saved-state-planner-diagnostic": {
+      "actual_usage": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 43,
+        "solver_problems": 6
+      },
+      "budget_event_sha256": "2b988ddbb27409b6399b43531e3138a120148fa64617c80b05d1ed8f84d8bdfd",
+      "cell_keys": [
+        "diagnostic:f2_saved_state"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-saved-state-planner-diagnostic",
+        "--cell-receipt",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json",
+        "--trace",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz"
+      ],
+      "device_idle_observed": false,
+      "end_evidence_sha256": "3bcfb3b65f48e2e863296fcdcbd3d48f1725456e7f4e6426d021c2c52dd34aa4",
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guarded_card": {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      "job_id": "p4-f2-a-saved-state-planner-diagnostic",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-saved-state-planner-diagnostic",
+      "overrun_before_settlement": false,
+      "owned_cleanup_pass": true,
+      "pgid": 3480492,
+      "physical_gpu_index": 0,
+      "pid": 3480492,
+      "post_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": false,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": false,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P0",
+            "utilization_percent": 6
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 6, P0\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "pre_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "process_tree_after": [],
+      "process_tree_start": [
+        "3480492 3480475 3480492 Dsl  /nfs_share/lijunhui/Robotwin2/env/bin/python -m controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe --output /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-saved-state-planner-diagnostic --cell-receipt /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json --trace /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz"
+      ],
+      "reservation": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 900,
+        "solver_problems": 80
+      },
+      "return_code": 0,
+      "root_id": "F2-A-v2",
+      "schema_version": "cmf_f2_f3_v2_p4_job_receipt_v1",
+      "status": "PASS",
+      "timeout": false,
+      "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f2-a-saved-state-planner-diagnostic.stdout.log"
+    },
+    "p4-f3-b-timescaled-remaining-five": {
+      "cell_keys": [
+        "VVHH:r_pc",
+        "VVHH:r_inv_motion",
+        "VHVH:r_inv_motion",
+        "VHHV:r_pc",
+        "VHHV:r_inv_motion"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f3_root_qualification",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five",
+        "--root-id",
+        "F3-B-v2",
+        "--existing-root",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-seed-root",
+        "--cell-keys",
+        "VVHH:r_pc,VVHH:r_inv_motion,VHVH:r_inv_motion,VHHV:r_pc,VHHV:r_inv_motion",
+        "--time-scale",
+        "1.5"
+      ],
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guarded_card": {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      "pgid": 3567362,
+      "physical_gpu_index": 0,
+      "pid": 3567362,
+      "pre_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "process_tree_start": [
+        "3567362 3567344 3567362 Ds   /nfs_share/lijunhui/Robotwin2/env/bin/python -m controlled_multi_future.redesign_f2_f3_v2.f3_root_qualification --output /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five --root-id F3-B-v2 --existing-root /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-seed-root --cell-keys VVHH:r_pc,VVHH:r_inv_motion,VHVH:r_inv_motion,VHHV:r_pc,VHHV:r_inv_motion --time-scale 1.5"
+      ],
+      "reservation": {
+        "action_scenes": 5,
+        "collection_attempts": 5,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 3000,
+        "solver_problems": 180
+      },
+      "root_id": "F3-B-v2",
+      "started_monotonic": 10116768.6198645,
+      "started_wall_time": 1788930900.6178093,
+      "status": "RUNNING"
+    },
+    "p4-f3-b-vhvh-timescaled-qualification": {
+      "actual_usage": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 187,
+        "solver_problems": 19
+      },
+      "budget_event_sha256": "b4d309ec96ff38d81053cfe3a7f1c453c0c4c09d8dd39b2307e441dc4b753559",
+      "cell_keys": [
+        "VHVH:r_pc"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f3_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification",
+        "--root-id",
+        "F3-B-v2",
+        "--program-id",
+        "VHVH",
+        "--realization-id",
+        "r_pc",
+        "--time-scale",
+        "1.5"
+      ],
+      "device_idle_observed": false,
+      "end_evidence_sha256": "c5127585097692def076781ff996380d0fb3c8202178a04a253861828eeb165a",
+      "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+      "guarded_card": {
+        "checks": {
+          "allowed_physical_index": true,
+          "near_baseline_memory": true,
+          "near_baseline_utilization": true,
+          "no_compute_process": true,
+          "pstate_recorded": true
+        },
+        "compute_processes": [],
+        "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+        "independently_fresh_idle": true,
+        "memory_used_mib": 14,
+        "physical_index": 0,
+        "pstate": "P8",
+        "utilization_percent": 0
+      },
+      "job_id": "p4-f3-b-vhvh-timescaled-qualification",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification",
+      "overrun_before_settlement": false,
+      "owned_cleanup_pass": true,
+      "pgid": 3553783,
+      "physical_execution_reused": true,
+      "physical_gpu_index": 0,
+      "pid": 3553783,
+      "post_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": false,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": false,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 74
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 74, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "postfix_status": "PASS_AFTER_PREFIX_ARTIFACT_REPAIR",
+      "pre_snapshot": {
+        "gpu_command": [
+          "nvidia-smi",
+          "--query-gpu=index,uuid,memory.used,utilization.gpu,pstate",
+          "--format=csv,noheader,nounits"
+        ],
+        "gpus": [
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 0,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 1,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 2,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-d5b84492-c467-0080-206f-2456cef0c338",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 15,
+            "physical_index": 3,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 12,
+            "physical_index": 4,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 5,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-8678470b-2ef8-1672-7c4c-8b55d183216d",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 6,
+            "pstate": "P8",
+            "utilization_percent": 0
+          },
+          {
+            "checks": {
+              "allowed_physical_index": true,
+              "near_baseline_memory": true,
+              "near_baseline_utilization": true,
+              "no_compute_process": true,
+              "pstate_recorded": true
+            },
+            "compute_processes": [],
+            "gpu_uuid": "GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead",
+            "independently_fresh_idle": true,
+            "memory_used_mib": 14,
+            "physical_index": 7,
+            "pstate": "P8",
+            "utilization_percent": 0
+          }
+        ],
+        "process_command": [
+          "nvidia-smi",
+          "--query-compute-apps=gpu_uuid,pid,used_memory",
+          "--format=csv,noheader,nounits"
+        ],
+        "raw_gpu_csv": "0, GPU-2c620e6c-9639-2022-b573-9847dfa33769, 14, 0, P8\n1, GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b, 14, 0, P8\n2, GPU-4306d28e-0eeb-2e26-bda4-b1b44058f63e, 14, 0, P8\n3, GPU-d5b84492-c467-0080-206f-2456cef0c338, 15, 0, P8\n4, GPU-6a2b7387-0c6e-f68d-4f88-92e859c27da7, 12, 0, P8\n5, GPU-9dd3c02d-192d-3536-b12e-b1be3a605be2, 14, 0, P8\n6, GPU-8678470b-2ef8-1672-7c4c-8b55d183216d, 14, 0, P8\n7, GPU-4c836e67-fb8e-a993-002c-cb83b10a6ead, 14, 0, P8\n",
+        "raw_process_csv": "",
+        "schema_version": "cmf_f2_f3_live_gpu_snapshot_v1"
+      },
+      "process_tree_after": [],
+      "process_tree_start": [
+        "3553783 3553769 3553783 Dsl  /nfs_share/lijunhui/Robotwin2/env/bin/python -m controlled_multi_future.redesign_f2_f3_v2.f3_qualification_probe --output /nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification --root-id F3-B-v2 --program-id VHVH --realization-id r_pc --time-scale 1.5"
+      ],
+      "qualification_postfix_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/P4_F3B_QUALIFICATION_POSTFIX_RECEIPT.json",
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1500,
+        "solver_problems": 120
+      },
+      "return_code": 1,
+      "root_id": "F3-B-v2",
+      "schema_version": "cmf_f2_f3_v2_p4_job_receipt_v1",
+      "status": "FAILED",
+      "timeout": false,
+      "worker_log": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/f2_f3_redesign_execution_v2/p4_execution/worker_logs/p4-f3-b-vhvh-timescaled-qualification.stdout.log"
+    }
+  },
+  "next_action": "P4 physically closed: preserve F2 failure and F3 scoped evidence; no formal360/training; any new F2 design requires a new independently authorized contract",
+  "p4_scope": {
+    "compression": false,
+    "f2_roots": [
+      "F2-A-v2",
+      "F2-B-v2"
+    ],
+    "f3_b_root_finalizer": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five/independent_root_finalizer_v2.json",
+    "f3_root": "F3-B-v2",
+    "formal360": false,
+    "h_reveal": false,
+    "max_target_new_cells": 18,
+    "preserve_f3_a_cells": 6,
+    "target_matrix_cells": 24,
+    "training": false
+  },
+  "parent_p3_contract_sha256": "bfe59dd95cef643e72dd01cc52673aef76b3dac2dd3fa436588a565de096cc32e",
+  "parent_p4_contract_sha256": "8f37e5a38a9eb537eddf29ea0a52a86cec9262454c91cc13760a10c0f9850e2b",
+  "phase": "F2_PHYSICAL_QUALIFICATION_CLOSED",
+  "progress": {
+    "consumed": {
+      "action_scenes": 8,
+      "collection_attempts": 8,
+      "fresh_scenes": 10,
+      "gpu_lease_seconds": 1910,
+      "solver_problems": 117
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "schema_version": "cmf_f2_f3_v2_p4_state_v1",
+  "scientific_status": {
+    "f2_root_eligible": false,
+    "f3_a_root_preserved": true,
+    "f3_b_root_eligible": true,
+    "formal360_started": false,
+    "new_24_eligible": false,
+    "training_started": false
+  },
+  "state_sha256": "0a2185474277dab16d08325a6b4baa3cb56b5f69425844b47f789f43b7dc34c6",
+  "status": "F2_V5_QUALIFICATION_FAILED_F3_ROOTS_ACCEPTED",
+  "stop_conditions": [
+    "budget overrun or unknown consumption",
+    "capture/anchor/source integrity failure",
+    "first shared repair failure",
+    "owned cleanup failure",
+    "ambiguous process ownership",
+    "need to relax scientific acceptance",
+    "P4 cap exhausted",
+    "user pauses"
+  ],
+  "stop_reason": "F2 v5 qualification failed at beside side_at_target planner control; P4 stops F2 physical retries",
+  "task_id": "f2_f3_observation_contract_repair_20260909_p4"
+}

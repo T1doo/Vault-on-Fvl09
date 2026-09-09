@@ -1,0 +1,40 @@
+{
+  "contract_sha256": "6693b7e645bd8e03f466a1ec1c1713452745bd9620bbc896a57897926e0e4d69",
+  "jobs": [
+    {
+      "cell_keys": [
+        "beside:r_pc"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5",
+        "--root-id",
+        "F2-A-v2",
+        "--program-id",
+        "beside",
+        "--realization-id",
+        "r_pc",
+        "--f2-layout-id",
+        "v5_beside_y_lower"
+      ],
+      "job_id": "p4-f2-a-beside-qualification-v5",
+      "job_type": "declared_collection_qualification",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v5",
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1200,
+        "solver_problems": 100
+      },
+      "root_id": "F2-A-v2",
+      "timeout_seconds": 1800
+    }
+  ],
+  "manifest_sha256": "991119609b6f97afc3b89ccb4f12056a5c9acedb8690a6dee1f04d0a08b332ea",
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F2_A_BESIDE_QUALIFICATION_V5"
+}

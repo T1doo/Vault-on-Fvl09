@@ -1,0 +1,202 @@
+{
+  "candidate_rows": [
+    {
+      "beside_result": {
+        "axis_gap_to_stand_m": [
+          -0.00556376359709812,
+          0.0344155272023883
+        ],
+        "beside_target_xy": [
+          0.06,
+          -0.18
+        ],
+        "exclusive": true,
+        "expected": "beside",
+        "independent_predicates": {
+          "beside": true,
+          "inside": false,
+          "on": false
+        },
+        "pass": true,
+        "predicate_count": 1,
+        "radial_distance_to_stand_m": 0.1442220510185596,
+        "separated_from_stand": true,
+        "stand_top_contact": false,
+        "support_point_xyz": [
+          0.06,
+          -0.18,
+          0.74
+        ]
+      },
+      "layout_id": "v5_beside_y_lower",
+      "root_id": "F2-A-v2",
+      "scene_spec_sha256": "49c94b0bd5e43031b6984b7cb3ac21247d07f3acae3d0152d6bd710bd43f0c44",
+      "stand_top_negative_result": {
+        "axis_gap_to_stand_m": [
+          -0.08556376359709814,
+          -0.08558447279761172
+        ],
+        "beside_target_xy": [
+          0.06,
+          -0.18
+        ],
+        "exclusive": false,
+        "expected": "beside",
+        "independent_predicates": {
+          "beside": false,
+          "inside": false,
+          "on": false
+        },
+        "pass": false,
+        "predicate_count": 0,
+        "radial_distance_to_stand_m": 0.0,
+        "separated_from_stand": false,
+        "stand_top_contact": true,
+        "support_point_xyz": [
+          0.14,
+          -0.06,
+          0.825
+        ]
+      },
+      "support_point_local_xyz": [
+        0.0,
+        0.05206900238990784,
+        -0.0
+      ],
+      "target_actor_pose": [
+        0.06,
+        -0.18,
+        0.6879309976100921,
+        0.7071067811865476,
+        0.7071067811865476,
+        0.0,
+        0.0
+      ],
+      "target_support_xyz": [
+        0.06,
+        -0.18,
+        0.74
+      ]
+    },
+    {
+      "beside_result": {
+        "axis_gap_to_stand_m": [
+          -0.005563763597098134,
+          0.0344155272023883
+        ],
+        "beside_target_xy": [
+          0.1,
+          -0.18
+        ],
+        "exclusive": true,
+        "expected": "beside",
+        "independent_predicates": {
+          "beside": true,
+          "inside": false,
+          "on": false
+        },
+        "pass": true,
+        "predicate_count": 1,
+        "radial_distance_to_stand_m": 0.1442220510185596,
+        "separated_from_stand": true,
+        "stand_top_contact": false,
+        "support_point_xyz": [
+          0.1,
+          -0.18,
+          0.74
+        ]
+      },
+      "layout_id": "v5_beside_y_lower",
+      "root_id": "F2-B-v2",
+      "scene_spec_sha256": "e0eff967506ff0248271a2b2b2bab0294920dc5255aa5232276c005ddcffdbe1",
+      "stand_top_negative_result": {
+        "axis_gap_to_stand_m": [
+          -0.08556376359709814,
+          -0.08558447279761172
+        ],
+        "beside_target_xy": [
+          0.1,
+          -0.18
+        ],
+        "exclusive": false,
+        "expected": "beside",
+        "independent_predicates": {
+          "beside": false,
+          "inside": false,
+          "on": false
+        },
+        "pass": false,
+        "predicate_count": 0,
+        "radial_distance_to_stand_m": 0.0,
+        "separated_from_stand": false,
+        "stand_top_contact": true,
+        "support_point_xyz": [
+          0.18000000000000002,
+          -0.06,
+          0.825
+        ]
+      },
+      "support_point_local_xyz": [
+        0.0,
+        0.05206900238990784,
+        -0.0
+      ],
+      "target_actor_pose": [
+        0.1,
+        -0.18,
+        0.6879309976100921,
+        0.7071067811865476,
+        0.7071067811865476,
+        0.0,
+        0.0
+      ],
+      "target_support_xyz": [
+        0.1,
+        -0.18,
+        0.74
+      ]
+    }
+  ],
+  "contract_basis": "v5_beside_y_lower",
+  "physical_execution_started": false,
+  "report_sha256": "4cdc33b5c69736ddc147f471569f473607c4c076c6882a62bae8ef0758dc4853",
+  "route_unit_result": {
+    "lateral_axis": 1,
+    "route_lateral_coordinate": -0.28,
+    "route_offset_m": 0.12,
+    "side_at_current": [
+      0.1,
+      -0.28,
+      0.95,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "side_at_target": [
+      0.2,
+      -0.28,
+      0.95,
+      0.9,
+      0.1,
+      0.0,
+      0.0
+    ],
+    "target": [
+      0.2,
+      -0.18,
+      0.95,
+      0.9,
+      0.1,
+      0.0,
+      0.0
+    ]
+  },
+  "schema_version": "cmf_f2_f3_v2_p4_f2_v5_cpu_candidate_v1",
+  "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v32/SNAPSHOT_MANIFEST.json",
+  "synthetic_boundary_checks": {
+    "high_above_box_rejected": true,
+    "overlap_is_not_accepted_as_exclusive": true,
+    "stand_top_rejected_as_beside": true
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "contract_sha256": "317e0fc3098cef981b734366021a36b07a4037cccd88a32f83121809152dda0a",
+  "jobs": [
+    {
+      "cell_keys": [
+        "VHVH:r_pc"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f3_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification",
+        "--root-id",
+        "F3-B-v2",
+        "--program-id",
+        "VHVH",
+        "--realization-id",
+        "r_pc",
+        "--time-scale",
+        "1.5"
+      ],
+      "job_id": "p4-f3-b-vhvh-timescaled-qualification",
+      "job_type": "declared_collection_qualification",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-vhvh-timescaled-qualification",
+      "reservation": {
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "fresh_scenes": 1,
+        "gpu_lease_seconds": 1500,
+        "solver_problems": 120
+      },
+      "root_id": "F3-B-v2",
+      "timeout_seconds": 2400
+    }
+  ],
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F3_B_TIME_SCALED_QUALIFICATION"
+}

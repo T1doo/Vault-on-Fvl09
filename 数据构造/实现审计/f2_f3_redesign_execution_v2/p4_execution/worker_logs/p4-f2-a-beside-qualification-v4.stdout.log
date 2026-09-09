@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/f2_qualification_probe.py", line 57, in <module>
+    raise SystemExit(main())
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/f2_qualification_probe.py", line 51, in main
+    result = run(output=args.output, root_id=args.root_id, program_id=args.program_id, realization_id=args.realization_id)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/f2_qualification_probe.py", line 22, in run
+    result = _f2_cell(output=output_path, root_id=root_id, program_id=program_id, realization_id=realization_id, artifact=None, collection=True)
+  File "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/redesign_f2_f3_v2/collector_v2.py", line 184, in _f2_cell
+    output.mkdir(parents=True, exist_ok=False); _write_execution_meter(output, "cell_started", root_id=root_id, cell_key=f"{program_id}:{realization_id}")
+  File "/nfs_share/lijunhui/Robotwin2/env/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v4'

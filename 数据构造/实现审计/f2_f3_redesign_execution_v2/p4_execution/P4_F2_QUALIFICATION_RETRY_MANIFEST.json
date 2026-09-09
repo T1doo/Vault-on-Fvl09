@@ -1,0 +1,35 @@
+{
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "contract_sha256": "4a55ac3f8920942a15bfffed887f9b567f9b4fbf465c93d1ac7f51612569634a",
+  "wave_name": "P4_F2_A_BESIDE_QUALIFICATION_RETRY1",
+  "jobs": [
+    {
+      "job_id": "p4-f2-a-beside-qualification-v4-retry1",
+      "root_id": "F2-A-v2",
+      "cell_keys": ["beside:r_pc"],
+      "job_type": "declared_collection_qualification",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v4-retry1",
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_qualification_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-beside-qualification-v4-retry1",
+        "--root-id",
+        "F2-A-v2",
+        "--program-id",
+        "beside",
+        "--realization-id",
+        "r_pc"
+      ],
+      "reservation": {
+        "fresh_scenes": 1,
+        "action_scenes": 1,
+        "collection_attempts": 1,
+        "solver_problems": 100,
+        "gpu_lease_seconds": 1200
+      },
+      "timeout_seconds": 1800
+    }
+  ]
+}

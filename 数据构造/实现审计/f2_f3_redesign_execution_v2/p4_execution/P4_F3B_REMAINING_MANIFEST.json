@@ -1,0 +1,44 @@
+{
+  "contract_sha256": "317e0fc3098cef981b734366021a36b07a4037cccd88a32f83121809152dda0a",
+  "jobs": [
+    {
+      "cell_keys": [
+        "VVHH:r_pc",
+        "VVHH:r_inv_motion",
+        "VHVH:r_inv_motion",
+        "VHHV:r_pc",
+        "VHHV:r_inv_motion"
+      ],
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f3_root_qualification",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five",
+        "--root-id",
+        "F3-B-v2",
+        "--existing-root",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-seed-root",
+        "--cell-keys",
+        "VVHH:r_pc,VVHH:r_inv_motion,VHVH:r_inv_motion,VHHV:r_pc,VHHV:r_inv_motion",
+        "--time-scale",
+        "1.5"
+      ],
+      "existing_root": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-seed-root",
+      "job_id": "p4-f3-b-timescaled-remaining-five",
+      "job_type": "declared_collection_root_completion",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f3-b-timescaled-remaining-five",
+      "reservation": {
+        "action_scenes": 5,
+        "collection_attempts": 5,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 3000,
+        "solver_problems": 180
+      },
+      "root_id": "F3-B-v2",
+      "timeout_seconds": 3600
+    }
+  ],
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "wave_name": "P4_F3_B_TIMESCALED_REMAINING_FIVE"
+}

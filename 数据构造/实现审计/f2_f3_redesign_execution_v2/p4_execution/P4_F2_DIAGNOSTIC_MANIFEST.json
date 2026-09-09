@@ -1,0 +1,33 @@
+{
+  "schema_version": "cmf_f2_f3_v2_p4_job_manifest_v1",
+  "contract_sha256": "a3c8bb46688d7020a4ec4d70d28235bdd6c8028334249b5a9c56e5802bf61261",
+  "wave_name": "P4_F2_BOUNDED_PLANNER_DIAGNOSTIC",
+  "jobs": [
+    {
+      "job_id": "p4-f2-a-saved-state-planner-diagnostic",
+      "root_id": "F2-A-v2",
+      "cell_keys": ["diagnostic:f2_saved_state"],
+      "job_type": "bounded_scene_diagnostic",
+      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-saved-state-planner-diagnostic",
+      "command": [
+        "/nfs_share/lijunhui/Robotwin2/env/bin/python",
+        "-m",
+        "controlled_multi_future.redesign_f2_f3_v2.f2_saved_state_planner_probe",
+        "--output",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p4/p4-f2-a-saved-state-planner-diagnostic",
+        "--cell-receipt",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/cell_receipt.json",
+        "--trace",
+        "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f2-a-beside-rpc.retry4/beside_r_pc/trace.npz"
+      ],
+      "reservation": {
+        "fresh_scenes": 1,
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "solver_problems": 80,
+        "gpu_lease_seconds": 900
+      },
+      "timeout_seconds": 1200
+    }
+  ]
+}
