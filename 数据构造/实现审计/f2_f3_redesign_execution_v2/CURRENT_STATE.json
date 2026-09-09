@@ -32,7 +32,7 @@
   "fact_entry": "数据构造/实现审计/f2_f3_contract_reconciliation_20260908_v1/REPORT.md",
   "formal_360_authorized": false,
   "milestone": "P2",
-  "next_required_step": "execute F3-B VVHH:r_pc first validation",
+  "next_required_step": "execute F3-B VVHH:r_inv_motion cell 1",
   "old_goal_state_mutated": false,
   "old_raw_mutated": false,
   "p3_contract": {
@@ -53,11 +53,11 @@
       "receipt": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_ACCOUNTING_EXCEPTION_RECEIPT.json"
     },
     "budget_consumed_or_charged": {
-      "action_scenes": 15,
-      "collection_attempts": 12,
-      "fresh_scenes": 11,
-      "gpu_lease_seconds": 3266,
-      "solver_problems": 277
+      "action_scenes": 16,
+      "collection_attempts": 13,
+      "fresh_scenes": 12,
+      "gpu_lease_seconds": 3433,
+      "solver_problems": 296
     },
     "cell_matrix": {
       "F2-A-v2:beside:r_pc": {
@@ -79,6 +79,12 @@
         "root_finalizer_pass": true,
         "status": "INDEPENDENTLY_ACCEPTED"
       },
+      "F3-B-v2:VVHH:r_pc": {
+        "independently_accepted": true,
+        "physical_attempts": 1,
+        "root": "p3-f3-b-vvhh-rpc",
+        "status": "INDEPENDENTLY_ACCEPTED"
+      },
       "other_new_cells": {
         "count": 22,
         "status": "NOT_STARTED"
@@ -91,25 +97,30 @@
       "root_receipt": "/nfs_share/lijunhui/Robotwin2/datasets/f2_f3_observation_contract_repair_p3/p3-f3-a-remaining5-retry1/root_receipt.json",
       "status": "ACCEPTED"
     },
+    "f3_b_first": {
+      "cell": "VVHH:r_pc",
+      "root": "p3-f3-b-vvhh-rpc",
+      "status": "CELL_ACCEPTED_ROOT_INCOMPLETE"
+    },
     "known_settled_consumption": {
-      "action_scenes": 15,
+      "action_scenes": 11,
       "collection_attempts": 12,
       "fresh_scenes": 11,
-      "gpu_lease_seconds": 1466,
-      "solver_problems": 117
+      "gpu_lease_seconds": 1633,
+      "solver_problems": 136
     },
-    "ledger_sha256": "4b19ea50bb16104dc82a677b3cab4227769db8bb2c8b89cf7ff6679f539e6317",
+    "ledger_sha256": "c621da37f943a7fde934dfb575b495c3445eadd656599a14f81db5ebc50d1049",
     "next_action": "reconcile unknown F3-A remaining5 lease before any new dispatch",
     "old_data": {
       "F1_F4_read_only": true,
       "old_f2_f3_not_reaccepted": true
     },
     "remaining_contract_caps_after_exception": {
-      "action_scenes": 13,
-      "collection_attempts": 16,
-      "fresh_scenes": 17,
-      "gpu_lease_seconds": 1534,
-      "solver_problems": 63
+      "action_scenes": 12,
+      "collection_attempts": 15,
+      "fresh_scenes": 16,
+      "gpu_lease_seconds": 1367,
+      "solver_problems": 44
     },
     "schema_version": "cmf_f2_f3_v2_p3_progress_summary_v1",
     "scientific_status": {
@@ -123,8 +134,8 @@
       "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
       "sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef"
     },
-    "status": "READY_F3_B_FIRST",
-    "summary_sha256": "86d35b3e2cf32707388ea68f6569334b2e74ed6aa61fcdc8dbad6019150db358",
+    "status": "READY_F3_B_REMAINING",
+    "summary_sha256": "17ace7937026a5b1aaaf97b29f8a88a1438d76fec0aed296808c3b0651856cd2",
     "target_new_cells": 24,
     "unknown_reservation": {
       "job_id": "p3-f3-a-remaining5",
@@ -134,14 +145,14 @@
   },
   "p3_progress_summary": {
     "path": "数据构造/实现审计/f2_f3_redesign_execution_v2/p3_execution/P3_PROGRESS_SUMMARY.json",
-    "sha256": "d1524f3d0c129cef08a77df497b8ed17d75569a6e164fb755ac029c29899e0d6"
+    "sha256": "e2bc8f2abdc45fcec74680d31f4ffdb1ed7e4515df370d0e79dc34a2c72f69d4"
   },
   "physical_execution_authorized": true,
   "plan_commit": "b7117ed68bdc2064a1608a2a14a8df7d58bc06cb",
   "schema_version": "cmf_f2_f3_redesign_v2_state_v5",
   "source_snapshot": "数据构造/实现审计/f2_f3_redesign_execution_v2/runtime_source_snapshot_v27/SNAPSHOT_MANIFEST.json",
   "source_snapshot_sha256": "e2cddc1933fb6b9004edfa73b61f0eb40fcc070eb7ba0c0f0be32d22dd9cd4ef",
-  "status": "READY_F3_B_FIRST",
+  "status": "READY_F3_B_REMAINING",
   "task_id": "f2_f3_observation_contract_repair_20260908",
   "training_authorized": false
 }
