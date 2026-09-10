@@ -7,7 +7,7 @@ from family_entry import cohort_root,export_native_cell,state38
 
 
 def reference(path):
-    path=Path(path).resolve()
+    path=portable.origin(path)
     return {'path':str(path),'file_sha256':portable.digest(path),'exists':True,'bytes':path.stat().st_size}
 
 
@@ -45,7 +45,7 @@ def verify_index(index):
 
 
 def seal_source(output,spec,result):
-    output=Path(output).resolve();destination=output/'portable_source'
+    output=portable.origin(output);destination=output/'portable_source'
     if result.get('pass') is not True or len(result.get('cells',[]))!=9:
         raise ValueError('nine independently checked cells required')
     journal={'spec_sha256':spec['spec_sha256'],'source_finalizer_sha256':portable.digest(output/'independent_structure.json')}
@@ -76,7 +76,7 @@ def seal_source(output,spec,result):
         if (current/'anchor.json').exists():
             if portable.digest(current/'anchor.json')!=portable.digest(capture.parent/'anchor.json'):raise ValueError('export anchor changed')
         else:shutil.copyfile(capture.parent/'anchor.json',current/'anchor.json')
-        write_once(current/'capture_metadata.json',{'required_camera_names':list(rgb),'camera_images':{k:{'shape':list(v.shape),'dtype':str(v.dtype)} for k,v in rgb.items()},'capture_source':json.loads(capture.read_text()).get('capture_source','native_original_t0'),'original_capture':reference(capture),'rendered_again':False})
+        write_once(current/'capture_metadata.json',{'required_camera_names':list(rgb),'camera_images':{k:{'shape':list(v.shape),'dtype':str(v.dtype)} for k,v in rgb.items()},'capture_source':json.loads(capture.read_text()).get('capture_source','native_original_t0'),'original_capture':reference(capture),'rendered_again':False,**{k:json.loads(capture.read_text()).get(k) for k in ['root_id','spec_sha256','source_bundle_sha256']}})
         with np.load(native_raw,allow_pickle=False) as z:
             q=np.array([state38(row) for row in z['stream__realized_qpos']]);v=np.array([state38(row) for row in z['stream__realized_qvel']])
             future=z['stream__controller_effective_setpoint'].copy()
@@ -97,7 +97,12 @@ def seal_source(output,spec,result):
                 'independent_cell_finalizer':reference(folder/'independent_finalizer_v2.json'),'prefix_artifact':reference(prefix),
                 'current_bundle':{'files':{n:reference(current/n) for n in ['rgb.npz','state.json','anchor.json','capture_metadata.json']}}},
             'native_sources':{'native_raw':reference(native_raw),'native_manifest':reference(native_manifest),
-                'native_branch_receipt':reference(native_raw.parent.parent/'receipt.json'),'native_semantics':reference(semantics)}})
+                'native_branch_receipt':reference(native_raw.parent.parent/'receipt.json'),'native_semantics':reference(semantics),'native_capture':reference(capture),'native_anchor':reference(capture.parent/'anchor.json')}})
+    compatibility=result.get('source_compatibility_receipt')
+    if compatibility:
+        path=portable.origin(compatibility['path'])
+        if portable.digest(path)!=compatibility['sha256']:raise ValueError('compatibility receipt changed')
+        for cell in cells:cell['native_sources']['source_compatibility']=reference(path)
     write_once(root_receipt,{'root_id':spec['root_id'],'family':'F1','scene_spec_sha256':spec['spec_sha256'],'source_finalizer':reference(source_result),'accepted':result['research_eligible'],'synthetic':not result['native_physical_evidence'],'new_trajectory_count':0})
     write_once(root_finalizer,{'root_id':spec['root_id'],'scene_spec_sha256':spec['spec_sha256'],'pass':result['pass'],'synthetic':not result['native_physical_evidence'],'cell_finalizers':checks,'source_finalizer':reference(source_result)})
     for cell in cells:
@@ -106,12 +111,14 @@ def seal_source(output,spec,result):
     return index
 
 
-def copy_root(index,destination):
-    index=Path(index).resolve();destination=Path(destination).resolve();document=json.loads(index.read_text());packages=[]
+def copy_root(index,destination,*,fault=None,registry_path=None,expected_index_sha256=None):
+    index=portable.origin(index);destination=portable.origin(destination);document=verify_index(index);packages=[]
+    expected=portable.digest(index)
+    if expected_index_sha256 is not None and expected!=expected_index_sha256:raise ValueError('sealed index version mismatch')
     for cell in document['cells']:
         spec=portable.adapt(str(index),cell['cell_key'],portable.digest(index))
         spec['trace_layout']=cell['trace_layout'];spec['synthetic']=cell['synthetic']
         for name,ref in cell['native_sources'].items():spec['sources'][name]={'path':ref['path'],'sha256':ref['file_sha256']}
         folder=destination.parent/(destination.name+'_cells')/cell['cell_key'].replace(':','__')
-        portable.copy_cell(spec,str(folder));packages.append(str(folder))
-    return portable.publish_root(str(destination),packages,[c['cell_key'] for c in document['cells']],str(destination.parent/'registry.json'))
+        portable.copy_cell(spec,str(folder),fault='copy_mid' if fault=='cell_copy_mid' and not packages else None);packages.append(str(folder))
+    return portable.publish_root(str(destination),packages,[c['cell_key'] for c in document['cells']],str(registry_path or destination.parent/'registry.json'),fault='copy_mid' if fault=='root_copy_mid' else fault)

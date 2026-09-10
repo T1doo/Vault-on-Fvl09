@@ -1,0 +1,40 @@
+{
+  "observed_at_utc": "2026-09-10T06:51:07.464395+00:00",
+  "scope": "F1 full 10 primary + up to4 reserve; CPU preparation only",
+  "shared_available_bytes": 27339906875392,
+  "shared_available_inodes": 53398255684,
+  "personal_quota_confirmed": false,
+  "quota_command_result": "quota -s could not stat mounted local device nodes; no personal quota inferred",
+  "historical_inventory_source": "../batch_preparation_20260909/STORAGE_INVENTORY.json",
+  "historical_f1_bytes": 2143304936,
+  "historical_f1_unique_files": 68,
+  "historical_f1_cells": 12,
+  "historical_trace_mean_bytes": 88499410.16666667,
+  "historical_uncompressed_npz_member_peak_bytes": 3263997072,
+  "uncompressed_members_are_not_measured_peak_RSS": true,
+  "planning_caps_bytes": {
+    "raw_and_failed_attempts": 85899345920,
+    "sealed_export_views": 68719476736,
+    "intermediate_cell_copies": 34359738368,
+    "published_root_copies": 34359738368,
+    "active_staging": 17179869184,
+    "safety_margin": 34359738368
+  },
+  "total_task_bytes_cap": 274877906944,
+  "file_count_cap": 50000,
+  "dispatch_headroom_bytes": 34359738368,
+  "minimum_shared_free_bytes": 322122547200,
+  "runtime_checks": "before each wave count own raw/export/root/intermediate/staging files; stop near cap or low shared space; disk write/readback errors stop affected collection",
+  "source_data_delete_allowed": false,
+  "symlinks_or_hardlinks_as_copy": false,
+  "backup_scope": "same NFS independent files; no offsite or hardware-failure claim",
+  "max_gpu_jobs": 2,
+  "max_cpu_finalizers": 2,
+  "max_copy_workers": 1,
+  "measurement_required_first_wave": [
+    "actual lease durations",
+    "peak RSS including simultaneous finalizers",
+    "raw/export/copy/staging bytes and file count",
+    "camera shape and native renderer behavior"
+  ]
+}

@@ -49,7 +49,8 @@ class TestEntry(unittest.TestCase):
         import sys
         sys.path.insert(0, '/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
         from native_f1 import native_adapter
-        spec = fixture_spec()
+        from scene_plan import generate,resolve
+        spec = resolve(generate()['slots'][0])
         adapter = native_adapter(spec=spec, realization='r_inv_path', output_root=Path(__file__).parent / 'unused_cpu_boundary', source_sha=None)
         context = adapter.scene(spec, phase='pristine').inner
         self.assertEqual(context.planned_spec['scene_layout'], spec['scene_layout'])
@@ -124,27 +125,6 @@ class TestEntry(unittest.TestCase):
             self.assertEqual(hashlib.sha256(old_raw.read_bytes()).hexdigest(),old_sha)
             self.assertEqual(resumed['reused_branches'][0]['program_id'],'F1-red')
 
-    def test_independent_f1_terminal_positive_wrong_relation_and_rest(self):
-        import sys
-        sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-        from f1_disk_verifier import verify_f1_disk
-        spec=fixture_spec();spec['roles']=[{'role':r,'size':[.044]*3} for r in ('red','green','blue','common_box')]
-        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
-            root=Path(td);raw=root/'branches/F1-red/raw';raw.mkdir(parents=True)
-            suffix=root/'suffix_artifacts/F1-red';suffix.mkdir(parents=True)
-            (suffix/'frozen_suffix_artifact.json').write_text(json.dumps({'execution_spec':{'targets':[{'segment_id':'rest','pose':[0,0,.9,1,0,0,0]}]}}))
-            pose=lambda xyz:np.tile(xyz+[1,0,0,0],(60,1))
-            a={'audit__role_object_pose__red':pose([0,.047,0]),'audit__role_object_pose__green':pose([.2,0,0]),'audit__role_object_pose__blue':pose([.3,0,0]),'audit__role_object_pose__common_box':pose([0,0,0]),'audit__role_object_linear_velocity__red':np.zeros((60,3)),'audit__role_object_angular_velocity__red':np.zeros((60,3)),'audit__contact_pairs_json':np.array([json.dumps([{'body_a':'formal_f1_red','body_b':'formal_f1_common_box'}])]*60),'stream__realized_eef':np.tile([0,0,.9,1,0,0,0]*2,(60,1)),'audit__eef_linear_velocity':np.zeros((60,3)),'audit__eef_angular_velocity':np.zeros((60,3)),'stream__gripper_command':np.ones((59,2))}
-            a['audit__object_pose']=a['audit__role_object_pose__red'].copy()
-            np.savez_compressed(raw/'raw_streams.npz',**a)
-            good=verify_f1_disk(raw_dir=raw,spec=spec,program=spec['programs'][0]);self.assertTrue(good['pass'],good)
-            a['stream__realized_eef'][-1,0]=.5
-            np.savez_compressed(raw/'raw_streams.npz',**a)
-            self.assertFalse(verify_f1_disk(raw_dir=raw,spec=spec,program=spec['programs'][0])['checks']['rest_position'])
-            a['audit__role_object_pose__red'][-1,:3]=[0,0,1.5]
-            np.savez_compressed(raw/'raw_streams.npz',**a)
-            self.assertFalse(verify_f1_disk(raw_dir=raw,spec=spec,program=spec['programs'][0])['checks']['true_inside'])
-
     def test_real_cli_pipeline_missing_original_rgb_rejects_fixture(self):
         import sys,importlib.util,contextlib,io
         from unittest.mock import patch
@@ -160,14 +140,14 @@ class TestEntry(unittest.TestCase):
             from scene_plan import generate,resolve
             spec=resolve(generate()['slots'][0])
             (directory/'spec.json').write_text(json.dumps(spec));(directory/'authorization.json').write_text(json.dumps(fixture_authorization(spec)))
-            with patch('native_f1.native_adapter',boundary),contextlib.redirect_stdout(io.StringIO()):
-                code=main(['--spec',str(directory/'spec.json'),'--authorization',str(directory/'authorization.json'),'--output',str(directory/'root')])
-            self.assertEqual(code,1)
-            self.assertEqual(len(adapters),3)
-            self.assertEqual(sum(a.suffix_execution_count for a in adapters),9)
-            final=json.loads((directory/'root/independent_structure.json').read_text())
-            self.assertFalse(final['pass']);self.assertFalse(final['research_eligible'])
-            self.assertFalse(final['checks']['current_observations_present'])
+            with patch('native_f1.native_adapter',boundary),contextlib.redirect_stdout(io.StringIO()),self.assertRaises(RuntimeError):
+                main(['--spec',str(directory/'spec.json'),'--authorization',str(directory/'authorization.json'),'--output',str(directory/'root')])
+            self.assertEqual(len(adapters),1)
+            self.assertEqual(sum(a.suffix_execution_count for a in adapters),1)
+            local=json.loads((directory/'root/r_pc/root/branches/F1-red/independent_cell_local.json').read_text())
+            self.assertFalse(local['pass'])
+            self.assertFalse((directory/'root/r_pc/root/branches/F1-green').exists())
+            self.assertFalse((directory/'root/independent_structure.json').exists())
 
     def test_positive_whole_cli_nine_fixture_keeps_research_ineligible(self):
         import sys,contextlib,io

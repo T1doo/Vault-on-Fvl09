@@ -1,0 +1,25 @@
+{
+  "scope": "CPU-only targeted implementation checks before final shared-verifier velocity supplement",
+  "commands": [
+    {
+      "command": "python -m unittest test_launcher_recovery test_first_wave_launcher -v",
+      "tests": 25,
+      "pass": true,
+      "elapsed_seconds": 103.196
+    },
+    {
+      "command": "python -m unittest test_launcher_real_pipeline -v",
+      "tests": 3,
+      "pass": true,
+      "elapsed_seconds": 88.43
+    }
+  ],
+  "real_pipeline_cases": [
+    "partial success then actual launcher CLI resume only missing cells; accepted raw unchanged",
+    "collection success then failed copy; CPU-only repair and repeat, no backend/GPU calls",
+    "source mismatch rejected; explicit source-only compatibility review plus actual saved-cell verification permits resume; original ledger contract unchanged"
+  ],
+  "host_backend": "explicit synthetic CPU fixture",
+  "native_physics_executed": false,
+  "final_shared_source_regression_log": "CPU_FINAL_TEST.log; coordinator reruns after final verifier fixes"
+}

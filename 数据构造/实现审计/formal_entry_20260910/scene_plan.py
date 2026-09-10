@@ -80,6 +80,9 @@ def validate_resolved(spec):
  finite(spec);require(spec.get('spec_sha256')==hash_json({k:v for k,v in spec.items() if k!='spec_sha256'}),'resolved spec hash')
  require(spec.get('family') in FAMILIES,'resolved family');require(spec.get('realizations')==list(REALIZATIONS),'resolved realizations')
  require(spec['programs']==program_templates(spec['family']),'resolved program semantics')
+ if spec['family']=='F1':
+  from f1_disk_verifier import frozen_contract
+  frozen_contract(spec)
  roles=spec['roles'];expected_roles={'F1':{'red','green','blue','common_box','similar_1','similar_2','background'},'F2':{'main_can','box','scale','stand','similar_1','similar_2','background'},'F3':{'bottle','original_pad','similar_1','similar_2','background','central_marker'},'F4':{'A','B','C','common_x','slot_A','slot_B','slot_C','common_tray','similar_1','similar_2'}}
  require({r['role'] for r in roles}==expected_roles[spec['family']],'resolved semantic role set')
  require(len({r['role'] for r in roles})==len(roles),'duplicate role')
@@ -151,6 +154,9 @@ def resolve(slot,activation=None):
  spec['asset_bindings']=bind_assets(roles)
  spec['projection_evidence']={r['role']:{'bbox_xyxy':projected(r,cam),'measurement':'CPU AABB projection, not rendered visibility'} for r in roles}
  spec['terminal_tolerances']={'object_position_m':.03,'object_orientation_rad':.02,'eef_position_m':.03,'eef_orientation_rad':.02,'joint_position_rad':.03,'joint_speed_rad_s':.01,'gripper_fraction':.01,'non_task_position_m':.003,'non_task_orientation_rad':.02,'non_task_linear_speed_m_s':.02,'non_task_angular_speed_rad_s':.05}
+ if f=='F1':
+  from f1_disk_verifier import contract_for_f1
+  spec['f1_verifier_contract']=contract_for_f1(spec)
  finite(spec);spec['spec_sha256']=hash_json(spec);return spec
 
 def physical_signature(spec):

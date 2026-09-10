@@ -9,12 +9,14 @@ class ExportTests(unittest.TestCase):
  def tearDown(self):self.tmp.cleanup()
  def spec(self,family):
   ids={'F1':['F1-red','F1-green','F1-blue'],'F4':['F4-ABC','F4-ACB','F4-BAC'],'F2':['inside','on','beside']}[family]
-  return {'root_id':'synthetic-'+family,'family':family,'spec_sha256':'synthetic-spec-'+family,'programs':[{'program_id':x,'steps':[{'synthetic':True}]} for x in ids],'synthetic':True,'cameras':{'required':['head_camera'],'width':2,'height':2}}
+  return {'root_id':'synthetic-'+family,'family':family,'spec_sha256':'a'*64,'programs':[{'program_id':x,'steps':[{'synthetic':True}]} for x in ids],'synthetic':True,'cameras':{'required':['head_camera'],'width':2,'height':2}}
  def native_source(self,family):
   spec=self.spec(family);root=self.base/family;root.mkdir();result={'root_id':spec['root_id'],'pass':True,'synthetic':True};p.write_json(root/'source_result.json',result);p.write_json(root/'native_root.json',{'accepted':True,'synthetic':True});np.savez(root/'prefix.npz',effective_setpoint_actions=np.zeros((1,26)));cells=[]
   for pr in spec['programs']:
    for re in ['r_pc','r_inv_path','r_inv_motion']:
-    d=root/(pr['program_id']+'-'+re);d.mkdir();np.savez(d/'raw.npz',stream__realized_qpos=np.zeros((4,38)),stream__realized_qvel=np.zeros((4,38)),stream__controller_effective_setpoint=np.zeros((3,26)));np.savez(d/'current.npz',head_camera=np.zeros((2,2,3),dtype=np.uint8),robot_qpos=np.zeros(76),robot_qvel=np.zeros(76));p.write_json(d/'capture.json',{'spec_sha256':spec['spec_sha256'],'npz_sha256':p.digest(d/'current.npz'),'synthetic':True});p.write_json(d/'anchor.json',{'synthetic':True,'robot_qpos':[0.]*38});p.write_json(d/'branch.json',{'program_id':pr['program_id'],'verifier':{'pass':True,'synthetic':True},'raw_manifest':{'raw_streams_npz_sha256':p.digest(d/'raw.npz')}})
+    d=root/(pr['program_id']+'-'+re);d.mkdir();np.savez(d/'raw.npz',stream__realized_qpos=np.zeros((4,38)),stream__realized_qvel=np.zeros((4,38)),stream__controller_effective_setpoint=np.zeros((3,26)));np.savez(d/'current.npz',head_camera=np.zeros((2,2,3),dtype=np.uint8),robot_qpos=np.zeros(76),robot_qvel=np.zeros(76));p.write_json(d/'capture.json',{'spec_sha256':spec['spec_sha256'],'npz_sha256':p.digest(d/'current.npz'),'synthetic':True,'root_id':spec['root_id'],'source_bundle_sha256':'b'*64});
+    from test_anchor_copy_v1 import anchor
+    p.write_json(d/'anchor.json',anchor());p.write_json(d/'branch.json',{'program_id':pr['program_id'],'verifier':{'pass':True,'synthetic':True},'raw_manifest':{'raw_streams_npz_sha256':p.digest(d/'raw.npz')}})
     cells.append({'program_id':pr['program_id'],'realization_id':re,'raw_path':str(d/'raw.npz'),'capture_path':str(d/'capture.json'),'current_arrays_path':str(d/'current.npz'),'anchor_path':str(d/'anchor.json'),'prefix_artifact_path':str(root/'prefix.npz'),'branch_receipt_path':str(d/'branch.json'),'root_receipt_path':str(root/'native_root.json'),'source_result_path':str(root/'source_result.json')})
   return spec,root,cells,result
  def test_two_native_families_nine_cell_seal_copy_read(self):

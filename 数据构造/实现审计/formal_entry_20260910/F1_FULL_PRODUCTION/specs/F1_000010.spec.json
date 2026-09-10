@@ -1,0 +1,627 @@
+{
+  "activation_receipt_hash": "not_applicable",
+  "asset_bindings": {
+    "062_plasticbox:model3": {
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/collision/base3.glb": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/model_data3.json": "a42959362e9a0c94e8aa1ad36e75c866455e951fb6ee90da706fe203b7620ad0",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/points_info.json": "311da3db6aab9050927e7784a16d183e567ebd658496a9eab60b089f5e3c72be",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/visual/base3.glb": "62e6dfc57c683c1357969a4457f3e98d88726a0afbb9f1ba93ff700c0030db2c"
+    }
+  },
+  "cameras": {
+    "head": {
+      "K": [
+        [
+          358.6421814,
+          0,
+          160
+        ],
+        [
+          0,
+          358.6421814,
+          120
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "extrinsic_cv": [
+        [
+          1,
+          0,
+          0,
+          0.032
+        ],
+        [
+          0,
+          -0.8,
+          -0.6,
+          0.45
+        ],
+        [
+          0,
+          0.6,
+          -0.8,
+          1.35
+        ]
+      ]
+    },
+    "height": 240,
+    "original_source": "P4 capture_metadata head calibration",
+    "required": [
+      "front_camera",
+      "head_camera",
+      "left_camera",
+      "right_camera"
+    ],
+    "width": 320,
+    "wrist_binding": "native robot camera source; verify at t0"
+  },
+  "candidate_presentation": {
+    "audit_only_ids": true,
+    "model_order": "random_per_sample",
+    "programs": [
+      {
+        "program_id": "F1-red",
+        "steps": [
+          {
+            "object": "red",
+            "op": "pick"
+          },
+          {
+            "object": "red",
+            "op": "place",
+            "reference": "common_box",
+            "relation": "inside"
+          }
+        ],
+        "target_role": "red"
+      },
+      {
+        "program_id": "F1-green",
+        "steps": [
+          {
+            "object": "green",
+            "op": "pick"
+          },
+          {
+            "object": "green",
+            "op": "place",
+            "reference": "common_box",
+            "relation": "inside"
+          }
+        ],
+        "target_role": "green"
+      },
+      {
+        "program_id": "F1-blue",
+        "steps": [
+          {
+            "object": "blue",
+            "op": "pick"
+          },
+          {
+            "object": "blue",
+            "op": "place",
+            "reference": "common_box",
+            "relation": "inside"
+          }
+        ],
+        "target_role": "blue"
+      }
+    ]
+  },
+  "difficulty": "crowded",
+  "difficulty_measurement": {
+    "camera": "head_camera",
+    "computed_ratio": 1.35,
+    "method": "horizontal projected AABB center distance / larger projected width",
+    "pair": [
+      "red",
+      "green"
+    ],
+    "render_occlusion_and_grasp_clearance": "PHYSICS_PENDING",
+    "target_ratio": 1.35
+  },
+  "f1_verifier_contract": {
+    "executing_arm": "left",
+    "frame": "world/table-fixed; box geometry in actor local frame; wxyz quaternions",
+    "grasp_identity": {
+      "phase": "gripper_close through target_lift",
+      "signal": "physical selected-finger/selected-actor contact; selected_contact_actor_name matches candidate"
+    },
+    "motion": {
+      "additional_frames": 35,
+      "comparison": "same constant effective command at registered post-prefix location; same frozen non-hold targets/controls",
+      "stage": "post_prefix_hold"
+    },
+    "non_task": {
+      "orientation_rad": 0.02,
+      "phase": "all N+1 states relative to original t0",
+      "position_m": 0.003
+    },
+    "path": {
+      "comparison": "same program baseline, prescribed transport endpoint only",
+      "minimum_realized_change_m": 0.001,
+      "offset_y_m": 0.015,
+      "stage": "safe_horizontal"
+    },
+    "release": {
+      "actual_open_fraction_gt": 0.8,
+      "closed_master_m": -0.01,
+      "open_master_m": 0.045,
+      "phase": "post release final stable window",
+      "separation_rule": "no physical contact with any robot link",
+      "source": "aloha-agilex/config.yml gripper_scale and existing open fraction; applied to measured master qpos"
+    },
+    "sample_rate_hz": 250,
+    "stages": [
+      "post_prefix_hold",
+      "target_pregrasp",
+      "target_grasp",
+      "gripper_close",
+      "target_lift_mid",
+      "target_lift",
+      "carry_hub_low",
+      "carry_hub_high",
+      "safe_horizontal",
+      "preplace",
+      "release",
+      "gripper_open",
+      "release_settle",
+      "retreat",
+      "rest",
+      "rest_settle"
+    ],
+    "support": {
+      "geometry_source": "PLASTICBOX_BASE3_CAVITY support_surface_band_local_y_m",
+      "normal_rule": "abs(world_z) dominant normal component",
+      "phase": "final stable window",
+      "physical_hit": "impulse>1e-10 or signed_separation<=0 with complete v2 shape/point evidence",
+      "plane_rule": "point and subject bottom inside true cavity support band"
+    },
+    "terminal": {
+      "eef_angular_rad_s": 0.05,
+      "eef_linear_m_s": 0.01,
+      "eef_orientation_rad": 0.02,
+      "eef_position_m": 0.03,
+      "object_angular_rad_s": 0.05,
+      "object_linear_m_s": 0.02,
+      "phase": "last stable_window_frames inside rest_settle after release/retreat",
+      "stable_window_frames": 50
+    },
+    "threshold_source": "canonical D6.6-D6.7 Stage2 frozen spec; no provisional fallback",
+    "version": "f1_formal_physical_v2"
+  },
+  "family": "F1",
+  "generator_version": "formal_scene_v2",
+  "observation_hashes": {
+    "anchor": null,
+    "canonical_prefix": null,
+    "current": null
+  },
+  "original_primary_slot_id": "F1_000010",
+  "physics_verified": false,
+  "planned_slot_id": "F1_000010",
+  "programs": [
+    {
+      "program_id": "F1-red",
+      "steps": [
+        {
+          "object": "red",
+          "op": "pick"
+        },
+        {
+          "object": "red",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "red"
+    },
+    {
+      "program_id": "F1-green",
+      "steps": [
+        {
+          "object": "green",
+          "op": "pick"
+        },
+        {
+          "object": "green",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "green"
+    },
+    {
+      "program_id": "F1-blue",
+      "steps": [
+        {
+          "object": "blue",
+          "op": "pick"
+        },
+        {
+          "object": "blue",
+          "op": "place",
+          "reference": "common_box",
+          "relation": "inside"
+        }
+      ],
+      "target_role": "blue"
+    }
+  ],
+  "projection_evidence": {
+    "background": {
+      "bbox_xyxy": [
+        -4.042612120179398,
+        7.239139472489091,
+        21.94526908451883,
+        33.033119102575135
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "blue": {
+      "bbox_xyxy": [
+        145.09178883026655,
+        103.36448271814461,
+        167.42444660213184,
+        133.34392586497708
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "common_box": {
+      "bbox_xyxy": [
+        92.29371902542056,
+        143.87158735150553,
+        226.36556253943925,
+        250.52419957462442
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "green": {
+      "bbox_xyxy": [
+        110.98436730194454,
+        103.36448271814461,
+        135.45666482316327,
+        133.34392586497708
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "red": {
+      "bbox_xyxy": [
+        72.19205012425701,
+        103.36448271814461,
+        99.77500468549857,
+        133.34392586497708
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "similar_1": {
+      "bbox_xyxy": [
+        36.149100186270374,
+        -13.669081865987817,
+        59.16273704246951,
+        9.815623720064611
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "similar_2": {
+      "bbox_xyxy": [
+        248.14446062721194,
+        -13.669081865987817,
+        270.33989256132276,
+        9.815623720064611
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    }
+  },
+  "realizations": [
+    "r_pc",
+    "r_inv_path",
+    "r_inv_motion"
+  ],
+  "roles": [
+    {
+      "asset": "primitive_box",
+      "color": [
+        1,
+        0,
+        0
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": true,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.183,
+        -0.005000000000000001,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "red",
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ]
+    },
+    {
+      "asset": "primitive_box",
+      "color": [
+        0,
+        1,
+        0
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": true,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.10657103336045565,
+        -0.005000000000000001,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "green",
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ]
+    },
+    {
+      "asset": "primitive_box",
+      "color": [
+        0,
+        0,
+        1
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": true,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.039372289593523124,
+        -0.005000000000000001,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "blue",
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ]
+    },
+    {
+      "asset": "062_plasticbox:model3",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": false,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.033,
+        -0.185,
+        0.78,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "role": "common_box",
+      "size": [
+        0.2,
+        0.16,
+        0.08
+      ]
+    },
+    {
+      "asset": "primitive_box",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": true,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.34,
+        0.41,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "similar_1",
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ]
+    },
+    {
+      "asset": "primitive_box",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": true,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        0.24,
+        0.41,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "similar_2",
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ]
+    },
+    {
+      "asset": "primitive_box",
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "density_policy": "unchanged_source_factory",
+      "dynamic": false,
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "dynamic_friction": 0.5,
+        "restitution": 0.0,
+        "static_friction": 0.5
+      },
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "pose": [
+        -0.42,
+        0.31,
+        0.765,
+        1,
+        0,
+        0,
+        0
+      ],
+      "role": "background",
+      "size": [
+        0.04,
+        0.04,
+        0.05
+      ]
+    }
+  ],
+  "root_id": "F1_000010",
+  "scene_layout": {
+    "common_box_pose_wxyz": [
+      -0.033,
+      -0.185,
+      0.78,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "object_xyz_by_role": {
+      "blue": [
+        -0.039372289593523124,
+        -0.005000000000000001,
+        0.762
+      ],
+      "green": [
+        -0.10657103336045565,
+        -0.005000000000000001,
+        0.762
+      ],
+      "red": [
+        -0.183,
+        -0.005000000000000001,
+        0.762
+      ]
+    }
+  },
+  "schema": "formal_scene_v2",
+  "seed": 2026091109,
+  "spec_sha256": "0a64975e859061e0934a82e5cbf425e05b1ea069acf67fdc048f9048c4b89632",
+  "split": "test",
+  "split_access_policy": "No recipe tuning on validation/test; stop and record contamination if shared repair uses their outcomes",
+  "targets": {
+    "common_box": {
+      "asset_geometry": "062_plasticbox:model3 interior from source model",
+      "relation": "inside"
+    }
+  },
+  "terminal_tolerances": {
+    "eef_orientation_rad": 0.02,
+    "eef_position_m": 0.03,
+    "gripper_fraction": 0.01,
+    "joint_position_rad": 0.03,
+    "joint_speed_rad_s": 0.01,
+    "non_task_angular_speed_rad_s": 0.05,
+    "non_task_linear_speed_m_s": 0.02,
+    "non_task_orientation_rad": 0.02,
+    "non_task_position_m": 0.003,
+    "object_orientation_rad": 0.02,
+    "object_position_m": 0.03
+  },
+  "variant_rules": {
+    "r_inv_motion": {
+      "cohort": "trajectory_invariance",
+      "hold_frames_by_stage": {
+        "post_prefix": 35
+      },
+      "label_independent": true,
+      "post_prefix_hold_frames": 35,
+      "time_scale": 1.0
+    },
+    "r_inv_path": {
+      "cohort": "trajectory_invariance",
+      "postprefix_detour_m": 0.03,
+      "safe_horizontal_y_offset_m": 0.015
+    },
+    "r_pc": {
+      "cohort": "prefix_controlled",
+      "time_scale": 1.0
+    }
+  }
+}

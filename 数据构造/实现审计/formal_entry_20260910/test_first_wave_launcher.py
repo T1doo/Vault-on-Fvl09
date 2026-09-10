@@ -48,7 +48,7 @@ class TestLauncher(unittest.TestCase):
     def test_fresh_two_idle_cards_and_actual_native_accounting(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
             d=Path(td);m=manifest_at(d);host=FakeHost('external_after')
-            with patch('first_wave_launcher.verify_completed_job',return_value={'pass':True,'explicit_cpu_boundary':True}):result=launch_wave(m,d/'state',host)
+            with patch('first_wave_launcher.verify_completed_job',return_value={'pass':True,'explicit_cpu_boundary':True}), patch('execution_cli.copy_only',return_value={'pass':True,'explicit_cpu_boundary':True}):result=launch_wave(m,d/'state',host)
             self.assertEqual(result['state']['status'],'COMPLETE');self.assertEqual(set(host.used),{1,2})
             self.assertEqual(result['state']['budget']['consumed'],{'fresh_scenes':66,'action_scenes':42,'collection_attempts':18,'solver_problems':24,'gpu_lease_seconds':sum(j['lease_seconds'] for j in result['results'])})
             self.assertFalse(any(result['state']['budget']['reserved'].values()))

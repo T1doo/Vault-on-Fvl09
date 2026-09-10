@@ -3,7 +3,7 @@
 Original receipts/raw bytes are preserved. Native normalization is explicitly
 labelled derived export evidence, not a newly executed or reverified trajectory.
 """
-import json,hashlib,os,uuid
+import json,hashlib,os,uuid,shutil
 from pathlib import Path
 from copy import deepcopy
 import numpy as np
@@ -104,7 +104,7 @@ def seal_native_source(output,spec,cells,result):
    # Native raw actions are already N; never discard their first action.
    tq=state38(z['stream__realized_qpos']);tv=state38(z['stream__realized_qvel']);a=z['stream__controller_effective_setpoint'].copy()
   if not np.array_equal(tq[0],q) or not np.array_equal(tv[0],v) or a.shape!=(len(tq)-1,26):raise ValueError('native action/state row0 schema')
-  np.savez_compressed(directory/'trace.npz',joint_qpos=tq,joint_qvel=tv,controller_effective_setpoint=a);np.savez_compressed(current/'rgb.npz',**rgb);p.write_json(current/'state.json',{'joint_qpos':q.tolist(),'joint_qvel':v.tolist()});p.write_json(current/'anchor.json',json.loads(Path(c['anchor_path']).read_text()));p.write_json(current/'capture_metadata.json',{'required_camera_names':spec['cameras']['required'],'camera_images':{name:{'shape':list(rgb[name+'__rgb'].shape),'dtype':str(rgb[name+'__rgb'].dtype)} for name in spec['cameras']['required']},'derivation':'lossless native capture extraction; original metadata in additional evidence'})
+  np.savez_compressed(directory/'trace.npz',joint_qpos=tq,joint_qvel=tv,controller_effective_setpoint=a);np.savez_compressed(current/'rgb.npz',**rgb);p.write_json(current/'state.json',{'joint_qpos':q.tolist(),'joint_qvel':v.tolist()});shutil.copyfile(c['anchor_path'],current/'anchor.json');p.write_json(current/'capture_metadata.json',{'required_camera_names':spec['cameras']['required'],'camera_images':{name:{'shape':list(rgb[name+'__rgb'].shape),'dtype':str(rgb[name+'__rgb'].dtype)} for name in spec['cameras']['required']},'derivation':'lossless native capture extraction; original metadata in additional evidence','original_capture':refs['capture_path'],**{k:meta.get(k) for k in ['root_id','spec_sha256','source_bundle_sha256']}})
   cell={'root_id':spec['root_id'],'family':spec['family'],'program_id':c['program_id'],'realization_id':c['realization_id'],'scene_spec_sha256':spec['spec_sha256'],'candidate_set':spec['programs'],'trace_path':str(directory/'trace.npz'),'trace_layout':'N_actions','prefix_artifact_path':c['prefix_artifact_path'],'additional_evidence':{'original_'+k:refs[k] for k in required},'derivation':'native raw lossless export; original receipts unchanged'}
   inputs_from_modern(cell,spec);cf={'cell':f"{spec['root_id']}:{c['program_id']}:{c['realization_id']}",'trace_sha256':p.digest(directory/'trace.npz'),'pass':True,'derivation':'export numeric checks plus original source-bound semantic acceptance','original_source_result_sha256':refs['source_result_path']['file_sha256']};p.write_json(directory/'cell_receipt.json',cell);p.write_json(directory/'independent_finalizer_v2.json',cf);finalizers.append(cf);normalized.append(cell)
  wrapper={'root_id':spec['root_id'],'scene_spec_sha256':spec['spec_sha256'],'pass':True,'cell_finalizers':finalizers,'derivation':'lossless export wrapper; original independent result included per cell','original_result_sha256':hashlib.sha256(json.dumps(result,sort_keys=True).encode()).hexdigest()}

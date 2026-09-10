@@ -30,6 +30,8 @@ class VariantLegacy:
 
     def build_targets(self, *args, **kwargs):
         targets, extra = self.original.build_targets(*args, **kwargs)
+        baseline=next(np.asarray(t['pose'],float).copy() for t in targets if t['segment_id']=='safe_horizontal')
+        extra={**extra,'formal_path_baseline_pose':baseline.tolist(),'formal_path_prescribed_offset_y_m':float(self.rules['r_inv_path']['safe_horizontal_y_offset_m']) if self.realization=='r_inv_path' else 0.0}
         if self.realization == 'r_inv_path':
             offset = float(self.rules['r_inv_path']['safe_horizontal_y_offset_m'])
             targets = change_path_targets(targets, offset)
@@ -37,8 +39,84 @@ class VariantLegacy:
         return targets, extra
 
 
+
+def execute_with_stage_capture(controller,scene,program,execution_spec,replay,realization_spec,spec):
+    """Same mature native primitive, instrumented through isolated function globals."""
+    import types
+    from controlled_multi_future.family_runners_v3_3 import F1ControllerV3_3
+    from controlled_multi_future.probes.runtime_trace import _gripper_joint_qpos
+    from f1_disk_verifier import frozen_contract
+    c=frozen_contract(spec);native=F1ControllerV3_3.execute_frozen_suffix_spec;env=dict(native.__globals__)
+    if list(scene.robot.left_gripper_scale)!=[c['release']['closed_master_m'],c['release']['open_master_m']]:raise ValueError('actual robot gripper calibration differs from frozen formal contract')
+    stages={'executing_arm':'left','sample_rate_hz':250,'program_id':program['program_id'],'realization_id':realization_spec['realization'],'subject_actor_name':'formal_f1_'+program['target_role'],'robot_link_names':sorted({link.get_name() for entity in (scene.robot.left_entity,scene.robot.right_entity) for link in entity.get_links()}),'prefix_acceptance_end_row':len(scene.trace)-1,'gripper_link_names':list(scene.selected_gripper_links()),'gripper_scale_m':list(scene.robot.left_gripper_scale),'stages':[]}
+    scene._formal_f1_stages=stages
+    def record(name,callback):
+        item={'name':name,'start_row':len(scene.trace)-1};stages['stages'].append(item)
+        try:return callback()
+        finally:item['end_row']=len(scene.trace)-1
+    original_segment=env['_execute_cached_segment'];original_action=env['_must_action'];original_wait=env['_wait_and_record'];original_stable=env['_stable_and_support']
+    env['_execute_cached_segment']=lambda current,frozen,controls,index:record(frozen['targets'][index]['segment_id'],lambda:original_segment(current,frozen,controls,index))
+    def action(current,value,label):
+        if label==program['target_role']+'_close_gripper':name='gripper_close'
+        elif label==program['target_role']+'_release':name='gripper_open'
+        else:raise ValueError('unregistered F1 action phase')
+        return record(name,lambda:original_action(current,value,label))
+    env['_must_action']=action;waits=[]
+    def wait(current,frames):
+        if len(waits)>=2:raise ValueError('unregistered extra hold')
+        name=('release_settle','rest_settle')[len(waits)];waits.append(name)
+        return record(name,lambda:original_wait(current,frames))
+    env['_wait_and_record']=wait
+    env['_stable_and_support']=lambda current,actor,support,frames=None:original_stable(current,actor,support,frames=c['terminal']['stable_window_frames'])
+    env['_arm_gripper_open']=lambda current,arm:((_gripper_joint_qpos(current.robot,arm)[0]-c['release']['closed_master_m'])/(c['release']['open_master_m']-c['release']['closed_master_m']))>c['release']['actual_open_fraction_gt']
+    env['PROVISIONAL_RUNTIME_THRESHOLDS']={'non_target_displacement_m':c['non_task']['position_m'],'stable_linear_speed_mps':c['terminal']['object_linear_m_s'],'eef_stationary_angular_speed_rps':c['terminal']['object_angular_rad_s'],'rest_position_error_m':c['terminal']['eef_position_m'],'orientation_error':c['terminal']['eef_orientation_rad'],'eef_stationary_linear_speed_mps':c['terminal']['eef_linear_m_s']}
+    count=c['motion']['additional_frames'] if realization_spec['realization']=='r_inv_motion' else 0
+    record('post_prefix_hold',lambda:original_wait(scene,count))
+    try:
+        result=types.FunctionType(native.__code__,env)(controller,scene,program,execution_spec,replay,realization_spec)
+    except BaseException:
+        from family_entry import write
+        write(Path(scene._formal_current_capture_path).parent/'partial_stage_evidence.json',stages)
+        raise
+    result['provenance']['formal_f1_stages']=stages
+    result['provenance']['formal_f1_contract']=c
+    return result
+
+
+def legacy_comparison_view(value,compatibility,kind):
+    """Explicit audit-only source alias; original observations/anchors stay unchanged.
+
+    Only approved implementation provenance is normalized for the inherited
+    artifact comparator. Model hashes, numeric state, physics and all other
+    source fields are untouched. The actual new capture is persisted separately.
+    """
+    if compatibility is None:return value
+    from controlled_multi_future.current_hasher import hash_json
+    if compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('scientific_contract_unchanged') is not True:raise ValueError('source comparison needs explicit compatible approval')
+    old,new=compatibility['old_source_sha256'],compatibility['new_source_sha256']
+    result=deepcopy(value)
+    if kind=='anchor':
+        config=result['physics_config']
+        if config['implementation_source_sha256'] not in (old,new):raise ValueError('undeclared anchor implementation source')
+        config['implementation_source_sha256']=old
+        result['anchor_sha256']=hash_json({k:v for k,v in result.items() if k!='anchor_sha256'})
+    elif kind=='current':
+        config=result['reconstruction_spec_audit']['simulation_configuration']
+        if config['implementation_source_sha256'] not in (old,new):raise ValueError('undeclared current implementation source')
+        config['implementation_source_sha256']=old
+        result['reconstruction_spec_components']['simulation_configuration_sha256']=hash_json(config)
+        result['reconstruction_spec_aggregate_sha256']=hash_json(result['reconstruction_spec_components'])
+        result['aggregate_sha256']=hash_json({'model_visible':result['model_visible_aggregate_sha256'],'reconstruction_spec':result['reconstruction_spec_aggregate_sha256']})
+        result['audit_full_aggregate_sha256']=hash_json({'same_current':result['aggregate_sha256'],'hidden_physical_state':result['hidden_physical_aggregate_sha256']})
+    else:raise ValueError('unsupported comparison view')
+    return result
+
 def native_adapter(*, spec, realization, output_root, source_sha):
     # These imports are lazy; constructor source integrity is checked by native base.
+    from f1_disk_verifier import frozen_contract
+    frozen_contract(spec)
+    from file_source_pin import inventory,bundle_hash
+    source_bundle=bundle_hash(inventory())
     from controlled_multi_future.real_sapien_adapter_f1_batch_v1 import RoboTwinRealSapienF1BatchPilotAdapterV1
     from controlled_multi_future.family_runners_v3_3 import F1ControllerV3_3, _wait_and_record
     from controlled_multi_future.real_sapien_adapter_v1_1 import _dual_entity_values
@@ -66,14 +144,9 @@ def native_adapter(*, spec, realization, output_root, source_sha):
             return {'task_feasible':passed,'physical_feasible':passed,'planner_solvable':None,'failure_type':None if passed else 'formal_f1_geometry','evidence':{'checks':checks,'old_exact_four_role_rule_replaced_with_all_frozen_roles':True,'pairwise_surface_clearance_min_m':.005,'grasp_and_full_robot_clearance':'separate native planner qualification'}}
 
         def execute_frozen_suffix_spec(self, scene, program, execution_spec, replay, realization_spec):
-            if realization == 'r_inv_motion':
-                frames = spec['variant_rules']['r_inv_motion']['post_prefix_hold_frames']
-                if type(frames) is not int or not 0 < frames <= 250:
-                    raise ValueError('bounded integer hold required')
-                _wait_and_record(scene, frames)
-            result = super().execute_frozen_suffix_spec(scene, program, execution_spec, replay, realization_spec)
+            result=execute_with_stage_capture(self,scene,program,execution_spec,replay,realization_spec,spec)
             result.setdefault('provenance', {})['formal_current_capture_path'] = str(scene._formal_current_capture_path)
-            result['provenance'].update(formal_root_id=spec['root_id'], formal_spec_sha256=spec['spec_sha256'])
+            result['provenance'].update(formal_root_id=spec['root_id'], formal_spec_sha256=spec['spec_sha256'],source_bundle_sha256=source_bundle)
             return result
 
     from controlled_multi_future.real_sapien_adapter_v1_2 import RoboTwinSceneContextV1_2
@@ -90,6 +163,10 @@ def native_adapter(*, spec, realization, output_root, source_sha):
             from controlled_multi_future.real_sapien_adapter_high_level_v1 import _PinnedSapienRenderDeviceContextV1
             return _PinnedSapienRenderDeviceContextV1(Context(family='F1', planned_spec=planned_root_slot_spec, phase=phase, program=program, output_root=self.output_root,
                 sealed_implementation_source_sha256=self._sealed_implementation_source_sha256, sealed_source_binding=self._sealed_source_binding))
+
+        def capture_anchor(self,scene):
+            actual=super().capture_anchor(scene)
+            return legacy_comparison_view(actual,getattr(self,'_source_compatibility',None),'anchor')
 
         def _entity_payloads(self, scene):
             from controlled_multi_future.real_sapien_adapter_v1_2 import _dynamic_component, _entity, _pose, _rigid_velocity, _runtime_sleep_state, _procedural, _asset_hash_v1_2, procedural_asset_spec_sha256, ROLE_ASSETS_V1_2
@@ -142,10 +219,16 @@ def native_adapter(*, spec, realization, output_root, source_sha):
             else:
                 np.savez_compressed(path, **arrays)
                 (destination / 'anchor.json').write_text(json.dumps(anchor, sort_keys=True))
-                (destination / 'capture.json').write_text(json.dumps({'current_hashes': current, 'spec_sha256': spec['spec_sha256'], 'camera_config': self._camera_configuration(scene, rgb), 'scene_instance_id': scene._cmf_scene_instance_id, 'capture_source': 'native_original_t0', 'render_device_binding': scene._cmf_render_device_binding_v1, 'npz_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}, sort_keys=True))
+                (destination / 'capture.json').write_text(json.dumps({'current_hashes': current, 'root_id':spec['root_id'], 'spec_sha256': spec['spec_sha256'], 'source_bundle_sha256':source_bundle, 'camera_config': self._camera_configuration(scene, rgb), 'scene_instance_id': scene._cmf_scene_instance_id, 'capture_source': 'native_original_t0', 'render_device_binding': scene._cmf_render_device_binding_v1, 'npz_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}, sort_keys=True))
             with np.load(path, allow_pickle=False) as persisted:
                 if any(not np.array_equal(persisted[k], v) for k, v in arrays.items()):
                     raise RuntimeError('current write/readback mismatch')
+            compatibility=getattr(self,'_source_compatibility',None)
+            if compatibility is not None:
+                from family_entry import write,digest
+                comparison=legacy_comparison_view(current,compatibility,'current')
+                write(destination/'source_comparison_view.json',{'original_capture_sha256':hashlib.sha256((destination/'capture.json').read_bytes()).hexdigest(),'compatibility_payload_sha256':digest(compatibility),'view_current':comparison,'original_current':current,'view_anchor':legacy_comparison_view(anchor,compatibility,'anchor'),'original_anchor_file_sha256':hashlib.sha256((destination/'anchor.json').read_bytes()).hexdigest(),'normalization_only':'implementation_source_sha256 and dependent comparison hashes; originals unchanged'})
+                return comparison
             return current
 
     adapter = Adapter(family='F1', output_root=Path(output_root), expected_implementation_source_sha256=source_sha)
@@ -153,7 +236,7 @@ def native_adapter(*, spec, realization, output_root, source_sha):
     return adapter
 
 
-def run_native_cohort(*, spec, realization, output, source_sha):
+def run_native_cohort(*, spec, realization, output, source_sha,source_compatibility=None):
     from native_f1_orchestrator import FormalF1RecoverableOrchestrator
     from controlled_multi_future.canonical_artifact import canonical_hash_json
     output = Path(output)
@@ -162,8 +245,9 @@ def run_native_cohort(*, spec, realization, output, source_sha):
     attempt = previous['attempt'] + 1 if previous else 1
     if attempt > 2:
         raise ValueError('native F1 finite recovery invocation exhausted')
-    if previous and (previous['spec_sha256'] != spec['spec_sha256'] or previous['source_sha256'] != source_sha):
-        raise ValueError('recovery source or spec changed')
+    if previous and previous['spec_sha256'] != spec['spec_sha256']:raise ValueError('recovery spec changed')
+    if previous and previous['source_sha256'] != source_sha:
+        if not source_compatibility or source_compatibility.get('old_source_sha256')!=previous['source_sha256'] or source_compatibility.get('new_source_sha256')!=source_sha:raise ValueError('recovery source changed without validated compatibility')
     attempt_output = output if attempt == 1 else output / f'recovery_{attempt}'
     root_output = attempt_output / 'root'
     reuse = {}
@@ -174,16 +258,26 @@ def run_native_cohort(*, spec, realization, output, source_sha):
             if (branch / 'receipt.json').exists() and json.loads((branch / 'receipt.json').read_text()).get('status') == 'accepted':
                 reuse[program['program_id']] = branch
     adapter = native_adapter(spec=spec, realization=realization, output_root=attempt_output / 'scene_instances', source_sha=source_sha)
+    adapter._source_compatibility=source_compatibility
     planned = deepcopy(spec)
     planned['slot_id'] = spec['root_id']
     planned['candidate_display_order'] = [p['program_id'] for p in spec['programs']]
     planned['scene_layout_sha256'] = canonical_hash_json(spec['scene_layout'])
     orchestrator = FormalF1RecoverableOrchestrator(adapter, implementation_version='formal_f1_native_entry_20260910')
     orchestrator.reuse_cells = reuse
+    orchestrator.source_compatibility=source_compatibility
+    def independent_cell_gate(branch_dir,program):
+        from family_entry import finalize_native_cell,write
+        result=finalize_native_cell(spec=spec,output=output.parent,program_id=program['program_id'],realization=realization)
+        if result['pass']:
+            first=output.parent/'first_verified_cell.json'
+            if not first.exists():write(first,{**result,'independent_cell_local_path':str(branch_dir/'independent_cell_local.json'),'independent_cell_local_sha256':hashlib.sha256((branch_dir/'independent_cell_local.json').read_bytes()).hexdigest()})
+        return result
+    orchestrator.independent_cell_gate=independent_cell_gate
     if previous and (old_root / 'canonical_prefix_artifact').exists():
         orchestrator.reuse_prefix_dir = old_root / 'canonical_prefix_artifact'
     output.mkdir(parents=True, exist_ok=True)
-    payload = {'root_relative':str(root_output.relative_to(output)), 'attempt':attempt,'spec_sha256':spec['spec_sha256'],'source_sha256':source_sha,'reused_programs':sorted(reuse),'status':'STARTED'}
+    payload = {'root_relative':str(root_output.relative_to(output)), 'attempt':attempt,'spec_sha256':spec['spec_sha256'],'source_sha256':source_sha,'reused_programs':sorted(reuse),'status':'STARTED','previous_pointer':previous}
     temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload)); temporary.replace(pointer)
     try:
         result = orchestrator.run_nonformal_root(output_dir=root_output, planned_root_slot_spec=planned,

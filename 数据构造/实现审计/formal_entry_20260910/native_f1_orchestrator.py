@@ -769,8 +769,13 @@ class FormalF1RecoverableOrchestrator(
                 prefix_identity = set(original_arrays) == set(prefix_arrays) and all(
                     original_arrays[k].shape == prefix_arrays[k].shape and original_arrays[k].dtype == prefix_arrays[k].dtype and original_arrays[k].tobytes() == prefix_arrays[k].tobytes()
                     for k in original_arrays)
-                if original_manifest['root_slot_id'] != manifest['root_slot_id'] or original_manifest['family'] != manifest['family'] or original_manifest['planner_source_hash'] != manifest['planner_source_hash']:
-                    raise ValueError('recovery prefix root/family/source identity mismatch')
+                if original_manifest['root_slot_id'] != manifest['root_slot_id'] or original_manifest['family'] != manifest['family']:
+                    raise ValueError('recovery prefix root/family identity mismatch')
+                if original_manifest['planner_source_hash'] != manifest['planner_source_hash']:
+                    compatibility=getattr(self,'source_compatibility',None)
+                    if not compatibility or compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('scientific_contract_unchanged') is not True or compatibility.get('root_id')!=manifest['root_slot_id']:
+                        raise ValueError('recovery planner source differs without approved compatible source transition')
+                    receipt['planner_source_compatibility']={'old_planner_source_hash':original_manifest['planner_source_hash'],'new_planner_source_hash':manifest['planner_source_hash'],'compatibility_payload_sha256':hash_json(compatibility),'actual_arrays_still_required_exact':True} 
                 if not prefix_identity or original_manifest['reference_current_sha256'] != reference_current['aggregate_sha256'] or not compare_anchors(original_manifest['reference_anchor'], reference_anchor)['equivalent']:
                     raise ValueError('recovery actual regenerated prefix/current/anchor differs')
                 generated_dir = output_dir / 'canonical_prefix_artifact'
@@ -1247,6 +1252,9 @@ class FormalF1RecoverableOrchestrator(
                     if any(p.is_symlink() for p in previous.rglob('*')):
                         raise ValueError('reuse does not follow symlinks')
                     shutil.copytree(previous, branch_dir)
+                    if hasattr(self,'independent_cell_gate'):
+                        reused_gate=self.independent_cell_gate(branch_dir,program)
+                        if reused_gate.get('pass') is not True:raise ValueError('reused cell fails current independent local gate')
                     receipt['branch_receipts'].append(saved)
                     receipt.setdefault('reused_branches', []).append({'program_id':program_id,'original_branch':str(previous),'checks':reuse_checks,'new_physical_execution':False})
                     self._append_event({'event':'verified_branch_reused','program_id':program_id,'source':str(previous)})
@@ -1739,6 +1747,17 @@ class FormalF1RecoverableOrchestrator(
                         if branch["development_video_required"] is False
                         else "failed_required_video"
                     )
+                if (branch_dir/'raw/manifest.json').exists() and hasattr(self,'independent_cell_gate'):
+                    # Scene cleanup has completed; raw, receipt and trace are now on disk.
+                    try:
+                        local_gate=self.independent_cell_gate(branch_dir,program)
+                    except BaseException as local_exc:
+                        local_gate={'pass':False,'error_type':type(local_exc).__name__,'error':str(local_exc),'failure_class':'DATA_CONTRACT_FAILURE'}
+                    branch['independent_cell_gate']=local_gate
+                    if local_gate.get('pass') is not True:
+                        branch['status']='failed_independent_cell'
+                        branch['failure_class']=local_gate.get('failure_class','DATA_CONTRACT_FAILURE')
+                    elif branch.get('status')!='accepted':branch['failure_class']='DATA_CONTRACT_FAILURE'
                 receipt["branch_receipts"].append(branch)
                 _write_json(branch_dir / "receipt.json", branch)
                 self._append_event(

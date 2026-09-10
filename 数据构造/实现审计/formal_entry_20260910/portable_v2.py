@@ -1,11 +1,15 @@
 """CPU-only immutable provenance copies; model reader never opens origin paths.
 Legacy archives deliberately cannot masquerade as complete formal packages.
 """
-import fcntl, hashlib, json, os, shutil, uuid
+import fcntl, hashlib, json, os, shutil, uuid, importlib.util, re
 from pathlib import Path
 import numpy as np
 WORKSPACE=Path('/nfs_share/lijunhui')
 REQUIRED={'trace','rgb','state','anchor','capture','prefix','cell_receipt','cell_finalizer','root_receipt','root_finalizer','supervision','source_index','reader','reader_contract'}
+
+def anchor_rules():
+ path=Path(__file__).with_name('anchor_equivalence.py')
+ spec=importlib.util.spec_from_file_location('_bundled_anchor_equivalence',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 def digest(p):
  h=hashlib.sha256()
@@ -92,6 +96,20 @@ def read(package):
  if c['candidate_set']!=m['candidates'] or c['root_id']!=m['root_id'] or c['scene_spec_sha256']!=m['scene_spec_sha256']:raise ValueError('receipt contract mismatch')
  if sup!={'target':m['target'],'cell_key':m['cell_key']} or sup['target'] not in m['candidates'] or sup['target']['program_id']!=c['program_id']:raise ValueError('supervision identity mismatch')
  capture=json.loads(by['capture'].read_text())
+ if m['family']=='F1':
+  if not {'anchor_rules','anchor_contract'}<=by.keys():raise ValueError('anchor equivalence rules absent')
+  rule=anchor_rules();rule.validate_contract(json.loads(by['anchor_contract'].read_text()))
+  binding={k:capture.get(k) for k in rule.CONTRACT['binding_fields']}
+  if binding['root_id']!=m['root_id'] or binding['spec_sha256']!=m['scene_spec_sha256']:raise ValueError('anchor capture identity mismatch')
+  rule.validate_anchor(json.loads(by['anchor'].read_text()),binding)
+  original_capture=by.get('native_capture',by.get('original_capture_path'))
+  if original_capture is not None:
+   recorded=capture.get('original_capture',{})
+   if recorded.get('file_sha256')!=digest(original_capture):raise ValueError('original capture link mismatch')
+   original=json.loads(original_capture.read_text())
+   if any(original.get(k)!=binding[k] for k in rule.CONTRACT['binding_fields']):raise ValueError('normalized capture source binding mismatch')
+  original_anchor=by.get('native_anchor',by.get('original_anchor_path'))
+  if original_anchor is not None and digest(original_anchor)!=digest(by['anchor']):raise ValueError('original anchor bytes were rewritten')
  if {name+'__rgb' for name in capture['required_camera_names']}!=set(m['rgb_contract']):raise ValueError('required camera contract mismatch')
  for name,contract in m['rgb_contract'].items():
   if any(contract[k]!=capture['camera_images'][name.removesuffix('__rgb')][k] for k in ['shape','dtype']):raise ValueError('capture camera metadata mismatch')
@@ -148,6 +166,9 @@ def copy_cell(spec,destination,fault=None,max_bytes=2_000_000_000):
    write_json(stage/'supervision.json',{'target':spec['target'],'cell_key':spec['cell_key']});files.append({'role':'supervision','path':'supervision.json','sha256':digest(stage/'supervision.json'),'bytes':(stage/'supervision.json').stat().st_size})
   shutil.copyfile(__file__,stage/'reader.py');write_json(stage/'reader_contract.json',{'schema':'portable_cell_v2','action_layout':spec['trace_layout'],'required_roles':sorted(REQUIRED),'original_path_fallback':False})
   for role,name in [('reader','reader.py'),('reader_contract','reader_contract.json')]:files.append({'role':role,'path':name,'sha256':digest(stage/name),'bytes':(stage/name).stat().st_size})
+  if spec.get('family')=='F1' and spec['adapter']=='modern':
+   rule=anchor_rules();shutil.copyfile(Path(__file__).with_name('anchor_equivalence.py'),stage/'anchor_equivalence.py');write_json(stage/'anchor_contract.json',rule.contract())
+   for role,name in [('anchor_rules','anchor_equivalence.py'),('anchor_contract','anchor_contract.json')]:files.append({'role':role,'path':name,'sha256':digest(stage/name),'bytes':(stage/name).stat().st_size})
   m={**spec,'files':files,'spec_sha256':fingerprint};write_json(stage/'portable_manifest.json',m);verify(stage)
   read(stage)
   if fault=='rename_pre':raise RuntimeError('injected rename_pre')
@@ -155,11 +176,13 @@ def copy_cell(spec,destination,fault=None,max_bytes=2_000_000_000):
   if fault=='rename_post':raise RuntimeError('injected rename_post')
   return {'package':str(dest),'idempotent':False,'bytes':sum(x['bytes'] for x in files),'strict_read':True}
 
-def publish_root(root_directory,cell_packages,expected_slots,registry,fault=None):
- """Nine fully validated cells; independent lock per root, registry lock only at commit.
- Synthetic tests are never eligible real data: caller's synthetic marker propagates.
- """
- root=origin(root_directory);registry=origin(registry)
+def _package_files(package,m):
+ return {x['role']:safe(Path(package),x['path']) for x in m['files']}
+
+def _arrays(path):
+ with np.load(path,allow_pickle=False) as z:return {k:z[k].copy() for k in z.files}
+
+def validate_root_cells(cell_packages,expected_slots):
  if len(cell_packages)!=9 or len(set(expected_slots))!=9:raise ValueError('nine distinct slots required')
  manifests=[read(p)['audit'] for p in cell_packages]
  if {m['cell_key'] for m in manifests}!=set(expected_slots):raise ValueError('slot set mismatch')
@@ -167,27 +190,88 @@ def publish_root(root_directory,cell_packages,expected_slots,registry,fault=None
  if len(programs)!=3 or {(m['program_id'],m['realization_id']) for m in manifests}!={(p,r) for p in programs for r in realizations}:raise ValueError('root must be exact 3 by 3 matrix')
  for field in ['root_id','scene_spec_sha256','family','candidates']:
   if any(m[field]!=manifests[0][field] for m in manifests):raise ValueError('mixed root contract '+field)
- for role in ['rgb','state','anchor']:
-  if len({next(x['sha256'] for x in m['files'] if x['role']==role) for m in manifests})!=1:raise ValueError('root current/anchor mismatch')
- if len({next(x['sha256'] for x in m['files'] if x['role']=='prefix') for m in manifests if m['realization_id']=='r_pc'})!=1:raise ValueError('strict r_pc prefix mismatch')
- entry={'root':str(root),'cells':{m['cell_key']:m['spec_sha256'] for m in manifests},'synthetic':any(m.get('synthetic',False) for m in manifests),'formal_eligible':False,'relative_cell_paths':['cell_'+str(i) for i in range(9)]}
+ rule=anchor_rules();files=[_package_files(p,m) for p,m in zip(cell_packages,manifests)];reference=files[0]
+ for by in files:
+  if not rule.arrays_equal(_arrays(reference['rgb']),_arrays(by['rgb'])):raise ValueError('root RGB array mismatch')
+  if json.loads(reference['state'].read_text())!=json.loads(by['state'].read_text()):raise ValueError('root current state mismatch')
+ anchors=[]
+ for by in files:
+  left=json.loads(reference['anchor'].read_text());right=json.loads(by['anchor'].read_text())
+  if manifests[0]['family']=='F1':
+   rmeta=json.loads(reference['capture'].read_text());cmeta=json.loads(by['capture'].read_text());rb={k:rmeta.get(k) for k in rule.CONTRACT['binding_fields']};cb={k:cmeta.get(k) for k in rule.CONTRACT['binding_fields']}
+   rb['capture_sha256']=rmeta.get('original_capture',{}).get('file_sha256',digest(reference['capture']));cb['capture_sha256']=cmeta.get('original_capture',{}).get('file_sha256',digest(by['capture']))
+   compatibility=None
+   if 'source_compatibility' in by:
+    compatibility=json.loads(by['source_compatibility'].read_text())
+    if 'source_compatibility' not in reference or digest(reference['source_compatibility'])!=digest(by['source_compatibility']):raise ValueError('root compatibility evidence mismatch')
+   report=rule.compare_anchors(left,right,reference_binding=rb,candidate_binding=cb,compatibility=compatibility)
+   if not report['equivalent']:raise ValueError('root anchor not equivalent: '+str(report['failures']))
+   anchors.append(report)
+  elif left!=right:raise ValueError('root non-F1 anchor payload mismatch')
+ pc=[by for by,m in zip(files,manifests) if m['realization_id']=='r_pc']
+ if any(not rule.arrays_equal(_arrays(pc[0]['prefix']),_arrays(x['prefix'])) for x in pc):raise ValueError('strict r_pc prefix array mismatch')
+ return manifests,anchors
+
+def semantic_relative_paths(manifests):
+ candidates=manifests[0]['candidates'];mapping={}
+ for i,c in enumerate(candidates,1):
+  role=c.get('target_role') or c['program_id'];slug=re.sub(r'[^A-Za-z0-9_-]+','_',str(role)).strip('_')
+  if not slug:raise ValueError('empty semantic name')
+  mapping[c['program_id']]=f'intent{i:02d}_{slug}'
+ return [mapping[m['program_id']]+'/'+m['realization_id'] for m in manifests]
+
+def read_root(root):
+ root=Path(root);entry=json.loads(safe(root,'group_manifest.json').read_text())
+ if json.loads(safe(root,'root_manifest.json').read_text())!=entry:raise ValueError('root/group identity mismatch')
+ for name,h in entry['common_files'].items():
+  if digest(safe(root,name))!=h:raise ValueError('common rule integrity mismatch')
+ paths=[safe(root,x) for x in entry['relative_cell_paths']];manifests,_=validate_root_cells(paths,list(entry['cells']))
+ if {m['cell_key']:m['spec_sha256'] for m in manifests}!=entry['cells']:raise ValueError('published nested cell mismatch')
+ for field in ['root_id','family','scene_spec_sha256','candidates']:
+  if entry.get(field)!=manifests[0][field]:raise ValueError('root header/nested identity mismatch: '+field)
+ if entry.get('synthetic') is not any(m.get('synthetic',False) for m in manifests):raise ValueError('root synthetic declaration mismatch')
+ if entry.get('formal_eligible') is not False:raise ValueError('copy schema cannot promote formal eligibility')
+ return entry
+
+def publish_root(root_directory,cell_packages,expected_slots,registry,fault=None):
+ """Per-root atomic publish and idempotent registry; never compare anchor file SHA.
+ root/intentNN_semantic/realization contains each original capture independently.
+ """
+ root=origin(root_directory);registry=origin(registry);manifests,anchors=validate_root_cells(cell_packages,expected_slots)
+ relative=semantic_relative_paths(manifests) if manifests[0]['family']=='F1' else ['cell_'+str(i) for i in range(9)]
+ entry={'schema':'portable_semantic_root_v3','root':str(root),'root_id':manifests[0]['root_id'],'family':manifests[0]['family'],'scene_spec_sha256':manifests[0]['scene_spec_sha256'],'cells':{m['cell_key']:m['spec_sha256'] for m in manifests},'synthetic':any(m.get('synthetic',False) for m in manifests),'formal_eligible':False,'relative_cell_paths':relative,'candidates':manifests[0]['candidates'],'anchor_equivalence':anchors,'pass':True}
+ common={'common/reader.py':Path(__file__),'common/anchor_equivalence.py':Path(__file__).with_name('anchor_equivalence.py')}
+ entry['common_files']={name:digest(path) for name,path in common.items()};entry['anchor_contract_version']=anchor_rules().VERSION
+ entry['common_files']['common/anchor_contract.json']=hashlib.sha256(json.dumps(anchor_rules().contract(),ensure_ascii=False,sort_keys=True,indent=2).encode()).hexdigest()
  root.parent.mkdir(parents=True,exist_ok=True);registry.parent.mkdir(parents=True,exist_ok=True)
  with (root.parent/('.'+root.name+'.lock')).open('a') as f:
   fcntl.flock(f,fcntl.LOCK_EX)
   if root.exists():
-   if json.loads((root/'root_manifest.json').read_text())!=entry:raise ValueError('root version mismatch')
-   for relative in entry['relative_cell_paths']:
-    nested=read(safe(root,relative))['audit']
-    if entry['cells'].get(nested['cell_key'])!=nested['spec_sha256']:raise ValueError('published nested cell mismatch')
+   saved=read_root(root)
+   if saved!=entry:raise ValueError('root version mismatch')
   else:
-   stage=root.parent/('.'+root.name+'.staging-'+uuid.uuid4().hex);stage.mkdir()
+   stage=None
+   for candidate in sorted(root.parent.glob('.'+root.name+'.staging-*')):
+    candidate=origin(candidate)
+    journal=candidate/'copy_journal.json'
+    if journal.is_file() and json.loads(journal.read_text())==entry:stage=candidate;break
+   if stage is None:
+    stage=root.parent/('.'+root.name+'.staging-'+uuid.uuid4().hex);stage.mkdir();write_json(stage/'copy_journal.json',entry)
    for i,package in enumerate(cell_packages):
-    target=stage/('cell_'+str(i));target.mkdir();cm=verify(package)
+    target=safe(stage,relative[i]);target.mkdir(parents=True,exist_ok=True);cm=verify(package)
     for item in cm['files']:
-     source=safe(Path(package),item['path']);out=safe(target,item['path']);out.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,out)
+     source=safe(Path(package),item['path']);out=safe(target,item['path']);out.parent.mkdir(parents=True,exist_ok=True)
+     if not out.exists() or digest(out)!=item['sha256']:
+      temporary=out.with_suffix(out.suffix+'.partial');shutil.copyfile(source,temporary)
+      if digest(temporary)!=item['sha256']:raise ValueError('partial root copy hash')
+      os.replace(temporary,out)
+     if digest(out)!=item['sha256']:raise ValueError('root copy mismatch')
+     if os.path.samestat(source.stat(),out.stat()):raise ValueError('root copy is hard-linked source')
+     if fault=='copy_mid':raise RuntimeError('injected copy_mid')
     shutil.copyfile(safe(Path(package),'portable_manifest.json'),target/'portable_manifest.json');read(target)
-   entry['relative_cell_paths']=['cell_'+str(i) for i in range(9)]
-   write_json(stage/'root_manifest.json',entry)
+   for name,source in common.items():out=safe(stage,name);out.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,out)
+   write_json(stage/'common'/'anchor_contract.json',anchor_rules().contract());entry['common_files']['common/anchor_contract.json']=digest(stage/'common'/'anchor_contract.json')
+   write_json(stage/'group_manifest.json',entry);write_json(stage/'root_manifest.json',entry);read_root(stage)
    if fault=='rename_pre':raise RuntimeError('injected rename_pre')
    os.rename(stage,root)
    if fault=='rename_post':raise RuntimeError('injected rename_post')

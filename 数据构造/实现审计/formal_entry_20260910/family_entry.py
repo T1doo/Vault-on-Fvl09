@@ -67,13 +67,16 @@ def validate_native_f1(spec):
         raise ValueError('motion variation requires bounded integer hold')
 
 
-def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort):
+def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None):
     """Completed cohorts skip; failed cohort recovers only its missing cells.
 
     Requalification is charged, and accepted cells require exact regenerated
     current/prefix/control bindings. Unreconciled RUNNING jobs remain blocked.
     """
     validate_native_f1(spec)
+    if source_bundle_sha256 is None:
+        from file_source_pin import inventory,bundle_hash
+        source_bundle_sha256=bundle_hash(inventory())
     output = Path(output)
     checkpoint_path = output / 'checkpoint.json'
     fingerprint = digest(spec)
@@ -81,14 +84,26 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
         if not resume:
             raise FileExistsError('root exists; explicit resume required')
         checkpoint = json.loads(checkpoint_path.read_text())
-        if checkpoint['input_sha256'] != fingerprint or checkpoint['source_sha256'] != source_sha:
-            raise ValueError('resume spec or source changed')
+        if checkpoint['input_sha256'] != fingerprint:raise ValueError('resume spec changed')
+        if checkpoint['source_sha256'] != source_sha or checkpoint.get('source_bundle_sha256')!=source_bundle_sha256:
+            compat=source_compatibility
+            if not compat or compat.get('scientific_contract_unchanged') is not True or compat.get('root_id')!=spec['root_id'] or compat.get('spec_sha256')!=spec['spec_sha256'] or compat.get('old_source_sha256')!=checkpoint['source_sha256'] or compat.get('new_source_sha256')!=source_sha or compat.get('old_source_bundle_sha256')!=checkpoint.get('source_bundle_sha256') or compat.get('new_source_bundle_sha256')!=source_bundle_sha256:
+                raise ValueError('resume source changed without applicable explicit compatibility')
+            for item in compat['accepted_cells']:
+                for path_key,sha_key in [('raw_path','raw_sha256'),('manifest_path','manifest_sha256'),('capture_path','capture_sha256')]:
+                    if not Path(item[path_key]).resolve().is_relative_to(output.resolve()):raise ValueError('compatibility source leaves this root')
+                    if hashlib.sha256(Path(item[path_key]).read_bytes()).hexdigest()!=item[sha_key]:raise ValueError('compatibility accepted source changed')
+                if not validate_saved_cell(spec,output,item['program_id'],item['realization_id'])['pass']:raise ValueError('accepted cell no longer satisfies scientific contract')
+            write(output/('checkpoint_before_source_transition_'+checkpoint['source_bundle_sha256'][:16]+'.json'),checkpoint)
+            checkpoint.setdefault('source_transitions',[]).append({'old_source_sha256':checkpoint['source_sha256'],'new_source_sha256':source_sha,'compatibility_sha256':digest(compat)})
+            checkpoint['source_sha256']=source_sha;checkpoint['source_bundle_sha256']=source_bundle_sha256
+            write(checkpoint_path,checkpoint)
         if checkpoint['status'] == 'RUNNING':
             raise RuntimeError('interrupted job requires owned cleanup reconciliation before recovery')
     else:
         if output.exists() and any(output.iterdir()):
             raise FileExistsError('unowned nonempty output')
-        checkpoint = {'status': 'READY', 'input_sha256': fingerprint, 'source_sha256': source_sha, 'completed': {}, 'planned_cells': planned_cells(spec)}
+        checkpoint = {'status': 'READY', 'input_sha256': fingerprint, 'source_sha256': source_sha, 'source_bundle_sha256':source_bundle_sha256, 'completed': {}, 'planned_cells': planned_cells(spec)}
         write(output / 'root_spec.json', spec)
         write(checkpoint_path, checkpoint)
     for realization in REALIZATIONS:
@@ -99,13 +114,15 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
             from native_raw_contract import validate_native_raw_contract as validate_raw_artifact_contract
             for program in spec['programs']:
                 raw=receipt_path.parent / 'branches' / program['program_id'] / 'raw'
-                if validate_raw_artifact_contract(raw)['pass'] is not True:
+                if validate_raw_artifact_contract(raw)['pass'] is not True or not validate_saved_cell(spec,output,program['program_id'],realization)['pass']:
                     raise RuntimeError('completed cell changed before further dispatch')
             continue
         checkpoint.update(status='RUNNING', active_realization=realization)
         write(checkpoint_path, checkpoint)
         try:
-            cohort_runner(spec=deepcopy(spec), realization=realization, output=output / realization, source_sha=source_sha)
+            kwargs={'spec':deepcopy(spec),'realization':realization,'output':output/realization,'source_sha':source_sha}
+            if source_compatibility is not None:kwargs['source_compatibility']=source_compatibility
+            cohort_runner(**kwargs)
             receipt_path = cohort_root(output, realization) / 'root_receipt.json'
             receipt = json.loads(receipt_path.read_text())
             if receipt.get('status') != 'accepted':
@@ -117,13 +134,45 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
             checkpoint.update(status='FAILED', error_type=type(exc).__name__, error=str(exc))
             write(checkpoint_path, checkpoint)
             raise
-    result = finalize_structure(spec=spec, output=output)
+    result = finalize_structure(spec=spec, output=output,source_compatibility=source_compatibility)
     checkpoint['status'] = 'STRUCTURE_READY' if result['pass'] else 'INCOMPLETE'
     write(checkpoint_path, checkpoint)
     return result
 
 
-def finalize_structure(*, spec, output):
+
+def finalize_native_cell(*,spec,output,program_id,realization,write_receipt=True):
+    """Immediate disk gate, independent of cohort completion and runner pass."""
+    from native_raw_contract import validate_native_raw_contract
+    from f1_disk_verifier import verify_f1_disk
+    output=Path(output);branch=cohort_root(output,realization)/'branches'/program_id;raw=branch/'raw';checks={};result={'root_id':spec['root_id'],'program_id':program_id,'realization_id':realization,'scene_spec_sha256':spec['spec_sha256'],'checks':checks,'runner_pass_used':False}
+    try:
+        validation=validate_native_raw_contract(raw);checks['raw_contract']=validation['pass'] is True
+        manifest=validation['manifest'];provenance=manifest['provenance']
+        checks['identity']=provenance.get('formal_root_id')==spec['root_id'] and provenance.get('formal_spec_sha256')==spec['spec_sha256'] and provenance.get('program_id')==program_id and provenance.get('realization_spec',{}).get('realization')==realization
+        program=next(p for p in spec['programs'] if p['program_id']==program_id)
+        exported=export_native_cell(spec=spec,output=output,program_id=program_id,realization=realization)
+        checks['model_export']=exported['inputs']['state'].shape==(76,) and exported['inputs']['future'].shape[1]==26
+        semantic=verify_f1_disk(raw_dir=raw,spec=spec,program=program);checks['semantic_and_stages']=semantic['pass'] is True
+        result['semantic']=semantic
+        capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text())
+        result.update(raw_path=str(raw/'raw_streams.npz'),raw_sha256=hashlib.sha256((raw/'raw_streams.npz').read_bytes()).hexdigest(),manifest_path=str(raw/'manifest.json'),manifest_sha256=hashlib.sha256((raw/'manifest.json').read_bytes()).hexdigest(),capture_path=str(capture),capture_sha256=hashlib.sha256(capture.read_bytes()).hexdigest(),source_bundle_sha256=meta['source_bundle_sha256'],native_physical_evidence=provenance.get('synthetic') is False)
+    except (KeyError,OSError,ValueError,TypeError,StopIteration,IndexError) as exc:
+        checks['complete_evidence']=False;result['error']=str(exc)
+    result['pass']=bool(checks) and all(checks.values())
+    if not result['pass']:
+        physical={'true_inside','stable_linear','stable_angular','continuous_box_support_contact','released_from_robot','actual_gripper_open','actual_selected_finger_grasp','rest_position','rest_orientation','eef_linear_stationary','eef_angular_stationary'}
+        semantic=result.get('semantic',{});failed={k for k,v in semantic.get('checks',{}).items() if v is not True}
+        purely_physical=bool(failed) and all(k in physical or k.startswith('unchanged:') for k in failed) and 'error' not in semantic and 'error' not in result and all(checks.get(k) is True for k in ('raw_contract','identity','model_export'))
+        result['failure_class']='PHYSICAL_FAILURE' if purely_physical else 'DATA_CONTRACT_FAILURE'
+    if write_receipt:write(branch/'independent_cell_local.json',result)
+    return result
+
+
+def validate_saved_cell(spec,output,program_id,realization):
+    return finalize_native_cell(spec=spec,output=output,program_id=program_id,realization=realization,write_receipt=False)
+
+def finalize_structure(*, spec, output,source_compatibility=None,write_receipt=True):
     """Recompute disk integrity, shapes, t0 equality and pc-prefix actual arrays.
 
     Family semantic functions recompute saved terminal geometry/state/contact
@@ -161,27 +210,29 @@ def finalize_structure(*, spec, output):
                     from native_f4_disk_verifier import verify_f4_disk as semantic_verifier
                 else:raise ValueError('native family verifier absent')
                 semantic=semantic_verifier(raw_dir=raw,spec=spec,program=program)
-                write(raw.parent / ('independent_'+spec['family'].lower()+'_semantics.json'),semantic)
+                if write_receipt:write(raw.parent / ('independent_'+spec['family'].lower()+'_semantics.json'),semantic)
                 checks[key+':independent_semantics']=semantic['pass']
                 checks[key + ':model_export'] = exported['inputs']['state'].shape == (76,) and set(exported) == {'inputs','supervision','audit'} and 'target' not in exported['inputs']
+                capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text());meta['capture_sha256']=hashlib.sha256(capture.read_bytes()).hexdigest()
+                path=capture.parent/'current.npz'
+                checks[key+':actual_capture']=meta.get('spec_sha256')==spec['spec_sha256'] and hashlib.sha256(path.read_bytes()).hexdigest()==meta['npz_sha256']
+                with np.load(path,allow_pickle=False) as current:arrays={k:current[k].copy() for k in current.files}
+                observations.append((arrays,json.loads((capture.parent/'anchor.json').read_text()),meta))
                 cells.append({'cell_key': key, 'raw': str(raw.relative_to(output)), 'raw_sha256': hashlib.sha256((raw / 'raw_streams.npz').read_bytes()).hexdigest()})
             except (OSError, KeyError, ValueError) as exc:
                 checks[key + ':raw'] = False
                 cells.append({'cell_key': key, 'error': str(exc)})
-        for capture in sorted((output / realization).glob('**/observations/*/capture.json')):
-            meta = json.loads(capture.read_text())
-            path = capture.parent / 'current.npz'
-            checks[str(capture.relative_to(output))] = meta.get('spec_sha256') == spec['spec_sha256'] and hashlib.sha256(path.read_bytes()).hexdigest() == meta['npz_sha256']
-            with np.load(path, allow_pickle=False) as data:
-                arrays = {k: data[k].copy() for k in data.files}
-            observations.append((arrays, json.loads((capture.parent / 'anchor.json').read_text())))
     checks['nine_unique_cells'] = len(cells) == 9 and len({c['cell_key'] for c in cells}) == 9
     checks['nine_distinct_raw_files'] = len({c.get('raw') for c in cells if 'raw' in c}) == 9
-    checks['current_observations_present'] = len(observations) >= 9
+    checks['current_observations_present'] = len(observations) == 9
     if observations:
-        reference, anchor = observations[0]
-        checks['all_current_arrays_identical'] = all(set(v) == set(reference) and all(v[k].dtype == reference[k].dtype and v[k].shape == reference[k].shape and v[k].tobytes() == reference[k].tobytes() for k in reference) for v, _ in observations)
-        checks['all_anchors_equivalent'] = all(compare_anchors(anchor, a)['equivalent'] for _, a in observations)
+        reference, anchor, reference_meta = observations[0]
+        checks['all_current_arrays_identical'] = all(set(v) == set(reference) and all(v[k].dtype == reference[k].dtype and v[k].shape == reference[k].shape and v[k].tobytes() == reference[k].tobytes() for k in reference) for v, _, _ in observations)
+        if spec['family']=='F1':
+            from anchor_equivalence import compare_anchors as compare_f1_anchors
+            binding=lambda meta:{k:meta[k] for k in ('root_id','spec_sha256','source_bundle_sha256','capture_sha256')}
+            checks['all_anchors_equivalent']=all(compare_f1_anchors(anchor,a,reference_binding=binding(reference_meta),candidate_binding=binding(meta),compatibility=source_compatibility)['equivalent'] for _,a,meta in observations)
+        else:checks['all_anchors_equivalent'] = all(compare_anchors(anchor,a)['equivalent'] for _,a,_ in observations)
     try:
         prefix_manifest, prefix = load_canonical_prefix_artifact(cohort_root(output, 'r_pc') / 'canonical_prefix_artifact')
         checks['pc_prefix_root_identity']=prefix_manifest['root_slot_id']==spec['root_id'] and prefix_manifest['family']==spec['family']
@@ -203,21 +254,30 @@ def finalize_structure(*, spec, output):
         for realization in REALIZATIONS[1:]:
             variant = actions.get(f'{name}:{realization}')
             checks[f'{name}:{realization}:different_effective_actions'] = baseline is not None and variant is not None and not np.array_equal(baseline, variant)
-        base_path = realized.get(f'{name}:r_pc')
-        path = realized.get(f'{name}:r_inv_path')
-        if base_path is not None and path is not None:
-            a = base_path[np.linspace(0,len(base_path)-1,min(500,len(base_path)),dtype=int), :3]
-            b = path[np.linspace(0,len(path)-1,min(500,len(path)),dtype=int), :3]
-            deviation = max(max(float(np.min(np.linalg.norm(b-point,axis=1))) for point in a),max(float(np.min(np.linalg.norm(a-point,axis=1))) for point in b))
-            checks[f'{name}:realized_path_difference'] = deviation > .001
+        if spec['family']=='F1':
+            from f1_disk_verifier import verify_variant_pair
+            baseline_dir=cohort_root(output,'r_pc')/'branches'/name/'raw'
+            for variant in REALIZATIONS[1:]:
+                audit=verify_variant_pair(baseline_dir=baseline_dir,variant_dir=cohort_root(output,variant)/'branches'/name/'raw',spec=spec,realization=variant)
+                checks[f'{name}:{variant}:registered_stage_invariance']=audit['pass']
         else:
-            checks[f'{name}:realized_path_difference'] = False
-        motion = actions.get(f'{name}:r_inv_motion')
-        checks[f'{name}:realized_hold_duration_difference'] = baseline is not None and motion is not None and len(motion) >= len(baseline) + spec['variant_rules']['r_inv_motion']['post_prefix_hold_frames']
-
+            base_path = realized.get(f'{name}:r_pc')
+            path = realized.get(f'{name}:r_inv_path')
+            if base_path is not None and path is not None:
+                a = base_path[np.linspace(0,len(base_path)-1,min(500,len(base_path)),dtype=int), :3]
+                b = path[np.linspace(0,len(path)-1,min(500,len(path)),dtype=int), :3]
+                deviation = max(max(float(np.min(np.linalg.norm(b-point,axis=1))) for point in a),max(float(np.min(np.linalg.norm(a-point,axis=1))) for point in b))
+                checks[f'{name}:realized_path_difference'] = deviation > .001
+            else:
+                checks[f'{name}:realized_path_difference'] = False
+            motion = actions.get(f'{name}:r_inv_motion')
+            checks[f'{name}:realized_hold_duration_difference'] = baseline is not None and motion is not None and len(motion) >= len(baseline) + spec['variant_rules']['r_inv_motion']['post_prefix_hold_frames']
     structural_pass=all(v for k,v in checks.items() if not k.endswith(':native_source'))
     result = {'schema': 'formal_nine_structure_v1', 'family': spec['family'], 'root_id': spec['root_id'], 'checks': checks, 'cells': cells, 'pass': structural_pass, 'native_physical_evidence': all(checks.get(c['cell_key']+':native_source') is True for c in cells), 'independent_semantic_recomputed': all(checks.get(c['cell_key']+':independent_semantics') is True for c in cells), 'model_export_verified': all(checks.get(c['cell_key']+':model_export') is True for c in cells), 'source_bound_semantic_verified': all(checks.get(c['cell_key']+':source_bound_semantic') is True for c in cells), 'research_eligible': all(checks.values()), 'full_stage1_scientific_supported': False, 'physical_execution_authorized': False, 'strict_prefix_cohort': 'r_pc', 'variant_pairing': 'within-program versus r_pc'}
-    write(output / 'independent_structure.json', result)
+    if source_compatibility is not None:
+        path=output/'source_compatibility_receipt.json'
+        result['source_compatibility_receipt']={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+    if write_receipt:write(output / 'independent_structure.json', result)
     return result
 
 
@@ -258,6 +318,9 @@ def export_native_cell(*, spec, output, program_id, realization):
         anchor_file=capture_path.parent/'anchor.json'
         if anchor_file.exists():
             anchor=json.loads(anchor_file.read_text())
+            if spec['family']=='F1':
+                from anchor_equivalence import validate_anchor
+                validate_anchor(anchor,{k:meta[k] for k in ('root_id','spec_sha256','source_bundle_sha256')})
             actors=anchor.get('actor_states',{});facilities=anchor.get('facility_poses',{})
             if set(actors)|set(facilities) != {r['role'] for r in spec.get('roles',[])}:
                 raise ValueError('complete anchor roles missing')
@@ -276,7 +339,7 @@ def export_native_cell(*, spec, output, program_id, realization):
             'audit': {'spec_sha256':spec['spec_sha256'], 'capture_sha256':hashlib.sha256(capture_path.read_bytes()).hexdigest(), 'raw_sha256':hashlib.sha256(raw_path.read_bytes()).hexdigest(), 'capture_source':'native_original_t0', 'realization_id':realization}}
 
 
-def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort):
+def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None):
     import fcntl
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
@@ -284,7 +347,7 @@ def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native
     with lock.open('a') as handle:
         fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
         try:
-            return _run_root(spec=spec,output=output,source_sha=source_sha,resume=resume,cohort_runner=cohort_runner)
+            return _run_root(spec=spec,output=output,source_sha=source_sha,resume=resume,cohort_runner=cohort_runner,source_bundle_sha256=source_bundle_sha256,source_compatibility=source_compatibility)
         finally:
             fcntl.flock(handle,fcntl.LOCK_UN)
 
@@ -298,7 +361,18 @@ def run_family_root(*, spec, output, authorization):
     validate_source_pin(authorization)
     planned_cells(spec)
     if spec['family'] == 'F1':
-        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False))
+        compatibility=None;binding=authorization.get('source_compatibility_receipt')
+        if binding is not None:
+            from portable_v2 import origin
+            raw=origin(binding['path']).read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=binding['sha256']:raise ValueError('source compatibility receipt bytes changed')
+            compatibility=json.loads(raw)
+            if compatibility.get('schema')!='f1_source_compatibility_v1' or compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('new_source_bundle_sha256')!=authorization['source_bundle_sha256'] or compatibility.get('new_source_sha256')!=authorization['implementation_source_sha256']:raise ValueError('source compatibility approval not applicable')
+            destination=Path(output)/'source_compatibility_receipt.json'
+            if not Path(output).exists():raise ValueError('source compatibility requires existing root')
+            if destination.exists() and destination.read_bytes()!=raw:raise ValueError('different compatibility already bound')
+            if not destination.exists():destination.write_bytes(raw)
+        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility)
         validate_source_pin(authorization);return result
     if spec['family'] in ('F2','F3'):
         from native_f2f3 import run_native_root
