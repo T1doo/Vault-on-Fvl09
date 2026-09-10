@@ -79,7 +79,7 @@ def budget():
             'failed_primary_cost_preserved': True, 'gpu_copy_policy': 'release and settle before CPU-only copy',
             'fault_cleanup_included_in_each_attempt_700_seconds': True,
             'phase_reallocation_within_total_allowed': True,
-            'cpu_io': {'max_cpu_finalizers': 2, 'max_copy_workers': 1, 'max_gpu_jobs': 2}}
+            'cpu_io': {'max_cpu_finalizers': 2, 'max_copy_workers': 1, 'max_gpu_jobs': 8}}
 
 
 def freeze_spec(spec):
@@ -151,7 +151,7 @@ def prepare(directory):
                 'planned_plan_sha256':scenes.hash_json(plan), 'planned_plan_file_sha256':sha(directory/'PLANNED_SLOTS.json'),
                 'target_valid_roots':10, 'target_cells':90, 'budget_caps':budget()['total_caps'],
                 'source_files':source, 'source_bundle_sha256':pins.bundle_hash(source),
-                'max_concurrent_gpu_jobs':2, 'max_gpu_jobs':2, 'max_cpu_finalizers':2, 'max_copy_workers':1,
+                'max_concurrent_gpu_jobs':8, 'max_gpu_jobs':8, 'max_cpu_finalizers':2, 'max_copy_workers':1,
                 'recovery_policy':{'max_gpu_attempts':2, 'allowed_failure_classes':['physical_infeasible','transient_execution'],
                                    'shared_error_policy':'STOP_NEW_DISPATCH', 'copy_only_does_not_consume_gpu_attempt':True},
                 'reserve_job_template':{'reservation':ATTEMPT,'root_budget_caps':ROOT_CAP,'timeout_seconds':6500,'cleanup_grace_seconds':600,'lease_overhead_seconds':100},
@@ -187,7 +187,7 @@ def validate_package(manifest, *, require_authorized=True, compatibility=None):
         raise ValueError('completion or family boundary changed')
     if manifest.get('first_wave_root_ids')!=expected[:2] or manifest.get('automatic_remaining_after_first_wave') is not True:
         raise ValueError('first wave must be the two frozen train roots with automatic continuation')
-    if any(manifest.get(k)!=v for k,v in {'max_concurrent_gpu_jobs':2,'max_gpu_jobs':2,'max_cpu_finalizers':2,'max_copy_workers':1}.items()):
+    if any(manifest.get(k)!=v for k,v in {'max_concurrent_gpu_jobs':8,'max_gpu_jobs':8,'max_cpu_finalizers':2,'max_copy_workers':1}.items()):
         raise ValueError('concurrency contract changed')
     if len({j['output'] for j in manifest['jobs']})!=10:
         raise ValueError('duplicate raw output destination')

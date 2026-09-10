@@ -24,10 +24,13 @@ python -m unittest test_f1_full_production test_anchor_copy_v1 \
   test_portable_v2 test_formal_export test_scene_plan -v
 ```
 
-完整测试中两个GPU替身job可并行；测试账本的场景计数是模拟调用计数，绝不进入正式数据计数。fixture原件由各自TemporaryDirectory清理，不保留为真实数据；可按上述命令复现。第一次完整测试的ResourceWarning属于测试读取CSV后未显式关闭文件，已在最终测试中改为context manager，不涉及生产数据或GPU。
+完整测试中GPU替身按当前配置最多8个作业并行；测试账本的场景计数是模拟调用计数，绝不进入正式数据计数。fixture原件由各自TemporaryDirectory清理，不保留为真实数据；可按上述命令复现。第一次完整测试的ResourceWarning属于测试读取CSV后未显式关闭文件，已在最终测试中改为context manager，不涉及生产数据或GPU。
 
 本轮没有证明新场景的原生可达、抓取、相机同步/渲染行为、实际RSS/耗时或统计泛化；这些保留为未来授权后首批和逐root的实测项目。
 
 最终受影响回归完成：**35/35通过，444.967秒**。最终`CPU_FULL_FAMILY_RESULT.json`重新完成十root/90格，并与`SOURCE_FREEZE.json`的bundle `4cb9c19a04211edbea2fecbd7474ff6d0d913061ebe63c2af6f0a3092b22c81a`一致。最终源码上的源/配置/预算/授权封存检查64项通过；正式授权文件仍全false。
 
 发布前格式检查记录：`git diff --check`指出`native_f1_orchestrator.py:778`的一处行尾空格；这是不影响Python语义的格式项。本次保留已经完整执行测试并封存的原字节，未将该格式检查报告为全通过。
+
+
+并发修订后重新运行的CPU preflight仍通过，`manifest.max_concurrent_gpu_jobs=8`、`max_gpu_jobs=8`，总账不变；实际GPU wave只会使用Guard返回的空闲卡。

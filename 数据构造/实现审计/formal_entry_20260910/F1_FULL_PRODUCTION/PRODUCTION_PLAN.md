@@ -31,4 +31,4 @@ split固定5 train/2 validation/3 test；难度总配额2 clear/6 medium/2 crowd
 
 尚待原生确认：当前安装版本相机同步/renderer UUID、实际初始观测相等、所有新布局可达与三对象可抓、接触支撑和释放、真实阶段记录，以及CPU/GPU时间、RSS、磁盘增长。CPU fixture不证明上述物理事实。
 
-机器入口：manifest.json、specs/*.spec.json、NINETY_CELL_PLAN.json、PLANNED_SLOTS.json、RESERVE_RULES.json、F1_BUDGET_REQUEST.json。唯一执行交接见LUNA_F1_FULL_PRODUCTION_HANDOFF.md。
+机器入口：manifest.json、specs/*.spec.json、NINETY_CELL_PLAN.json、PLANNED_SLOTS.json、RESERVE_RULES.json、F1_BUDGET_REQUEST.json。最多8个GPU作业并发，但只派发每wave通过Guard的独立空闲卡；CPU finalizer最多2个、copy worker最多1个。唯一执行交接见LUNA_F1_FULL_PRODUCTION_HANDOFF.md。

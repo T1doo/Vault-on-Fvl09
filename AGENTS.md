@@ -42,7 +42,7 @@
 
 ## 当前工作与日志（2026-09-10）
 
-- 当前任务为“F1全族批量生产准备：定向修复、完整90条规划与Luna执行交接”，依据审阅`t_6aa24e26617481919a675663d2d9a47c`，基线`11b34925a607b92987b233cb50a4cd3fe3950852`。本轮仅CPU实现和两轮检查；全部GPU/物理执行授权保持false。未来一次批准F1全族范围及预算后，首两root的18条为自动检查点，通过后继续72条；F1完成后不自动启动其他族。P4采集已收口，交接基线`31a0287a976371f490baa1d0e7ca5ecd9cea3fcd`；F2-A/B各六格、F3-A兼容保留六格、F3-B以独立finalizer及reconciliation接受六格，共24个scoped pilot inputs。完整科学Stage1仍未完成。
+- 当前任务为“按t_6aa2741148a48191b4534bb2c0f71fbb批准执行F1全族真实生产”，执行包基线为并发修订后的本地manifest，代码发布基线`4e66b8274f944de4258fd634291f286224422208`。全族批准已绑定10个主root、90条目标、统一预算及最多8个Guard批准的独立空闲GPU作业；每root固定一卡，首18条是自动检查点，随后继续72条；F1完成后不启动其他族。P4采集已收口，旧pilot/raw/预算和失败历史保持独立，不继承旧Goal余额。真实物理采集、预算和执行状态以本任务STATE/ledger/receipt为准。
 - 当前证据入口：`数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json`及四root对账；来源清单仅是引用，不把v43当作所有历史轨迹的运行源。F1/F4已有数据只读保留，不重采；F1-red历史缺项优先核对`REALIZATION_NINE_FINAL_AUDIT_V1_20260906.json`的跨目录汇总。
 - 当前允许CPU实现、两轮定向检查、四族各一个既有样本的有限迁移及九格fixture恢复测试、自动发布；旧129MB小样保留。禁止GPU初始化、规划/物理实验、新采集、训练/推理、高清渲染、全量搬移或删除。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。显示计划搁置。
 - 本轮唯一交接入口：`数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/LUNA_F1_FULL_PRODUCTION_HANDOFF.md`；此前两root入口及原准备计划保留为历史，不作为当前任务终点。正式规划保持40主root/360条及16有序reserve，每root三意图×三真实realizations；先规划四族，未来获批后按F1→F2→F3→F4逐族采集/验收/归档，同族可用独立空闲GPU并行。CPU准备完成不等于新场景批量物理验证通过。

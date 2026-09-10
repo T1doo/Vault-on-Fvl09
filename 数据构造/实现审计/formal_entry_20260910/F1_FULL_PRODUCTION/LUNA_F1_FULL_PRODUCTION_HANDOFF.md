@@ -33,7 +33,7 @@ CPU预检验证十个具体spec、90格、源码/资产文件、正式F1阈值�
 
 GPU时间为保守上限（56 GPU小时），不是实测耗时或完成时间承诺。正常无恢复每root33fresh/21action/9collection/192solver；三个cohort分别资格与采集，公共前缀不是免费附带。每root至多两个GPU attempt，共享物理cap66/42/18/384；每attempt最多7200秒（6500运行+600清理+100检查），root累计GPU cap14400秒。已成功cell恢复不重执行，但重新资格成本照计。CLI无场景错误只计可靠测得的lease，不按整个预留核销。未知耗用保留未决，不伪造结束时间。
 
-并发上限：2 GPU jobs、2 CPU finalizers、1 copy worker。每root固定一张当时独立idle的GPU0–7；使用已有Guard、UUID锁、项目CUDA和独立cache/TMP。全部wave/attempt共用同一账本。copy在GPU释放结算后执行。
+并发上限：最多8 GPU jobs、2 CPU finalizers、1 copy worker。每个root固定一张当时独立idle的GPU0–7；每个wave实际只派发通过Guard且独立空闲的卡，忙卡不共享、不等待占用也不强行凑满8张。使用已有Guard、UUID锁、项目CUDA和独立cache/TMP。全部wave/attempt共用同一账本。copy在GPU释放结算后执行。
 
 ## 将未来批准封存为新包
 

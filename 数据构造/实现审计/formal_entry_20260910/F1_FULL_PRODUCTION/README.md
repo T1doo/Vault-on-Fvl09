@@ -2,7 +2,7 @@
 
 唯一交接入口：[LUNA_F1_FULL_PRODUCTION_HANDOFF.md](LUNA_F1_FULL_PRODUCTION_HANDOFF.md)。
 
-状态：CPU_READY_AWAITING_ONE_FULL_F1_EXECUTION_APPROVAL。10主root/90格及4有序reserve已准备；真实GPU/采集增量为0，执行授权全false。首18条在未来获批后是自动检查点，不再另请余下72条批准。
+状态：CPU_READY_AWAITING_ONE_FULL_F1_EXECUTION_APPROVAL。10主root/90格及4有序reserve已准备；真实GPU/采集增量为0，执行授权全false。未来获批后最多并发8个独立空闲GPU作业，首18条是自动检查点，不再另请余下72条批准。
 
 - [五项修复](FIX_CLOSURE.md)
 - [完整计划](PRODUCTION_PLAN.md)
