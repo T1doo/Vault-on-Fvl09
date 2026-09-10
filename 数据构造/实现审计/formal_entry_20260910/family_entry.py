@@ -369,10 +369,17 @@ def run_family_root(*, spec, output, authorization):
             compatibility=json.loads(raw)
             if compatibility.get('schema')!='f1_source_compatibility_v1' or compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('new_source_bundle_sha256')!=authorization['source_bundle_sha256'] or compatibility.get('new_source_sha256')!=authorization['implementation_source_sha256']:raise ValueError('source compatibility approval not applicable')
             destination=Path(output)/'source_compatibility_receipt.json'
-            if not Path(output).exists():raise ValueError('source compatibility requires existing root')
+            if destination.exists() and destination.read_bytes()!=raw:raise ValueError('different compatibility already bound')
+            # Existing roots are checked against preserved accepted cells by
+            # validate_compatibility. Fresh roots may carry the same reviewed
+            # source binding before their output directory exists; persist the
+            # receipt immediately after run_root creates that directory.
+            if Path(output).exists() and not destination.exists():destination.write_bytes(raw)
+        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility)
+        if binding is not None:
+            destination=Path(output)/'source_compatibility_receipt.json'
             if destination.exists() and destination.read_bytes()!=raw:raise ValueError('different compatibility already bound')
             if not destination.exists():destination.write_bytes(raw)
-        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility)
         validate_source_pin(authorization);return result
     if spec['family'] in ('F2','F3'):
         from native_f2f3 import run_native_root

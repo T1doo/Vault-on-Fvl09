@@ -210,7 +210,7 @@ def validate_compatibility(manifest,state_dir,reference,activated_jobs=None):
         binding=auth.get('source_compatibility_receipt',{});proof_raw=_workspace_path(binding['path']).read_bytes()
         if hashlib.sha256(proof_raw).hexdigest()!=binding['sha256']:raise ValueError('root compatibility proof changed')
         proof=json.loads(proof_raw)
-        required={'schema':'f1_source_compatibility_v1','status':'CPU_REVIEWED_APPLICABLE','root_id':spec['root_id'],'spec_sha256':spec['spec_sha256'],'old_source_sha256':prior_auth['implementation_source_sha256'],'new_source_sha256':auth['implementation_source_sha256'],'old_source_bundle_sha256':manifest['source_bundle_sha256'],'new_source_bundle_sha256':appendix['source_bundle_sha256'],'scientific_contract_unchanged':True,'changed_files':changed,'affected_contracts':assessments}
+        required={'schema':'f1_source_compatibility_v1','status':'CPU_REVIEWED_APPLICABLE','root_id':spec['root_id'],'spec_sha256':spec['spec_sha256'],'old_source_sha256':prior_auth['implementation_source_sha256'],'new_source_sha256':auth['implementation_source_sha256'],'old_source_bundle_sha256':prior_auth['source_bundle_sha256'],'new_source_bundle_sha256':appendix['source_bundle_sha256'],'scientific_contract_unchanged':True,'changed_files':changed,'affected_contracts':assessments}
         if any(proof.get(k)!=v for k,v in required.items()):raise ValueError('root source compatibility fields mismatch')
         prior=state.get('jobs',{}).get(jid,{})
         resolution=proof.get('failure_resolution')

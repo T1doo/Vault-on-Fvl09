@@ -44,8 +44,8 @@
 
 - 当前任务为“按t_6aa2741148a48191b4534bb2c0f71fbb批准执行F1全族真实生产”，执行包基线为并发修订后的本地manifest，代码发布基线`4e66b8274f944de4258fd634291f286224422208`。全族批准已绑定10个主root、90条目标、统一预算及最多8个Guard批准的独立空闲GPU作业；每root固定一卡，首18条是自动检查点，随后继续72条；F1完成后不启动其他族。P4采集已收口，旧pilot/raw/预算和失败历史保持独立，不继承旧Goal余额。真实物理采集、预算和执行状态以本任务STATE/ledger/receipt为准。
 - 当前证据入口：`数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json`及四root对账；来源清单仅是引用，不把v43当作所有历史轨迹的运行源。F1/F4已有数据只读保留，不重采；F1-red历史缺项优先核对`REALIZATION_NINE_FINAL_AUDIT_V1_20260906.json`的跨目录汇总。
-- 当前允许CPU实现、两轮定向检查、四族各一个既有样本的有限迁移及九格fixture恢复测试、自动发布；旧129MB小样保留。禁止GPU初始化、规划/物理实验、新采集、训练/推理、高清渲染、全量搬移或删除。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。显示计划搁置。
-- 本轮唯一交接入口：`数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/LUNA_F1_FULL_PRODUCTION_HANDOFF.md`；此前两root入口及原准备计划保留为历史，不作为当前任务终点。正式规划保持40主root/360条及16有序reserve，每root三意图×三真实realizations；先规划四族，未来获批后按F1→F2→F3→F4逐族采集/验收/归档，同族可用独立空闲GPU并行。CPU准备完成不等于新场景批量物理验证通过。
+- 当前F1已获一次性真实执行批准：允许按本任务唯一manifest、STATE和ledger进行GPU初始化、规划、物理采集、逐cell验收和副本发布；最多8个Guard批准的GPU作业、2个CPU finalizer、1个copy worker。仍禁止训练/推理、H-reveal、compression、高清渲染和F2/F3/F4派发。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。F1完成后停止并交回用户。
+- 本轮唯一交接入口：`数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/LUNA_F1_FULL_PRODUCTION_HANDOFF.md`；此前两root入口及原准备计划保留为历史，不作为当前任务终点。正式规划保持40主root/360条及16有序reserve，本Goal只执行F1；每wave重新Guard，只使用GPU0–7中当时独立空闲且通过检查的卡，每root固定一卡。F1的真实采集和科学资格仍须由逐root证据证明，CPU准备不等于物理成功。
 - 唯一日常日志：`数据构造/F2F3重设计与构造日志.md`；编辑、状态改变或probe前读取日志尾部与Git status。旧`正式数据构造日志.md`不再日常追加。旧raw/失败/接受历史保留；既有视频不重制，不以展示未完成撤销采集完成。
 - 独立副本拟放`/nfs_share/lijunhui/CVPR_FutureIntent_Data/`，不入Git；真实复制文件，使用包内相对路径读取，原绝对路径仅作来源。共享NFS上的第二份文件不称异地备份。
 
