@@ -1,0 +1,71 @@
+{
+  "allowed_physical_gpu_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "authorization_granted": false,
+  "base_nine_cells": {
+    "action": 21,
+    "collection": 9,
+    "fresh": 33,
+    "solver_cap": 192
+  },
+  "family": "F1",
+  "first_wave_dispatch_cap": null,
+  "gpu_reservation_seconds": null,
+  "gpu_timing_status": "external Guard contract required; no CPU estimate is measured GPU cost",
+  "job_timeout_seconds": null,
+  "max_cohort_invocations": 2,
+  "max_root_with_one_recovery_each_cohort": {
+    "action": 42,
+    "collection": 18,
+    "fresh": 66,
+    "solver_cap": 384
+  },
+  "per_cohort_stages": {
+    "canonical_prefix_reference": {
+      "action": 1,
+      "collection": 0,
+      "fresh": 1,
+      "solver_cap": 16
+    },
+    "cell_execution": {
+      "action": 3,
+      "collection": 3,
+      "fresh": 3,
+      "solver_cap": 0
+    },
+    "pristine": {
+      "action": 0,
+      "collection": 0,
+      "fresh": 1,
+      "solver_cap": 0
+    },
+    "suffix_preflight_with_prefix_replay": {
+      "action": 3,
+      "collection": 0,
+      "fresh": 3,
+      "solver_cap": 48
+    },
+    "task_geometry": {
+      "action": 0,
+      "collection": 0,
+      "fresh": 3,
+      "solver_cap": 0
+    }
+  },
+  "recovery_per_affected_cohort": {
+    "accepted_cell_reexecution": false,
+    "action": "4 + missing_cells",
+    "collection": "missing_cells",
+    "fresh": "8 + missing_cells",
+    "solver_cap": 64
+  },
+  "solver_cap_basis": "native prefix scene planner_query_limit=16; each suffix preflight cumulative planner_query_limit=16 incl target construction; task geometry and execution frozen control make no new planner queries"
+}

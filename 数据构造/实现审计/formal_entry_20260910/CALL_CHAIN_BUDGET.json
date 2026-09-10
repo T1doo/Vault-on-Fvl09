@@ -1,0 +1,194 @@
+{
+  "status": "PROPOSAL_ONLY",
+  "historical_total_not_authorization": {
+    "fresh": 708,
+    "action": 708,
+    "collection": 540,
+    "solver": 37620,
+    "gpu_seconds": 383400
+  },
+  "current_call_graphs": {
+    "F1": {
+      "family": "F1",
+      "allowed_physical_gpu_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "per_cohort_stages": {
+        "pristine": {
+          "fresh": 1,
+          "action": 0,
+          "collection": 0,
+          "solver_cap": 0
+        },
+        "task_geometry": {
+          "fresh": 3,
+          "action": 0,
+          "collection": 0,
+          "solver_cap": 0
+        },
+        "canonical_prefix_reference": {
+          "fresh": 1,
+          "action": 1,
+          "collection": 0,
+          "solver_cap": 16
+        },
+        "suffix_preflight_with_prefix_replay": {
+          "fresh": 3,
+          "action": 3,
+          "collection": 0,
+          "solver_cap": 48
+        },
+        "cell_execution": {
+          "fresh": 3,
+          "action": 3,
+          "collection": 3,
+          "solver_cap": 0
+        }
+      },
+      "base_nine_cells": {
+        "fresh": 33,
+        "action": 21,
+        "collection": 9,
+        "solver_cap": 192
+      },
+      "recovery_per_affected_cohort": {
+        "fresh": "8 + missing_cells",
+        "action": "4 + missing_cells",
+        "collection": "missing_cells",
+        "solver_cap": 64,
+        "accepted_cell_reexecution": false
+      },
+      "max_cohort_invocations": 2,
+      "max_root_with_one_recovery_each_cohort": {
+        "fresh": 66,
+        "action": 42,
+        "collection": 18,
+        "solver_cap": 384
+      },
+      "gpu_reservation_seconds": null,
+      "job_timeout_seconds": null,
+      "first_wave_dispatch_cap": null,
+      "gpu_timing_status": "external Guard contract required; no CPU estimate is measured GPU cost",
+      "solver_cap_basis": "native prefix scene planner_query_limit=16; each suffix preflight cumulative planner_query_limit=16 incl target construction; task geometry and execution frozen control make no new planner queries",
+      "authorization_granted": false
+    },
+    "F2": {
+      "qualification": {
+        "fresh_scenes": 3,
+        "action_scenes": 3,
+        "collection_attempts": 0,
+        "solver_query_ceiling": 120
+      },
+      "collection": {
+        "fresh_scenes": 9,
+        "action_scenes": 9,
+        "collection_attempts": 9,
+        "solver_query_ceiling": 360
+      },
+      "prefix_generation": "included in first collection cell; separate qualification prefixes are not collection data",
+      "recovery_max": {
+        "fresh_scenes": 9,
+        "action_scenes": 9,
+        "collection_attempts": 9,
+        "solver_query_ceiling": 360
+      },
+      "per_cell_attempt_cap": 2,
+      "cleanup_in_job_lease": true
+    },
+    "F3": {
+      "qualification": {
+        "fresh_scenes": 3,
+        "action_scenes": 3,
+        "collection_attempts": 0,
+        "solver_query_ceiling": 180
+      },
+      "collection": {
+        "fresh_scenes": 9,
+        "action_scenes": 9,
+        "collection_attempts": 9,
+        "solver_query_ceiling": 540
+      },
+      "prefix_generation": "included in first collection cell; separate qualification prefixes are not collection data",
+      "recovery_max": {
+        "fresh_scenes": 9,
+        "action_scenes": 9,
+        "collection_attempts": 9,
+        "solver_query_ceiling": 540
+      },
+      "per_cell_attempt_cap": 2,
+      "cleanup_in_job_lease": true
+    },
+    "F4": {
+      "family": "F4",
+      "cohorts": 3,
+      "collection_cells": 9,
+      "strict_prefix_cohort": "r_pc_only",
+      "per_cohort_calls": {
+        "pristine_scene": 1,
+        "candidate_feasibility_scenes": 3,
+        "canonical_prefix_action_scene": 1,
+        "suffix_preflight_action_scenes": 3,
+        "branch_collection_action_scenes": 3
+      },
+      "base_without_qualification_or_recovery": {
+        "fresh_scenes": 33,
+        "action_scenes": 21,
+        "collection_attempts": 9,
+        "solver_query_ceiling": 450
+      },
+      "qualification_additional": {
+        "fresh_scenes": 8,
+        "action_scenes": 5,
+        "collection_attempts": 0,
+        "planner_terminals": 3,
+        "physical_isolation_stages": 5,
+        "solver_query_ceiling": 376,
+        "native_call": "native_f4_qualification.run_native_qualification"
+      },
+      "qualification_cost_source": "must bind actual authorized qualification job manifests; not silently included in nine cells",
+      "native_calls": [
+        "Context -> F4Scene.setup_demo -> explicit create_roles",
+        "FormalF1RecoverableOrchestrator.run_nonformal_root",
+        "plan_f4_full_program_suffix_from_replayed_prefix_v1",
+        "execute_f4_frozen_full_program_suffix_v1"
+      ],
+      "gpu_authorized": false
+    }
+  },
+  "firstwave_F1_base_two": {
+    "fresh_scenes": 66,
+    "action_scenes": 42,
+    "collection_attempts": 18,
+    "solver_problems": 384
+  },
+  "firstwave_F1_upper_with_recovery": {
+    "fresh_scenes": 132,
+    "action_scenes": 84,
+    "collection_attempts": 36,
+    "solver_problems": 768,
+    "gpu_lease_seconds": 14400
+  },
+  "GPU_job_seconds": {
+    "timeout": 6500,
+    "cleanup_grace": 600,
+    "pre_post_reap_overhead_margin": 100,
+    "reservation": 7200
+  },
+  "gpu_lease_interval": "acquire through release including pre/post snapshots, child/copy and owned cleanup; no-child busy guard does not consume scenes",
+  "storage_plan_GiB": 350,
+  "RAM_separate_budget": {
+    "firstwave_gpu_workers": 2,
+    "cpu_finalizers": 2,
+    "copy_workers": 2,
+    "planning_RSS_allowance_GiB_per_worker": 24,
+    "measured_peak_RSS": null
+  },
+  "later_family_global_budget": "must use current call graph in next authorized contract; old708/383400 is not dispatch allocation"
+}

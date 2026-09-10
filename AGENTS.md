@@ -40,12 +40,12 @@
 - A2FI/长动作旧路线及2026-08-27以前归档只作历史，不拿来指导当前研究，除非用户明确要求。Mouse代码/数据已归档到 `Robotwin2/archive/mouse_three_destination_mvp_20260810_20260820/`，历史路径按README映射，不擅自恢复/导入当前F1–F4。
 - 不复制/复用公共T1doo-Research的Diary/Environment内容；其中有暴露的凭据，不能传播。
 
-## 当前工作与日志（2026-09-09）
+## 当前工作与日志（2026-09-10）
 
-- 当前任务为“批量生产准备与数据存储规划”，依据用户最新审阅链接`t_6aa17ae008788191899e6165ced26cb8`。P4采集已收口，交接基线`31a0287a976371f490baa1d0e7ca5ecd9cea3fcd`；F2-A/B各六格、F3-A兼容保留六格、F3-B以独立finalizer及reconciliation接受六格，共24个scoped pilot inputs。完整科学Stage1仍未完成。
+- 当前任务为“正式批量入口实现与预开批独立检查”，依据最新审阅`t_6aa21732caec8191969ab4b4da365215`，准备基线`2baf35cb0c92459f877295b59042550c993a1d98`。CPU运行层与独立检查已落实，首波原生物理仍待单独授权。P4采集已收口，交接基线`31a0287a976371f490baa1d0e7ca5ecd9cea3fcd`；F2-A/B各六格、F3-A兼容保留六格、F3-B以独立finalizer及reconciliation接受六格，共24个scoped pilot inputs。完整科学Stage1仍未完成。
 - 当前证据入口：`数据构造/实现审计/f2_f3_redesign_execution_v2/P4_CURRENT_RESEARCH_ELIGIBILITY.json`及四root对账；来源清单仅是引用，不把v43当作所有历史轨迹的运行源。F1/F4已有数据只读保留，不重采；F1-red历史缺项优先核对`REALIZATION_NINE_FINAL_AUDIT_V1_20260906.json`的跨目录汇总。
-- 当前允许CPU源码检查、四族参数/slot/预算规划、小型检查与副本工具、一个已通过cell的非破坏性迁移小样、自动发布。禁止GPU初始化、规划/物理实验、新采集、训练/推理、高清渲染、全量搬移或删除。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。显示计划搁置。
-- 本轮计划入口：`数据构造/实现审计/batch_preparation_20260909/EXECUTION_HANDOFF.md`。正式规划保持40主root/360条及16有序reserve，每root三意图×三真实realizations；先规划四族，未来获批后按F1→F2→F3→F4逐族采集/验收/归档，同族可用独立空闲GPU并行。CPU准备完成不等于新场景批量物理验证通过。
+- 当前允许CPU实现、两轮定向检查、四族各一个既有样本的有限迁移及九格fixture恢复测试、自动发布；旧129MB小样保留。禁止GPU初始化、规划/物理实验、新采集、训练/推理、高清渲染、全量搬移或删除。P2/P3/P4旧任务、预算和回执保持历史，不重新执行、不继承余额。显示计划搁置。
+- 本轮实现入口：`数据构造/实现审计/formal_entry_20260910/EXECUTION_HANDOFF.md`；原准备计划保留。正式规划保持40主root/360条及16有序reserve，每root三意图×三真实realizations；先规划四族，未来获批后按F1→F2→F3→F4逐族采集/验收/归档，同族可用独立空闲GPU并行。CPU准备完成不等于新场景批量物理验证通过。
 - 唯一日常日志：`数据构造/F2F3重设计与构造日志.md`；编辑、状态改变或probe前读取日志尾部与Git status。旧`正式数据构造日志.md`不再日常追加。旧raw/失败/接受历史保留；既有视频不重制，不以展示未完成撤销采集完成。
 - 独立副本拟放`/nfs_share/lijunhui/CVPR_FutureIntent_Data/`，不入Git；真实复制文件，使用包内相对路径读取，原绝对路径仅作来源。共享NFS上的第二份文件不称异地备份。
 

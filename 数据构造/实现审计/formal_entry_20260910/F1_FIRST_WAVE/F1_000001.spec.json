@@ -1,0 +1,493 @@
+{
+  "schema": "formal_scene_v2",
+  "root_id": "F1_000001",
+  "family": "F1",
+  "seed": 2026091100,
+  "split": "train",
+  "difficulty": "clear",
+  "roles": [
+    {
+      "role": "red",
+      "asset": "primitive_box",
+      "pose": [
+        -0.23,
+        0.02,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ],
+      "color": [
+        1,
+        0,
+        0
+      ],
+      "dynamic": true,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "green",
+      "asset": "primitive_box",
+      "pose": [
+        -0.09753684210526328,
+        0.02,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ],
+      "color": [
+        0,
+        1,
+        0
+      ],
+      "dynamic": true,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "blue",
+      "asset": "primitive_box",
+      "pose": [
+        0.009266285010772424,
+        0.02,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ],
+      "color": [
+        0,
+        0,
+        1
+      ],
+      "dynamic": true,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "common_box",
+      "asset": "062_plasticbox:model3",
+      "pose": [
+        -0.08,
+        -0.16,
+        0.78,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "size": [
+        0.2,
+        0.16,
+        0.08
+      ],
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "dynamic": false,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "similar_1",
+      "asset": "primitive_box",
+      "pose": [
+        -0.34,
+        0.15,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ],
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "dynamic": true,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "similar_2",
+      "asset": "primitive_box",
+      "pose": [
+        0.24,
+        0.15,
+        0.762,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.044,
+        0.044,
+        0.044
+      ],
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "dynamic": true,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    },
+    {
+      "role": "background",
+      "asset": "primitive_box",
+      "pose": [
+        -0.42,
+        0.31,
+        0.765,
+        1,
+        0,
+        0,
+        0
+      ],
+      "size": [
+        0.04,
+        0.04,
+        0.05
+      ],
+      "color": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "dynamic": false,
+      "material_source": "source-profile default friction .5/restitution0; no physical override",
+      "mass_source": "source asset or AuditScene._box original; freeze before qualification",
+      "material": {
+        "static_friction": 0.5,
+        "dynamic_friction": 0.5,
+        "restitution": 0.0
+      },
+      "density_policy": "unchanged_source_factory"
+    }
+  ],
+  "targets": {
+    "common_box": {
+      "relation": "inside",
+      "asset_geometry": "062_plasticbox:model3 interior from source model"
+    }
+  },
+  "cameras": {
+    "required": [
+      "front_camera",
+      "head_camera",
+      "left_camera",
+      "right_camera"
+    ],
+    "width": 320,
+    "height": 240,
+    "head": {
+      "K": [
+        [
+          358.6421814,
+          0,
+          160
+        ],
+        [
+          0,
+          358.6421814,
+          120
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "extrinsic_cv": [
+        [
+          1,
+          0,
+          0,
+          0.032
+        ],
+        [
+          0,
+          -0.8,
+          -0.6,
+          0.45
+        ],
+        [
+          0,
+          0.6,
+          -0.8,
+          1.35
+        ]
+      ]
+    },
+    "wrist_binding": "native robot camera source; verify at t0",
+    "original_source": "P4 capture_metadata head calibration"
+  },
+  "programs": [
+    {
+      "program_id": "F1-red",
+      "steps": [
+        {
+          "op": "pick",
+          "object": "red"
+        },
+        {
+          "op": "place",
+          "object": "red",
+          "relation": "inside",
+          "reference": "common_box"
+        }
+      ],
+      "target_role": "red"
+    },
+    {
+      "program_id": "F1-green",
+      "steps": [
+        {
+          "op": "pick",
+          "object": "green"
+        },
+        {
+          "op": "place",
+          "object": "green",
+          "relation": "inside",
+          "reference": "common_box"
+        }
+      ],
+      "target_role": "green"
+    },
+    {
+      "program_id": "F1-blue",
+      "steps": [
+        {
+          "op": "pick",
+          "object": "blue"
+        },
+        {
+          "op": "place",
+          "object": "blue",
+          "relation": "inside",
+          "reference": "common_box"
+        }
+      ],
+      "target_role": "blue"
+    }
+  ],
+  "realizations": [
+    "r_pc",
+    "r_inv_path",
+    "r_inv_motion"
+  ],
+  "variant_rules": {
+    "r_pc": {
+      "cohort": "prefix_controlled",
+      "time_scale": 1.0
+    },
+    "r_inv_path": {
+      "cohort": "trajectory_invariance",
+      "postprefix_detour_m": 0.03,
+      "safe_horizontal_y_offset_m": 0.015
+    },
+    "r_inv_motion": {
+      "cohort": "trajectory_invariance",
+      "time_scale": 1.0,
+      "post_prefix_hold_frames": 35,
+      "hold_frames_by_stage": {
+        "post_prefix": 35
+      },
+      "label_independent": true
+    }
+  },
+  "difficulty_measurement": {
+    "camera": "head_camera",
+    "pair": [
+      "red",
+      "green"
+    ],
+    "method": "horizontal projected AABB center distance / larger projected width",
+    "target_ratio": 2.2,
+    "computed_ratio": 2.1999999999999997,
+    "render_occlusion_and_grasp_clearance": "PHYSICS_PENDING"
+  },
+  "physics_verified": false,
+  "scene_layout": {
+    "object_xyz_by_role": {
+      "red": [
+        -0.23,
+        0.02,
+        0.762
+      ],
+      "green": [
+        -0.09753684210526328,
+        0.02,
+        0.762
+      ],
+      "blue": [
+        0.009266285010772424,
+        0.02,
+        0.762
+      ]
+    },
+    "common_box_pose_wxyz": [
+      -0.08,
+      -0.16,
+      0.78,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ]
+  },
+  "asset_bindings": {
+    "062_plasticbox:model3": {
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/model_data3.json": "a42959362e9a0c94e8aa1ad36e75c866455e951fb6ee90da706fe203b7620ad0",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/points_info.json": "311da3db6aab9050927e7784a16d183e567ebd658496a9eab60b089f5e3c72be",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/collision/base3.glb": "3a8d2074dbbc59b8e521469eb571e09c70864a18f57fef1c0711ff3569a7617c",
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/objects/062_plasticbox/visual/base3.glb": "62e6dfc57c683c1357969a4457f3e98d88726a0afbb9f1ba93ff700c0030db2c"
+    }
+  },
+  "projection_evidence": {
+    "red": {
+      "bbox_xyxy": [
+        50.65787152439024,
+        94.10871952459894,
+        79.40625137078649,
+        123.60158638826641
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "green": {
+      "bbox_xyxy": [
+        116.49334256444152,
+        94.10871952459894,
+        140.0636516548787,
+        123.60158638826641
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "blue": {
+      "bbox_xyxy": [
+        168.82239847259646,
+        94.10871952459894,
+        191.44395574464735,
+        123.60158638826641
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "common_box": {
+      "bbox_xyxy": [
+        63.49264936872728,
+        132.21382041919506,
+        193.90798805963638,
+        235.65334188469055
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "similar_1": {
+      "bbox_xyxy": [
+        11.986093219109511,
+        51.397742540920106,
+        40.896813887134215,
+        78.58516256952565
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "similar_2": {
+      "bbox_xyxy": [
+        264.11117667208543,
+        51.397742540920106,
+        291.8669351320661,
+        78.58516256952565
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    },
+    "background": {
+      "bbox_xyxy": [
+        -4.042612120179398,
+        7.239139472489091,
+        21.94526908451883,
+        33.033119102575135
+      ],
+      "measurement": "CPU AABB projection, not rendered visibility"
+    }
+  },
+  "terminal_tolerances": {
+    "object_position_m": 0.03,
+    "object_orientation_rad": 0.02,
+    "eef_position_m": 0.03,
+    "eef_orientation_rad": 0.02,
+    "joint_position_rad": 0.03,
+    "joint_speed_rad_s": 0.01,
+    "gripper_fraction": 0.01,
+    "non_task_position_m": 0.003,
+    "non_task_orientation_rad": 0.02,
+    "non_task_linear_speed_m_s": 0.02,
+    "non_task_angular_speed_rad_s": 0.05
+  },
+  "spec_sha256": "21f64c4586e8aa9d947b1ade252e3bb0f4d6fb467d6f7c8ccf7bd324ade2f7f4"
+}
