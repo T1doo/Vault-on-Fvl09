@@ -1011,13 +1011,28 @@ class FormalF1RecoverableOrchestrator(
                             raise SuffixPlannerError(
                                 "suffix planner API count differs from its reported count"
                             )
+                        motion_hold_boundary = any(
+                            str(value.get("realization", "")) == "r_inv_motion"
+                            for value in realization_spec_by_program.values()
+                        )
                         if (
-                            suffix["actual_prefix_end_qpos_sha256"]
+                            not motion_hold_boundary
+                            and suffix["actual_prefix_end_qpos_sha256"]
                             != replay["actual_prefix_end_qpos_sha256"]
                         ):
                             raise SuffixPlannerError(
                                 "suffix planner did not start from actual replay-end qpos"
                             )
+                        if motion_hold_boundary:
+                            suffix["motion_hold_boundary"] = {
+                                "applied_before_planning": True,
+                                "replay_prefix_end_qpos_sha256": replay[
+                                    "actual_prefix_end_qpos_sha256"
+                                ],
+                                "planner_prefix_end_qpos_sha256": suffix[
+                                    "actual_prefix_end_qpos_sha256"
+                                ],
+                            }
                         controls = suffix.pop("_execution_controls", None)
                         actual_qpos = suffix.pop("_actual_prefix_end_qpos", None)
                         suffix["preflight_current_sha256"] = preflight_current[

@@ -71,6 +71,7 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
     env['_arm_gripper_open']=lambda current,arm:((_gripper_joint_qpos(current.robot,arm)[0]-c['release']['closed_master_m'])/(c['release']['open_master_m']-c['release']['closed_master_m']))>c['release']['actual_open_fraction_gt']
     env['PROVISIONAL_RUNTIME_THRESHOLDS']={'non_target_displacement_m':c['non_task']['position_m'],'stable_linear_speed_mps':c['terminal']['object_linear_m_s'],'eef_stationary_angular_speed_rps':c['terminal']['object_angular_rad_s'],'rest_position_error_m':c['terminal']['eef_position_m'],'orientation_error':c['terminal']['eef_orientation_rad'],'eef_stationary_linear_speed_mps':c['terminal']['eef_linear_m_s']}
     count=c['motion']['additional_frames'] if realization_spec['realization']=='r_inv_motion' else 0
+    scene._cmf_f1_motion_hold_active = realization_spec['realization']=='r_inv_motion'
     record('post_prefix_hold',lambda:original_wait(scene,count))
     try:
         result=types.FunctionType(native.__code__,env)(controller,scene,program,execution_spec,replay,realization_spec)
@@ -125,6 +126,17 @@ def native_adapter(*, spec, realization, output_root, source_sha):
         def __init__(self):
             super().__init__()
             self.legacy = VariantLegacy(self.legacy, realization, spec['variant_rules'])
+
+        def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
+            # Motion-invariance's registered hold is part of the frozen suffix
+            # start state. Apply it before planning so preflight and execution
+            # see the same qpos boundary; execution_with_stage_capture records
+            # the identical hold immediately before cached controls.
+            if realization == 'r_inv_motion':
+                from f1_disk_verifier import frozen_contract
+                frames = frozen_contract(spec)['motion']['additional_frames']
+                _wait_and_record(scene, frames)
+            return super().plan_suffix_from_actual_prefix_end_state(scene, program, replay)
 
         def audit_task_physical_feasibility(self, scene, program):
             from controlled_multi_future.family_runners_v3_1 import BaseFamilyRunnerV3_1, _pose

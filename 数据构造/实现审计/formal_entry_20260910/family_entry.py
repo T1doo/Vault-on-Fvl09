@@ -22,7 +22,10 @@ def write(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + '.tmp')
-    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True))
+    temporary.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True),
+        encoding='utf-8',
+    )
     os.replace(temporary, path)
 
 
@@ -31,7 +34,7 @@ def cohort_root(output, realization):
     output=Path(output)
     pointer=output / realization / 'cohort_pointer.json'
     if not pointer.exists(): return output / realization / 'root'
-    relative=Path(json.loads(pointer.read_text())['root_relative'])
+    relative=Path(json.loads(pointer.read_text(encoding='utf-8'))['root_relative'])
     if relative.is_absolute() or '..' in relative.parts: raise ValueError('cohort pointer escapes root')
     return output / realization / relative
 
@@ -83,7 +86,7 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
     if checkpoint_path.exists():
         if not resume:
             raise FileExistsError('root exists; explicit resume required')
-        checkpoint = json.loads(checkpoint_path.read_text())
+        checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8'))
         if checkpoint['input_sha256'] != fingerprint:raise ValueError('resume spec changed')
         if checkpoint['source_sha256'] != source_sha or checkpoint.get('source_bundle_sha256')!=source_bundle_sha256:
             compat=source_compatibility
@@ -124,7 +127,10 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
             if source_compatibility is not None:kwargs['source_compatibility']=source_compatibility
             cohort_runner(**kwargs)
             receipt_path = cohort_root(output, realization) / 'root_receipt.json'
-            receipt = json.loads(receipt_path.read_text())
+            # Native receipts deliberately retain non-ASCII diagnostics.  The
+            # production host can run with an ASCII locale, so never let the
+            # locale choose the JSON decoding here.
+            receipt = json.loads(receipt_path.read_text(encoding='utf-8'))
             if receipt.get('status') != 'accepted':
                 raise RuntimeError(f'{realization} native cohort failed')
             checkpoint['completed'][realization] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
@@ -155,7 +161,7 @@ def finalize_native_cell(*,spec,output,program_id,realization,write_receipt=True
         checks['model_export']=exported['inputs']['state'].shape==(76,) and exported['inputs']['future'].shape[1]==26
         semantic=verify_f1_disk(raw_dir=raw,spec=spec,program=program);checks['semantic_and_stages']=semantic['pass'] is True
         result['semantic']=semantic
-        capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text())
+        capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text(encoding='utf-8'))
         result.update(raw_path=str(raw/'raw_streams.npz'),raw_sha256=hashlib.sha256((raw/'raw_streams.npz').read_bytes()).hexdigest(),manifest_path=str(raw/'manifest.json'),manifest_sha256=hashlib.sha256((raw/'manifest.json').read_bytes()).hexdigest(),capture_path=str(capture),capture_sha256=hashlib.sha256(capture.read_bytes()).hexdigest(),source_bundle_sha256=meta['source_bundle_sha256'],native_physical_evidence=provenance.get('synthetic') is False)
     except (KeyError,OSError,ValueError,TypeError,StopIteration,IndexError) as exc:
         checks['complete_evidence']=False;result['error']=str(exc)
@@ -187,7 +193,7 @@ def finalize_structure(*, spec, output,source_compatibility=None,write_receipt=T
     for realization in REALIZATIONS:
         root = cohort_root(output, realization)
         provisional=root/'provisional_programs.json'
-        checks[realization+':frozen_candidates']=provisional.exists() and json.loads(provisional.read_text()).get('programs')==spec['programs']
+        checks[realization+':frozen_candidates']=provisional.exists() and json.loads(provisional.read_text(encoding='utf-8')).get('programs')==spec['programs']
         for program in spec['programs']:
             key = f"{program['program_id']}:{realization}"
             raw = root / 'branches' / program['program_id'] / 'raw'
@@ -200,7 +206,7 @@ def finalize_structure(*, spec, output,source_compatibility=None,write_receipt=T
                 with np.load(raw / 'raw_streams.npz', allow_pickle=False) as data:
                     actions[key] = data['stream__controller_effective_setpoint'].copy()
                     realized[key] = data['stream__realized_eef'].copy()
-                branch = json.loads((raw.parent / 'receipt.json').read_text())
+                branch = json.loads((raw.parent / 'receipt.json').read_text(encoding='utf-8'))
                 actual_sha = hashlib.sha256((raw / 'raw_streams.npz').read_bytes()).hexdigest()
                 checks[key + ':source_bound_semantic'] = branch.get('program_id') == program['program_id'] and branch.get('verifier', {}).get('pass') is True and branch.get('raw_manifest', {}).get('raw_streams_npz_sha256') == actual_sha
                 exported = export_native_cell(spec=spec, output=output, program_id=program['program_id'], realization=realization)
@@ -213,11 +219,11 @@ def finalize_structure(*, spec, output,source_compatibility=None,write_receipt=T
                 if write_receipt:write(raw.parent / ('independent_'+spec['family'].lower()+'_semantics.json'),semantic)
                 checks[key+':independent_semantics']=semantic['pass']
                 checks[key + ':model_export'] = exported['inputs']['state'].shape == (76,) and set(exported) == {'inputs','supervision','audit'} and 'target' not in exported['inputs']
-                capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text());meta['capture_sha256']=hashlib.sha256(capture.read_bytes()).hexdigest()
+                capture=Path(provenance['formal_current_capture_path']);meta=json.loads(capture.read_text(encoding='utf-8'));meta['capture_sha256']=hashlib.sha256(capture.read_bytes()).hexdigest()
                 path=capture.parent/'current.npz'
                 checks[key+':actual_capture']=meta.get('spec_sha256')==spec['spec_sha256'] and hashlib.sha256(path.read_bytes()).hexdigest()==meta['npz_sha256']
                 with np.load(path,allow_pickle=False) as current:arrays={k:current[k].copy() for k in current.files}
-                observations.append((arrays,json.loads((capture.parent/'anchor.json').read_text()),meta))
+                observations.append((arrays,json.loads((capture.parent/'anchor.json').read_text(encoding='utf-8')),meta))
                 cells.append({'cell_key': key, 'raw': str(raw.relative_to(output)), 'raw_sha256': hashlib.sha256((raw / 'raw_streams.npz').read_bytes()).hexdigest()})
             except (OSError, KeyError, ValueError) as exc:
                 checks[key + ':raw'] = False
@@ -296,7 +302,7 @@ def export_native_cell(*, spec, output, program_id, realization):
     root = cohort_root(output, realization)
     raw_path = root / 'branches' / program_id / 'raw' / 'raw_streams.npz'
     observations = output / realization / 'scene_instances' / 'observations'
-    manifest = json.loads((raw_path.parent / 'manifest.json').read_text()) if (raw_path.parent / 'manifest.json').exists() else {}
+    manifest = json.loads((raw_path.parent / 'manifest.json').read_text(encoding='utf-8')) if (raw_path.parent / 'manifest.json').exists() else {}
     bound = manifest.get('provenance', {}).get('formal_current_capture_path')
     captures = [Path(bound)] if bound else list(observations.glob(f'{spec["family"].lower()}-strict_prefix_branch_{program_id}-v1_2-*/capture.json'))
     if bound and not Path(bound).resolve().is_relative_to(output.resolve()):
@@ -304,7 +310,7 @@ def export_native_cell(*, spec, output, program_id, realization):
     if len(captures) != 1:
         raise ValueError('exactly one actual branch current capture required')
     capture_path = captures[0]
-    meta = json.loads(capture_path.read_text())
+    meta = json.loads(capture_path.read_text(encoding='utf-8'))
     current_path = capture_path.parent / 'current.npz'
     if meta['spec_sha256'] != spec['spec_sha256'] or hashlib.sha256(current_path.read_bytes()).hexdigest() != meta['npz_sha256']:
         raise ValueError('capture identity/integrity mismatch')
@@ -317,7 +323,7 @@ def export_native_cell(*, spec, output, program_id, realization):
         future = data['stream__controller_effective_setpoint'].copy()
         anchor_file=capture_path.parent/'anchor.json'
         if anchor_file.exists():
-            anchor=json.loads(anchor_file.read_text())
+            anchor=json.loads(anchor_file.read_text(encoding='utf-8'))
             if spec['family']=='F1':
                 from anchor_equivalence import validate_anchor
                 validate_anchor(anchor,{k:meta[k] for k in ('root_id','spec_sha256','source_bundle_sha256')})
@@ -414,12 +420,12 @@ def main(argv=None):
     parser.add_argument('--output',type=Path)
     parser.add_argument('--describe',action='store_true')
     args=parser.parse_args(argv)
-    spec=json.loads(args.spec.read_text())
+    spec=json.loads(args.spec.read_text(encoding='utf-8'))
     if args.describe:
         from scene_plan import validate_resolved
         validate_resolved(spec);print(json.dumps(get_call_budget(spec),sort_keys=True));return 0
     if args.authorization is None or args.output is None:parser.error('--authorization and --output required for native execution')
-    authorization=json.loads(args.authorization.read_text())
+    authorization=json.loads(args.authorization.read_text(encoding='utf-8'))
     result=run_family_root(spec=spec,output=args.output,authorization=authorization)
     print(json.dumps({'root_id':spec['root_id'],'pass':result.get('pass'),'research_eligible':result.get('research_eligible',False),'native_physical_evidence':result.get('native_physical_evidence',False)},sort_keys=True))
     return 0 if result.get('pass') is True else 1

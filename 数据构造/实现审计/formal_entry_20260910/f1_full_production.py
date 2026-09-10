@@ -40,7 +40,7 @@ def write(path, value):
     path = workspace_path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temp = path.with_suffix(path.suffix + '.partial')
-    with temp.open('w') as stream:
+    with temp.open('w', encoding='utf-8') as stream:
         json.dump(value, stream, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
         stream.flush()
         os.fsync(stream.fileno())
@@ -125,7 +125,7 @@ def make_job(spec, directory, source, *, authorized=False, activation=None, raw_
 
 def prepare(directory):
     directory = workspace_path(directory)
-    if (directory/'manifest.json').exists() and json.loads((directory/'manifest.json').read_text()).get('execution_authorized') is True:
+    if (directory/'manifest.json').exists() and json.loads((directory/'manifest.json').read_text(encoding='utf-8')).get('execution_authorized') is True:
         raise PermissionError('never overwrite an approved package; use an explicit compatibility amendment')
     plan = scenes.generate()
     scenes.validate_plan(plan)
@@ -136,7 +136,7 @@ def prepare(directory):
     jobs = [make_job(freeze_spec(scenes.resolve(s)), directory/'specs', source) for s in primary]
     matrix = []
     for s, j in zip(primary, jobs):
-        spec = json.loads(Path(j['spec_path']).read_text())
+        spec = json.loads(Path(j['spec_path']).read_text(encoding='utf-8'))
         for p in spec['programs']:
             for r in spec['realizations']:
                 matrix.append({'planned_slot_id': s['root_id'], 'root_id': s['root_id'], 'split':s['split'],
@@ -196,7 +196,7 @@ def validate_package(manifest, *, require_authorized=True, compatibility=None):
     plan_path = Path(manifest['planned_plan_path'])
     if sha(plan_path)!=manifest['planned_plan_file_sha256']:
         raise ValueError('planned slots file changed')
-    plan=json.loads(plan_path.read_text())
+    plan=json.loads(plan_path.read_text(encoding='utf-8'))
     scenes.validate_plan(plan)
     if scenes.hash_json(plan)!=manifest['planned_plan_sha256']:
         raise ValueError('plan binding changed')
@@ -208,11 +208,11 @@ def validate_package(manifest, *, require_authorized=True, compatibility=None):
             job=replacements[job['root_id']]
         if job['root_id']!=slot['root_id'] or sha(job['spec_path'])!=job['spec_file_sha256'] or sha(job['authorization_path'])!=job['authorization_file_sha256']:
             raise ValueError('job identity or file changed')
-        spec=json.loads(Path(job['spec_path']).read_text())
+        spec=json.loads(Path(job['spec_path']).read_text(encoding='utf-8'))
         if spec!=freeze_spec(scenes.resolve(slot)):
             raise ValueError('resolved scene differs from frozen generator')
         workspace_path(job['output']);workspace_path(job['spec_path']);workspace_path(job['authorization_path'])
-        auth=json.loads(Path(job['authorization_path']).read_text())
+        auth=json.loads(Path(job['authorization_path']).read_text(encoding='utf-8'))
         expected_copy=workspace_path(manifest['copy_family_root'])/job['root_id']
         if workspace_path(auth['copy_destination'])!=expected_copy:
             raise ValueError('copy destination/root binding mismatch')
@@ -227,7 +227,7 @@ def validate_package(manifest, *, require_authorized=True, compatibility=None):
 
 def _state(path, manifest):
     if path.exists():
-        value=json.loads(path.read_text())
+        value=json.loads(path.read_text(encoding='utf-8'))
         if value['manifest_sha256']!=scenes.hash_json(manifest):
             raise ValueError('family namespace belongs to another frozen manifest')
         return value
@@ -251,7 +251,7 @@ def _activation_jobs(manifest, state_dir, activation, previous_jobs=(), source_o
         directory=state_dir/'activations'/record['reserve_root_id']
         proof=directory/'reserve_activation_receipt.json'
         body={'plan_hash':activation['plan_hash'],'records':[record]}
-        if proof.exists() and json.loads(proof.read_text())!=body:
+        if proof.exists() and json.loads(proof.read_text(encoding='utf-8'))!=body:
             raise ValueError('reserve activation identity changed')
         write(proof,body)
         spec=freeze_spec(record['resolved_spec'])
@@ -283,9 +283,9 @@ def run(manifest, state_dir, *, backend=None, max_waves=None, compatibility_ref=
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         path=state_dir/'FAMILY_STATE.json'
         state=_state(path,manifest)
-        plan=json.loads(Path(manifest['planned_plan_path']).read_text())
+        plan=json.loads(Path(manifest['planned_plan_path']).read_text(encoding='utf-8'))
         activation_path=state_dir/'reserve_activations.json'
-        activation=json.loads(activation_path.read_text()) if activation_path.exists() else {'records':[]}
+        activation=json.loads(activation_path.read_text(encoding='utf-8')) if activation_path.exists() else {'records':[]}
         jobs={j['root_id']:j for j in manifest['jobs']+state['activated_jobs']}
         if compatibility:jobs.update({j['root_id']:j for j in compatibility['jobs']})
         if state['status'] in ('COMPLETE','READY_FAMILY_AUDIT'):
@@ -297,7 +297,7 @@ def run(manifest, state_dir, *, backend=None, max_waves=None, compatibility_ref=
             if max_waves is not None and waves>=max_waves:break
             active=state['active_roots']
             lpath=state_dir/'launcher/STATE.json'
-            previous=json.loads(lpath.read_text()) if lpath.exists() else {'jobs':{}}
+            previous=json.loads(lpath.read_text(encoding='utf-8')) if lpath.exists() else {'jobs':{}}
             records=previous['jobs']
             ready=[];recover={};copy_only=[];terminals={};shared=[]
             for rid in active:
@@ -380,7 +380,7 @@ def check_storage(manifest, activated_jobs=()):
     directories=[]
     for job in manifest['jobs']+list(activated_jobs):
         directories.append(Path(job['output']))
-        auth=json.loads(Path(job['authorization_path']).read_text())
+        auth=json.loads(Path(job['authorization_path']).read_text(encoding='utf-8'))
         destination=Path(auth['copy_destination'])
         directories.append(destination)
         directories.append(destination.with_name(destination.name+'_cells'))
@@ -412,7 +412,7 @@ def publish_family(manifest,state,jobs,state_dir):
     selected=state['accepted_by_primary']
     if set(selected)!=set(manifest['root_ids']) or len(set(selected.values()))!=10:
         raise ValueError('ten distinct replacements for ten planned slots required')
-    ledger_state=json.loads((Path(state_dir)/'launcher/STATE.json').read_text())
+    ledger_state=json.loads((Path(state_dir)/'launcher/STATE.json').read_text(encoding='utf-8'))
     if ledger_state.get('status') in ('UNRESOLVED','BUDGET_OVERRUN','SOURCE_CHANGED'):
         raise ValueError('unresolved family resources/source prevent publication')
     rows=[];roots=[]
@@ -423,18 +423,18 @@ def publish_family(manifest,state,jobs,state_dir):
             raise ValueError('selected root lacks settled PASS/owned cleanup/release')
         completion=verify_completed_job(job,allow_synthetic=manifest.get('test_only') is True)
         if completion.get('pass') is not True:raise ValueError('independent root completion failed')
-        spec=json.loads(Path(job['spec_path']).read_text())
+        spec=json.loads(Path(job['spec_path']).read_text(encoding='utf-8'))
         primary_job=next(j for j in manifest['jobs'] if j['root_id']==primary)
-        primary_spec=json.loads(Path(primary_job['spec_path']).read_text())
+        primary_spec=json.loads(Path(primary_job['spec_path']).read_text(encoding='utf-8'))
         if (spec['split'],spec['difficulty'])!=(primary_spec['split'],primary_spec['difficulty']):raise ValueError('selected root changed original slot split/difficulty')
         if rid!=primary:
             binding=job.get('activation_receipt',{})
             if not binding or sha(binding['path'])!=binding['sha256']:raise ValueError('replacement missing immutable activation proof')
-            proof=json.loads(workspace_path(binding['path']).read_text())
+            proof=json.loads(workspace_path(binding['path']).read_text(encoding='utf-8'))
             match=[r for r in proof.get('records',[]) if r.get('reserve_root_id')==rid and r.get('primary_root_id')==primary]
             if proof.get('plan_hash')!=manifest['planned_plan_sha256'] or len(match)!=1 or spec.get('activation_receipt_hash')!=binding['sha256'] or spec.get('original_primary_slot_id')!=primary:raise ValueError('replacement belongs to another original primary slot')
-        destination=Path(json.loads(Path(job['authorization_path']).read_text())['copy_destination'])
-        group=json.loads((destination/'root_manifest.json').read_text())
+        destination=Path(json.loads(Path(job['authorization_path']).read_text(encoding='utf-8'))['copy_destination'])
+        group=json.loads((destination/'root_manifest.json').read_text(encoding='utf-8'))
         for relative in group['relative_cell_paths']:
             payload=read(safe(destination,relative));audit=payload['audit']
             rows.append({'planned_slot_id':primary,'root_id':rid,'split':spec['split'],'difficulty':spec['difficulty'],
@@ -442,8 +442,8 @@ def publish_family(manifest,state,jobs,state_dir):
                          'cell_manifest_sha256':sha(safe(destination,relative)/'portable_manifest.json')})
         roots.append({'planned_slot_id':primary,'root_id':rid,'split':spec['split'],'difficulty':spec['difficulty'],
                       'root_manifest_sha256':sha(destination/'root_manifest.json'),'copied_cells':9,
-                      'execution_authorization_source_bundle_sha256':json.loads(Path(job['authorization_path']).read_text())['source_bundle_sha256'],
-                      'source_compatibility_receipt':json.loads(Path(job['authorization_path']).read_text()).get('source_compatibility_receipt'),
+                      'execution_authorization_source_bundle_sha256':json.loads(Path(job['authorization_path']).read_text(encoding='utf-8'))['source_bundle_sha256'],
+                      'source_compatibility_receipt':json.loads(Path(job['authorization_path']).read_text(encoding='utf-8')).get('source_compatibility_receipt'),
                       'original_capture_sources':'preserved per cell; may predate explicitly reviewed source-only amendment'})
     if len(rows)!=90 or len({r['cell_key'] for r in rows})!=90:raise ValueError('ninety unique cells required')
     from collections import Counter
@@ -473,20 +473,20 @@ def seal_approved_package(proposal_dir, destination, approval_path):
     The human approval record must name this exact proposal and the full cap.
     """
     proposal_dir=Path(proposal_dir);destination=Path(destination);approval_path=Path(approval_path)
-    proposal=json.loads((proposal_dir/'manifest.json').read_text())
+    proposal=json.loads((proposal_dir/'manifest.json').read_text(encoding='utf-8'))
     validate_package(proposal,require_authorized=False)
-    approval=json.loads(approval_path.read_text())
+    approval=json.loads(approval_path.read_text(encoding='utf-8'))
     if approval.get('decision')!='APPROVE_FULL_F1_90' or approval.get('proposal_manifest_sha256')!=sha(proposal_dir/'manifest.json'):
         raise PermissionError('explicit approval must bind the complete F1 proposal')
     if approval.get('budget_caps')!=proposal['budget_caps'] or not approval.get('user_instruction_reference'):
         raise PermissionError('full budget and user instruction reference required')
     if destination.exists():raise FileExistsError('approval snapshot destination must be new')
     prepare(destination)
-    manifest=json.loads((destination/'manifest.json').read_text())
+    manifest=json.loads((destination/'manifest.json').read_text(encoding='utf-8'))
     manifest['execution_authorized']=True
     manifest['approval']={'record':approval,'record_file_sha256':sha(approval_path)}
     for job in manifest['jobs']:
-        ap=Path(job['authorization_path']);auth=json.loads(ap.read_text())
+        ap=Path(job['authorization_path']);auth=json.loads(ap.read_text(encoding='utf-8'))
         auth.update(gpu_execution_authorized=True,approval_status='APPROVED_FULL_F1',approval=manifest['approval'])
         write(ap,auth);job['authorization_file_sha256']=sha(ap)
     write(destination/'manifest.json',manifest)
@@ -506,7 +506,7 @@ def main(argv=None):
         result=seal_approved_package(a.package,a.approved_destination,a.approval_file)
     elif a.command=='prepare':result=prepare(a.package)
     else:
-        manifest=json.loads((a.package/'manifest.json').read_text())
+        manifest=json.loads((a.package/'manifest.json').read_text(encoding='utf-8'))
         result=validate_package(manifest,require_authorized=False) if a.command=='preflight' else run(manifest,a.state_dir,compatibility_ref={'path':str(a.compatibility_file.absolute()),'sha256':sha(a.compatibility_file)} if a.compatibility_file else None)
     print(json.dumps(result,ensure_ascii=False,indent=2))
     return result

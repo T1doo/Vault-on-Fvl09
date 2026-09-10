@@ -20,7 +20,7 @@ def usage_from_receipts(output,lease_seconds):
         receipts += list(base.glob('root/root_receipt.json'))+list(base.glob('recovery_*/root/root_receipt.json'))
     pointers=list(output.glob('r_*/cohort_pointer.json'))
     for pointer in pointers:
-        p=json.loads(pointer.read_text())
+        p=json.loads(pointer.read_text(encoding='utf-8'))
         if p.get('status')=='STARTED' or not (pointer.parent/p['root_relative']/'root_receipt.json').exists():
             raise RuntimeError('started cohort missing terminal receipt; usage unresolved')
     if not receipts:
@@ -29,7 +29,7 @@ def usage_from_receipts(output,lease_seconds):
         return {**{k:0 for k in COUNTERS},'gpu_lease_seconds':int(lease_seconds)}
     totals={k:0 for k in COUNTERS};totals['gpu_lease_seconds']=int(lease_seconds)
     for path in receipts:
-        r=json.loads(path.read_text());cleanup=r['cleanup_records']
+        r=json.loads(path.read_text(encoding='utf-8'));cleanup=r['cleanup_records']
         if not r.get('status') or r['status']=='running':raise RuntimeError('nonterminal root usage')
         totals['fresh_scenes']+=sum(c.get('scene_created') is True for c in cleanup)
         totals['action_scenes']+=sum(int(r[k]) for k in ('canonical_prefix_reference_execution_count','suffix_prefix_replay_count','branch_prefix_replay_count'))
@@ -150,8 +150,8 @@ def verify_completed_job(job, *, allow_synthetic=False):
     """Re-read independent root result and every copied package; exit 0 is insufficient."""
     import portable_v2
     output=Path(job['output']);spec,authorization=read_bound_job_configs(job)
-    result=json.loads((output/'execution_result.json').read_text())
-    independent=json.loads((output/'independent_structure.json').read_text())
+    result=json.loads((output/'execution_result.json').read_text(encoding='utf-8'))
+    independent=json.loads((output/'independent_structure.json').read_text(encoding='utf-8'))
     if result.get('pass') is not True or independent.get('pass') is not True:raise ValueError('independent acceptance absent/failed')
     if allow_synthetic:
         if independent.get('research_eligible') is not False or independent.get('native_physical_evidence') is not False:raise ValueError('fixture must remain nonphysical and ineligible')
@@ -159,8 +159,8 @@ def verify_completed_job(job, *, allow_synthetic=False):
     if independent.get('root_id')!=job['root_id'] or result.get('root_id')!=job['root_id'] or len(independent.get('cells',[]))!=9:
         raise ValueError('independent root identity/matrix mismatch')
     if {k:v for k,v in result.items() if k!='copy'}!=independent:raise ValueError('execution result differs from independent root evidence')
-    destination=portable_v2.origin(authorization['copy_destination']);portable_v2.read_root(destination);copied=json.loads((destination/'root_manifest.json').read_text())
-    registry=json.loads((destination.parent/'registry.json').read_text())
+    destination=portable_v2.origin(authorization['copy_destination']);portable_v2.read_root(destination);copied=json.loads((destination/'root_manifest.json').read_text(encoding='utf-8'))
+    registry=json.loads((destination.parent/'registry.json').read_text(encoding='utf-8'))
     if copied!=result.get('copy') or registry.get(str(destination))!=copied or copied.get('synthetic') is not bool(allow_synthetic):
         raise ValueError('copy/registry binding mismatch')
     expected={f"{spec['root_id']}:{p['program_id']}:{r}" for p in spec['programs'] for r in spec['realizations']};observed=set()
@@ -189,7 +189,7 @@ def validate_compatibility(manifest,state_dir,reference,activated_jobs=None):
     if not changed or appendix.get('changed_files')!=changed or appendix.get('old_source_bundle_sha256')!=manifest['source_bundle_sha256']:raise ValueError('compatibility change inventory mismatch')
     assessments=appendix.get('affected_contracts',{})
     if set(assessments)!=set(changed) or any(not isinstance(x,str) or not x.strip() for x in assessments.values()):raise ValueError('each actual source change needs reviewed contract impact')
-    state_path=Path(state_dir)/'STATE.json';state=json.loads(state_path.read_text()) if state_path.exists() else {'jobs':{}}
+    state_path=Path(state_dir)/'STATE.json';state=json.loads(state_path.read_text(encoding='utf-8')) if state_path.exists() else {'jobs':{}}
     if state_path.exists() and (state.get('contract_sha256')!=hash_json(manifest) or state.get('task_id')!=manifest['task_id']):raise ValueError('compatibility belongs to a different task/ledger')
     extras=list(activated_jobs or [])
     for record in state.get('jobs',{}).values():
@@ -227,10 +227,10 @@ def validate_compatibility(manifest,state_dir,reference,activated_jobs=None):
         actual_receipts=list(Path(original['output']).glob('**/branches/*/receipt.json'))
         accepted=[]
         for receipt in actual_receipts:
-            if json.loads(receipt.read_text()).get('status')!='accepted':continue
+            if json.loads(receipt.read_text(encoding='utf-8')).get('status')!='accepted':continue
             realization=next((p.name for p in receipt.parents if p.name in ('r_pc','r_inv_path','r_inv_motion')),None)
             if realization is None:raise ValueError('saved accepted cell has no realization lineage')
-            rawpath=receipt.parent/'raw/raw_streams.npz';mp=rawpath.parent/'manifest.json';meta=json.loads(mp.read_text());cp=_workspace_path(meta['provenance']['formal_current_capture_path'])
+            rawpath=receipt.parent/'raw/raw_streams.npz';mp=rawpath.parent/'manifest.json';meta=json.loads(mp.read_text(encoding='utf-8'));cp=_workspace_path(meta['provenance']['formal_current_capture_path'])
             row={'program_id':receipt.parent.name,'realization_id':realization,'raw_path':str(rawpath),'raw_sha256':hashlib.sha256(rawpath.read_bytes()).hexdigest(),'manifest_path':str(mp),'manifest_sha256':hashlib.sha256(mp.read_bytes()).hexdigest(),'capture_path':str(cp),'capture_sha256':hashlib.sha256(cp.read_bytes()).hexdigest()}
             if row not in proof.get('accepted_cells',[]):raise ValueError('accepted cell missing from explicit compatibility proof')
             from family_entry import finalize_native_cell
@@ -332,20 +332,20 @@ def _zero():return {k:0 for k in COUNTERS}
 
 
 def _classify(output,execution):
-    output=Path(output);checkpoint_path=output/'checkpoint.json';checkpoint=json.loads(checkpoint_path.read_text()) if checkpoint_path.exists() else {}
+    output=Path(output);checkpoint_path=output/'checkpoint.json';checkpoint=json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.exists() else {}
     independent_path=output/'independent_structure.json';spec_path=output/'root_spec.json'
     if checkpoint.get('status')=='STRUCTURE_READY' and independent_path.is_file() and spec_path.is_file():
         from family_entry import digest
-        spec=json.loads(spec_path.read_text());independent=json.loads(independent_path.read_text())
+        spec=json.loads(spec_path.read_text(encoding='utf-8'));independent=json.loads(independent_path.read_text(encoding='utf-8'))
         if checkpoint.get('input_sha256')==digest(spec) and independent.get('root_id')==spec.get('root_id') and independent.get('pass')is True:return 'copy_failure'
     active=checkpoint.get('active_realization');statuses=[]
     for realization in ('r_pc','r_inv_path','r_inv_motion'):
         if active and realization!=active:continue
         base=output/realization;pointer=base/'cohort_pointer.json'
         if pointer.is_file():
-            value=json.loads(pointer.read_text());root=_workspace_path(base/value['root_relative']);receipt=root/'root_receipt.json'
+            value=json.loads(pointer.read_text(encoding='utf-8'));root=_workspace_path(base/value['root_relative']);receipt=root/'root_receipt.json'
             if receipt.is_file():
-                terminal=json.loads(receipt.read_text());status=terminal.get('status');failed=[b for b in terminal.get('branch_receipts',[]) if b.get('status')!='accepted']
+                terminal=json.loads(receipt.read_text(encoding='utf-8'));status=terminal.get('status');failed=[b for b in terminal.get('branch_receipts',[]) if b.get('status')!='accepted']
                 if status=='failed_verifier' and failed and failed[-1].get('status')=='failed_execution':status='failed_execution'
                 if status=='failed_verifier' and failed and failed[-1].get('status')=='failed_independent_cell':
                     gate=failed[-1].get('independent_cell_gate',{})
@@ -356,7 +356,7 @@ def _classify(output,execution):
             candidates=[(0,base/'root/root_receipt.json')]+[(int(p.parent.parent.name.split('_')[-1]),p) for p in base.glob('recovery_*/root/root_receipt.json') if p.parent.parent.name.split('_')[-1].isdigit()]
             present=[x for x in candidates if x[1].is_file()]
             if present:
-                terminal=json.loads(max(present,key=lambda x:x[0])[1].read_text());status=terminal.get('status');failed=[b for b in terminal.get('branch_receipts',[]) if b.get('status')!='accepted']
+                terminal=json.loads(max(present,key=lambda x:x[0])[1].read_text(encoding='utf-8'));status=terminal.get('status');failed=[b for b in terminal.get('branch_receipts',[]) if b.get('status')!='accepted']
                 if status=='failed_verifier' and failed and failed[-1].get('status')=='failed_execution':status='failed_execution'
                 if status=='failed_verifier' and failed and failed[-1].get('status')=='failed_independent_cell':
                     gate=failed[-1].get('independent_cell_gate',{})
@@ -412,13 +412,13 @@ def _recoverable(job,previous,request,manifest,compatibility=None):
 def _accepted_files(output):
     result={}
     for receipt in Path(output).glob('**/branches/*/receipt.json'):
-        d=json.loads(receipt.read_text())
+        d=json.loads(receipt.read_text(encoding='utf-8'))
         if d.get('status')!='accepted':continue
         from native_raw_contract import validate_native_raw_contract
         raw=receipt.parent/'raw'
         if not validate_native_raw_contract(raw).get('pass'):raise ValueError('accepted raw integrity no longer passes')
         paths=[receipt,*raw.glob('*')]
-        manifest=json.loads((raw/'manifest.json').read_text())
+        manifest=json.loads((raw/'manifest.json').read_text(encoding='utf-8'))
         capture=manifest.get('provenance',{}).get('formal_current_capture_path')
         if capture:
             cp=_workspace_path(capture);paths.extend([cp,cp.parent/'current.npz',cp.parent/'anchor.json'])
@@ -466,7 +466,7 @@ def reconcile_saved_attempts(manifest,state_dir,job_ids=None):
     using the current wall clock. A live/unknown child remains UNRESOLVED.
     """
     from controlled_multi_future.redesign_f2_f3_v2.execution_ledger_v2 import ExecutionLedgerV2
-    state_dir=_workspace_path(state_dir);state_path=state_dir/'STATE.json';state=json.loads(state_path.read_text())
+    state_dir=_workspace_path(state_dir);state_path=state_dir/'STATE.json';state=json.loads(state_path.read_text(encoding='utf-8'))
     if state['contract_sha256']!=hash_json(manifest):raise ValueError('reconcile contract changed')
     ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=hash_json(manifest),task_id=manifest['task_id'],caps=manifest['budget_caps'])
     with (state_dir/'coordinator.lock').open('a') as lock:
@@ -476,15 +476,15 @@ def reconcile_saved_attempts(manifest,state_dir,job_ids=None):
             if job.get('status') not in ('UNRESOLVED','RUNNING'):continue
             attempt=job['attempts'][-1];folder=Path(attempt['evidence_directory'])
             terminal_path=folder/'lease_terminal.json'
-            end=json.loads(terminal_path.read_text()) if terminal_path.is_file() else json.loads((folder/'lease_persistence_errors.json').read_text())['measured_terminal']
+            end=json.loads(terminal_path.read_text(encoding='utf-8')) if terminal_path.is_file() else json.loads((folder/'lease_persistence_errors.json').read_text(encoding='utf-8'))['measured_terminal']
             if end.get('release_confirmed') is not True or end.get('owned_cleanup_pass') is not True or not isinstance(end.get('lease_seconds'),int):raise RuntimeError('saved terminal lease evidence unresolved')
             usage_path=folder/'actual_usage.json'
-            if usage_path.exists():usage=json.loads(usage_path.read_text())
+            if usage_path.exists():usage=json.loads(usage_path.read_text(encoding='utf-8'))
             else:
                 actual,cumulative=_delta_usage(job['output'],end['lease_seconds'],attempt['usage_baseline']);usage={'actual':actual,'cumulative':cumulative};evidence(usage_path,usage)
             event=ledger.settle(attempt['ledger_job_id'],attempt['reservation'],usage['actual'],idempotency_key='settle:'+attempt['ledger_job_id'])
             attempt.update(actual=usage['actual'],cumulative_usage=usage['cumulative'],settled=True,owned_cleanup_pass=True,release_confirmed=True)
-            execution=json.loads((folder/'child_terminal.json').read_text()) if (folder/'child_terminal.json').is_file() else {}
+            execution=json.loads((folder/'child_terminal.json').read_text(encoding='utf-8')) if (folder/'child_terminal.json').is_file() else {}
             classification=_classify(job['output'],execution)
             job.update(status='BUDGET_OVERRUN' if event['event_type']=='BUDGET_OVERRUN' else 'COPY_FAILED' if classification=='copy_failure' else 'FAILED',failure_class=classification,actual=usage['actual'],root_collection_verified=classification=='copy_failure',owned_cleanup_pass=True,release_confirmed=True,accepted_file_hashes=_accepted_files(job['output']))
             write(state_path,state)
@@ -511,16 +511,16 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
     from controlled_multi_future.redesign_f2_f3_v2.gpu import assign_ready_jobs,guard_card
     existing=state_dir/'STATE.json';binding_path=state_dir/'namespace_binding.json';contract_hash=hash_json(manifest);binding={'task_id':manifest['task_id'],'contract_sha256':contract_hash}
     if existing.exists():
-        previous_namespace=json.loads(existing.read_text())
+        previous_namespace=json.loads(existing.read_text(encoding='utf-8'))
         if previous_namespace.get('task_id')!=manifest['task_id'] or previous_namespace.get('contract_sha256')!=contract_hash:raise ValueError('foreign namespace before mutation')
-    if state_dir.exists() and any(state_dir.iterdir()) and not existing.exists() and (not binding_path.exists() or json.loads(binding_path.read_text())!=binding):raise ValueError('foreign namespace')
+    if state_dir.exists() and any(state_dir.iterdir()) and not existing.exists() and (not binding_path.exists() or json.loads(binding_path.read_text(encoding='utf-8'))!=binding):raise ValueError('foreign namespace')
     state_dir.mkdir(parents=True,exist_ok=True)
-    if binding_path.exists() and json.loads(binding_path.read_text())!=binding:raise ValueError('namespace contract changed')
+    if binding_path.exists() and json.loads(binding_path.read_text(encoding='utf-8'))!=binding:raise ValueError('namespace contract changed')
     write(binding_path,binding);write(state_dir/'nfs_lock_probe.json',verify_nfs_lock(state_dir))
     with (state_dir/'coordinator.lock').open('a') as coordinator:
         fcntl.flock(coordinator,fcntl.LOCK_EX|fcntl.LOCK_NB)
         ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=contract_hash,task_id=manifest['task_id'],caps=manifest['budget_caps'])
-        state=json.loads(existing.read_text()) if existing.exists() else {'task_id':manifest['task_id'],'contract_sha256':contract_hash,'jobs':{},'recovery_requests':{},'status':'READY'}
+        state=json.loads(existing.read_text(encoding='utf-8')) if existing.exists() else {'task_id':manifest['task_id'],'contract_sha256':contract_hash,'jobs':{},'recovery_requests':{},'status':'READY'}
         if state['task_id']!=manifest['task_id'] or state['contract_sha256']!=contract_hash:raise ValueError('foreign task/contract')
         if any(ledger.totals()['reserved'].values()) or state['status'] in ('UNRESOLVED','BUDGET_OVERRUN'):raise RuntimeError('unknown resources must be reconciled first')
         if state['status']=='SOURCE_CHANGED':
@@ -604,7 +604,7 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 if execution is None and lease is not None:
                     # A backend may have left a measured cleanup receipt before raising.
                     measured=directory/'process_cleanup.json'
-                    if measured.is_file():execution=json.loads(measured.read_text());safe_cleanup=execution.get('owned_cleanup_pass')is True and execution.get('host_process_visibility')is True
+                    if measured.is_file():execution=json.loads(measured.read_text(encoding='utf-8'));safe_cleanup=execution.get('owned_cleanup_pass')is True and execution.get('host_process_visibility')is True
                     elif not child_invoked:safe_cleanup=True
             finally:
                 if lease is not None:
@@ -678,8 +678,8 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--manifest',required=True,type=Path);p.add_argument('--state-dir',required=True,type=Path);p.add_argument('--ready-job',action='append');p.add_argument('--recoveries',type=Path);p.add_argument('--copy-only-job',action='append');p.add_argument('--reconcile-only',action='store_true');p.add_argument('--compatibility-file',type=Path);a=p.parse_args();manifest=json.loads(a.manifest.read_text())
+    p=argparse.ArgumentParser();p.add_argument('--manifest',required=True,type=Path);p.add_argument('--state-dir',required=True,type=Path);p.add_argument('--ready-job',action='append');p.add_argument('--recoveries',type=Path);p.add_argument('--copy-only-job',action='append');p.add_argument('--reconcile-only',action='store_true');p.add_argument('--compatibility-file',type=Path);a=p.parse_args();manifest=json.loads(a.manifest.read_text(encoding='utf-8'))
     if a.reconcile_only:result={'state':reconcile_saved_attempts(manifest,a.state_dir),'deferred_roots':[]}
-    else:result=launch_wave(manifest,a.state_dir,ready_job_ids=a.ready_job,recovery_requests=json.loads(a.recoveries.read_text()) if a.recoveries else None,copy_only_job_ids=a.copy_only_job,compatibility_ref={'path':str(a.compatibility_file),'sha256':hashlib.sha256(a.compatibility_file.read_bytes()).hexdigest()} if a.compatibility_file else None)
+    else:result=launch_wave(manifest,a.state_dir,ready_job_ids=a.ready_job,recovery_requests=json.loads(a.recoveries.read_text(encoding='utf-8')) if a.recoveries else None,copy_only_job_ids=a.copy_only_job,compatibility_ref={'path':str(a.compatibility_file),'sha256':hashlib.sha256(a.compatibility_file.read_bytes()).hexdigest()} if a.compatibility_file else None)
     print(json.dumps({'status':result['state']['status'],'deferred_roots':result['deferred_roots']}));return 0 if result['state']['status']=='COMPLETE' else 1
 if __name__=='__main__':raise SystemExit(main())
