@@ -1,0 +1,240 @@
+{
+  "capture_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_inv_motion/recovery_5/scene_instances/observations/f1-strict_prefix_branch_F1-red-v1_2-000009/capture.json",
+  "capture_sha256": "420fc908a62f0f3865d22e25b0e0b5a9cae89dea7e64207aaed53369290782c1",
+  "checks": {
+    "identity": true,
+    "model_export": true,
+    "raw_contract": true,
+    "semantic_and_stages": false
+  },
+  "failure_class": "DATA_CONTRACT_FAILURE",
+  "manifest_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_inv_motion/recovery_5/root/branches/F1-red/raw/manifest.json",
+  "manifest_sha256": "2a1132d8820d6dcbd477892b941a70a5ce63d206627fb5aef1cd0d10d1853dac",
+  "native_physical_evidence": true,
+  "pass": false,
+  "program_id": "F1-red",
+  "raw_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_inv_motion/recovery_5/root/branches/F1-red/raw/raw_streams.npz",
+  "raw_sha256": "ec33e8169ff5dcd77631458fc9b07304fe49db32b60789fe7e346bf1d149b140",
+  "realization_id": "r_inv_motion",
+  "root_id": "F1_000013",
+  "runner_pass_used": false,
+  "scene_spec_sha256": "84c3a7eecf54f9b9b410dc25cb51c3506a76557c0dc1232c0fd3c25ce2a48e52",
+  "semantic": {
+    "applied_contract": {
+      "executing_arm": "left",
+      "frame": "world/table-fixed; box geometry in actor local frame; wxyz quaternions",
+      "grasp_identity": {
+        "phase": "gripper_close through target_lift",
+        "signal": "physical selected-finger/selected-actor contact; selected_contact_actor_name matches candidate"
+      },
+      "motion": {
+        "additional_frames": 35,
+        "comparison": "same constant effective command at registered post-prefix location; same frozen non-hold targets/controls",
+        "stage": "post_prefix_hold"
+      },
+      "non_task": {
+        "orientation_rad": 0.02,
+        "phase": "all N+1 states relative to original t0",
+        "position_m": 0.003
+      },
+      "path": {
+        "comparison": "same program baseline, prescribed transport endpoint only",
+        "minimum_realized_change_m": 0.001,
+        "offset_y_m": 0.015,
+        "stage": "safe_horizontal"
+      },
+      "release": {
+        "actual_open_fraction_gt": 0.8,
+        "closed_master_m": -0.01,
+        "open_master_m": 0.045,
+        "phase": "post release final stable window",
+        "separation_rule": "no physical contact with any robot link",
+        "source": "aloha-agilex/config.yml gripper_scale and existing open fraction; applied to measured master qpos"
+      },
+      "sample_rate_hz": 250,
+      "stages": [
+        "post_prefix_hold",
+        "target_pregrasp",
+        "target_grasp",
+        "gripper_close",
+        "target_lift_mid",
+        "target_lift",
+        "carry_hub_low",
+        "carry_hub_high",
+        "safe_horizontal",
+        "preplace",
+        "release",
+        "gripper_open",
+        "release_settle",
+        "retreat",
+        "rest",
+        "rest_settle"
+      ],
+      "support": {
+        "geometry_source": "PLASTICBOX_BASE3_CAVITY support_surface_band_local_y_m",
+        "normal_rule": "abs(world_z) dominant normal component",
+        "phase": "final stable window",
+        "physical_hit": "impulse>1e-10 or signed_separation<=0 with complete v2 shape/point evidence",
+        "plane_rule": "point and subject bottom inside true cavity support band"
+      },
+      "terminal": {
+        "eef_angular_rad_s": 0.05,
+        "eef_linear_m_s": 0.01,
+        "eef_orientation_rad": 0.02,
+        "eef_position_m": 0.03,
+        "object_angular_rad_s": 0.05,
+        "object_linear_m_s": 0.02,
+        "phase": "last stable_window_frames inside rest_settle after release/retreat",
+        "stable_window_frames": 50
+      },
+      "threshold_source": "canonical D6.6-D6.7 Stage2 frozen spec; no provisional fallback",
+      "version": "f1_formal_physical_v2"
+    },
+    "checks": {
+      "250Hz": true,
+      "actual_control:carry_hub_high": true,
+      "actual_control:carry_hub_low": true,
+      "actual_control:preplace": true,
+      "actual_control:release": true,
+      "actual_control:rest": true,
+      "actual_control:retreat": true,
+      "actual_control:safe_horizontal": true,
+      "actual_control:target_grasp": true,
+      "actual_control:target_lift": true,
+      "actual_control:target_lift_mid": true,
+      "actual_control:target_pregrasp": true,
+      "actual_gripper_open": true,
+      "actual_selected_finger_grasp": true,
+      "continuous_box_support_contact": true,
+      "eef_angular_stationary": true,
+      "eef_linear_stationary": true,
+      "grasp_subject_contact_identity": true,
+      "hold_is_stationary": true,
+      "physical_contact_evidence_complete": true,
+      "prescribed_transport_target": true,
+      "registered_hold_commands": false,
+      "registered_hold_length": true,
+      "release_settle_length": true,
+      "released_from_robot": true,
+      "rest_orientation": true,
+      "rest_position": true,
+      "rest_settle_length": true,
+      "right_arm_unchanged": true,
+      "stable_angular": true,
+      "stable_linear": true,
+      "stable_window_present": true,
+      "subject_identity": true,
+      "support_geometric_signals_available": true,
+      "true_inside": true,
+      "unchanged:background": true,
+      "unchanged:blue": true,
+      "unchanged:common_box": true,
+      "unchanged:green": true,
+      "unchanged:similar_1": true,
+      "unchanged:similar_2": true
+    },
+    "evidence": {
+      "actual_open_fraction_min": 0.9982913434505463,
+      "background_max_displacement_m": 0.0,
+      "blue_max_displacement_m": 0.0,
+      "common_box_max_displacement_m": 0.0,
+      "eef_angular_max_rad_s": 7.403538541409014e-08,
+      "eef_linear_max_m_s": 0.0008919872504782526,
+      "green_max_displacement_m": 0.0,
+      "object_angular_max_rad_s": 0.0,
+      "object_linear_max_m_s": 0.0,
+      "similar_1_max_displacement_m": 0.0,
+      "similar_2_max_displacement_m": 0.0,
+      "stable_rows": [
+        4127,
+        4176
+      ],
+      "stage_ranges": {
+        "carry_hub_high": {
+          "end_row": 2416,
+          "name": "carry_hub_high",
+          "start_row": 2223
+        },
+        "carry_hub_low": {
+          "end_row": 2223,
+          "name": "carry_hub_low",
+          "start_row": 2059
+        },
+        "gripper_close": {
+          "end_row": 1827,
+          "name": "gripper_close",
+          "start_row": 1527
+        },
+        "gripper_open": {
+          "end_row": 3352,
+          "name": "gripper_open",
+          "start_row": 3052
+        },
+        "post_prefix_hold": {
+          "end_row": 878,
+          "name": "post_prefix_hold",
+          "start_row": 843
+        },
+        "preplace": {
+          "end_row": 2855,
+          "name": "preplace",
+          "start_row": 2751
+        },
+        "release": {
+          "end_row": 3052,
+          "name": "release",
+          "start_row": 2855
+        },
+        "release_settle": {
+          "end_row": 3427,
+          "name": "release_settle",
+          "start_row": 3352
+        },
+        "rest": {
+          "end_row": 4101,
+          "name": "rest",
+          "start_row": 3626
+        },
+        "rest_settle": {
+          "end_row": 4176,
+          "name": "rest_settle",
+          "start_row": 4101
+        },
+        "retreat": {
+          "end_row": 3626,
+          "name": "retreat",
+          "start_row": 3427
+        },
+        "safe_horizontal": {
+          "end_row": 2751,
+          "name": "safe_horizontal",
+          "start_row": 2416
+        },
+        "target_grasp": {
+          "end_row": 1527,
+          "name": "target_grasp",
+          "start_row": 1350
+        },
+        "target_lift": {
+          "end_row": 2059,
+          "name": "target_lift",
+          "start_row": 1941
+        },
+        "target_lift_mid": {
+          "end_row": 1941,
+          "name": "target_lift_mid",
+          "start_row": 1827
+        },
+        "target_pregrasp": {
+          "end_row": 1350,
+          "name": "target_pregrasp",
+          "start_row": 878
+        }
+      },
+      "velocity_source": "independent difference of saved world pose/wxyz quaternion and state_timestamps; no stored zero-velocity fallback"
+    },
+    "pass": false,
+    "runner_pass_used": false
+  },
+  "source_bundle_sha256": "c0b356667489588f42ae77639fb7808864e0dd5652f1ebb3b0ef6385358e752e"
+}
