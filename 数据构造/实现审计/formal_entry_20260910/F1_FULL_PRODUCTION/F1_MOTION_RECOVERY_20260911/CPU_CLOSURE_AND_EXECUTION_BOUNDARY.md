@@ -33,3 +33,8 @@ ledger：`/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/rec
 第一 attempt 在 GPU0（`GPU-2c620e6c-9639-2022-b573-9847dfa33769`）获得 3 秒 lease，因复制副本中历史 compatibility 文件冲突在 native 场景前退出，新增物理场景、动作和 collection 均为 0；owned cleanup、释放和 post snapshot 均通过。修订 timeout 后的第二物理启动在自动审批层被拒绝，命令未执行、没有新 lease。新 ledger 保留首个 attempt 并追加 parent-contract amendment，当前 consumed 仅 GPU lease 3 秒、reserved 全 0。
 
 自动审批拒绝后，本物理恢复保持暂停；继续执行需要用户确认修订后的 timeout/manifest/ledger 合同。
+
+
+## 实际恢复副本预检
+
+已在 GPU 前调用真实恢复副本的六条 `validate_saved_cell` 与 `export_native_cell`：6/6 通过。副本内 current/anchor/capture 字节复制后 hash 一致，raw manifest 的 capture provenance 已指向副本内路径；原 formal root 的 capture/current/anchor/raw/receipt 均未修改。canonical prefix 和三个已封存 `r_pc` suffix artifact 均按 root/program/source/数组绑定加载通过，checkpoint 仅保留 `r_inv_motion` 未完成，recovery request 仅请求三条 motion。预检回执：`ACTUAL_RECOVERY_CPU_PREFLIGHT.json`。
