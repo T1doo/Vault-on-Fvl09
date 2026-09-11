@@ -58,3 +58,6 @@ attempt 3 通过正向 preflight 后在 GPU0（`GPU-2c620e6c-9639-2022-b573-9847
 ## attempt 4 最终正向 preflight
 
 在任何 attempt 4 lease 前，使用与真实 `Popen` 相同的环境构造函数完成真实副本检查。短 cache token 由 `task_id + attempt_number=4` 生成，最大路径 51 字节；TMP/TEMP/TMPDIR、XDG、Warp、Torch、Triton、CUDA、MPL 全部读写清理通过，`tempfile.gettempdir()` 对齐且 `LD_LIBRARY_PATH` 未继承。实际 CUDA 12.1 `libnvrtc.so` 小编译返回 0，未创建 context 或执行 kernel。六条保留 cell、prefix、三个 baseline、checkpoint、namespace、authorization 和 ledger 全部通过；回执为 `ACTUAL_RECOVERY_CPU_PREFLIGHT_ATTEMPT4.json`。
+
+
+最终 preflight 回执：`ACTUAL_RECOVERY_CPU_PREFLIGHT_ATTEMPT4_FINAL.json`。它在 lease 前复用了真实 launcher 检查，短路径 token 与 Popen 按 task+attempt number=4 对齐，最大路径51字节；实际安装的 CUDA12.1 libnvrtc 小编译通过且未创建 context/kernel。
