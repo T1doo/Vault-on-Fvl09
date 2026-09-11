@@ -8,13 +8,15 @@
     "solver_problems": 64
   },
   "checks": {
+    "actual_cli_cpu_preflight_pass": true,
     "authorization_source_pin": true,
     "execution_blocked_before_gpu": true,
     "ledger_chain_valid": true,
     "ledger_reservation_zero": true,
     "manifest_source_pin": true,
     "posthoc_red_overlay_mirrored": true,
-    "posthoc_red_overlay_pass": true
+    "posthoc_red_overlay_pass": true,
+    "posthoc_red_reuse_checked_in_preflight": true
   },
   "gpu_snapshot_called": false,
   "missing_cells": [
@@ -31,6 +33,16 @@
     "overlay_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_inv_motion/recovery_5/root/branches/F1-red/posthoc_verifier_reaudit.json",
     "overlay_sha256": "9c4884790e7781a92065e9711dd67c5a28a9620d05c661c5d5d53d2833e461b3",
     "raw_sha256": "ec33e8169ff5dcd77631458fc9b07304fe49db32b60789fe7e346bf1d149b140"
+  },
+  "preflight_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911_attempt8_candidate/recovery_state/cpu_preflight_attempt8.json",
+  "preflight_sha256": "b2fb0c9de251737cb5e0a32644352eb7e08a67e9131712627a0780725a12b96c",
+  "preflight_summary": {
+    "attempt": 8,
+    "baseline_suffixes": 3,
+    "lease_acquired": false,
+    "prefix_step_count": 793,
+    "preserved_cells": 6,
+    "scene_created": false
   },
   "prior_consumed": {
     "action_scenes": 9,
@@ -65,5 +77,5 @@
   "scene_created": false,
   "schema": "f1_motion_recovery_attempt8_cpu_candidate_validation_v1",
   "source_bundle_sha256": "f6e3fa5dec55eab905d55b9d236edac5de1a64ada8b59c438eb0f68474e76fbc",
-  "status": "CPU_CANDIDATE_AWAITING_BUDGET_APPROVAL"
+  "status": "CPU_PREFLIGHT_PASS_AWAITING_BUDGET_APPROVAL"
 }
