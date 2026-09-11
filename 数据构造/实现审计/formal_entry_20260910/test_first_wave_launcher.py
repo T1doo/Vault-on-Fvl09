@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context,_recovery_can_rebind_gpu
+from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context,_recovery_can_rebind_gpu,_validate_resume_source_identity
 from scene_plan import generate,resolve
 from file_source_pin import inventory,bundle_hash
 
@@ -41,6 +41,20 @@ def manifest_at(directory):
 
 
 class TestLauncher(unittest.TestCase):
+    def test_motion_resume_source_must_match_checkpoint_before_gpu(self):
+        checkpoint = {'source_sha256': 'checkpoint-source', 'source_bundle_sha256': 'checkpoint-bundle'}
+        self.assertTrue(_validate_resume_source_identity(
+            attempt_number=7,
+            checkpoint=checkpoint,
+            compatibility={'old_source_sha256': 'checkpoint-source'},
+        ))
+        with self.assertRaisesRegex(ValueError, 'latest checkpoint'):
+            _validate_resume_source_identity(
+                attempt_number=7,
+                checkpoint=checkpoint,
+                compatibility={'old_source_sha256': 'authorization-candidate'},
+            )
+
     def test_failure_evidence_separates_physical_and_engineering(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
             d=Path(td); root=d/'r_pc/root'; root.mkdir(parents=True)

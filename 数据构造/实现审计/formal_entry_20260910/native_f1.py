@@ -658,7 +658,8 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     previous = json.loads(pointer.read_text(encoding='utf-8')) if pointer.exists() else None
     attempt = previous['attempt'] + 1 if previous else 1
     max_attempts = (
-        6 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt6') is True
+        7 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt7') is True
+        else 6 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt6') is True
         else 5 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt5') is True
         else 4 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt4') is True
         else 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only'
