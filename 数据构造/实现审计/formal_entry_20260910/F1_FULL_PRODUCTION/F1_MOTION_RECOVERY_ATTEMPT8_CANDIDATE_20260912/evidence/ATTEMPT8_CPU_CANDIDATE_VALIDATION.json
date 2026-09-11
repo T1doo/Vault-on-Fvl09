@@ -1,0 +1,69 @@
+{
+  "candidate_contract_sha256": "8e26fe6dfc0513259a7cee8edddb38acebee17f220886fbc826ab1ec4391ee79",
+  "candidate_reservation": {
+    "action_scenes": 6,
+    "collection_attempts": 2,
+    "fresh_scenes": 10,
+    "gpu_lease_seconds": 5501,
+    "solver_problems": 64
+  },
+  "checks": {
+    "authorization_source_pin": true,
+    "execution_blocked_before_gpu": true,
+    "ledger_chain_valid": true,
+    "ledger_reservation_zero": true,
+    "manifest_source_pin": true,
+    "posthoc_red_overlay_mirrored": true,
+    "posthoc_red_overlay_pass": true
+  },
+  "gpu_snapshot_called": false,
+  "missing_cells": [
+    "F1-green:r_inv_motion",
+    "F1-blue:r_inv_motion"
+  ],
+  "motion_cells_created": 0,
+  "native_source_sha256": "c8dcac07a69557f7ca0e99b88619232bb2b693fdb9d6419904cd67bc75abbca2",
+  "note": "Candidate proof is not installed in output and no physical budget amendment is authorized; no attempt8 preflight or GPU dispatch has been run.",
+  "physical_execution_started": false,
+  "posthoc_red_reuse": {
+    "mode": "posthoc_verifier_reaudit_promotion",
+    "original_receipt_sha256": "2e26df8600d50339e135f5f2fa1cc028ea9608fc32bceb0e9ab947af0f23826c",
+    "overlay_path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_inv_motion/recovery_5/root/branches/F1-red/posthoc_verifier_reaudit.json",
+    "overlay_sha256": "9c4884790e7781a92065e9711dd67c5a28a9620d05c661c5d5d53d2833e461b3",
+    "raw_sha256": "ec33e8169ff5dcd77631458fc9b07304fe49db32b60789fe7e346bf1d149b140"
+  },
+  "prior_consumed": {
+    "action_scenes": 9,
+    "collection_attempts": 1,
+    "fresh_scenes": 18,
+    "gpu_lease_seconds": 1699,
+    "solver_problems": 0
+  },
+  "runtime_state": {
+    "attempt8_execution_authorized": false,
+    "attempt_count": 8,
+    "candidate_only": true,
+    "ledger_totals": {
+      "consumed": {
+        "action_scenes": 9,
+        "collection_attempts": 1,
+        "fresh_scenes": 18,
+        "gpu_lease_seconds": 1699,
+        "solver_problems": 0
+      },
+      "reserved": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 0,
+        "gpu_lease_seconds": 0,
+        "solver_problems": 0
+      }
+    },
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911_attempt8_candidate/recovery_state/STATE.json",
+    "status": "DEFERRED_READY"
+  },
+  "scene_created": false,
+  "schema": "f1_motion_recovery_attempt8_cpu_candidate_validation_v1",
+  "source_bundle_sha256": "f6e3fa5dec55eab905d55b9d236edac5de1a64ada8b59c438eb0f68474e76fbc",
+  "status": "CPU_CANDIDATE_AWAITING_BUDGET_APPROVAL"
+}
