@@ -1,0 +1,43 @@
+{
+  "attempt_number": 7,
+  "correction": "setup-only attempt cumulative_usage now keeps output receipt baseline while ledger budget remains separate",
+  "directory_removed_after_empty_prelease_check": true,
+  "error": {
+    "GPU_started": false,
+    "clock": {
+      "clock": "time.monotonic:clock_gettime(CLOCK_MONOTONIC)",
+      "coordinator_pid": 3217735,
+      "host": "fvl05",
+      "monotonic_seconds": 10328846.945735099,
+      "wall_seconds": 1789142978.9436762
+    },
+    "error": {
+      "message": "prior cumulative consumption changed",
+      "type": "ValueError"
+    },
+    "failure_class": "shared_interface_error",
+    "reservation_retained": false,
+    "status": "FAILED"
+  },
+  "lease_acquired": false,
+  "motion_cells_created": 0,
+  "output_cumulative_observed": {
+    "action_scenes": 23,
+    "collection_attempts": 6,
+    "fresh_scenes": 44,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 139
+  },
+  "physical_started": false,
+  "prior_consumed": {
+    "action_scenes": 4,
+    "collection_attempts": 0,
+    "fresh_scenes": 9,
+    "gpu_lease_seconds": 803,
+    "solver_problems": 0
+  },
+  "scene_created": false,
+  "schema": "f1_motion_recovery_attempt7_prelease_cumulative_boundary_v1",
+  "status": "CPU_ONLY_PRELEASE_REJECTED",
+  "written_wall": 1789143220.7147849
+}
