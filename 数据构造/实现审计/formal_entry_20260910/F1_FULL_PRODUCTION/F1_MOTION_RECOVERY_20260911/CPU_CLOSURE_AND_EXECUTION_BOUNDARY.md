@@ -43,3 +43,8 @@ ledger：`/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/rec
 ## attempt 2 的无物理改卡规则
 
 attempt 1 没有物理场景、动作、collection 或 solver 消耗，GPU0 后续被外部进程占用时，当前恢复合同允许 Guard 从 GPU1–6 中选择实时独立空闲卡；这不是 root 内分片，也不允许物理执行后换卡。该规则由 `GPU_REBIND_PREPHYSICAL_AMENDMENT.json` 绑定，预算与 attempt 3 禁止条件不变。
+
+
+## attempt 2 实际收尾
+
+attempt 2 在 Guard 选择 GPU1（`GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b`）并获得 3 秒 lease，但在 native 场景创建前因 authorization compatibility SHA 滞后退出；physical scene/action/solver/collection 均为 0。GPU child、lease 和 cleanup 已结清，累计 recovery lease 为 6 秒，reserved 全 0。修复后的授权绑定已封存，状态等待用户是否单独允许 attempt 3；不会自动启动。

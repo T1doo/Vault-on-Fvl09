@@ -18,14 +18,15 @@
   },
   "contract_ancestors": [
     "681f554b6a279d21539150e4d6281a05a90a667f8016f0a95b8ae4cf0e6d42cd",
-    "1c5f3541f85632a145f70c3859999e4c9696554f7c497540fd9369fcc09d98d2"
+    "1c5f3541f85632a145f70c3859999e4c9696554f7c497540fd9369fcc09d98d2",
+    "52522f50008d610089b9940e3f6a7bae02388959b1673b6ad285dcd393d8a9f4"
   ],
   "copy_family_root": "/nfs_share/lijunhui/CVPR_FutureIntent_Data/releases/formal_v1/F1_MOTION_RECOVERY_20260911",
   "cpu_copy_recovery_authorized": false,
   "execution_authorized": true,
   "jobs": [
     {
-      "authorization_file_sha256": "7eb02d1d5c7f18d83f016f1365ffe7693a7e3691d1c1a0c92282bac8af0f1d0d",
+      "authorization_file_sha256": "e6062a4d3e40643418aaa192929791ab0a9d7678fc456b3d5ae8bbce9abde9f3",
       "authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/specs/F1_000013.authorization.json",
       "cleanup_grace_seconds": 100,
       "job_id": "f1_motion_recovery_F1_000013",
@@ -58,7 +59,7 @@
     "motion_baseline_binding": "embedded_in_authorization",
     "source_freeze": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_FREEZE.json"
   },
-  "parent_contract_sha256": "52522f50008d610089b9940e3f6a7bae02388959b1673b6ad285dcd393d8a9f4",
+  "parent_contract_sha256": "8a610abfc4eff9f82f4b87efdfa593c3a4403706a4f8ce207657f5119fe2d58d",
   "parent_state": {
     "old_output": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013",
     "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/FAMILY_STATE.json",
@@ -68,6 +69,7 @@
   "recovery_contract": {
     "allow_gpu_rebind_if_no_physical": true,
     "baseline_binding_sha256": "e36ce726eb22cf1ac02e1b0682f0de245d1c573eb214264759f62d4a37394708",
+    "compatibility_binding_sha256": "2b4f44edd8faf62b2cc429a7b1c4bac596e7c1f3959841109fe2b93aa49ba82f",
     "exact_non_hold_controls": true,
     "gpu_rebind_rule": "only when all prior attempts have physical_started=false and fresh/action/collection/solver actual usage zero; no cross-card resume after physical execution",
     "missing_cells": [
