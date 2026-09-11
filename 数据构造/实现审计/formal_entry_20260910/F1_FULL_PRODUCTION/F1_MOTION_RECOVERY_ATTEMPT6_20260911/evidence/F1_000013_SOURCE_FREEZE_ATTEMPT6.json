@@ -19,6 +19,8 @@
   "final_cpu_preflight_receipt_sha256": "e88babfa05a940381015038e13a51743dae0a377616ce69a4fcf93f09e8770bc",
   "final_readiness_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_READINESS_AUTHORIZED_BEFORE_GPU.json",
   "final_readiness_receipt_sha256": "a11158075d677e7addae2ef48f410df211bf7769bbabbb1a95baed3788b58d0f",
+  "gpu_pre_snapshot": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_GPU_PRE_SNAPSHOT.json",
+  "gpu_pre_snapshot_sha256": "0fdd8cd505a65bb0aa1bfafd6daeea8e82f95fa622149907008a99326ed1557f",
   "manifest_contract_sha256": "e8242b78c3e9f432984e7d2b3b60c4d8e9dad591b06467b4fb9708b0c7a1942d",
   "manifest_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/manifest.json",
   "manifest_sha256": "a45098dc3cbca91d36764bfd90d2162e9a4a0dce68b7b086715616adcea0ed49",
@@ -45,7 +47,7 @@
   "root_id": "F1_000013",
   "schema": "f1_motion_recovery_attempt6_source_freeze_v1",
   "source_bundle_sha256": "62e73b7b065828d34a6af74c1739040eba1ea135a9822512a78c788310511817",
-  "status": "CPU_REVIEWED_ATTEMPT6_AUTHORIZED_READY_FOR_FIXED_GPU_EXECUTION",
+  "status": "READY_FOR_FIXED_GPU_EXECUTION",
   "task_id": "f1_motion_recovery_20260911_v1",
   "tests": {
     "attempt6_accepted_cells_hard_check": true,
@@ -53,6 +55,7 @@
     "attempt6_execution_authorization_bound": true,
     "attempt6_final_authorized_cpu_preflight": true,
     "attempt6_final_cli_cpu_boundary": true,
+    "attempt6_gpu_pre_guard": true,
     "attempt6_manifest_cpu_preflight": true,
     "attempt6_no_attempt7": true
   },
