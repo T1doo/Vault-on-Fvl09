@@ -639,6 +639,19 @@ def _root_consumed(jobstate):
     return total
 
 
+def _recovery_can_rebind_gpu(manifest, prior):
+    """Allow a card change only before this root has any physical usage."""
+    contract=manifest.get('recovery_contract') or {}
+    if manifest.get('scope') != 'F1_MOTION_RECOVERY' or contract.get('allow_gpu_rebind_if_no_physical') is not True:
+        return False
+    attempts=prior.get('attempts') or []
+    return bool(attempts) and all(
+        a.get('physical_started') is False
+        and all(a.get('actual', {}).get(k, 0) == 0 for k in ('fresh_scenes','action_scenes','collection_attempts','solver_problems'))
+        for a in attempts
+    )
+
+
 def _refresh_state(state,jobs):
     statuses=[state['jobs'].get(j['job_id'],{}).get('status') for j in jobs]
     if any(x=='UNRESOLVED' for x in statuses):state['status']='UNRESOLVED'
@@ -837,7 +850,15 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
         backend=backend or HostBackend();wave=backend.snapshot();evidence(state_dir/'wave_snapshot.json',wave)
         ready_jobs=[j for j,_ in ready];assigned=[];used=set()
         for job in ready_jobs:
-            bound=state['jobs'].get(job['job_id'],{}).get('fixed_gpu_uuid')
+            prior_for_assignment=state['jobs'].get(job['job_id'],{})
+            bound=prior_for_assignment.get('fixed_gpu_uuid')
+            # A pre-physical recovery attempt may be rebound to another
+            # currently idle card.  Once any physical scene/action has run,
+            # the root remains pinned to its original UUID for the rest of the
+            # task.  This keeps one-root/one-card semantics without waiting on
+            # an unrelated process occupying the first card.
+            if _recovery_can_rebind_gpu(manifest, prior_for_assignment):
+                bound=None
             filtered={**wave,'gpus':[{**c,'independently_fresh_idle':c.get('independently_fresh_idle') and c['gpu_uuid'] not in used and (bound is None or c['gpu_uuid']==bound)} for c in wave['gpus']]}
             allocation=assign_ready_jobs([job],filtered)['assignments']
             if allocation:assigned.extend(allocation);used.add(allocation[0]['gpu_uuid'])
@@ -853,6 +874,8 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             consumed=_root_consumed(prior);caps=job.get('root_budget_caps',job['reservation']);reservation={k:min(job['reservation'][k],caps[k]-consumed[k]) for k in COUNTERS}
             if any(v<0 for v in reservation.values()) or reservation['gpu_lease_seconds']<job['timeout_seconds']+job['cleanup_grace_seconds']+job.get('lease_overhead_seconds',100):raise ValueError('root remaining cap insufficient')
             attempt={'attempt':number,'ledger_job_id':aid,'reservation':reservation,'usage_baseline':baseline,'evidence_directory':str(directory),'request_id':request.get('request_id') if request else None,'settled':False,'child_launched':False,'source_bundle_sha256':auth['source_bundle_sha256'],'spec_sha256':spec['spec_sha256'],'source_compatibility':compatibility['job_proofs'].get(jid) if compatibility else None}
+            attempt['gpu_rebind_from_previous_uuid']=prior.get('fixed_gpu_uuid') if _recovery_can_rebind_gpu(manifest,prior) else None
+            attempt['gpu_rebind_reason']='pre-physical attempt had zero scene/action/collection/solver usage' if attempt['gpu_rebind_from_previous_uuid'] else None
             lease=None;acquired=None;terminal=None;execution=None;release=None;reserved=False;safe_cleanup=False;child_invoked=False;busy=False;post_error=None;error=None
             try:
                 if not request and Path(job['output']).exists() and any(Path(job['output']).iterdir()):raise ValueError('fresh output is nonempty; explicit resume required')

@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context
+from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context,_recovery_can_rebind_gpu
 from scene_plan import generate,resolve
 from file_source_pin import inventory,bundle_hash
 
@@ -87,6 +87,14 @@ class TestLauncher(unittest.TestCase):
             context=_attempt_pointer_context(d,before,attempt_id='job:attempt:2')
             detail=_failure_evidence(d,{'returncode':1},attempt_context=context)
             self.assertEqual(detail['category'],'physical_failure');self.assertTrue(detail['reserve_eligible']);self.assertEqual(len(detail['current_attempt_evidence']),1);self.assertTrue(detail['root_history']['receipt_paths'])
+
+    def test_gpu_rebind_allowed_only_before_physical_usage(self):
+        manifest={'scope':'F1_MOTION_RECOVERY','recovery_contract':{'allow_gpu_rebind_if_no_physical':True}}
+        clean={'attempts':[{'physical_started':False,'actual':{'fresh_scenes':0,'action_scenes':0,'collection_attempts':0,'solver_problems':0}}]}
+        self.assertTrue(_recovery_can_rebind_gpu(manifest,clean))
+        used={'attempts':[{'physical_started':True,'actual':{'fresh_scenes':1,'action_scenes':0,'collection_attempts':0,'solver_problems':0}}]}
+        self.assertFalse(_recovery_can_rebind_gpu(manifest,used))
+        self.assertFalse(_recovery_can_rebind_gpu({**manifest,'scope':'F1_FULL_PRODUCTION'},clean))
 
     def test_false_authorization_never_snapshots(self):
         host=FakeHost()
