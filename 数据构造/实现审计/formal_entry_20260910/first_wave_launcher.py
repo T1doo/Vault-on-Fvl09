@@ -833,6 +833,8 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.is_file() else {}
     if compatibility.get('old_source_bundle_sha256') != checkpoint.get('source_bundle_sha256') and compatibility.get('old_source_bundle_sha256') != attempts[-1].get('source_bundle_sha256'):
         raise ValueError('compatibility old source bundle does not match the latest checkpoint or prior attempt source')
+    if attempt_number >= 5 and compatibility.get('old_source_sha256') != checkpoint.get('source_sha256'):
+        raise ValueError('compatibility old source implementation does not match the latest checkpoint')
     if set(checkpoint.get('completed', {})) != {'r_pc', 'r_inv_path'} or checkpoint.get('active_realization') != 'r_inv_motion':
         raise ValueError('checkpoint does not contain exactly the three motion cells as remaining work')
     expected_cells = {'F1-red:r_inv_motion', 'F1-green:r_inv_motion', 'F1-blue:r_inv_motion'}

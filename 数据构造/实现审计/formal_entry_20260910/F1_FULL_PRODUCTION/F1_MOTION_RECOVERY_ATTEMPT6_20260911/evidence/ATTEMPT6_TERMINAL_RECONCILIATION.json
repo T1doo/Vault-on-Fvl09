@@ -1,0 +1,85 @@
+{
+  "actual_usage": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 4,
+    "solver_problems": 0
+  },
+  "attempt": 6,
+  "attempt7_auto_start": false,
+  "blocking_issue": "attempt6 compat old_source_sha256 did not match output checkpoint source_sha256; CPU preflight now checks this before GPU",
+  "child_error": "family_entry source-transition rejected compatibility old_source_sha256: checkpoint uses 574a205b while compat used c8dcac07",
+  "cleanup": {
+    "device_idle_observed": true,
+    "host_process_visibility": true,
+    "lease_seconds": 4,
+    "owned_cleanup_pass": true,
+    "release_confirmed": true
+  },
+  "closed_state_snapshot": {
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_CLOSED_STATE.json",
+    "sha256": "cd89acac860c823c199f53b9b023ba4d29609467a0d6b3c7deabd10638b28195"
+  },
+  "cpu_repair_candidate": "next compat must bind old_source_sha256 to checkpoint 574a205b and include accepted_cells; this attempt remains historical",
+  "cumulative_usage": {
+    "action_scenes": 23,
+    "collection_attempts": 6,
+    "fresh_scenes": 44,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 139
+  },
+  "evidence_files": {
+    "ATTEMPT6_ACTUAL_USAGE.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_ACTUAL_USAGE.json",
+      "sha256": "faad0e1c6a630fd48b37e3777f9ae274918d142cf74b104b19482d1d351a4a9b"
+    },
+    "ATTEMPT6_CHILD_TERMINAL.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_CHILD_TERMINAL.json",
+      "sha256": "50c56c1fd52ec12a0cf7712f466ed04cc234099ecc3ff3540f6b7a423171a85b"
+    },
+    "ATTEMPT6_CURRENT_ATTEMPT_EVIDENCE.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_CURRENT_ATTEMPT_EVIDENCE.json",
+      "sha256": "62d607b972e1d0431b84aa13806628f6c02db3cdd5428fa13c94c03102f4ad97"
+    },
+    "ATTEMPT6_JOB_RECEIPT.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_JOB_RECEIPT.json",
+      "sha256": "2a03d57497ca57bfd342185753662c51f8752db87bb9b105a4bda6557556a3a3"
+    },
+    "ATTEMPT6_LEASE_TERMINAL.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_LEASE_TERMINAL.json",
+      "sha256": "732b1edd12b69ed0425c2697509c32ba17bbe897f2be2e9da29484a2617088b2"
+    },
+    "ATTEMPT6_OWNED_CLEANUP.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_OWNED_CLEANUP.json",
+      "sha256": "24d9cfc7e633bb9665aaa2e015a013f8a5624b0ee8adaefa78137de14cbe787b"
+    },
+    "ATTEMPT6_POST_SNAPSHOT.json": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_POST_SNAPSHOT.json",
+      "sha256": "c4f6af491dad3006ce5063854427696db8da3d2423bff20ae058cd07a73d205c"
+    },
+    "ATTEMPT6_STDOUT.log": {
+      "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_STDOUT.log",
+      "sha256": "0f2b9ea7771ba45a4cb40e7a75a4b7419cf06d689519fec07619f3160d6afa1e"
+    }
+  },
+  "failure_category": "engineering_error",
+  "failure_class": "shared_interface_error",
+  "fixed_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "motion_branch_started": false,
+  "motion_cells_created": 0,
+  "no_more_physical_attempts": true,
+  "physical_motion_failure": false,
+  "request_id": "f1_motion_recovery_20260911_attempt_6",
+  "required_next_step": "Any further physical run requires a new explicit attempt7 authorization/manifest/ledger after the corrected source binding CPU preflight; do not reuse attempt6 or alter its receipt",
+  "reserve_eligible": false,
+  "result": "FAILED_INCOMPLETE",
+  "root_created": false,
+  "root_id": "F1_000013",
+  "scene_created": false,
+  "schema": "f1_motion_recovery_attempt6_terminal_reconciliation_v1",
+  "stdout_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_STDOUT.log",
+  "stdout_sha256": "0f2b9ea7771ba45a4cb40e7a75a4b7419cf06d689519fec07619f3160d6afa1e",
+  "task_id": "f1_motion_recovery_20260911_v1",
+  "written_wall": 1789132782.0722053
+}

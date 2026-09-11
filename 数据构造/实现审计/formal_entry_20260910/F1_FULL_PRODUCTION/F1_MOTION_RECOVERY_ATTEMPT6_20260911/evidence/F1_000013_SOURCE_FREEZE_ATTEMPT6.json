@@ -6,6 +6,7 @@
   "authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/specs/F1_000013.authorization.json",
   "authorization_sha256": "36d578ccf13e732ac0b8139947cb7cbf9eabdc05dbc1b320d3cda5c8ae70eeb4",
   "base_attempt5_commit": "1e6cf525878f789c0c6ceb66b79cce6c2573d540",
+  "blocking_issue": "attempt6 compat old_source_sha256 did not match output checkpoint source_sha256; CPU preflight now checks this before GPU",
   "cli_cpu_boundary_receipt": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ACTUAL_ATTEMPT6_CLI_CPU_BOUNDARY.json",
   "cli_cpu_boundary_receipt_sha256": "ac62fa5d0604090fbfd7142bc0c0bcfa40bee6ec5112b7b7b4297c02e9aa2982",
   "compatibility_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT6.json",
@@ -47,8 +48,10 @@
   "root_id": "F1_000013",
   "schema": "f1_motion_recovery_attempt6_source_freeze_v1",
   "source_bundle_sha256": "62e73b7b065828d34a6af74c1739040eba1ea135a9822512a78c788310511817",
-  "status": "READY_FOR_FIXED_GPU_EXECUTION",
+  "status": "ATTEMPT6_CLOSED_INCOMPLETE_NO_ATTEMPT7",
   "task_id": "f1_motion_recovery_20260911_v1",
+  "terminal_reconciliation": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT6_20260911/evidence/ATTEMPT6_TERMINAL_RECONCILIATION.json",
+  "terminal_reconciliation_sha256": "c9a899ce25ce189bb2ec09c9390425c2fd77ba76254ed7b6aff80afd145ae5e9",
   "tests": {
     "attempt6_accepted_cells_hard_check": true,
     "attempt6_cli_cpu_preflight": true,
@@ -57,7 +60,9 @@
     "attempt6_final_cli_cpu_boundary": true,
     "attempt6_gpu_pre_guard": true,
     "attempt6_manifest_cpu_preflight": true,
-    "attempt6_no_attempt7": true
+    "attempt6_no_attempt7": true,
+    "attempt6_scene_created": false,
+    "attempt6_source_sha_checkpoint_gap": true
   },
   "written_wall": 1789131581.2835567
 }
