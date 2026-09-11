@@ -9,10 +9,10 @@
     6,
     7
   ],
-  "approval_basis": "bounded attempt7 execution after positive production CPU preflight under active goal authorization",
-  "authorization_id": "f1-motion-recovery-F1_000013-attempt7-authorized",
+  "approval_basis": "auto review rejected attempt7; waiting for direct user message approval",
+  "authorization_id": "f1-motion-recovery-F1_000013-attempt7-pending-direct-approval",
   "copy_destination": "/nfs_share/lijunhui/CVPR_FutureIntent_Data/releases/formal_v1/F1_MOTION_RECOVERY_ATTEMPT6_20260911/F1_000013",
-  "gpu_execution_authorized": true,
+  "gpu_execution_authorized": false,
   "implementation_source_sha256": "c8dcac07a69557f7ca0e99b88619232bb2b693fdb9d6419904cd67bc75abbca2",
   "job_limits": {
     "cleanup_grace_seconds": 100,
@@ -71,7 +71,7 @@
     "attempt5_auto_start": false,
     "attempt6_auto_start": false,
     "attempt7_auto_start": false,
-    "attempt7_execution_authorized": true,
+    "attempt7_execution_authorized": false,
     "attempt7_reason": "explicit bounded candidate only; no automatic physical start",
     "attempt_timeout_profile": {
       "cleanup_grace_seconds": 100,
@@ -142,7 +142,7 @@
     },
     "motion_hold_implementation": "constant_actual_left_arm_qpos_setpoint",
     "motion_hold_start_tolerance_rad": 1e-05,
-    "physical_authorization_status": "APPROVED_BOUNDED_ATTEMPT7",
+    "physical_authorization_status": "AWAITING_DIRECT_USER_APPROVAL",
     "positive_cpu_preflight": true,
     "schema": "f1_motion_recovery_context_v1",
     "short_cache_environment_version": "f1_short_cache_env_v1",
