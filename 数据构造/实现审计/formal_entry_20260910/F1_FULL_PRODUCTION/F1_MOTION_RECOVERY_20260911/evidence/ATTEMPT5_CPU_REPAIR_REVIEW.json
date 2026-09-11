@@ -1,0 +1,212 @@
+{
+  "attempt4_preserved": {
+    "motion_cells_created": 0,
+    "no_more_physical_attempts": true,
+    "package_copy_sha256": "9c2e37bee85e16ce023ae95d9f3108be6c1c3b85ffdab7c016744eb31a68aacf",
+    "root_receipt_sha256": "9c2e37bee85e16ce023ae95d9f3108be6c1c3b85ffdab7c016744eb31a68aacf",
+    "same_bytes": true,
+    "state_closed": true
+  },
+  "based_on_commit": "c66661e4d49c3aa1f70d6b59ac81b0141f0e9394",
+  "candidate_source_compatibility": {
+    "changed_files": [
+      "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py",
+      "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/native_f1.py"
+    ],
+    "new_source_bundle_sha256": "888597ae1baf57049449f66924b7398ae44ad25a0234513999022d6518bcf7d8",
+    "old_source_bundle_sha256": "2307946b4beb99492fc5f7fc8c1464841bcd9df593fd393f15517f07d9e885bc",
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT5_CPU_CANDIDATE.json",
+    "sha256": "c7646149a7ceb3fa88e6346508658cf84ed038c18614dab394fcd97e1afc1751"
+  },
+  "current_closed_budget": {
+    "consumed": {
+      "action_scenes": 4,
+      "collection_attempts": 0,
+      "fresh_scenes": 9,
+      "gpu_lease_seconds": 641,
+      "solver_problems": 0
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "decision": "BLOCK_ATTEMPT5_CPU_STRICT_START",
+  "new_budget_created": false,
+  "physical_authorization_issued": false,
+  "receipt_gate_cpu_integration": {
+    "actual_motion_adapter_gate": {
+      "evidence_complete": true,
+      "motion_baseline_source_binding": true,
+      "motion_baseline_source_validation": [
+        {
+          "pass": true,
+          "program_id": "F1-red"
+        },
+        {
+          "pass": true,
+          "program_id": "F1-green"
+        },
+        {
+          "pass": true,
+          "program_id": "F1-blue"
+        }
+      ],
+      "pass": true,
+      "scientific_gate_pass": true
+    },
+    "arbitrary_string_rejected_by_adapter": true,
+    "controls_equal": [
+      {
+        "attempt4_count": 11,
+        "baseline_count": 11,
+        "equal": true,
+        "program_id": "F1-red"
+      },
+      {
+        "attempt4_count": 11,
+        "baseline_count": 11,
+        "equal": true,
+        "program_id": "F1-green"
+      },
+      {
+        "attempt4_count": 11,
+        "baseline_count": 11,
+        "equal": true,
+        "program_id": "F1-blue"
+      }
+    ],
+    "live_planner_query_count": [
+      0,
+      0,
+      0
+    ],
+    "new_candidate_gate": {
+      "evidence_complete": true,
+      "motion_baseline_source_binding": null,
+      "pass": true,
+      "scientific_gate_pass": true
+    },
+    "old_attempt4_gate": {
+      "evidence_complete": false,
+      "pass": false,
+      "planner_collision_source_available": false
+    },
+    "receiver_is_native_adapter": true,
+    "serialized_roundtrip": true,
+    "source_validation": [
+      {
+        "pass": true,
+        "program_id": "F1-red"
+      },
+      {
+        "pass": true,
+        "program_id": "F1-green"
+      },
+      {
+        "pass": true,
+        "program_id": "F1-blue"
+      }
+    ],
+    "test_suite": {
+      "test_f1_motion_receipt_integration": {
+        "failed": 0,
+        "passed": 5,
+        "tests": [
+          "old_missing_source_rejected",
+          "real_structured_source_roundtrip_and_gate",
+          "free_form_source_rejected_by_native_adapter",
+          "wrong_program_source_rejected",
+          "attempt4_hold_strict_start_audit"
+        ]
+      }
+    },
+    "unbound_source_rejected": true,
+    "wrong_program_source_rejected": true
+  },
+  "required_next_step": "Define and approve a new motion contract that resolves the 35-frame hold versus strict 1e-5 start condition; do not widen tolerance, force qpos, or promote attempt4 preflight traces. After that contract is explicit, create a fresh manifest/ledger/authorization before any GPU run.",
+  "schema": "f1_motion_recovery_attempt5_cpu_repair_review_v1",
+  "strict_start_audit": {
+    "all_pass": false,
+    "arm_qpos_indices": [
+      6,
+      14,
+      18,
+      22,
+      26,
+      30
+    ],
+    "audits": [
+      {
+        "actual_start_qpos_sha256": "80cd540efff98847b71a3bb623ae3efea618f1145f9a6ddf91e520d8bfb9de1d",
+        "all_qpos_max_error_rad": 0.0006772279739379883,
+        "all_qpos_pass": false,
+        "arm_qpos_indices": [
+          6,
+          14,
+          18,
+          22,
+          26,
+          30
+        ],
+        "baseline_start_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+        "mapping_source": "runtime _execute_cached_segment arm_joint_names resolved against active_joints; indices persisted in segment receipts",
+        "pass": false,
+        "prefix_equals_baseline_start": true,
+        "program_id": "F1-red",
+        "selected_arm_max_error_rad": 0.0006772279739379883,
+        "selected_arm_pass": false,
+        "tolerance_rad": 1e-05
+      },
+      {
+        "actual_start_qpos_sha256": "80cd540efff98847b71a3bb623ae3efea618f1145f9a6ddf91e520d8bfb9de1d",
+        "all_qpos_max_error_rad": 0.0006772279739379883,
+        "all_qpos_pass": false,
+        "arm_qpos_indices": [
+          6,
+          14,
+          18,
+          22,
+          26,
+          30
+        ],
+        "baseline_start_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+        "mapping_source": "runtime _execute_cached_segment arm_joint_names resolved against active_joints; indices persisted in segment receipts",
+        "pass": false,
+        "prefix_equals_baseline_start": true,
+        "program_id": "F1-green",
+        "selected_arm_max_error_rad": 0.0006772279739379883,
+        "selected_arm_pass": false,
+        "tolerance_rad": 1e-05
+      },
+      {
+        "actual_start_qpos_sha256": "80cd540efff98847b71a3bb623ae3efea618f1145f9a6ddf91e520d8bfb9de1d",
+        "all_qpos_max_error_rad": 0.0006772279739379883,
+        "all_qpos_pass": false,
+        "arm_qpos_indices": [
+          6,
+          14,
+          18,
+          22,
+          26,
+          30
+        ],
+        "baseline_start_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+        "mapping_source": "runtime _execute_cached_segment arm_joint_names resolved against active_joints; indices persisted in segment receipts",
+        "pass": false,
+        "prefix_equals_baseline_start": true,
+        "program_id": "F1-blue",
+        "selected_arm_max_error_rad": 0.0006772279739379883,
+        "selected_arm_pass": false,
+        "tolerance_rad": 1e-05
+      }
+    ],
+    "observed_max_error_rad": 0.0006772279739379883,
+    "rule": "selected executing arm qpos max error <=1e-5 rad at first frozen segment",
+    "source_change": "family_runners_v3_3 persists executing-arm mapping and enforces 1e-5 for motion holds"
+  },
+  "written_wall": 1789128612.8328762
+}

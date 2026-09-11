@@ -10,6 +10,119 @@ import json
 import numpy as np
 
 
+def _canonical_hash(value):
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode('utf-8')
+    ).hexdigest()
+
+
+def build_motion_baseline_planner_source(*, binding, spec, program_id, baseline_manifest):
+    """Build a verifiable provenance envelope for timing-only control reuse.
+
+    The motion realization deliberately invokes no live planner.  Its collision
+    provenance therefore comes only from the sealed r_pc execution spec; the
+    receiver must re-load that artifact and verify this envelope instead of
+    trusting a free-form source string.
+    """
+    if not isinstance(binding, dict) or not isinstance(baseline_manifest, dict):
+        raise ValueError('motion baseline planner source requires structured binding and artifact')
+    item = (binding.get('programs') or {}).get(program_id)
+    execution_spec = baseline_manifest.get('execution_spec')
+    if not isinstance(item, dict) or not isinstance(execution_spec, dict):
+        raise ValueError('motion baseline planner source lacks bound execution spec')
+    queries = execution_spec.get('planner_query_receipts')
+    targets = execution_spec.get('targets')
+    if not isinstance(queries, list) or not queries or not isinstance(targets, list) or not targets:
+        raise ValueError('motion baseline planner source lacks historical planner receipts or targets')
+    if len(queries) < len(targets):
+        raise ValueError('historical planner receipt count does not cover frozen suffix targets')
+    if any(
+        not isinstance(q, dict)
+        or q.get('status') not in ('Success', 'success')
+        or not isinstance(q.get('query_id'), int)
+        or not isinstance(q.get('source'), str)
+        or not q.get('source')
+        for q in queries
+    ):
+        raise ValueError('historical planner receipts are incomplete or non-successful')
+    artifact_sha = baseline_manifest.get('artifact_sha256')
+    prefix_sha = baseline_manifest.get('prefix_artifact_sha256')
+    execution_sha = baseline_manifest.get('execution_spec_sha256')
+    if not all(isinstance(x, str) and x for x in (artifact_sha, prefix_sha, execution_sha)):
+        raise ValueError('baseline artifact lacks immutable identity hashes')
+    historical_sources = sorted({q['source'] for q in queries})
+    description = (
+        f"sealed r_pc artifact {artifact_sha} historical official CuRobo per-segment "
+        f"receipts ({len(queries)}); no new planner invoked"
+    )
+    return {
+        'schema': 'f1_motion_baseline_planner_source_v1',
+        'kind': 'sealed_r_pc_artifact_historical_planner_evidence',
+        'baseline_root_id': baseline_manifest.get('root_slot_id'),
+        'baseline_program_id': baseline_manifest.get('program_id'),
+        'baseline_realization': 'r_pc',
+        'baseline_artifact_sha256': artifact_sha,
+        'baseline_manifest_artifact_sha256': item.get('manifest_artifact_sha256'),
+        'baseline_manifest_file_sha256': item.get('manifest_file_sha256'),
+        'baseline_arrays_file_sha256': item.get('arrays_file_sha256'),
+        'baseline_execution_spec_sha256': execution_sha,
+        'baseline_prefix_artifact_sha256': prefix_sha,
+        'historical_planner_receipt_count': len(queries),
+        'historical_planner_receipts_sha256': _canonical_hash(queries),
+        'historical_planner_receipt_scope': 'execution_spec.planner_query_receipts for all frozen baseline suffix targets',
+        'historical_planner_sources': historical_sources,
+        'collision_model_scope': 'official CuRobo planner success/failure per frozen segment in the sealed r_pc artifact',
+        'planner_invoked': False,
+        'live_planner_query_count': 0,
+        'quantitative_collision_clearance_available': False,
+        'description': description,
+    }
+
+
+def validate_motion_baseline_planner_source(source, *, binding, spec, program_id, baseline_manifest):
+    """Validate the structured provenance envelope at the family-gate boundary."""
+    if not isinstance(source, dict):
+        raise ValueError('motion planner source envelope is missing')
+    expected = build_motion_baseline_planner_source(
+        binding=binding, spec=spec, program_id=program_id, baseline_manifest=baseline_manifest
+    )
+    for key, value in expected.items():
+        if source.get(key) != value:
+            raise ValueError(f'motion planner source binding mismatch: {key}')
+    if source.get('planner_invoked') is not False or source.get('live_planner_query_count') != 0:
+        raise ValueError('motion planner source falsely claims a live planner call')
+    if source.get('quantitative_collision_clearance_available') is not False:
+        raise ValueError('motion planner source overclaims quantitative clearance')
+    if source.get('description') != expected['description']:
+        raise ValueError('motion planner source description is not generated from the artifact')
+    return True
+
+
+def audit_motion_start_qpos(*, baseline_start_qpos, actual_qpos, arm_qpos_indices, tolerance_rad=1e-5):
+    """Apply the branch's selected-arm start rule to a saved hold state."""
+    baseline = np.asarray(baseline_start_qpos, dtype=np.float64).reshape(-1)
+    actual = np.asarray(actual_qpos, dtype=np.float64).reshape(-1)
+    indices = [int(index) for index in arm_qpos_indices]
+    if baseline.shape != actual.shape or baseline.ndim != 1:
+        raise ValueError('motion start qpos shapes differ')
+    if not indices or len(set(indices)) != len(indices) or any(index < 0 or index >= len(baseline) for index in indices):
+        raise ValueError('motion start qpos arm index mapping is invalid')
+    all_error = float(np.max(np.abs(actual - baseline)))
+    arm_error = float(np.max(np.abs(actual[indices] - baseline[indices])))
+    return {
+        'baseline_start_qpos_sha256': hashlib.sha256(np.ascontiguousarray(baseline).tobytes()).hexdigest(),
+        'actual_start_qpos_sha256': hashlib.sha256(np.ascontiguousarray(actual).tobytes()).hexdigest(),
+        'arm_qpos_indices': indices,
+        'all_qpos_max_error_rad': all_error,
+        'selected_arm_max_error_rad': arm_error,
+        'tolerance_rad': float(tolerance_rad),
+        'all_qpos_pass': all_error <= float(tolerance_rad),
+        'selected_arm_pass': arm_error <= float(tolerance_rad),
+        'pass': arm_error <= float(tolerance_rad),
+        'mapping_source': 'runtime _execute_cached_segment arm_joint_names resolved against active_joints; indices persisted in segment receipts',
+    }
+
+
 def change_path_targets(targets, offset):
     result = deepcopy(targets)
     matches = [x for x in result if x['segment_id'] == 'safe_horizontal']
@@ -245,6 +358,12 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
                     spec=spec,
                     program_id=program['program_id'],
                 )
+                planner_source = build_motion_baseline_planner_source(
+                    binding=motion_baseline_binding,
+                    spec=spec,
+                    program_id=program['program_id'],
+                    baseline_manifest=baseline_manifest,
+                )
                 baseline_qpos = np.asarray(baseline_arrays['actual_prefix_end_qpos'], dtype=np.float64).reshape(-1)
                 actual_qpos = np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float64).reshape(-1)
                 if actual_qpos.shape != baseline_qpos.shape:
@@ -268,6 +387,7 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
                     'control_count': len(baseline_controls),
                     'hold_start_max_qpos_error_rad': start_error,
                     'planner_invoked': False,
+                    'planner_collision_source': planner_source,
                 }
                 scene._cmf_suffix_preflight_partial_receipt = {
                     'schema_version': 'cmf_f1_motion_baseline_replay_preflight_v1',
@@ -288,6 +408,9 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
                         'planner_invoked': False,
                         'planner_query_receipts': [],
                         'baseline_control_replay': execution_spec['motion_control_source'],
+                        'planner_collision_check_source': planner_source['description'],
+                        'planner_collision_source': planner_source,
+                        'quantitative_collision_clearance_available': False,
                         'actual_prefix_end_qpos_sha256': baseline_manifest['actual_prefix_end_qpos_sha256'],
                         'hold_start_max_qpos_error_rad': start_error,
                         'hold_start_safe': True,
@@ -338,6 +461,40 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
             from controlled_multi_future.schemas import validate_exactly_three_programs
             programs=deepcopy(spec['programs']);validate_exactly_three_programs(programs)
             return programs
+
+        def validate_family_suffix_gate(self, receipts):
+            result = dict(super().validate_family_suffix_gate(receipts))
+            if realization != 'r_inv_motion':
+                return result
+            validation = []
+            for item in receipts:
+                program_id = item.get('program_id') if isinstance(item, dict) else None
+                try:
+                    baseline_manifest, _, _ = _load_motion_baseline_controls(
+                        binding=motion_baseline_binding,
+                        spec=spec,
+                        program_id=program_id,
+                    )
+                    evidence = item.get('evidence') or {}
+                    validate_motion_baseline_planner_source(
+                        evidence.get('planner_collision_source'),
+                        binding=motion_baseline_binding,
+                        spec=spec,
+                        program_id=program_id,
+                        baseline_manifest=baseline_manifest,
+                    )
+                    if item.get('planner_query_count') != 0 or evidence.get('planner_invoked') is not False or evidence.get('planner_query_receipts') != []:
+                        raise ValueError('motion receipt claims a live planner call')
+                    validation.append({'program_id': program_id, 'pass': True})
+                except BaseException as exc:
+                    validation.append({'program_id': program_id, 'pass': False, 'error': str(exc)})
+            valid = len(validation) == 3 and all(item['pass'] for item in validation)
+            result.setdefault('evidence_checks', {})['motion_baseline_source_binding'] = valid
+            result.setdefault('checks', {})['motion_baseline_source_binding'] = valid
+            result['motion_baseline_source_validation'] = validation
+            result['evidence_complete'] = all(result['evidence_checks'].values())
+            result['pass'] = all(result['checks'].values())
+            return result
 
         def scene(self, planned_root_slot_spec, *, phase, program=None):
             from controlled_multi_future.real_sapien_adapter_high_level_v1 import _PinnedSapienRenderDeviceContextV1
