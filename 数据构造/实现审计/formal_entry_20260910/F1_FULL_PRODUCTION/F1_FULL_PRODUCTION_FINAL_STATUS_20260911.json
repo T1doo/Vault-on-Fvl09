@@ -1,0 +1,306 @@
+{
+  "budget_caps": {
+    "action_scenes": 588,
+    "collection_attempts": 252,
+    "fresh_scenes": 924,
+    "gpu_lease_seconds": 201600,
+    "solver_problems": 5376
+  },
+  "compatibility_appendix": {
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_runtime_compat_v3_utf8b/F1_RUNTIME_COMPATIBILITY_APPENDIX.json",
+    "sha256": "e83d96eac5699f985a804e5632cbc9f7f32a6729111b9f04a94be4e86ce8f918",
+    "source_bundle_sha256": "2309842186c73b51515f910bee7423058ce0311da561f275d3dda9ea00712460"
+  },
+  "family_state": {
+    "active_roots": [
+      "F1_000013",
+      "F1_000014"
+    ],
+    "blocking": [
+      {
+        "reason": "four ordered reserves exhausted"
+      }
+    ],
+    "phase": "first",
+    "status": "FORMAL_DATASET_INCOMPLETE",
+    "terminal_history": [
+      {
+        "phase": "first",
+        "terminals": {
+          "F1_000001": "FAILED",
+          "F1_000002": "FAILED"
+        }
+      },
+      {
+        "phase": "first",
+        "terminals": {
+          "F1_000011": "FAILED",
+          "F1_000012": "FAILED"
+        }
+      }
+    ]
+  },
+  "generated_at": "2026-09-11",
+  "interpretation": {
+    "F1_000001": "physical IK infeasible after bounded recovery",
+    "F1_000002": "bounded transient startup failures; no physical cell",
+    "F1_000011": "six cells preserved; bounded motion cohort failure",
+    "F1_000012": "two r_pc cells preserved; later target cohort failure",
+    "F1_000013": "six cells preserved; bounded recovery ended in transient source-boundary failure",
+    "F1_000014": "first r_pc red branch rejected for green non-target displacement ~0.007003 m; second recovery rejected regenerated current/anchor/prefix mismatch; final reserve exhausted"
+  },
+  "jobs": [
+    {
+      "actual": {
+        "action_scenes": 4,
+        "collection_attempts": 0,
+        "fresh_scenes": 8,
+        "gpu_lease_seconds": 286,
+        "solver_problems": 39
+      },
+      "attempt_count": 2,
+      "failure_class": "physical_infeasible",
+      "job_id": "full_F1_000001",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000001/attempt_1/job_receipt.json",
+          "sha256": "28d8dd82c583600c495897b16585fb8847c8c9ed39d2c50a4f5fa3b7504eb3a1"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000001/attempt_2/job_receipt.json",
+          "sha256": "06f5174e99e3de7e803e3f4d4b54017a583db3f11f256f5b4bd4e6703fd180bf"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "r_pc_root_receipt": {
+        "error": "at least one suffix preflight raised an implementation error",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000001/r_pc/root/root_receipt.json",
+        "sha256": "851056d2da0cfe3b6cb715c411622b9ba8921935eab819498510a00ac2326451",
+        "status": "failed_implementation_error"
+      },
+      "recovery_2_root_receipt": {
+        "error": "not all three suffix planners passed from actual replay-end qpos",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000001/r_pc/recovery_2/root/root_receipt.json",
+        "sha256": "607bc8df3d74dd1eee4d7044486d057e569d5e6ea36543ef4b8ef5b502b6ed77",
+        "status": "failed_planner"
+      },
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000001",
+      "status": "FAILED"
+    },
+    {
+      "actual": {
+        "action_scenes": 0,
+        "collection_attempts": 0,
+        "fresh_scenes": 0,
+        "gpu_lease_seconds": 3,
+        "solver_problems": 0
+      },
+      "attempt_count": 2,
+      "failure_class": "transient_execution",
+      "job_id": "full_F1_000002",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000002/attempt_1/job_receipt.json",
+          "sha256": "9b4ae56ea3f251b191bbff0c5fa5c68f9b74498c97ff1cb91ef8ad98d361f8c7"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000002/attempt_2/job_receipt.json",
+          "sha256": "b451dbd19ae7c189f6b2b6e2e2d612fb85cb38742f724e4b9f3f54e75fe9c3ed"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000002",
+      "status": "FAILED"
+    },
+    {
+      "actual": {
+        "action_scenes": 5,
+        "collection_attempts": 1,
+        "fresh_scenes": 9,
+        "gpu_lease_seconds": 613,
+        "solver_problems": 46
+      },
+      "attempt_count": 2,
+      "failure_class": "transient_execution",
+      "job_id": "full_F1_000011",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000011/attempt_1/job_receipt.json",
+          "sha256": "3049cfe6c7cd3456a288b7162011bbf2cedcbc8ae60304d7224a777c4e0b06f8"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000011/attempt_2/job_receipt.json",
+          "sha256": "4cf49903b60bfe073e90dab0b62cf1f5607670efbbd8081041659168c74cd0ec"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "r_pc_root_receipt": {
+        "error": null,
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000011/r_pc/root/root_receipt.json",
+        "sha256": "5ee1594c30224efacf470942623cbec255bb9a677ef80bc12f1a49fedc88b2c3",
+        "status": "accepted"
+      },
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000011",
+      "status": "FAILED"
+    },
+    {
+      "actual": {
+        "action_scenes": 1,
+        "collection_attempts": 0,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 165,
+        "solver_problems": 1
+      },
+      "attempt_count": 2,
+      "failure_class": "transient_execution",
+      "job_id": "full_F1_000012",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000012/attempt_1/job_receipt.json",
+          "sha256": "1c27d8f48bd0c7ac30666bd0e6d9b65ce76421b76b489ff33312b511a13a6fb2"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000012/attempt_2/job_receipt.json",
+          "sha256": "49ddbbee7af33b2ce5afdc466fde366ae7e0273757ed39b05c2a4206cc2a4eb4"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "r_pc_root_receipt": {
+        "error": "first branch failed; later branch execution stopped",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000012/r_pc/root/root_receipt.json",
+        "sha256": "569ac00a5ebdc742ef285da44261a1906043231d1987c2c6f1c3797e690b06e5",
+        "status": "failed_verifier"
+      },
+      "recovery_2_root_receipt": {
+        "error": "recovery actual regenerated prefix/current/anchor differs",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000012/r_pc/recovery_2/root/root_receipt.json",
+        "sha256": "64158535f426424b9cc9baff39e7b4fae368de5a08b61cceefa288a9cf44a06b",
+        "status": "failed_execution"
+      },
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000012",
+      "status": "FAILED"
+    },
+    {
+      "actual": {
+        "action_scenes": 1,
+        "collection_attempts": 0,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 450,
+        "solver_problems": 1
+      },
+      "attempt_count": 2,
+      "failure_class": "transient_execution",
+      "job_id": "full_F1_000013",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000013/attempt_1/job_receipt.json",
+          "sha256": "2cfb8c5e581898e8dd5380414e99f1aa1d941afcc2cfe6ddae4493dc72b85bfc"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000013/attempt_2/job_receipt.json",
+          "sha256": "a90f453d5fae51a468e8a04d647489f05cae53ed2e1f294f13a531b4fb9bbcdd"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "r_pc_root_receipt": {
+        "error": null,
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/root_receipt.json",
+        "sha256": "6bcc80b0d0cfae2df42b3edb4a6cc9263ed0eefabd027a1640b56e45e0b29341",
+        "status": "accepted"
+      },
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000013",
+      "status": "FAILED"
+    },
+    {
+      "actual": {
+        "action_scenes": 1,
+        "collection_attempts": 0,
+        "fresh_scenes": 5,
+        "gpu_lease_seconds": 163,
+        "solver_problems": 1
+      },
+      "attempt_count": 2,
+      "failure_class": "transient_execution",
+      "job_id": "full_F1_000014",
+      "job_receipts": [
+        {
+          "attempt": 1,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000014/attempt_1/job_receipt.json",
+          "sha256": "2f8caaea96057af6487273021d23c0224566dc065b3aa567549182f5bd1b76b8"
+        },
+        {
+          "attempt": 2,
+          "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/launcher/jobs/full_F1_000014/attempt_2/job_receipt.json",
+          "sha256": "0ed81de78d4fca1958e7cfdfba379aea64cbe2b6562232f4eb0fc2304a24b189"
+        }
+      ],
+      "owned_cleanup_pass": true,
+      "r_pc_root_receipt": {
+        "error": "first branch failed; later branch execution stopped",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000014/r_pc/root/root_receipt.json",
+        "sha256": "ceff3cbeb3ce82a456b599190009b26b09c42353cb4a7799755a6e1f27bf6067",
+        "status": "failed_verifier"
+      },
+      "recovery_2_root_receipt": {
+        "error": "recovery actual regenerated prefix/current/anchor differs",
+        "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000014/r_pc/recovery_2/root/root_receipt.json",
+        "sha256": "487aa885966336624b0c9c5ac74ee2d9c8cca43bb8b2865abe0027f14a01e079",
+        "status": "failed_execution"
+      },
+      "release_confirmed": true,
+      "root_collection_verified": false,
+      "root_id": "F1_000014",
+      "status": "FAILED"
+    }
+  ],
+  "launcher_budget": {
+    "consumed": {
+      "action_scenes": 65,
+      "collection_attempts": 18,
+      "fresh_scenes": 121,
+      "gpu_lease_seconds": 7283,
+      "solver_problems": 495
+    },
+    "reserved": {
+      "action_scenes": 0,
+      "collection_attempts": 0,
+      "fresh_scenes": 0,
+      "gpu_lease_seconds": 0,
+      "solver_problems": 0
+    }
+  },
+  "next_step_required": "Any further physical attempt requires a new explicitly approved manifest/ledger/budget and a CPU-reviewed fix for recovery current/prefix binding; do not mutate this completed ledger.",
+  "no_f2_f3_f4_training_h_reveal_compression_or_hd_started": true,
+  "old_raw_and_failure_evidence_preserved": true,
+  "preserved_cell_roots": {
+    "F1_000011": 6,
+    "F1_000012": 2,
+    "F1_000013": 6
+  },
+  "preserved_independently_revalidated_cells": 14,
+  "research_eligible_complete_roots": 0,
+  "schema": "f1_full_production_final_status_v1",
+  "scope": "F1 only",
+  "status": "FORMAL_DATASET_INCOMPLETE",
+  "task_id": "formal_f1_full_20260910_v1"
+}
