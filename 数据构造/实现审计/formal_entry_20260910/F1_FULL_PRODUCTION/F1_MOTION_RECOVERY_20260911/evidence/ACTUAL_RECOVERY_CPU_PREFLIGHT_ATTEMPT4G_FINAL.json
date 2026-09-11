@@ -1,0 +1,177 @@
+{
+  "attempts_settled": [
+    1,
+    2,
+    3
+  ],
+  "authorization_source_bundle_sha256": "2307946b4beb99492fc5f7fc8c1464841bcd9df593fd393f15517f07d9e885bc",
+  "baseline_suffixes": [
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "62786bf4148e97c56ec701f91d339692e7886549cce2753cb843344ce11aa8a7",
+      "control_count": 11,
+      "program_id": "F1-red"
+    },
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "00e6bf697f78a0bd47a5b109ae8510354fd28117e8769d6270f19c07503f3784",
+      "control_count": 11,
+      "program_id": "F1-green"
+    },
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "5790e8c8c44d43ea7e3055c09269d5ff9eb8c3b6256eccbe2c3535de55442ec5",
+      "control_count": 11,
+      "program_id": "F1-blue"
+    }
+  ],
+  "checkpoint_completed": [
+    "r_inv_path",
+    "r_pc"
+  ],
+  "compatibility_sha256": "f347053db110d686c0ce5da8d4958cfa6f7c435029ef01d8f7968e3bd7c3ab4d",
+  "fixed_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+  "lease_acquired": false,
+  "ledger_consumed": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 1,
+    "gpu_lease_seconds": 195,
+    "solver_problems": 0
+  },
+  "ledger_event_count": 19,
+  "ledger_reserved": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 0
+  },
+  "manifest_contract_sha256": "b82760c0ae1f63227fe5363c289bc3ddcd611b286755df5ca7a1d117533f3a2f",
+  "missing_cells": [
+    "F1-blue:r_inv_motion",
+    "F1-green:r_inv_motion",
+    "F1-red:r_inv_motion"
+  ],
+  "namespace_contract_sha256": "b82760c0ae1f63227fe5363c289bc3ddcd611b286755df5ca7a1d117533f3a2f",
+  "native_boundary_reached": true,
+  "nvrtc_compile_probe": {
+    "cache": {
+      "max_path_bytes": 51,
+      "paths": {
+        "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/c",
+        "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/m",
+        "TEMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMPDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/te",
+        "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/tr",
+        "WARP_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/w",
+        "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/x"
+      },
+      "root": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d",
+      "token": "f47b518baa2d"
+    },
+    "result": {
+      "cache_root": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/w",
+      "compile_rc": 0,
+      "cuda_context_created": false,
+      "kernel_loaded": false,
+      "library": "/nfs_share/lijunhui/Robotwin2/tools/cuda-12.1/lib/libnvrtc.so",
+      "log": ""
+    },
+    "returncode": 0,
+    "stderr": ""
+  },
+  "pass": true,
+  "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+  "prefix_step_count": 793,
+  "preserved_cells": [
+    {
+      "cell_key": "F1-red:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-green:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-blue:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-red:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-green:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-blue:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    }
+  ],
+  "request_id": "f1_motion_recovery_20260911_attempt_4",
+  "root_id": "F1_000013",
+  "runtime_cache": {
+    "max_path_bytes": 51,
+    "paths": {
+      "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/c",
+      "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/m",
+      "TEMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+      "TMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+      "TMPDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+      "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/te",
+      "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/tr",
+      "WARP_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/w",
+      "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/x"
+    },
+    "root": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d",
+    "token": "f47b518baa2d"
+  },
+  "runtime_cache_probe": {
+    "cache": {
+      "max_path_bytes": 51,
+      "paths": {
+        "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/c",
+        "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/m",
+        "TEMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMPDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/te",
+        "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/tr",
+        "WARP_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/w",
+        "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/x"
+      },
+      "root": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d",
+      "token": "f47b518baa2d"
+    },
+    "returncode": 0,
+    "stderr": "",
+    "stdout": {
+      "env": {
+        "CUDA_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/c",
+        "MPLCONFIGDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/m",
+        "TEMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMP": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TMPDIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t",
+        "TORCH_EXTENSIONS_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/te",
+        "TRITON_CACHE_DIR": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/tr",
+        "WARP_CACHE_PATH": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/w",
+        "XDG_CACHE_HOME": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/x"
+      },
+      "ld_library_path": null,
+      "probe_clean": true,
+      "tempfile_gettempdir": "/nfs_share/lijunhui/Robotwin2/tmp/j/f47b518baa2d/t"
+    }
+  },
+  "scene_created": false,
+  "schema": "f1_recovery_cpu_preflight_v2"
+}

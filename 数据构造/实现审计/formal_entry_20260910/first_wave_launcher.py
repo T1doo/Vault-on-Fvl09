@@ -1069,7 +1069,23 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             return {'state':state,'results':results,'deferred_roots':[],'gpu_initialized_by_coordinator':False,'copy_only':True}
         if state['status']=='FAILED' and not requests and ready_job_ids is None:raise RuntimeError('failed job requires classified explicit recovery')
         allowed_failures=manifest.get('recovery_policy',{}).get('allowed_failure_classes',['physical_infeasible','transient_execution'])
-        if any(j.get('status')=='FAILED' and j.get('failure_class') not in allowed_failures and not (compatibility and compatibility['job_proofs'].get(k,{}).get('receipt',{}).get('failure_resolution',{}).get('status')=='FIXED_CPU_VERIFIED') for k,j in state['jobs'].items()):raise RuntimeError('unclassified/shared failure stops all new dispatch')
+        def explicit_attempt4_exception(job_id, record):
+            request=requests.get(job_id)
+            attempts=record.get('attempts') or []
+            contract=manifest.get('recovery_contract') or {}
+            return (
+                manifest.get('scope')=='F1_MOTION_RECOVERY'
+                and contract.get('allow_attempt4_after_init_failure') is True
+                and isinstance(request,dict)
+                and request.get('attempt_number')==4
+                and request.get('request_id')=='f1_motion_recovery_20260911_attempt_4'
+                and request.get('failure_class')=='shared_interface_error'
+                and len(attempts)==3
+                and all(a.get('settled') is True and a.get('owned_cleanup_pass') is True and a.get('release_confirmed') is True for a in attempts)
+                and attempts[-1].get('scene_created') is True
+                and all(a.get('physical_started') is False for a in attempts)
+            )
+        if any(j.get('status')=='FAILED' and j.get('failure_class') not in allowed_failures and not explicit_attempt4_exception(k,j) and not (compatibility and compatibility['job_proofs'].get(k,{}).get('receipt',{}).get('failure_resolution',{}).get('status')=='FIXED_CPU_VERIFIED') for k,j in state['jobs'].items()):raise RuntimeError('unclassified/shared failure stops all new dispatch')
         if any(j.get('status')=='COPY_FAILED' for j in state['jobs'].values()):raise RuntimeError('finish CPU-only copy recovery before more GPU work')
         ready=[]
         for jid in selected:
