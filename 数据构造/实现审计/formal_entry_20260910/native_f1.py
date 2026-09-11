@@ -230,8 +230,13 @@ def native_adapter(*, spec, realization, output_root, source_sha):
                         raise RuntimeError('second capture differs from persisted t0')
             else:
                 np.savez_compressed(path, **arrays)
-                (destination / 'anchor.json').write_text(json.dumps(anchor, sort_keys=True))
-                (destination / 'capture.json').write_text(json.dumps({'current_hashes': current, 'root_id':spec['root_id'], 'spec_sha256': spec['spec_sha256'], 'source_bundle_sha256':source_bundle, 'camera_config': self._camera_configuration(scene, rgb), 'scene_instance_id': scene._cmf_scene_instance_id, 'capture_source': 'native_original_t0', 'render_device_binding': scene._cmf_render_device_binding_v1, 'npz_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}, sort_keys=True))
+                (destination / 'anchor.json').write_text(
+                    json.dumps(anchor, sort_keys=True), encoding='utf-8'
+                )
+                (destination / 'capture.json').write_text(
+                    json.dumps({'current_hashes': current, 'root_id':spec['root_id'], 'spec_sha256': spec['spec_sha256'], 'source_bundle_sha256':source_bundle, 'camera_config': self._camera_configuration(scene, rgb), 'scene_instance_id': scene._cmf_scene_instance_id, 'capture_source': 'native_original_t0', 'render_device_binding': scene._cmf_render_device_binding_v1, 'npz_sha256': hashlib.sha256(path.read_bytes()).hexdigest()}, sort_keys=True),
+                    encoding='utf-8',
+                )
             with np.load(path, allow_pickle=False) as persisted:
                 if any(not np.array_equal(persisted[k], v) for k, v in arrays.items()):
                     raise RuntimeError('current write/readback mismatch')
@@ -253,7 +258,7 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     from controlled_multi_future.canonical_artifact import canonical_hash_json
     output = Path(output)
     pointer = output / 'cohort_pointer.json'
-    previous = json.loads(pointer.read_text()) if pointer.exists() else None
+    previous = json.loads(pointer.read_text(encoding='utf-8')) if pointer.exists() else None
     attempt = previous['attempt'] + 1 if previous else 1
     if attempt > 2:
         raise ValueError('native F1 finite recovery invocation exhausted')
@@ -267,7 +272,7 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
         old_root = output / previous['root_relative']
         for program in spec['programs']:
             branch = old_root / 'branches' / program['program_id']
-            if (branch / 'receipt.json').exists() and json.loads((branch / 'receipt.json').read_text()).get('status') == 'accepted':
+            if (branch / 'receipt.json').exists() and json.loads((branch / 'receipt.json').read_text(encoding='utf-8')).get('status') == 'accepted':
                 reuse[program['program_id']] = branch
     adapter = native_adapter(spec=spec, realization=realization, output_root=attempt_output / 'scene_instances', source_sha=source_sha)
     adapter._source_compatibility=source_compatibility
@@ -290,7 +295,7 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
         orchestrator.reuse_prefix_dir = old_root / 'canonical_prefix_artifact'
     output.mkdir(parents=True, exist_ok=True)
     payload = {'root_relative':str(root_output.relative_to(output)), 'attempt':attempt,'spec_sha256':spec['spec_sha256'],'source_sha256':source_sha,'reused_programs':sorted(reuse),'status':'STARTED','previous_pointer':previous}
-    temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload)); temporary.replace(pointer)
+    temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload), encoding='utf-8'); temporary.replace(pointer)
     try:
         result = orchestrator.run_nonformal_root(output_dir=root_output, planned_root_slot_spec=planned,
             realization_spec_by_program={p['program_id']: {'realization': realization, 'variant_rules': spec['variant_rules'], 'formal_data': False, 'entry_spec_sha256': spec['spec_sha256']} for p in spec['programs']},
@@ -301,4 +306,4 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
         import time
         payload['ended_wall']=time.time()
         if payload['status']=='STARTED': payload['status']='EXCEPTION'
-        temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload)); temporary.replace(pointer)
+        temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload), encoding='utf-8'); temporary.replace(pointer)

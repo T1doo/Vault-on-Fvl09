@@ -1246,7 +1246,7 @@ class FormalF1RecoverableOrchestrator(
                 if reuse is not None:
                     from native_raw_contract import validate_native_raw_contract as validate_raw_artifact_contract
                     previous = Path(reuse)
-                    saved = json.loads((previous / 'receipt.json').read_text())
+                    saved = json.loads((previous / 'receipt.json').read_text(encoding='utf-8'))
                     if not validate_raw_artifact_contract(previous / 'raw')['pass']:
                         raise ValueError('reused cell raw integrity/contract failed')
                     old_suffix_dir = previous.parent.parent / 'suffix_artifacts' / program_id
