@@ -65,7 +65,7 @@
   "parent_task_id": "formal_f1_full_20260910_v1",
   "recovery_context": {
     "allow_cohort_attempt4": true,
-    "allow_gpu_rebind_if_no_physical": true,
+    "allow_gpu_rebind_if_no_physical": false,
     "attempt5_auto_start": false,
     "attempt_timeout_profile": {
       "cleanup_grace_seconds": 100,
@@ -74,6 +74,7 @@
     },
     "canonical_prefix_artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_pc/root/canonical_prefix_artifact",
     "fixed_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
+    "gpu_binding_rule": "attempt3 created a pristine scene; attempt4 remains on the same physical GPU UUID and cannot rebind",
     "missing_cells": [
       "F1-red:r_inv_motion",
       "F1-green:r_inv_motion",
@@ -129,10 +130,10 @@
   },
   "root_id": "F1_000013",
   "schema": "f1_motion_recovery_authorization_v1",
-  "source_bundle_sha256": "f56e53e16e24b44e1f0f6c465676f4bc63cb09d6421ab58baebf7034cd4f304d",
+  "source_bundle_sha256": "12f3311d8b33f363d07fe50930f81e4126cd257c8779a8358cb85e85742c5d47",
   "source_compatibility_receipt": {
-    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT4C.json",
-    "sha256": "13ceb6505f54bca851eb89b17f9b8d9f38180339484e901f672397c6a5f146b7"
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT4F.json",
+    "sha256": "1648630998d935adc3e60c9477287ced209b93302dce21872062e3c601a705c7"
   },
   "source_files": {
     "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/collision_aloha_left.yml": "19e21fbba8b6657ffc6d405ac53b277902ce118821b818aa77aad2e0b0d7f83d",
@@ -853,7 +854,7 @@
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/f1_portable_export.py": "a6a833bfc3822192421d0fd2b452d167dcb1e7c96e49dbaf9f2c6dd9a74527f4",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/family_entry.py": "f394fda60845cecf5492b110a34a4e3f5f0bf93388bf975b6e3f21df0460a5af",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/file_source_pin.py": "20382750ea698e0ad9532057b308121638b1f248a1f408f1028e691939df6cdc",
-    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/first_wave_launcher.py": "8e798e7384be5946add4f8638f9e01384867d067db98d03f7d3194e779fdab1d",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/first_wave_launcher.py": "60d8cf769da6c209997acd8c9b731e2a5c909ef7d5cde0c488772450a5c4bd4e",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_f1_backend.py": "ab679a3966aac695e06fc5d47346b87cbe5314b3a2d40fa937d61bc5890cd0cd",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_f4_backend.py": "8cba94699eeaac79d8f15770d63f667a846c148080b4675780135c193b85ed9a",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_modern_backend.py": "6c53ab56216b87d45a992b05f0c6ada269d2c0b2074176adb544e15ed1a52e8c",

@@ -9,111 +9,131 @@
     6,
     7
   ],
-  "budget_caps": {
-    "action_scenes": 7,
-    "collection_attempts": 3,
-    "fresh_scenes": 12,
-    "gpu_lease_seconds": 7200,
-    "solver_problems": 64
+  "approval_basis": "user-provided GPT review t_6aa35607968c8191bad3482b49058bb1; CPU gates completed before this authorization",
+  "copy_destination": "/nfs_share/lijunhui/CVPR_FutureIntent_Data/releases/formal_v1/F1_MOTION_RECOVERY_20260911/F1_000013",
+  "gpu_execution_authorized": true,
+  "implementation_source_sha256": "574a205b0b0fa0afebacbc2c4a2369e1cf3afaf50474ade085fb25be7943357e",
+  "job_limits": {
+    "cleanup_grace_seconds": 100,
+    "gpu_reservation_seconds": 7200,
+    "timeout_seconds": 6000
   },
-  "contract_ancestors": [
-    "681f554b6a279d21539150e4d6281a05a90a667f8016f0a95b8ae4cf0e6d42cd",
-    "1c5f3541f85632a145f70c3859999e4c9696554f7c497540fd9369fcc09d98d2",
-    "52522f50008d610089b9940e3f6a7bae02388959b1673b6ad285dcd393d8a9f4",
-    "8a610abfc4eff9f82f4b87efdfa593c3a4403706a4f8ce207657f5119fe2d58d",
-    "06b46ea94f71f47da98d68ad333b0e7a588e44a38bcea22b8d4e7f0aedaad765",
-    "0d66ce4ffbe0442d316ad7c3a64c2dc78e7af9829eee8c2a2fdc3e69bfb83488",
-    "18e0ad59beb1d556683896193dccdde3b8c39b81d87a9852d3c3bff742ecdb4c",
-    "94244e63c9703cde54b4149ff71afdece9cd62290411443dd5edb4cfa12dee53",
-    "22940f485aefa26568552571881414e376e1ee7fedbbc1cad951a91694969057",
-    "cec5a6a6056669e5d264ba41684f370ee562a5a0ac15763f9b9d4437060b0841",
-    "fd2b14da28850a791119f0c7b784ff6fd55f85f51e487d4deb3c87a3ca451e85"
-  ],
-  "copy_family_root": "/nfs_share/lijunhui/CVPR_FutureIntent_Data/releases/formal_v1/F1_MOTION_RECOVERY_20260911",
-  "cpu_copy_recovery_authorized": false,
-  "execution_authorized": true,
-  "jobs": [
-    {
-      "authorization_file_sha256": "0016b12efde7f37128fe7c74794d4b3ad7c6ca64ff0a4db78f96191e63eadd81",
-      "authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/specs/F1_000013.authorization.json",
-      "cleanup_grace_seconds": 100,
-      "job_id": "f1_motion_recovery_F1_000013",
-      "lease_overhead_seconds": 100,
-      "output": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013",
-      "reservation": {
-        "action_scenes": 7,
-        "collection_attempts": 3,
-        "fresh_scenes": 12,
-        "gpu_lease_seconds": 7200,
-        "solver_problems": 64
+  "motion_baseline_binding": {
+    "baseline_source_root": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013",
+    "binding_sha256": "e36ce726eb22cf1ac02e1b0682f0de245d1c573eb214264759f62d4a37394708",
+    "programs": {
+      "F1-blue": {
+        "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+        "arrays_file_sha256": "34407c65977944bacb9e937674731d3eb6c5a7bbd9548c5db45ef83e90f86ebe",
+        "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-blue",
+        "manifest_artifact_sha256": "5790e8c8c44d43ea7e3055c09269d5ff9eb8c3b6256eccbe2c3535de55442ec5",
+        "manifest_file_sha256": "32f876a677d81814d7035248457d80c4c1e5d222087985e9f7a26abc18b83a04",
+        "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+        "program_id": "F1-blue",
+        "realization": "r_pc",
+        "root_id": "F1_000013"
       },
-      "root_budget_caps": {
-        "action_scenes": 7,
-        "collection_attempts": 3,
-        "fresh_scenes": 12,
-        "gpu_lease_seconds": 7200,
-        "solver_problems": 64
+      "F1-green": {
+        "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+        "arrays_file_sha256": "b912d6fb4f52c18ee08246369384184d897dc30f8eb4b9035bafb14cf43d8a4e",
+        "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-green",
+        "manifest_artifact_sha256": "00e6bf697f78a0bd47a5b109ae8510354fd28117e8769d6270f19c07503f3784",
+        "manifest_file_sha256": "39b49b8f0c8179d5a0a166beb85a0687ecf9da5308fd55a8bbf68f4269ca4678",
+        "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+        "program_id": "F1-green",
+        "realization": "r_pc",
+        "root_id": "F1_000013"
       },
-      "root_id": "F1_000013",
-      "spec_file_sha256": "3db6dbb9f79acd8bd7edc04732c5f5eb8831e367a193adbefdb4fe428a9a558e",
-      "spec_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/specs/F1_000013.spec.json",
-      "task_id": "f1_motion_recovery_20260911_v1",
-      "timeout_seconds": 6000
-    }
-  ],
-  "max_concurrent_gpu_jobs": 1,
-  "max_copy_workers": 1,
-  "package_paths": {
-    "compatibility": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT4F.json",
-    "motion_baseline_binding": "embedded_in_authorization",
-    "source_freeze": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_FREEZE.json"
+      "F1-red": {
+        "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+        "arrays_file_sha256": "d8e9ca3c931c0c40bef3d8f436141309f95cc8f22237e6d107974dba64fc787f",
+        "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-red",
+        "manifest_artifact_sha256": "62786bf4148e97c56ec701f91d339692e7886549cce2753cb843344ce11aa8a7",
+        "manifest_file_sha256": "4e9aa6d7e423521f8cecb7de51f1423b9730a930eb3e5d811b977d4fde4a5121",
+        "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+        "program_id": "F1-red",
+        "realization": "r_pc",
+        "root_id": "F1_000013"
+      }
+    },
+    "root_id": "F1_000013",
+    "schema": "f1_motion_baseline_binding_v1",
+    "spec_sha256": "84c3a7eecf54f9b9b410dc25cb51c3506a76557c0dc1232c0fd3c25ce2a48e52",
+    "status": "CPU_REVIEWED_APPLICABLE"
   },
-  "parent_contract_sha256": "20fc0c7b853608a1a8a93d2c1487c372e5459eba09ca6cc379cc9be8ec28c80d",
-  "parent_state": {
-    "old_output": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013",
-    "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1_state/FAMILY_STATE.json",
-    "status": "FORMAL_DATASET_INCOMPLETE"
-  },
+  "original_primary_slot_id": "F1_000001",
   "parent_task_id": "formal_f1_full_20260910_v1",
-  "recovery_contract": {
-    "allow_attempt4_after_init_failure": true,
-    "allow_gpu_rebind_if_no_physical": false,
-    "attempt4_reason": "attempt3 pristine-only CUDA/Warp environment failure; no prefix generated",
+  "recovery_context": {
+    "allow_cohort_attempt4": true,
+    "allow_gpu_rebind_if_no_physical": true,
     "attempt5_auto_start": false,
-    "baseline_binding_sha256": "e36ce726eb22cf1ac02e1b0682f0de245d1c573eb214264759f62d4a37394708",
+    "attempt_timeout_profile": {
+      "cleanup_grace_seconds": 100,
+      "lease_overhead_seconds": 100,
+      "timeout_seconds": 6000
+    },
     "canonical_prefix_artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_pc/root/canonical_prefix_artifact",
-    "canonical_prefix_artifact_original": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/canonical_prefix_artifact",
-    "compatibility_binding_sha256": "1648630998d935adc3e60c9477287ced209b93302dce21872062e3c601a705c7",
-    "exact_non_hold_controls": true,
     "fixed_gpu_uuid": "GPU-2c620e6c-9639-2022-b573-9847dfa33769",
-    "gpu_rebind_rule": "only when all prior attempts have physical_started=false and fresh/action/collection/solver actual usage zero; no cross-card resume after physical execution",
     "missing_cells": [
       "F1-red:r_inv_motion",
       "F1-green:r_inv_motion",
       "F1-blue:r_inv_motion"
     ],
-    "missing_realization": "r_inv_motion",
-    "mode": "existing_root_motion_only",
-    "motion_hold_frames": 35,
-    "no_old_root_mutation": true,
-    "no_old_six_rerun": true,
-    "original_primary_slot_id": "F1_000001",
-    "positive_cpu_preflight": "first_wave_launcher.recovery_cpu_preflight before backend.snapshot"
+    "mode": "motion_only",
+    "motion_baseline_binding": {
+      "baseline_source_root": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013",
+      "binding_sha256": "e36ce726eb22cf1ac02e1b0682f0de245d1c573eb214264759f62d4a37394708",
+      "programs": {
+        "F1-blue": {
+          "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+          "arrays_file_sha256": "34407c65977944bacb9e937674731d3eb6c5a7bbd9548c5db45ef83e90f86ebe",
+          "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-blue",
+          "manifest_artifact_sha256": "5790e8c8c44d43ea7e3055c09269d5ff9eb8c3b6256eccbe2c3535de55442ec5",
+          "manifest_file_sha256": "32f876a677d81814d7035248457d80c4c1e5d222087985e9f7a26abc18b83a04",
+          "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+          "program_id": "F1-blue",
+          "realization": "r_pc",
+          "root_id": "F1_000013"
+        },
+        "F1-green": {
+          "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+          "arrays_file_sha256": "b912d6fb4f52c18ee08246369384184d897dc30f8eb4b9035bafb14cf43d8a4e",
+          "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-green",
+          "manifest_artifact_sha256": "00e6bf697f78a0bd47a5b109ae8510354fd28117e8769d6270f19c07503f3784",
+          "manifest_file_sha256": "39b49b8f0c8179d5a0a166beb85a0687ecf9da5308fd55a8bbf68f4269ca4678",
+          "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+          "program_id": "F1-green",
+          "realization": "r_pc",
+          "root_id": "F1_000013"
+        },
+        "F1-red": {
+          "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+          "arrays_file_sha256": "d8e9ca3c931c0c40bef3d8f436141309f95cc8f22237e6d107974dba64fc787f",
+          "artifact_dir": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000013/r_pc/root/suffix_artifacts/F1-red",
+          "manifest_artifact_sha256": "62786bf4148e97c56ec701f91d339692e7886549cce2753cb843344ce11aa8a7",
+          "manifest_file_sha256": "4e9aa6d7e423521f8cecb7de51f1423b9730a930eb3e5d811b977d4fde4a5121",
+          "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+          "program_id": "F1-red",
+          "realization": "r_pc",
+          "root_id": "F1_000013"
+        }
+      },
+      "root_id": "F1_000013",
+      "schema": "f1_motion_baseline_binding_v1",
+      "spec_sha256": "84c3a7eecf54f9b9b410dc25cb51c3506a76557c0dc1232c0fd3c25ce2a48e52",
+      "status": "CPU_REVIEWED_APPLICABLE"
+    },
+    "positive_cpu_preflight": true,
+    "schema": "f1_motion_recovery_context_v1",
+    "short_cache_environment_version": "f1_short_cache_env_v1"
   },
-  "recovery_policy": {
-    "allowed_failure_classes": [
-      "transient_execution",
-      "recovery_consistency_error",
-      "engineering_error"
-    ],
-    "max_gpu_attempts": 3
+  "root_id": "F1_000013",
+  "schema": "f1_motion_recovery_authorization_v1",
+  "source_bundle_sha256": "eed46bdc36dc62c35a7e878e93ffc61c3038a784e5c3a9f9c3213e195cbe34d2",
+  "source_compatibility_receipt": {
+    "path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_20260911/evidence/F1_000013_SOURCE_COMPATIBILITY_ATTEMPT4D.json",
+    "sha256": "42c565def4e31fe035dfb3324cf376b0a5305f0e550094622de50254979b656d"
   },
-  "root_ids": [
-    "F1_000013"
-  ],
-  "schema": "f1_motion_recovery_manifest_v1",
-  "scope": "F1_MOTION_RECOVERY",
-  "source_bundle_sha256": "12f3311d8b33f363d07fe50930f81e4126cd257c8779a8358cb85e85742c5d47",
   "source_files": {
     "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/collision_aloha_left.yml": "19e21fbba8b6657ffc6d405ac53b277902ce118821b818aa77aad2e0b0d7f83d",
     "/nfs_share/lijunhui/Robotwin2/project/RoboTwin/assets/embodiments/aloha-agilex/collision_aloha_right.yml": "d22850769a5c28fec35434e12ffb597837853cb4dd916b74969e6e615faf5cdd",
@@ -833,7 +853,7 @@
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/f1_portable_export.py": "a6a833bfc3822192421d0fd2b452d167dcb1e7c96e49dbaf9f2c6dd9a74527f4",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/family_entry.py": "f394fda60845cecf5492b110a34a4e3f5f0bf93388bf975b6e3f21df0460a5af",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/file_source_pin.py": "20382750ea698e0ad9532057b308121638b1f248a1f408f1028e691939df6cdc",
-    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/first_wave_launcher.py": "60d8cf769da6c209997acd8c9b731e2a5c909ef7d5cde0c488772450a5c4bd4e",
+    "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/first_wave_launcher.py": "de54c04ac67198128cae067743158d817e6e2a063b9aeef38a33b4c7f160049b",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_f1_backend.py": "ab679a3966aac695e06fc5d47346b87cbe5314b3a2d40fa937d61bc5890cd0cd",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_f4_backend.py": "8cba94699eeaac79d8f15770d63f667a846c148080b4675780135c193b85ed9a",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/fixture_modern_backend.py": "6c53ab56216b87d45a992b05f0c6ada269d2c0b2074176adb544e15ed1a52e8c",
@@ -851,5 +871,6 @@
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/portable_v2.py": "e97647c2cc8ca81bd82764dad87e5ac3ec5aea50c6e61a093522bea6b1abe282",
     "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/scene_plan.py": "1d112eccf7d5cbd8ebea57e5658d70e75138a546d6538896976063bd4512e7d9"
   },
+  "spec_sha256": "84c3a7eecf54f9b9b410dc25cb51c3506a76557c0dc1232c0fd3c25ce2a48e52",
   "task_id": "f1_motion_recovery_20260911_v1"
 }

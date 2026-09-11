@@ -177,7 +177,7 @@ class HostBackend:
         try:
             env,runtime_cache=build_child_environment(
                 gpu_uuid=card['gpu_uuid'],
-                task_id=job.get('task_id', job['job_id']),
+                task_id=job.get('task_id') or job.get('job_id') or 'host-backend-test',
                 attempt_id=str(job.get('attempt', receipt_dir.name)),
             )
             env['PATH']=str(PYTHON.parent)+os.pathsep+str(ROOT/'Robotwin2/tools/cuda-12.1/bin')+os.pathsep+env.get('PATH','')
@@ -363,7 +363,7 @@ def validate_manifest(manifest,activated_jobs=None,*,copy_only=False,inactive_jo
         contract=manifest.get('recovery_contract') or {}
         if contract.get('mode')!='existing_root_motion_only' or contract.get('missing_realization')!='r_inv_motion' or contract.get('missing_cells') != ['F1-red:r_inv_motion','F1-green:r_inv_motion','F1-blue:r_inv_motion']:
             raise ValueError('motion recovery contract scope is not frozen')
-        expected_caps={'fresh_scenes':11,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
+        expected_caps={'fresh_scenes':12 if contract.get('allow_attempt4_after_init_failure') is True else 11,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
         if manifest.get('budget_caps') != expected_caps:
             raise ValueError('motion recovery budget cap differs from reviewed bound')
     validate_sources(manifest)
@@ -811,6 +811,8 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         raise ValueError('attempt 3 scene/physical boundary evidence is inconsistent')
     checkpoint_path = output / 'checkpoint.json'
     checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.is_file() else {}
+    if compatibility.get('old_source_bundle_sha256') != checkpoint.get('source_bundle_sha256'):
+        raise ValueError('compatibility old source bundle does not match the latest checkpoint')
     if set(checkpoint.get('completed', {})) != {'r_pc', 'r_inv_path'} or checkpoint.get('active_realization') != 'r_inv_motion':
         raise ValueError('checkpoint does not contain exactly the three motion cells as remaining work')
     expected_cells = {'F1-red:r_inv_motion', 'F1-green:r_inv_motion', 'F1-blue:r_inv_motion'}
@@ -1098,7 +1100,7 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                     state=state,
                     request=request,
                 )
-                evidence(state_dir / 'cpu_preflight_attempt3.json', preflight)
+                evidence(state_dir / f"cpu_preflight_attempt{request.get('attempt_number', 4)}.json", preflight)
         backend=backend or HostBackend();wave=backend.snapshot();evidence(state_dir/'wave_snapshot.json',wave)
         ready_jobs=[j for j,_ in ready];assigned=[];used=set()
         for job in ready_jobs:
@@ -1250,7 +1252,12 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--manifest',required=True,type=Path);p.add_argument('--state-dir',required=True,type=Path);p.add_argument('--ready-job',action='append');p.add_argument('--recoveries',type=Path);p.add_argument('--copy-only-job',action='append');p.add_argument('--reconcile-only',action='store_true');p.add_argument('--compatibility-file',type=Path);a=p.parse_args();manifest=json.loads(a.manifest.read_text(encoding='utf-8'))
+    p=argparse.ArgumentParser();p.add_argument('--manifest',required=True,type=Path);p.add_argument('--state-dir',required=True,type=Path);p.add_argument('--ready-job',action='append');p.add_argument('--recoveries',type=Path);p.add_argument('--copy-only-job',action='append');p.add_argument('--reconcile-only',action='store_true');p.add_argument('--cpu-preflight',action='store_true');p.add_argument('--compatibility-file',type=Path);a=p.parse_args();manifest=json.loads(a.manifest.read_text(encoding='utf-8'))
+    if a.cpu_preflight:
+        if manifest.get('scope')!='F1_MOTION_RECOVERY' or len(manifest.get('jobs',[]))!=1:raise ValueError('--cpu-preflight is only defined for the bounded F1 motion recovery')
+        job=manifest['jobs'][0];state=json.loads((a.state_dir/'STATE.json').read_text(encoding='utf-8'));request_map=json.loads((a.recoveries.read_text(encoding='utf-8')) if a.recoveries else (a.state_dir/'recovery_request.json').read_text(encoding='utf-8'));request=request_map.get(job['job_id']) if isinstance(request_map,dict) else None
+        if not isinstance(request,dict):raise ValueError('--cpu-preflight requires one request bound to the selected job')
+        preflight=recovery_cpu_preflight(manifest=manifest,job=job,state_dir=a.state_dir,state=state,request=request);evidence(a.state_dir/f"cpu_preflight_attempt{request.get('attempt_number',4)}.json",preflight);print(json.dumps({'status':'CPU_PREFLIGHT_PASS' if preflight.get('pass') else 'CPU_PREFLIGHT_FAIL','request_id':request.get('request_id'),'manifest_contract_sha256':preflight.get('manifest_contract_sha256'),'lease_acquired':preflight.get('lease_acquired'),'scene_created':preflight.get('scene_created')},ensure_ascii=False));return 0 if preflight.get('pass') is True else 1
     if a.reconcile_only:result={'state':reconcile_saved_attempts(manifest,a.state_dir),'deferred_roots':[]}
     else:result=launch_wave(manifest,a.state_dir,ready_job_ids=a.ready_job,recovery_requests=json.loads(a.recoveries.read_text(encoding='utf-8')) if a.recoveries else None,copy_only_job_ids=a.copy_only_job,compatibility_ref={'path':str(a.compatibility_file),'sha256':hashlib.sha256(a.compatibility_file.read_bytes()).hexdigest()} if a.compatibility_file else None)
     print(json.dumps({'status':result['state']['status'],'deferred_roots':result['deferred_roots']}));return 0 if result['state']['status']=='COMPLETE' else 1
