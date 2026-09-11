@@ -1,12 +1,12 @@
 """Actual native save/local verifier/export paths; only simulator adapter is synthetic."""
-import json,shutil,sys,tempfile,unittest
+import hashlib,json,os,shutil,subprocess,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 import numpy as np
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
 from scene_plan import generate,resolve
 from fixture_f1_backend import make_backend,physical_contact
-from native_f1 import run_native_cohort
+from native_f1 import run_native_cohort,_load_motion_baseline_controls
 from f1_disk_verifier import verify_f1_disk,verify_variant_pair
 from family_entry import validate_saved_cell
 BASE=Path('/nfs_share/lijunhui/Robotwin2/tmp')
@@ -60,6 +60,58 @@ class TestF1VerifierCell(unittest.TestCase):
         a['stream__realized_eef'][:,1]=0.;a['stream__realized_eef'][by['retreat']['end_row'],1]=.1
         np.savez_compressed(raw/'raw_streams.npz',**a)
         self.assertFalse(verify_variant_pair(baseline_dir=baseline,variant_dir=raw,spec=self.spec,realization='r_inv_path')['pass'])
+
+    def test_motion_pair_requires_exact_baseline_non_hold_controls(self):
+        baseline=self.output/'r_pc/root/branches/F1-red/raw'
+        variant=self.output/'r_inv_motion/root/branches/F1-red/raw'
+        self.assertTrue(verify_variant_pair(baseline_dir=baseline,variant_dir=variant,spec=self.spec,realization='r_inv_motion')['pass'])
+        raw,a=self.mutated('r_inv_motion')
+        manifest=json.loads((raw/'manifest.json').read_text(encoding='utf-8'))
+        stages={x['name']:x for x in manifest['provenance']['formal_f1_stages']['stages']}
+        row=stages['target_lift']['start_row']
+        a['stream__controller_effective_setpoint'][row,0]+=np.float64(1e-6)
+        np.savez_compressed(raw/'raw_streams.npz',**a)
+        self.assertFalse(verify_variant_pair(baseline_dir=baseline,variant_dir=raw,spec=self.spec,realization='r_inv_motion')['pass'])
+
+    def test_motion_baseline_binding_loads_sealed_controls_only(self):
+        with tempfile.TemporaryDirectory(dir=BASE) as td,patch('native_f1.native_adapter',make_backend):
+            root=Path(td)
+            run_native_cohort(spec=self.spec,realization='r_pc',output=root/'r_pc',source_sha='fixture')
+            programs={}
+            for program in self.spec['programs']:
+                artifact=root/'r_pc/root/suffix_artifacts'/program['program_id']
+                manifest=json.loads((artifact/'frozen_suffix_artifact.json').read_text(encoding='utf-8'))
+                programs[program['program_id']]={
+                    'artifact_dir':str(artifact),
+                    'manifest_file_sha256':hashlib.sha256((artifact/'frozen_suffix_artifact.json').read_bytes()).hexdigest(),
+                    'manifest_artifact_sha256':manifest['artifact_sha256'],
+                    'arrays_file_sha256':hashlib.sha256((artifact/'suffix_controls.npz').read_bytes()).hexdigest(),
+                    'program_id':program['program_id'],'root_id':self.spec['root_id'],'realization':'r_pc',
+                    'prefix_artifact_sha256':manifest['prefix_artifact_sha256'],
+                }
+            binding={'schema':'f1_motion_baseline_binding_v1','status':'CPU_REVIEWED_APPLICABLE','root_id':self.spec['root_id'],'spec_sha256':self.spec['spec_sha256'],'programs':programs}
+            manifest,arrays,controls=_load_motion_baseline_controls(binding=binding,spec=self.spec,program_id='F1-red')
+            self.assertEqual(manifest['program_id'],'F1-red');self.assertEqual(len(controls),len(manifest['execution_spec']['targets']));self.assertEqual(arrays['segment_000_position'].dtype,np.float32)
+            bad=json.loads(json.dumps(binding));bad['programs']['F1-red']['manifest_file_sha256']='0'*64
+            with self.assertRaises(ValueError):_load_motion_baseline_controls(binding=bad,spec=self.spec,program_id='F1-red')
+
+    def test_verify_variant_pair_reads_utf8_under_ascii_locale(self):
+        baseline=self.output/'r_pc/root/branches/F1-red/raw';variant=self.output/'r_inv_motion/root/branches/F1-red/raw'
+        td=tempfile.TemporaryDirectory(dir=BASE);self.addCleanup(td.cleanup);root=Path(td.name)
+        b=root/'baseline';v=root/'variant';shutil.copytree(baseline,b);shutil.copytree(variant,v)
+        for folder in (b,v):
+            path=folder/'manifest.json';payload=json.loads(path.read_text(encoding='utf-8'));payload['utf8_diagnostic']='中文回执';path.write_text(json.dumps(payload,ensure_ascii=False),encoding='utf-8')
+        spec_path=root/'spec.json';spec_path.write_text(json.dumps(self.spec,ensure_ascii=False),encoding='utf-8')
+        code="""import json,sys
+sys.path.insert(0, sys.argv[3])
+from f1_disk_verifier import verify_variant_pair
+spec=json.loads(open(sys.argv[2], encoding='utf-8').read())
+result=verify_variant_pair(baseline_dir=sys.argv[4], variant_dir=sys.argv[5], spec=spec, realization='r_inv_motion')
+raise SystemExit(0 if result.get('pass') is True else 1)
+"""
+        env=dict(os.environ,LC_ALL='C',LANG='C',PYTHONUTF8='0',PYTHONCOERCECLOCALE='0')
+        result=subprocess.run([sys.executable,'-c',code,'utf8',str(spec_path),str(Path(__file__).parent),str(b),str(v)],env=env,cwd=str(Path(__file__).parent),stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
     def test_no_provisional_fallback_and_local_receipt_binding(self):
         spec=dict(self.spec);del spec['f1_verifier_contract']
         raw=self.output/'r_pc/root/branches/F1-red/raw';self.assertFalse(verify_f1_disk(raw_dir=raw,spec=spec,program=spec['programs'][0])['pass'])

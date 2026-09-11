@@ -48,10 +48,14 @@ class FullFamily(unittest.TestCase):
         self.assertIsNone(full.failure_category({'failure_class':'transient_execution'}))
         self.assertEqual(full.failure_category({'failure_category':'physical_failure'}), 'physical_failure')
         self.assertIsNone(full.physical_failure_attempts({'attempts':[{'failure_category':'engineering_error'}, {'failure_category':'physical_failure'}]}))
-        self.assertEqual(full.physical_failure_attempts({'attempts':[{'failure_category':'physical_failure'}, {'failure_category':'physical_failure'}]}), 2)
+        evidence=lambda n:[{'path':f'/tmp/current-{n}.json','status':'failed_verifier','category':'physical_failure'}]
+        valid={'attempts':[{'failure_category':'physical_failure','current_attempt_id':'job:attempt:1','current_attempt_evidence':evidence(1)}, {'failure_category':'physical_failure','current_attempt_id':'job:attempt:2','current_attempt_evidence':evidence(2)}]}
+        self.assertEqual(full.physical_failure_attempts(valid), 2)
         self.assertFalse(full.reserve_eligible_for_record({'failure_category':'engineering_error','attempts':[{'failure_category':'engineering_error'},{'failure_category':'engineering_error'}]}))
         self.assertFalse(full.reserve_eligible_for_record({'failure_category':'physical_failure','attempts':[{'failure_category':'engineering_error'},{'failure_category':'physical_failure'}]}))
-        self.assertTrue(full.reserve_eligible_for_record({'failure_category':'physical_failure','attempts':[{'failure_category':'physical_failure'},{'failure_category':'physical_failure'}]}))
+        self.assertTrue(full.reserve_eligible_for_record({'failure_category':'physical_failure',**valid}))
+        duplicate={**valid,'attempts':[valid['attempts'][0],valid['attempts'][0]]}
+        self.assertFalse(full.reserve_eligible_for_record(duplicate))
 
     def test_false_real_entry_no_snapshot_or_state(self):
         with tempfile.TemporaryDirectory(dir=full.HERE) as td:

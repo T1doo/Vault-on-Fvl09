@@ -113,7 +113,7 @@ def verify_f1_disk(*,raw_dir,spec,program):
     try:
         c=frozen_contract(spec);t=c['terminal'];role=program['target_role'];role_spec=next(r for r in spec['roles'] if r['role']==role)
         root=raw_dir.parent.parent.parent;folder=root/'suffix_artifacts'/program['program_id']
-        suffix=json.loads((folder/'frozen_suffix_artifact.json').read_text());manifest=json.loads((raw_dir/'manifest.json').read_text())
+        suffix=json.loads((folder/'frozen_suffix_artifact.json').read_text(encoding='utf-8'));manifest=json.loads((raw_dir/'manifest.json').read_text(encoding='utf-8'))
         rest=np.asarray(suffix['execution_spec']['targets'][-1]['pose']);window=t['stable_window_frames']
         if suffix['execution_spec']['targets'][-1]['segment_id']!='rest':raise ValueError('frozen rest target missing')
         with np.load(raw_dir/'raw_streams.npz',allow_pickle=False) as z,np.load(folder/'suffix_controls.npz',allow_pickle=False) as controls:
@@ -168,11 +168,14 @@ def verify_f1_disk(*,raw_dir,spec,program):
 def verify_variant_pair(*,baseline_dir,variant_dir,spec,realization):
     c=frozen_contract(spec)
     def read(folder):
-        folder=Path(folder);m=json.loads((folder/'manifest.json').read_text());e=m['provenance']['formal_f1_stages'];by={x['name']:x for x in e['stages']}
+        folder=Path(folder);m=json.loads((folder/'manifest.json').read_text(encoding='utf-8'));e=m['provenance']['formal_f1_stages'];by={x['name']:x for x in e['stages']}
         with np.load(folder/'raw_streams.npz',allow_pickle=False) as z:return m,by,{k:z[k].copy() for k in ('stream__controller_effective_setpoint','stream__realized_eef')}
     try:
         bm,bs,b=read(baseline_dir);vm,vs,v=read(variant_dir);checks={'same_intent':bm['provenance']['program_id']==vm['provenance']['program_id'],'baseline_realization':bm['provenance']['realization_spec']['realization']=='r_pc','variant_realization':vm['provenance']['realization_spec']['realization']==realization}
         if realization=='r_inv_motion':
+            source = vm.get('provenance', {}).get('motion_control_source')
+            if vm.get('provenance', {}).get('synthetic') is not True:
+                checks['motion_control_source_bound'] = isinstance(source, dict) and source.get('planner_invoked') is False and source.get('baseline_realization') == 'r_pc' and source.get('baseline_program_id') == bm.get('provenance', {}).get('program_id')
             checks['prescribed_extra_hold']=(vs['post_prefix_hold']['end_row']-vs['post_prefix_hold']['start_row'])-(bs['post_prefix_hold']['end_row']-bs['post_prefix_hold']['start_row'])==c['motion']['additional_frames']
             for name in STAGES[1:]:
                 a,bend=bs[name]['start_row'],bs[name]['end_row'];x,y=vs[name]['start_row'],vs[name]['end_row']

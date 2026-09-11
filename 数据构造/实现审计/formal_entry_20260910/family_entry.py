@@ -70,7 +70,7 @@ def validate_native_f1(spec):
         raise ValueError('motion variation requires bounded integer hold')
 
 
-def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None):
+def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None,recovery_context=None):
     """Completed cohorts skip; failed cohort recovers only its missing cells.
 
     Requalification is charged, and accepted cells require exact regenerated
@@ -125,6 +125,7 @@ def _run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_nativ
         try:
             kwargs={'spec':deepcopy(spec),'realization':realization,'output':output/realization,'source_sha':source_sha}
             if source_compatibility is not None:kwargs['source_compatibility']=source_compatibility
+            if recovery_context is not None:kwargs['recovery_context']=deepcopy(recovery_context)
             cohort_runner(**kwargs)
             receipt_path = cohort_root(output, realization) / 'root_receipt.json'
             # Native receipts deliberately retain non-ASCII diagnostics.  The
@@ -345,7 +346,7 @@ def export_native_cell(*, spec, output, program_id, realization):
             'audit': {'spec_sha256':spec['spec_sha256'], 'capture_sha256':hashlib.sha256(capture_path.read_bytes()).hexdigest(), 'raw_sha256':hashlib.sha256(raw_path.read_bytes()).hexdigest(), 'capture_source':'native_original_t0', 'realization_id':realization}}
 
 
-def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None):
+def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native_cohort,source_bundle_sha256=None,source_compatibility=None,recovery_context=None):
     import fcntl
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
@@ -353,7 +354,7 @@ def run_root(*, spec, output, source_sha, resume=False, cohort_runner=run_native
     with lock.open('a') as handle:
         fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
         try:
-            return _run_root(spec=spec,output=output,source_sha=source_sha,resume=resume,cohort_runner=cohort_runner,source_bundle_sha256=source_bundle_sha256,source_compatibility=source_compatibility)
+            return _run_root(spec=spec,output=output,source_sha=source_sha,resume=resume,cohort_runner=cohort_runner,source_bundle_sha256=source_bundle_sha256,source_compatibility=source_compatibility,recovery_context=recovery_context)
         finally:
             fcntl.flock(handle,fcntl.LOCK_UN)
 
@@ -381,7 +382,7 @@ def run_family_root(*, spec, output, authorization):
             # source binding before their output directory exists; persist the
             # receipt immediately after run_root creates that directory.
             if Path(output).exists() and not destination.exists():destination.write_bytes(raw)
-        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility)
+        result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility,recovery_context=authorization.get('recovery_context'))
         if binding is not None:
             destination=Path(output)/'source_compatibility_receipt.json'
             if destination.exists() and destination.read_bytes()!=raw:raise ValueError('different compatibility already bound')

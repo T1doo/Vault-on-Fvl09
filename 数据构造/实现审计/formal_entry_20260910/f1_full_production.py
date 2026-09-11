@@ -80,6 +80,15 @@ def physical_failure_attempts(record):
         return None
     if any(category != 'physical_failure' for category in categories):
         return None
+    attempt_ids=[]
+    for attempt in attempts:
+        evidence=attempt.get('current_attempt_evidence')
+        attempt_id=attempt.get('current_attempt_id') or attempt.get('ledger_job_id')
+        if not isinstance(attempt_id,str) or not attempt_id or not isinstance(evidence,list) or not evidence:
+            return None
+        attempt_ids.append(attempt_id)
+    if len(set(attempt_ids)) != len(attempt_ids):
+        return None
     return sum(category == 'physical_failure' for category in categories)
 
 

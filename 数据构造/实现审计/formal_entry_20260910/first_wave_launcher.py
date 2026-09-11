@@ -275,11 +275,22 @@ def validate_manifest(manifest,activated_jobs=None,*,copy_only=False,inactive_jo
     elif manifest.get('execution_authorized') is not True:raise PermissionError('GPU execution has not been authorized')
     if manifest.get('allowed_physical_gpu_indices')!=list(range(8)):raise ValueError('GPU0-7 contract required')
     full=manifest.get('scope')=='F1_FULL_PRODUCTION'
-    if not full and manifest.get('root_ids')!=['F1_000001','F1_000002']:raise ValueError('only frozen first two F1 roots permitted by legacy scope')
+    recovery=manifest.get('scope')=='F1_MOTION_RECOVERY'
+    if not full and not recovery and manifest.get('root_ids')!=['F1_000001','F1_000002']:raise ValueError('only frozen first two F1 roots permitted by legacy scope')
+    if recovery:
+        if manifest.get('schema')!='f1_motion_recovery_manifest_v1' or manifest.get('root_ids')!=['F1_000013']:
+            raise ValueError('motion recovery manifest must contain only F1_000013')
+        contract=manifest.get('recovery_contract') or {}
+        if contract.get('mode')!='existing_root_motion_only' or contract.get('missing_realization')!='r_inv_motion' or contract.get('missing_cells') != ['F1-red:r_inv_motion','F1-green:r_inv_motion','F1-blue:r_inv_motion']:
+            raise ValueError('motion recovery contract scope is not frozen')
+        expected_caps={'fresh_scenes':11,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
+        if manifest.get('budget_caps') != expected_caps:
+            raise ValueError('motion recovery budget cap differs from reviewed bound')
     validate_sources(manifest)
     base=manifest.get('jobs',[])
     if {j['root_id'] for j in base}!=set(manifest['root_ids']) or len(base)!=len(manifest['root_ids']):raise ValueError('root job matrix mismatch')
-    if not full and len(base)!=2:raise ValueError('legacy first wave requires two jobs')
+    if not full and not recovery and len(base)!=2:raise ValueError('legacy first wave requires two jobs')
+    if recovery and len(base)!=1:raise ValueError('motion recovery requires one job')
     extra=list(activated_jobs or [])
     if extra and not full:raise ValueError('reserve jobs require full F1 scope')
     jobs=base+extra
@@ -300,6 +311,7 @@ def validate_manifest(manifest,activated_jobs=None,*,copy_only=False,inactive_jo
         _workspace_path(auth['copy_destination'])
     n=manifest.get('max_concurrent_gpu_jobs',2)
     if type(n)is not int or not 1<=n<=8:raise ValueError('bounded GPU concurrency required')
+    if recovery and n != 1:raise ValueError('motion recovery is one-root/one-GPU only')
     return jobs
 
 
@@ -331,7 +343,39 @@ def _stamp():
 def _zero():return {k:0 for k in COUNTERS}
 
 
-def _classify(output,execution):
+def _ensure_ledger_contract_transition(ledger, manifest, contract_hash):
+    """Record an explicit new-contract boundary without resetting old usage."""
+    events = ledger.events()
+    if not events or events[-1].get('contract_sha256') == contract_hash:
+        return None
+    parent = manifest.get('parent_contract_sha256')
+    if parent != events[-1].get('contract_sha256'):
+        raise ValueError('existing recovery ledger contract has no declared parent')
+    last = events[-1]
+    return ledger.append(
+        event_type='BUDGET_CAP_AMENDMENT',
+        reserved_after=last['reserved_after'],
+        consumed_after=last['consumed_after'],
+        metadata={'parent_contract_sha256': parent, 'reason': 'bounded recovery timeout profile correction; budget caps unchanged'},
+        idempotency_key='contract-amendment:'+contract_hash,
+    )
+
+
+def _classify(output,execution,*,attempt_context=None,isolated_category=None):
+    if attempt_context is not None:
+        # The coarse ledger enum must use the same current-attempt evidence as
+        # the richer reserve taxonomy; never rescan historical root receipts.
+        mapping={
+            'physical_failure':'physical_infeasible',
+            'transient_execution':'transient_execution',
+            'resource_unknown':'transient_execution',
+            'copy_index_error':'copy_failure',
+            'engineering_error':'shared_interface_error',
+            'recovery_consistency_error':'shared_interface_error',
+            'unknown':'unknown',
+            None:'unknown',
+        }
+        return mapping.get(isolated_category, 'unknown')
     output=Path(output);checkpoint_path=output/'checkpoint.json';checkpoint=json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.exists() else {}
     independent_path=output/'independent_structure.json';spec_path=output/'root_spec.json'
     if checkpoint.get('status')=='STRUCTURE_READY' and independent_path.is_file() and spec_path.is_file():
@@ -370,7 +414,59 @@ def _classify(output,execution):
     return 'unknown'
 
 
-def _failure_evidence(output, execution=None):
+def _cohort_pointer_snapshot(output):
+    """Capture pointer bytes before/after an attempt, without using mtime.
+
+    A launcher attempt owns only a pointer it creates or changes.  Older
+    root/recovery receipts remain history and are never used to classify the
+    current attempt.
+    """
+    output = Path(output)
+    snapshot = {}
+    for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
+        path = output / realization / 'cohort_pointer.json'
+        item = {'path': str(path), 'exists': path.is_file(), 'sha256': None, 'payload': None}
+        if path.is_file():
+            raw = path.read_bytes()
+            item['sha256'] = hashlib.sha256(raw).hexdigest()
+            try:
+                item['payload'] = json.loads(raw.decode('utf-8'))
+            except (UnicodeDecodeError, ValueError, TypeError):
+                item['payload'] = None
+        snapshot[realization] = item
+    receipts = {}
+    for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
+        base = output / realization
+        paths = [base / 'root/root_receipt.json', *sorted(base.glob('recovery_*/root/root_receipt.json'))]
+        for path in paths:
+            if path.is_file():
+                receipts[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()
+    snapshot['_receipt_hashes'] = receipts
+    return snapshot
+
+
+def _attempt_pointer_context(output, before, *, attempt_id):
+    after = _cohort_pointer_snapshot(output)
+    changed = {}
+    for realization, item in after.items():
+        prior = (before or {}).get(realization, {})
+        if item.get('sha256') != prior.get('sha256'):
+            changed[realization] = item
+    before_receipts=(before or {}).get('_receipt_hashes',{})
+    after_receipts=after.get('_receipt_hashes',{})
+    changed_receipts={path:sha for path,sha in after_receipts.items() if before_receipts.get(path)!=sha}
+    return {
+        'schema': 'f1_current_attempt_evidence_v1',
+        'attempt_id': attempt_id,
+        'before': before or {},
+        'after': after,
+        'changed_pointers': changed,
+        'changed_receipts': changed_receipts,
+        'pointer_bytes_are_change_token': True,
+    }
+
+
+def _failure_evidence(output, execution=None, *, attempt_context=None):
     """Classify a terminal attempt without conflating code and physics.
 
     The historical coarse ``failure_class`` is kept for ledger compatibility,
@@ -383,26 +479,68 @@ def _failure_evidence(output, execution=None):
     execution = execution or {}
     receipts = []
     seen_receipt_paths = set()
-    for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
-        base = output / realization
-        pointer = base / 'cohort_pointer.json'
-        candidates = [base / 'root/root_receipt.json'] + sorted(
-            base.glob('recovery_*/root/root_receipt.json')
-        )
-        if pointer.is_file():
+    history_receipt_paths = []
+    current_pointer_status = []
+    isolated = isinstance(attempt_context, dict)
+    if isolated:
+        # A well-formed native run changes its cohort pointer, while small
+        # backends may only emit a new terminal receipt.  Both are accepted
+        # when the path/hash changed since this attempt began; neither relies
+        # on timestamps or historical directory names.
+        for raw_path in (attempt_context.get('changed_receipts') or {}):
+            path=Path(raw_path)
             try:
-                value = json.loads(pointer.read_text(encoding='utf-8'))
-                root = _workspace_path(base / value['root_relative'])
-                candidates.append(root / 'root_receipt.json')
-            except BaseException:
-                pass
-        for path in candidates:
-            if path.is_file() and path not in seen_receipt_paths:
-                try:
+                if path.is_file() and path not in seen_receipt_paths:
                     receipts.append((path, json.loads(path.read_text(encoding='utf-8'))))
                     seen_receipt_paths.add(path)
-                except (OSError, ValueError, TypeError):
+            except (OSError, ValueError, TypeError):
+                continue
+        for realization, pointer in (attempt_context.get('changed_pointers') or {}).items():
+            value = pointer.get('payload') or {}
+            current_pointer_status.append({
+                'realization': realization,
+                'pointer_path': pointer.get('path'),
+                'pointer_status': value.get('status'),
+                'pointer_changed': True,
+            })
+            root_relative = value.get('root_relative')
+            if not isinstance(root_relative, str):
+                continue
+            try:
+                base = output / realization
+                root = _workspace_path(base / root_relative)
+                path = root / 'root_receipt.json'
+                if path.is_file() and path not in seen_receipt_paths:
+                    receipts.append((path, json.loads(path.read_text(encoding='utf-8'))))
+                    seen_receipt_paths.add(path)
+            except (OSError, ValueError, TypeError, KeyError):
+                continue
+        # Keep a separate, non-classifying history index for auditability.
+        for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
+            base = output / realization
+            history_receipt_paths += [str(p) for p in [base / 'root/root_receipt.json', *sorted(base.glob('recovery_*/root/root_receipt.json'))] if p.is_file() and p not in seen_receipt_paths]
+    else:
+        # Legacy direct callers did not provide an attempt token.  Retain the
+        # old diagnostic scan for compatibility, but mark it non-isolated so
+        # production callers cannot mistake it for current-attempt evidence.
+        for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
+            base = output / realization
+            pointer = base / 'cohort_pointer.json'
+            candidates = [base / 'root/root_receipt.json'] + sorted(base.glob('recovery_*/root/root_receipt.json'))
+            if pointer.is_file():
+                try:
+                    value = json.loads(pointer.read_text(encoding='utf-8'))
+                    root = _workspace_path(base / value['root_relative'])
+                    candidates.append(root / 'root_receipt.json')
+                except BaseException:
                     pass
+            for path in candidates:
+                if path.is_file() and path not in seen_receipt_paths:
+                    try:
+                        receipts.append((path, json.loads(path.read_text(encoding='utf-8'))))
+                        seen_receipt_paths.add(path)
+                    except (OSError, ValueError, TypeError):
+                        pass
 
     details = []
     for path, receipt in receipts:
@@ -471,6 +609,8 @@ def _failure_evidence(output, execution=None):
         category = 'copy_index_error'
     elif 'transient_execution' in categories:
         category = 'transient_execution'
+    elif isolated and current_pointer_status:
+        category = 'unknown' if details and all(item.get('status') == 'accepted' for item in details) else 'resource_unknown'
     elif execution.get('timeout'):
         category = 'resource_unknown'
     elif execution.get('returncode') not in (None, 0):
@@ -483,7 +623,11 @@ def _failure_evidence(output, execution=None):
         'reserve_eligible': category == 'physical_failure',
         'physical_started': physical_started,
         'details': details,
-        'evidence_complete': bool(details),
+        'current_attempt_evidence': details,
+        'root_history': {'receipt_paths': history_receipt_paths, 'classifying': False},
+        'attempt_context': attempt_context,
+        'attempt_isolated': isolated,
+        'evidence_complete': bool(details) if isolated else bool(details),
     }
 
 
@@ -505,6 +649,27 @@ def _refresh_state(state,jobs):
 
 
 def _recoverable(job,previous,request,manifest,compatibility=None):
+    if manifest.get('scope') == 'F1_MOTION_RECOVERY':
+        if request.get('mode','resume') != 'resume' or not isinstance(request.get('request_id'),str) or not request['request_id']:
+            raise ValueError('motion recovery requires an explicit bounded resume request')
+        if previous.get('status') not in ('DEFERRED_READY','FAILED'):
+            raise ValueError('motion recovery state is not ready for the requested attempt')
+        if request.get('failure_class') != previous.get('failure_class'):
+            raise ValueError('motion recovery request failure class does not match state')
+        if request.get('root_id') != job.get('root_id') or request.get('missing_realization') != 'r_inv_motion':
+            raise ValueError('motion recovery request root/realization mismatch')
+        attempts=previous.get('attempts') or []
+        if any(not a.get('settled') or not a.get('owned_cleanup_pass') or not a.get('release_confirmed') for a in attempts):
+            raise ValueError('motion recovery requires all prior attempts settled and cleaned')
+        if len(attempts) >= int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3)):
+            raise ValueError('motion recovery finite attempt limit exhausted')
+        spec,auth=read_bound_job_configs(job)
+        if previous.get('spec_sha256') != spec['spec_sha256']:
+            raise ValueError('motion recovery scientific spec changed')
+        for file,sha in previous.get('accepted_file_hashes',{}).items():
+            if hashlib.sha256(_workspace_path(file).read_bytes()).hexdigest()!=sha:
+                raise ValueError('motion recovery preserved accepted source changed')
+        return
     policy=manifest.get('recovery_policy',{})
     allowed=list(policy.get('allowed_failure_classes',['physical_infeasible','transient_execution']))
     if compatibility:
@@ -585,7 +750,8 @@ def reconcile_saved_attempts(manifest,state_dir,job_ids=None):
     from controlled_multi_future.redesign_f2_f3_v2.execution_ledger_v2 import ExecutionLedgerV2
     state_dir=_workspace_path(state_dir);state_path=state_dir/'STATE.json';state=json.loads(state_path.read_text(encoding='utf-8'))
     if state['contract_sha256']!=hash_json(manifest):raise ValueError('reconcile contract changed')
-    ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=hash_json(manifest),task_id=manifest['task_id'],caps=manifest['budget_caps'])
+    ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=hash_json(manifest),task_id=manifest['task_id'],caps=manifest['budget_caps'],parent_contract_sha256=manifest.get('parent_contract_sha256'),ancestor_contract_sha256s=manifest.get('contract_ancestors'))
+    _ensure_ledger_contract_transition(ledger,manifest,hash_json(manifest))
     with (state_dir/'coordinator.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         for job_id in (job_ids or state['jobs']):
@@ -636,7 +802,8 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
     write(binding_path,binding);write(state_dir/'nfs_lock_probe.json',verify_nfs_lock(state_dir))
     with (state_dir/'coordinator.lock').open('a') as coordinator:
         fcntl.flock(coordinator,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=contract_hash,task_id=manifest['task_id'],caps=manifest['budget_caps'])
+        ledger=ExecutionLedgerV2(state_dir/'execution_ledger.jsonl',contract_sha256=contract_hash,task_id=manifest['task_id'],caps=manifest['budget_caps'],parent_contract_sha256=manifest.get('parent_contract_sha256'),ancestor_contract_sha256s=manifest.get('contract_ancestors'))
+        _ensure_ledger_contract_transition(ledger,manifest,contract_hash)
         state=json.loads(existing.read_text(encoding='utf-8')) if existing.exists() else {'task_id':manifest['task_id'],'contract_sha256':contract_hash,'jobs':{},'recovery_requests':{},'status':'READY'}
         if state['task_id']!=manifest['task_id'] or state['contract_sha256']!=contract_hash:raise ValueError('foreign task/contract')
         if any(ledger.totals()['reserved'].values()) or state['status'] in ('UNRESOLVED','BUDGET_OVERRUN'):raise RuntimeError('unknown resources must be reconciled first')
@@ -680,7 +847,8 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             jid=job['job_id'];prior=state['jobs'].get(jid,{});number=1+len(list((state_dir/'jobs'/jid).glob('attempt_*')));aid=jid+':attempt:'+str(number)
             directory=state_dir/'jobs'/jid/('attempt_'+str(number));directory.mkdir(parents=True,exist_ok=False)
             spec,auth=read_bound_job_configs(job);baseline=usage_from_receipts(job['output'],0) if request else _zero()
-            expected_previous=prior['attempts'][-1]['cumulative_usage'] if prior.get('attempts') else _zero()
+            pointer_before=_cohort_pointer_snapshot(job['output'])
+            expected_previous=prior['attempts'][-1]['cumulative_usage'] if prior.get('attempts') else (baseline if manifest.get('scope')=='F1_MOTION_RECOVERY' and request else _zero())
             if request and any(baseline[k]!=expected_previous[k] for k in COUNTERS if k!='gpu_lease_seconds'):raise ValueError('prior cumulative consumption changed')
             consumed=_root_consumed(prior);caps=job.get('root_budget_caps',job['reservation']);reservation={k:min(job['reservation'][k],caps[k]-consumed[k]) for k in COUNTERS}
             if any(v<0 for v in reservation.values()) or reservation['gpu_lease_seconds']<job['timeout_seconds']+job['cleanup_grace_seconds']+job.get('lease_overhead_seconds',100):raise ValueError('root remaining cap insufficient')
@@ -748,12 +916,16 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 with mutex:
                     event=ledger.settle(aid,reservation,actual,idempotency_key='settle:'+aid);reserved=False
                     attempt.update(actual=actual,cumulative_usage=cumulative,settled=True,owned_cleanup_pass=True,release_confirmed=True)
-                    failure=_classify(job['output'],execution or {})
-                    classification=_failure_evidence(job['output'],execution or {})
+                    attempt_context=_attempt_pointer_context(job['output'],pointer_before,attempt_id=aid)
+                    evidence(directory/'current_attempt_evidence.json',attempt_context)
+                    classification=_failure_evidence(job['output'],execution or {},attempt_context=attempt_context)
+                    failure=_classify(job['output'],execution or {},attempt_context=attempt_context,isolated_category=classification['category'])
                     attempt.update(
                         failure_category=classification['category'],
                         reserve_eligible=classification['reserve_eligible'],
                         physical_started=classification['physical_started'],
+                        current_attempt_id=aid,
+                        current_attempt_evidence=classification.get('current_attempt_evidence', []),
                     )
                     status='BUDGET_OVERRUN' if event['event_type']=='BUDGET_OVERRUN' else 'DEFERRED_READY' if busy else 'COPY_FAILED' if failure=='copy_failure' else 'FAILED'
                     result.update(status=status,actual=actual,owned_cleanup_pass=True,release_confirmed=True,failure_class=prior.get('failure_class',failure) if busy else failure, failure_category=classification['category'], reserve_eligible=classification['reserve_eligible'], physical_started=classification['physical_started'], failure_evidence=classification,attempt_count=sum(a.get('child_launched',True)is True for a in state['jobs'][jid]['attempts']),pending_recovery_request=request if busy else None,root_collection_verified=failure=='copy_failure',synthetic=allow_synthetic,research_eligible=False)

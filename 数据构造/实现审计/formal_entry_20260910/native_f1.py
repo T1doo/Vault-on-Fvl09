@@ -95,6 +95,8 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
         raise
     result['provenance']['formal_f1_stages']=stages
     result['provenance']['formal_f1_contract']=c
+    if isinstance(execution_spec.get('motion_control_source'), dict):
+        result['provenance']['motion_control_source'] = deepcopy(execution_spec['motion_control_source'])
     if motion_receipt is not None:
         result['motion_hold_boundary']=motion_receipt
         result['provenance']['motion_hold_boundary']=motion_receipt
@@ -129,7 +131,80 @@ def legacy_comparison_view(value,compatibility,kind):
     else:raise ValueError('unsupported comparison view')
     return result
 
-def native_adapter(*, spec, realization, output_root, source_sha):
+def _bound_workspace_path(value):
+    """Resolve a recovery binding without allowing path escape or symlinks."""
+    path = Path(value)
+    if not path.is_absolute():
+        raise ValueError("motion baseline binding path must be absolute")
+    resolved = path.resolve()
+    workspace = Path("/nfs_share/lijunhui").resolve()
+    if not resolved.is_relative_to(workspace):
+        raise ValueError("motion baseline binding path leaves the workspace")
+    for item in (path, *path.parents):
+        try:
+            if item.is_relative_to(workspace) and item.is_symlink():
+                raise ValueError("motion baseline binding may not traverse symlinks")
+        except AttributeError:
+            # Python 3.10 has Path.is_relative_to; this branch is defensive for
+            # the small CPU helpers that may be imported by older fixtures.
+            if str(item).startswith(str(workspace)) and item.is_symlink():
+                raise ValueError("motion baseline binding may not traverse symlinks")
+    return resolved
+
+
+def _load_motion_baseline_controls(*, binding, spec, program_id):
+    """Load a sealed r_pc suffix; motion never falls back to live planning.
+
+    The returned controls are the validated arrays from the baseline artifact,
+    not a resampled or re-planned trajectory.  This helper is intentionally
+    CPU-only and is also used by the recovery preflight tests.
+    """
+    if not isinstance(binding, dict) or binding.get("schema") != "f1_motion_baseline_binding_v1":
+        raise ValueError("r_inv_motion requires a versioned baseline binding")
+    if binding.get("status") != "CPU_REVIEWED_APPLICABLE":
+        raise ValueError("motion baseline binding is not CPU-reviewed applicable")
+    if binding.get("root_id") != spec.get("root_id") or binding.get("spec_sha256") != spec.get("spec_sha256"):
+        raise ValueError("motion baseline binding root/spec mismatch")
+    item = (binding.get("programs") or {}).get(program_id)
+    if not isinstance(item, dict):
+        raise ValueError(f"motion baseline binding lacks {program_id}")
+    required = (
+        "artifact_dir",
+        "manifest_file_sha256",
+        "manifest_artifact_sha256",
+        "arrays_file_sha256",
+        "program_id",
+        "root_id",
+        "realization",
+    )
+    if any(key not in item for key in required):
+        raise ValueError(f"motion baseline binding for {program_id} is incomplete")
+    if item["program_id"] != program_id or item["root_id"] != spec.get("root_id") or item["realization"] != "r_pc":
+        raise ValueError(f"motion baseline binding identity mismatch for {program_id}")
+    artifact_dir = _bound_workspace_path(item["artifact_dir"])
+    manifest_path = artifact_dir / "frozen_suffix_artifact.json"
+    arrays_path = artifact_dir / "suffix_controls.npz"
+    if not manifest_path.is_file() or not arrays_path.is_file():
+        raise ValueError(f"motion baseline artifact is incomplete for {program_id}")
+    if hashlib.sha256(manifest_path.read_bytes()).hexdigest() != item["manifest_file_sha256"]:
+        raise ValueError(f"motion baseline manifest changed for {program_id}")
+    if hashlib.sha256(arrays_path.read_bytes()).hexdigest() != item["arrays_file_sha256"]:
+        raise ValueError(f"motion baseline arrays changed for {program_id}")
+    from controlled_multi_future.frozen_suffix_artifact_v1 import load_frozen_suffix_artifact
+    manifest, arrays, controls = load_frozen_suffix_artifact(artifact_dir)
+    if manifest.get("artifact_sha256") != item["manifest_artifact_sha256"]:
+        raise ValueError(f"motion baseline artifact hash changed for {program_id}")
+    if manifest.get("root_slot_id") != spec.get("root_id") or manifest.get("family") != "F1" or manifest.get("program_id") != program_id:
+        raise ValueError(f"motion baseline artifact identity mismatch for {program_id}")
+    expected_prefix = item.get("prefix_artifact_sha256")
+    if expected_prefix is not None and manifest.get("prefix_artifact_sha256") != expected_prefix:
+        raise ValueError(f"motion baseline prefix binding mismatch for {program_id}")
+    if len(controls) != len(manifest.get("execution_spec", {}).get("targets", [])):
+        raise ValueError(f"motion baseline controls/targets mismatch for {program_id}")
+    return manifest, arrays, controls
+
+
+def native_adapter(*, spec, realization, output_root, source_sha, recovery_context=None):
     # These imports are lazy; constructor source integrity is checked by native base.
     from f1_disk_verifier import frozen_contract
     frozen_contract(spec)
@@ -139,20 +214,20 @@ def native_adapter(*, spec, realization, output_root, source_sha):
     from controlled_multi_future.family_runners_v3_3 import F1ControllerV3_3, _wait_and_record
     from controlled_multi_future.real_sapien_adapter_v1_1 import _dual_entity_values
 
+    motion_baseline_binding = (recovery_context or {}).get("motion_baseline_binding")
+
     class Controller(F1ControllerV3_3):
         def __init__(self):
             super().__init__()
             self.legacy = VariantLegacy(self.legacy, realization, spec['variant_rules'])
 
         def plan_suffix_from_actual_prefix_end_state(self, scene, program, replay):
-            # Motion-invariance's registered hold is part of the frozen suffix
-            # start state. Apply it before planning so preflight and execution
-            # see the same qpos boundary; execution_with_stage_capture records
-            # the identical hold immediately before cached controls.
             if realization == 'r_inv_motion':
                 from f1_disk_verifier import frozen_contract
                 if getattr(scene, '_cmf_f1_motion_hold_planning_applied', False):
                     raise RuntimeError('r_inv_motion planner hold applied more than once')
+                if motion_baseline_binding is None:
+                    raise ValueError('r_inv_motion requires a sealed r_pc baseline; live suffix planning is forbidden')
                 frames = frozen_contract(spec)['motion']['additional_frames']
                 before = len(getattr(scene, 'trace', []))
                 scene._cmf_f1_motion_hold_active = True
@@ -164,6 +239,63 @@ def native_adapter(*, spec, realization, output_root, source_sha):
                     'frames': int(frames),
                     'trace_rows_added': int(len(getattr(scene, 'trace', [])) - before),
                     'applied_once': True,
+                }
+                baseline_manifest, baseline_arrays, baseline_controls = _load_motion_baseline_controls(
+                    binding=motion_baseline_binding,
+                    spec=spec,
+                    program_id=program['program_id'],
+                )
+                baseline_qpos = np.asarray(baseline_arrays['actual_prefix_end_qpos'], dtype=np.float64).reshape(-1)
+                actual_qpos = np.asarray(scene.robot.left_entity.get_qpos(), dtype=np.float64).reshape(-1)
+                if actual_qpos.shape != baseline_qpos.shape:
+                    raise ValueError('motion hold start qpos shape differs from sealed baseline')
+                start_error = float(np.max(np.abs(actual_qpos - baseline_qpos)))
+                if start_error > 1e-3:
+                    raise ValueError(f'motion hold changed suffix start qpos beyond safety tolerance: {start_error:.9g} rad')
+                execution_spec = deepcopy(baseline_manifest['execution_spec'])
+                execution_spec['motion_control_source'] = {
+                    'schema': 'f1_motion_baseline_control_source_v1',
+                    'kind': 'sealed_r_pc_suffix_artifact',
+                    'baseline_root_id': baseline_manifest['root_slot_id'],
+                    'baseline_program_id': baseline_manifest['program_id'],
+                    'baseline_realization': 'r_pc',
+                    'baseline_artifact_sha256': baseline_manifest['artifact_sha256'],
+                    'baseline_manifest_file_sha256': motion_baseline_binding['programs'][program['program_id']]['manifest_file_sha256'],
+                    'baseline_manifest_artifact_sha256': motion_baseline_binding['programs'][program['program_id']]['manifest_artifact_sha256'],
+                    'baseline_arrays_file_sha256': motion_baseline_binding['programs'][program['program_id']]['arrays_file_sha256'],
+                    'baseline_execution_spec_sha256': baseline_manifest['execution_spec_sha256'],
+                    'baseline_prefix_artifact_sha256': baseline_manifest['prefix_artifact_sha256'],
+                    'control_count': len(baseline_controls),
+                    'hold_start_max_qpos_error_rad': start_error,
+                    'planner_invoked': False,
+                }
+                scene._cmf_suffix_preflight_partial_receipt = {
+                    'schema_version': 'cmf_f1_motion_baseline_replay_preflight_v1',
+                    'program_id': program['program_id'],
+                    'realization': 'r_inv_motion',
+                    'baseline_artifact_sha256': baseline_manifest['artifact_sha256'],
+                    'baseline_execution_spec_sha256': baseline_manifest['execution_spec_sha256'],
+                    'baseline_controls_reused_exactly': True,
+                    'planner_invoked': False,
+                    'planner_query_count': 0,
+                    'hold_start_max_qpos_error_rad': start_error,
+                }
+                return {
+                    'planner_solvable': True,
+                    'planner_query_count': 0,
+                    'failure_type': None,
+                    'evidence': {
+                        'planner_invoked': False,
+                        'planner_query_receipts': [],
+                        'baseline_control_replay': execution_spec['motion_control_source'],
+                        'actual_prefix_end_qpos_sha256': baseline_manifest['actual_prefix_end_qpos_sha256'],
+                        'hold_start_max_qpos_error_rad': start_error,
+                        'hold_start_safe': True,
+                    },
+                    'actual_prefix_end_qpos_sha256': baseline_manifest['actual_prefix_end_qpos_sha256'],
+                    'execution_spec': execution_spec,
+                    '_execution_controls': baseline_controls,
+                    '_actual_prefix_end_qpos': baseline_qpos,
                 }
             result = super().plan_suffix_from_actual_prefix_end_state(scene, program, replay)
             planning_receipt = getattr(
@@ -289,14 +421,15 @@ def native_adapter(*, spec, realization, output_root, source_sha):
     return adapter
 
 
-def run_native_cohort(*, spec, realization, output, source_sha,source_compatibility=None):
+def run_native_cohort(*, spec, realization, output, source_sha,source_compatibility=None,recovery_context=None):
     from native_f1_orchestrator import FormalF1RecoverableOrchestrator
     from controlled_multi_future.canonical_artifact import canonical_hash_json
     output = Path(output)
     pointer = output / 'cohort_pointer.json'
     previous = json.loads(pointer.read_text(encoding='utf-8')) if pointer.exists() else None
     attempt = previous['attempt'] + 1 if previous else 1
-    if attempt > 2:
+    max_attempts = 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' else 2
+    if attempt > max_attempts:
         raise ValueError('native F1 finite recovery invocation exhausted')
     if previous and previous['spec_sha256'] != spec['spec_sha256']:raise ValueError('recovery spec changed')
     if previous and previous['source_sha256'] != source_sha:
@@ -310,7 +443,15 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
             branch = old_root / 'branches' / program['program_id']
             if (branch / 'receipt.json').exists() and json.loads((branch / 'receipt.json').read_text(encoding='utf-8')).get('status') == 'accepted':
                 reuse[program['program_id']] = branch
-    adapter = native_adapter(spec=spec, realization=realization, output_root=attempt_output / 'scene_instances', source_sha=source_sha)
+    adapter_kwargs = {
+        'spec': spec,
+        'realization': realization,
+        'output_root': attempt_output / 'scene_instances',
+        'source_sha': source_sha,
+    }
+    if recovery_context is not None:
+        adapter_kwargs['recovery_context'] = recovery_context
+    adapter = native_adapter(**adapter_kwargs)
     adapter._source_compatibility=source_compatibility
     planned = deepcopy(spec)
     planned['slot_id'] = spec['root_id']

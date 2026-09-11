@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence
+from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context
 from scene_plan import generate,resolve
 from file_source_pin import inventory,bundle_hash
 
@@ -63,6 +63,30 @@ class TestLauncher(unittest.TestCase):
             detail=_failure_evidence(d,{'returncode':1})
             self.assertEqual(detail['category'],'engineering_error')
             self.assertFalse(detail['reserve_eligible'])
+
+    def test_failure_evidence_isolated_to_current_attempt(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            d=Path(td);base=d/'r_pc';root=base/'root';root.mkdir(parents=True)
+            old={'status':'failed_verifier','branch_receipts':[{'status':'failed_independent_cell','independent_cell_gate':{'failure_class':'PHYSICAL_FAILURE'}}],'budget_counts':{'execution_attempt_count':1}}
+            (root/'root_receipt.json').write_text(json.dumps(old),encoding='utf-8')
+            (base/'cohort_pointer.json').write_text(json.dumps({'status':'FAILED','attempt':1,'root_relative':'root'}),encoding='utf-8')
+            before=_cohort_pointer_snapshot(d)
+            # A new launcher attempt that creates no terminal must not borrow
+            # the old physical receipt to consume a reserve.
+            context=_attempt_pointer_context(d,before,attempt_id='job:attempt:2')
+            detail=_failure_evidence(d,{'returncode':1},attempt_context=context)
+            self.assertEqual(detail['category'],'resource_unknown');self.assertFalse(detail['reserve_eligible']);self.assertEqual(detail['current_attempt_evidence'],[])
+            # Start a separate attempt with an engineering history receipt;
+            # only the newly created recovery terminal may classify it.
+            (root/'root_receipt.json').write_text(json.dumps({'status':'failed_execution','error':'old UnicodeDecodeError','budget_counts':{'execution_attempt_count':0}}),encoding='utf-8')
+            before=_cohort_pointer_snapshot(d)
+            new=base/'recovery_2/root';new.mkdir(parents=True)
+            physical={'status':'failed_verifier','branch_receipts':[{'status':'failed_independent_cell','independent_cell_gate':{'failure_class':'PHYSICAL_FAILURE'}}],'budget_counts':{'execution_attempt_count':1}}
+            (new/'root_receipt.json').write_text(json.dumps(physical),encoding='utf-8')
+            (base/'cohort_pointer.json').write_text(json.dumps({'status':'FAILED','attempt':2,'root_relative':'recovery_2/root'}),encoding='utf-8')
+            context=_attempt_pointer_context(d,before,attempt_id='job:attempt:2')
+            detail=_failure_evidence(d,{'returncode':1},attempt_context=context)
+            self.assertEqual(detail['category'],'physical_failure');self.assertTrue(detail['reserve_eligible']);self.assertEqual(len(detail['current_attempt_evidence']),1);self.assertTrue(detail['root_history']['receipt_paths'])
 
     def test_false_authorization_never_snapshots(self):
         host=FakeHost()
