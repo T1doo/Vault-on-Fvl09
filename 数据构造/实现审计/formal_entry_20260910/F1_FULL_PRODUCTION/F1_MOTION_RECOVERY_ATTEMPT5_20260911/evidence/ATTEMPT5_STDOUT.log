@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/execution_cli.py", line 80, in <module>
+    result=main()
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/execution_cli.py", line 73, in main
+    result=family_entry.run_family_root(spec=spec,output=a.output,authorization=auth)
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/family_entry.py", line 385, in run_family_root
+    result=run_root(spec=spec,output=output,source_sha=authorization['implementation_source_sha256'],resume=authorization.get('resume',False),source_bundle_sha256=authorization['source_bundle_sha256'],source_compatibility=compatibility,recovery_context=authorization.get('recovery_context'))
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/family_entry.py", line 357, in run_root
+    return _run_root(spec=spec,output=output,source_sha=source_sha,resume=resume,cohort_runner=cohort_runner,source_bundle_sha256=source_bundle_sha256,source_compatibility=source_compatibility,recovery_context=recovery_context)
+  File "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/family_entry.py", line 95, in _run_root
+    for item in compat['accepted_cells']:
+KeyError: 'accepted_cells'

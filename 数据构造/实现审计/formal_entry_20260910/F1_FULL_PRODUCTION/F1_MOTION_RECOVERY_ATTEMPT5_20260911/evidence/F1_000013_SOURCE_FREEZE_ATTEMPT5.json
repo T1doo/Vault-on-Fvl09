@@ -5,6 +5,7 @@
   "authorization_path": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT5_20260911/specs/F1_000013.authorization.json",
   "authorization_sha256": "7686afe8bfb52d8ca2b5ea7f54ea9737cbfb0e981bd6555757e02114e5ccf3af",
   "base_closed_attempt4_commit": "c66661e4d49c3aa1f70d6b59ac81b0141f0e9394",
+  "blocking_issue": "attempt5 compatibility omitted accepted_cells required by family_entry; prior CPU preflight did not mirror that loader field",
   "budget_caps": {
     "action_scenes": 11,
     "collection_attempts": 3,
@@ -45,12 +46,18 @@
   "schema": "f1_motion_recovery_attempt5_source_freeze_v1",
   "scientific_contract_unchanged": true,
   "source_bundle_sha256": "e6c52efef6543ebabe18441053900b13991d9326e39dfe93984b823962211cf0",
-  "status": "CPU_REVIEWED_ATTEMPT5_READY_FOR_FIXED_GPU_EXECUTION",
+  "status": "ATTEMPT5_CLOSED_INCOMPLETE_NO_ATTEMPT6",
+  "terminal_reconciliation": "/nfs_share/lijunhui/Vault-on-Fvl09/数据构造/实现审计/formal_entry_20260910/F1_FULL_PRODUCTION/F1_MOTION_RECOVERY_ATTEMPT5_20260911/evidence/ATTEMPT5_TERMINAL_RECONCILIATION.json",
+  "terminal_reconciliation_sha256": "92e678d64a9448e06d09204f88b9c1ef524b97ead7a850f2064e2d15e49897d2",
   "tests": {
+    "attempt5_accepted_cells_loader_gap": true,
+    "attempt5_accepted_cells_missing_detected_after_run": true,
     "attempt5_cli_cpu_preflight": true,
     "attempt5_manifest_cpu_preflight": true,
     "attempt5_no_attempt6": true,
+    "attempt5_physical_run": true,
     "attempt5_receipt_gate_integration": true,
+    "attempt5_scene_created": false,
     "attempt5_strict_start_runtime_gate_bound": true
   },
   "written_wall": 1789129328.7380247

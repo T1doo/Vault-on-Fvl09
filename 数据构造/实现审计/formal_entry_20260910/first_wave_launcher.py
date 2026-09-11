@@ -363,7 +363,9 @@ def validate_manifest(manifest,activated_jobs=None,*,copy_only=False,inactive_jo
         contract=manifest.get('recovery_contract') or {}
         if contract.get('mode')!='existing_root_motion_only' or contract.get('missing_realization')!='r_inv_motion' or contract.get('missing_cells') != ['F1-red:r_inv_motion','F1-green:r_inv_motion','F1-blue:r_inv_motion']:
             raise ValueError('motion recovery contract scope is not frozen')
-        expected_caps={'fresh_scenes':12 if contract.get('allow_attempt4_after_init_failure') is True else 11,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
+        expected_fresh = 20 if contract.get('allow_attempt5_after_gate_fix') is True else 12 if contract.get('allow_attempt4_after_init_failure') is True else 11
+        expected_action = 11 if contract.get('allow_attempt5_after_gate_fix') is True else 7
+        expected_caps={'fresh_scenes':expected_fresh,'action_scenes':expected_action,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
         if manifest.get('budget_caps') != expected_caps:
             raise ValueError('motion recovery budget cap differs from reviewed bound')
     validate_sources(manifest)
@@ -745,10 +747,23 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         return {'schema': 'f1_recovery_cpu_preflight_v1', 'pass': True, 'applicable': False}
     if manifest.get('root_ids') != ['F1_000013'] or len(manifest.get('jobs', [])) != 1:
         raise ValueError('motion recovery preflight scope is not one F1_000013 job')
-    if manifest.get('budget_caps') != {'fresh_scenes':12,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}:
-        raise ValueError('attempt 4 recovery budget does not reserve one fresh scene plus the original allowance')
-    if request.get('root_id') != 'F1_000013' or request.get('missing_realization') != 'r_inv_motion' or request.get('mode') != 'resume' or request.get('request_id') != 'f1_motion_recovery_20260911_attempt_4':
-        raise ValueError('attempt 4 request is not the frozen motion-only request')
+    attempt_number = int(request.get('attempt_number', 4))
+    if attempt_number == 4:
+        expected_caps = {'fresh_scenes':12,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
+        expected_request_id = 'f1_motion_recovery_20260911_attempt_4'
+        expected_consumed = {'fresh_scenes':1,'action_scenes':0,'collection_attempts':0,'solver_problems':0,'gpu_lease_seconds':195}
+        expected_prior_attempts = 3
+    elif attempt_number == 5:
+        expected_caps = {'fresh_scenes':20,'action_scenes':11,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}
+        expected_request_id = 'f1_motion_recovery_20260911_attempt_5'
+        expected_consumed = {'fresh_scenes':9,'action_scenes':4,'collection_attempts':0,'solver_problems':0,'gpu_lease_seconds':641}
+        expected_prior_attempts = 4
+    else:
+        raise ValueError('motion recovery preflight supports only the explicitly bounded attempt 4 or attempt 5')
+    if manifest.get('budget_caps') != expected_caps:
+        raise ValueError(f'attempt {attempt_number} recovery budget differs from its frozen bound')
+    if request.get('root_id') != 'F1_000013' or request.get('missing_realization') != 'r_inv_motion' or request.get('mode') != 'resume' or request.get('request_id') != expected_request_id:
+        raise ValueError(f'attempt {attempt_number} request is not the frozen motion-only request')
     spec, auth = read_bound_job_configs(job)
     validate_sources(manifest)
     validate_sources(auth)
@@ -796,23 +811,23 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     totals = ledger.totals()
     if totals['reserved'] != _zero():
         raise ValueError('recovery ledger has a nonzero reservation before preflight')
-    if totals['consumed'].get('gpu_lease_seconds') != 195 or totals['consumed'].get('fresh_scenes') != 1 or any(totals['consumed'].get(key, 0) != 0 for key in ('action_scenes','collection_attempts','solver_problems')):
-        raise ValueError('recovery ledger consumed totals are not the three settled attempts')
+    if any(totals['consumed'].get(key, 0) != value for key, value in expected_consumed.items()):
+        raise ValueError(f'recovery ledger consumed totals are not the settled attempts before attempt {attempt_number}')
     if not events:
         raise ValueError('recovery ledger has no settled attempt evidence')
     prior = state.get('jobs', {}).get(job['job_id'], {})
     attempts = prior.get('attempts') or []
-    if len(attempts) != 3 or any(
+    if len(attempts) != expected_prior_attempts or any(
         a.get('settled') is not True or a.get('owned_cleanup_pass') is not True or a.get('release_confirmed') is not True
         for a in attempts
     ):
-        raise ValueError('attempt 1/2/3 are not all settled and cleaned')
-    if any(a.get('physical_started') is not False for a in attempts[:2]) or attempts[2].get('physical_started') is not False or attempts[2].get('scene_created') is not True:
-        raise ValueError('attempt 3 scene/physical boundary evidence is inconsistent')
+        raise ValueError(f'prior attempts before attempt {attempt_number} are not all settled and cleaned')
+    if any(a.get('physical_started') is not False for a in attempts) or attempts[-1].get('scene_created') is not True:
+        raise ValueError(f'prior scene/physical boundary evidence is inconsistent for attempt {attempt_number}')
     checkpoint_path = output / 'checkpoint.json'
     checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.is_file() else {}
-    if compatibility.get('old_source_bundle_sha256') != checkpoint.get('source_bundle_sha256'):
-        raise ValueError('compatibility old source bundle does not match the latest checkpoint')
+    if compatibility.get('old_source_bundle_sha256') != checkpoint.get('source_bundle_sha256') and compatibility.get('old_source_bundle_sha256') != attempts[-1].get('source_bundle_sha256'):
+        raise ValueError('compatibility old source bundle does not match the latest checkpoint or prior attempt source')
     if set(checkpoint.get('completed', {})) != {'r_pc', 'r_inv_path'} or checkpoint.get('active_realization') != 'r_inv_motion':
         raise ValueError('checkpoint does not contain exactly the three motion cells as remaining work')
     expected_cells = {'F1-red:r_inv_motion', 'F1-green:r_inv_motion', 'F1-blue:r_inv_motion'}
@@ -824,6 +839,23 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     for path, expected in accepted_hashes.items():
         if hashlib.sha256(_workspace_path(path).read_bytes()).hexdigest() != expected:
             raise ValueError('preserved accepted file changed before attempt 3')
+    if attempt_number >= 5:
+        accepted_cells = compatibility.get('accepted_cells')
+        if not isinstance(accepted_cells, list) or len(accepted_cells) != 6:
+            raise ValueError(f'attempt {attempt_number} compatibility must enumerate the six preserved accepted cells')
+        observed_cells = set()
+        for item in accepted_cells:
+            if not isinstance(item, dict) or not isinstance(item.get('program_id'), str) or item.get('realization_id') not in ('r_pc', 'r_inv_path'):
+                raise ValueError('accepted compatibility cell identity is incomplete')
+            for path_key, sha_key in (('raw_path', 'raw_sha256'), ('manifest_path', 'manifest_sha256'), ('capture_path', 'capture_sha256')):
+                if not isinstance(item.get(path_key), str) or not isinstance(item.get(sha_key), str):
+                    raise ValueError('accepted compatibility cell path/hash is incomplete')
+                path = _workspace_path(item[path_key])
+                if not path.resolve().is_relative_to(output.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest() != item[sha_key]:
+                    raise ValueError('accepted compatibility cell source is outside or changed')
+            observed_cells.add(f"{item['program_id']}:{item['realization_id']}")
+        if observed_cells != {f'{program}:{realization}' for program in ('F1-red', 'F1-green', 'F1-blue') for realization in ('r_pc', 'r_inv_path')}:
+            raise ValueError('accepted compatibility cell set is not exactly the preserved six')
     from family_entry import cohort_root, export_native_cell, validate_saved_cell
     cell_results = []
     for realization in ('r_pc', 'r_inv_path'):
@@ -842,8 +874,17 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     explicit_prefix = auth.get('recovery_context', {}).get('canonical_prefix_artifact_dir')
     if not isinstance(explicit_prefix, str) or _workspace_path(explicit_prefix) != (cohort_root(output, 'r_pc') / 'canonical_prefix_artifact').resolve():
         raise ValueError('attempt 4 does not bind the preserved canonical prefix artifact explicitly')
-    if auth.get('recovery_context', {}).get('allow_cohort_attempt4') is not True:
-        raise ValueError('attempt 4 cohort invocation allowance is not explicitly bound')
+    allow_key = 'allow_cohort_attempt4' if attempt_number == 4 else 'allow_cohort_attempt5'
+    if auth.get('recovery_context', {}).get(allow_key) is not True:
+        raise ValueError(f'attempt {attempt_number} cohort invocation allowance is not explicitly bound')
+    if attempt_number == 5:
+        context = auth.get('recovery_context', {})
+        if context.get('attempt5_auto_start') is not False or context.get('allow_gpu_rebind_if_no_physical') is not False:
+            raise ValueError('attempt 5 must be explicit and remain on the fixed GPU')
+        if context.get('motion_hold_implementation') != 'constant_actual_left_arm_qpos_setpoint' or context.get('motion_hold_start_tolerance_rad') != 1e-5:
+            raise ValueError('attempt 5 motion hold/start contract is not frozen')
+        if context.get('executing_arm_qpos_indices') != [6, 14, 18, 22, 26, 30]:
+            raise ValueError('attempt 5 executing-arm qpos mapping is not frozen')
     from native_f1 import _load_motion_baseline_controls
     baselines = []
     for program_id in ('F1-red', 'F1-green', 'F1-blue'):
@@ -853,17 +894,18 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         baselines.append({'program_id': program_id, 'artifact_sha256': baseline_manifest['artifact_sha256'], 'control_count': len(controls), 'actual_prefix_end_qpos_sha256': hashlib.sha256(baseline_arrays['actual_prefix_end_qpos'].tobytes()).hexdigest()})
     fixed_uuid = prior.get('fixed_gpu_uuid')
     if fixed_uuid != 'GPU-2c620e6c-9639-2022-b573-9847dfa33769':
-        raise ValueError('attempt 4 must remain bound to the attempt 3 GPU UUID')
+        raise ValueError(f'attempt {attempt_number} must remain bound to the attempt 3 GPU UUID')
     runtime_env, runtime_cache = build_child_environment(
         gpu_uuid=fixed_uuid,
         task_id=manifest['task_id'],
-        attempt_id=str(request.get('attempt_number', 4)),
+        attempt_id=str(attempt_number),
     )
     cache_probe = _runtime_cache_probe(env=runtime_env, cache_info=runtime_cache)
     nvrtc_probe = _nvrtc_compile_probe(env=runtime_env, cache_info=runtime_cache)
     return {
         'schema': 'f1_recovery_cpu_preflight_v2',
         'pass': True,
+        'attempt': attempt_number,
         'native_boundary_reached': True,
         'scene_created': False,
         'lease_acquired': False,
@@ -884,6 +926,9 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         'missing_cells': sorted(expected_cells),
         'attempts_settled': [a.get('attempt') for a in attempts],
         'fixed_gpu_uuid': fixed_uuid,
+        'motion_hold_contract': auth.get('recovery_context', {}).get('motion_hold_implementation'),
+        'motion_hold_start_tolerance_rad': auth.get('recovery_context', {}).get('motion_hold_start_tolerance_rad'),
+        'executing_arm_qpos_indices': auth.get('recovery_context', {}).get('executing_arm_qpos_indices'),
         'runtime_cache': runtime_cache,
         'runtime_cache_probe': cache_probe,
         'nvrtc_compile_probe': nvrtc_probe,
@@ -913,7 +958,11 @@ def _recoverable(job,previous,request,manifest,compatibility=None):
         if any(not a.get('settled') or not a.get('owned_cleanup_pass') or not a.get('release_confirmed') for a in attempts):
             raise ValueError('motion recovery requires all prior attempts settled and cleaned')
         recovery_contract = manifest.get('recovery_contract') or {}
-        max_attempts = 4 if recovery_contract.get('allow_attempt4_after_init_failure') is True and len(attempts) == 3 and attempts[-1].get('scene_created') is True else int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3))
+        max_attempts = (
+            5 if recovery_contract.get('allow_attempt5_after_gate_fix') is True and len(attempts) == 4 and attempts[-1].get('scene_created') is True
+            else 4 if recovery_contract.get('allow_attempt4_after_init_failure') is True and len(attempts) == 3 and attempts[-1].get('scene_created') is True
+            else int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3))
+        )
         if len(attempts) >= max_attempts:
             raise ValueError('motion recovery finite attempt limit exhausted')
         spec,auth=read_bound_job_configs(job)
@@ -1085,7 +1134,23 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 and attempts[-1].get('scene_created') is True
                 and all(a.get('physical_started') is False for a in attempts)
             )
-        if any(j.get('status')=='FAILED' and j.get('failure_class') not in allowed_failures and not explicit_attempt4_exception(k,j) and not (compatibility and compatibility['job_proofs'].get(k,{}).get('receipt',{}).get('failure_resolution',{}).get('status')=='FIXED_CPU_VERIFIED') for k,j in state['jobs'].items()):raise RuntimeError('unclassified/shared failure stops all new dispatch')
+        def explicit_attempt5_exception(job_id, record):
+            request = requests.get(job_id)
+            attempts = record.get('attempts') or []
+            contract = manifest.get('recovery_contract') or {}
+            return (
+                manifest.get('scope')=='F1_MOTION_RECOVERY'
+                and contract.get('allow_attempt5_after_gate_fix') is True
+                and isinstance(request,dict)
+                and request.get('attempt_number')==5
+                and request.get('request_id')=='f1_motion_recovery_20260911_attempt_5'
+                and request.get('failure_class')=='shared_interface_error'
+                and len(attempts)==4
+                and all(a.get('settled') is True and a.get('owned_cleanup_pass') is True and a.get('release_confirmed') is True for a in attempts)
+                and attempts[-1].get('scene_created') is True
+                and all(a.get('physical_started') is False for a in attempts)
+            )
+        if any(j.get('status')=='FAILED' and j.get('failure_class') not in allowed_failures and not explicit_attempt4_exception(k,j) and not explicit_attempt5_exception(k,j) and not (compatibility and compatibility['job_proofs'].get(k,{}).get('receipt',{}).get('failure_resolution',{}).get('status')=='FIXED_CPU_VERIFIED') for k,j in state['jobs'].items()):raise RuntimeError('unclassified/shared failure stops all new dispatch')
         if any(j.get('status')=='COPY_FAILED' for j in state['jobs'].values()):raise RuntimeError('finish CPU-only copy recovery before more GPU work')
         ready=[]
         for jid in selected:
