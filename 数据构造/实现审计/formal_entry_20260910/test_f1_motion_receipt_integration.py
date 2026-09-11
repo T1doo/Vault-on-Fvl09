@@ -8,6 +8,7 @@ import numpy as np
 
 from native_f1 import (
     _load_motion_baseline_controls,
+    _load_reusable_branch,
     apply_motion_hold,
     audit_motion_start_qpos,
     build_motion_baseline_planner_source,
@@ -191,6 +192,38 @@ class MotionReceiptIntegrationTests(unittest.TestCase):
         self.assertEqual(control['position'].shape, (35, 2))
         self.assertTrue(np.array_equal(control['position'][0], control['position'][-1]))
         self.assertTrue(np.array_equal(control['velocity'], np.zeros((35, 2), dtype=np.float32)))
+
+    def test_failed_branch_requires_explicit_immutable_posthoc_overlay_for_reuse(self):
+        import hashlib
+        with __import__('tempfile').TemporaryDirectory(dir=ROOT / 'Robotwin2/tmp') as td:
+            branch = Path(td) / 'branches' / 'F1-red'
+            raw = branch / 'raw'
+            raw.mkdir(parents=True)
+            raw_file = raw / 'raw_streams.npz'
+            raw_file.write_bytes(b'raw-fixture')
+            receipt = branch / 'receipt.json'
+            receipt.write_text(json.dumps({'status': 'failed_independent_cell', 'program_id': 'F1-red'}), encoding='utf-8')
+            common = {
+                'schema': 'f1_motion_posthoc_reuse_overlay_v1',
+                'status': 'POSTHOC_VERIFIER_REAUDIT_PASS_PROMOTION_PENDING',
+                'promotion_to_reusable': True,
+                'root_id': 'F1_000013',
+                'program_id': 'F1-red',
+                'realization_id': 'r_inv_motion',
+                'old_branch_receipt_sha256': hashlib.sha256(receipt.read_bytes()).hexdigest(),
+                'raw_sha256': hashlib.sha256(raw_file.read_bytes()).hexdigest(),
+                'raw_immutable': True,
+                'old_receipt_unchanged': True,
+                'independent_audit_pass': True,
+                'variant_audit_pass': True,
+                'verifier_source_bundle_sha256': 'f' * 64,
+            }
+            (branch / 'posthoc_verifier_reaudit.json').write_text(json.dumps(common), encoding='utf-8')
+            self.assertIsNone(_load_reusable_branch(branch, program_id='F1-red', realization='r_inv_motion', root_id='F1_000013', allow_posthoc=False)[0])
+            promoted, metadata = _load_reusable_branch(branch, program_id='F1-red', realization='r_inv_motion', root_id='F1_000013', allow_posthoc=True)
+            self.assertEqual(promoted['status'], 'accepted')
+            self.assertEqual(metadata['mode'], 'posthoc_verifier_reaudit_promotion')
+            self.assertEqual(json.loads(receipt.read_text())['status'], 'failed_independent_cell')
 
 
 if __name__ == '__main__':

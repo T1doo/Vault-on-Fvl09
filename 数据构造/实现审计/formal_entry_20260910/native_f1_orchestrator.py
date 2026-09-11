@@ -1432,8 +1432,17 @@ class FormalF1RecoverableOrchestrator(
                 reuse = getattr(self, 'reuse_cells', {}).get(program_id)
                 if reuse is not None:
                     from native_raw_contract import validate_native_raw_contract as validate_raw_artifact_contract
+                    from native_f1 import _load_reusable_branch
                     previous = Path(reuse)
-                    saved = json.loads((previous / 'receipt.json').read_text(encoding='utf-8'))
+                    saved, reuse_metadata = _load_reusable_branch(
+                        previous,
+                        program_id=program_id,
+                        realization=realization,
+                        root_id=planned_root_slot_spec['root_id'],
+                        allow_posthoc=getattr(self, 'allow_posthoc_reuse', False),
+                    )
+                    if saved is None:
+                        raise ValueError('reused branch is no longer independently reusable')
                     if not validate_raw_artifact_contract(previous / 'raw')['pass']:
                         raise ValueError('reused cell raw integrity/contract failed')
                     old_suffix_dir = previous.parent.parent / 'suffix_artifacts' / program_id
@@ -1458,7 +1467,7 @@ class FormalF1RecoverableOrchestrator(
                         reused_gate=self.independent_cell_gate(branch_dir,program)
                         if reused_gate.get('pass') is not True:raise ValueError('reused cell fails current independent local gate')
                     receipt['branch_receipts'].append(saved)
-                    receipt.setdefault('reused_branches', []).append({'program_id':program_id,'original_branch':str(previous),'checks':reuse_checks,'new_physical_execution':False})
+                    receipt.setdefault('reused_branches', []).append({'program_id':program_id,'original_branch':str(previous),'checks':reuse_checks,'new_physical_execution':False,'reuse_metadata':reuse_metadata})
                     self._append_event({'event':'verified_branch_reused','program_id':program_id,'source':str(previous)})
                     continue
                 branch_dir.mkdir(parents=True, exist_ok=False)

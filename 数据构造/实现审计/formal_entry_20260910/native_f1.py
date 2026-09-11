@@ -673,12 +673,22 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     attempt_output = output if attempt == 1 else output / f'recovery_{attempt}'
     root_output = attempt_output / 'root'
     reuse = {}
+    reuse_metadata = {}
+    allow_posthoc_reuse = isinstance(recovery_context, dict) and recovery_context.get('allow_posthoc_reaudited_reuse') is True
     if previous:
         old_root = output / previous['root_relative']
         for program in spec['programs']:
             branch = old_root / 'branches' / program['program_id']
-            if (branch / 'receipt.json').exists() and json.loads((branch / 'receipt.json').read_text(encoding='utf-8')).get('status') == 'accepted':
+            reusable, metadata = _load_reusable_branch(
+                branch,
+                program_id=program['program_id'],
+                realization=realization,
+                root_id=spec['root_id'],
+                allow_posthoc=allow_posthoc_reuse,
+            )
+            if reusable is not None:
                 reuse[program['program_id']] = branch
+                reuse_metadata[program['program_id']] = metadata
     adapter_kwargs = {
         'spec': spec,
         'realization': realization,
@@ -695,6 +705,8 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     planned['scene_layout_sha256'] = canonical_hash_json(spec['scene_layout'])
     orchestrator = FormalF1RecoverableOrchestrator(adapter, implementation_version='formal_f1_native_entry_20260910')
     orchestrator.reuse_cells = reuse
+    orchestrator.reuse_metadata = reuse_metadata
+    orchestrator.allow_posthoc_reuse = allow_posthoc_reuse
     orchestrator.source_compatibility=source_compatibility
     def independent_cell_gate(branch_dir,program):
         from family_entry import finalize_native_cell,write
@@ -726,3 +738,63 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
         payload['ended_wall']=time.time()
         if payload['status']=='STARTED': payload['status']='EXCEPTION'
         temporary=pointer.with_suffix('.tmp'); temporary.write_text(json.dumps(payload), encoding='utf-8'); temporary.replace(pointer)
+
+
+def _load_reusable_branch(branch, *, program_id, realization, root_id, allow_posthoc=False):
+    """Load an immutable accepted branch or an explicitly promoted posthoc view.
+
+    A failed receipt is never changed in place.  Reuse of a posthoc verifier
+    result requires a branch-local overlay that binds the old receipt and raw
+    hashes and is enabled by the recovery contract; the caller receives a
+    promoted in-memory receipt for the new root only.
+    """
+    branch = Path(branch)
+    receipt_path = branch / 'receipt.json'
+    if not receipt_path.is_file():
+        return None, None
+    saved = json.loads(receipt_path.read_text(encoding='utf-8'))
+    if saved.get('program_id') != program_id:
+        return None, None
+    if saved.get('status') == 'accepted':
+        return saved, {'mode': 'original_accepted_receipt', 'receipt_sha256': hashlib.sha256(receipt_path.read_bytes()).hexdigest()}
+    if not allow_posthoc:
+        return None, None
+    overlay_path = branch / 'posthoc_verifier_reaudit.json'
+    if not overlay_path.is_file():
+        return None, None
+    overlay = json.loads(overlay_path.read_text(encoding='utf-8'))
+    raw_path = branch / 'raw' / 'raw_streams.npz'
+    receipt_sha = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    raw_sha = hashlib.sha256(raw_path.read_bytes()).hexdigest() if raw_path.is_file() else None
+    if (
+        overlay.get('schema') != 'f1_motion_posthoc_reuse_overlay_v1'
+        or overlay.get('status') != 'POSTHOC_VERIFIER_REAUDIT_PASS_PROMOTION_PENDING'
+        or overlay.get('promotion_to_reusable') is not True
+        or overlay.get('root_id') != root_id
+        or overlay.get('program_id') != program_id
+        or overlay.get('realization_id') != realization
+        or overlay.get('old_branch_receipt_sha256') != receipt_sha
+        or overlay.get('raw_sha256') != raw_sha
+        or overlay.get('raw_immutable') is not True
+        or overlay.get('old_receipt_unchanged') is not True
+        or overlay.get('independent_audit_pass') is not True
+        or overlay.get('variant_audit_pass') is not True
+    ):
+        return None, None
+    promoted = deepcopy(saved)
+    promoted['status'] = 'accepted'
+    promoted['posthoc_promotion'] = {
+        'schema': overlay['schema'],
+        'overlay_path': str(overlay_path),
+        'overlay_sha256': hashlib.sha256(overlay_path.read_bytes()).hexdigest(),
+        'original_receipt_sha256': receipt_sha,
+        'raw_sha256': raw_sha,
+        'verifier_source_bundle_sha256': overlay.get('verifier_source_bundle_sha256'),
+    }
+    return promoted, {
+        'mode': 'posthoc_verifier_reaudit_promotion',
+        'overlay_path': str(overlay_path),
+        'overlay_sha256': promoted['posthoc_promotion']['overlay_sha256'],
+        'original_receipt_sha256': receipt_sha,
+        'raw_sha256': raw_sha,
+    }

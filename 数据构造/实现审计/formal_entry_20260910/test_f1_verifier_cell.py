@@ -73,6 +73,23 @@ class TestF1VerifierCell(unittest.TestCase):
         np.savez_compressed(raw/'raw_streams.npz',**a)
         self.assertFalse(verify_variant_pair(baseline_dir=baseline,variant_dir=raw,spec=self.spec,realization='r_inv_motion')['pass'])
 
+    def test_motion_hold_accepts_constant_registered_post_prefix_setpoint(self):
+        raw, arrays = self.mutated('r_inv_motion')
+        manifest = json.loads((raw / 'manifest.json').read_text(encoding='utf-8'))
+        stages = {item['name']: item for item in manifest['provenance']['formal_f1_stages']['stages']}
+        hold = stages['post_prefix_hold']
+        start, end = hold['start_row'], hold['end_row']
+        # Deliberately use a constant hold setpoint that differs from the
+        # preceding planner action.  This is the native motion contract: the
+        # post-prefix measured-qpos setpoint is registered independently.
+        value = arrays['stream__controller_effective_setpoint'][start].copy()
+        arrays['stream__controller_effective_setpoint'][start:end] = value
+        arrays['stream__requested_command'][start:end] = value
+        np.savez_compressed(raw / 'raw_streams.npz', **arrays)
+        result = verify_f1_disk(raw_dir=raw, spec=self.spec, program=self.spec['programs'][0])
+        self.assertTrue(result['checks']['registered_hold_commands'], result)
+        self.assertTrue(result['checks']['registered_hold_length'], result)
+
     def test_motion_baseline_binding_loads_sealed_controls_only(self):
         with tempfile.TemporaryDirectory(dir=BASE) as td,patch('native_f1.native_adapter',make_backend):
             root=Path(td)

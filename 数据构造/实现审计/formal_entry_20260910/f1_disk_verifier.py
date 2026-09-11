@@ -60,7 +60,20 @@ def load_stages(raw,manifest,spec,suffix,controls):
     hold=by[c['motion']['stage']];a,b=hold['start_row'],hold['end_row']
     wanted=c['motion']['additional_frames'] if e['realization_id']=='r_inv_motion' else 0
     checks['registered_hold_length']=b-a==wanted
-    checks['registered_hold_commands']=bool(np.array_equal(actual[a:b],np.repeat(actual[a-1:a],b-a,axis=0)) and np.array_equal(requested[a:b],np.repeat(requested[a-1:a],b-a,axis=0)))
+    # A timing-only hold is its own registered command window.  It may use a
+    # constant measured-qpos setpoint after the prefix, so it need not equal
+    # the final planner setpoint that drove the preceding prefix action.  The
+    # window must still be constant and the requested/effective streams must
+    # agree exactly; all non-hold controls remain checked against the sealed
+    # baseline below.
+    if b == a:
+        checks['registered_hold_commands'] = True
+    else:
+        checks['registered_hold_commands'] = bool(
+            np.array_equal(actual[a:b], np.repeat(actual[a:a + 1], b - a, axis=0))
+            and np.array_equal(requested[a:b], np.repeat(requested[a:a + 1], b - a, axis=0))
+            and np.array_equal(actual[a:a + 1], requested[a:a + 1])
+        )
     if b>a:
         hold_linear,hold_angular=pose_rates(raw['stream__realized_eef'][:,:7],timestamps,a+1,b)
         checks['hold_is_stationary']=bool(np.max(hold_linear)<=c['terminal']['eef_linear_m_s'] and np.max(hold_angular)<=c['terminal']['eef_angular_rad_s'])
