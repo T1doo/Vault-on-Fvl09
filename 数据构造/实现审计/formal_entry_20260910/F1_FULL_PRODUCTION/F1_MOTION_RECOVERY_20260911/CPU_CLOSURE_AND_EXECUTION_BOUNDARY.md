@@ -53,3 +53,8 @@ attempt 2 在 Guard 选择 GPU1（`GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b`）�
 ## attempt 3 实际结果
 
 attempt 3 通过正向 preflight 后在 GPU0（`GPU-2c620e6c-9639-2022-b573-9847dfa33769`）创建了 pristine native scene，随后首次 Warp/NVRTC 编译因 child 临时目录路径过长失败。没有 prefix、suffix、动作或 motion cell；本次 fresh=1、GPU lease=189 秒，累计 lease=195 秒，其他计数仍为0，cleanup/release/post snapshot 全部通过。按用户确认不启动 attempt 4。
+
+
+## attempt 4 最终正向 preflight
+
+在任何 attempt 4 lease 前，使用与真实 `Popen` 相同的环境构造函数完成真实副本检查。短 cache token 由 `task_id + attempt_number=4` 生成，最大路径 51 字节；TMP/TEMP/TMPDIR、XDG、Warp、Torch、Triton、CUDA、MPL 全部读写清理通过，`tempfile.gettempdir()` 对齐且 `LD_LIBRARY_PATH` 未继承。实际 CUDA 12.1 `libnvrtc.so` 小编译返回 0，未创建 context 或执行 kernel。六条保留 cell、prefix、三个 baseline、checkpoint、namespace、authorization 和 ledger 全部通过；回执为 `ACTUAL_RECOVERY_CPU_PREFLIGHT_ATTEMPT4.json`。

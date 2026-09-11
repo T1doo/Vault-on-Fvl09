@@ -428,7 +428,7 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     pointer = output / 'cohort_pointer.json'
     previous = json.loads(pointer.read_text(encoding='utf-8')) if pointer.exists() else None
     attempt = previous['attempt'] + 1 if previous else 1
-    max_attempts = 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' else 2
+    max_attempts = 4 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt4') is True else 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' else 2
     if attempt > max_attempts:
         raise ValueError('native F1 finite recovery invocation exhausted')
     if previous and previous['spec_sha256'] != spec['spec_sha256']:raise ValueError('recovery spec changed')
@@ -468,7 +468,13 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
             if not first.exists():write(first,{**result,'independent_cell_local_path':str(branch_dir/'independent_cell_local.json'),'independent_cell_local_sha256':hashlib.sha256((branch_dir/'independent_cell_local.json').read_bytes()).hexdigest()})
         return result
     orchestrator.independent_cell_gate=independent_cell_gate
-    if previous and (old_root / 'canonical_prefix_artifact').exists():
+    explicit_prefix = (recovery_context or {}).get('canonical_prefix_artifact_dir') if isinstance(recovery_context, dict) else None
+    if explicit_prefix is not None:
+        explicit_prefix = _bound_workspace_path(explicit_prefix)
+        if not (explicit_prefix / 'canonical_prefix_artifact.json').is_file() or not (explicit_prefix / 'prefix_arrays.npz').is_file():
+            raise ValueError('explicit recovery canonical prefix artifact is incomplete')
+        orchestrator.reuse_prefix_dir = explicit_prefix
+    elif previous and (old_root / 'canonical_prefix_artifact').exists():
         orchestrator.reuse_prefix_dir = old_root / 'canonical_prefix_artifact'
     output.mkdir(parents=True, exist_ok=True)
     payload = {'root_relative':str(root_output.relative_to(output)), 'attempt':attempt,'spec_sha256':spec['spec_sha256'],'source_sha256':source_sha,'reused_programs':sorted(reuse),'status':'STARTED','previous_pointer':previous}

@@ -3,7 +3,7 @@
 CPU coordinator; no CUDA/SAPIEN imports. Current unsigned/false manifests never
 reach even the GPU snapshot. Use only from an explicitly authorized host context.
 """
-import argparse,concurrent.futures,fcntl,hashlib,json,math,os,signal,subprocess,threading,time
+import argparse,concurrent.futures,ctypes,fcntl,hashlib,json,math,os,signal,subprocess,tempfile,threading,time
 from pathlib import Path
 from file_source_pin import validate as validate_sources
 from scene_plan import validate_resolved,hash_json
@@ -11,6 +11,83 @@ from family_entry import write
 ROOT=Path('/nfs_share/lijunhui');HERE=Path(__file__).resolve().parent
 PROJECT=ROOT/'Robotwin2/project/RoboTwin';PYTHON=ROOT/'Robotwin2/env/bin/python'
 COUNTERS=('fresh_scenes','action_scenes','collection_attempts','solver_problems','gpu_lease_seconds')
+SHORT_CACHE_BASE=ROOT/'Robotwin2/tmp/j'
+SHORT_CACHE_PATHS={
+    'TMPDIR':'t', 'TMP':'t', 'TEMP':'t', 'XDG_CACHE_HOME':'x',
+    'WARP_CACHE_PATH':'w', 'TORCH_EXTENSIONS_DIR':'te',
+    'TRITON_CACHE_DIR':'tr', 'CUDA_CACHE_PATH':'c', 'MPLCONFIGDIR':'m',
+}
+
+
+def build_child_environment(*, gpu_uuid, task_id, attempt_id, create=True):
+    """Build the exact short-path environment used by CPU probes and Popen."""
+    from controlled_multi_future.redesign_f2_f3_v2.gpu import child_environment
+    if not isinstance(gpu_uuid, str) or not gpu_uuid.startswith('GPU-'):
+        raise ValueError('short runtime environment requires a concrete GPU UUID')
+    token=hashlib.sha256(f'{task_id}\0{attempt_id}'.encode('utf-8')).hexdigest()[:12]
+    root=SHORT_CACHE_BASE/token
+    if root.exists() and root.is_symlink():
+        raise ValueError('short runtime cache root is a symlink')
+    root.mkdir(parents=True,exist_ok=True)
+    if not root.resolve().is_relative_to(SHORT_CACHE_BASE.resolve()):
+        raise ValueError('short runtime cache root escaped project tmp')
+    paths={key:root/suffix for key,suffix in SHORT_CACHE_PATHS.items()}
+    for path in set(paths.values()):
+        if path.exists() and path.is_symlink():
+            raise ValueError('short runtime cache path is a symlink')
+        if create:path.mkdir(parents=True,exist_ok=True)
+        if len(os.fsencode(str(path)))>100:
+            raise ValueError(f'controlled runtime cache path exceeds 100 bytes: {path}')
+    env=child_environment(gpu_uuid)
+    env.pop('LD_LIBRARY_PATH',None)
+    env.update({key:str(path) for key,path in paths.items()})
+    env['WARP_CACHE_ROOT']=str(paths['WARP_CACHE_PATH'])
+    env['CMF_RUNTIME_CACHE_ROOT']=str(root)
+    env['CMF_RUNTIME_CACHE_TOKEN']=token
+    env['CMF_RUNTIME_CACHE_TASK_ID']=str(task_id)
+    env['CMF_RUNTIME_CACHE_ATTEMPT_ID']=str(attempt_id)
+    return env,{'root':str(root),'token':token,'paths':{key:str(path) for key,path in paths.items()},'max_path_bytes':max(len(os.fsencode(str(path))) for path in set(paths.values()))}
+
+
+def _runtime_cache_probe(*, env, cache_info):
+    """Verify final child env and tempfile selection in a fresh process."""
+    probe_code=('import json,os,tempfile; paths=json.loads(os.environ["CMF_RUNTIME_CACHE_PATHS"]); td=tempfile.gettempdir(); assert td==paths["TMPDIR"], (td,paths["TMPDIR"]); p=os.path.join(td,"cmf_probe"); open(p,"wb").write(b"ok"); assert open(p,"rb").read()==b"ok"; os.unlink(p); print(json.dumps({"tempfile_gettempdir":td,"env":{k:os.environ.get(k) for k in paths},"ld_library_path":os.environ.get("LD_LIBRARY_PATH"),"probe_clean":not os.path.exists(p)},ensure_ascii=False))')
+    probe_env=dict(env);probe_env['CMF_RUNTIME_CACHE_PATHS']=json.dumps(cache_info['paths'],sort_keys=True)
+    result=subprocess.run([str(PYTHON),'-c',probe_code],cwd=PROJECT,env=probe_env,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+    if result.returncode!=0:raise RuntimeError(f'child runtime cache probe failed: {result.stderr.strip()}')
+    value=json.loads(result.stdout.strip())
+    if value.get('ld_library_path') is not None:raise RuntimeError('child runtime cache probe inherited LD_LIBRARY_PATH')
+    return {'returncode':result.returncode,'stdout':value,'stderr':result.stderr,'cache':cache_info}
+
+
+def _nvrtc_compile_probe(*, env, cache_info):
+    """Compile one tiny source through the installed NVRTC library only."""
+    code='''import ctypes,json,os
+candidates=[os.path.join(os.environ["CUDA_HOME"],"lib","libnvrtc.so"),os.path.join(os.environ["CUDA_HOME"],"lib64","libnvrtc.so")]
+lib=None
+for item in candidates:
+    if os.path.isfile(item): lib=ctypes.CDLL(item); lib_path=item; break
+if lib is None: raise RuntimeError("libnvrtc.so not found")
+lib.nvrtcCreateProgram.argtypes=[ctypes.POINTER(ctypes.c_void_p),ctypes.c_char_p,ctypes.c_char_p,ctypes.c_int,ctypes.POINTER(ctypes.c_char_p),ctypes.POINTER(ctypes.c_char_p)];lib.nvrtcCreateProgram.restype=ctypes.c_int
+lib.nvrtcCompileProgram.argtypes=[ctypes.c_void_p,ctypes.c_int,ctypes.POINTER(ctypes.c_char_p)];lib.nvrtcCompileProgram.restype=ctypes.c_int
+lib.nvrtcGetProgramLogSize.argtypes=[ctypes.c_void_p,ctypes.POINTER(ctypes.c_size_t)];lib.nvrtcGetProgramLogSize.restype=ctypes.c_int
+lib.nvrtcGetProgramLog.argtypes=[ctypes.c_void_p,ctypes.c_char_p];lib.nvrtcGetProgramLog.restype=ctypes.c_int
+lib.nvrtcDestroyProgram.argtypes=[ctypes.POINTER(ctypes.c_void_p)];lib.nvrtcDestroyProgram.restype=ctypes.c_int
+program=ctypes.c_void_p();src=b'extern "C" __global__ void cmf_probe(float* x){x[0]=1.0f;}';rc=lib.nvrtcCreateProgram(ctypes.byref(program),src,b'cmf_probe.cu',0,None,None);log=b''
+if rc==0: rc=lib.nvrtcCompileProgram(program,1,(ctypes.c_char_p*1)(b'--std=c++14'))
+size=ctypes.c_size_t(0)
+if program: lib.nvrtcGetProgramLogSize(program,ctypes.byref(size))
+if size.value:
+    buf=ctypes.create_string_buffer(size.value);lib.nvrtcGetProgramLog(program,buf);log=buf.value
+if program: lib.nvrtcDestroyProgram(ctypes.byref(program))
+print(json.dumps({"library":lib_path,"compile_rc":rc,"log":log.decode("utf-8","replace"),"cuda_context_created":False,"kernel_loaded":False,"cache_root":os.environ.get("WARP_CACHE_PATH")},ensure_ascii=False));raise SystemExit(0 if rc==0 else 1)'''
+    result=subprocess.run([str(PYTHON),'-c',code],cwd=PROJECT,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=60)
+    payload=None
+    if result.stdout.strip():
+        try:payload=json.loads(result.stdout.strip())
+        except ValueError:payload={'raw_stdout':result.stdout}
+    if result.returncode!=0:raise RuntimeError(json.dumps({'nvrtc':payload,'stderr':result.stderr},ensure_ascii=False))
+    return {'returncode':result.returncode,'result':payload,'stderr':result.stderr,'cache':cache_info}
 
 
 def usage_from_receipts(output,lease_seconds):
@@ -96,17 +173,20 @@ class HostBackend:
             for pid in observe():
                 try:os.kill(pid,signum)
                 except ProcessLookupError:pass
+        runtime_cache=None
         try:
-            from controlled_multi_future.redesign_f2_f3_v2.gpu import child_environment
-            env=child_environment(card['gpu_uuid']);env['PATH']=str(PYTHON.parent)+os.pathsep+str(ROOT/'Robotwin2/tools/cuda-12.1/bin')+os.pathsep+env.get('PATH','');cache=receipt_dir/'child_cache';cache.mkdir()
-            for name in ('TMPDIR','XDG_CACHE_HOME','TORCH_EXTENSIONS_DIR','TRITON_CACHE_DIR','CUDA_CACHE_PATH','MPLCONFIGDIR'):
-                path=cache/name.lower();path.mkdir();env[name]=str(path)
+            env,runtime_cache=build_child_environment(
+                gpu_uuid=card['gpu_uuid'],
+                task_id=job.get('task_id', job['job_id']),
+                attempt_id=str(job.get('attempt', receipt_dir.name)),
+            )
+            env['PATH']=str(PYTHON.parent)+os.pathsep+str(ROOT/'Robotwin2/tools/cuda-12.1/bin')+os.pathsep+env.get('PATH','')
             env.update(PYTHONPATH=str(PROJECT)+os.pathsep+str(HERE),PYTHONDONTWRITEBYTECODE='1',ROBOTWIN_ROOT=str(PROJECT),ROBOTWIN_WORKSPACE=str(ROOT/'Robotwin2'),CMF_GPU_GUARD_PHYSICAL_INDEX=str(card['physical_index']))
             command=[str(PYTHON),str(HERE/'execution_cli.py'),'--spec',job['spec_path'],'--authorization',job['authorization_path'],'--output',job['output'],'--collect-only']
             if job.get('launch_mode')=='resume':command.append('--resume')
             with (receipt_dir/'stdout.log').open('w') as stream:
                 process=subprocess.Popen(command,cwd=PROJECT,env=env,start_new_session=True,stdout=stream,stderr=subprocess.STDOUT)
-                observe();persist('process_start.json',{'pid':process.pid,'ppid':os.getpid(),'pgid':process.pid,'started_wall':wall,'started_monotonic':started,'command':command,'owned':list(owned.values())})
+                observe();persist('process_start.json',{'pid':process.pid,'ppid':os.getpid(),'pgid':process.pid,'started_wall':wall,'started_monotonic':started,'command':command,'owned':list(owned.values()),'runtime_cache':runtime_cache})
                 if persistence_errors:raise RuntimeError('process ownership evidence could not be persisted')
                 while process.poll() is None:
                     observe()
@@ -131,7 +211,7 @@ class HostBackend:
                         if process.poll() is None:process.kill()
                         process.wait(timeout=1)
                     except BaseException as root_exc:remaining['root_reap_error']=str(root_exc)
-        result={'pid':process.pid if process else None,'returncode':process.returncode if process else None,'timeout':timed_out,'error':error,'started_wall':wall,'ended_wall':time.time(),'lease_seconds':math.ceil(time.monotonic()-started),'owned_process_tree':list(owned.values()),'owned_cleanup_pass':not remaining and (process is None or process.returncode is not None),'remaining_owned':remaining,'host_process_visibility':not remaining,'launched':process is not None,'persistence_errors':persistence_errors}
+        result={'pid':process.pid if process else None,'returncode':process.returncode if process else None,'timeout':timed_out,'error':error,'started_wall':wall,'ended_wall':time.time(),'lease_seconds':math.ceil(time.monotonic()-started),'owned_process_tree':list(owned.values()),'owned_cleanup_pass':not remaining and (process is None or process.returncode is not None),'remaining_owned':remaining,'host_process_visibility':not remaining,'launched':process is not None,'persistence_errors':persistence_errors,'runtime_cache':runtime_cache}
         persist('process_cleanup.json',result)
         return result
 
@@ -647,6 +727,7 @@ def _recovery_can_rebind_gpu(manifest, prior):
     attempts=prior.get('attempts') or []
     return bool(attempts) and all(
         a.get('physical_started') is False
+        and a.get('scene_created') is not True
         and all(a.get('actual', {}).get(k, 0) == 0 for k in ('fresh_scenes','action_scenes','collection_attempts','solver_problems'))
         for a in attempts
     )
@@ -664,8 +745,10 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         return {'schema': 'f1_recovery_cpu_preflight_v1', 'pass': True, 'applicable': False}
     if manifest.get('root_ids') != ['F1_000013'] or len(manifest.get('jobs', [])) != 1:
         raise ValueError('motion recovery preflight scope is not one F1_000013 job')
-    if request.get('root_id') != 'F1_000013' or request.get('missing_realization') != 'r_inv_motion' or request.get('mode') != 'resume' or request.get('request_id') != 'f1_motion_recovery_20260911_attempt_3':
-        raise ValueError('attempt 3 request is not the frozen motion-only request')
+    if manifest.get('budget_caps') != {'fresh_scenes':12,'action_scenes':7,'collection_attempts':3,'solver_problems':64,'gpu_lease_seconds':7200}:
+        raise ValueError('attempt 4 recovery budget does not reserve one fresh scene plus the original allowance')
+    if request.get('root_id') != 'F1_000013' or request.get('missing_realization') != 'r_inv_motion' or request.get('mode') != 'resume' or request.get('request_id') != 'f1_motion_recovery_20260911_attempt_4':
+        raise ValueError('attempt 4 request is not the frozen motion-only request')
     spec, auth = read_bound_job_configs(job)
     validate_sources(manifest)
     validate_sources(auth)
@@ -713,17 +796,19 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     totals = ledger.totals()
     if totals['reserved'] != _zero():
         raise ValueError('recovery ledger has a nonzero reservation before preflight')
-    if totals['consumed'].get('gpu_lease_seconds') != 6 or any(totals['consumed'].get(key, 0) != 0 for key in COUNTERS if key != 'gpu_lease_seconds'):
-        raise ValueError('recovery ledger consumed totals are not the two settled 3-second attempts')
+    if totals['consumed'].get('gpu_lease_seconds') != 195 or totals['consumed'].get('fresh_scenes') != 1 or any(totals['consumed'].get(key, 0) != 0 for key in ('action_scenes','collection_attempts','solver_problems')):
+        raise ValueError('recovery ledger consumed totals are not the three settled attempts')
     if not events:
         raise ValueError('recovery ledger has no settled attempt evidence')
     prior = state.get('jobs', {}).get(job['job_id'], {})
     attempts = prior.get('attempts') or []
-    if len(attempts) != 2 or any(
-        a.get('settled') is not True or a.get('owned_cleanup_pass') is not True or a.get('release_confirmed') is not True or a.get('physical_started') is not False or any(a.get('actual', {}).get(key, 0) != 0 for key in ('fresh_scenes', 'action_scenes', 'collection_attempts', 'solver_problems'))
+    if len(attempts) != 3 or any(
+        a.get('settled') is not True or a.get('owned_cleanup_pass') is not True or a.get('release_confirmed') is not True
         for a in attempts
     ):
-        raise ValueError('attempt 1/2 are not both settled pre-physical attempts')
+        raise ValueError('attempt 1/2/3 are not all settled and cleaned')
+    if any(a.get('physical_started') is not False for a in attempts[:2]) or attempts[2].get('physical_started') is not False or attempts[2].get('scene_created') is not True:
+        raise ValueError('attempt 3 scene/physical boundary evidence is inconsistent')
     checkpoint_path = output / 'checkpoint.json'
     checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.is_file() else {}
     if set(checkpoint.get('completed', {})) != {'r_pc', 'r_inv_path'} or checkpoint.get('active_realization') != 'r_inv_motion':
@@ -752,6 +837,11 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     prefix_manifest, prefix_arrays = load_canonical_prefix_artifact(cohort_root(output, 'r_pc') / 'canonical_prefix_artifact')
     if prefix_manifest.get('root_slot_id') != spec['root_id'] or prefix_manifest.get('family') != 'F1':
         raise ValueError('canonical prefix identity mismatch')
+    explicit_prefix = auth.get('recovery_context', {}).get('canonical_prefix_artifact_dir')
+    if not isinstance(explicit_prefix, str) or _workspace_path(explicit_prefix) != (cohort_root(output, 'r_pc') / 'canonical_prefix_artifact').resolve():
+        raise ValueError('attempt 4 does not bind the preserved canonical prefix artifact explicitly')
+    if auth.get('recovery_context', {}).get('allow_cohort_attempt4') is not True:
+        raise ValueError('attempt 4 cohort invocation allowance is not explicitly bound')
     from native_f1 import _load_motion_baseline_controls
     baselines = []
     for program_id in ('F1-red', 'F1-green', 'F1-blue'):
@@ -759,6 +849,16 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         if len(controls) != 11 or baseline_manifest.get('root_slot_id') != spec['root_id']:
             raise ValueError(f'baseline suffix binding mismatch: {program_id}')
         baselines.append({'program_id': program_id, 'artifact_sha256': baseline_manifest['artifact_sha256'], 'control_count': len(controls), 'actual_prefix_end_qpos_sha256': hashlib.sha256(baseline_arrays['actual_prefix_end_qpos'].tobytes()).hexdigest()})
+    fixed_uuid = prior.get('fixed_gpu_uuid')
+    if fixed_uuid != 'GPU-2c620e6c-9639-2022-b573-9847dfa33769':
+        raise ValueError('attempt 4 must remain bound to the attempt 3 GPU UUID')
+    runtime_env, runtime_cache = build_child_environment(
+        gpu_uuid=fixed_uuid,
+        task_id=manifest['task_id'],
+        attempt_id=str(request.get('attempt_number', 4)),
+    )
+    cache_probe = _runtime_cache_probe(env=runtime_env, cache_info=runtime_cache)
+    nvrtc_probe = _nvrtc_compile_probe(env=runtime_env, cache_info=runtime_cache)
     return {
         'schema': 'f1_recovery_cpu_preflight_v2',
         'pass': True,
@@ -781,6 +881,10 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         'checkpoint_completed': sorted(checkpoint['completed']),
         'missing_cells': sorted(expected_cells),
         'attempts_settled': [a.get('attempt') for a in attempts],
+        'fixed_gpu_uuid': fixed_uuid,
+        'runtime_cache': runtime_cache,
+        'runtime_cache_probe': cache_probe,
+        'nvrtc_compile_probe': nvrtc_probe,
     }
 
 
@@ -806,7 +910,9 @@ def _recoverable(job,previous,request,manifest,compatibility=None):
         attempts=previous.get('attempts') or []
         if any(not a.get('settled') or not a.get('owned_cleanup_pass') or not a.get('release_confirmed') for a in attempts):
             raise ValueError('motion recovery requires all prior attempts settled and cleaned')
-        if len(attempts) >= int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3)):
+        recovery_contract = manifest.get('recovery_contract') or {}
+        max_attempts = 4 if recovery_contract.get('allow_attempt4_after_init_failure') is True and len(attempts) == 3 and attempts[-1].get('scene_created') is True else int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3))
+        if len(attempts) >= max_attempts:
             raise ValueError('motion recovery finite attempt limit exhausted')
         spec,auth=read_bound_job_configs(job)
         if previous.get('spec_sha256') != spec['spec_sha256']:
@@ -1035,7 +1141,7 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 evidence(directory/'lease_acquired.json',acquired)
                 pre=backend.snapshot();evidence(directory/'pre_snapshot.json',pre);card=guard_card(pre,assignment['physical_gpu_index'],assignment['gpu_uuid'])
                 read_bound_job_configs(job)
-                child_job={**job,'launch_mode':'resume' if request else 'collect','collect_only':True}
+                child_job={**job,'launch_mode':'resume' if request else 'collect','collect_only':True,'task_id':manifest['task_id'],'attempt':number}
                 evidence(directory/'child_launch_intent.json',{'job_id':jid,'attempt':number,'clock':_stamp()})
                 with mutex:
                     state['jobs'][jid]['fixed_gpu_uuid']=card['gpu_uuid'];state['jobs'][jid]['fixed_physical_index']=card['physical_index'];write(existing,state)
@@ -1093,6 +1199,7 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                         failure_category=classification['category'],
                         reserve_eligible=classification['reserve_eligible'],
                         physical_started=classification['physical_started'],
+                        scene_created=actual.get('fresh_scenes', 0) > 0,
                         current_attempt_id=aid,
                         current_attempt_evidence=classification.get('current_attempt_evidence', []),
                     )
