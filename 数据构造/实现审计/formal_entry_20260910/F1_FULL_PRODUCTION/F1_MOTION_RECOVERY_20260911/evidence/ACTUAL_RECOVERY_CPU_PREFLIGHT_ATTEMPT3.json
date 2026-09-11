@@ -1,0 +1,95 @@
+{
+  "attempts_settled": [
+    1,
+    2
+  ],
+  "authorization_source_bundle_sha256": "ba17760af56f5c012bf2d02edc2704277aabc01d90f390930e02d590a527a733",
+  "baseline_suffixes": [
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "62786bf4148e97c56ec701f91d339692e7886549cce2753cb843344ce11aa8a7",
+      "control_count": 11,
+      "program_id": "F1-red"
+    },
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "00e6bf697f78a0bd47a5b109ae8510354fd28117e8769d6270f19c07503f3784",
+      "control_count": 11,
+      "program_id": "F1-green"
+    },
+    {
+      "actual_prefix_end_qpos_sha256": "6ffae5173fe172764449bdf5c985e9b25290e5b01961ec676f6a401494f2357c",
+      "artifact_sha256": "5790e8c8c44d43ea7e3055c09269d5ff9eb8c3b6256eccbe2c3535de55442ec5",
+      "control_count": 11,
+      "program_id": "F1-blue"
+    }
+  ],
+  "checkpoint_completed": [
+    "r_inv_path",
+    "r_pc"
+  ],
+  "compatibility_sha256": "a9fb079761da7456d0264e310d12e0421f683d7ac62e13e7bc6899434226b0dc",
+  "lease_acquired": false,
+  "ledger_consumed": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 6,
+    "solver_problems": 0
+  },
+  "ledger_event_count": 9,
+  "ledger_reserved": {
+    "action_scenes": 0,
+    "collection_attempts": 0,
+    "fresh_scenes": 0,
+    "gpu_lease_seconds": 0,
+    "solver_problems": 0
+  },
+  "manifest_contract_sha256": "0d66ce4ffbe0442d316ad7c3a64c2dc78e7af9829eee8c2a2fdc3e69bfb83488",
+  "missing_cells": [
+    "F1-blue:r_inv_motion",
+    "F1-green:r_inv_motion",
+    "F1-red:r_inv_motion"
+  ],
+  "namespace_contract_sha256": "0d66ce4ffbe0442d316ad7c3a64c2dc78e7af9829eee8c2a2fdc3e69bfb83488",
+  "native_boundary_reached": true,
+  "pass": true,
+  "prefix_artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+  "prefix_step_count": 793,
+  "preserved_cells": [
+    {
+      "cell_key": "F1-red:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-green:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-blue:r_pc",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-red:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-green:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    },
+    {
+      "cell_key": "F1-blue:r_inv_path",
+      "export_native_cell": true,
+      "validate_saved_cell": true
+    }
+  ],
+  "request_id": "f1_motion_recovery_20260911_attempt_3",
+  "root_id": "F1_000013",
+  "scene_created": false,
+  "schema": "f1_recovery_cpu_preflight_v2"
+}

@@ -48,3 +48,8 @@ attempt 1 没有物理场景、动作、collection 或 solver 消耗，GPU0 后�
 ## attempt 2 实际收尾
 
 attempt 2 在 Guard 选择 GPU1（`GPU-414c52ba-72c6-fc45-95d6-1e9750bbc21b`）并获得 3 秒 lease，但在 native 场景创建前因 authorization compatibility SHA 滞后退出；physical scene/action/solver/collection 均为 0。GPU child、lease 和 cleanup 已结清，累计 recovery lease 为 6 秒，reserved 全 0。修复后的授权绑定已封存，状态等待用户是否单独允许 attempt 3；不会自动启动。
+
+
+## attempt 3 实际结果
+
+attempt 3 通过正向 preflight 后在 GPU0（`GPU-2c620e6c-9639-2022-b573-9847dfa33769`）创建了 pristine native scene，随后首次 Warp/NVRTC 编译因 child 临时目录路径过长失败。没有 prefix、suffix、动作或 motion cell；本次 fresh=1、GPU lease=189 秒，累计 lease=195 秒，其他计数仍为0，cleanup/release/post snapshot 全部通过。按用户确认不启动 attempt 4。

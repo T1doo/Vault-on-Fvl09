@@ -652,6 +652,138 @@ def _recovery_can_rebind_gpu(manifest, prior):
     )
 
 
+def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
+    """Validate the final recovery binding before any GPU lease is acquired.
+
+    This deliberately reuses the production source pin, disk-cell, export,
+    prefix-artifact and baseline-control readers.  It has no simulator/GPU
+    side effects and returns an auditable positive receipt only after all
+    final files agree.
+    """
+    if manifest.get('scope') != 'F1_MOTION_RECOVERY':
+        return {'schema': 'f1_recovery_cpu_preflight_v1', 'pass': True, 'applicable': False}
+    if manifest.get('root_ids') != ['F1_000013'] or len(manifest.get('jobs', [])) != 1:
+        raise ValueError('motion recovery preflight scope is not one F1_000013 job')
+    if request.get('root_id') != 'F1_000013' or request.get('missing_realization') != 'r_inv_motion' or request.get('mode') != 'resume' or request.get('request_id') != 'f1_motion_recovery_20260911_attempt_3':
+        raise ValueError('attempt 3 request is not the frozen motion-only request')
+    spec, auth = read_bound_job_configs(job)
+    validate_sources(manifest)
+    validate_sources(auth)
+    if spec.get('root_id') != 'F1_000013' or spec.get('family') != 'F1' or auth.get('spec_sha256') != spec.get('spec_sha256'):
+        raise ValueError('recovery spec/auth identity mismatch')
+    contract_hash = hash_json(manifest)
+    if state.get('contract_sha256') != contract_hash:
+        raise ValueError('recovery STATE contract differs from manifest')
+    binding = auth.get('source_compatibility_receipt')
+    if not isinstance(binding, dict) or not isinstance(binding.get('path'), str) or not isinstance(binding.get('sha256'), str):
+        raise ValueError('recovery authorization lacks compatibility binding')
+    compatibility_path = _workspace_path(binding['path'])
+    compatibility_bytes = compatibility_path.read_bytes()
+    if hashlib.sha256(compatibility_bytes).hexdigest() != binding['sha256']:
+        raise ValueError('authorization compatibility binding bytes changed')
+    compatibility = json.loads(compatibility_bytes.decode('utf-8'))
+    required_compat = {
+        'schema': 'f1_source_compatibility_v1',
+        'status': 'CPU_REVIEWED_APPLICABLE',
+        'root_id': 'F1_000013',
+        'spec_sha256': spec['spec_sha256'],
+        'new_source_sha256': auth['implementation_source_sha256'],
+        'new_source_bundle_sha256': auth['source_bundle_sha256'],
+        'scientific_contract_unchanged': True,
+    }
+    if any(compatibility.get(key) != value for key, value in required_compat.items()):
+        raise ValueError('compatibility source/spec/root binding is not applicable')
+    output = _workspace_path(job['output'])
+    current_binding = output / 'source_compatibility_receipt.json'
+    if not current_binding.is_file() or current_binding.read_bytes() != compatibility_bytes:
+        raise ValueError('recovery output compatibility binding differs from authorization')
+    namespace_path = _workspace_path(state_dir) / 'namespace_binding.json'
+    if not namespace_path.is_file() or json.loads(namespace_path.read_text(encoding='utf-8')) != {'task_id': manifest['task_id'], 'contract_sha256': contract_hash}:
+        raise ValueError('recovery namespace binding differs from manifest contract')
+    from controlled_multi_future.redesign_f2_f3_v2.execution_ledger_v2 import ExecutionLedgerV2
+    ledger = ExecutionLedgerV2(
+        _workspace_path(state_dir) / 'execution_ledger.jsonl',
+        contract_sha256=contract_hash,
+        task_id=manifest['task_id'],
+        caps=manifest['budget_caps'],
+        parent_contract_sha256=manifest.get('parent_contract_sha256'),
+        ancestor_contract_sha256s=manifest.get('contract_ancestors'),
+    )
+    events = ledger.events()
+    totals = ledger.totals()
+    if totals['reserved'] != _zero():
+        raise ValueError('recovery ledger has a nonzero reservation before preflight')
+    if totals['consumed'].get('gpu_lease_seconds') != 6 or any(totals['consumed'].get(key, 0) != 0 for key in COUNTERS if key != 'gpu_lease_seconds'):
+        raise ValueError('recovery ledger consumed totals are not the two settled 3-second attempts')
+    if not events:
+        raise ValueError('recovery ledger has no settled attempt evidence')
+    prior = state.get('jobs', {}).get(job['job_id'], {})
+    attempts = prior.get('attempts') or []
+    if len(attempts) != 2 or any(
+        a.get('settled') is not True or a.get('owned_cleanup_pass') is not True or a.get('release_confirmed') is not True or a.get('physical_started') is not False or any(a.get('actual', {}).get(key, 0) != 0 for key in ('fresh_scenes', 'action_scenes', 'collection_attempts', 'solver_problems'))
+        for a in attempts
+    ):
+        raise ValueError('attempt 1/2 are not both settled pre-physical attempts')
+    checkpoint_path = output / 'checkpoint.json'
+    checkpoint = json.loads(checkpoint_path.read_text(encoding='utf-8')) if checkpoint_path.is_file() else {}
+    if set(checkpoint.get('completed', {})) != {'r_pc', 'r_inv_path'} or checkpoint.get('active_realization') != 'r_inv_motion':
+        raise ValueError('checkpoint does not contain exactly the three motion cells as remaining work')
+    expected_cells = {'F1-red:r_inv_motion', 'F1-green:r_inv_motion', 'F1-blue:r_inv_motion'}
+    if set(manifest.get('recovery_contract', {}).get('missing_cells', [])) != expected_cells:
+        raise ValueError('recovery contract missing-cell set changed')
+    accepted_hashes = prior.get('accepted_file_hashes', {})
+    if not accepted_hashes:
+        raise ValueError('recovery STATE lacks preserved accepted-file hashes')
+    for path, expected in accepted_hashes.items():
+        if hashlib.sha256(_workspace_path(path).read_bytes()).hexdigest() != expected:
+            raise ValueError('preserved accepted file changed before attempt 3')
+    from family_entry import cohort_root, export_native_cell, validate_saved_cell
+    cell_results = []
+    for realization in ('r_pc', 'r_inv_path'):
+        for program_id in ('F1-red', 'F1-green', 'F1-blue'):
+            exported = export_native_cell(spec=spec, output=output, program_id=program_id, realization=realization)
+            if exported['inputs']['state'].shape != (76,) or exported['inputs']['future'].shape[1] != 26:
+                raise ValueError(f'preserved cell export shape mismatch: {program_id}:{realization}')
+            cell = validate_saved_cell(spec, output, program_id, realization)
+            if cell.get('pass') is not True:
+                raise ValueError(f'preserved cell independent gate failed: {program_id}:{realization}')
+            cell_results.append({'cell_key': f'{program_id}:{realization}', 'export_native_cell': True, 'validate_saved_cell': True})
+    from controlled_multi_future.canonical_prefix_artifact_v1 import load_canonical_prefix_artifact
+    prefix_manifest, prefix_arrays = load_canonical_prefix_artifact(cohort_root(output, 'r_pc') / 'canonical_prefix_artifact')
+    if prefix_manifest.get('root_slot_id') != spec['root_id'] or prefix_manifest.get('family') != 'F1':
+        raise ValueError('canonical prefix identity mismatch')
+    from native_f1 import _load_motion_baseline_controls
+    baselines = []
+    for program_id in ('F1-red', 'F1-green', 'F1-blue'):
+        baseline_manifest, baseline_arrays, controls = _load_motion_baseline_controls(binding=auth['motion_baseline_binding'], spec=spec, program_id=program_id)
+        if len(controls) != 11 or baseline_manifest.get('root_slot_id') != spec['root_id']:
+            raise ValueError(f'baseline suffix binding mismatch: {program_id}')
+        baselines.append({'program_id': program_id, 'artifact_sha256': baseline_manifest['artifact_sha256'], 'control_count': len(controls), 'actual_prefix_end_qpos_sha256': hashlib.sha256(baseline_arrays['actual_prefix_end_qpos'].tobytes()).hexdigest()})
+    return {
+        'schema': 'f1_recovery_cpu_preflight_v2',
+        'pass': True,
+        'native_boundary_reached': True,
+        'scene_created': False,
+        'lease_acquired': False,
+        'root_id': spec['root_id'],
+        'request_id': request['request_id'],
+        'manifest_contract_sha256': contract_hash,
+        'authorization_source_bundle_sha256': auth['source_bundle_sha256'],
+        'compatibility_sha256': binding['sha256'],
+        'namespace_contract_sha256': contract_hash,
+        'ledger_event_count': len(events),
+        'ledger_consumed': totals['consumed'],
+        'ledger_reserved': totals['reserved'],
+        'preserved_cells': cell_results,
+        'prefix_artifact_sha256': prefix_manifest.get('artifact_sha256'),
+        'prefix_step_count': len(prefix_arrays['effective_setpoint_actions']),
+        'baseline_suffixes': baselines,
+        'checkpoint_completed': sorted(checkpoint['completed']),
+        'missing_cells': sorted(expected_cells),
+        'attempts_settled': [a.get('attempt') for a in attempts],
+    }
+
+
 def _refresh_state(state,jobs):
     statuses=[state['jobs'].get(j['job_id'],{}).get('status') for j in jobs]
     if any(x=='UNRESOLVED' for x in statuses):state['status']='UNRESOLVED'
@@ -847,6 +979,20 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             if request:_recoverable(job,prior,request,manifest,compatibility['job_proofs'].get(jid) if compatibility else None);ready.append((job,request))
         if set(requests)-set(selected):raise ValueError('recovery outside ready subset')
         if not ready:return {'state':state,'results':[],'deferred_roots':[],'gpu_initialized_by_coordinator':False,'idempotent':True}
+        if manifest.get('scope') == 'F1_MOTION_RECOVERY':
+            # This is the positive, final-file preflight.  It runs after the
+            # coordinator lock is held but before the first GPU snapshot/lease.
+            # A stale nested compatibility hash therefore cannot consume even
+            # a short lease as it did in the earlier attempts.
+            for job, request in ready:
+                preflight = recovery_cpu_preflight(
+                    manifest=manifest,
+                    job=job,
+                    state_dir=state_dir,
+                    state=state,
+                    request=request,
+                )
+                evidence(state_dir / 'cpu_preflight_attempt3.json', preflight)
         backend=backend or HostBackend();wave=backend.snapshot();evidence(state_dir/'wave_snapshot.json',wave)
         ready_jobs=[j for j,_ in ready];assigned=[];used=set()
         for job in ready_jobs:
