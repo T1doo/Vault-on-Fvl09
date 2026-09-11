@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context,_recovery_can_rebind_gpu,_validate_resume_source_identity
+from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence,_cohort_pointer_snapshot,_attempt_pointer_context,_recovery_can_rebind_gpu,_validate_resume_source_identity,_attempt_number_for_request
 from scene_plan import generate,resolve
 from file_source_pin import inventory,bundle_hash
 
@@ -41,6 +41,18 @@ def manifest_at(directory):
 
 
 class TestLauncher(unittest.TestCase):
+    def test_recovery_attempt_number_comes_from_request_not_copied_directories(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            root = Path(td)
+            (root / 'jobs' / 'job').mkdir(parents=True)
+            (root / 'jobs' / 'job' / 'attempt_1').mkdir()
+            self.assertEqual(_attempt_number_for_request(
+                request={'attempt_number': 7}, state_dir=root, job_id='job'
+            ), 7)
+            self.assertEqual(_attempt_number_for_request(
+                request=None, state_dir=root, job_id='job'
+            ), 2)
+
     def test_motion_resume_source_must_match_checkpoint_before_gpu(self):
         checkpoint = {'source_sha256': 'checkpoint-source', 'source_bundle_sha256': 'checkpoint-bundle'}
         self.assertTrue(_validate_resume_source_identity(

@@ -769,6 +769,10 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         expected_request_id = 'f1_motion_recovery_20260911_attempt_7'
         expected_consumed = {'fresh_scenes':9,'action_scenes':4,'collection_attempts':0,'solver_problems':0,'gpu_lease_seconds':649}
         expected_prior_attempts = 6
+        prior_attempt_list = ((state.get('jobs', {}).get(manifest.get('jobs', [{}])[0].get('job_id'), {}) or {}).get('attempts') or [])
+        if prior_attempt_list and prior_attempt_list[-1].get('setup_only') is True and prior_attempt_list[-1].get('excluded_from_recovery_attempt_cap') is True:
+            expected_consumed = {**expected_consumed, 'gpu_lease_seconds': 803}
+            expected_prior_attempts = 7
     else:
         raise ValueError('motion recovery preflight supports only explicitly bounded attempts 4 through 7')
     if manifest.get('budget_caps') != expected_caps:
@@ -989,15 +993,17 @@ def _recoverable(job,previous,request,manifest,compatibility=None):
         attempts=previous.get('attempts') or []
         if any(not a.get('settled') or not a.get('owned_cleanup_pass') or not a.get('release_confirmed') for a in attempts):
             raise ValueError('motion recovery requires all prior attempts settled and cleaned')
+        logical_attempts = [a for a in attempts if not a.get('setup_only') and not a.get('excluded_from_recovery_attempt_cap')]
         recovery_contract = manifest.get('recovery_contract') or {}
         max_attempts = (
-            7 if recovery_contract.get('allow_attempt7_after_pre_scene_fix') is True and len(attempts) == 6 and attempts[-1].get('scene_created') is False
+            7 if recovery_contract.get('allow_attempt7_after_pre_scene_fix') is True and len(logical_attempts) == 6 and attempts[-1].get('setup_only') is True and attempts[-1].get('scene_created') is False
+            else 7 if recovery_contract.get('allow_attempt7_after_pre_scene_fix') is True and len(logical_attempts) == 6 and len(attempts) == 6 and attempts[-1].get('scene_created') is False
             else 6 if recovery_contract.get('allow_attempt6_after_pre_scene_fix') is True and len(attempts) == 5 and attempts[-1].get('scene_created') is False
             else 5 if recovery_contract.get('allow_attempt5_after_gate_fix') is True and len(attempts) == 4 and attempts[-1].get('scene_created') is True
             else 4 if recovery_contract.get('allow_attempt4_after_init_failure') is True and len(attempts) == 3 and attempts[-1].get('scene_created') is True
             else int((manifest.get('recovery_policy') or {}).get('max_gpu_attempts',3))
         )
-        if len(attempts) >= max_attempts:
+        if len(logical_attempts) >= max_attempts and not (attempts and attempts[-1].get('setup_only') is True and len(logical_attempts) == 6 and max_attempts == 7):
             raise ValueError('motion recovery finite attempt limit exhausted')
         spec,auth=read_bound_job_configs(job)
         if previous.get('spec_sha256') != spec['spec_sha256']:
@@ -1052,6 +1058,13 @@ def _delta_usage(output,lease_seconds,baseline):
     if any(v<0 for v in actual.values()):raise RuntimeError('previous physical consumption disappeared')
     actual['gpu_lease_seconds']=int(lease_seconds)
     return actual,cumulative
+
+
+def _attempt_number_for_request(*, request, state_dir, job_id):
+    """Return a recovery's logical number without trusting copied directory names."""
+    if isinstance(request, dict) and isinstance(request.get('attempt_number'), int) and request['attempt_number'] > 0:
+        return int(request['attempt_number'])
+    return 1 + len(list((Path(state_dir) / 'jobs' / job_id).glob('attempt_*')))
 
 
 def _cpu_copy_job(job,state,state_path,request_id,*,allow_synthetic=False,compatibility=None):
@@ -1204,6 +1217,7 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             request = requests.get(job_id)
             attempts = record.get('attempts') or []
             contract = manifest.get('recovery_contract') or {}
+            setup_only_recovery = bool(attempts and attempts[-1].get('setup_only') is True and attempts[-1].get('excluded_from_recovery_attempt_cap') is True)
             return (
                 manifest.get('scope')=='F1_MOTION_RECOVERY'
                 and contract.get('allow_attempt7_after_pre_scene_fix') is True
@@ -1211,7 +1225,8 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 and request.get('attempt_number')==7
                 and request.get('request_id')=='f1_motion_recovery_20260911_attempt_7'
                 and request.get('failure_class')=='shared_interface_error'
-                and len(attempts)==6
+                and ((len(attempts)==6 and not setup_only_recovery) or (len(attempts)==7 and setup_only_recovery))
+                and sum(not a.get('setup_only') and not a.get('excluded_from_recovery_attempt_cap') for a in attempts)==6
                 and all(a.get('settled') is True and a.get('owned_cleanup_pass') is True and a.get('release_confirmed') is True for a in attempts)
                 and attempts[-1].get('scene_created') is False
                 and all(a.get('physical_started') is False for a in attempts)
@@ -1266,7 +1281,14 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
             if len(assigned)>=manifest.get('max_concurrent_gpu_jobs',2):break
         mutex=threading.Lock();copy_limit=threading.Semaphore(manifest.get('max_copy_workers',1));write(existing,state)
         def run(job,assignment,request):
-            jid=job['job_id'];prior=state['jobs'].get(jid,{});number=1+len(list((state_dir/'jobs'/jid).glob('attempt_*')));aid=jid+':attempt:'+str(number)
+            jid=job['job_id'];prior=state['jobs'].get(jid,{})
+            # Recovery requests carry the logical attempt number.  Do not infer
+            # it from the number of local directories: a copied candidate
+            # namespace may contain no historical attempt folders even though
+            # STATE records settled attempts, and that would silently reuse
+            # attempt_1 (and its ledger idempotency key) for a later recovery.
+            number = _attempt_number_for_request(request=request, state_dir=state_dir, job_id=jid)
+            aid=jid+':attempt:'+str(number)
             directory=state_dir/'jobs'/jid/('attempt_'+str(number));directory.mkdir(parents=True,exist_ok=False)
             spec,auth=read_bound_job_configs(job);baseline=usage_from_receipts(job['output'],0) if request else _zero()
             pointer_before=_cohort_pointer_snapshot(job['output'])
