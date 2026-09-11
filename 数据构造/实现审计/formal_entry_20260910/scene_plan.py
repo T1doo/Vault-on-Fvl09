@@ -189,7 +189,7 @@ def validate_plan(p):
   c=Counter(sorted([r for r in s['roles'] if r['role'] in ['box','scale','stand']],key=lambda r:r['pose'][0]).index(next(r for r in s['roles'] if r['role']==n)) for s in f2);require(sorted(c.values())==[3,3,4],'F2 position balance');balance[n]=dict(c)
  return {'pass':True,'primary':40,'reserve':16,'formal_cells':360,'F2_position_counts':balance,'physics_verified':False}
 
-def activate_reserves(plan,path,terminals,wave='first'):
+def activate_reserves(plan,path,terminals,wave='first',eligible_failed_roots=None):
  """Persist a complete frozen wave barrier; allocate by origin primary rank.
 
  First barrier is primary1..2; remaining barrier primary3..10. Recovery
@@ -197,15 +197,18 @@ def activate_reserves(plan,path,terminals,wave='first'):
  No partial-completion dispatch is allowed to claim a reserve.
  """
  validate_plan(plan);require(wave in ('first','remaining'),'wave identity');require(bool(terminals),'empty barrier')
+ eligible={rid for rid,status in terminals.items() if status=='FAILED'} if eligible_failed_roots is None else set(eligible_failed_roots)
+ require(eligible <= set(terminals),'reserve eligibility names unknown terminal')
+ require(all(terminals[x]=='FAILED' for x in eligible),'reserve eligibility requires FAILED terminals')
  path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
  with path.with_suffix('.lock').open('a+') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX)
-  old=json.loads(path.read_text()) if path.exists() else {'plan_hash':hash_json(plan),'records':[],'barriers':[]}
+  old=json.loads(path.read_text(encoding='utf-8')) if path.exists() else {'plan_hash':hash_json(plan),'records':[],'barriers':[]}
   require(old['plan_hash']==hash_json(plan),'activation plan changed')
   by={s['root_id']:s for s in plan['slots']};require(set(terminals)<=set(by),'unknown terminal root')
   require(all(x in ('FAILED','PASSED') for x in terminals.values()),'wait for terminal barrier')
   family=by[next(iter(terminals))]['family'];require(all(by[x]['family']==family for x in terminals),'one family per wave')
-  bid=hash_json({'family':family,'wave':wave,'terminals':terminals})
+  bid=hash_json({'family':family,'wave':wave,'terminals':terminals,'eligible_failed_roots':sorted(eligible)})
   if any(x['id']==bid for x in old['barriers']):return old
   if wave=='remaining':
    first=[x for x in old['barriers'] if x['family']==family and x['wave']=='first']
@@ -220,16 +223,16 @@ def activate_reserves(plan,path,terminals,wave='first'):
    if by[rid]['reserve_rank'] is None:return by[rid]
    return by[next(r['primary_root_id'] for r in records if r['reserve_root_id']==rid)]
   for rid in sorted(terminals,key=lambda x:origin(x)['rank']):
-   if terminals[rid]!='FAILED':continue
+   if terminals[rid]!='FAILED' or rid not in eligible:continue
    primary=origin(rid);used={r['reserve_root_id'] for r in records}
    available=sorted([s for s in plan['slots'] if s['family']==family and s['reserve_rank'] is not None and s['root_id'] not in used],key=lambda s:s['reserve_rank']);require(bool(available),'reserve exhausted')
    r=available[0];rec={'failed_root_id':rid,'primary_root_id':primary['root_id'],'reserve_root_id':r['root_id'],'reserve_seed':r['seed'],'rank':r['reserve_rank'],'split':primary['split'],'difficulty':primary['difficulty'],'failed_terminal':'FAILED'}
    rec['resolved_spec']=resolve(r,rec);records.append(rec);replacements.append(r['root_id'])
   new={'plan_hash':old['plan_hash'],'records':records,'barriers':old['barriers']+[{'id':bid,'family':family,'wave':wave,'terminals':terminals,'replacement_ids':replacements}]}
   temp=path.with_suffix('.partial')
-  with temp.open('w') as f:json.dump(new,f,indent=2);f.flush();os.fsync(f.fileno())
+  with temp.open('w', encoding='utf-8') as f:json.dump(new,f,indent=2);f.flush();os.fsync(f.fileno())
   os.replace(temp,path);return new
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--output',type=Path);p.add_argument('--check',type=Path);a=p.parse_args();v=json.loads(a.check.read_text()) if a.check else generate();print(json.dumps(validate_plan(v)))
- if a.output:a.output.mkdir(exist_ok=True);(a.output/'PLANNED_SLOTS_V2.json').write_text(json.dumps(v,indent=2));(a.output/'RESOLVED_PRIMARY_SCENES.json').write_text(json.dumps([resolve(s) for s in v['slots'] if s['reserve_rank'] is None],indent=2))
+ p=argparse.ArgumentParser();p.add_argument('--output',type=Path);p.add_argument('--check',type=Path);a=p.parse_args();v=json.loads(a.check.read_text(encoding='utf-8')) if a.check else generate();print(json.dumps(validate_plan(v)))
+ if a.output:a.output.mkdir(exist_ok=True);(a.output/'PLANNED_SLOTS_V2.json').write_text(json.dumps(v,indent=2), encoding='utf-8');(a.output/'RESOLVED_PRIMARY_SCENES.json').write_text(json.dumps([resolve(s) for s in v['slots'] if s['reserve_rank'] is None],indent=2), encoding='utf-8')

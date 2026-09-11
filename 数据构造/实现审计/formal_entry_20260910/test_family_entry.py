@@ -125,6 +125,101 @@ class TestEntry(unittest.TestCase):
             self.assertEqual(hashlib.sha256(old_raw.read_bytes()).hexdigest(),old_sha)
             self.assertEqual(resumed['reused_branches'][0]['program_id'],'F1-red')
 
+    def test_recovery_prefix_replays_sealed_artifact_without_planner(self):
+        import sys, importlib.util, hashlib
+        from unittest.mock import patch
+        sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
+        module_path=Path('/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/test_root_orchestrator_v1_2.py')
+        loader=importlib.util.spec_from_file_location('recovery_prefix_fixture',module_path)
+        fixture=importlib.util.module_from_spec(loader);loader.loader.exec_module(fixture)
+        from native_f1_orchestrator import FormalF1RecoverableOrchestrator
+        from controlled_multi_future.families import F1ObjectSelection
+        kwargs={'planned_root_slot_spec':{'slot_id':'fixture-root','family':'F1','seed':17,'origin':'explicit_synthetic_fixture'},'realization_spec_by_program':{p['program_id']:{'realization':'r_pc','formal_data':False,'stage0_data':False} for p in F1ObjectSelection().checked_provisional_programs()}}
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            first=Path(td)/'first';second=Path(td)/'second'
+            source=fixture.StrictPrefixSyntheticAdapter()
+            FormalF1RecoverableOrchestrator(source).run_nonformal_root(output_dir=first,**kwargs)
+            healthy=fixture.StrictPrefixSyntheticAdapter();runner=FormalF1RecoverableOrchestrator(healthy)
+            runner.reuse_prefix_dir=first/'canonical_prefix_artifact'
+            with patch.object(healthy,'plan_and_execute_canonical_prefix',side_effect=AssertionError('recovery must not re-plan prefix')):
+                resumed=runner.run_nonformal_root(output_dir=second,**kwargs)
+            self.assertEqual(resumed['status'],'accepted',resumed.get('error'))
+            self.assertEqual(healthy.prefix_generation_count,0)
+            self.assertTrue(resumed['canonical_prefix_reuse']['planner_called'] is False)
+            self.assertEqual(resumed['canonical_prefix_generation_count'],0)
+            comparison=json.loads((second/'recovery_prefix_binding_comparison.json').read_text())
+            self.assertTrue(comparison['actions']['planner_called'] is False)
+            self.assertTrue(comparison['actions']['byte_identical'])
+            self.assertTrue(comparison['current']['aggregate_equal'])
+            self.assertTrue(comparison['anchor']['equivalence']['equivalent'])
+
+    def test_recovery_prefix_current_difference_is_reported_separately(self):
+        import sys, importlib.util
+        from unittest.mock import patch
+        sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
+        module_path=Path('/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/test_root_orchestrator_v1_2.py')
+        loader=importlib.util.spec_from_file_location('recovery_current_fixture',module_path)
+        fixture=importlib.util.module_from_spec(loader);loader.loader.exec_module(fixture)
+        from native_f1_orchestrator import FormalF1RecoverableOrchestrator
+        from controlled_multi_future.families import F1ObjectSelection
+        from controlled_multi_future.current_hasher import build_current_hashes
+        kwargs={'planned_root_slot_spec':{'slot_id':'fixture-root','family':'F1','seed':17,'origin':'explicit_synthetic_fixture'},'realization_spec_by_program':{p['program_id']:{'realization':'r_pc','formal_data':False,'stage0_data':False} for p in F1ObjectSelection().checked_provisional_programs()}}
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            first=Path(td)/'first';second=Path(td)/'second'
+            source=fixture.StrictPrefixSyntheticAdapter();FormalF1RecoverableOrchestrator(source).run_nonformal_root(output_dir=first,**kwargs)
+            class Drift(fixture.StrictPrefixSyntheticAdapter):
+                def capture_current(self, scene):
+                    return build_current_hashes(head_rgb=np.zeros((2,2,3),dtype=np.uint8),wrist_rgb={'left':np.zeros((1,1,3),dtype=np.uint8),'right':np.zeros((1,1,3),dtype=np.uint8)},robot_state=np.zeros(14),gripper_actual_state=np.zeros(4),object_role_layout={'red':[0,0,0]},camera_config_version='camera-v1',scene_seed=18,generator_version='strict-prefix-test-v1')
+            runner=FormalF1RecoverableOrchestrator(Drift());runner.reuse_prefix_dir=first/'canonical_prefix_artifact'
+            resumed=runner.run_nonformal_root(output_dir=second,**kwargs)
+            self.assertNotEqual(resumed['status'],'accepted')
+            comparison=json.loads((second/'recovery_prefix_binding_comparison.json').read_text())
+            self.assertFalse(comparison['current']['aggregate_equal'])
+            self.assertEqual(comparison['failure'],'current_mismatch')
+            self.assertTrue(comparison['actions']['planner_called'] is False)
+
+    def test_motion_hold_uses_explicit_prefix_and_motion_start_states(self):
+        import sys
+        from unittest.mock import patch
+        sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
+        from native_f1 import execute_with_stage_capture
+        from scene_plan import generate,resolve
+        spec=resolve(generate()['slots'][0])
+        class Scene:
+            def __init__(self): self.trace=[]
+        scene=Scene()
+        class Link:
+            def get_name(self): return 'fixture_link'
+        class Entity:
+            def get_links(self): return [Link()]
+        class Robot:
+            left_gripper_scale=[-.01,.045]
+            left_entity=Entity();right_entity=Entity()
+        scene.robot=Robot(); scene.selected_gripper_links=lambda: ['fixture_finger']; scene._formal_current_capture_path=Path('/nfs_share/lijunhui/Robotwin2/tmp')/'native_motion_cpu_capture.json'
+        scene._formal_current_capture_path.parent.mkdir(parents=True,exist_ok=True)
+        def dummy_segment(*args, **kwargs): return None
+        def dummy_action(*args, **kwargs): return None
+        def dummy_wait(current, frames): current.trace.extend([{}]*int(frames))
+        def dummy_stable(*args, **kwargs): return ([], [], [])
+        def dummy_open(*args, **kwargs): return True
+        def fake_native(self, current, program, execution_spec, replay, realization_spec): return {'provenance':{}}
+        fake_native.__globals__.update(
+            _execute_cached_segment=dummy_segment,
+            _must_action=dummy_action,
+            _wait_and_record=dummy_wait,
+            _stable_and_support=dummy_stable,
+            _arm_gripper_open=dummy_open,
+            PROVISIONAL_RUNTIME_THRESHOLDS={},
+        )
+        with patch('controlled_multi_future.family_runners_v3_3.F1ControllerV3_3.execute_frozen_suffix_spec',new=fake_native):
+            # execute_with_stage_capture obtains the mature primitive's globals
+            # and applies the motion boundary before invoking that primitive.
+            result=execute_with_stage_capture(object(),scene,{'program_id':'F1-red','target_role':'red'}, {}, {}, {'realization':'r_inv_motion'}, spec)
+        self.assertEqual(result['motion_hold_boundary']['state_before'],'S_prefix')
+        self.assertEqual(result['motion_hold_boundary']['state_after'],'S_motion_start')
+        self.assertEqual(result['motion_hold_boundary']['frames'],35)
+        self.assertTrue(result['motion_hold_boundary']['planner_and_execution_boundary_shared'])
+
     def test_real_cli_pipeline_missing_original_rgb_rejects_fixture(self):
         import sys,importlib.util,contextlib,io
         from unittest.mock import patch

@@ -617,6 +617,38 @@ class FormalF1RecoverableOrchestrator(
             receipt["freeze_call_count"] = 1
             _write_json(output_dir / "candidate_frozen_root_spec.json", frozen)
 
+            # Recovery must validate and replay the sealed prefix.  It must
+            # never call the planner again and then hope a new solution happens
+            # to be byte-identical.  Keep the original artifact immutable; the
+            # fresh scene/current/anchor checks below still decide whether the
+            # artifact is physically reusable.
+            reuse_prefix_manifest = None
+            reuse_prefix_arrays = None
+            reuse_prefix_current_details = None
+            reuse_prefix_dir = getattr(self, "reuse_prefix_dir", None)
+            if reuse_prefix_dir is not None:
+                from controlled_multi_future.canonical_prefix_artifact_v1 import (
+                    load_canonical_prefix_artifact,
+                )
+
+                reuse_prefix_manifest, reuse_prefix_arrays = load_canonical_prefix_artifact(
+                    Path(reuse_prefix_dir)
+                )
+                if (
+                    reuse_prefix_manifest.get("root_slot_id")
+                    != planned_spec.get("slot_id")
+                    or reuse_prefix_manifest.get("family")
+                    != planned_spec.get("family")
+                ):
+                    raise ValueError("recovery prefix root/family identity mismatch")
+                if hash_json(reuse_prefix_manifest["prefix_contract"]) != hash_json(prefix_contract):
+                    raise ValueError("recovery prefix contract differs from fresh contract")
+                current_details_path = Path(reuse_prefix_dir).parent / "reference_current_hashes.json"
+                if current_details_path.is_file():
+                    reuse_prefix_current_details = json.loads(
+                        current_details_path.read_text(encoding="utf-8")
+                    )
+
             prefix_runtime = {"planner_query_count": 0}
 
             def prefix_reference_callback(scene, _program):
@@ -639,6 +671,170 @@ class FormalF1RecoverableOrchestrator(
                         f"prefix reference start anchor mismatch: {start_result['failures']}"
                     )
                 receipt["canonical_prefix_reference_execution_count"] = 1
+                if reuse_prefix_manifest is not None:
+                    comparison_path = output_dir / "recovery_prefix_binding_comparison.json"
+                    sealed_current = reuse_prefix_current_details or {}
+                    sealed_anchor = dict(reuse_prefix_manifest["reference_anchor"])
+                    sealed_anchor_result = compare_anchors(
+                        sealed_anchor, start_anchor
+                    )
+                    current_components = {}
+                    for key in sorted(set(sealed_current) | set(reference_current)):
+                        if key in ("aggregate_sha256", "audit_full_aggregate_sha256"):
+                            continue
+                        left = sealed_current.get(key)
+                        right = reference_current.get(key)
+                        if left != right:
+                            current_components[key] = {
+                                "sealed": left,
+                                "fresh": right,
+                                "equal": False,
+                            }
+                    comparison = {
+                        "schema_version": "f1_recovery_prefix_binding_comparison_v1",
+                        "mode": "exact_artifact_replay",
+                        "artifact": {
+                            "path": str(reuse_prefix_dir),
+                            "artifact_sha256": reuse_prefix_manifest.get("artifact_sha256"),
+                            "prefix_action_sha256": reuse_prefix_manifest.get("prefix_action_sha256"),
+                            "prefix_step_count": reuse_prefix_manifest.get("prefix_step_count"),
+                        },
+                        "current": {
+                            "sealed_aggregate_sha256": reuse_prefix_manifest.get("reference_current_sha256"),
+                            "fresh_aggregate_sha256": reference_current.get("aggregate_sha256"),
+                            "aggregate_equal": reuse_prefix_manifest.get("reference_current_sha256") == reference_current.get("aggregate_sha256"),
+                            "component_differences": current_components,
+                        },
+                        "anchor": {
+                            "sealed_anchor_sha256": reuse_prefix_manifest.get("reference_anchor_sha256"),
+                            "fresh_anchor_sha256": start_anchor.get("anchor_sha256"),
+                            "equivalence": sealed_anchor_result,
+                        },
+                        "actions": {
+                            "planner_called": False,
+                            "executed_prefix_action_sha256": None,
+                            "byte_identical": None,
+                        },
+                        "prefix_end": {
+                            "semantic_equivalent": None,
+                            "acceptance_equivalent": None,
+                            "actual_qpos_sha256": None,
+                        },
+                    }
+                    _write_json_atomic(comparison_path, comparison)
+                    if (
+                        reuse_prefix_manifest.get("reference_current_sha256")
+                        != reference_current.get("aggregate_sha256")
+                    ):
+                        comparison["failure"] = "current_mismatch"
+                        _write_json_atomic(comparison_path, comparison)
+                        raise SameCurrentMismatch(
+                            "recovery sealed prefix reference current differs from fresh current"
+                        )
+                    if not sealed_anchor_result["equivalent"]:
+                        comparison["anchor"]["equivalence"] = sealed_anchor_result
+                        comparison["failure"] = "anchor_mismatch"
+                        _write_json_atomic(comparison_path, comparison)
+                        raise PrefixArtifactError(
+                            "recovery sealed prefix reference anchor differs from fresh anchor: "
+                            f"{sealed_anchor_result['failures']}"
+                        )
+                    self.adapter.initialize_prefix_replay_trace(scene)
+                    try:
+                        replay = replay_canonical_prefix(
+                            scene,
+                            manifest=reuse_prefix_manifest,
+                            arrays=reuse_prefix_arrays,
+                            reference_current=reference_current,
+                            capture_current=self.adapter.capture_current,
+                            capture_anchor=self.adapter.capture_anchor,
+                        )
+                    except BaseException as exc:
+                        comparison["failure"] = {
+                            "stage": "prefix_replay",
+                            "type": type(exc).__name__,
+                            "message": str(exc),
+                        }
+                        _write_json_atomic(comparison_path, comparison)
+                        raise
+                    comparison["actions"].update(
+                        executed_prefix_action_sha256=replay.get(
+                            "executed_prefix_action_sha256"
+                        ),
+                        byte_identical=(
+                            replay.get("executed_prefix_action_sha256")
+                            == reuse_prefix_manifest.get("prefix_action_sha256")
+                        ),
+                    )
+                    comparison["prefix_end"].update(
+                        semantic_equivalent=replay.get(
+                            "semantic_prefix_end_equivalence"
+                        ),
+                        acceptance_equivalent=replay.get(
+                            "acceptance_prefix_end_equivalence"
+                        ),
+                        actual_qpos_sha256=replay.get(
+                            "actual_prefix_end_qpos_sha256"
+                        ),
+                    )
+                    _write_json_atomic(comparison_path, comparison)
+                    if replay["prefix_end_equivalent"] is not True:
+                        comparison["failure"] = "prefix_end_mismatch"
+                        _write_json_atomic(comparison_path, comparison)
+                        raise PrefixArtifactError(
+                            "recovery sealed prefix replay end is not equivalent"
+                        )
+                    replay_physical = dict(
+                        self.adapter.validate_replayed_prefix_physical(scene, replay)
+                    )
+                    if replay_physical.get("pass") is not True:
+                        comparison["failure"] = "prefix_physical_gate"
+                        _write_json_atomic(comparison_path, comparison)
+                        raise PrefixArtifactError(
+                            "recovery sealed prefix replay physical Gate failed"
+                        )
+                    generated_dir = output_dir / "canonical_prefix_artifact"
+                    if generated_dir.exists():
+                        raise ValueError("recovery generated prefix destination already exists")
+                    if any(path.is_symlink() for path in Path(reuse_prefix_dir).rglob("*")):
+                        raise ValueError("recovery prefix artifact contains a symlink")
+                    shutil.copytree(reuse_prefix_dir, generated_dir)
+                    trace_source = None
+                    if hasattr(scene, "save_trace"):
+                        trace_path = output_dir / "canonical_prefix_replay_reference_trace.npz"
+                        info = dict(scene.save_trace(trace_path))
+                        trace_source = {
+                            **info,
+                            "sha256": hashlib.sha256(trace_path.read_bytes()).hexdigest(),
+                        }
+                    return {
+                        "arrays": {
+                            key: np.asarray(value).copy()
+                            for key, value in reuse_prefix_arrays.items()
+                        },
+                        "semantic_prefix_end_anchor": replay[
+                            "semantic_prefix_end_anchor"
+                        ],
+                        "acceptance_prefix_end_anchor": replay[
+                            "acceptance_prefix_end_anchor"
+                        ],
+                        "planner_query_receipts": [],
+                        "planner_source_hash": reuse_prefix_manifest[
+                            "planner_source_hash"
+                        ],
+                        "planner_seed": reuse_prefix_manifest.get("planner_seed", 0),
+                        "settling_step_count": reuse_prefix_manifest[
+                            "settling_step_count_excluded_from_semantic_prefix"
+                        ],
+                        "settling_policy": reuse_prefix_manifest["settling_policy"],
+                        "prefix_physical_acceptance": replay[
+                            "reference_prefix_physical_acceptance"
+                        ],
+                        "trace_source": trace_source
+                        or reuse_prefix_manifest.get("reference_trace_source"),
+                        "recovery_prefix_replay": replay,
+                        "recovery_prefix_physical_acceptance": replay_physical,
+                    }
                 planner_before = int(getattr(scene, "planner_query_count", 0))
                 prefix_call = _immutable_copy(prefix_contract)
                 prefix_call_hash = hash_json(prefix_call)
@@ -733,58 +929,47 @@ class FormalF1RecoverableOrchestrator(
                 receipt["planner_query_count_total"] = int(
                     receipt["canonical_prefix_planner_query_count"]
                 ) + int(receipt["suffix_planner_query_count_total"])
-            manifest, prefix_arrays = build_canonical_prefix_artifact(
-                root_slot_id=str(planned_spec["slot_id"]),
-                family=str(planned_spec["family"]),
-                reference_current_sha256=reference_current["aggregate_sha256"],
-                reference_anchor=reference_anchor,
-                prefix_contract=prefix_contract,
-                planner_seed=int(prefix_result.get("planner_seed", 20260828)),
-                planner_query_receipts=prefix_result["planner_query_receipts"],
-                planner_source_hash=prefix_result["planner_source_hash"],
-                arrays=prefix_result["arrays"],
-                semantic_prefix_end_anchor=prefix_result[
-                    "semantic_prefix_end_anchor"
-                ],
-                acceptance_prefix_end_anchor=prefix_result[
-                    "acceptance_prefix_end_anchor"
-                ],
-                settling_step_count=int(prefix_result["settling_step_count"]),
-                settling_policy=prefix_result["settling_policy"],
-                prefix_physical_acceptance=prefix_result[
-                    "prefix_physical_acceptance"
-                ],
-                reference_trace_source=prefix_result["trace_source"],
-                reference_event_boundaries=prefix_result.get(
-                    "reference_event_boundaries", {}
-                ),
-            )
-            manifest = write_canonical_prefix_artifact(
-                output_dir / "canonical_prefix_artifact", manifest, prefix_arrays
-            )
-            original_prefix = getattr(self, 'reuse_prefix_dir', None)
-            if original_prefix is not None:
-                from controlled_multi_future.canonical_prefix_artifact_v1 import load_canonical_prefix_artifact
-                original_manifest, original_arrays = load_canonical_prefix_artifact(Path(original_prefix))
-                prefix_identity = set(original_arrays) == set(prefix_arrays) and all(
-                    original_arrays[k].shape == prefix_arrays[k].shape and original_arrays[k].dtype == prefix_arrays[k].dtype and original_arrays[k].tobytes() == prefix_arrays[k].tobytes()
-                    for k in original_arrays)
-                if original_manifest['root_slot_id'] != manifest['root_slot_id'] or original_manifest['family'] != manifest['family']:
-                    raise ValueError('recovery prefix root/family identity mismatch')
-                if original_manifest['planner_source_hash'] != manifest['planner_source_hash']:
-                    compatibility=getattr(self,'source_compatibility',None)
-                    if not compatibility or compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('scientific_contract_unchanged') is not True or compatibility.get('root_id')!=manifest['root_slot_id']:
-                        raise ValueError('recovery planner source differs without approved compatible source transition')
-                    receipt['planner_source_compatibility']={'old_planner_source_hash':original_manifest['planner_source_hash'],'new_planner_source_hash':manifest['planner_source_hash'],'compatibility_payload_sha256':hash_json(compatibility),'actual_arrays_still_required_exact':True} 
-                if not prefix_identity or original_manifest['reference_current_sha256'] != reference_current['aggregate_sha256'] or not compare_anchors(original_manifest['reference_anchor'], reference_anchor)['equivalent']:
-                    raise ValueError('recovery actual regenerated prefix/current/anchor differs')
-                generated_dir = output_dir / 'canonical_prefix_artifact'
-                generated_dir.rename(output_dir / 'recovery_generated_prefix_diagnostic')
-                shutil.copytree(original_prefix, generated_dir)
-                receipt['canonical_prefix_reuse'] = {'original':str(original_prefix),'actual_regenerated_arrays_equal':True,'original_artifact_sha256':original_manifest['artifact_sha256'],'extra_generation_charged':True}
-                manifest = original_manifest
-                prefix_arrays = original_arrays
-            receipt["canonical_prefix_generation_count"] = 1
+            if reuse_prefix_manifest is None:
+                manifest, prefix_arrays = build_canonical_prefix_artifact(
+                    root_slot_id=str(planned_spec["slot_id"]),
+                    family=str(planned_spec["family"]),
+                    reference_current_sha256=reference_current["aggregate_sha256"],
+                    reference_anchor=reference_anchor,
+                    prefix_contract=prefix_contract,
+                    planner_seed=int(prefix_result.get("planner_seed", 20260828)),
+                    planner_query_receipts=prefix_result["planner_query_receipts"],
+                    planner_source_hash=prefix_result["planner_source_hash"],
+                    arrays=prefix_result["arrays"],
+                    semantic_prefix_end_anchor=prefix_result[
+                        "semantic_prefix_end_anchor"
+                    ],
+                    acceptance_prefix_end_anchor=prefix_result[
+                        "acceptance_prefix_end_anchor"
+                    ],
+                    settling_step_count=int(prefix_result["settling_step_count"]),
+                    settling_policy=prefix_result["settling_policy"],
+                    prefix_physical_acceptance=prefix_result[
+                        "prefix_physical_acceptance"
+                    ],
+                    reference_trace_source=prefix_result["trace_source"],
+                    reference_event_boundaries=prefix_result.get(
+                        "reference_event_boundaries", {}
+                    ),
+                )
+                manifest = write_canonical_prefix_artifact(
+                    output_dir / "canonical_prefix_artifact", manifest, prefix_arrays
+                )
+            else:
+                manifest = reuse_prefix_manifest
+                prefix_arrays = reuse_prefix_arrays
+                receipt["canonical_prefix_reuse"] = {
+                    "original": str(reuse_prefix_dir),
+                    "mode": "exact_artifact_replay",
+                    "planner_called": False,
+                    "artifact_sha256": manifest["artifact_sha256"],
+                    "replay_reference_trace": prefix_result.get("trace_source"),
+                }
+            receipt["canonical_prefix_generation_count"] = 0 if reuse_prefix_manifest is not None else 1
             receipt["canonical_prefix_artifact_sha256"] = manifest["artifact_sha256"]
             candidate_prefix_link = {
                 "schema_version": "cmf_candidate_prefix_link_receipt_v1",
@@ -819,7 +1004,9 @@ class FormalF1RecoverableOrchestrator(
             )
             self._append_event(
                 {
-                    "event": "canonical_prefix_artifact_sealed",
+                    "event": "canonical_prefix_artifact_replayed"
+                    if reuse_prefix_manifest is not None
+                    else "canonical_prefix_artifact_sealed",
                     "artifact_sha256": manifest["artifact_sha256"],
                     "prefix_action_sha256": manifest["prefix_action_sha256"],
                     "prefix_step_count": manifest["prefix_step_count"],

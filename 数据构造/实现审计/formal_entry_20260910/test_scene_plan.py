@@ -28,6 +28,12 @@ class SceneTests(unittest.TestCase):
   with tempfile.TemporaryDirectory(dir='/nfs_share/lijunhui/Robotwin2/tmp') as tmp:
    with self.assertRaises(ValueError):s.activate_reserves(s.generate(),Path(tmp)/'a.json',{'F1_000001':'FAILED'})
    with self.assertRaises(ValueError):s.activate_reserves(s.generate(),Path(tmp)/'a.json',{f'F1_{i:06d}':'FAILED' for i in range(3,11)},wave='remaining')
+ def test_only_explicit_physical_failures_consume_reserve(self):
+  p=s.generate()
+  with tempfile.TemporaryDirectory(dir='/nfs_share/lijunhui/Robotwin2/tmp') as tmp:
+   path=Path(tmp)/'eligible.json'
+   result=s.activate_reserves(p,path,{'F1_000001':'FAILED','F1_000002':'FAILED'},eligible_failed_roots={'F1_000001'})
+   self.assertEqual([(r['primary_root_id'],r['reserve_root_id']) for r in result['records']],[('F1_000001','F1_000011')])
  def test_projection_ratio(self):
   for slot in s.generate()['slots']:
    if slot['reserve_rank'] is None:

@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
-from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock
+from first_wave_launcher import launch_wave,validate_manifest,verify_nfs_lock,_failure_evidence
 from scene_plan import generate,resolve
 from file_source_pin import inventory,bundle_hash
 
@@ -41,6 +41,29 @@ def manifest_at(directory):
 
 
 class TestLauncher(unittest.TestCase):
+    def test_failure_evidence_separates_physical_and_engineering(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            d=Path(td); root=d/'r_pc/root'; root.mkdir(parents=True)
+            (root/'root_receipt.json').write_text(json.dumps({'status':'failed_execution','error':'recovery actual regenerated prefix/current/anchor differs','budget_counts':{'execution_attempt_count':0}}))
+            detail=_failure_evidence(d,{'returncode':1})
+            self.assertEqual(detail['category'],'recovery_consistency_error')
+            self.assertFalse(detail['reserve_eligible'])
+            physical={'status':'failed_verifier','branch_receipts':[{'status':'failed_independent_cell','independent_cell_gate':{'failure_class':'PHYSICAL_FAILURE'}}],'budget_counts':{'execution_attempt_count':1}}
+            (root/'root_receipt.json').write_text(json.dumps(physical))
+            detail=_failure_evidence(d,{'returncode':1})
+            self.assertEqual(detail['category'],'physical_failure')
+            self.assertTrue(detail['reserve_eligible'])
+
+    def test_ascii_locale_reads_chinese_failure_pointer_without_reserve(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            d=Path(td); base=d/'r_pc'; base.mkdir(parents=True)
+            (base/'cohort_pointer.json').write_text(json.dumps({'status':'EXCEPTION','root_relative':'root','diagnostic':'中文恢复失败'}),encoding='utf-8')
+            root=base/'root';root.mkdir()
+            (root/'root_receipt.json').write_text(json.dumps({'status':'failed_execution','error':'中文 source 编码失败','budget_counts':{'execution_attempt_count':0}},ensure_ascii=False),encoding='utf-8')
+            detail=_failure_evidence(d,{'returncode':1})
+            self.assertEqual(detail['category'],'engineering_error')
+            self.assertFalse(detail['reserve_eligible'])
+
     def test_false_authorization_never_snapshots(self):
         host=FakeHost()
         with self.assertRaises(PermissionError):launch_wave({'execution_authorized':False},Path(__file__).parent/'unused',host)

@@ -1,0 +1,611 @@
+{
+  "generated_at": "2026-09-11",
+  "physical_execution": false,
+  "preservation": "No raw trace or receipt was changed; this is a CPU-derived audit summary.",
+  "schema": "f1_failure_trace_audit_v1",
+  "sources": {
+    "f1_000001": {
+      "actual_prefix_end_qpos_sha256": "2ee1c9af5e2c8ffe086fc77473157dc184cd5a641d4acfbc5259ce0326a9dd67",
+      "endpoint_path_assessment": {
+        "conclusion": "planner endpoint target_lift returned IK_FAIL after target_lift_mid success; no suffix execution trace exists, so classify as a target/planner feasibility issue for targeted qualification, not universal F1 impossibility.",
+        "suffix_execution_started": false,
+        "target_lift_mid_query_success": true,
+        "target_lift_query_failure": {
+          "goal_eef_pose": [
+            0.009264844469726086,
+            0.008022644557058811,
+            0.9614012241363525,
+            0.5243617296218872,
+            -0.47439342737197876,
+            0.4743877947330475,
+            0.5243585705757141
+          ],
+          "motiongen": {
+            "attempts": 10,
+            "position_error": null,
+            "rotation_error": null,
+            "solve_time": 0.057489871978759766,
+            "status": "MotionGenStatus.IK_FAIL",
+            "success": false,
+            "total_time": 0.08485293388366699
+          },
+          "query_id": 8,
+          "source": "target_lift",
+          "start_qpos_sha256": null,
+          "status": "Fail"
+        }
+      },
+      "error": "not all three suffix planners passed from actual replay-end qpos",
+      "failure_stage": "suffix_planner",
+      "failure_type": "chained_suffix_planner_failure",
+      "planner_query_count": 8,
+      "program_id": "F1-blue",
+      "receipt_path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000001/r_pc/recovery_2/root/root_receipt.json",
+      "receipt_sha256": "607bc8df3d74dd1eee4d7044486d057e569d5e6ea36543ef4b8ef5b502b6ed77",
+      "status": "failed_planner",
+      "suffix_status": "failed",
+      "target_construction_and_suffix_queries": [
+        {
+          "goal_eef_pose": [
+            0.009264062158763409,
+            -0.0009606346138752997,
+            0.9709517359733582,
+            0.5243617296218872,
+            -0.47439342737197876,
+            0.4743877947330475,
+            0.5243585705757141
+          ],
+          "motiongen": {
+            "attempts": 1,
+            "position_error": 0.0030792797915637493,
+            "rotation_error": 0.0012233923189342022,
+            "solve_time": 0.04218626022338867,
+            "status": null,
+            "success": true,
+            "total_time": 0.06469297409057617
+          },
+          "query_id": 5,
+          "source": "target_pregrasp",
+          "start_qpos_sha256": null,
+          "status": "Success"
+        },
+        {
+          "goal_eef_pose": [
+            0.009264844469726086,
+            0.008022644557058811,
+            0.8814011812210083,
+            0.5243617296218872,
+            -0.47439342737197876,
+            0.4743877947330475,
+            0.5243585705757141
+          ],
+          "motiongen": {
+            "attempts": 1,
+            "position_error": 4.344363333075307e-06,
+            "rotation_error": 1.7137191434812848e-06,
+            "solve_time": 0.04228949546813965,
+            "status": null,
+            "success": true,
+            "total_time": 0.06292533874511719
+          },
+          "query_id": 6,
+          "source": "target_grasp",
+          "start_qpos_sha256": null,
+          "status": "Success"
+        },
+        {
+          "goal_eef_pose": [
+            0.009264844469726086,
+            0.008022644557058811,
+            0.9214012026786804,
+            0.5243617296218872,
+            -0.47439342737197876,
+            0.4743877947330475,
+            0.5243585705757141
+          ],
+          "motiongen": {
+            "attempts": 1,
+            "position_error": 4.502733645495027e-06,
+            "rotation_error": 6.389067948475713e-06,
+            "solve_time": 0.04210829734802246,
+            "status": null,
+            "success": true,
+            "total_time": 0.06252598762512207
+          },
+          "query_id": 7,
+          "source": "target_lift_mid",
+          "start_qpos_sha256": null,
+          "status": "Success"
+        },
+        {
+          "goal_eef_pose": [
+            0.009264844469726086,
+            0.008022644557058811,
+            0.9614012241363525,
+            0.5243617296218872,
+            -0.47439342737197876,
+            0.4743877947330475,
+            0.5243585705757141
+          ],
+          "motiongen": {
+            "attempts": 10,
+            "position_error": null,
+            "rotation_error": null,
+            "solve_time": 0.057489871978759766,
+            "status": "MotionGenStatus.IK_FAIL",
+            "success": false,
+            "total_time": 0.08485293388366699
+          },
+          "query_id": 8,
+          "source": "target_lift",
+          "start_qpos_sha256": null,
+          "status": "Fail"
+        }
+      ],
+      "target_pose_evidence": {
+        "grasp_pose": [
+          0.009264844305250217,
+          0.008022644833027158,
+          0.8814012107260184,
+          0.5243617305701231,
+          -0.4743934257427468,
+          0.47438778399532255,
+          0.52435854481602
+        ],
+        "lift_mid_pose": [
+          0.009264844305250217,
+          0.008022644833027158,
+          0.9214012107260184,
+          0.5243617305701231,
+          -0.4743934257427468,
+          0.47438778399532255,
+          0.52435854481602
+        ],
+        "lift_pose": [
+          0.009264844305250217,
+          0.008022644833027158,
+          0.9614012107260184,
+          0.5243617305701231,
+          -0.4743934257427468,
+          0.47438778399532255,
+          0.52435854481602
+        ],
+        "minimum_non_target_waypoint_clearance_m": 0.036000000000000074,
+        "non_target_waypoint_clearance_m": {
+          "carry_hub_high": {
+            "green": 0.09459878927398173,
+            "red": 0.12134727269817526
+          },
+          "carry_hub_low": {
+            "green": 0.036000000000000074,
+            "red": 0.08409650809434406
+          },
+          "preplace": {
+            "green": 0.18203561865066492,
+            "red": 0.21064914732200296
+          },
+          "release": {
+            "green": 0.13761203584987344,
+            "red": 0.17370422360948654
+          },
+          "safe_horizontal": {
+            "green": 0.1656654025219052,
+            "red": 0.19667516176552405
+          },
+          "target_lift": {
+            "green": 0.07238944925858906,
+            "red": 0.19855710713400376
+          },
+          "target_lift_mid": {
+            "green": 0.06280312383919955,
+            "red": 0.195266281016171
+          }
+        },
+        "object_pose": [
+          0.009265889413654804,
+          0.02000034973025322,
+          0.7620005011558533,
+          1.0,
+          -9.647068509366363e-06,
+          -4.475529749470297e-06,
+          9.91267825156683e-07
+        ],
+        "pregrasp_pose": [
+          0.009264061867852225,
+          -0.000960634610376359,
+          0.9709517589645943,
+          0.5243617305701231,
+          -0.4743934257427468,
+          0.47438778399532255,
+          0.52435854481602
+        ],
+        "target_role": "blue"
+      }
+    },
+    "f1_000014": {
+      "green_displacement": {
+        "baseline_pose_m": [
+          -0.02385075017809868,
+          0.02000034973025322,
+          0.762000560760498
+        ],
+        "diagnostic_rows": [
+          {
+            "blue_delta_m": 0.0,
+            "command_delta_from_previous": 0.013525433067377106,
+            "eef_pose": [
+              -0.10718835145235062,
+              0.021833382546901703,
+              0.91128009557724,
+              0.508236425891121,
+              -0.49563780131443047,
+              0.49482788374589004,
+              0.5011828715879868
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.00233689515513371,
+                "max_point_impulse_norm": 0.00233689515513371,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0022574784379685298,
+                "max_point_impulse_norm": 0.0009082667529582977,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.00028442997148888353,
+            "left_gripper_joint_qpos": [
+              0.04504489526152611,
+              0.04494832083582878
+            ],
+            "red_delta_m": 3.725290298461914e-07,
+            "row": 1455,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.820000276435167
+          },
+          {
+            "blue_delta_m": 2.03224743857769e-07,
+            "command_delta_from_previous": 0.015052288869232672,
+            "eef_pose": [
+              -0.10743197798728943,
+              0.021258262917399406,
+              0.904377818107605,
+              0.5074470936633216,
+              -0.4959738823789467,
+              0.49562182947005373,
+              0.5008656080061404
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.0006047236646742589,
+                "max_point_impulse_norm": 0.0005128209477980646,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0008385061264561955,
+                "max_point_impulse_norm": 0.0003122850612271577,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.003250995041011522,
+            "left_gripper_joint_qpos": [
+              0.04504292085766792,
+              0.04494890943169594
+            ],
+            "red_delta_m": 3.485287315011489e-07,
+            "row": 1464,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.856000278145075
+          },
+          {
+            "blue_delta_m": 2.3608613954049656e-07,
+            "command_delta_from_previous": 0.016873379597360863,
+            "eef_pose": [
+              -0.10798315703868866,
+              0.020147817209362984,
+              0.895798921585083,
+              0.5059909396206693,
+              -0.4959756384888648,
+              0.49734540481192224,
+              0.5006284883621994
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.0,
+                "max_point_impulse_norm": 0.0,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0003852903137158137,
+                "max_point_impulse_norm": 0.00016841708566062152,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.007002989587648229,
+            "left_gripper_joint_qpos": [
+              0.04472723975777626,
+              0.0449783056974411
+            ],
+            "red_delta_m": 3.4887199446428015e-07,
+            "row": 1479,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.916000280994922
+          }
+        ],
+        "final_m": 0.007002750173298709,
+        "max_m": 0.007002989587648229,
+        "max_row": 1479,
+        "onset": {
+          "first_over_1e-3": {
+            "blue_delta_m": 0.0,
+            "command_delta_from_previous": 0.013878386028002187,
+            "eef_pose": [
+              -0.10725913941860199,
+              0.02166537009179592,
+              0.9089205265045166,
+              0.5080376983159738,
+              -0.4957236940650571,
+              0.49502743456649334,
+              0.5011023401051099
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.00112136883985552,
+                "max_point_impulse_norm": 0.00112136883985552,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0012677644117502496,
+                "max_point_impulse_norm": 0.0007604339043609798,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.0012660705796647027,
+            "left_gripper_joint_qpos": [
+              0.045044202357530594,
+              0.04494825378060341
+            ],
+            "red_delta_m": 6.260372237179576e-07,
+            "row": 1458,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.832000277005136
+          },
+          "first_over_1e-4": {
+            "blue_delta_m": 0.0,
+            "command_delta_from_previous": 0.013525433067377106,
+            "eef_pose": [
+              -0.10718835145235062,
+              0.021833382546901703,
+              0.91128009557724,
+              0.508236425891121,
+              -0.49563780131443047,
+              0.49482788374589004,
+              0.5011828715879868
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.00233689515513371,
+                "max_point_impulse_norm": 0.00233689515513371,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0022574784379685298,
+                "max_point_impulse_norm": 0.0009082667529582977,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.00028442997148888353,
+            "left_gripper_joint_qpos": [
+              0.04504489526152611,
+              0.04494832083582878
+            ],
+            "red_delta_m": 3.725290298461914e-07,
+            "row": 1455,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.820000276435167
+          },
+          "first_over_1e-6": {
+            "blue_delta_m": 0.0,
+            "command_delta_from_previous": 0.013525433067377106,
+            "eef_pose": [
+              -0.10718835145235062,
+              0.021833382546901703,
+              0.91128009557724,
+              0.508236425891121,
+              -0.49563780131443047,
+              0.49482788374589004,
+              0.5011828715879868
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.00233689515513371,
+                "max_point_impulse_norm": 0.00233689515513371,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0022574784379685298,
+                "max_point_impulse_norm": 0.0009082667529582977,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.00028442997148888353,
+            "left_gripper_joint_qpos": [
+              0.04504489526152611,
+              0.04494832083582878
+            ],
+            "red_delta_m": 3.725290298461914e-07,
+            "row": 1455,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.820000276435167
+          },
+          "first_over_3mm": {
+            "blue_delta_m": 2.03224743857769e-07,
+            "command_delta_from_previous": 0.015052288869232672,
+            "eef_pose": [
+              -0.10743197798728943,
+              0.021258262917399406,
+              0.904377818107605,
+              0.5074470936633216,
+              -0.4959738823789467,
+              0.49562182947005373,
+              0.5008656080061404
+            ],
+            "green_contact_pairs": [
+              {
+                "body_a": "fl_link8",
+                "body_b": "formal_f1_green",
+                "impulse_norm_sum": 0.0006047236646742589,
+                "max_point_impulse_norm": 0.0005128209477980646,
+                "point_count": 4
+              },
+              {
+                "body_a": "formal_f1_green",
+                "body_b": "table",
+                "impulse_norm_sum": 0.0008385061264561955,
+                "max_point_impulse_norm": 0.0003122850612271577,
+                "point_count": 4
+              }
+            ],
+            "green_delta_m": 0.003250995041011522,
+            "left_gripper_joint_qpos": [
+              0.04504292085766792,
+              0.04494890943169594
+            ],
+            "red_delta_m": 3.485287315011489e-07,
+            "row": 1464,
+            "selected_contact_actor": "formal_f1_red",
+            "stage": "target_grasp",
+            "timestamp_s": 5.856000278145075
+          }
+        }
+      },
+      "interpretation": "green first exceeds 3 mm during target_grasp; the same window contains nonzero contact/impulse records involving fl_link8 and formal_f1_green. This is evidence for a targeted grasp/approach interaction, not proof that layout or path alone is causal; preserve physical failure and inspect contact geometry before changing scene.",
+      "other_objects": {
+        "blue_max_m": 6.554923251402288e-07,
+        "red_max_m": 0.2394293409182168
+      },
+      "row_count": 4044,
+      "stage_ranges": {
+        "carry_hub_high": {
+          "end_row": 2283,
+          "name": "carry_hub_high",
+          "start_row": 2089
+        },
+        "carry_hub_low": {
+          "end_row": 2089,
+          "name": "carry_hub_low",
+          "start_row": 2056
+        },
+        "gripper_close": {
+          "end_row": 1820,
+          "name": "gripper_close",
+          "start_row": 1520
+        },
+        "gripper_open": {
+          "end_row": 3216,
+          "name": "gripper_open",
+          "start_row": 2916
+        },
+        "post_prefix_hold": {
+          "end_row": 847,
+          "name": "post_prefix_hold",
+          "start_row": 847
+        },
+        "preplace": {
+          "end_row": 2719,
+          "name": "preplace",
+          "start_row": 2614
+        },
+        "release": {
+          "end_row": 2916,
+          "name": "release",
+          "start_row": 2719
+        },
+        "release_settle": {
+          "end_row": 3291,
+          "name": "release_settle",
+          "start_row": 3216
+        },
+        "rest": {
+          "end_row": 3968,
+          "name": "rest",
+          "start_row": 3493
+        },
+        "rest_settle": {
+          "end_row": 4043,
+          "name": "rest_settle",
+          "start_row": 3968
+        },
+        "retreat": {
+          "end_row": 3493,
+          "name": "retreat",
+          "start_row": 3291
+        },
+        "safe_horizontal": {
+          "end_row": 2614,
+          "name": "safe_horizontal",
+          "start_row": 2283
+        },
+        "target_grasp": {
+          "end_row": 1520,
+          "name": "target_grasp",
+          "start_row": 1341
+        },
+        "target_lift": {
+          "end_row": 2056,
+          "name": "target_lift",
+          "start_row": 1934
+        },
+        "target_lift_mid": {
+          "end_row": 1934,
+          "name": "target_lift_mid",
+          "start_row": 1820
+        },
+        "target_pregrasp": {
+          "end_row": 1341,
+          "name": "target_pregrasp",
+          "start_row": 847
+        }
+      },
+      "trace_path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000014/r_pc/root/branches/F1-red/trace_source.npz",
+      "trace_sha256": "f66592b619b125a17c1344cf8c6f5fa5b9aaa0fc9caf5d353133a27dda2b7eed"
+    },
+    "f1_000014_recovery": {
+      "error": "recovery actual regenerated prefix/current/anchor differs",
+      "path": "/nfs_share/lijunhui/Robotwin2/datasets/formal_f1_full_v1/F1_000014/r_pc/recovery_2/root/root_receipt.json",
+      "sha256": "487aa885966336624b0c9c5ac74ee2d9c8cca43bb8b2865abe0027f14a01e079",
+      "status": "failed_execution"
+    }
+  }
+}

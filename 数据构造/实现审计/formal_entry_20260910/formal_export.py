@@ -22,7 +22,7 @@ def validate_matrix(spec,cells,result):
  if result.get('root_id')!=spec['root_id']:raise ValueError('result root identity')
 
 def inputs_from_modern(cell,spec):
- current=Path(cell['trace_path']).parent/'current';state=json.loads((current/'state.json').read_text())
+ current=Path(cell['trace_path']).parent/'current';state=json.loads((current/'state.json').read_text(encoding='utf-8'))
  if cell['scene_spec_sha256']!=spec['spec_sha256'] or cell['candidate_set']!=spec['programs'] or cell['root_id']!=spec['root_id']:raise ValueError('formal candidate/spec mismatch')
  with np.load(current/'rgb.npz',allow_pickle=False) as z:rgb={k:z[k].copy() for k in z.files}
  required={n+'__rgb' for n in spec['cameras']['required']}
@@ -44,7 +44,7 @@ def _make_index(seal,spec,cells,result):
  rows=[]
  for c in cells:
   inputs_from_modern(c,spec);directory=Path(c['trace_path']).parent;current=directory/'current';key=f"{spec['root_id']}:{c['program_id']}:{c['realization_id']}"
-  cf=json.loads((directory/'independent_finalizer_v2.json').read_text())
+  cf=json.loads((directory/'independent_finalizer_v2.json').read_text(encoding='utf-8'))
   if cf.get('cell')!=key or cf.get('trace_sha256')!=p.digest(c['trace_path']) or cf.get('pass')is not True or cf not in result['cell_finalizers']:raise ValueError('cell finalizer trace/root membership')
   rows.append({'cell_key':key,'root_id':spec['root_id'],'family':spec['family'],'program_id':c['program_id'],'realization_id':c['realization_id'],'trace_layout':c.get('trace_layout','N_plus_1_initial_placeholder'),'synthetic':spec.get('synthetic',False),'source':{'trace':ref(c['trace_path']),'cell_receipt':ref(directory/'cell_receipt.json'),'independent_cell_finalizer':ref(directory/'independent_finalizer_v2.json'),'prefix_artifact':ref(c['prefix_artifact_path']),'root_receipt':ref(root_path),'current_bundle':{'files':{n:ref(current/n) for n in ['rgb.npz','state.json','anchor.json','capture_metadata.json']}},'additional_evidence':c.get('additional_evidence',{})},'root_status':{'root_finalizer_sha256':p.digest(rf)}})
  index=seal/'source_index.json';p.write_json(index,{'schema':'formal_source_index_v2','synthetic':spec.get('synthetic',False),'cells':rows});return index
@@ -63,9 +63,9 @@ def _publish_seal(stage,destination,spec,cells,result):
   if Path(c['trace_path']).is_relative_to(stage):p.write_json(Path(c['trace_path']).parent/'cell_receipt.json',fc)
  # Index computes bytes while they still exist at staging, then path strings alone
  # are relocated. Index itself is hashed only after publication by the caller.
- index=_make_index(stage,spec,cells,result);idx=json.loads(index.read_text());p.write_json(index,_relocate(idx,stage,destination));root=json.loads((stage/'root_receipt.json').read_text());root=_relocate(root,stage,destination);p.write_json(stage/'root_receipt.json',root)
+ index=_make_index(stage,spec,cells,result);idx=json.loads(index.read_text(encoding='utf-8'));p.write_json(index,_relocate(idx,stage,destination));root=json.loads((stage/'root_receipt.json').read_text(encoding='utf-8'));root=_relocate(root,stage,destination);p.write_json(stage/'root_receipt.json',root)
  # Root receipt hash changed with relocated paths; refresh indexed expected value.
- idx=json.loads(index.read_text())
+ idx=json.loads(index.read_text(encoding='utf-8'))
  for e in idx['cells']:e['source']['root_receipt']['file_sha256']=p.digest(stage/'root_receipt.json');e['source']['root_receipt']['bytes']=(stage/'root_receipt.json').stat().st_size
  p.write_json(index,idx)
  if destination.exists():raise FileExistsError('sealed source exists')
@@ -92,10 +92,10 @@ def seal_native_source(output,spec,cells,result):
  output.mkdir(parents=True,exist_ok=True);stage=output/('.source-seal-'+uuid.uuid4().hex);stage.mkdir();normalized=[];finalizers=[]
  for index,c in enumerate(cells):
   required=['raw_path','capture_path','current_arrays_path','anchor_path','prefix_artifact_path','branch_receipt_path','root_receipt_path','source_result_path']
-  refs={k:ref(c[k]) for k in required};branch=json.loads(Path(c['branch_receipt_path']).read_text());meta=json.loads(Path(c['capture_path']).read_text())
+  refs={k:ref(c[k]) for k in required};branch=json.loads(Path(c['branch_receipt_path']).read_text(encoding='utf-8'));meta=json.loads(Path(c['capture_path']).read_text(encoding='utf-8'))
   if branch.get('program_id')!=c['program_id'] or branch.get('verifier',{}).get('pass')is not True or branch.get('raw_manifest',{}).get('raw_streams_npz_sha256')!=refs['raw_path']['file_sha256']:raise ValueError('native original branch/raw evidence')
   if meta.get('spec_sha256')!=spec['spec_sha256'] or meta.get('npz_sha256')!=refs['current_arrays_path']['file_sha256']:raise ValueError('native capture binding')
-  source_result=json.loads(Path(c['source_result_path']).read_text())
+  source_result=json.loads(Path(c['source_result_path']).read_text(encoding='utf-8'))
   if source_result!=result:raise ValueError('source result bytes not supplied result')
   directory=stage/('cell_'+str(index));current=directory/'current';current.mkdir(parents=True)
   with np.load(c['current_arrays_path'],allow_pickle=False) as z:
@@ -111,7 +111,7 @@ def seal_native_source(output,spec,cells,result):
  return _publish_seal(stage,destination,spec,normalized,wrapper)
 
 def copy_sealed_root(index,destination):
- index=p.origin(index);destination=p.origin(destination);d=json.loads(index.read_text());expected=p.digest(index);packages=[]
+ index=p.origin(index);destination=p.origin(destination);d=json.loads(index.read_text(encoding='utf-8'));expected=p.digest(index);packages=[]
  for c in d['cells']:
   spec=p.adapt(str(index),c['cell_key'],expected);cell_dest=destination.parent/(destination.name+'_cells')/c['cell_key'].replace(':','__');p.copy_cell(spec,str(cell_dest));packages.append(str(cell_dest))
  return p.publish_root(str(destination),packages,[c['cell_key'] for c in d['cells']],str(destination.parent/'registry.json'))

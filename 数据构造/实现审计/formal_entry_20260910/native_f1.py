@@ -71,8 +71,22 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
     env['_arm_gripper_open']=lambda current,arm:((_gripper_joint_qpos(current.robot,arm)[0]-c['release']['closed_master_m'])/(c['release']['open_master_m']-c['release']['closed_master_m']))>c['release']['actual_open_fraction_gt']
     env['PROVISIONAL_RUNTIME_THRESHOLDS']={'non_target_displacement_m':c['non_task']['position_m'],'stable_linear_speed_mps':c['terminal']['object_linear_m_s'],'eef_stationary_angular_speed_rps':c['terminal']['object_angular_rad_s'],'rest_position_error_m':c['terminal']['eef_position_m'],'orientation_error':c['terminal']['eef_orientation_rad'],'eef_stationary_linear_speed_mps':c['terminal']['eef_linear_m_s']}
     count=c['motion']['additional_frames'] if realization_spec['realization']=='r_inv_motion' else 0
+    motion_receipt = None
+    if realization_spec['realization']=='r_inv_motion' and getattr(scene, '_cmf_f1_motion_hold_execution_applied', False):
+        raise ValueError('r_inv_motion post-prefix hold applied more than once')
     scene._cmf_f1_motion_hold_active = realization_spec['realization']=='r_inv_motion'
+    before_hold = len(getattr(scene, 'trace', []))
     record('post_prefix_hold',lambda:original_wait(scene,count))
+    if realization_spec['realization']=='r_inv_motion':
+        scene._cmf_f1_motion_hold_execution_applied = True
+        motion_receipt = {
+            'state_before':'S_prefix',
+            'state_after':'S_motion_start',
+            'frames':int(count),
+            'trace_rows_added':int(len(getattr(scene, 'trace', []))-before_hold),
+            'applied_once':True,
+            'planner_and_execution_boundary_shared':True,
+        }
     try:
         result=types.FunctionType(native.__code__,env)(controller,scene,program,execution_spec,replay,realization_spec)
     except BaseException:
@@ -81,6 +95,9 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
         raise
     result['provenance']['formal_f1_stages']=stages
     result['provenance']['formal_f1_contract']=c
+    if motion_receipt is not None:
+        result['motion_hold_boundary']=motion_receipt
+        result['provenance']['motion_hold_boundary']=motion_receipt
     return result
 
 
@@ -134,9 +151,28 @@ def native_adapter(*, spec, realization, output_root, source_sha):
             # the identical hold immediately before cached controls.
             if realization == 'r_inv_motion':
                 from f1_disk_verifier import frozen_contract
+                if getattr(scene, '_cmf_f1_motion_hold_planning_applied', False):
+                    raise RuntimeError('r_inv_motion planner hold applied more than once')
                 frames = frozen_contract(spec)['motion']['additional_frames']
+                before = len(getattr(scene, 'trace', []))
+                scene._cmf_f1_motion_hold_active = True
                 _wait_and_record(scene, frames)
-            return super().plan_suffix_from_actual_prefix_end_state(scene, program, replay)
+                scene._cmf_f1_motion_hold_planning_applied = True
+                scene._cmf_f1_motion_hold_planning_receipt = {
+                    'state_before': 'S_prefix',
+                    'state_after': 'S_motion_start',
+                    'frames': int(frames),
+                    'trace_rows_added': int(len(getattr(scene, 'trace', [])) - before),
+                    'applied_once': True,
+                }
+            result = super().plan_suffix_from_actual_prefix_end_state(scene, program, replay)
+            planning_receipt = getattr(
+                scene, '_cmf_f1_motion_hold_planning_receipt', None
+            )
+            if planning_receipt is not None:
+                result['motion_hold_boundary_planning'] = planning_receipt
+                result.setdefault('evidence', {})['motion_hold_boundary_planning'] = planning_receipt
+            return result
 
         def audit_task_physical_feasibility(self, scene, program):
             from controlled_multi_future.family_runners_v3_1 import BaseFamilyRunnerV3_1, _pose

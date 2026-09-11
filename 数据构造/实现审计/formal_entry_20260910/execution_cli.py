@@ -15,7 +15,7 @@ def finish_copy(spec,output,result,destination):
   cells=[]
   for p in spec['programs']:
    for r in spec['realizations']:
-    root=cohort_root(output,r);branch=root/'branches'/p['program_id'];raw=branch/'raw/raw_streams.npz';manifest=json.loads((raw.parent/'manifest.json').read_text());capture=Path(manifest['provenance']['formal_current_capture_path'])
+    root=cohort_root(output,r);branch=root/'branches'/p['program_id'];raw=branch/'raw/raw_streams.npz';manifest=json.loads((raw.parent/'manifest.json').read_text(encoding='utf-8'));capture=Path(manifest['provenance']['formal_current_capture_path'])
     cells.append({'program_id':p['program_id'],'realization_id':r,'raw_path':str(raw),'capture_path':str(capture),'current_arrays_path':str(capture.parent/'current.npz'),'anchor_path':str(capture.parent/'anchor.json'),'prefix_artifact_path':str(root/'canonical_prefix_artifact/prefix_arrays.npz'),'branch_receipt_path':str(branch/'receipt.json'),'root_receipt_path':str(root/'root_receipt.json'),'source_result_path':str(output/'f4_native_result.json')})
   index=output/'source_seal/source_index.json'
   if not index.is_file():index=seal_native_source(str(output),spec,cells,result)
@@ -28,7 +28,7 @@ def copy_only(spec,output,authorization):
  if authorization.get('spec_sha256')!=spec['spec_sha256']:raise ValueError('copy recovery spec mismatch')
  if spec['family']!='F1':raise ValueError('this bounded copy recovery is F1 only')
  output=Path(output)
- previous=json.loads((output/'independent_structure.json').read_text())
+ previous=json.loads((output/'independent_structure.json').read_text(encoding='utf-8'))
  if previous.get('pass') is not True:raise ValueError('root collection was not independently accepted')
  compatibility=None
  binding=authorization.get('source_compatibility_receipt')
@@ -51,7 +51,7 @@ def copy_only(spec,output,authorization):
 
 def main(argv=None):
  p=argparse.ArgumentParser();p.add_argument('--spec',type=Path,required=True);p.add_argument('--authorization',type=Path);p.add_argument('--output',type=Path);p.add_argument('--describe',action='store_true');p.add_argument('--copy-only',action='store_true');p.add_argument('--collect-only',action='store_true');p.add_argument('--resume',action='store_true');a=p.parse_args(argv)
- spec=json.loads(a.spec.read_text());scene_plan.validate_resolved(spec)
+ spec=json.loads(a.spec.read_text(encoding='utf-8'));scene_plan.validate_resolved(spec)
  if a.describe:
   if spec['family']=='F1':budget=family_entry.get_call_budget(spec)
   elif spec['family']=='F4':
@@ -62,7 +62,7 @@ def main(argv=None):
    budget=call_budget(spec['family'])
   print(json.dumps({'root_id':spec['root_id'],'matrix':family_entry.planned_cells(spec),'calls':budget,'execution_authorized':False}));return
  if a.authorization is None or a.output is None:p.error('--authorization and --output required')
- auth=json.loads(a.authorization.read_text());file_source_pin.validate(auth)
+ auth=json.loads(a.authorization.read_text(encoding='utf-8'));file_source_pin.validate(auth)
  if a.copy_only:
   result=copy_only(spec,a.output,auth);print(json.dumps(result));return result
  if a.resume:auth={**auth,'resume':True}

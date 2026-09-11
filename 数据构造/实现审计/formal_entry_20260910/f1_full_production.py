@@ -26,6 +26,16 @@ COPY_ROOT = WORKSPACE / 'CVPR_FutureIntent_Data/releases/formal_v1/F1'
 RAW_ROOT = WORKSPACE / 'Robotwin2/datasets/formal_f1_full_v1'
 TASK = 'formal_f1_full_20260910_v1'
 
+FAILURE_CATEGORIES = (
+    'engineering_error',
+    'recovery_consistency_error',
+    'copy_index_error',
+    'physical_failure',
+    'transient_execution',
+    'resource_unknown',
+    'unknown',
+)
+
 
 def workspace_path(path):
     from portable_v2 import origin
@@ -45,6 +55,37 @@ def write(path, value):
         stream.flush()
         os.fsync(stream.fileno())
     os.replace(temp, path)
+
+
+def failure_category(record):
+    """Return the reviewed attempt taxonomy, with a conservative legacy map.
+
+    Old ledgers predate the taxonomy and must never be upgraded to reserve
+    eligible from a coarse ``failure_class`` alone.  New attempts carry the
+    category on both the attempt and job result, which lets the family barrier
+    distinguish code/recovery failures from a reproducible physical failure.
+    """
+    category = record.get('failure_category')
+    if category in FAILURE_CATEGORIES:
+        return category
+    # A historical record without per-attempt categories is intentionally
+    # unresolved by the new state machine; callers should stop for review.
+    return None
+
+
+def physical_failure_attempts(record):
+    attempts = record.get('attempts') or []
+    categories = [a.get('failure_category') for a in attempts]
+    if not attempts or any(category not in FAILURE_CATEGORIES for category in categories):
+        return None
+    if any(category != 'physical_failure' for category in categories):
+        return None
+    return sum(category == 'physical_failure' for category in categories)
+
+
+def reserve_eligible_for_record(record):
+    count = physical_failure_attempts(record)
+    return failure_category(record) == 'physical_failure' and count is not None and count >= 2
 
 
 def budget():
@@ -299,7 +340,7 @@ def run(manifest, state_dir, *, backend=None, max_waves=None, compatibility_ref=
             lpath=state_dir/'launcher/STATE.json'
             previous=json.loads(lpath.read_text(encoding='utf-8')) if lpath.exists() else {'jobs':{}}
             records=previous['jobs']
-            ready=[];recover={};copy_only=[];terminals={};shared=[]
+            ready=[];recover={};copy_only=[];terminals={};shared=[];eligible_failed=set()
             for rid in active:
                 job=jobs[rid];record=records.get(job['job_id'],{})
                 status=record.get('status')
@@ -310,17 +351,49 @@ def run(manifest, state_dir, *, backend=None, max_waves=None, compatibility_ref=
                     copy_only.append(job['job_id'])
                 elif status=='FAILED':
                     classification=record.get('failure_class')
+                    category=failure_category(record)
                     attempts=record.get('attempt_count',record.get('attempt',1))
                     proof=(compatibility or {}).get('job_proofs',{}).get(job['job_id'],{})
                     resolution=proof.get('receipt',{}).get('failure_resolution',{})
-                    repaired=resolution.get('status')=='FIXED_CPU_VERIFIED' and resolution.get('failure_class')==classification
-                    if classification not in manifest['recovery_policy']['allowed_failure_classes'] and not repaired:
-                        shared.append({'root_id':rid,'reason':classification or 'unclassified_failure'})
-                    elif attempts<2:
+                    repaired=(resolution.get('status')=='FIXED_CPU_VERIFIED' and
+                              (resolution.get('failure_category')==category or
+                               (category is None and resolution.get('failure_class')==classification)))
+                    physical_attempt_count=physical_failure_attempts(record)
+                    # A legacy coarse record cannot authorize either a resume
+                    # or a reserve.  It must first receive an explicit CPU
+                    # taxonomy/reconciliation amendment.
+                    if category is None:
+                        shared.append({'root_id':rid,'reason':'legacy_failure_without_attempt_taxonomy',
+                                       'failure_class':classification})
+                    elif category in ('engineering_error','recovery_consistency_error',
+                                      'copy_index_error','resource_unknown','unknown') and not repaired:
+                        shared.append({'root_id':rid,'reason':category,'failure_class':classification})
+                    elif category == 'physical_failure':
+                        # One physical failure may receive one bounded retry;
+                        # a reserve is eligible only after two classified
+                        # physical failures, with no engineering/recovery
+                        # attempt mixed into that denominator.
+                        if physical_attempt_count is None:
+                            shared.append({'root_id':rid,'reason':'physical_history_unclassified'})
+                        elif physical_attempt_count < 2 and attempts < 2:
+                            recover[job['job_id']]={'request_id':f'{job["job_id"]}:resume:{attempts+1}',
+                                'failure_class':classification,'mode':'resume'}
+                            ready.append(job['job_id'])
+                        elif reserve_eligible_for_record(record):
+                            terminals[rid]='FAILED'
+                            eligible_failed.add(rid)
+                        else:
+                            shared.append({'root_id':rid,'reason':'physical_failure_without_two_valid_attempts'})
+                    elif category == 'transient_execution':
+                        shared.append({'root_id':rid,'reason':'transient_execution_requires_review',
+                                       'failure_class':classification})
+                    elif repaired and attempts < 2:
                         recover[job['job_id']]={'request_id':f'{job["job_id"]}:resume:{attempts+1}',
                             'failure_class':classification,'mode':'resume'}
                         ready.append(job['job_id'])
-                    else:terminals[rid]='FAILED'
+                    else:
+                        shared.append({'root_id':rid,'reason':category or 'unclassified_failure',
+                                       'failure_class':classification})
                 else:ready.append(job['job_id'])
             if shared:
                 state.update(status='STOPPED_SHARED_OR_UNRESOLVED',blocking=shared);write(path,state);return state
@@ -334,7 +407,7 @@ def run(manifest, state_dir, *, backend=None, max_waves=None, compatibility_ref=
                 for rid, result in terminals.items():
                     if result=='PASSED':state['accepted_by_primary'][_origin(rid,activation)]=rid
                 try:
-                    activation=scenes.activate_reserves(plan,activation_path,terminals,wave=state['phase'])
+                    activation=scenes.activate_reserves(plan,activation_path,terminals,wave=state['phase'],eligible_failed_roots=eligible_failed)
                 except ValueError as exc:
                     if 'reserve exhausted' not in str(exc):raise
                     state.update(status='FORMAL_DATASET_INCOMPLETE',blocking=[{'reason':'four ordered reserves exhausted'}])

@@ -14,7 +14,7 @@ def reference(path):
 def write_once(path,value):
     path=Path(path)
     if path.exists():
-        if json.loads(path.read_text())!=value:raise ValueError('existing export JSON differs '+str(path))
+        if json.loads(path.read_text(encoding='utf-8'))!=value:raise ValueError('existing export JSON differs '+str(path))
         return
     temporary=path.with_suffix(path.suffix+'.tmp');portable.write_json(temporary,value);temporary.replace(path)
 
@@ -29,7 +29,7 @@ def arrays_once(path,**arrays):
 
 
 def verify_index(index):
-    value=json.loads(Path(index).read_text())
+    value=json.loads(Path(index).read_text(encoding='utf-8'))
     def visit(x):
         if isinstance(x,dict):
             if 'path' in x and 'file_sha256' in x:
@@ -53,21 +53,21 @@ def seal_source(output,spec,result):
         index=destination/'source_index.json'
         if index.exists():
             value=verify_index(index)
-            if value['spec_sha256']!=spec['spec_sha256'] or json.loads((destination/'export_journal.json').read_text())!=journal:raise ValueError('different frozen export')
+            if value['spec_sha256']!=spec['spec_sha256'] or json.loads((destination/'export_journal.json').read_text(encoding='utf-8'))!=journal:raise ValueError('different frozen export')
             return index
-        if not (destination/'export_journal.json').exists() or json.loads((destination/'export_journal.json').read_text())!=journal:
+        if not (destination/'export_journal.json').exists() or json.loads((destination/'export_journal.json').read_text(encoding='utf-8'))!=journal:
             raise ValueError('unowned or changed partial export')
     else:destination.mkdir()
     write_once(destination/'export_journal.json',journal)
     root_receipt=destination/'root_receipt.json';root_finalizer=destination/'independent_root_finalizer_v2.json'
     source_result=output/'independent_structure.json'
-    if json.loads(source_result.read_text())!=result:raise ValueError('root finalizer source changed')
+    if json.loads(source_result.read_text(encoding='utf-8'))!=result:raise ValueError('root finalizer source changed')
     cells=[];checks=[]
     for cell in result['cells']:
         program,realization=cell['cell_key'].split(':')
         payload=export_native_cell(spec=spec,output=output,program_id=program,realization=realization)
         native_raw=cohort_root(output,realization)/'branches'/program/'raw/raw_streams.npz'
-        native_manifest=native_raw.parent/'manifest.json';manifest=json.loads(native_manifest.read_text())
+        native_manifest=native_raw.parent/'manifest.json';manifest=json.loads(native_manifest.read_text(encoding='utf-8'))
         capture=Path(manifest['provenance']['formal_current_capture_path'])
         folder=destination/(program+'__'+realization);folder.mkdir(exist_ok=True);current=folder/'current';current.mkdir(exist_ok=True)
         state=payload['inputs']['state'];rgb=payload['inputs']['rgb']
@@ -76,7 +76,7 @@ def seal_source(output,spec,result):
         if (current/'anchor.json').exists():
             if portable.digest(current/'anchor.json')!=portable.digest(capture.parent/'anchor.json'):raise ValueError('export anchor changed')
         else:shutil.copyfile(capture.parent/'anchor.json',current/'anchor.json')
-        write_once(current/'capture_metadata.json',{'required_camera_names':list(rgb),'camera_images':{k:{'shape':list(v.shape),'dtype':str(v.dtype)} for k,v in rgb.items()},'capture_source':json.loads(capture.read_text()).get('capture_source','native_original_t0'),'original_capture':reference(capture),'rendered_again':False,**{k:json.loads(capture.read_text()).get(k) for k in ['root_id','spec_sha256','source_bundle_sha256']}})
+        write_once(current/'capture_metadata.json',{'required_camera_names':list(rgb),'camera_images':{k:{'shape':list(v.shape),'dtype':str(v.dtype)} for k,v in rgb.items()},'capture_source':json.loads(capture.read_text(encoding='utf-8')).get('capture_source','native_original_t0'),'original_capture':reference(capture),'rendered_again':False,**{k:json.loads(capture.read_text(encoding='utf-8')).get(k) for k in ['root_id','spec_sha256','source_bundle_sha256']}})
         with np.load(native_raw,allow_pickle=False) as z:
             q=np.array([state38(row) for row in z['stream__realized_qpos']]);v=np.array([state38(row) for row in z['stream__realized_qvel']])
             future=z['stream__controller_effective_setpoint'].copy()
@@ -87,7 +87,7 @@ def seal_source(output,spec,result):
         receipt={'root_id':spec['root_id'],'family':'F1','program_id':program,'realization_id':realization,'scene_spec_sha256':spec['spec_sha256'],'candidate_set':spec['programs'],'source_native_raw':reference(native_raw),'source_native_manifest':reference(native_manifest),'source_branch_receipt':reference(native_raw.parent.parent/'receipt.json'),'synthetic':manifest['provenance'].get('synthetic') is True,'trace_layout':'N_actions','no_new_rollout':True}
         write_once(folder/'cell_receipt.json',receipt)
         semantics=native_raw.parent.parent/'independent_f1_semantics.json'
-        if json.loads(semantics.read_text()).get('pass') is not True:raise ValueError('source independent semantics changed')
+        if json.loads(semantics.read_text(encoding='utf-8')).get('pass') is not True:raise ValueError('source independent semantics changed')
         check={'cell':key,'trace_sha256':portable.digest(trace),'pass':True,'source_semantic_finalizer':reference(semantics),'source_raw':reference(native_raw),'view_future_exact':True,'synthetic':receipt['synthetic']}
         checks.append(check);write_once(folder/'independent_finalizer_v2.json',check)
         prefix=cohort_root(output,realization)/'canonical_prefix_artifact/prefix_arrays.npz'

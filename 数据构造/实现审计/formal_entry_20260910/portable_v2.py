@@ -33,12 +33,12 @@ def origin(path):
  return safe(WORKSPACE,str(p.relative_to(WORKSPACE)))
 
 def write_json(p,d):
- with Path(p).open('w') as f:json.dump(d,f,ensure_ascii=False,sort_keys=True,indent=2);f.flush();os.fsync(f.fileno())
+ with Path(p).open('w', encoding='utf-8') as f:json.dump(d,f,ensure_ascii=False,sort_keys=True,indent=2);f.flush();os.fsync(f.fileno())
 
 def adapt(index_path,key,expected_index_hash):
  index_path=origin(index_path)
  if digest(index_path)!=expected_index_hash:raise ValueError('index hash mismatch')
- idx=json.loads(index_path.read_text());e=next(x for x in idx.get('cells',idx.get('entries',[])) if x.get('cell_key',x.get('reference_id'))==key)
+ idx=json.loads(index_path.read_text(encoding='utf-8'));e=next(x for x in idx.get('cells',idx.get('entries',[])) if x.get('cell_key',x.get('reference_id'))==key)
  sources={};modern='cell_key' in e
  def add(role,x):
   if not x.get('exists',True) or not x.get('file_sha256'):raise ValueError('missing indexed '+role)
@@ -57,13 +57,13 @@ def adapt(index_path,key,expected_index_hash):
   if digest(origin(x['path']))!=x['sha256']:raise ValueError('indexed source mismatch '+role)
  spec={'schema':'portable_cell_v2','cell_key':key,'family':e['family'],'program_id':e['program_id'],'realization_id':e['realization_id'],'sources':sources,'index_sha256':expected_index_hash,'adapter':'modern' if modern else 'legacy','eligibility':'scoped_pilot' if modern else 'historical_development','formal_eligible':False,'trace_layout':e.get('trace_layout','N_plus_1_initial_placeholder'),'synthetic':e.get('synthetic',False)}
  if modern:
-  c=json.loads(origin(sources['cell_receipt']['path']).read_text());spec['root_id']=c['root_id'];spec['scene_spec_sha256']=c['scene_spec_sha256'];spec['candidates']=c['candidate_set'];spec['target']=next(x for x in c['candidate_set'] if x['program_id']==e['program_id'])
+  c=json.loads(origin(sources['cell_receipt']['path']).read_text(encoding='utf-8'));spec['root_id']=c['root_id'];spec['scene_spec_sha256']=c['scene_spec_sha256'];spec['candidates']=c['candidate_set'];spec['target']=next(x for x in c['candidate_set'] if x['program_id']==e['program_id'])
   with np.load(origin(sources['rgb']['path']),allow_pickle=False) as z:spec['rgb_contract']={k:{'shape':list(z[k].shape),'dtype':str(z[k].dtype)} for k in z.files}
  if not modern:spec=add_legacy_dependencies(spec)
  return spec
 
 def verify(package):
- p=Path(package);m=json.loads(safe(p,'portable_manifest.json').read_text())
+ p=Path(package);m=json.loads(safe(p,'portable_manifest.json').read_text(encoding='utf-8'))
  if m.get('schema')!='portable_cell_v2':raise ValueError('version mismatch')
  roles=[x['role'] for x in m['files']]
  if len(set(roles))!=len(roles):raise ValueError('duplicate role')
@@ -79,7 +79,7 @@ def read(package):
  p=Path(package);m=verify(p);by={x['role']:safe(p,x['path']) for x in m['files']}
  if m['adapter']=='legacy':return read_legacy(p,m,by)
  if not REQUIRED<=by.keys():raise ValueError('incomplete evidence: '+','.join(sorted(REQUIRED-by.keys())))
- idx=json.loads(by['source_index'].read_text());indexed=next((e for e in idx.get('cells',[]) if e['cell_key']==m['cell_key']),None)
+ idx=json.loads(by['source_index'].read_text(encoding='utf-8'));indexed=next((e for e in idx.get('cells',[]) if e['cell_key']==m['cell_key']),None)
  if indexed is None:raise ValueError('cell not in source index')
  for k in ['family','program_id','realization_id','root_id']:
   if indexed[k]!=m[k]:raise ValueError('source index identity mismatch')
@@ -90,23 +90,23 @@ def read(package):
  if indexed['root_status']['root_finalizer_sha256']!=digest(by['root_finalizer']):raise ValueError('indexed root finalizer mismatch')
  for role,name in [('rgb','rgb.npz'),('state','state.json'),('anchor','anchor.json'),('capture','capture_metadata.json')]:
   if indexed['source']['current_bundle']['files'][name]['file_sha256']!=digest(by[role]):raise ValueError('indexed current mismatch '+role)
- s=json.loads(by['state'].read_text());c=json.loads(by['cell_receipt'].read_text());sup=json.loads(by['supervision'].read_text())
+ s=json.loads(by['state'].read_text(encoding='utf-8'));c=json.loads(by['cell_receipt'].read_text(encoding='utf-8'));sup=json.loads(by['supervision'].read_text(encoding='utf-8'))
  for k in ['family','program_id','realization_id']:
   if c[k]!=m[k]:raise ValueError('cell identity mismatch')
  if c['candidate_set']!=m['candidates'] or c['root_id']!=m['root_id'] or c['scene_spec_sha256']!=m['scene_spec_sha256']:raise ValueError('receipt contract mismatch')
  if sup!={'target':m['target'],'cell_key':m['cell_key']} or sup['target'] not in m['candidates'] or sup['target']['program_id']!=c['program_id']:raise ValueError('supervision identity mismatch')
- capture=json.loads(by['capture'].read_text())
+ capture=json.loads(by['capture'].read_text(encoding='utf-8'))
  if m['family']=='F1':
   if not {'anchor_rules','anchor_contract'}<=by.keys():raise ValueError('anchor equivalence rules absent')
-  rule=anchor_rules();rule.validate_contract(json.loads(by['anchor_contract'].read_text()))
+  rule=anchor_rules();rule.validate_contract(json.loads(by['anchor_contract'].read_text(encoding='utf-8')))
   binding={k:capture.get(k) for k in rule.CONTRACT['binding_fields']}
   if binding['root_id']!=m['root_id'] or binding['spec_sha256']!=m['scene_spec_sha256']:raise ValueError('anchor capture identity mismatch')
-  rule.validate_anchor(json.loads(by['anchor'].read_text()),binding)
+  rule.validate_anchor(json.loads(by['anchor'].read_text(encoding='utf-8')),binding)
   original_capture=by.get('native_capture',by.get('original_capture_path'))
   if original_capture is not None:
    recorded=capture.get('original_capture',{})
    if recorded.get('file_sha256')!=digest(original_capture):raise ValueError('original capture link mismatch')
-   original=json.loads(original_capture.read_text())
+   original=json.loads(original_capture.read_text(encoding='utf-8'))
    if any(original.get(k)!=binding[k] for k in rule.CONTRACT['binding_fields']):raise ValueError('normalized capture source binding mismatch')
   original_anchor=by.get('native_anchor',by.get('original_anchor_path'))
   if original_anchor is not None and digest(original_anchor)!=digest(by['anchor']):raise ValueError('original anchor bytes were rewritten')
@@ -127,11 +127,11 @@ def read(package):
   elif m['trace_layout']=='N_actions':future=a.copy()
   else:raise ValueError('unknown action layout')
   if future.shape!=(len(q)-1,26) or state.shape!=(76,) or not all(np.isfinite(x).all() for x in [q,v,future,state]):raise ValueError('invalid numeric arrays')
- cf=json.loads(by['cell_finalizer'].read_text());rf=json.loads(by['root_finalizer'].read_text())
+ cf=json.loads(by['cell_finalizer'].read_text(encoding='utf-8'));rf=json.loads(by['root_finalizer'].read_text(encoding='utf-8'))
  if cf['cell']!=m['cell_key'] or cf['trace_sha256']!=digest(by['trace']) or rf['root_id']!=m['root_id'] or rf['scene_spec_sha256']!=m['scene_spec_sha256']:raise ValueError('finalizer data binding mismatch')
  if cf not in rf['cell_finalizers']:raise ValueError('cell absent from root finalizer')
  for role in ['cell_finalizer','root_finalizer']:
-  if json.loads(by[role].read_text()).get('pass') is not True:raise ValueError('finalizer did not pass')
+  if json.loads(by[role].read_text(encoding='utf-8')).get('pass') is not True:raise ValueError('finalizer did not pass')
  return {'inputs':{'rgb':rgb,'state':state,'future':future,'candidate_set':m['candidates']},'supervision':sup,'audit':m}
 
 def copy_cell(spec,destination,fault=None,max_bytes=2_000_000_000):
@@ -193,16 +193,16 @@ def validate_root_cells(cell_packages,expected_slots):
  rule=anchor_rules();files=[_package_files(p,m) for p,m in zip(cell_packages,manifests)];reference=files[0]
  for by in files:
   if not rule.arrays_equal(_arrays(reference['rgb']),_arrays(by['rgb'])):raise ValueError('root RGB array mismatch')
-  if json.loads(reference['state'].read_text())!=json.loads(by['state'].read_text()):raise ValueError('root current state mismatch')
+  if json.loads(reference['state'].read_text(encoding='utf-8'))!=json.loads(by['state'].read_text(encoding='utf-8')):raise ValueError('root current state mismatch')
  anchors=[]
  for by in files:
-  left=json.loads(reference['anchor'].read_text());right=json.loads(by['anchor'].read_text())
+  left=json.loads(reference['anchor'].read_text(encoding='utf-8'));right=json.loads(by['anchor'].read_text(encoding='utf-8'))
   if manifests[0]['family']=='F1':
-   rmeta=json.loads(reference['capture'].read_text());cmeta=json.loads(by['capture'].read_text());rb={k:rmeta.get(k) for k in rule.CONTRACT['binding_fields']};cb={k:cmeta.get(k) for k in rule.CONTRACT['binding_fields']}
+   rmeta=json.loads(reference['capture'].read_text(encoding='utf-8'));cmeta=json.loads(by['capture'].read_text(encoding='utf-8'));rb={k:rmeta.get(k) for k in rule.CONTRACT['binding_fields']};cb={k:cmeta.get(k) for k in rule.CONTRACT['binding_fields']}
    rb['capture_sha256']=rmeta.get('original_capture',{}).get('file_sha256',digest(reference['capture']));cb['capture_sha256']=cmeta.get('original_capture',{}).get('file_sha256',digest(by['capture']))
    compatibility=None
    if 'source_compatibility' in by:
-    compatibility=json.loads(by['source_compatibility'].read_text())
+    compatibility=json.loads(by['source_compatibility'].read_text(encoding='utf-8'))
     if 'source_compatibility' not in reference or digest(reference['source_compatibility'])!=digest(by['source_compatibility']):raise ValueError('root compatibility evidence mismatch')
    report=rule.compare_anchors(left,right,reference_binding=rb,candidate_binding=cb,compatibility=compatibility)
    if not report['equivalent']:raise ValueError('root anchor not equivalent: '+str(report['failures']))
@@ -221,8 +221,8 @@ def semantic_relative_paths(manifests):
  return [mapping[m['program_id']]+'/'+m['realization_id'] for m in manifests]
 
 def read_root(root):
- root=Path(root);entry=json.loads(safe(root,'group_manifest.json').read_text())
- if json.loads(safe(root,'root_manifest.json').read_text())!=entry:raise ValueError('root/group identity mismatch')
+ root=Path(root);entry=json.loads(safe(root,'group_manifest.json').read_text(encoding='utf-8'))
+ if json.loads(safe(root,'root_manifest.json').read_text(encoding='utf-8'))!=entry:raise ValueError('root/group identity mismatch')
  for name,h in entry['common_files'].items():
   if digest(safe(root,name))!=h:raise ValueError('common rule integrity mismatch')
  paths=[safe(root,x) for x in entry['relative_cell_paths']];manifests,_=validate_root_cells(paths,list(entry['cells']))
@@ -254,7 +254,7 @@ def publish_root(root_directory,cell_packages,expected_slots,registry,fault=None
    for candidate in sorted(root.parent.glob('.'+root.name+'.staging-*')):
     candidate=origin(candidate)
     journal=candidate/'copy_journal.json'
-    if journal.is_file() and json.loads(journal.read_text())==entry:stage=candidate;break
+    if journal.is_file() and json.loads(journal.read_text(encoding='utf-8'))==entry:stage=candidate;break
    if stage is None:
     stage=root.parent/('.'+root.name+'.staging-'+uuid.uuid4().hex);stage.mkdir();write_json(stage/'copy_journal.json',entry)
    for i,package in enumerate(cell_packages):
@@ -276,7 +276,7 @@ def publish_root(root_directory,cell_packages,expected_slots,registry,fault=None
    os.rename(stage,root)
    if fault=='rename_post':raise RuntimeError('injected rename_post')
   with registry.with_suffix('.lock').open('a') as rf:
-   fcntl.flock(rf,fcntl.LOCK_EX);d=json.loads(registry.read_text()) if registry.exists() else {}
+   fcntl.flock(rf,fcntl.LOCK_EX);d=json.loads(registry.read_text(encoding='utf-8')) if registry.exists() else {}
    if str(root) in d and d[str(root)]!=entry:raise ValueError('registry version mismatch')
    if fault=='index':raise RuntimeError('injected index')
    d[str(root)]=entry;tmp=registry.with_suffix('.'+uuid.uuid4().hex+'.tmp');write_json(tmp,d);os.replace(tmp,registry)
@@ -286,9 +286,9 @@ def semantic_hash(d):
  return hashlib.sha256(json.dumps(d,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode()).hexdigest()
 
 def add_legacy_dependencies(spec):
- src=spec['sources'];root=origin(src['root_receipt']['path']).parent;r=json.loads(origin(src['root_receipt']['path']).read_text());b=json.loads(origin(src['branch_receipt']['path']).read_text())
+ src=spec['sources'];root=origin(src['root_receipt']['path']).parent;r=json.loads(origin(src['root_receipt']['path']).read_text(encoding='utf-8'));b=json.loads(origin(src['branch_receipt']['path']).read_text(encoding='utf-8'))
  def linked(role,name,hash_field,expected):
-  path=origin(root/name);d=json.loads(path.read_text());payload={k:v for k,v in d.items() if k!=hash_field and not (role=='prefix_metadata' and k in ['prefix_arrays_npz_sha256'])}
+  path=origin(root/name);d=json.loads(path.read_text(encoding='utf-8'));payload={k:v for k,v in d.items() if k!=hash_field and not (role=='prefix_metadata' and k in ['prefix_arrays_npz_sha256'])}
   if d.get(hash_field)!=expected or semantic_hash(payload)!=expected:raise ValueError('legacy semantic link '+role)
   src[role]={'path':str(path),'sha256':digest(path),'semantic_expected':expected,'parent_role':'root_receipt' if role!='anchor' else 'branch_receipt'};return d
  frozen=linked('frozen_spec','candidate_frozen_root_spec.json','frozen_spec_sha256',r['candidate_prefix_link']['candidate_frozen_root_spec_sha256'])
@@ -304,15 +304,15 @@ def add_legacy_dependencies(spec):
 def read_legacy(package,m,by):
  required={'trace','current_arrays','current_json','anchor','prefix','prefix_metadata','branch_receipt','root_receipt','frozen_spec','source_index','supervision'}
  if not required<=by.keys():raise ValueError('legacy evidence incomplete')
- idx=json.loads(by['source_index'].read_text());e=next((e for e in idx['entries'] if e['reference_id']==m['cell_key']),None)
+ idx=json.loads(by['source_index'].read_text(encoding='utf-8'));e=next((e for e in idx['entries'] if e['reference_id']==m['cell_key']),None)
  if e is None or any(e[k]!=m[k] for k in ['family','program_id','realization_id']):raise ValueError('legacy index identity mismatch')
  for role,x in e['source']['files'].items():
   if role not in by or digest(by[role])!=x['file_sha256']:raise ValueError('legacy indexed source mismatch '+role)
- b=json.loads(by['branch_receipt'].read_text());r=json.loads(by['root_receipt'].read_text());f=json.loads(by['frozen_spec'].read_text());sup=json.loads(by['supervision'].read_text())
+ b=json.loads(by['branch_receipt'].read_text(encoding='utf-8'));r=json.loads(by['root_receipt'].read_text(encoding='utf-8'));f=json.loads(by['frozen_spec'].read_text(encoding='utf-8'));sup=json.loads(by['supervision'].read_text(encoding='utf-8'))
  for role,field,expected in [('frozen_spec','frozen_spec_sha256',r['candidate_prefix_link']['candidate_frozen_root_spec_sha256']),('anchor','anchor_sha256',b['anchor_equivalence']['reference_sha256']),('prefix_metadata','artifact_sha256',r['canonical_prefix_artifact_sha256'])]:
-  obj=json.loads(by[role].read_text());payload={k:v for k,v in obj.items() if k!=field and not (role=='prefix_metadata' and k=='prefix_arrays_npz_sha256')}
+  obj=json.loads(by[role].read_text(encoding='utf-8'));payload={k:v for k,v in obj.items() if k!=field and not (role=='prefix_metadata' and k=='prefix_arrays_npz_sha256')}
   if obj[field]!=expected or semantic_hash(payload)!=expected:raise ValueError('legacy copied semantic binding '+role)
- if json.loads(by['prefix_metadata'].read_text())['prefix_arrays_npz_sha256']!=digest(by['prefix']):raise ValueError('copied prefix hash mismatch')
+ if json.loads(by['prefix_metadata'].read_text(encoding='utf-8'))['prefix_arrays_npz_sha256']!=digest(by['prefix']):raise ValueError('copied prefix hash mismatch')
  if b['program_id']!=m['program_id'] or f['programs']!=m['candidates'] or sup!={'target':m['target'],'cell_key':m['cell_key']} or m['target'] not in f['programs'] or m['target']['program_id']!=b['program_id']:raise ValueError('legacy candidate identity')
  if b['verifier'].get('pass') is not True:raise ValueError('legacy verifier fail')
  if r['root_finalization']['accepted'] is not True or b['status'] not in ['accepted','ACCEPTED']:raise ValueError('legacy finalizer status')

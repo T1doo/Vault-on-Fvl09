@@ -370,6 +370,123 @@ def _classify(output,execution):
     return 'unknown'
 
 
+def _failure_evidence(output, execution=None):
+    """Classify a terminal attempt without conflating code and physics.
+
+    The historical coarse ``failure_class`` is kept for ledger compatibility,
+    while this richer category controls whether a reserve may be consumed.
+    A reserve is eligible only after a root has produced two independently
+    classified physical failures; engineering, recovery, copy, and unknown
+    failures stop the affected line for review instead of changing its scene.
+    """
+    output = Path(output)
+    execution = execution or {}
+    receipts = []
+    seen_receipt_paths = set()
+    for realization in ('r_pc', 'r_inv_path', 'r_inv_motion'):
+        base = output / realization
+        pointer = base / 'cohort_pointer.json'
+        candidates = [base / 'root/root_receipt.json'] + sorted(
+            base.glob('recovery_*/root/root_receipt.json')
+        )
+        if pointer.is_file():
+            try:
+                value = json.loads(pointer.read_text(encoding='utf-8'))
+                root = _workspace_path(base / value['root_relative'])
+                candidates.append(root / 'root_receipt.json')
+            except BaseException:
+                pass
+        for path in candidates:
+            if path.is_file() and path not in seen_receipt_paths:
+                try:
+                    receipts.append((path, json.loads(path.read_text(encoding='utf-8'))))
+                    seen_receipt_paths.add(path)
+                except (OSError, ValueError, TypeError):
+                    pass
+
+    details = []
+    for path, receipt in receipts:
+        status = receipt.get('status')
+        error = str(receipt.get('error') or '')
+        branch_receipts = receipt.get('branch_receipts') or []
+        failed = [item for item in branch_receipts if item.get('status') != 'accepted']
+        physical_gate = any(
+            item.get('independent_cell_gate', {}).get('failure_class') == 'PHYSICAL_FAILURE'
+            for item in failed
+        )
+        if status in ('failed_task_physical_feasibility', 'failed_planner') or physical_gate:
+            category = 'physical_failure'
+            reason = 'explicit task/planner or independent physical verifier failure'
+        elif status in ('failed_current_hash', 'failed_anchor_equivalence',
+                        'failed_canonical_prefix_reference', 'failed_prefix_replay_gate',
+                        'failed_family_suffix_gate') or 'recovery actual regenerated' in error:
+            category = 'recovery_consistency_error'
+            reason = error or status
+        elif status in ('failed_implementation_error', 'failed_candidate_mutation',
+                        'failed_cleanup_uncertain', 'failed_required_video'):
+            category = 'engineering_error'
+            reason = error or status
+        elif status == 'failed_execution' and ('source' in error.lower() or
+                                               'compatibility' in error.lower() or
+                                               'unicode' in error.lower() or
+                                               'encoding' in error.lower()):
+            category = 'engineering_error'
+            reason = error
+        elif status == 'failed_execution' and receipt.get('budget_counts', {}).get('execution_attempt_count', 0) == 0:
+            category = 'engineering_error'
+            reason = error or 'execution ended before a physical branch'
+        elif status == 'failed_verifier':
+            category = 'engineering_error'
+            reason = error or 'verifier failure without explicit physical-failure evidence'
+        elif status == 'failed_execution':
+            category = 'transient_execution'
+            reason = error or 'native execution terminated without a classified physical result'
+        elif status in ('copy_failure', 'COPY_FAILED'):
+            category = 'copy_index_error'
+            reason = error or status
+        else:
+            category = None
+            reason = error or status
+        details.append({
+            'path': str(path),
+            'status': status,
+            'category': category,
+            'reason': reason,
+            'physical_started': bool(
+                receipt.get('budget_counts', {}).get('execution_attempt_count', 0)
+                or receipt.get('branch_execution_attempt_count', 0)
+            ),
+        })
+
+    categories = [item['category'] for item in details if item['category']]
+    if 'physical_failure' in categories and all(
+        category in ('physical_failure', None) for category in categories
+    ):
+        category = 'physical_failure'
+    elif 'recovery_consistency_error' in categories:
+        category = 'recovery_consistency_error'
+    elif 'engineering_error' in categories:
+        category = 'engineering_error'
+    elif 'copy_index_error' in categories:
+        category = 'copy_index_error'
+    elif 'transient_execution' in categories:
+        category = 'transient_execution'
+    elif execution.get('timeout'):
+        category = 'resource_unknown'
+    elif execution.get('returncode') not in (None, 0):
+        category = 'resource_unknown'
+    else:
+        category = 'unknown'
+    physical_started = any(item['physical_started'] for item in details)
+    return {
+        'category': category,
+        'reserve_eligible': category == 'physical_failure',
+        'physical_started': physical_started,
+        'details': details,
+        'evidence_complete': bool(details),
+    }
+
+
 def _root_consumed(jobstate):
     total=_zero()
     for attempt in jobstate.get('attempts',[]):
@@ -631,8 +748,15 @@ def launch_wave(manifest,state_dir,backend=None,*,ready_job_ids=None,recovery_re
                 with mutex:
                     event=ledger.settle(aid,reservation,actual,idempotency_key='settle:'+aid);reserved=False
                     attempt.update(actual=actual,cumulative_usage=cumulative,settled=True,owned_cleanup_pass=True,release_confirmed=True)
-                    failure=_classify(job['output'],execution or {});status='BUDGET_OVERRUN' if event['event_type']=='BUDGET_OVERRUN' else 'DEFERRED_READY' if busy else 'COPY_FAILED' if failure=='copy_failure' else 'FAILED'
-                    result.update(status=status,actual=actual,owned_cleanup_pass=True,release_confirmed=True,failure_class=prior.get('failure_class',failure) if busy else failure,attempt_count=sum(a.get('child_launched',True)is True for a in state['jobs'][jid]['attempts']),pending_recovery_request=request if busy else None,root_collection_verified=failure=='copy_failure',synthetic=allow_synthetic,research_eligible=False)
+                    failure=_classify(job['output'],execution or {})
+                    classification=_failure_evidence(job['output'],execution or {})
+                    attempt.update(
+                        failure_category=classification['category'],
+                        reserve_eligible=classification['reserve_eligible'],
+                        physical_started=classification['physical_started'],
+                    )
+                    status='BUDGET_OVERRUN' if event['event_type']=='BUDGET_OVERRUN' else 'DEFERRED_READY' if busy else 'COPY_FAILED' if failure=='copy_failure' else 'FAILED'
+                    result.update(status=status,actual=actual,owned_cleanup_pass=True,release_confirmed=True,failure_class=prior.get('failure_class',failure) if busy else failure, failure_category=classification['category'], reserve_eligible=classification['reserve_eligible'], physical_started=classification['physical_started'], failure_evidence=classification,attempt_count=sum(a.get('child_launched',True)is True for a in state['jobs'][jid]['attempts']),pending_recovery_request=request if busy else None,root_collection_verified=failure=='copy_failure',synthetic=allow_synthetic,research_eligible=False)
                     state['jobs'][jid].update(result)
                     accepted_now=_accepted_files(job['output'])
                     if any(accepted_now.get(p)!=sha for p,sha in prior.get('accepted_file_hashes',{}).items()):raise ValueError('preserved accepted bytes changed across attempt')
