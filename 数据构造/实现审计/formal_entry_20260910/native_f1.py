@@ -123,6 +123,63 @@ def audit_motion_start_qpos(*, baseline_start_qpos, actual_qpos, arm_qpos_indice
     }
 
 
+def apply_motion_hold(scene, frames, *, wait_fn=None):
+    """Run a real fixed-setpoint hold without changing the suffix controls."""
+    frames = int(frames)
+    if frames <= 0:
+        raise ValueError('motion hold requires a positive frame count')
+    robot = getattr(scene, 'robot', None)
+    entity = getattr(robot, 'left_entity', None) if robot is not None else None
+    arm_joints = getattr(robot, 'left_arm_joints', None) if robot is not None else None
+    take_dense_action = getattr(scene, 'take_dense_action', None)
+    if entity is None or not arm_joints or not callable(take_dense_action):
+        # Small CPU fixtures used by the receipt tests do not expose a robot;
+        # retain their deterministic trace-only behavior without allowing this
+        # fallback in a native scene.
+        if wait_fn is None:
+            from controlled_multi_future.family_runners_v3_1 import _wait_and_record
+            wait_fn = _wait_and_record
+        wait_fn(scene, frames)
+        return {
+            'implementation': 'trace_fixture_wait_fallback',
+            'frames': frames,
+            'planner_invoked': False,
+            'constant_setpoint': False,
+        }
+    active_joints = list(entity.get_active_joints())
+    index_by_name = {joint.get_name(): index for index, joint in enumerate(active_joints)}
+    arm_joint_names = [joint.get_name() for joint in arm_joints]
+    if any(name not in index_by_name for name in arm_joint_names):
+        raise ValueError('motion hold arm joint is absent from active articulation')
+    arm_indices = [index_by_name[name] for name in arm_joint_names]
+    expected_indices = getattr(scene, '_cmf_motion_expected_arm_qpos_indices', None)
+    if expected_indices is not None and [int(index) for index in expected_indices] != arm_indices:
+        raise ValueError('motion hold runtime arm qpos mapping differs from the frozen execution contract')
+    qpos = np.asarray(entity.get_qpos(), dtype=np.float64).reshape(-1)
+    setpoint = np.asarray(qpos[arm_indices], dtype=np.float32)
+    positions = np.repeat(setpoint[None, :], frames, axis=0)
+    velocities = np.zeros_like(positions, dtype=np.float32)
+    take_dense_action({
+        'left_arm': {'position': positions, 'velocity': velocities},
+        'left_gripper': None,
+        'right_arm': None,
+        'right_gripper': None,
+    })
+    return {
+        'implementation': 'constant_actual_left_arm_qpos_setpoint',
+        'frames': frames,
+        'planner_invoked': False,
+        'constant_setpoint': True,
+        'arm_joint_names': arm_joint_names,
+        'arm_qpos_indices': arm_indices,
+        'setpoint_dtype': str(setpoint.dtype),
+        'setpoint_sha256': hashlib.sha256(np.ascontiguousarray(setpoint).tobytes()).hexdigest(),
+        'setpoint_qpos': setpoint.astype(np.float64).tolist(),
+        'setpoint_velocity_target': 'zero',
+        'effective_setpoint_constant': True,
+    }
+
+
 def change_path_targets(targets, offset):
     result = deepcopy(targets)
     matches = [x for x in result if x['segment_id'] == 'safe_horizontal']
@@ -189,10 +246,15 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
         raise ValueError('r_inv_motion post-prefix hold applied more than once')
     scene._cmf_f1_motion_hold_active = realization_spec['realization']=='r_inv_motion'
     before_hold = len(getattr(scene, 'trace', []))
-    record('post_prefix_hold',lambda:original_wait(scene,count))
+    hold_audit = {}
+    def run_motion_hold():
+        hold_audit.update(apply_motion_hold(scene, count, wait_fn=original_wait))
+        return hold_audit
+    record('post_prefix_hold',run_motion_hold)
     if realization_spec['realization']=='r_inv_motion':
         scene._cmf_f1_motion_hold_execution_applied = True
         motion_receipt = {
+            **hold_audit,
             'state_before':'S_prefix',
             'state_after':'S_motion_start',
             'frames':int(count),
@@ -344,9 +406,15 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
                 frames = frozen_contract(spec)['motion']['additional_frames']
                 before = len(getattr(scene, 'trace', []))
                 scene._cmf_f1_motion_hold_active = True
-                _wait_and_record(scene, frames)
+                hold_before = len(getattr(scene, 'trace', []))
+                hold_audit = apply_motion_hold(scene, frames)
+                hold_audit = {
+                    **hold_audit,
+                    'trace_rows_added': int(len(getattr(scene, 'trace', [])) - hold_before),
+                }
                 scene._cmf_f1_motion_hold_planning_applied = True
                 scene._cmf_f1_motion_hold_planning_receipt = {
+                    **hold_audit,
                     'state_before': 'S_prefix',
                     'state_after': 'S_motion_start',
                     'frames': int(frames),
@@ -498,8 +566,12 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
 
         def scene(self, planned_root_slot_spec, *, phase, program=None):
             from controlled_multi_future.real_sapien_adapter_high_level_v1 import _PinnedSapienRenderDeviceContextV1
-            return _PinnedSapienRenderDeviceContextV1(Context(family='F1', planned_spec=planned_root_slot_spec, phase=phase, program=program, output_root=self.output_root,
+            context = _PinnedSapienRenderDeviceContextV1(Context(family='F1', planned_spec=planned_root_slot_spec, phase=phase, program=program, output_root=self.output_root,
                 sealed_implementation_source_sha256=self._sealed_implementation_source_sha256, sealed_source_binding=self._sealed_source_binding))
+            expected_indices = (recovery_context or {}).get('executing_arm_qpos_indices')
+            if expected_indices is not None:
+                context._cmf_motion_expected_arm_qpos_indices = list(expected_indices)
+            return context
 
         def capture_anchor(self,scene):
             actual=super().capture_anchor(scene)
@@ -585,7 +657,12 @@ def run_native_cohort(*, spec, realization, output, source_sha,source_compatibil
     pointer = output / 'cohort_pointer.json'
     previous = json.loads(pointer.read_text(encoding='utf-8')) if pointer.exists() else None
     attempt = previous['attempt'] + 1 if previous else 1
-    max_attempts = 4 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt4') is True else 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' else 2
+    max_attempts = (
+        5 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt5') is True
+        else 4 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only' and recovery_context.get('allow_cohort_attempt4') is True
+        else 3 if isinstance(recovery_context, dict) and recovery_context.get('mode') == 'motion_only'
+        else 2
+    )
     if attempt > max_attempts:
         raise ValueError('native F1 finite recovery invocation exhausted')
     if previous and previous['spec_sha256'] != spec['spec_sha256']:raise ValueError('recovery spec changed')

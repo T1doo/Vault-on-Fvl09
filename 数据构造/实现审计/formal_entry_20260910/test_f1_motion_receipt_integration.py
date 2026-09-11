@@ -8,6 +8,7 @@ import numpy as np
 
 from native_f1 import (
     _load_motion_baseline_controls,
+    apply_motion_hold,
     audit_motion_start_qpos,
     build_motion_baseline_planner_source,
     validate_motion_baseline_planner_source,
@@ -149,6 +150,47 @@ class MotionReceiptIntegrationTests(unittest.TestCase):
         self.assertFalse(audit['pass'])
         self.assertGreater(audit['selected_arm_max_error_rad'], 1e-5)
         self.assertAlmostEqual(audit['selected_arm_max_error_rad'], 0.0006772279739379883, places=9)
+
+    def test_constant_actual_qpos_hold_emits_fixed_setpoint_without_planner(self):
+        class Joint:
+            def __init__(self, name):
+                self.name = name
+
+            def get_name(self):
+                return self.name
+
+        class Entity:
+            def __init__(self):
+                self.joints = [Joint(name) for name in ('base', 'fl_joint1', 'fl_joint2')]
+
+            def get_active_joints(self):
+                return self.joints
+
+            def get_qpos(self):
+                return np.asarray([0.0, 0.12, -0.34])
+
+        class Robot:
+            def __init__(self):
+                self.left_entity = Entity()
+                self.left_arm_joints = self.left_entity.joints[1:]
+
+        class Scene:
+            def __init__(self):
+                self.robot = Robot()
+                self.calls = []
+
+            def take_dense_action(self, control):
+                self.calls.append(control)
+
+        scene = Scene()
+        audit = apply_motion_hold(scene, 35)
+        self.assertTrue(audit['constant_setpoint'])
+        self.assertFalse(audit['planner_invoked'])
+        self.assertEqual(audit['arm_qpos_indices'], [1, 2])
+        control = scene.calls[0]['left_arm']
+        self.assertEqual(control['position'].shape, (35, 2))
+        self.assertTrue(np.array_equal(control['position'][0], control['position'][-1]))
+        self.assertTrue(np.array_equal(control['velocity'], np.zeros((35, 2), dtype=np.float32)))
 
 
 if __name__ == '__main__':

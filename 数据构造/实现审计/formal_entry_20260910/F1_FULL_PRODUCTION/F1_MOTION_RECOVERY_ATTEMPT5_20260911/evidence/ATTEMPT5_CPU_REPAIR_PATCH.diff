@@ -1,0 +1,10 @@
+# CPU-only candidate patch; not bound to the closed attempt4 authorization.
+# Live file: /nfs_share/lijunhui/Robotwin2/project/RoboTwin/controlled_multi_future/family_runners_v3_3.py
+
+@@ _execute_cached_segment initial start tolerance
+-    initial_start_qpos_tolerance_rad = 1e-3 if motion_hold_active else 1e-5
++    # Timing-only holds do not relax the frozen-control start contract.
++    initial_start_qpos_tolerance_rad = 1e-5
+@@ segment receipt
++        "executing_arm_qpos_indices": arm_indices.tolist(),
++        "executing_arm_joint_names": arm_joint_names,
