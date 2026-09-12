@@ -27,6 +27,7 @@ from controlled_multi_future.canonical_prefix_artifact_v1 import (
 from controlled_multi_future.canonical_prefix_replay_v1 import replay_canonical_prefix
 from controlled_multi_future.current_hasher import (
     SameCurrentMismatch,
+    _same_current_mismatch_receipt,
     require_same_current,
 )
 from controlled_multi_future.development_video_capture_v1 import (
@@ -728,8 +729,38 @@ class FormalF1RecoverableOrchestrator(
                     ):
                         comparison["failure"] = "current_mismatch"
                         _write_json_atomic(comparison_path, comparison)
+                        mismatch_receipt = _same_current_mismatch_receipt(
+                            sealed_current,
+                            reference_current,
+                            failure_code="recovery_sealed_current_mismatch",
+                        )
+                        mismatch_receipt.pop("receipt_sha256", None)
+                        mismatch_receipt.update(
+                            {
+                                "phase": "canonical_prefix_reference",
+                                "program_id": None,
+                                "scene_instance_id": getattr(
+                                    scene, "_cmf_scene_instance_id", None
+                                ),
+                                "saved_before_scene_cleanup": True,
+                                "artifact_reference_current_sha256": reuse_prefix_manifest.get(
+                                    "reference_current_sha256"
+                                ),
+                                "fresh_reference_current_sha256": reference_current.get(
+                                    "aggregate_sha256"
+                                ),
+                            }
+                        )
+                        mismatch_receipt["receipt_sha256"] = hash_json(
+                            mismatch_receipt
+                        )
+                        _write_json_atomic(
+                            output_dir / "canonical_prefix_same_current_mismatch_receipt.json",
+                            mismatch_receipt,
+                        )
                         raise SameCurrentMismatch(
-                            "recovery sealed prefix reference current differs from fresh current"
+                            "recovery sealed prefix reference current differs from fresh current",
+                            mismatch_receipt,
                         )
                     if not sealed_anchor_result["equivalent"]:
                         comparison["anchor"]["equivalence"] = sealed_anchor_result
@@ -1434,11 +1465,16 @@ class FormalF1RecoverableOrchestrator(
                     from native_raw_contract import validate_native_raw_contract as validate_raw_artifact_contract
                     from native_f1 import _load_reusable_branch
                     previous = Path(reuse)
+                    realization_id = realization_spec_by_program[program_id][
+                        "realization"
+                    ]
                     saved, reuse_metadata = _load_reusable_branch(
                         previous,
                         program_id=program_id,
-                        realization=realization,
-                        root_id=planned_root_slot_spec['root_id'],
+                        realization=realization_id,
+                        root_id=planned_root_slot_spec.get(
+                            "root_id", planned_root_slot_spec.get("slot_id")
+                        ),
                         allow_posthoc=getattr(self, 'allow_posthoc_reuse', False),
                     )
                     if saved is None:

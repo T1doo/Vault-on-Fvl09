@@ -1,0 +1,107 @@
+{
+  "actions": {
+    "byte_identical": null,
+    "executed_prefix_action_sha256": null,
+    "planner_called": false
+  },
+  "anchor": {
+    "equivalence": {
+      "candidate_sha256": "a6ff15a99ff530e4dd097a6402a226644503ad8cdd182a043deda9acfaa8958c",
+      "equivalent": false,
+      "failures": [
+        "physics_config"
+      ],
+      "reference_sha256": "44582fcee43d5be637217ab35a5effe7bf3519b88aa9e6538b6f37ad496c525b"
+    },
+    "fresh_anchor_sha256": "a6ff15a99ff530e4dd097a6402a226644503ad8cdd182a043deda9acfaa8958c",
+    "sealed_anchor_sha256": "44582fcee43d5be637217ab35a5effe7bf3519b88aa9e6538b6f37ad496c525b"
+  },
+  "artifact": {
+    "artifact_sha256": "e2c43a3e410de9ceb797772defe3f6b088d0c3d5cbdf7174a82a57f490baf67b",
+    "path": "/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911/F1_000013/r_pc/root/canonical_prefix_artifact",
+    "prefix_action_sha256": "22f8c7c2f1066672c715df94abc79636915b6406dd6046e6fbb6a8d132395069",
+    "prefix_step_count": 793
+  },
+  "current": {
+    "aggregate_equal": false,
+    "component_differences": {
+      "reconstruction_spec_aggregate_sha256": {
+        "equal": false,
+        "fresh": "53b355d51dd0a1339692feb91a64c9c5e16cf59e656f772707c24f39f534bad6",
+        "sealed": "553d82c28422f51b7023d0e4137e8ab1837ed1ae291fc0bf7b04396770dbe5f2"
+      },
+      "reconstruction_spec_audit": {
+        "equal": false,
+        "fresh": {
+          "generator_version": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+          "scene_seed": 2026091112,
+          "simulation_configuration": {
+            "adapter_version": "RoboTwinRealSapienF1BatchPilotAdapterV1",
+            "canonical_settle_source": "RoboTwinSceneContextV1_2 explicit post-setup scene.step loop",
+            "canonical_settle_steps": 60,
+            "control_steps_per_action": 1,
+            "default_dynamic_friction": 0.5,
+            "default_material_source": "declared setup config passed to Base_Task.setup_scene",
+            "default_restitution": 0.0,
+            "default_static_friction": 0.5,
+            "effective_action_interval_seconds": 0.004000000189989805,
+            "implementation_source_live_check_equal": true,
+            "implementation_source_seal_binding": "validated_authorization_receipt",
+            "implementation_source_seal_scope": "adapter child lifetime",
+            "implementation_source_sha256": "c8dcac07a69557f7ca0e99b88619232bb2b693fdb9d6419904cd67bc75abbca2",
+            "scene_context_version": "RoboTwinSceneContextV1_2",
+            "simulator_timestep_seconds": 0.004000000189989805,
+            "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
+            "timestep_source": "runtime SAPIEN Scene.get_timestep after Base_Task.setup_scene"
+          },
+          "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+        },
+        "sealed": {
+          "generator_version": "controlled_multi_future_f1_batch_pilot_adapter_v1",
+          "scene_seed": 2026091112,
+          "simulation_configuration": {
+            "adapter_version": "RoboTwinRealSapienF1BatchPilotAdapterV1",
+            "canonical_settle_source": "RoboTwinSceneContextV1_2 explicit post-setup scene.step loop",
+            "canonical_settle_steps": 60,
+            "control_steps_per_action": 1,
+            "default_dynamic_friction": 0.5,
+            "default_material_source": "declared setup config passed to Base_Task.setup_scene",
+            "default_restitution": 0.0,
+            "default_static_friction": 0.5,
+            "effective_action_interval_seconds": 0.004000000189989805,
+            "implementation_source_live_check_equal": true,
+            "implementation_source_seal_binding": "validated_authorization_receipt",
+            "implementation_source_seal_scope": "adapter child lifetime",
+            "implementation_source_sha256": "574a205b0b0fa0afebacbc2c4a2369e1cf3afaf50474ade085fb25be7943357e",
+            "scene_context_version": "RoboTwinSceneContextV1_2",
+            "simulator_timestep_seconds": 0.004000000189989805,
+            "solver_config_source": "RoboTwin Base_Task.setup_scene default sapien.SceneConfig",
+            "timestep_source": "runtime SAPIEN Scene.get_timestep after Base_Task.setup_scene"
+          },
+          "source_commit": "c3ddfa8b97d5519efa828b075999bd0006778e5e"
+        }
+      },
+      "reconstruction_spec_components": {
+        "equal": false,
+        "fresh": {
+          "scene_spec_sha256": "16d904620e8330acb84dafad33e55ed581eec3e588105e2d84e6786659dc8e35",
+          "simulation_configuration_sha256": "3191b6ddd5add8be1893a063727fc555606b34b66329261982dba7e59d495c15"
+        },
+        "sealed": {
+          "scene_spec_sha256": "16d904620e8330acb84dafad33e55ed581eec3e588105e2d84e6786659dc8e35",
+          "simulation_configuration_sha256": "e3a4eb479954a0a5a8afb8252ce7bd2647f538a66601763e92d6ed0dfcd74320"
+        }
+      }
+    },
+    "fresh_aggregate_sha256": "16b1b1b47dfa13bdb260c48055e3595dcca3dac8c08166cfa88e78ff1b45bf7e",
+    "sealed_aggregate_sha256": "b0b952c113cb314182f57b062f6124153667c0849866e64ccb704697f3cc0776"
+  },
+  "failure": "current_mismatch",
+  "mode": "exact_artifact_replay",
+  "prefix_end": {
+    "acceptance_equivalent": null,
+    "actual_qpos_sha256": null,
+    "semantic_equivalent": null
+  },
+  "schema_version": "f1_recovery_prefix_binding_comparison_v1"
+}

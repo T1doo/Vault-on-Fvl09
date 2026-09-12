@@ -178,6 +178,39 @@ class TestEntry(unittest.TestCase):
             self.assertEqual(comparison['failure'],'current_mismatch')
             self.assertTrue(comparison['actions']['planner_called'] is False)
 
+    def test_recovery_sealed_current_difference_keeps_structured_receipt(self):
+        import sys, importlib.util
+        sys.path.insert(0,'/nfs_share/lijunhui/Robotwin2/project/RoboTwin')
+        module_path=Path('/nfs_share/lijunhui/Robotwin2/project/RoboTwin/tests/controlled_multi_future/test_root_orchestrator_v1_2.py')
+        loader=importlib.util.spec_from_file_location('recovery_sealed_current_fixture',module_path)
+        fixture=importlib.util.module_from_spec(loader);loader.loader.exec_module(fixture)
+        from native_f1_orchestrator import FormalF1RecoverableOrchestrator
+        from controlled_multi_future.families import F1ObjectSelection
+        from controlled_multi_future.canonical_artifact import canonical_hash_json, canonical_write_json
+        kwargs={'planned_root_slot_spec':{'slot_id':'fixture-root','family':'F1','seed':17,'origin':'explicit_synthetic_fixture'},'realization_spec_by_program':{p['program_id']:{'realization':'r_pc','formal_data':False,'stage0_data':False} for p in F1ObjectSelection().checked_provisional_programs()}}
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as td:
+            first=Path(td)/'first';second=Path(td)/'second'
+            source=fixture.StrictPrefixSyntheticAdapter()
+            FormalF1RecoverableOrchestrator(source).run_nonformal_root(output_dir=first,**kwargs)
+            artifact_path=first/'canonical_prefix_artifact/canonical_prefix_artifact.json'
+            artifact=json.loads(artifact_path.read_text(encoding='utf-8'))
+            artifact['reference_current_sha256']='f'*64
+            base=dict(artifact);base.pop('artifact_sha256',None);base.pop('prefix_arrays_npz_sha256',None)
+            artifact['artifact_sha256']=canonical_hash_json(base)
+            canonical_write_json(artifact_path,artifact)
+            runner=FormalF1RecoverableOrchestrator(fixture.StrictPrefixSyntheticAdapter())
+            runner.reuse_prefix_dir=first/'canonical_prefix_artifact'
+            resumed=runner.run_nonformal_root(output_dir=second,**kwargs)
+            self.assertNotEqual(resumed['status'],'accepted')
+            comparison=json.loads((second/'recovery_prefix_binding_comparison.json').read_text(encoding='utf-8'))
+            self.assertEqual(comparison['failure'],'current_mismatch')
+            receipt_path=second/'canonical_prefix_same_current_mismatch_receipt.json'
+            self.assertTrue(receipt_path.is_file())
+            receipt=json.loads(receipt_path.read_text(encoding='utf-8'))
+            self.assertEqual(receipt['failure_code'],'recovery_sealed_current_mismatch')
+            digest=receipt.pop('receipt_sha256')
+            self.assertEqual(digest,canonical_hash_json(receipt))
+
     def test_motion_hold_uses_explicit_prefix_and_motion_start_states(self):
         import sys
         from unittest.mock import patch
