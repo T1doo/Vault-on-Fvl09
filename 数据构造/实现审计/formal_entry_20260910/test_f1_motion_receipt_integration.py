@@ -225,6 +225,54 @@ class MotionReceiptIntegrationTests(unittest.TestCase):
             self.assertEqual(metadata['mode'], 'posthoc_verifier_reaudit_promotion')
             self.assertEqual(json.loads(receipt.read_text())['status'], 'failed_independent_cell')
 
+    def test_prefix_source_alias_normalizes_only_audit_provenance(self):
+        from native_f1 import legacy_comparison_view
+
+        compatibility = {
+            'status': 'CPU_REVIEWED_APPLICABLE',
+            'scientific_contract_unchanged': True,
+            'old_source_sha256': 'c' * 64,
+            'new_source_sha256': 'c' * 64,
+        }
+        alias = {
+            'schema': 'f1_prefix_source_alias_v1',
+            'scope': 'canonical_prefix_reuse_only',
+            'sealed_source_sha256': 'a' * 64,
+            'live_source_sha256': 'c' * 64,
+            'scientific_contract_unchanged': True,
+        }
+        current = {
+            'schema_version': 'current_context_hash_v2',
+            'aggregate_sha256': '1' * 64,
+            'model_visible_aggregate_sha256': '2' * 64,
+            'hidden_physical_aggregate_sha256': '3' * 64,
+            'reconstruction_spec_aggregate_sha256': '4' * 64,
+            'reconstruction_spec_components': {
+                'scene_spec_sha256': '5' * 64,
+                'simulation_configuration_sha256': '6' * 64,
+            },
+            'reconstruction_spec_audit': {
+                'simulation_configuration': {
+                    'implementation_source_sha256': 'c' * 64,
+                    'simulator_timestep_seconds': 0.004,
+                },
+                'source_commit': 'same-commit',
+            },
+        }
+        view = legacy_comparison_view(
+            current,
+            compatibility,
+            'current',
+            source_alias=alias,
+        )
+        self.assertEqual(
+            view['reconstruction_spec_audit']['simulation_configuration']['implementation_source_sha256'],
+            'a' * 64,
+        )
+        self.assertEqual(view['model_visible_aggregate_sha256'], current['model_visible_aggregate_sha256'])
+        self.assertEqual(current['reconstruction_spec_audit']['simulation_configuration']['implementation_source_sha256'], 'c' * 64)
+        self.assertNotEqual(view['aggregate_sha256'], current['aggregate_sha256'])
+
 
 if __name__ == '__main__':
     unittest.main()

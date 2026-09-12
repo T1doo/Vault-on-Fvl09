@@ -278,17 +278,59 @@ def execute_with_stage_capture(controller,scene,program,execution_spec,replay,re
     return result
 
 
-def legacy_comparison_view(value,compatibility,kind):
+def _comparison_compatibility(compatibility, source_alias=None):
+    """Return the explicit audit-only source view used for inherited data.
+
+    A recovery may have two separately reviewed source transitions: the
+    checkpoint transition used by the launcher and an older implementation
+    identity recorded in the inherited canonical-prefix artifact.  The latter
+    is allowed only through an explicit, already-reviewed alias in the
+    recovery context; it never changes the live source or the saved capture.
+    """
+    if source_alias is None:
+        return compatibility
+    if not isinstance(source_alias, dict) or source_alias.get(
+        "schema"
+    ) != "f1_prefix_source_alias_v1":
+        raise ValueError("prefix source alias schema is invalid")
+    sealed = source_alias.get("sealed_source_sha256")
+    live = source_alias.get("live_source_sha256")
+    if (
+        not isinstance(sealed, str)
+        or len(sealed) != 64
+        or not isinstance(live, str)
+        or len(live) != 64
+    ):
+        raise ValueError("prefix source alias identities are invalid")
+    if not isinstance(compatibility, dict) or compatibility.get(
+        "new_source_sha256"
+    ) != live:
+        raise ValueError("prefix source alias live source differs from authorization")
+    if source_alias.get("scope") != "canonical_prefix_reuse_only":
+        raise ValueError("prefix source alias scope is not prefix-only")
+    if source_alias.get("scientific_contract_unchanged") is not True:
+        raise ValueError("prefix source alias lacks unchanged-contract declaration")
+    view = dict(compatibility)
+    view["old_source_sha256"] = sealed
+    view["new_source_sha256"] = live
+    return view
+
+
+def legacy_comparison_view(value,compatibility,kind,*,source_alias=None):
     """Explicit audit-only source alias; original observations/anchors stay unchanged.
 
     Only approved implementation provenance is normalized for the inherited
     artifact comparator. Model hashes, numeric state, physics and all other
     source fields are untouched. The actual new capture is persisted separately.
     """
-    if compatibility is None:return value
+    if compatibility is None:
+        if source_alias is not None:
+            raise ValueError("prefix source alias requires source compatibility")
+        return value
     from controlled_multi_future.current_hasher import hash_json
     if compatibility.get('status')!='CPU_REVIEWED_APPLICABLE' or compatibility.get('scientific_contract_unchanged') is not True:raise ValueError('source comparison needs explicit compatible approval')
-    old,new=compatibility['old_source_sha256'],compatibility['new_source_sha256']
+    comparison_compatibility = _comparison_compatibility(compatibility, source_alias)
+    old,new=comparison_compatibility['old_source_sha256'],comparison_compatibility['new_source_sha256']
     result=deepcopy(value)
     if kind=='anchor':
         config=result['physics_config']
@@ -390,6 +432,14 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
     from controlled_multi_future.real_sapien_adapter_v1_1 import _dual_entity_values
 
     motion_baseline_binding = (recovery_context or {}).get("motion_baseline_binding")
+    comparison_source_alias = (recovery_context or {}).get("comparison_source_alias")
+    if comparison_source_alias is not None:
+        _comparison_compatibility(
+            {
+                "new_source_sha256": source_sha,
+            },
+            comparison_source_alias,
+        )
 
     class Controller(F1ControllerV3_3):
         def __init__(self):
@@ -575,7 +625,7 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
 
         def capture_anchor(self,scene):
             actual=super().capture_anchor(scene)
-            return legacy_comparison_view(actual,getattr(self,'_source_compatibility',None),'anchor')
+            return legacy_comparison_view(actual,getattr(self,'_source_compatibility',None),'anchor',source_alias=getattr(self,'_comparison_source_alias',None))
 
         def _entity_payloads(self, scene):
             from controlled_multi_future.real_sapien_adapter_v1_2 import _dynamic_component, _entity, _pose, _rigid_velocity, _runtime_sleep_state, _procedural, _asset_hash_v1_2, procedural_asset_spec_sha256, ROLE_ASSETS_V1_2
@@ -640,12 +690,13 @@ def native_adapter(*, spec, realization, output_root, source_sha, recovery_conte
             compatibility=getattr(self,'_source_compatibility',None)
             if compatibility is not None:
                 from family_entry import write,digest
-                comparison=legacy_comparison_view(current,compatibility,'current')
-                write(destination/'source_comparison_view.json',{'original_capture_sha256':hashlib.sha256((destination/'capture.json').read_bytes()).hexdigest(),'compatibility_payload_sha256':digest(compatibility),'view_current':comparison,'original_current':current,'view_anchor':legacy_comparison_view(anchor,compatibility,'anchor'),'original_anchor_file_sha256':hashlib.sha256((destination/'anchor.json').read_bytes()).hexdigest(),'normalization_only':'implementation_source_sha256 and dependent comparison hashes; originals unchanged'})
+                comparison=legacy_comparison_view(current,compatibility,'current',source_alias=getattr(self,'_comparison_source_alias',None))
+                write(destination/'source_comparison_view.json',{'original_capture_sha256':hashlib.sha256((destination/'capture.json').read_bytes()).hexdigest(),'compatibility_payload_sha256':digest(compatibility),'comparison_source_alias':getattr(self,'_comparison_source_alias',None),'view_current':comparison,'original_current':current,'view_anchor':legacy_comparison_view(anchor,compatibility,'anchor',source_alias=getattr(self,'_comparison_source_alias',None)),'original_anchor_file_sha256':hashlib.sha256((destination/'anchor.json').read_bytes()).hexdigest(),'normalization_only':'implementation_source_sha256 and dependent comparison hashes; originals unchanged'})
                 return comparison
             return current
 
     adapter = Adapter(family='F1', output_root=Path(output_root), expected_implementation_source_sha256=source_sha)
+    adapter._comparison_source_alias = comparison_source_alias
     adapter.controller_v3_3 = Controller()
     return adapter
 

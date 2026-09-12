@@ -20,3 +20,5 @@ attempt8 的 `physical_started=false` 指的是正式 motion branch 未开始；
 
 运行状态目录：`/nfs_share/lijunhui/Robotwin2/datasets/f1_motion_recovery_20260911_attempt8_approved/recovery_state`。
 恢复仍使用本目录manifest及该状态目录recovery_request.json，经first_wave_launcher正常入口，固定UUID实时Guard。一次只运行本root，发生物理/共享实现失败后停止，不自动重试。下一步仅限CPU影响审查：决定是否冻结匹配旧prefix的源码/配置，或批准一次新的prefix/root采集合同；不能用现有剩余额度假设可直接补 green/blue。
+
+2026-09-13 CPU审查新增一个候选方案：`f1_prefix_source_alias_v1`。它只把已经审查过的实现来源差异转换为 prefix 复用的比较视图，原始 RGB、state、anchor 文件和 live source 都保持不变。实际 sealed/fresh current/anchor 对账显示底层字段一致，相关 CPU 套件已 54/54 通过；该 alias 仍是候选，未写入本批准 manifest/authorization/STATE，也不授权任何新的物理 attempt。

@@ -427,6 +427,146 @@ def _stamp():
 def _zero():return {k:0 for k in COUNTERS}
 
 
+def _alias_normalize(value, sealed_source):
+    """Normalize only the explicitly aliased implementation provenance.
+
+    Aggregate hashes are derived from the normalized payload and are omitted
+    while comparing the underlying current/anchor fields.  Asset, pose,
+    camera, physics and source-commit fields remain part of the comparison.
+    """
+    if isinstance(value, dict):
+        result = {}
+        for key, item in value.items():
+            if key == 'aggregate_sha256' or key.endswith('_aggregate_sha256') or key in {
+                'anchor_sha256',
+                'simulation_configuration_sha256',
+            }:
+                continue
+            if key == 'implementation_source_sha256':
+                result[key] = sealed_source
+            else:
+                result[key] = _alias_normalize(item, sealed_source)
+        return result
+    if isinstance(value, list):
+        return [_alias_normalize(item, sealed_source) for item in value]
+    return value
+
+
+def _read_hashed_json(path, expected_sha, label):
+    path = _workspace_path(path)
+    if not path.is_file():
+        raise ValueError(f'{label} is missing')
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != expected_sha:
+        raise ValueError(f'{label} bytes changed')
+    return json.loads(path.read_bytes().decode('utf-8'))
+
+
+def _validate_prefix_source_alias(alias, *, auth, output):
+    """Validate a source alias for inherited prefix comparison before GPU work."""
+    required = (
+        'schema',
+        'scope',
+        'sealed_source_sha256',
+        'live_source_sha256',
+        'scientific_contract_unchanged',
+        'basis_compatibility_path',
+        'basis_compatibility_sha256',
+        'observed_comparison_path',
+        'observed_comparison_sha256',
+        'observed_sealed_current_path',
+        'observed_sealed_current_sha256',
+        'observed_fresh_current_path',
+        'observed_fresh_current_sha256',
+        'observed_sealed_anchor_path',
+        'observed_sealed_anchor_sha256',
+        'observed_fresh_anchor_path',
+        'observed_fresh_anchor_sha256',
+    )
+    if not isinstance(alias, dict) or any(key not in alias for key in required):
+        raise ValueError('prefix source alias is incomplete')
+    if alias.get('schema') != 'f1_prefix_source_alias_v1' or alias.get('scope') != 'canonical_prefix_reuse_only':
+        raise ValueError('prefix source alias schema/scope is invalid')
+    sealed = alias.get('sealed_source_sha256')
+    live = alias.get('live_source_sha256')
+    if any(not isinstance(value, str) or len(value) != 64 for value in (sealed, live)):
+        raise ValueError('prefix source alias source hashes are invalid')
+    if alias.get('scientific_contract_unchanged') is not True or live != auth.get('implementation_source_sha256'):
+        raise ValueError('prefix source alias is not bound to the live implementation')
+    basis = _read_hashed_json(
+        alias['basis_compatibility_path'],
+        alias['basis_compatibility_sha256'],
+        'prefix source alias basis compatibility',
+    )
+    if any(
+        basis.get(key) != expected
+        for key, expected in {
+            'schema': 'f1_source_compatibility_v1',
+            'status': 'CPU_REVIEWED_APPLICABLE',
+            'old_source_sha256': sealed,
+            'new_source_sha256': live,
+            'scientific_contract_unchanged': True,
+        }.items()
+    ):
+        raise ValueError('prefix source alias basis compatibility is not applicable')
+    observed = {
+        key: _read_hashed_json(
+            alias[key],
+            alias[key.replace('_path', '_sha256')],
+            f'prefix source alias {key}',
+        )
+        for key in (
+            'observed_sealed_current_path',
+            'observed_fresh_current_path',
+            'observed_sealed_anchor_path',
+            'observed_fresh_anchor_path',
+        )
+    }
+    sealed_current = observed['observed_sealed_current_path']
+    fresh_current = observed['observed_fresh_current_path']
+    sealed_anchor = observed['observed_sealed_anchor_path']
+    fresh_anchor = observed['observed_fresh_anchor_path']
+    if _alias_normalize(sealed_current, sealed) != _alias_normalize(fresh_current, sealed):
+        raise ValueError('prefix source alias current evidence differs beyond implementation provenance')
+    if _alias_normalize(sealed_anchor, sealed) != _alias_normalize(fresh_anchor, sealed):
+        raise ValueError('prefix source alias anchor evidence differs beyond implementation provenance')
+    sealed_current_source = sealed_current.get('reconstruction_spec_audit', {}).get('simulation_configuration', {}).get('implementation_source_sha256')
+    sealed_anchor_source = sealed_anchor.get('physics_config', {}).get('implementation_source_sha256')
+    fresh_current_source = fresh_current.get('reconstruction_spec_audit', {}).get('simulation_configuration', {}).get('implementation_source_sha256')
+    fresh_anchor_source = fresh_anchor.get('physics_config', {}).get('implementation_source_sha256')
+    if (sealed_current_source, sealed_anchor_source) != (sealed, sealed) or (fresh_current_source, fresh_anchor_source) != (live, live):
+        raise ValueError('prefix source alias observed source identities do not match')
+    comparison = _read_hashed_json(
+        alias['observed_comparison_path'],
+        alias['observed_comparison_sha256'],
+        'prefix source alias observed comparison',
+    )
+    if comparison.get('schema_version') != 'f1_recovery_prefix_binding_comparison_v1' or comparison.get('failure') != 'current_mismatch':
+        raise ValueError('prefix source alias observed comparison is not the recorded mismatch')
+    if comparison.get('current', {}).get('aggregate_equal') is not False:
+        raise ValueError('prefix source alias observed comparison did not record current mismatch')
+    if comparison.get('anchor', {}).get('equivalence', {}).get('failures') != ['physics_config']:
+        raise ValueError('prefix source alias observed anchor mismatch is not source-only')
+    prefix_dir = output / 'r_pc' / 'root'
+    prefix_current_path = prefix_dir / 'reference_current_hashes.json'
+    prefix_anchor_path = prefix_dir / 'reference_anchor.json'
+    prefix_current = json.loads(prefix_current_path.read_text(encoding='utf-8'))
+    prefix_anchor = json.loads(prefix_anchor_path.read_text(encoding='utf-8'))
+    if prefix_current.get('reconstruction_spec_audit', {}).get('simulation_configuration', {}).get('implementation_source_sha256') != sealed or prefix_anchor.get('physics_config', {}).get('implementation_source_sha256') != sealed:
+        raise ValueError('prefix artifact source identity does not match the alias')
+    return {
+        'pass': True,
+        'schema': alias['schema'],
+        'scope': alias['scope'],
+        'sealed_source_sha256': sealed,
+        'live_source_sha256': live,
+        'observed_only_difference': 'implementation_source_sha256 and dependent aggregate hashes',
+        'basis_compatibility_id': basis.get('compatibility_id'),
+        'prefix_reference_current_sha256': prefix_current.get('aggregate_sha256'),
+        'prefix_reference_anchor_sha256': prefix_anchor.get('anchor_sha256'),
+    }
+
+
 def _ensure_ledger_contract_transition(ledger, manifest, contract_hash):
     """Record an explicit new-contract boundary without resetting old usage."""
     events = ledger.events()
@@ -813,6 +953,17 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
     if any(compatibility.get(key) != value for key, value in required_compat.items()):
         raise ValueError('compatibility source/spec/root binding is not applicable')
     output = _workspace_path(job['output'])
+    recovery_context = auth.get('recovery_context') or {}
+    prefix_source_alias = recovery_context.get('comparison_source_alias')
+    if recovery_context.get('require_prefix_source_alias') is True and prefix_source_alias is None:
+        raise ValueError('recovery requires an explicit canonical-prefix source alias')
+    prefix_source_alias_audit = None
+    if prefix_source_alias is not None:
+        prefix_source_alias_audit = _validate_prefix_source_alias(
+            prefix_source_alias,
+            auth=auth,
+            output=output,
+        )
     current_binding = output / 'source_compatibility_receipt.json'
     if not current_binding.is_file() or current_binding.read_bytes() != compatibility_bytes:
         raise ValueError('recovery output compatibility binding differs from authorization')
@@ -956,6 +1107,7 @@ def recovery_cpu_preflight(*, manifest, job, state_dir, state, request):
         'request_id': request['request_id'],
         'manifest_contract_sha256': contract_hash,
         'authorization_source_bundle_sha256': auth['source_bundle_sha256'],
+        'prefix_source_alias_audit': prefix_source_alias_audit,
         'compatibility_sha256': binding['sha256'],
         'namespace_contract_sha256': contract_hash,
         'ledger_event_count': len(events),
